@@ -30,9 +30,13 @@
 
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>/WEB-INF/mvc-config.xml</param-value>
+            <param-value>classpath:springMVC.xml</param-value>
         </init-param>
+
+        <!-- make Front controller init time before server start -->
         <load-on-startup>1</load-on-startup>
+
+
     </servlet>
 
 </web-app>
