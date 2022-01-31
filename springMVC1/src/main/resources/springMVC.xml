@@ -15,9 +15,9 @@
             <bean class="org.thymeleaf.spring5.SpringTemplateEngine">
                 <property name="templateResolver">
                     <bean class="org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver">
-                        <!-- 视图前缀 -->
+                        <!-- 视图前缀 : any file under /WEB-INF/templates/ path -->
                         <property name="prefix" value="/WEB-INF/templates/"/>
-                        <!-- 视图后缀 -->
+                        <!-- 视图后缀 any file with .html suffix -->
                         <property name="suffix" value=".html"/>
                         <property name="templateMode" value="HTML5"/>
                         <property name="characterEncoding" value="UTF-8" />
