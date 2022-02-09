@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+@Entity
 public class Product {
     // attr
     private Long id;
@@ -14,7 +15,7 @@ public class Product {
     private float price;
 
     // constructor
-    protected Product(){
+    public Product(){
 
     }
 

@@ -24,4 +24,12 @@ public class AppController {
 
         return "index";
     }
+
+    @RequestMapping("/new")
+    public String showNewProductPage(Model model){
+        Product product = new Product();
+        model.addAttribute("product", product);
+
+        return "new_product";
+    }
 }
