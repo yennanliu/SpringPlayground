@@ -2,3 +2,5 @@ Progress
 
 - 20220206
 	- 9. Implement List Products Feature
+- 20220209
+	- 11. Implement Edit Product Feature
