@@ -27,8 +27,10 @@ create database sales;
 # creat table
 use sales;
 
+drop table product;
+
 CREATE TABLE `product` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` SERIAL NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
   `brand` varchar(45) NOT NULL,
   `madein` varchar(45) NOT NULL,
@@ -48,5 +50,6 @@ insert into product VALUES (1003, 'jack', 'lexus', "JP", 2000);
 ### Ref
 - Spring MVC + mysql
     - https://www.codejava.net/frameworks/spring-boot/spring-boot-crud-example-with-spring-mvc-spring-data-jpa-thymeleaf-hibernate-mysql#Database
+    - https://www.javatpoint.com/spring-mvc-crud-example
 - Mysql install @ mac
     - https://github.com/yennanliu/utility_shell/blob/master/mysql/mac_install_sql.sh

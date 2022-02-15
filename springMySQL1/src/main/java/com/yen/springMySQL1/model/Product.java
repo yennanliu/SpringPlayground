@@ -20,10 +20,20 @@ public class Product {
     }
 
     // method
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    public Long getId(){
+//        return id;
+//    }
+//
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long getId(){
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public Long getId() {
         return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 }
 

@@ -28,7 +28,9 @@ public class AppController {
     }
 
     @RequestMapping("/new")
-    public String showNewProductPage(Model model){
+    public String showNewProductPage(Model model) {
+        System.out.println(">>> new !!!");
+
         Product product = new Product();
         model.addAttribute("product", product);
 
