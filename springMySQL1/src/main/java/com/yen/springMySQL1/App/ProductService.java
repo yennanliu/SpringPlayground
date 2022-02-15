@@ -1,13 +1,10 @@
-package com.yen.springMySQL1.Service;
+package com.yen.springMySQL1.App;
 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.yen.springMySQL1.Repository.ProductRepository;
-import com.yen.springMySQL1.model.Product;
 
 @Service
 @Transactional

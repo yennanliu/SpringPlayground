@@ -1,14 +1,14 @@
-package com.yen.springMySQL1.Controller;
+package com.yen.springMySQL1.App;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.yen.springMySQL1.model.Product;
-import com.yen.springMySQL1.Service.ProductService;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -40,5 +40,14 @@ public class AppController {
         service.save(product);
 
         return "redirect:/";
+    }
+
+    @RequestMapping("/edit/{id}")
+    public ModelAndView showEditProductPage(@PathVariable(name = "id") int id) {
+        ModelAndView mav = new ModelAndView("edit_product");
+        Product product = service.get(id);
+        mav.addObject("product", product);
+
+        return mav;
     }
 }
