@@ -2,18 +2,31 @@
 > Spring MySQL CRUD demo
 
 ### Commands
+
+```bash
+#----------------------
+# API
+#----------------------
+
+curl http://localhost:8090/
+```
+
 ```bash
 # go to mysql shell
 mysql -u root -p
 ```
 
 ```sql
-# sql ddl
+#----------------------
+# SQL DDL
+#----------------------
 
 # create db
 create database sales;
 
 # creat table
+use sales;
+
 CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(45) NOT NULL,
