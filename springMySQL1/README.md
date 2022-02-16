@@ -12,6 +12,8 @@ curl http://localhost:8090/
 ```
 
 ```bash
+# https://github.com/yennanliu/utility_shell/blob/master/mysql/mac_install_sql.sh
+
 # go to mysql shell
 mysql -u root -p
 ```
