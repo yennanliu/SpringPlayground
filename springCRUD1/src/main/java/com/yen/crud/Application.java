@@ -12,8 +12,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-//@SpringBootApplication
-@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
+@SpringBootApplication
+//@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class })
 @EnableAutoConfiguration
 @ComponentScan(basePackages={"com.yen.crud"})
 @EnableJpaRepositories(basePackages="com.yen.crud.repositories")

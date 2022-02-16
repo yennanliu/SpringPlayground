@@ -15,6 +15,7 @@ import javax.validation.Valid;
 
 import com.yen.crud.entities.User;
 import com.yen.crud.repositories.UserRepository;
+
 @Controller
 public class UserController {
 
