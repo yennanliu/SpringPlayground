@@ -32,3 +32,6 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 	- https://www.youtube.com/codejava
 - Blog
 	- https://www.codejava.net/frameworks/spring-boot/spring-boot-crud-example-with-spring-mvc-spring-data-jpa-thymeleaf-hibernate-mysql#Database
+- Spring MVC VS Spring Boot
+	- https://kknews.cc/zh-tw/code/rlqroa4.html
+	- https://softnshare.com/spring-boot-tutorial-for-beginners/
