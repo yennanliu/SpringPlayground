@@ -28,3 +28,6 @@ hs_err_pid*
 springMySQL1/.idea
 springMySQL1/target/classes
 springMySQL1/springMySQL1.iml
+
+springBootPOC1/.idea/
+springBootPOC1/SpeingBootPOC1.iml
