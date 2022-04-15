@@ -31,6 +31,10 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 </details>
 
 ## Ref
+
+<details>
+<summary>Ref</summary>
+
 - Projects
 	- https://github.com/spring-guides/gs-serving-web-content
 	- https://github.com/spring-attic/spring-mvc-showcase
@@ -42,3 +46,5 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 - Spring MVC VS Spring Boot
 	- https://kknews.cc/zh-tw/code/rlqroa4.html
 	- https://softnshare.com/spring-boot-tutorial-for-beginners/
+
+</details>
