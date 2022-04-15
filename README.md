@@ -1,6 +1,11 @@
-# spring-playground
+# Spring Playground
+> POC projects built via Java spring framework
 
 ## Structure
+
+<details>
+<summary>Structure</summary>
+
 ```
 # https://www.linkedin.com/posts/eczachly_softwareengineering-activity-6891156612426317824-iBfm
 
@@ -22,6 +27,8 @@ Components are pieces of the frontend that you want to reuse in multiple places.
 6. Pages
 Pages are the last piece of the puzzle and they're essentially other frontend components that are an amalgamation of components and services.
 ```
+
+</details>
 
 ## Ref
 - Projects

@@ -5,6 +5,9 @@
 - endpint : http://localhost:8888/hello
 
 ## Ref
+- Init Spring boot project
+	- https://www.youtube.com/watch?v=RreK80HHAAk&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=19
+	- https://start.spring.io/
 - Course
 	- Video
 		- https://www.youtube.com/watch?v=xu33IJNxkn0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u
