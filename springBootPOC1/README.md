@@ -11,6 +11,9 @@
 	- Doc material
 		- https://www.yuque.com/atguigu/springboot/?fbclid=IwAR3FhDeXH7A73kH8PubSWgkVLmwmsCwR9nFKCn2dp0KalBY6mpBCnZ2eQxs
 	- Source code
-		- https://gitee.com/leifengyang/springboot2
+		- origin
+			- https://gitee.com/leifengyang/springboot2
+		- mirror
+			- https://github.com/yennanliu/springPlayground/tree/main/springboot2Course
 - Project generator
 	- https://start.spring.io/
