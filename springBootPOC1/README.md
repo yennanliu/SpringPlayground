@@ -2,6 +2,7 @@
 > Spring Boot POC project
 
 ## Quick start
+- endpint : http://localhost:8888/hello
 
 ## Ref
 - Course

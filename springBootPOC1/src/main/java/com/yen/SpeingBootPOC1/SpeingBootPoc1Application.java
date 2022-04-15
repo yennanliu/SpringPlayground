@@ -3,6 +3,7 @@ package com.yen.SpeingBootPOC1;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/** default main application (from spring.io) */
 @SpringBootApplication
 public class SpeingBootPoc1Application {
 
