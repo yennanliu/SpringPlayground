@@ -13,7 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  *
  *  let Spring knows that this script is a spring application
  */
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.yen")
 public class MainApplication {
 
     public static void main(String[] args) {

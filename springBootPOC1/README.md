@@ -10,10 +10,17 @@
 	- https://www.javatpoint.com/spring-boot-starters
 	- we can also create our own "starter"
 - Location the Main Application class
+	- files in main app's package or in main app's sub package CAN be scanned (visible to) by main app
+	- if we really want app can scan files outside scope above, we can add below annotation to main app
+		- `@SpringBootApplication(scanBasePackages = "com.yen")`
 	<p align="center"><img src ="./doc/pic/main_app_hierarchy.png" ></p>
 	- https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.system-requirements
 
 ## Ref
+
+<details>
+<summary>Ref</summary>
+
 - Init Spring boot project
 	- https://www.youtube.com/watch?v=RreK80HHAAk&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=19
 	- https://start.spring.io/
@@ -29,3 +36,5 @@
 			- https://github.com/yennanliu/springPlayground/tree/main/springboot2Course
 - Project generator
 	- https://start.spring.io/
+
+</details>
