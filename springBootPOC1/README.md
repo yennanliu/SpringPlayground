@@ -4,6 +4,12 @@
 ## Quick start
 - endpint : http://localhost:8888/hello
 
+
+## Important concepts
+- `spring-boot-starter-xxx-yyy` : quick starter that wraps and auto installs all depdency for a specigic dev scenario
+	- https://www.javatpoint.com/spring-boot-starters
+	- we can also create our own "starter"
+
 ## Ref
 - Init Spring boot project
 	- https://www.youtube.com/watch?v=RreK80HHAAk&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=19
