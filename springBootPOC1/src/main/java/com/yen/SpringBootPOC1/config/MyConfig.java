@@ -18,6 +18,10 @@ import org.springframework.context.annotation.Configuration;
  *          Lite (proxyBeanMethods=false)
  *      mode in config setting
  *      -> for dealing with component dep.
+ *
+ *      -> so
+ *            if we have some component dep on other component ->  use Full (proxyBeanMethods=true)
+ *            else -> use Full (proxyBeanMethods=false)  (make spring init faster)
  */
 
 @Configuration(proxyBeanMethods=true)  // proxyBeanMethods default = true
