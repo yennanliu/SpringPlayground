@@ -1,10 +1,10 @@
-package com.yen.SpeingBootPOC1;
+package com.yen.SpringBootPOC1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class SpeingBootPoc1ApplicationTests {
+class SpringBootPoc1ApplicationTests {
 
 	@Test
 	void contextLoads() {

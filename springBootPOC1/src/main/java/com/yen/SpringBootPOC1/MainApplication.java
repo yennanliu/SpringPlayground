@@ -1,9 +1,8 @@
-package com.yen.SpeingBootPOC1;
+package com.yen.SpringBootPOC1;
 
 // https://www.youtube.com/watch?v=N7dsPcsmxM4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=6
 // https://www.youtube.com/watch?v=dJIksiVQDj4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=8
 
-import org.springframework.boot.ConfigurableBootstrapContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
