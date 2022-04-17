@@ -17,8 +17,8 @@
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| `GET /hello` | GET | hello endpoint |http://localhost:8888/hello ||
-| `GET /world` | GET | hello endpoint |http://localhost:8888/world ||
+| `GET /hello` | GET | test endpoint |http://localhost:8888/hello ||
+| `GET /world` | GET | test endpoint |http://localhost:8888/world ||
 
 ## Important Concepts
 
