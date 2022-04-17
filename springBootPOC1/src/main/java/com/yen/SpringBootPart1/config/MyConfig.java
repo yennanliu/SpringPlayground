@@ -6,6 +6,7 @@ package com.yen.SpringBootPart1.config;
 import com.yen.SpringBootPart1.bean.Pet;
 import com.yen.SpringBootPart1.bean.User;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -34,6 +35,7 @@ import org.springframework.context.annotation.Import;
 
 @Import({User.class})
 @Configuration(proxyBeanMethods=true)  // proxyBeanMethods default = true
+//@ConditionalOnBean(name="tom") // we can also put this condition at class level, so (this condition) will be implemented to whole class scope
 public class MyConfig {
 
     /**
@@ -43,13 +45,14 @@ public class MyConfig {
      *  4) no matter how many times we grab component instance in app,
      *      -> it ALWAYS uses the SAME registered one instance (due to singleton (單例))
      */
+    @ConditionalOnBean(name="tom")  // NOTE !! : ONLY if tom component exists, then inject user01 component to the container
     @Bean
     public User user01(){
         return new User("kyo", 18);
     }
 
-    @Bean("tom") // we can modify the component id via "@Bean("tom")"
-    public Pet tomcatPer(){
+    //@Bean("tom") // we can modify the component id via "@Bean("tom")"
+    public Pet tomcatPet(){
         return new Pet("tomcat");
     }
 }
