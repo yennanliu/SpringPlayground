@@ -7,6 +7,7 @@ import com.yen.SpringBootPart1.bean.Pet;
 import com.yen.SpringBootPart1.bean.User;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -36,6 +37,7 @@ import org.springframework.context.annotation.Import;
 @Import({User.class})
 @Configuration(proxyBeanMethods=true)  // proxyBeanMethods default = true
 //@ConditionalOnBean(name="tom") // we can also put this condition at class level, so (this condition) will be implemented to whole class scope
+//@ConditionalOnMissingBean(name="tom") // inverse condition (with above)
 public class MyConfig {
 
     /**
