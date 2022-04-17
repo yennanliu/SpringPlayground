@@ -1,9 +1,9 @@
-package com.yen.SpringBootPOC1.config;
+package com.yen.SpringBootPart1.config;
 
 // https://www.youtube.com/watch?v=GGWMK2BJs7E&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=9
 
-import com.yen.SpringBootPOC1.bean.Pet;
-import com.yen.SpringBootPOC1.bean.User;
+import com.yen.SpringBootPart1.bean.Pet;
+import com.yen.SpringBootPart1.bean.User;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

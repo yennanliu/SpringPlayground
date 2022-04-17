@@ -1,12 +1,12 @@
-package com.yen.SpringBootPOC1;
+package com.yen.SpringBootPart1;
 
 // https://www.youtube.com/watch?v=N7dsPcsmxM4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=6
 // https://www.youtube.com/watch?v=dJIksiVQDj4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=8
 // https://www.youtube.com/watch?v=GGWMK2BJs7E&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=9
 
-import com.yen.SpringBootPOC1.bean.Pet;
-import com.yen.SpringBootPOC1.bean.User;
-import com.yen.SpringBootPOC1.config.MyConfig;
+import com.yen.SpringBootPart1.bean.Pet;
+import com.yen.SpringBootPart1.bean.User;
+import com.yen.SpringBootPart1.config.MyConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;

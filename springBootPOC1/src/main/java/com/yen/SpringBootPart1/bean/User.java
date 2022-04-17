@@ -1,4 +1,4 @@
-package com.yen.SpringBootPOC1.bean;
+package com.yen.SpringBootPart1.bean;
 
 // https://www.youtube.com/watch?v=GGWMK2BJs7E&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=9
 

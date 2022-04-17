@@ -1,4 +1,4 @@
-package com.yen.SpringBootPOC1;
+package com.yen.SpringBootPart1;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

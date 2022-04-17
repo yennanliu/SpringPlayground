@@ -11,7 +11,12 @@
 # intellJ
 #---------------------
 ```
-- endpint : http://localhost:8888/hello
+- Endpint : http://localhost:8888/hello
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET /hello` | GET | hello endpoint |http://localhost:8888/hello ||
+| `GET /world` | GET | hello endpoint |http://localhost:8888/world ||
 
 ## Important Concepts
 - `spring-boot-starter-xxx-yyy` : quick starter that wraps and auto installs all depdency for a specigic dev scenario

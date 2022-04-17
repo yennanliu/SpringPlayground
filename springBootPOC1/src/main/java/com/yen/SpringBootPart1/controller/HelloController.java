@@ -1,4 +1,4 @@
-package com.yen.SpringBootPOC1.controller;
+package com.yen.SpringBootPart1.controller;
 
 // https://www.youtube.com/watch?v=N7dsPcsmxM4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=6
 

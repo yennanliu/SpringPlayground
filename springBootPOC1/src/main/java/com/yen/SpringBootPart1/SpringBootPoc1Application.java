@@ -1,4 +1,4 @@
-package com.yen.SpringBootPOC1;
+package com.yen.SpringBootPart1;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

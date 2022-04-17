@@ -1,4 +1,4 @@
-package com.yen.SpringBootPOC1.dev;
+package com.yen.SpringBootPart1.dev;
 
 public class hello {
     public static void main(String[] args) {
