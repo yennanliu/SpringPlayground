@@ -2,6 +2,7 @@
 > Spring Boot POC project
 
 ## Quick Start
+
 ```bash
 #---------------------
 # Maven
@@ -11,7 +12,8 @@
 # intellJ
 #---------------------
 ```
-- Endpint : http://localhost:8888/hello
+
+### API
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
@@ -19,6 +21,7 @@
 | `GET /world` | GET | hello endpoint |http://localhost:8888/world ||
 
 ## Important Concepts
+
 - `spring-boot-starter-xxx-yyy` : quick starter that wraps and auto installs all depdency for a specigic dev scenario
 	- https://www.javatpoint.com/spring-boot-starters
 	- we can also create our own "starter"
@@ -30,6 +33,7 @@
 	- https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.system-requirements
 
 ## Ref
+
 - Init Spring boot project
 	- https://www.youtube.com/watch?v=RreK80HHAAk&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=19
 	- https://start.spring.io/
