@@ -32,6 +32,15 @@
 		- `@SpringBootApplication` or `@ComponentScan`
 	<p align="center"><img src ="./doc/pic/main_app_hierarchy.png" ></p>
 	- https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.system-requirements
+- Config binding
+	- https://www.yuque.com/atguigu/springboot/qb7hy2
+	- method 1)
+		- `@Component + @ConfigurationProperties`
+	- method 2)
+		- `@EnableConfigurationProperties + @ConfigurationProperties`
+			- for 3rd party lib
+	- method 3)
+		- `@Component + @ConfigurationProperties`
 
 ## Ref
 
