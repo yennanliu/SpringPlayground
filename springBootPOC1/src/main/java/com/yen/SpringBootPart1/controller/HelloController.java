@@ -1,7 +1,10 @@
 package com.yen.SpringBootPart1.controller;
 
 // https://www.youtube.com/watch?v=N7dsPcsmxM4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=6
+// https://www.youtube.com/watch?v=aVNw04JjjSw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=12
 
+import com.yen.SpringBootPart1.bean.Car;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -10,6 +13,16 @@ import org.springframework.web.bind.annotation.RestController;
 //@Controller
 @RestController
 public class HelloController {
+
+    // spring's auto injection
+    // https://www.baeldung.com/spring-annotations-resource-inject-autowire
+    @Autowired
+    Car car;
+
+    @RequestMapping("/car")
+    public Car car(){
+        return car;
+    }
 
     @RequestMapping("/hello")
     public String handle1(){

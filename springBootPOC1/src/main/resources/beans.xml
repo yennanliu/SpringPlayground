@@ -14,6 +14,9 @@
     ref : https://www.youtube.com/watch?v=GGWMK2BJs7E&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=9
     <-->
 
+    <!-->
+    In spring MVC, we seldom use beans.xml, but use application.properties + auto injection .. more often
+    <-->
     <bean id="user01" class="com.yen.SpringBootPart1.bean.User">
         <property name="name" value="kyo"></property>
         <property name="age" value="18"></property>

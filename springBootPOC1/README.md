@@ -19,6 +19,7 @@
 | ----- | -------- | ---- | ----- | ---- |
 | `GET /hello` | GET | test endpoint |http://localhost:8888/hello ||
 | `GET /world` | GET | test endpoint |http://localhost:8888/world ||
+| `GET /car` | GET | test endpoint |http://localhost:8888/car ||
 
 ## Important Concepts
 

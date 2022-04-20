@@ -4,11 +4,13 @@ package com.yen.SpringBootPart1.config;
 // https://www.youtube.com/watch?v=uUpNr3PzNsY&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=10
 // https://www.youtube.com/watch?v=odQ6d1xtFKQ&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=12
 
+import com.yen.SpringBootPart1.bean.Car;
 import com.yen.SpringBootPart1.bean.Pet;
 import com.yen.SpringBootPart1.bean.User;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -44,6 +46,7 @@ import org.springframework.context.annotation.ImportResource;
 //@ConditionalOnBean(name="tom") // we can also put this condition at class level, so (this condition) will be implemented to whole class scope
 //@ConditionalOnMissingBean(name="tom") // inverse condition (with above)
 @ImportResource("classpath:beans.xml") // import config from beans.xml
+@EnableConfigurationProperties(Car.class) // 1) config biding (Car) 2) auto register component (Car) to container
 public class MyConfig {
 
     /**
