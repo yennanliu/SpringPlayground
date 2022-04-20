@@ -24,7 +24,7 @@ import java.awt.image.DataBuffer;
  *  let Spring knows that this script is a spring application
  */
 
-@SpringBootApplication(scanBasePackages = "com.yen")
+@SpringBootApplication(scanBasePackages = "com.yen") // via scanBasePackages = "com.yen" so spring can get WorldController, which is out of default scope
 public class MainApplication {
 
     public static void main(String[] args) {
