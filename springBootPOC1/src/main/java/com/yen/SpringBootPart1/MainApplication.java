@@ -82,6 +82,9 @@ public class MainApplication {
         boolean user01 = run.containsBean("user01");
         System.out.println("user01 component exists ? " + user01); // false now, since we have @ConditionalOnBean(name="tom") in MyConfig, and tom component is NOT injected at the moment
 
+        boolean cat = run.containsBean("cat");
+        System.out.println("cat = " + cat);
+
         //SpringApplication.run(MainApplication.class, args);
     }
 }

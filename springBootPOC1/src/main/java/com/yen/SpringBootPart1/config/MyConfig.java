@@ -2,6 +2,7 @@ package com.yen.SpringBootPart1.config;
 
 // https://www.youtube.com/watch?v=GGWMK2BJs7E&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=9
 // https://www.youtube.com/watch?v=uUpNr3PzNsY&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=10
+// https://www.youtube.com/watch?v=odQ6d1xtFKQ&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=12
 
 import com.yen.SpringBootPart1.bean.Pet;
 import com.yen.SpringBootPart1.bean.User;
@@ -11,6 +12,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.ImportResource;
 
 /**
  *  tell spring boot, this is a config class. same as config file
@@ -28,9 +30,12 @@ import org.springframework.context.annotation.Import;
  *            if (component) dependents on other components ->  Full (proxyBeanMethods=true)
  *            else -> Full (proxyBeanMethods=false)  (make spring init faster)
  *
- *   5) @Import can  (e.g. @Import({User.class, DataBuffer.class}))
+ *  5) @Import can  (e.g. @Import({User.class, DataBuffer.class}))
  *      -> import classes' and init their instances
  *      -> default component name is class name
+ *
+ *  6) via @ImportResource("classpath:beans.xml"),
+ *     we can import config from beans.xml to whatever file (here import to MyConfig.java)
  *
  */
 
@@ -38,6 +43,7 @@ import org.springframework.context.annotation.Import;
 @Configuration(proxyBeanMethods=true)  // proxyBeanMethods default = true
 //@ConditionalOnBean(name="tom") // we can also put this condition at class level, so (this condition) will be implemented to whole class scope
 //@ConditionalOnMissingBean(name="tom") // inverse condition (with above)
+@ImportResource("classpath:beans.xml") // import config from beans.xml
 public class MyConfig {
 
     /**
