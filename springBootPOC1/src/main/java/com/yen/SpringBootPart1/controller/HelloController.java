@@ -2,10 +2,12 @@ package com.yen.SpringBootPart1.controller;
 
 // https://www.youtube.com/watch?v=N7dsPcsmxM4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=6
 // https://www.youtube.com/watch?v=aVNw04JjjSw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=12
+// https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
 
 import com.yen.SpringBootPart1.bean.Car;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 // either use @ResponseBody + @Controller, or use  @RestController directly
@@ -27,5 +29,11 @@ public class HelloController {
     @RequestMapping("/hello")
     public String handle1(){
         return "hello !!! spring boot 2 !!";
+    }
+
+    @RequestMapping("/hello2")
+    public String handle2(@RequestParam("name") String name){
+
+        return "hello2 !!! spring boot 2 !!" + name;
     }
 }

@@ -13,6 +13,7 @@ import com.yen.SpringBootPart1.config.MyConfig;
 import org.aopalliance.aop.Advice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.cache.interceptor.CacheAspectSupport;
 import org.springframework.context.ConfigurableApplicationContext;
 
@@ -45,6 +46,12 @@ public class MainApplication {
         System.out.println("--------------------");
 
 //        // 3. get component from container
+
+        String[] beanNamesForType= run.getBeanNamesForType(CacheAspectSupport.class);
+        System.out.println("beanNamesForType length = " + beanNamesForType.length);
+
+        String[] beanNamesForType1 = run.getBeanNamesForType(WebMvcProperties.class);
+        System.out.println("beanNamesForType1 length = " + beanNamesForType1.length);
 //        Pet tom01 = run.getBean("tom", Pet.class);
 //        Pet tom02  = run.getBean("tom", Pet.class);
 //
@@ -78,6 +85,8 @@ public class MainApplication {
 //        DBHelper bean1 = run.getBean(DBHelper.class);
 //        System.out.println(bean1);
 
+        System.out.println("--------------------");
+
         boolean tom = run.containsBean("tom");
         System.out.println("tom component exists ? " + tom); // false, since we comment @Bean("tom") in MyConfig, so this value is false
 
@@ -86,9 +95,6 @@ public class MainApplication {
 
         boolean cat = run.containsBean("cat");
         System.out.println("cat = " + cat);
-
-        String[] beanNamesForType= run.getBeanNamesForType(CacheAspectSupport.class);
-        System.out.println("beanNamesForType length = " + beanNamesForType.length);
 
         //SpringApplication.run(MainApplication.class, args);
     }
