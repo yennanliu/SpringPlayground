@@ -5,6 +5,7 @@ package com.yen.SpringBootPart1;
 // https://www.youtube.com/watch?v=GGWMK2BJs7E&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=9
 // https://www.youtube.com/watch?v=uUpNr3PzNsY&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=10
 // https://www.youtube.com/watch?v=AM6wJHknah0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=10
+// https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
 
 import com.yen.SpringBootPart1.bean.Pet;
 import com.yen.SpringBootPart1.bean.User;
@@ -12,6 +13,7 @@ import com.yen.SpringBootPart1.config.MyConfig;
 import org.aopalliance.aop.Advice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.interceptor.CacheAspectSupport;
 import org.springframework.context.ConfigurableApplicationContext;
 
 import javax.xml.crypto.Data;
@@ -21,7 +23,7 @@ import java.awt.image.DataBuffer;
  *  Main application : entry point
  *  Main conf class
  *
- *  let Spring knows that this script is a spring application
+ *  let Spring know that this script is a spring application
  */
 
 @SpringBootApplication(scanBasePackages = "com.yen") // via scanBasePackages = "com.yen" so spring can get WorldController, which is out of default scope
@@ -84,6 +86,9 @@ public class MainApplication {
 
         boolean cat = run.containsBean("cat");
         System.out.println("cat = " + cat);
+
+        String[] beanNamesForType= run.getBeanNamesForType(CacheAspectSupport.class);
+        System.out.println("beanNamesForType length = " + beanNamesForType.length);
 
         //SpringApplication.run(MainApplication.class, args);
     }

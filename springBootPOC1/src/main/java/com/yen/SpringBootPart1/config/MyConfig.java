@@ -17,20 +17,21 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.ImportResource;
 
 /**
- *  tell spring boot, this is a config class. same as config file
+ *  let spring boot know : this is a config class. same as config file
  *
  *  1) we can use @Bean
  *  2) component instance is a singleton (單例) by default
  *  3) conf class (MyConfig) is also a component
- *  4) we have
+ *  4) we have below mode in config setting:
+ *
  *          Full (proxyBeanMethods=true)
  *          Lite (proxyBeanMethods=false)
- *      mode in config setting
+ *
  *      -> for dealing with component dep.
  *
  *      -> so
  *            if (component) dependents on other components ->  Full (proxyBeanMethods=true)
- *            else -> Full (proxyBeanMethods=false)  (make spring init faster)
+ *            else -> Lite (proxyBeanMethods=false)  (make spring init faster)
  *
  *  5) @Import can  (e.g. @Import({User.class, DataBuffer.class}))
  *      -> import classes' and init their instances
