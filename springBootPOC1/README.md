@@ -21,6 +21,7 @@
 | `GET /hello` | GET | test endpoint |http://localhost:8888/hello2?name=<name> ||
 | `GET /world` | GET | test endpoint |http://localhost:8888/world ||
 | `GET /car` | GET | test endpoint |http://localhost:8888/car ||
+| `GET /car2` | GET | test endpoint |http://localhost:8888/car2 ||
 
 ## Important Concepts
 

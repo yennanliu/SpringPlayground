@@ -5,6 +5,7 @@ package com.yen.SpringBootPart1.controller;
 // https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
 
 import com.yen.SpringBootPart1.bean.Car;
+import com.yen.SpringBootPart1.bean.Car2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,9 +22,17 @@ public class HelloController {
     @Autowired
     Car car;
 
+    @Autowired
+    Car2 car2;
+
     @RequestMapping("/car")
     public Car car(){
         return car;
+    }
+
+    @RequestMapping("/car2")
+    public Car2 car2(){
+        return car2;
     }
 
     @RequestMapping("/hello")
