@@ -42,6 +42,18 @@
 			- for 3rd party lib
 	- method 3)
 		- `@Component + @ConfigurationProperties`
+- Auto config
+	- https://youtu.be/lDzXRsOODXA?t=1708
+	- Spring Boot auto import all auto config class : `xxxAutoConfiguration`
+	- Every auto config class is enabled with conditions
+		- default : get value from config
+		- from `xxxProperties`, binding with it
+	- Enabled cofig class will be added to container
+	- Once above happen, container then has those functionality
+	- Custom setting
+		- users replace underline components via their own `"@Bean"`
+		- users change setting via config file (e.g. `xxxProperties`)
+	- `xxxAutoConfiguration` -> component -> `xxxProperties` get value -> application.properties
 
 ## Ref
 
