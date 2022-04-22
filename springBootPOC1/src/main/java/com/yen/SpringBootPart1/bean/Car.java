@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
  * NOTE : we need @Component
  *      -> so container's component has SprirngBoot's support functionality
  */
+
 //@Component
 @ConfigurationProperties(prefix = "mycar") // will bind ALL setting (prefix = "mycar") in application.properties to this container
 public class Car {

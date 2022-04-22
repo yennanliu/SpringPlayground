@@ -53,7 +53,7 @@
 	- Custom setting
 		- users replace underline components via their own `"@Bean"`
 		- users change setting via config file (e.g. `xxxProperties`)
-	- `xxxAutoConfiguration` -> component -> `xxxProperties` get value -> application.properties
+	- `xxxAutoConfiguration` -> components -> `xxxProperties` get value -> application.properties
 
 ## Ref
 
