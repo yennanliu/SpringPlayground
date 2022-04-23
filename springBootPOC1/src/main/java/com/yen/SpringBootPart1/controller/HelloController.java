@@ -3,9 +3,11 @@ package com.yen.SpringBootPart1.controller;
 // https://www.youtube.com/watch?v=N7dsPcsmxM4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=6
 // https://www.youtube.com/watch?v=aVNw04JjjSw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=12
 // https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
+// https://www.youtube.com/watch?v=s5GTuFsCSWw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=21
 
 import com.yen.SpringBootPart1.bean.Car;
 import com.yen.SpringBootPart1.bean.Car2;
+import com.yen.SpringBootPart1.bean.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +26,9 @@ public class HelloController {
 
     @Autowired
     Car2 car2;
+
+    @Autowired
+    Person person;
 
     @RequestMapping("/car")
     public Car car(){
@@ -45,4 +50,10 @@ public class HelloController {
 
         return "hello2 !!! spring boot 2 !!" + name;
     }
+
+    @RequestMapping("/person")
+    public Person person(){
+        return person;
+    }
+
 }
