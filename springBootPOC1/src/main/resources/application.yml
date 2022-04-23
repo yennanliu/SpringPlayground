@@ -1,0 +1,30 @@
+person:
+ userName: Amy
+ boss: true
+ birth: 2021/01/01
+ age: 19
+# #interests: ["baseball", "sleep", "eat"] # style1
+ interests:                               # style2
+   - "baseball"
+   - "sleep"
+   - "eat"
+   - 199
+ animals: [duck, cat]
+ score: {math: 10, physics: 70}       # style1
+##  score:                              # style2
+##    math : 10
+##    physics: 70
+ salary:
+   - 112
+   - 100
+   - 99
+ pet:
+  name: lucky
+  weight: 100.01
+ allPets:
+   sick:
+     - {name: fish, weight: 0.1}
+     - {name: cat, weight: 20.23}
+   health:
+     - {name: tiger, weight: 200.31}
+     - {name: dragon, weight: 1300.99}
