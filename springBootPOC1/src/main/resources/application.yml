@@ -1,16 +1,17 @@
 person:
- userName: Amy
+ userName: Amy  # "Amy" is OK as well
+ # '' will use \n as new line, while "" will output \n as "\n" (a normal string)
  boss: true
  birth: 2021/01/01
  age: 19
-# #interests: ["baseball", "sleep", "eat"] # style1
- interests:                               # style2
+# #interests: ["baseball", "sleep", "eat"]  # style1
+ interests:                                 # style2
    - "baseball"
    - "sleep"
    - "eat"
    - 199
  animals: [duck, cat]
- score: {math: 10, physics: 70}       # style1
+ score: {math: 10, physics: 70}         # style1
 ##  score:                              # style2
 ##    math : 10
 ##    physics: 70
