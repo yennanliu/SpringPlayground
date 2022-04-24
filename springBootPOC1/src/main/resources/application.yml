@@ -29,3 +29,8 @@ person:
    health:
      - {name: tiger, weight: 200.31}
      - {name: dragon, weight: 1300.99}
+#Spring:
+#  mvc:
+#    static-path-pattern: /res/**   # change default url path for static resources
+#  resources:                       # change default file directory for static resources
+#    static-locations: [classpath:/my_resources]
