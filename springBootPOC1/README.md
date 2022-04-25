@@ -13,7 +13,7 @@
 #---------------------
 ```
 
-### API
+## API
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
