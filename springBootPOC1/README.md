@@ -60,15 +60,27 @@
     - Binding config with xxx via :
         - WebMvcProperties == `spring.mvc`
         - ResourceProperties == `spring.resources`
-- Enable REST in sparing:
-    - we need add below setting to config (application.yml or application.conf)
-    ```ymal
-    Spring:
-      mvc:
-        hiddenmethod:
-          filter:
-            enabled: true
-    ```
+- `REST` development
+    - Enable `REST` in Spring boot:
+        - we need add below setting to config (application.yml or application.conf)
+        ```ymal
+        Spring:
+          mvc:
+            hiddenmethod:
+              filter:
+                enabled: true
+        ```
+    - form request NEED with `_method=put`
+        ```ymal
+        <form action="user" method="post">
+        ```
+    - Request will be parsed by `HiddenHttpMethodFilter`
+        - check if reqesut is correct, and is POST
+        - get `_method` value
+        - be compatible to below requests:
+            - HttpMethod.PUT.name()
+            - HttpMethod.DELETE.name()
+            - HttpMethod.PATCH.name()
     
 ## Ref
 
