@@ -21,11 +21,18 @@
     <input value="REST - POST 提交" type="submit"/>
 </form>
 
-<form action="user" method="delete">
+<form action="user" method="post">
+    <!--
+    we STILL use method="post" here (for DELETE request)
+    plz check : https://youtu.be/Q6UkRz-qna4?t=311
+    -->
+    <input name="_method" type="hidden" value="DELETE">
     <input value="REST - DELETE 提交" type="submit"/>
 </form>
 
-<form action="user" method="put">
+<form action="user" method="post">
+    <!-- we STILL use method="post", same as above -->
+    <input name="_method" type="hidden" value="PUT">
     <input value="REST - PUT 提交" type="submit"/>
 </form>
 

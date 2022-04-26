@@ -29,11 +29,14 @@ person:
    health:
      - {name: tiger, weight: 200.31}
      - {name: dragon, weight: 1300.99}
-#Spring:
-#  mvc:
+Spring:
+  mvc:
 #    static-path-pattern: /res/**   # change default url path for static resources
 #  resources:                       # change default file directory for static resources
 #    static-locations: [classpath:/my_resources]
 #    add-mappings: false            # note !! if "false", will block ALL static resources mapping
-#    cache:
-#      period : 1000                # set up cache period, unit : second
+    cache:
+      period : 10                # set up cache period, unit : second
+    hiddenmethod:
+      filter:
+        enabled: true
