@@ -56,6 +56,10 @@
 		- users replace underline components via their own `"@Bean"`
 		- users change setting via config file (e.g. `xxxProperties`)
 	- `xxxAutoConfiguration` -> components -> `xxxProperties` get value -> application.properties
+- Static resources
+	- Binding config with xxx via :
+		- WebMvcProperties == `spring.mvc`
+		- ResourceProperties == `spring.resources`
 
 ## Ref
 

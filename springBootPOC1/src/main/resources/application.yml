@@ -34,3 +34,6 @@ person:
 #    static-path-pattern: /res/**   # change default url path for static resources
 #  resources:                       # change default file directory for static resources
 #    static-locations: [classpath:/my_resources]
+#    add-mappings: false            # note !! if "false", will block ALL static resources mapping
+#    cache:
+#      period : 1000                # set up cache period, unit : second
