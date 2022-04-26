@@ -4,12 +4,14 @@ package com.yen.SpringBootPart1.controller;
 // https://www.youtube.com/watch?v=aVNw04JjjSw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=12
 // https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
 // https://www.youtube.com/watch?v=s5GTuFsCSWw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=21
+// https://www.youtube.com/watch?v=Q6UkRz-qna4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=26
 
 import com.yen.SpringBootPart1.bean.Car;
 import com.yen.SpringBootPart1.bean.Car2;
 import com.yen.SpringBootPart1.bean.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -54,6 +56,26 @@ public class HelloController {
     @RequestMapping("/person")
     public Person person(){
         return person;
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String getUser(){
+        return "GET - Susie";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    public String saveUser(){
+        return "POST - Susie";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    public String putUser(){
+        return "PUT - Susie";
+    }
+
+    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    public String deleteUser(){
+        return "DELETE - Susie";
     }
 
 }
