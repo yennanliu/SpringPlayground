@@ -10,10 +10,7 @@ import com.yen.SpringBootPart1.bean.Car;
 import com.yen.SpringBootPart1.bean.Car2;
 import com.yen.SpringBootPart1.bean.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 // either use @ResponseBody + @Controller, or use  @RestController directly
 //@ResponseBody
@@ -58,22 +55,27 @@ public class HelloController {
         return person;
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    // NOTE : both of below work (@RequestMapping, @GetMapping)
+    //@RequestMapping(value = "/user", method = RequestMethod.GET)
+    @GetMapping("/user")
     public String getUser(){
         return "GET - Susie";
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.POST)
+    //@RequestMapping(value = "/user", method = RequestMethod.POST)
+    @PostMapping("/user")
     public String saveUser(){
         return "POST - Susie";
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.PUT)
+    //@RequestMapping(value = "/user", method = RequestMethod.PUT)
+    @PutMapping("/user")
     public String putUser(){
         return "PUT - Susie";
     }
 
-    @RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    //@RequestMapping(value = "/user", method = RequestMethod.DELETE)
+    @DeleteMapping("/user")
     public String deleteUser(){
         return "DELETE - Susie";
     }

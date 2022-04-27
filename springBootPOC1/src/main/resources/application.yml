@@ -39,4 +39,4 @@ Spring:
       period : 10                # set up cache period, unit : second
     hiddenmethod:
       filter:
-        enabled: true
+        enabled: true            # enable form (表單) REST function

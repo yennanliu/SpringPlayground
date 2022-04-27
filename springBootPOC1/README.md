@@ -61,27 +61,36 @@
         - WebMvcProperties == `spring.mvc`
         - ResourceProperties == `spring.resources`
 - `REST` development
-    - Enable `REST` in Spring boot:
-        - we need add below setting to config (application.yml or application.conf)
-        ```ymal
-        Spring:
-          mvc:
-            hiddenmethod:
-              filter:
-                enabled: true
-        ```
-    - form request NEED with `_method=put`
-        ```ymal
-        <form action="user" method="post">
-        ```
-    - Request will be parsed by `HiddenHttpMethodFilter`
-        - check if reqesut is correct, and is POST
-        - get `_method` value
-        - be compatible to below requests:
-            - HttpMethod.PUT.name()
-            - HttpMethod.DELETE.name()
-            - HttpMethod.PATCH.name()
-    
+    - Form request (表單)
+        - since form can send `GET`, `POST` request ONLY
+        - Enable `REST` in Spring boot:
+            - we need add below setting to config (application.yml or application.conf)
+            ```ymal
+            Spring:
+              mvc:
+                hiddenmethod:
+                  filter:
+                    enabled: true
+            ```
+        - form request NEED with `_method=put`
+            ```ymal
+            <form action="user" method="post">
+            ```
+        - Request will be parsed by `HiddenHttpMethodFilter`
+            - check if reqesut is correct, and is POST
+            - get `_method` value
+            - be compatible to below requests:
+                - HttpMethod.PUT.name()
+                - HttpMethod.DELETE.name()
+                - HttpMethod.PATCH.name()
+            - default requst : POST
+                - Wrapper mode overwrides `getMethod()` method, so it returns input value 
+                    - wrapper is used (in filter), when use `getMethod` is using `requestWrapper` actually
+    - Client side app
+        - postman, curl...
+        - HiddenHttpMethodFilter is NOT needed
+        - we can send POST, GET, PUT, DELETE.. directly
+
 ## Ref
 
 - Init Spring boot project
