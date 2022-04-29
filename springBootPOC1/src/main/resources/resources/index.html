@@ -38,9 +38,35 @@
 </form>
 
 <hr/>
+
 *** Test basic Annotation :
+<ul>
+    <li>@PathVariable (路徑變量)</li>
+    <li>@RequestHeader (獲取請求頭)</li>
+    <li>@RequestParam (獲取請求參數)</li>
+    <li>@CookieValue (獲取cookie值)</li>
+    <li>@RequestAttribute (獲取request域屬性)</li>
+    <li>@RequestBody (獲取請求體)</li>
+    <li>@MatrixVariable (矩陣變量)</li>
+</ul>
+
+<a href="/cars/sell;low=34;brand=LEXUS;audi">@MatrixVariable (矩陣變量)</a>
+<a href="/cars/sell;low=34;brand=LEXUS;audi;brand=benz">@MatrixVariable (矩陣變量)</a>
+<a href="/boss/1;age=20/2;age=10">@MatrixVariable (矩陣變量) /boss/{bossId}/{empId}</a>
+
+<br/>
+<hr/>
+
+</ul>
+<form action="/save" method="post">
+    測試 @RequestBody獲取數據 <br/>
+    用戶名: <input name="userName"/> <br>
+    信箱: <input name="email"/>
+    <input type="submit" value="提交"/>
+</form>
+
+<hr/>
 
 </body>
-
 
 </html>
