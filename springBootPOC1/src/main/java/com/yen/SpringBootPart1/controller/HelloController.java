@@ -5,12 +5,16 @@ package com.yen.SpringBootPart1.controller;
 // https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
 // https://www.youtube.com/watch?v=s5GTuFsCSWw&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=21
 // https://www.youtube.com/watch?v=Q6UkRz-qna4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=26
+// https://www.youtube.com/watch?v=1okUblTs28Q&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=29
 
 import com.yen.SpringBootPart1.bean.Car;
 import com.yen.SpringBootPart1.bean.Car2;
 import com.yen.SpringBootPart1.bean.Person;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpSession;
 
 // either use @ResponseBody + @Controller, or use  @RestController directly
 //@ResponseBody
@@ -41,13 +45,31 @@ public class HelloController {
 
     @RequestMapping("/hello")
     public String handle1(){
+
         return "hello !!! spring boot 2 !!";
     }
 
     @RequestMapping("/hello2")
-    public String handle2(@RequestParam("name") String name){
+    // get name from request and assign its value to userName
+    public String handle2(@RequestParam("name") String userName){
 
-        return "hello2 !!! spring boot 2 !!" + name;
+        return "hello2 !!! spring boot 2 !!" + userName;
+    }
+
+    @RequestMapping("/hello3")
+    // we cab put (k,v) into session, and use it during request
+    public String handle3(HttpSession session){
+        session.setAttribute("k1", "v1");
+        session.setAttribute("k2", "v2");
+        return "hello !!! spring boot 2 !! session " + session.getAttribute("k1");
+    }
+
+    @RequestMapping("/hello4")
+    // we cab put model (complex data structure), and use it during request
+    public String handle4(Model model){
+        model.addAttribute("k1", "v1");
+        model.addAttribute("k2", "v2");
+        return "hello !!! spring boot 2 !! Model " + model.getAttribute("k1");
     }
 
     @RequestMapping("/person")
