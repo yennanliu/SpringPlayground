@@ -41,7 +41,8 @@
 
 *** Test basic Annotation :
 <ul>
-    <a href="car/777/owner/tom">car/{id}/owner/{userName}</a>
+    <!-- <a href="car/777/owner/tom">car/{id}/owner/{userName}</a> -->
+    <a href="car/777/owner/tom?age=20&inters=baseball&inters=travel">car/{id}/owner/{userName}</a>
     <li>@PathVariable (路徑變量)</li>
     <li>@RequestHeader (獲取請求頭)</li>
     <li>@RequestParam (獲取請求參數)</li>
@@ -60,7 +61,7 @@
 
 </ul>
 <form action="/save" method="post">
-    測試 @RequestBody獲取數據 <br/>
+    測試 @RequestBody 獲取數據 <br/>
     用戶名: <input name="userName"/> <br>
     信箱: <input name="email"/>
     <input type="submit" value="提交"/>
