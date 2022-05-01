@@ -2,6 +2,7 @@ package com.yen.SpringBootPart1.controller;
 
 // https://www.youtube.com/watch?v=1okUblTs28Q&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=29
 // https://www.youtube.com/watch?v=1okUblTs28Q&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=30
+// https://www.youtube.com/watch?v=2IBSZvwWq5w&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=31
 
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,28 @@ public class ParamController {
         Map<String, Object> map = new HashMap<>();
 
         map.put("content", content);
+        return map;
+    }
+
+    /**
+     *  1) MatrixVariable syntax :  /cars/sell;low=34;brand=LEXUS,porsche,audi
+     *  2) NOTE : by default, springBoot DISABLE MatrixVariable
+     *      -> we need to enable it if want to use
+     *      -> theory:
+     *          - urlPathHelper for parse
+     *          - removeSemicolonContent for allowing MatrixVariable or not (remove content after ;)
+     *
+     *
+     */
+    @GetMapping("/cars/sell")
+    public Map carsSell(@MatrixVariable("low") Integer low,
+                        @MatrixVariable("brand") List<String> brand){
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("low", low);
+        map.put("brand", brand);
+
         return map;
     }
 

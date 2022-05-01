@@ -53,7 +53,17 @@
     <li>@MatrixVariable (矩陣變量)</li>
 </ul>
 
-<a href="/cars/sell;low=34;brand=LEXUS;audi">@MatrixVariable (矩陣變量)</a>
+<!--
+
+    1) /cars/{path}?xxx=yyy&aaa=bbb : queryString, 查詢字符串. @RequestParam
+    2) /cars/path;low=34;brand=tesla,audi,benz : MatrixVariable (矩陣變量)
+
+    - 頁面開發, cookie禁用, session裡面的內容怎使用？
+        -> session.set(a,b) -> jsessionid -> cookie -> 每次請求攜帶 (original)
+        -> url 重寫: /abc;jessionid=xxx : 把cookie的值使用MatrixVariable方式傳遞 (now)
+-->
+
+<a href="/cars/sell;low=34;brand=LEXUS,porsche,audi">@MatrixVariable (矩陣變量)</a>
 <a href="/cars/sell;low=34;brand=LEXUS;audi;brand=benz">@MatrixVariable (矩陣變量)</a>
 <a href="/boss/1;age=20/2;age=10">@MatrixVariable (矩陣變量) /boss/{bossId}/{empId}</a>
 
