@@ -66,14 +66,16 @@ public class ParamController {
      *
      *
      */
-    @GetMapping("/cars/sell")
+    @GetMapping("/cars/{path}")  // Note !!! we need set "/.../{path}" here
     public Map carsSell(@MatrixVariable("low") Integer low,
-                        @MatrixVariable("brand") List<String> brand){
+                        @MatrixVariable("brand") List<String> brand,
+                        @PathVariable("path") String path){
 
         Map<String, Object> map = new HashMap<>();
 
         map.put("low", low);
         map.put("brand", brand);
+        map.put("path", path);
 
         return map;
     }

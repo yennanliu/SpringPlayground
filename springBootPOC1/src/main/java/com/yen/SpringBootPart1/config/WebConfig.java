@@ -6,9 +6,12 @@ package com.yen.SpringBootPart1.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
+import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.util.UrlPathHelper;
 
 @Configuration(proxyBeanMethods = false)
-public class WebConfig {
+public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable method 2) : implements WebMvcConfigurer
 
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter(){
@@ -16,5 +19,33 @@ public class WebConfig {
         //methodFilter.setMethodParam("_m"); // NOTE !! here we'll override default "_method" to "_m" (in filer). please check index.html
         //methodFilter.setMethodParam("_method");
         return methodFilter;
+    }
+
+    /** enable MatrixVariable method 1) */
+    @Bean
+    public WebMvcConfigurer webMvcConfigurer(){
+        return new WebMvcConfigurer(){
+            @Override
+            public void configurePathMatch(PathMatchConfigurer configurer) {
+
+                UrlPathHelper urlPathHelper = new UrlPathHelper();
+
+                /** NOTE !! we enable MatrixVariable here by set urlPathHelper.setRemoveSemicolonContent(false) */
+                urlPathHelper.setRemoveSemicolonContent(false);
+                configurer.setUrlPathHelper(urlPathHelper);
+            }
+        };
+    }
+
+
+    /** enable MatrixVariable method 2) */
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+
+        UrlPathHelper urlPathHelper = new UrlPathHelper();
+
+        /** NOTE !! we enable MatrixVariable here by set setRemoveSemicolonContent = false */
+        urlPathHelper.setRemoveSemicolonContent(false);
+        configurer.setUrlPathHelper(urlPathHelper);
     }
 }
