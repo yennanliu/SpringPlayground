@@ -64,6 +64,7 @@ public class ParamController {
      *          - urlPathHelper for parse
      *          - removeSemicolonContent for allowing MatrixVariable or not (remove content after ;)
      *
+     *  3) MatrixVariable NEED to with url path variable ( e.g. /cars/{path} ), then can be parsed
      *
      */
     @GetMapping("/cars/{path}")  // Note !!! we need set "/.../{path}" here
@@ -76,6 +77,19 @@ public class ParamController {
         map.put("low", low);
         map.put("brand", brand);
         map.put("path", path);
+
+        return map;
+    }
+
+    // /boss/1;age=20/2;age=10
+    @GetMapping("/boss/{bossId}/{empId}")
+    public Map boss(@MatrixVariable(value = "age", pathVar = "bossId") Integer bossAge,
+                    @MatrixVariable(value = "age", pathVar = "empId") Integer empAge){
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("bossAge", bossAge);
+        map.put("empAge", empAge);
 
         return map;
     }

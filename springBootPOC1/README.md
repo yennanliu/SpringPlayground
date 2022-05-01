@@ -27,6 +27,8 @@
 | `GET /car2` | GET | test endpoint |http://localhost:8888/car2 ||
 | `GET /person` | GET | test endpoint |http://localhost:8888/person ||
 | `GET /goto` | GET | test endpoint |http://localhost:8888/goto ||
+| `GET` | GET | test endpoint |http://localhost:8888/cars/sell;low=34;brand=LEXUS,porsche,audi||
+| `GET` | GET | test endpoint | http://localhost:8888/boss/1;age=20/2;age=10  ||
 
 ## Important Concepts
 
