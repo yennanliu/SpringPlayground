@@ -111,6 +111,6 @@
         - origin
             - https://gitee.com/leifengyang/springboot2
         - mirror
-            - https://github.com/yennanliu/springPlayground/tree/main/springboot2Course
+            - https://github.com/yennanliu/springPlayground/tree/main/courses/springboot2Course
 - Project generator
     - https://start.spring.io/
