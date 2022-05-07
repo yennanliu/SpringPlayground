@@ -100,10 +100,23 @@
         - we can send POST, GET, PUT, DELETE.. directly
 - Content Negotiation (內容協商)
     - https://www.youtube.com/watch?v=QBJAQOe4giA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=39
+    - https://www.youtube.com/watch?v=eIrvgWThto0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=40
+    - client gets server response in `different format` based on `request header`
     - browser (client) uses `header` (default) let server know : what content type is acceptable to it.
+    - theory
+        - check if current request header already has default val (MediaType)
+        - get client (e.g. PostMan, web ...) support content type (client Accept info)
+        - loop over current MessageConverter, check which one support current request
+        - get the "best match" (from above)
+        - use converter transform it (above), and get the needed type
     - example:
-        - web : xml/json (depends on header)
-        - mobile : json
+        - change `Accept` param in request header (Http protocol)
+            - web : xml/json (depends on header)
+            - mobile : json
+    - note :
+        - "Weights of request type"
+            - e.g. : `applicatiion/json,q=0.8`, `applicatiion/xml,q=0.7` ...
+    - User defined `MessageConverter`
 
 ## Ref
 
