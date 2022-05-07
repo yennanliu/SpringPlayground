@@ -12,5 +12,5 @@ public class Person2 {
     private String userName;
     private Integer age;
     private Date birth;
-    private Pet pet;
+    private Pet2 pet;
 }
