@@ -29,6 +29,8 @@
 | `GET /goto` | GET | test endpoint |http://localhost:8888/goto ||
 | `GET` | GET | test endpoint |http://localhost:8888/cars/sell;low=34;brand=LEXUS,porsche,audi||
 | `GET` | GET | test endpoint | http://localhost:8888/boss/1;age=20/2;age=10  ||
+| `GET /test/person2` | GET | test |http://localhost:8888/test/person2 ||
+| `GET /test/file_resource` | GET | test |http://localhost:8888/test/file_resource ||
 
 ## Important Concepts
 
@@ -99,6 +101,9 @@
 - Content Negotiation (內容協商)
     - https://www.youtube.com/watch?v=QBJAQOe4giA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=39
     - browser (client) uses `header` (default) let server know : what content type is acceptable to it.
+    - example:
+        - web : xml/json (depends on header)
+        - mobile : json
 
 ## Ref
 
