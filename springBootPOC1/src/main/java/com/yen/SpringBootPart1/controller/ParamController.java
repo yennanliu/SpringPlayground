@@ -95,6 +95,10 @@ public class ParamController {
         return map;
     }
 
+    /**
+     *  Data binding:
+     *    -> whatever request (GET, POST..), we can bind request with Bean class attr
+     */
     @PostMapping("/saveuser")
     public Person2 saveuser(Person2 person){
         return person;
