@@ -96,6 +96,9 @@
         - postman, curl...
         - HiddenHttpMethodFilter is NOT needed
         - we can send POST, GET, PUT, DELETE.. directly
+- Content Negotiation (內容協商)
+    - https://www.youtube.com/watch?v=QBJAQOe4giA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=39
+    - browser (client) uses `header` (default) let server know : what content type is acceptable to it.
 
 ## Ref
 
