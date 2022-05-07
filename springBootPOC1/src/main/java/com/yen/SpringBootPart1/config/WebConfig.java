@@ -54,6 +54,7 @@ public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable me
         configurer.setUrlPathHelper(urlPathHelper);
     }
 
+    // we can create Customized formatter via below Override
     @Override
     public void addFormatters(FormatterRegistry registry) {
         
@@ -64,14 +65,15 @@ public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable me
                 /**
                  *  index.html :
                  *
+                 *  (寵物： <input name="pet" value="lucky,3"/>)
                  *  source : value = "lucky,3"
                  *  -> we need to transform above to name, age
                  */
                 if (!StringUtils.isEmpty(source)){
                     Pet2 pet = new Pet2();
                     String[] split = source.split(",");
-                    pet.setName(split[0]);
-                    pet.setAge(Integer.parseInt(split[1]));
+                    pet.setName(split[0]); // pet's name
+                    pet.setAge(Integer.parseInt(split[1])); // pet's age
                     return pet;
                 }
                 return null;
