@@ -3,7 +3,9 @@ package com.yen.SpringBootPart1.controller;
 // https://www.youtube.com/watch?v=1okUblTs28Q&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=29
 // https://www.youtube.com/watch?v=1okUblTs28Q&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=30
 // https://www.youtube.com/watch?v=2IBSZvwWq5w&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=31
+// https://www.youtube.com/watch?v=rGgzYESEe84&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=36
 
+import com.yen.SpringBootPart1.bean.Person2;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -46,7 +48,6 @@ public class ParamController {
 
         return map;
     }
-
 
     @PostMapping("/save")
     public Map postMethod(@RequestBody String content){
@@ -92,6 +93,11 @@ public class ParamController {
         map.put("empAge", empAge);
 
         return map;
+    }
+
+    @PostMapping("/saveuser")
+    public Person2 saveuser(Person2 person){
+        return person;
     }
 
 }
