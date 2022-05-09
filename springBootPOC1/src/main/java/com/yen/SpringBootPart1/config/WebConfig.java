@@ -3,18 +3,22 @@ package com.yen.SpringBootPart1.config;
 // https://www.youtube.com/watch?v=QpZEkzjit7o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=27
 // https://www.youtube.com/watch?v=2IBSZvwWq5w&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=31
 // https://www.youtube.com/watch?v=z0sf_f6sfh4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=37
+// https://www.youtube.com/watch?v=NEGzyvm1IBc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=42
 
 import com.yen.SpringBootPart1.bean.Pet2;
-import lombok.Data;
+import com.yen.SpringBootPart1.converter.YenMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.PathMatchConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.util.UrlPathHelper;
+
+import java.util.List;
 
 @Configuration(proxyBeanMethods = false)
 public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable method 2) : implements WebMvcConfigurer
@@ -27,10 +31,28 @@ public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable me
         return methodFilter;
     }
 
+//    /** enable MatrixVariable method 1) */
+//    @Bean
+//    public WebMvcConfigurer webMvcConfigurer(){
+//        return new WebMvcConfigurer(){
+//            @Override
+//            public void configurePathMatch(PathMatchConfigurer configurer) {
+//
+//                UrlPathHelper urlPathHelper = new UrlPathHelper();
+//
+//                /** NOTE !! we enable MatrixVariable here by set urlPathHelper.setRemoveSemicolonContent(false) */
+//                urlPathHelper.setRemoveSemicolonContent(false);
+//                configurer.setUrlPathHelper(urlPathHelper);
+//            }
+//        };
+//    }
+
+
     /** enable MatrixVariable method 1) */
     @Bean
     public WebMvcConfigurer webMvcConfigurer(){
-        return new WebMvcConfigurer(){
+        return new WebMvcConfigurer() {
+
             @Override
             public void configurePathMatch(PathMatchConfigurer configurer) {
 
@@ -39,6 +61,11 @@ public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable me
                 /** NOTE !! we enable MatrixVariable here by set urlPathHelper.setRemoveSemicolonContent(false) */
                 urlPathHelper.setRemoveSemicolonContent(false);
                 configurer.setUrlPathHelper(urlPathHelper);
+            }
+
+            @Override
+            public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
+                converters.add(new YenMessageConverter());
             }
         };
     }

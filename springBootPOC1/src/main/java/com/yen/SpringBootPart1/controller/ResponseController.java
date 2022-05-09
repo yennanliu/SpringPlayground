@@ -29,7 +29,7 @@ public class ResponseController {
      *
      *  1) if browser request -> return xml [application/xml] jacksonXmlConverter
      *  2) if ajax request -> return json [application/json] jacksonJsonConverter
-     *  3) if "yen-app" request -> return user-defined data type
+     *  3) if "yen-app" request -> [application/x-yen] (user-defined type) : val1;val2;...
      */
     @ResponseBody
     @GetMapping("/test/person3")
