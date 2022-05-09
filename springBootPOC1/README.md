@@ -30,6 +30,7 @@
 | `GET` | GET | test endpoint |http://localhost:8888/cars/sell;low=34;brand=LEXUS,porsche,audi||
 | `GET` | GET | test endpoint | http://localhost:8888/boss/1;age=20/2;age=10  ||
 | `GET /test/person2` | GET | test |http://localhost:8888/test/person2 ||
+| `GET /test/person` | GET | test |http://localhost:8888/person?format=json, \n http://localhost:8888/person?format=xml ||
 | `GET /test/file_resource` | GET | test |http://localhost:8888/test/file_resource ||
 
 ## Important Concepts

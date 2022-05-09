@@ -40,3 +40,5 @@ Spring:
     hiddenmethod:
       filter:
         enabled: true            # enable form (表單) REST function
+    contentnegotiation:          # enable content negotiation. e.g. : http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml
+      favor-parameter: true
