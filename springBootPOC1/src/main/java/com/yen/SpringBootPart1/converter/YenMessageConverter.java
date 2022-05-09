@@ -34,6 +34,7 @@ public class YenMessageConverter implements HttpMessageConverter<Person2> {
     @Override
     public List<MediaType> getSupportedMediaTypes() {
         return MediaType.parseMediaTypes("application/x-yen");
+        //return MediaType.parseMediaTypes("x-yen");
     }
 
     @Override
