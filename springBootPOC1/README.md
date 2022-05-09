@@ -30,7 +30,7 @@
 | `GET` | GET | test endpoint |http://localhost:8888/cars/sell;low=34;brand=LEXUS,porsche,audi||
 | `GET` | GET | test endpoint | http://localhost:8888/boss/1;age=20/2;age=10  ||
 | `GET /test/person2` | GET | test |http://localhost:8888/test/person2 ||
-| `GET /test/person` | GET | test |http://localhost:8888/person?format=json, \n http://localhost:8888/person?format=xml ||
+| `GET /test/person` | GET | test |http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml ||
 | `GET /test/file_resource` | GET | test |http://localhost:8888/test/file_resource ||
 
 ## Important Concepts
@@ -100,8 +100,13 @@
         - HiddenHttpMethodFilter is NOT needed
         - we can send POST, GET, PUT, DELETE.. directly
 - Content Negotiation (內容協商)
-    - https://www.youtube.com/watch?v=QBJAQOe4giA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=39
-    - https://www.youtube.com/watch?v=eIrvgWThto0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=40
+    - Response page
+    - Response data
+        - `@ResponseBody` in java code
+    - ref
+        - https://www.youtube.com/watch?v=QBJAQOe4giA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=39
+        - https://www.youtube.com/watch?v=eIrvgWThto0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=40
+        - https://www.youtube.com/watch?v=NEGzyvm1IBc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=42
     - client gets server response in `different format` based on `request header`
     - browser (client) uses `header` (default) let server know : what content type is acceptable to it.
     - theory
@@ -118,6 +123,10 @@
         - "Weights of request type"
             - e.g. : `applicatiion/json,q=0.8`, `applicatiion/xml,q=0.7` ...
     - User defined `MessageConverter`
+        - step 1 : `@ResponseBody` in java code
+        - step 2: Processor return method val, processed via MessageConverter
+        - step 3: get all possible MessageConverter combinations
+        - stpe 4: find the final MessageConverter
 
 ## Ref
 
