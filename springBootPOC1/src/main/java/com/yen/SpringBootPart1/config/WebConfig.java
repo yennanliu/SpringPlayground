@@ -15,6 +15,7 @@ import org.springframework.format.FormatterRegistry;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.util.StringUtils;
+import org.springframework.web.accept.HeaderContentNegotiationStrategy;
 import org.springframework.web.accept.ParameterContentNegotiationStrategy;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.config.annotation.ContentNegotiationConfigurer;
@@ -86,10 +87,14 @@ public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable me
                 // define which media types are supported
                 mediaTypes.put("json", MediaType.APPLICATION_JSON);
                 mediaTypes.put("xml", MediaType.APPLICATION_XML);
+                // TODO : fix this
                 mediaTypes.put("yen", MediaType.parseMediaType("application/x-yen"));
 
                 ParameterContentNegotiationStrategy parameterStrategy =  new ParameterContentNegotiationStrategy(mediaTypes);
-                configurer.strategies(Arrays.asList(parameterStrategy));
+
+                HeaderContentNegotiationStrategy headerStrategy =  new HeaderContentNegotiationStrategy();
+
+                configurer.strategies(Arrays.asList(parameterStrategy, headerStrategy));
             }
         };
     }
