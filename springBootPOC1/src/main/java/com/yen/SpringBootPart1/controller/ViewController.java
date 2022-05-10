@@ -14,7 +14,7 @@ public class ViewController {
     public String yenTest1(Model model){
 
         // info inside model will be passed to "request domain"
-        model.addAttribute("msg", "hello Java !!!");
+        model.addAttribute("msg", "msg from java backend");
         model.addAttribute("link", "https://www.python.org/");
 
         /**
