@@ -24,7 +24,7 @@ Steps use thymeleaf :
 -->
 <h2>
     <a href="https://www.java.com" th:href="${link}">go Java</a> <br/>
-    <a href="https://www.java.com" th:href="@{link}">go Java 2</a> <br/>
+    <a href="https://www.java.com" th:href="@{link}">go Java 2</a> <br/>  <!-- will return https://www.java.com/#{link} -->
 </h2>
 
 </body>
