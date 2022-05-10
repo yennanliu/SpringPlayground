@@ -127,6 +127,21 @@
         - step 2: Processor return method val, processed via MessageConverter
         - step 3: get all possible MessageConverter combinations
         - stpe 4: find the final MessageConverter
+- thymeleaf
+    - [offical doc](https://www.thymeleaf.org/)
+    - ref
+        - https://www.youtube.com/watch?v=MuzLKTp87Vs&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=44
+    - auto config strategy
+        - All thymeleaf default val is in ThymeleafProperties
+        - SpringTemplateEngine already auto config
+        - ThymeleafViewResolver already auto config
+        - All developer needs to do : `develop html page`
+        - Note below conf:
+        ```java
+        // java
+        public static final String DEFAULT_PREFIX = "classpath:/templates/";  // 前綴
+        public static final String DEFAULT_SUFFIX = ".html"; // 後綴
+        ```
 
 ## Ref
 
