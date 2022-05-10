@@ -5,7 +5,7 @@ Spring:
     #    static-locations: [classpath:/my_resources]
     #    add-mappings: false            # note !! if "false", will block ALL static resources mapping
     cache:
-      period : 10                # set up cache period, unit : second
+      period : 1                # set up cache period, unit : second
     hiddenmethod:
       filter:
         enabled: true            # enable form (表單) REST function

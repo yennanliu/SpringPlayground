@@ -23,6 +23,10 @@
 
 <div class="container">
 
+    <!--
+         thymeleaf syntax : dynamically get action value (from backend)
+         -> e.g. th:action="@{/login}
+    -->
     <form class="form-signin" action="index.html" method="post" th:action="@{/login}">
         <div class="form-signin-heading text-center">
             <h1 class="sign-title">Sign In</h1>
