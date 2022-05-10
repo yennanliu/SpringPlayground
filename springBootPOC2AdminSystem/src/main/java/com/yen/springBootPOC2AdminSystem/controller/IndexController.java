@@ -28,11 +28,27 @@ public class IndexController {
     }
 
     /**
-     *  already-login page
-     *
+     *  Already-login page
      */
     @PostMapping("/login")
     public String main(String username, String password){
+
+        //return "main";
+
+        /**
+         *  Re-direct : avoid "resend request" to a form.
+         *      NOTE !!! if login success, redirect to main.html (instead of send a new request to main.html everytime)
+         */
+        return "redirect:/main.html";
+    }
+
+    /**
+     *  Main page
+     *  
+     *  so, once login success, every request will be redirected to main.html (instead of login)
+     */
+    @GetMapping("/main.html")
+    public String mainPage(){
         return "main";
     }
 
