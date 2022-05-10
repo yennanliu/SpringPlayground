@@ -1,6 +1,6 @@
 package com.yen.springBootPOC3.controller;
 
-// book p.18
+/** book p.18 */
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
