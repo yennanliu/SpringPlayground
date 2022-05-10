@@ -29,8 +29,16 @@ springMySQL1/.idea
 springMySQL1/target/classes
 springMySQL1/springMySQL1.iml
 
+# springBootPOC1
 springBootPOC1/.idea/
 springBootPOC1/SpeingBootPOC1.iml
 springBootPOC1/mvnw
 springBootPOC1/mvnw.cmd
 springBootPOC1/target
+
+# springBootPOC2AdminSystem
+springBootPOC2AdminSystem/.idea/
+springBootPOC2AdminSystem/springBootPOC2AdminSystem.iml
+springBootPOC2AdminSystem/mvnw
+springBootPOC2AdminSystem/mvnw.cmd
+springBootPOC2AdminSystem/target
