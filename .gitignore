@@ -42,3 +42,10 @@ springBootPOC2AdminSystem/springBootPOC2AdminSystem.iml
 springBootPOC2AdminSystem/mvnw
 springBootPOC2AdminSystem/mvnw.cmd
 springBootPOC2AdminSystem/target
+
+# springBootPOC3
+springBootPOC3/.idea/
+springBootPOC3/SpeingBootPOC1.iml
+springBootPOC3/mvnw
+springBootPOC3/mvnw.cmd
+springBootPOC3/target

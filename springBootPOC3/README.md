@@ -1,5 +1,5 @@
-# springBootPOC2
-> Spring Boot POC project
+# springBootPOC3
+> Spring Boot POC project (with book)
 
 ## Ref
 
