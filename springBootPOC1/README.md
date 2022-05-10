@@ -32,6 +32,7 @@
 | `GET /test/person2` | GET | test |http://localhost:8888/test/person2 ||
 | `GET /test/person` | GET | test |http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml ||
 | `GET /test/file_resource` | GET | test |http://localhost:8888/test/file_resource ||
+| `GET /yen_test1` | GET | test |http://localhost:8888/yen_test1 | thymeleaf test|
 
 ## Important Concepts
 
@@ -131,6 +132,7 @@
     - [offical doc](https://www.thymeleaf.org/)
     - ref
         - https://www.youtube.com/watch?v=MuzLKTp87Vs&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=44
+        - com.yen.SpringBootPart1.controller.ViewController.java
     - auto config strategy
         - All thymeleaf default val is in ThymeleafProperties
         - SpringTemplateEngine already auto config

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+// REST style controller (return json) (VS @Controller : forward page)
 @RestController
 public class ParamController {
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<!-- enable thymeleaf pattern-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>hahaha ~ </h1>
+<h1 th:test="${msg}">arsed from sever :  </h1>
+<!--
+0) enable thymeleaf pattern : <html lang="en" xmlns:th="http://www.thymeleaf.org">
+1) backend logic : com.yen.SpringBootPart1.controller.ViewController.java
+2) get val from backend :
+    2-1) if want to replace "aaa" -> th:aaa="${backend_val}"
+    2-2) we need "th:", and `"${}}`
+-->
+<h2>
+    <a href="https://www.java.com" th:href="${link}">go Java</a> <br/>
+    <a href="https://www.java.com" th:href="@{link}">go Java 2</a> <br/>
+</h2>
+
+</body>
+</html>
