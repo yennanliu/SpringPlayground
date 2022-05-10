@@ -39,9 +39,11 @@ public class IndexController {
     @PostMapping("/login")
     public String main(User user, HttpSession session, Model model){
 
-        // logic check if user login success
-        // if there is non-null username and non-null password -> login success
-        // and we save user instance in session as well
+        /**
+         *  logic check if user login success
+         *  if there is non-null username and non-null password -> login success
+         *  and we save user instance in session as well
+         */
         // if ( StringUtils.isEmpty(user.getUserName()) && StringUtils.hasLength(user.getPassword()) )
         if ( StringUtils.hasLength(user.getUserName()) && "123".equals(user.getPassword()) ){
             session.setAttribute("loginUser", user);
@@ -53,7 +55,7 @@ public class IndexController {
              */
             return "redirect:/main.html";
         }else{
-            // if login failed, re-direct to login page
+            // if login failed, back to login page
             model.addAttribute("msg", "account or pwd wrong");
             return "login";
         }
@@ -65,8 +67,22 @@ public class IndexController {
      *  so, once login success, every request will be redirected to main.html (instead of login)
      */
     @GetMapping("/main.html")
-    public String mainPage(){
-        return "main";
+    public String mainPage(HttpSession session, Model model){
+
+        /**
+         *  check if already login,
+         *  in formal dev, we should use Interceptor (攔截器), or filter (過濾器)
+         *  however, we now hardcode here as easy development
+         */
+
+        Object loginUser = session.getAttribute("loginUser");
+        if (loginUser != null){
+            return "main";
+        }else{
+            // if login failed, back to login page
+            model.addAttribute("msg", "not login, plz login");
+            return "login";
+        }
     }
 
 }
