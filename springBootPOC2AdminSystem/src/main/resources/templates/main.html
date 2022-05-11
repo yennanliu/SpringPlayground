@@ -22,17 +22,28 @@
   <!--Morris Chart CSS -->
   <link rel="stylesheet" href="js/morris-chart/morris.css">
 
+    <!-- https://www.youtube.com/watch?v=59dkU-lunaA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=46 -->
     <div th:include="common :: commonheader"> </div>
 </head>
 
 <body class="sticky-header">
 
 <section>
+    <!--
+      https://www.youtube.com/watch?v=59dkU-lunaA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=46
+      replace from select "leftmenu" element from common.html
+      # means select with id
+      e.g. : "common :: #leftmenu"
+    -->
     <div th:replace="common :: #leftmenu"></div>
 
     <!-- main content start-->
     <div class="main-content" >
 
+        <!--
+           if not id, then we use xxx :: yyy syntax
+           e.g. : "common :: headermenu"
+        -->
         <div th:replace="common :: headermenu"></div>
 
 
