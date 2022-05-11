@@ -9,6 +9,7 @@
 | `GET /` | GET | test | http://localhost:8888/hi ||
 | `GET /` | GET | test | http://localhost:8888/hello ||
 | `GET /` | GET | test | http://localhost:8888/showJDBC ||
+| `GET /` | GET | test | http://localhost:8888/hello_ft1 ||
 
 ## Ref
 
