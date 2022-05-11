@@ -20,6 +20,7 @@ public class TableController {
         return "table/basic_table"; // resources/templates/table/basic_table.html
     }
 
+    // TODO : fix this (dynamic_table.html)
     @GetMapping("/dynamic_table")
     public String dynamic_table(Model model){
 

@@ -1,6 +1,15 @@
 # springBootPOC3
 > Spring Boot POC project (with book)
 
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET /` | GET | test | http://localhost:8888/mapping ||
+| `GET /` | GET | test | http://localhost:8888/hi ||
+| `GET /` | GET | test | http://localhost:8888/hello ||
+| `GET /` | GET | test | http://localhost:8888/showJDBC ||
+
 ## Ref
 
 - Course
