@@ -1,6 +1,12 @@
 # springBootPOC2AdminSystem
 > Backend admin system with Spring Boot
 
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET /` | GET | login page | http://localhost:8888/ |account: xxx, pwd:123|
+| `GET /` | GET | main page | http://localhost:8888/main.html ||
 
 ## Ref
 
