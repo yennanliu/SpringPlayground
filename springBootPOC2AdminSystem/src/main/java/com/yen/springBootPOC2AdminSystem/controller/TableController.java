@@ -1,9 +1,15 @@
 package com.yen.springBootPOC2AdminSystem.controller;
 
 // https://www.youtube.com/watch?v=59dkU-lunaA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=46
+// https://www.youtube.com/watch?v=PpheT7laE_8&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=47
 
+import com.yen.springBootPOC2AdminSystem.bean.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.Arrays;
+import java.util.List;
 
 @Controller
 public class TableController {
@@ -15,7 +21,16 @@ public class TableController {
     }
 
     @GetMapping("/dynamic_table")
-    public String dynamic_table(){
+    public String dynamic_table(Model model){
+
+        // we'll parse table data dynamically
+        List<User> users = Arrays.asList(
+                new User("iori", "123"),
+                new User("may", "000"),
+                new User("ann", "123")
+        );
+
+        model.addAttribute("users", users);
 
         return "table/dynamic_table"; // resources/templates/table/dynamic_table.html
     }
