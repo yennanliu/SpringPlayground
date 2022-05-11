@@ -8,6 +8,16 @@
 | `GET /` | GET | login page | http://localhost:8888/ |account: xxx, pwd:123|
 | `GET /` | GET | main page | http://localhost:8888/main.html ||
 
+## Important Concepts
+
+- Interceptor
+    - `preHandle -> method -> postHandle -> afterCompletion`
+        - preHandle : before "target method"
+        - postHandle : after "target method"
+        - afterCompletion : after "page is render"
+    - Ref
+        - https://www.youtube.com/watch?v=PMaonqe9XCU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=49
+
 ## Ref
 
 - Course
