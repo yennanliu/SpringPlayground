@@ -11,17 +11,17 @@
 ## Important Concepts
 
 - Interceptor
-    <img src ="https://github.com/yennanliu/SpringPlayground/tree/main/springBootPOC2AdminSystem/blob/master/doc/pic/interceptor1.png">
+    <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootPOC2AdminSystem/doc/pic/interceptor1.png">
     - Steps
-        - 1) Based on reqeust, find `HandlerExecutionChain`(handlers, and interceptors which can handle current request).
-        - 2) `normal order` run interceptors' `preHandle` method
-            - if true, run next interceptors' preHandle
-            - if false, `inverse order` run already-run interceptors' `afterCompletion` method
-        - 3) if any interceptor run failed (return false), abort. Not run `target method`
-        - 4) if all interceptors return true, run target method
-        - 5) `inverse order` run all interceptors' `postHandle` method
-        - 6) if ANY of above failed, then TRIGGER afterCompletion method
-        - 7) page rendered success, then TRIGGER afterCompletion method
+        - 1. Based on reqeust, find `HandlerExecutionChain`(handlers, and interceptors which can handle current request).
+        - 2. `Normal order` run interceptors' `preHandle` method
+            - If true, run next interceptors' preHandle
+            - If false, `inverse order` run already-run interceptors' `afterCompletion` method
+        - 3. If any interceptor run failed (return false), abort. Not run `target method`
+        - 4. If all interceptors return true, run target method
+        - 5. `Inverse order` run all interceptors' `postHandle` method
+        - 6. If ANY of above failed, then TRIGGER afterCompletion method
+        - 7. Page rendered success, then TRIGGER afterCompletion method
     - example
         `preHandle -> target method -> postHandle -> afterCompletion`
             - preHandle : before "target method"
