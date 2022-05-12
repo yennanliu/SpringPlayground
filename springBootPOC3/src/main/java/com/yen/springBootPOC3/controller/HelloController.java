@@ -16,7 +16,6 @@ public class HelloController {
     @Resource // attr, TODO : check this
     private MysqlProperties mysqlProperties;
 
-
     // inject attr val
     // book p.20
     @Value("${mysql.jdbcName}")
@@ -35,7 +34,6 @@ public class HelloController {
         String msg = "jdbcName = " + jdbcName + "<br/>" + " dburl = " + dburl;
         return msg;
     }
-
 
     @GetMapping("/showJDBC2")
     public String showJDBC2(){

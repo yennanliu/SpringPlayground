@@ -21,4 +21,5 @@ public class TemplateController {
         map.put("hello", "based on freemarker with TemplateController.hello_ft1");
         return "/hello_ft1";
     }
+    
 }
