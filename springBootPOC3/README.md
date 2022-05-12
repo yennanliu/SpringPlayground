@@ -5,11 +5,12 @@
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| `GET /` | GET | test | http://localhost:8888/mapping ||
-| `GET /` | GET | test | http://localhost:8888/hi ||
-| `GET /` | GET | test | http://localhost:8888/hello ||
-| `GET /` | GET | test | http://localhost:8888/showJDBC ||
-| `GET /` | GET | test | http://localhost:8888/hello_ft1 ||
+| `GET` | GET | test | http://localhost:8888/mapping ||
+| `GET` | GET | test | http://localhost:8888/hi ||
+| `GET` | GET | test | http://localhost:8888/hello ||
+| `GET` | GET | test | http://localhost:8888/showJDBC ||
+| `GET` | GET | test | http://localhost:8888/hello_ft1 ||
+| `GET` | GET | Ajax test | http://localhost:8888/index2.html ||
 
 ## Ref
 
