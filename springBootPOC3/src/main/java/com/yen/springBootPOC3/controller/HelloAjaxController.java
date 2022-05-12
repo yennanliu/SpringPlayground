@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /** book p.51
  *
- *  test on resources/static/index2.html
+ *  test on resources/static/index_ajax.html
  */
 
 @RestController
