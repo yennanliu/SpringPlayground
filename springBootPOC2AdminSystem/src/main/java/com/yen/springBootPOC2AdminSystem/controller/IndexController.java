@@ -9,16 +9,17 @@ package com.yen.springBootPOC2AdminSystem.controller;
  */
 
 import com.yen.springBootPOC2AdminSystem.bean.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 // NOTE !!! don't forget @Controller annotation for a controller
+@Slf4j
 @Controller
 public class IndexController {
 
@@ -68,6 +69,8 @@ public class IndexController {
      */
     @GetMapping("/main.html")
     public String mainPage(HttpSession session, Model model){
+
+        log.info(">>> current method : mainPage");
 
         /**
          *  check if already login,

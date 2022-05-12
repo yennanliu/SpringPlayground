@@ -26,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String requestURI = request.getRequestURI();
-        log.info(">>> intercepted request paths : " + requestURI);
+        log.info(">>> preHandle : intercepted request : " + requestURI);
 
         // check if already login
         HttpSession session = request.getSession();
@@ -38,8 +38,10 @@ public class LoginInterceptor implements HandlerInterceptor {
             return true;
         }
         // if not login, intercept, re-direct to login page
-        session.setAttribute("msg", "plz login first");
-        response.sendRedirect("/");
+//        session.setAttribute("msg", "plz login first");
+//        response.sendRedirect("/");
+        request.setAttribute("msg", "plz login first");
+        request.getRequestDispatcher("/").forward(request, response);
         return false;
     }
 
@@ -47,12 +49,14 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
+        log.info(">>> postHandle run : " + modelAndView);
     }
 
     /** after "page is render" */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
+        log.info(">>> afterCompletion run (print as well if exception) : " + ex);
     }
 
 }
