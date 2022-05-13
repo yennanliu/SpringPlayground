@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+
 /** For file upload
  *
  *   1) http://localhost:8888/form_layouts
@@ -34,9 +37,28 @@ public class FormController {
             @RequestParam("username") String username,
             @RequestPart("headerImg") MultipartFile headerImg,
             @RequestPart("photos") MultipartFile[] photos
-            ){
+            ) throws IOException {
 
         log.info(">>> Upload info : email={}, username={}, headerImg size ={}, photo count={}", email, username, headerImg.getSize(), photos.length);
+
+        //String outputDir = "/output";
+        String outputDir = System.getProperty("user.dir") + "/output/";
+
+        // save uploaded single file (headerImg) (to server)
+        if (!headerImg.isEmpty()){
+            String originalFilename = headerImg.getOriginalFilename();
+            headerImg.transferTo(new File(outputDir + originalFilename));
+        }
+
+        // save uploaded multiple files (photos) (to server)
+        if (photos.length > 0){
+            for (MultipartFile photo : photos){
+                if (!photo.isEmpty()){
+                    String originalFilename = photo.getOriginalFilename();
+                    photo.transferTo(new File(outputDir + originalFilename));
+                }
+            }
+        }
 
         return "main";
     }
