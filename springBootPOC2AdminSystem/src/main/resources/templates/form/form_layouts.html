@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- https://www.youtube.com/watch?v=TN2OO1vAoWs&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=51 -->
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
@@ -48,21 +49,22 @@
                         Basic Forms
                     </header>
                     <div class="panel-body">
+                        <!-- NOTE here !!! -->
                         <form role="form" th:action="@{/upload}" method="post" enctype="multipart/form-data">
                             <div class="form-group">
-                                <label for="exampleInputEmail1">邮箱</label>
+                                <label for="exampleInputEmail1">Email</label>
                                 <input type="email" name="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputPassword1">名字</label>
+                                <label for="exampleInputPassword1">Name</label>
                                 <input type="text" name="username" class="form-control" id="exampleInputPassword1" placeholder="Password">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputFile">头像</label>
+                                <label for="exampleInputFile">Profile photo (single)</label>
                                 <input type="file" name="headerImg" id="exampleInputFile">
                             </div>
                             <div class="form-group">
-                                <label for="exampleInputFile">生活照</label>
+                                <label for="exampleInputFile">life photo (multiple)</label>
                                 <input type="file" name="photos" multiple>
                             </div>
                             <div class="checkbox">
@@ -70,7 +72,7 @@
                                     <input type="checkbox"> Check me out
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-primary">提交</button>
+                            <button type="submit" class="btn btn-primary">submit</button>
                         </form>
 
                     </div>
