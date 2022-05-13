@@ -29,7 +29,6 @@ public class FormController {
 
     /**
      *  1) MultipartFile will encapsulate upload files automatically
-     *  2)
      */
     @PostMapping("/upload")
     public String upload(
@@ -41,16 +40,16 @@ public class FormController {
 
         log.info(">>> Upload info : email={}, username={}, headerImg size ={}, photo count={}", email, username, headerImg.getSize(), photos.length);
 
-        //String outputDir = "/output";
+        // get current dir
         String outputDir = System.getProperty("user.dir") + "/output/";
 
-        // save uploaded single file (headerImg) (to server)
+        /** save uploaded single file (headerImg) (to server) */
         if (!headerImg.isEmpty()){
             String originalFilename = headerImg.getOriginalFilename();
             headerImg.transferTo(new File(outputDir + originalFilename));
         }
 
-        // save uploaded multiple files (photos) (to server)
+        /** save uploaded multiple files (photos) (to server) */
         if (photos.length > 0){
             for (MultipartFile photo : photos){
                 if (!photo.isEmpty()){

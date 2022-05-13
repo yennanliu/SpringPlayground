@@ -7,6 +7,8 @@
 | ----- | -------- | ---- | ----- | ---- |
 | `GET` | GET | login page | http://localhost:8888/ |account: xxx, pwd:123|
 | `GET` | GET | main page | http://localhost:8888/main.html ||
+| `GET` | GET | upload file | http://localhost:8888/form_layouts ||
+| `GET` | GET | basic table | http://localhost:8888/basic_table ||
 
 ## Important Concepts
 
