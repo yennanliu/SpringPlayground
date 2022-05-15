@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ *  AdminWebConfig (work with HandlerInterceptor)
+ *
  *  1) make a class implements HandlerInterceptor ( com.yen.springBootPOC2AdminSystem.interceptor.LoginInterceptor in this project)
  *  2) register interceptor to container ( implement WebMvcConfigurer and its addInterceptors method)
  *  3) NOTE : Interceptor roles:

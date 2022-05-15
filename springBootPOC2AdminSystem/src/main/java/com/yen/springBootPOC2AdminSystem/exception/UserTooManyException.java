@@ -5,6 +5,8 @@ package com.yen.springBootPOC2AdminSystem.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+/** custom Exception */
+
 @ResponseStatus(value= HttpStatus.FORBIDDEN, reason = "too much users") // via ResponseStatus, we can return error code, error msg...
 public class UserTooManyException extends RuntimeException{
 

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.Arrays;
 import java.util.List;
 
+/** Controller for table pages */
+
 @Controller
 public class TableController {
 

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- *   for login check
+ *   custom HandlerInterceptor : for login check
  *
  *    1) need to implement HandlerInterceptor
  *    2) define which requests NEED to be "intercepted"
