@@ -2,8 +2,10 @@ package com.yen.springBootPOC2AdminSystem.controller;
 
 // https://www.youtube.com/watch?v=59dkU-lunaA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=46
 // https://www.youtube.com/watch?v=PpheT7laE_8&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=47
+// https://www.youtube.com/watch?v=TOwcNVQtniU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=56
 
 import com.yen.springBootPOC2AdminSystem.bean.User;
+import com.yen.springBootPOC2AdminSystem.exception.UserTooManyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,10 +30,15 @@ public class TableController {
         List<User> users = Arrays.asList(
                 new User("iori", "123"),
                 new User("may", "000"),
-                new User("ann", "123")
+                new User("ann", "123"),
+                new User("connie", "123") // if 503 error : TOO MUCH USERS -> remove one user here
         );
 
         model.addAttribute("users", users);
+
+        if (users.size() > 3){
+            throw new UserTooManyException();
+        }
 
         return "table/dynamic_table"; // resources/templates/table/dynamic_table.html
     }
