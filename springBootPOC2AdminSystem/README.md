@@ -9,6 +9,7 @@
 | `GET` | GET | main page | http://localhost:8888/main.html ||
 | `GET` | GET | upload file | http://localhost:8888/form_layouts ||
 | `GET` | GET | basic table | http://localhost:8888/basic_table ||
+| `GET` | GET | custom servlet | http://localhost:8888/my_servlet ||
 
 ## Important Concepts
 
@@ -31,7 +32,14 @@
             - afterCompletion : after "page is render"
     - Ref
         - https://www.youtube.com/watch?v=PMaonqe9XCU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=49
-        - https://www.youtube.com/watch?v=wSMi4qkxnJo&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=49
+- Web native component inject (Servlet, Filter, Listener)
+    - Servlet
+        - method 1) : Servlet API
+            - `@ServletComponentScan("com.yen.springBootPOC2AdminSystem")` : indicate where we put native components
+            - `@WebServlet(urlPatterns = "/my_servlet")` : response directly, not passed to Spring Interceptor
+    - Ref
+        - https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
+
 
 ## Ref
 
