@@ -19,7 +19,7 @@
         </div>
     </div>
 
-    <div th:if="${NOT #lists.isEmpty(people}">
+    <div th:if="${not #lists.isEmpty(people)}">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">List</h3>
@@ -30,7 +30,9 @@
                         <span th:text="${person.name}"></span>
                         <span th:text="${person.age}"></span>
                         <span th:text="${person.address}"></span>
-                        <button class="btn" th:onclick="'getName(\'' + ${perspm.name} + '\');'">Get name</button>
+                        <!--
+                        <button class="btn" th:onclick="'getName(\'' + ${person.name} + '\');'">Get name</button>
+                        -->
                     </li>
                 </ul>
             </div>
@@ -42,7 +44,7 @@
     <!-- https://www.w3schools.blog/bootstrap-cdn-link-maxcdn -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script th:inline="javascript">
-        var single = [[${singlePerson}}]];
+        var single = [[${singlePerson}]];
         console.log(single.name + "/" + single.age + "/" + single.address)
         function getName(name){
             console.log(name);
