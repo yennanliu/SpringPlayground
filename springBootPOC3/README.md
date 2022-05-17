@@ -12,6 +12,7 @@
 | `GET` | GET | test | http://localhost:8888/hello_ft1 ||
 | `GET` | GET | Ajax test | http://localhost:8888/index_ajax.html ||
 | `GET` | GET | Rest web test | http://localhost:8888/index_blog.html ||
+| `GET` | GET | test | http://localhost:8888/myServlet ||
 
 ## Ref
 
