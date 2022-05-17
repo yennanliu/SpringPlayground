@@ -9,7 +9,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 
 @Slf4j
-@WebListener
+//@WebListener  // uncomment it if want to enable
 public class MyServletContextListener implements ServletContextListener {
 
     @Override

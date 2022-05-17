@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(urlPatterns = "/my_servlet")  // since servlet 3.0
+//@WebServlet(urlPatterns = "/my_servlet")  // since servlet 3.0 // uncomment it if want to enable
 public class MyServlet extends HttpServlet {
 
     @Override

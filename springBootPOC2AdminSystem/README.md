@@ -9,7 +9,8 @@
 | `GET` | GET | main page | http://localhost:8888/main.html ||
 | `GET` | GET | upload file | http://localhost:8888/form_layouts ||
 | `GET` | GET | basic table | http://localhost:8888/basic_table ||
-| `GET` | GET | custom servlet | http://localhost:8888/my_servlet ||
+| `GET` | GET | custom servlet V1 | http://localhost:8888/my_servlet ||
+| `GET` | GET | custom servlet V2 | http://localhost:8888/my, http://localhost:8888/my01 ||
 
 ## Important Concepts
 
@@ -39,6 +40,7 @@
                 - indicate where we put native components
             - `@WebServlet(urlPatterns = "/my_servlet")`
                 - response directly, not passed to Spring Interceptor
+        - method 2) : RegistrationBean
     - Ref
         - https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
 

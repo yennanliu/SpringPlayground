@@ -10,7 +10,7 @@ import java.io.IOException;
 
 @Slf4j
 //@WebFilter(urlPatterns = {"/css/*", "/images/*"})
-@WebFilter
+//@WebFilter // uncomment it if want to enable
 public class MyFilter implements Filter {
 
     @Override
