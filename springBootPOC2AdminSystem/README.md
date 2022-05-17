@@ -35,8 +35,10 @@
 - Web native component inject (Servlet, Filter, Listener)
     - Servlet
         - method 1) : Servlet API
-            - `@ServletComponentScan("com.yen.springBootPOC2AdminSystem")` : indicate where we put native components
-            - `@WebServlet(urlPatterns = "/my_servlet")` : response directly, not passed to Spring Interceptor
+            - `@ServletComponentScan("com.yen.springBootPOC2AdminSystem")`
+                - indicate where we put native components
+            - `@WebServlet(urlPatterns = "/my_servlet")`
+                - response directly, not passed to Spring Interceptor
     - Ref
         - https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
 
