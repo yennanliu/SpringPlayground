@@ -2,6 +2,11 @@ package com.yen.springBootPOC2AdminSystem.servlet;
 
 // https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
 
+/**  Web native component inject (Servlet, Filter, Listener) V1
+ *
+ *   MyServlet
+ */
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

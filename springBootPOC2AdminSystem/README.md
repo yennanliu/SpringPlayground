@@ -41,6 +41,7 @@
             - `@WebServlet(urlPatterns = "/my_servlet")`
                 - response directly, not passed to Spring Interceptor
         - method 2) : RegistrationBean
+            - example : `com.yen.springBootPOC2AdminSystem.servlet.MyRegistConfig`
     - Ref
         - https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
 

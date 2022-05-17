@@ -2,7 +2,8 @@ package com.yen.springBootPOC2AdminSystem.servlet;
 
 // https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
 
-/**  MyRegistConfig : A config file
+/**  Web native component inject (Servlet, Filter, Listener) V2
+ *   MyRegistConfig : A config file
  *
  *    1) same purpose as MyFilter, MyServlet, MyServletContextListener
  *    2) NOTE !!!
@@ -14,13 +15,15 @@ package com.yen.springBootPOC2AdminSystem.servlet;
  */
 
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Arrays;
 
-@Configuration
+//@Configuration(proxyBeanMethods = false) // NOT use this, since we don't want to create a new instance every time
+@Configuration(proxyBeanMethods = true) // use this, make sure instance is singleton (單實例)
 public class MyRegistConfig {
 
     @Bean
@@ -42,6 +45,12 @@ public class MyRegistConfig {
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean(myFilter);
         filterRegistrationBean.setUrlPatterns(Arrays.asList("/my", "/my01"));
         return filterRegistrationBean;
+    }
+
+    @Bean
+    public ServletListenerRegistrationBean myListener(){
+        MyServletContextListener myServletContextListener = new MyServletContextListener();
+        return new ServletListenerRegistrationBean(myServletContextListener);
     }
 
 }
