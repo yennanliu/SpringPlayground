@@ -10,7 +10,8 @@ import java.io.PrintWriter;
 
 /** book p.63 */
 
-@WebServlet(urlPatterns = "/myServlet2", description = "Servlet intro")
+// TODO : fix this
+@WebServlet(urlPatterns = "/myServlet2/*", description = "Servlet intro")
 public class MyServlet2 extends HttpServlet {
 
     @Override

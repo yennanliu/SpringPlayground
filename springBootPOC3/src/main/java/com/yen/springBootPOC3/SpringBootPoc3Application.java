@@ -14,7 +14,7 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 
 @SpringBootApplication
-@ServletComponentScan
+@ServletComponentScan("com.yen.springBootPOC3")
 public class SpringBootPoc3Application {
 
 //	@Bean
