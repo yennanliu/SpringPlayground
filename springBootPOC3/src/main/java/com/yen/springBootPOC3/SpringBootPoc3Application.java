@@ -3,7 +3,6 @@ package com.yen.springBootPOC3;
 /** Spring boot app entry point
  *
  *  book p.62
- *
  */
 
 import com.yen.springBootPOC3.servlet.MyServlet1;
