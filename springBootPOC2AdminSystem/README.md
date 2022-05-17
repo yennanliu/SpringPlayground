@@ -33,6 +33,15 @@
             - afterCompletion : after "page is render"
     - Ref
         - https://www.youtube.com/watch?v=PMaonqe9XCU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=49
+- DispatchServlet : how does it work ?
+    - Steps
+        - container set `DispatchServlet` attr, and bind it to `WebMvcProperties`.
+            - corresponding conf : spring.mvc
+        - via `ServletRefistrationBean<DispatchServlet>`, DispatchServlet is equipped.
+        - default mapping path : `/`
+            - can modify above in application.properties
+    - Ref
+        - https://www.youtube.com/watch?v=b-YRFm9OtAo&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=58
 - Web native component inject (Servlet, Filter, Listener)
     - Servlet
         - method 1) : Servlet API
