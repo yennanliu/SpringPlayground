@@ -56,9 +56,16 @@
 
 - Common custom methods
     - update conf files
-    - `@Bean` changes : add more default components, view parser
-        - xxxConfiguration + `@Bean` changes
-    - web app : implement `WebMvcConfigurer`. can custom web features
+    - xxxxCustomizer
+    - xxxConfiguration + `@Bean` changes
+        - `@Bean` exchange : add more default components, view parser
+    -  `web app : implement WebMvcConfigurer. can custom web features`
+        ```java
+        // java, WebMvcConfigurer
+        @Configuration
+        public class AdminWebConfig implements WebMvcConfigurer 
+        // ...
+        ```
     - `@EnableWebMvc + WebMvcConfigurer` -- @Bean
         - can TAKE ALL CONTROLLER on SpringMVC
         - all rules can be defined by developer
