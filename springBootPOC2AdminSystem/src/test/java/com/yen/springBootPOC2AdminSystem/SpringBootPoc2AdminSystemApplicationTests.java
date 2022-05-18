@@ -4,11 +4,15 @@ package com.yen.springBootPOC2AdminSystem;
 
 /** default test class for Spring boot */
 
+import com.yen.springBootPOC2AdminSystem.entity.Product;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @SpringBootTest
@@ -19,11 +23,22 @@ class SpringBootPoc2AdminSystemApplicationTests {
 
 	@Test
 	void contextLoads() {
+
 		//jdbcTemplate.queryForObject("SELECT * FROM product");
 		//jdbcTemplate.queryForList("SELECT * FROM product");
+
+		/** Mysql tests */
+		// test 1
 		Long res1 = jdbcTemplate.queryForObject("SELECT COUNT(1) FROM product", Long.class);
 		log.info(">>> query res1 = {}", res1);
 		System.out.println(">>> query res1 = " + res1);
+
+		// test 2
+		List<Map<String, Object>> res2 = jdbcTemplate.queryForList("SELECT * FROM product");
+		//System.out.println(">>> query res2 = " + res2.toString());
+		for (Map<String, Object> record: res2){
+			System.out.println(record.toString());
+		}
 	}
 
 }
