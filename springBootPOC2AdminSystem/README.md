@@ -54,6 +54,17 @@
     - Ref
         - https://www.youtube.com/watch?v=oi6ChwpC6rc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=57
 
+- Common custom methods
+    - update conf files
+    - `@Bean` changes : add more default components, view parser
+        - xxxConfiguration + `@Bean` changes
+    - web app : implement `WebMvcConfigurer`. can custom web features
+    - `@EnableWebMvc + WebMvcConfigurer` -- @Bean
+        - can TAKE ALL CONTROLLER on SpringMVC
+        - all rules can be defined by developer
+        - implement custom setting, and extensions
+    - Ref
+        - https://www.youtube.com/watch?v=UbGHT87dXtU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=59
 
 ## Ref
 
