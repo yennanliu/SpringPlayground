@@ -34,10 +34,6 @@
 			<!--			</exclusions>-->
 		</dependency>
 
-		<!--
-			exclude tomcat, and use undertow (as server)
-			https://youtu.be/VjsAq_3rO3w?t=1038
-		-->
 		<!--		<dependency>-->
 		<!--			<groupId>org.springframework.boot</groupId>-->
 		<!--			<artifactId>spring-boot-starter-undertow</artifactId>-->
