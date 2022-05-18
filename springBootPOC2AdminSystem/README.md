@@ -59,7 +59,7 @@
     - xxxxCustomizer
     - xxxConfiguration + `@Bean` changes
         - `@Bean` exchange : add more default components, view parser
-    -  `web app : implement WebMvcConfigurer. can custom web features`
+    -  `web app : A config class + implement WebMvcConfigurer, and @Bean some components` -> then can custom web features
         ```java
         // java, WebMvcConfigurer
         @Configuration
@@ -70,6 +70,14 @@
         - can TAKE ALL CONTROLLER on SpringMVC
         - all rules can be defined by developer
         - implement custom setting, and extensions
+        - theory
+            - `WebMvcAutoConfiguration` is default SpringMVC auto setting clas : static resources, welcome page...
+            - `DelegatingWebMvcRegistration`
+                - take all WebMvcConfigurer in system, install all of their settings.
+            - auto config some low level components, RequestMappingHandlerMapping. All these components are received from container
+            - `public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport`
+            - if we want setting in WebMvcAutoConfiguration work, we need to make `@ConditionalMissingBean(WebMvcConfigurationSupport.class)` work
+            - `@EnableWebMvc` DISABLE `WebMvcAutoConfiguration`
     - Ref
         - https://www.youtube.com/watch?v=UbGHT87dXtU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=59
 
