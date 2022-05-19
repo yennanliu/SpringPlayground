@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +21,9 @@ class SpringBootPoc2AdminSystemApplicationTests {
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+
+	@Autowired
+	DataSource dataSource;
 
 	@Test
 	void contextLoads() {
@@ -39,6 +43,9 @@ class SpringBootPoc2AdminSystemApplicationTests {
 		for (Map<String, Object> record: res2){
 			System.out.println(record.toString());
 		}
+
+		/** Druid tests */
+		log.info("data source type : {}", dataSource.getClass());
 	}
 
 }
