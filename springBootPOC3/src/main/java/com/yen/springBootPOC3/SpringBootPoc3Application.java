@@ -52,16 +52,17 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 
 		// split data array into firstName, lastName array
 		List<Object[]> splitNames = Arrays
-				.asList("Jack", "Ann", "Koo")
+				.asList("Jack woo", "Ann Lee", "Koo Shan")
 				.stream()
 				.map(name -> name.split(" "))
 				.collect(Collectors.toList());
 
 
+		// inset to table (batchUpdate)
 		jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES(?,?)", splitNames);
 
 		List<Map<String, Object>> res1 = jdbcTemplate.queryForList("SELECT id, first_name, last_name FROM customers");
-		
+
 		for (Map<String, Object> record: res1){
 			System.out.println(record.toString());
 		}

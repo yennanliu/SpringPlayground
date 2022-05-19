@@ -13,6 +13,7 @@
 | `GET` | GET | Ajax test | http://localhost:8888/index_ajax.html ||
 | `GET` | GET | Rest web test | http://localhost:8888/index_blog.html ||
 | `GET` | GET | test | http://localhost:8888/myServlet ||
+| `GET` | GET | h2 demo | http://localhost:8888/h2-console |can get DB url from intellJ console when app runs (search h2)|
 
 ## Ref
 
