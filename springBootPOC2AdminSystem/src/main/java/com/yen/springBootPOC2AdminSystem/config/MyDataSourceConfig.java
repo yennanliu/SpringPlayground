@@ -6,11 +6,13 @@ import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
 import com.zaxxer.hikari.util.DriverDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 public class MyDataSourceConfig {
@@ -24,13 +26,15 @@ public class MyDataSourceConfig {
      */
     @ConfigurationProperties("spring.datasource") // NOTE !!! help load param under spring.datasource from application.yml
     @Bean
-    public DataSource dataSource(){
+    public DataSource dataSource() throws SQLException {
         DruidDataSource druidDataSource = new DruidDataSource();
         // we will set up below in conf
 //        druidDataSource.setUrl();
 //        druidDataSource.setUsername();
 //        druidDataSource.setPassword();
 
+        // enable druid monitor mysql request
+        druidDataSource.setFilters("stat");
         return druidDataSource;
     }
 
@@ -40,6 +44,12 @@ public class MyDataSourceConfig {
         StatViewServlet statViewServlet = new StatViewServlet();
         ServletRegistrationBean registrationBean = new ServletRegistrationBean<StatViewServlet>(statViewServlet, "/druid/*");
         return registrationBean;
+    }
+
+    // setup WebStatFiler, for web-jdbc conn monitor
+    @Bean
+    public FilterRegistrationBean webStatFilter(){
+        return null;
     }
 
 }
