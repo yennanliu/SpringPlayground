@@ -11,7 +11,8 @@
 | `GET` | GET | basic table | http://localhost:8888/basic_table ||
 | `GET` | GET | custom servlet V1 | http://localhost:8888/my_servlet ||
 | `GET` | GET | custom servlet V2 | http://localhost:8888/my, http://localhost:8888/my01 ||
-| `GET` | GET | mysql & druid test | http://localhost:8888/sql ||
+| `GET` | GET | mysql test | http://localhost:8888/sql ||
+| `GET` | GET | druid test | http://localhost:8888/druid/login.html |account : admin, pass : 123|
 
 ## Important Concepts
 

@@ -17,10 +17,31 @@ Spring:
     username: root
     #password:
     driver-class-name: com.mysql.cj.jdbc.Driver  #com.mysql.jdbc.Driver
+    # for druid-spring-boot-starter
+    druid:
+      aop-patterns: com.yen.springBootPOC2AdminSystem.*
+      filters: stat,wall
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: 123
+        resetEnable: false
+      web-stat-filter:
+        enabled: true
+        urlPattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      filter:
+        stat:
+          slow-sql-millis: 3000
+          logSlowSql: true
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false
   jdbc:
     template:
       query-timeout: 3 # timeout if 3 sec no result
-
 #server:
 #  servlet:
 #    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/

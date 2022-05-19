@@ -99,9 +99,20 @@
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>com.alibaba</groupId>-->
+<!--			<artifactId>druid</artifactId>-->
+<!--			<version>1.2.8</version>-->
+<!--		</dependency>-->
+
+		<!--
+		we CAN also use official druid starter, so we don't
+		need custom config (com.yen.springBootPOC2AdminSystem.config.DataSource)
+		https://www.youtube.com/watch?v=F4Dhmcv_PzU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=63
+		-->
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
+			<artifactId>druid-spring-boot-starter</artifactId>
 			<version>1.2.8</version>
 		</dependency>
 

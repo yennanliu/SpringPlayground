@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 /** druid data source conf */
 
-@Configuration
+//@Configuration
 public class MyDataSourceConfig {
 
     /** Note :
@@ -28,7 +28,7 @@ public class MyDataSourceConfig {
      *    -> Spring boot will use our setting (MyDataSourceConfig)
      */
     @ConfigurationProperties("spring.datasource") // NOTE !!! help load param under spring.datasource from application.yml
-    @Bean
+    //@Bean
     public DataSource dataSource() throws SQLException {
         DruidDataSource druidDataSource = new DruidDataSource();
         // we will set up below in conf
@@ -42,7 +42,7 @@ public class MyDataSourceConfig {
     }
 
     // set up druid monitor page
-    @Bean
+    //@Bean
     public ServletRegistrationBean statViewServlet(){
         StatViewServlet statViewServlet = new StatViewServlet();
         ServletRegistrationBean registrationBean = new ServletRegistrationBean<StatViewServlet>(statViewServlet, "/druid/*");
@@ -55,7 +55,7 @@ public class MyDataSourceConfig {
     }
 
     // setup WebStatFiler, for web-jdbc conn monitor
-    @Bean
+    //@Bean
     public FilterRegistrationBean webStatFilter(){
         WebStatFilter webStatFilter = new WebStatFilter();
         FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<WebStatFilter>(webStatFilter);
