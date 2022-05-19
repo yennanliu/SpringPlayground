@@ -4,6 +4,7 @@ package com.yen.springBootPOC2AdminSystem.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.http.StatViewServlet;
+import com.alibaba.druid.support.http.WebStatFilter;
 import com.zaxxer.hikari.util.DriverDataSource;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -13,10 +14,12 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.sql.DataSource;
 import java.sql.SQLException;
+import java.util.Arrays;
+
+/** druid data source conf */
 
 @Configuration
 public class MyDataSourceConfig {
-
 
     /** Note :
      *   -> default setting : to check conditionalOnMissingBean(DataSource.class)
@@ -33,8 +36,8 @@ public class MyDataSourceConfig {
 //        druidDataSource.setUsername();
 //        druidDataSource.setPassword();
 
-        // enable druid monitor mysql request
-        druidDataSource.setFilters("stat");
+        // enable druid monitor mysql request, fire wall
+        druidDataSource.setFilters("stat,wall");
         return druidDataSource;
     }
 
@@ -43,13 +46,22 @@ public class MyDataSourceConfig {
     public ServletRegistrationBean statViewServlet(){
         StatViewServlet statViewServlet = new StatViewServlet();
         ServletRegistrationBean registrationBean = new ServletRegistrationBean<StatViewServlet>(statViewServlet, "/druid/*");
+
+        // setup login account, pwd (druid page) (we can set below via application.yml as well)
+//        registrationBean.addInitParameter("loginUsername", "admin");
+//        registrationBean.addInitParameter("loginPassword", "123");
+
         return registrationBean;
     }
 
     // setup WebStatFiler, for web-jdbc conn monitor
     @Bean
     public FilterRegistrationBean webStatFilter(){
-        return null;
+        WebStatFilter webStatFilter = new WebStatFilter();
+        FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<WebStatFilter>(webStatFilter);
+        filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
+        filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
+        return filterRegistrationBean;
     }
 
 }
