@@ -2,12 +2,16 @@ package com.yen.springBootPOC3;
 
 /** Spring boot app entry point
  *
- *  book p.62, p.73
+ *  book p.62, p.73, p.77
  */
 
+
+import com.yen.springBootPOC3.dao.UserRepository;
 import com.yen.springBootPOC3.entity.Customer;
+import com.yen.springBootPOC3.entity.User;
 import com.yen.springBootPOC3.servlet.MyServlet1;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -17,8 +21,6 @@ import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +68,33 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 		for (Map<String, Object> record: res1){
 			System.out.println(record.toString());
 		}
+	}
+
+	@Bean
+	public CommandLineRunner demo(UserRepository repository){
+		return (args) -> {
+
+			// save record to table
+			repository.save(new User("iori", "yagami"));
+			repository.save(new User("Ann", "Wu"));
+			repository.save(new User("Betty", "Martin"));
+
+			// print record to console
+			log.info("Users found with findAll()");
+			log.info("--------------------------");
+			for (Object user: repository.findAll()){
+				log.info(user.toString());
+			}
+
+			// get id = 1 record, and print out in console
+			repository.findById(1L)
+					.ifPresent(
+							User -> {
+								log.info("user found with findById(1L): " );
+								log.info(User.toString());
+							}
+					);
+		};
 	}
 
 }
