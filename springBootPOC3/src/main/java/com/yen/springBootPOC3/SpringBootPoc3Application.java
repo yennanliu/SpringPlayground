@@ -5,6 +5,7 @@ package com.yen.springBootPOC3;
  *  book p.62, p.73
  */
 
+import com.yen.springBootPOC3.entity.Customer;
 import com.yen.springBootPOC3.servlet.MyServlet1;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -55,5 +57,14 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 				.map(name -> name.split(" "))
 				.collect(Collectors.toList());
 
+
+		jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES(?,?)", splitNames);
+
+		List<Map<String, Object>> res1 = jdbcTemplate.queryForList("SELECT id, first_name, last_name FROM customers");
+		
+		for (Map<String, Object> record: res1){
+			System.out.println(record.toString());
+		}
 	}
+
 }
