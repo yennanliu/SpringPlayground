@@ -36,7 +36,7 @@ public class MyDataSourceConfig {
 //        druidDataSource.setUsername();
 //        druidDataSource.setPassword();
 
-        // enable druid monitor mysql request, fire wall
+        // enable 1) druid monitor mysql request, 2) fire wall
         druidDataSource.setFilters("stat,wall");
         return druidDataSource;
     }
@@ -59,7 +59,9 @@ public class MyDataSourceConfig {
     public FilterRegistrationBean webStatFilter(){
         WebStatFilter webStatFilter = new WebStatFilter();
         FilterRegistrationBean<WebStatFilter> filterRegistrationBean = new FilterRegistrationBean<WebStatFilter>(webStatFilter);
+        // set up monitor url
         filterRegistrationBean.setUrlPatterns(Arrays.asList("/*"));
+        // set up NOT monitor url
         filterRegistrationBean.addInitParameter("exclusions", "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*");
         return filterRegistrationBean;
     }
