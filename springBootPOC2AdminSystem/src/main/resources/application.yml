@@ -48,6 +48,8 @@ Spring:
 
 # for mybatis
 # FIX below
-#mybatis:
-#  config-location: classspath:mybatis/mybatis-config.xml
-#  mapper-locations: classspath:mybatis/mapper/*.xml
+mybatis:
+  #config-location: classspath:mybatis/mybatis-config.xml
+  mapper-locations: classspath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
