@@ -4,7 +4,6 @@ package com.yen.springBootPOC2AdminSystem;
 
 /** default test class for Spring boot */
 
-import com.yen.springBootPOC2AdminSystem.entity.Product;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

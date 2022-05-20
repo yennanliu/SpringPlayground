@@ -45,3 +45,9 @@ Spring:
 #server:
 #  servlet:
 #    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/
+
+# for mybatis
+# FIX below
+#mybatis:
+#  config-location: classspath:mybatis/mybatis-config.xml
+#  mapper-locations: classspath:mybatis/mapper/*.xml

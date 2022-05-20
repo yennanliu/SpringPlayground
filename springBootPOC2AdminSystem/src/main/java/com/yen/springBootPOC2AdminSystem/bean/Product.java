@@ -1,4 +1,4 @@
-package com.yen.springBootPOC2AdminSystem.entity;
+package com.yen.springBootPOC2AdminSystem.bean;
 
 import lombok.Data;
 import lombok.ToString;
@@ -10,7 +10,7 @@ import lombok.ToString;
 public class Product {
 
     // attr
-    private long id;
+    private Long id;
     private String name;
     private String brand;
     private String madein;
