@@ -13,7 +13,7 @@ Spring:
       favor-parameter: true
   # mysql : https://www.youtube.com/watch?v=1uG7UXdiCYM&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
   datasource:
-    url: jdbc:mysql://localhost:3306/sales
+    url: jdbc:mysql://localhost:3306/data #jdbc:mysql://localhost:3306/sales
     username: root
     #password:
     driver-class-name: com.mysql.cj.jdbc.Driver  #com.mysql.jdbc.Driver
