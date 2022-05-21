@@ -1,6 +1,12 @@
 # Spring Blog
 > Build blog via Spring boot
 
+## Todo
+- try if can run with java 8
+- features
+	- `post blog` features
+	- login features
+
 ## Ref
 - code
 	- source
