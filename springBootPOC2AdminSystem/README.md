@@ -15,6 +15,7 @@
 | `GET` | GET | druid  | http://localhost:8888/druid/login.html |account : admin, pass : 123|
 | `GET` | GET | mybatis 1 | http://localhost:8888/acct ||
 | `GET` | GET | mybatis 2 | http://localhost:8888/city ||
+| `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP||
 
 ## Important Concepts
 

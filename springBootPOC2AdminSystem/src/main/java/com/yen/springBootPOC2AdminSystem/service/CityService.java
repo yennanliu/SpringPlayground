@@ -17,4 +17,7 @@ public class CityService {
         return cityMapper.getById(id);
     }
 
+    public City saveCity(City city){
+        return cityMapper.insertCity(city);
+    }
 }
