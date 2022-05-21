@@ -5,7 +5,7 @@ import lombok.ToString;
 
 /** book p.71
  *
- *  Product Bean mysql IO
+ *  Product Bean (mysql test)
  */
 
 @Data

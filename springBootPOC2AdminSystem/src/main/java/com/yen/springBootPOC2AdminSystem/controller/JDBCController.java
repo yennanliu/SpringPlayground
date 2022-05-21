@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *  Controller for JDBC
- *
  */
 
 @Slf4j

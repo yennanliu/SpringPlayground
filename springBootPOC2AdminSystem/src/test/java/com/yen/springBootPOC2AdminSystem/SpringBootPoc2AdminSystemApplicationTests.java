@@ -58,7 +58,6 @@ class SpringBootPoc2AdminSystemApplicationTests {
 		/** Mybatis plus tests */
 		User2 u1 = user2Mapper.selectById(1);
 		log.info("user1 = {}", u1.toString());
-
 	}
 
 }

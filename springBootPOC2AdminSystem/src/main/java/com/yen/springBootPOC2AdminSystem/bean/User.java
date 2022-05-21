@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- *  User Bean for login/logout management
+ *  User Bean (login/logout management)
  */
 
 @AllArgsConstructor   // add all constructors WITH args

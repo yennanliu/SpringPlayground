@@ -5,7 +5,7 @@ package com.yen.springBootPOC2AdminSystem.bean;
 import lombok.Data;
 
 /**
- *  City Bean
+ *  City Bean  (myBatis test)
  */
 
 @Data

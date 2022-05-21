@@ -6,7 +6,6 @@ package com.yen.springBootPOC2AdminSystem.bean;
  *  User2 Bean (myBatis plus test)
  */
 
-
 import lombok.Data;
 
 @Data

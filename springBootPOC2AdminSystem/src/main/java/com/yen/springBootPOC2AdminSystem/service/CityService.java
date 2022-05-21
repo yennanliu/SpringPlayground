@@ -7,6 +7,8 @@ import com.yen.springBootPOC2AdminSystem.mapper.CityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/** service for mybatis test */
+
 @Service
 public class CityService {
 
