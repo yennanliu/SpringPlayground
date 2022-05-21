@@ -1,5 +1,8 @@
-# SpringBoot2核心技术与响应式编程
-
+# SpringBoot2核心技术与响应式编程 (Spring Boot courses basic)
+ 
+- video
+	- https://www.youtube.com/watch?v=xu33IJNxkn0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u
+	
 #### 介绍
 SpringBoot2核心技术与响应式编程
 
