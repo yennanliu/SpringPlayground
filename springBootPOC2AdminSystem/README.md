@@ -14,8 +14,8 @@
 | `GET` | GET | mysql | http://localhost:8888/sql ||
 | `GET` | GET | druid  | http://localhost:8888/druid/login.html |account : admin, pass : 123|
 | `GET` | GET | mybatis 1 | http://localhost:8888/acct ||
-| `GET` | GET | mybatis 2 | http://localhost:8888/city?id=5 || get city with id
-| `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP|| create city with name, state, country via POST
+| `GET` | GET | mybatis 2 | http://localhost:8888/city?id=5 | get city with id
+| `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP|create city with name, state, country via POST
 
 ## Important Concepts
 
