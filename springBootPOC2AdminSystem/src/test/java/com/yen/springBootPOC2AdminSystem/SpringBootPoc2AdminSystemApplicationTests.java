@@ -1,9 +1,12 @@
 package com.yen.springBootPOC2AdminSystem;
 
 // https://www.youtube.com/watch?v=1uG7UXdiCYM&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
+// https://www.youtube.com/watch?v=njvVPhCFH6o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=66
 
 /** default test class for Spring boot */
 
+import com.yen.springBootPOC2AdminSystem.bean.User2;
+import com.yen.springBootPOC2AdminSystem.mapper.User2Mapper;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +26,9 @@ class SpringBootPoc2AdminSystemApplicationTests {
 
 	@Autowired
 	DataSource dataSource;
+
+	@Autowired
+	User2Mapper user2Mapper;
 
 	@Test
 	void contextLoads() {
@@ -45,6 +51,14 @@ class SpringBootPoc2AdminSystemApplicationTests {
 
 		/** Druid tests */
 		log.info("data source type : {}", dataSource.getClass());
+	}
+
+	@Test
+	void testUser2Mapper(){
+		/** Mybatis plus tests */
+		User2 u1 = user2Mapper.selectById(1);
+		log.info("user1 = {}", u1.toString());
+
 	}
 
 }

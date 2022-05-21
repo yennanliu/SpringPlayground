@@ -125,7 +125,7 @@
 		<!-- https://mvnrepository.com/artifact/com.baomidou/mybatis-plus/3.4.2 -->
 		<dependency>
 			<groupId>com.baomidou</groupId>
-			<artifactId>mybatis-plus</artifactId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
 			<version>3.4.2</version>
 		</dependency>
 
