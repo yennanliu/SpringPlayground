@@ -42,6 +42,7 @@ public class MyBatisController {
         return cityService.getById(id);
     }
 
+    @ResponseBody
     @PostMapping("/city")
     public City saveCity(City city){
         return cityService.saveCity(city);

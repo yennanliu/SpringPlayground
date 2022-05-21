@@ -33,7 +33,7 @@ public class AdminWebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(new LoginInterceptor())
                 .addPathPatterns("/**") // intercepted requests ( "/**" means all requests, include static resources (e.g. html, css..))
-                .excludePathPatterns("/", "/login", "/css/**", "/fonts/**", "/images/**", "/js/**");  // method 2) : not intercept static resources in AdminWebConfig // passed requests (not through interceptor)
+                .excludePathPatterns("/", "/login", "/css/**", "/fonts/**", "/images/**", "/js/**", "/city");  // method 2) : not intercept static resources in AdminWebConfig // passed requests (not through interceptor)
     }
 
     // custom define default static resources (if @EnableWebMvc)
