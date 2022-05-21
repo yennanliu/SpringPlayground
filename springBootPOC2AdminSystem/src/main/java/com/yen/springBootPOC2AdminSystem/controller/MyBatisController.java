@@ -44,8 +44,8 @@ public class MyBatisController {
 
     @ResponseBody
     @PostMapping("/city")
-    public City saveCity(City city){
-        return cityService.saveCity(city);
+    public void saveCity(City city){
+        cityService.saveCity(city);
     }
 
 }

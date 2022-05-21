@@ -5,6 +5,7 @@ package com.yen.springBootPOC2AdminSystem.mapper;
 import com.yen.springBootPOC2AdminSystem.bean.City;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 /** mapper for mybatis map City */
@@ -16,5 +17,6 @@ public interface CityMapper {
     public City getById(Long id);
 
     @Insert("INSERT INTO city(`name`, `state`, `country`) values(#{name}, #{state}, #{country})")
-    public City insertCity(City city);
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+    public void insertCity(City city);
 }
