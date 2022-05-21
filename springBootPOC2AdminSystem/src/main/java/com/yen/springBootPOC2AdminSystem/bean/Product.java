@@ -3,7 +3,10 @@ package com.yen.springBootPOC2AdminSystem.bean;
 import lombok.Data;
 import lombok.ToString;
 
-/** book p.71 */
+/** book p.71
+ *
+ *  Product Bean mysql IO
+ */
 
 @Data
 @ToString

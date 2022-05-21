@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!-- ref : https://mybatis.org/mybatis-3/getting-started.html -->
-<!DOCTYPE configuration
-        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-config.dtd">
-<configuration>
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--&lt;!&ndash; ref : https://mybatis.org/mybatis-3/getting-started.html &ndash;&gt;-->
+<!--<!DOCTYPE configuration-->
+<!--        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-config.dtd">-->
+<!--<configuration>-->
 <!--    <environments default="development">-->
 <!--        <environment id="development">-->
 <!--            <transactionManager type="JDBC"/>-->
@@ -18,4 +18,4 @@
 <!--    <mappers>-->
 <!--        <mapper resource="org/mybatis/example/BlogMapper.xml"/>-->
 <!--    </mappers>-->
-</configuration>
+<!--</configuration>-->

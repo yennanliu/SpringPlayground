@@ -6,6 +6,8 @@ import com.yen.springBootPOC2AdminSystem.bean.Product;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
+ *  mapper for mybatis map Product
+ *
  *  NOTE !!! we need @Mapper annotation
  *   -> so can avoid below errors
  *      1) Field productMapper in com.yen.springBootPOC2AdminSystem.service.ProductService required a bean of type 'com.yen.springBootPOC2AdminSystem.mapper.ProductMapper' that could not be found.
