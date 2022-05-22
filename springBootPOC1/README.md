@@ -56,12 +56,12 @@
         - `@Component + @ConfigurationProperties`
 - Auto config
     - https://youtu.be/lDzXRsOODXA?t=1708
-    - Spring Boot auto import all auto config class : `xxxAutoConfiguration`
+    - Spring Boot auto import `all auto config classes` : `xxxAutoConfiguration`
     - Every auto config class is enabled with conditions
         - default : get value from config
         - from `xxxProperties`, binding with it
-    - Enabled cofig class will be added to container
-    - Once above happen, container then has those functionality
+    - Enabled config class will be added to container
+    - Once above happened, container then has those functionality
     - Custom setting
         - users replace underline components via their own `"@Bean"`
         - users change setting via config file (e.g. `xxxProperties`)
@@ -87,7 +87,7 @@
             <form action="user" method="post">
             ```
         - Request will be parsed by `HiddenHttpMethodFilter`
-            - check if reqesut is correct, and is POST
+            - check if request is correct, and is POST
             - get `_method` value
             - be compatible to below requests:
                 - HttpMethod.PUT.name()
@@ -109,13 +109,13 @@
         - https://www.youtube.com/watch?v=eIrvgWThto0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=40
         - https://www.youtube.com/watch?v=NEGzyvm1IBc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=42
     - client gets server response in `different format` based on `request header`
-    - browser (client) uses `header` (default) let server know : what content type is acceptable to it.
+    - browser (client) uses `header` (default) let server know : which content type is acceptable to it.
     - theory
         - check if current request header already has default val (MediaType)
         - get client (e.g. PostMan, web ...) support content type (client Accept info)
-        - loop over current MessageConverter, check which one support current request
+        - loop over current MessageConverter, check which one supports current request
         - get the "best match" (from above)
-        - use converter transform it (above), and get the needed type
+        - transform it via converter (above), and get needed type
     - example:
         - change `Accept` param in request header (Http protocol)
             - web : xml/json (depends on header)
