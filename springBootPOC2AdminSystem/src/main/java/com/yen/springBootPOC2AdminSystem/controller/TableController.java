@@ -8,6 +8,8 @@ package com.yen.springBootPOC2AdminSystem.controller;
 
 import com.yen.springBootPOC2AdminSystem.bean.User;
 import com.yen.springBootPOC2AdminSystem.exception.UserTooManyException;
+import com.yen.springBootPOC2AdminSystem.service.User2Service;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +21,9 @@ import java.util.List;
 
 @Controller
 public class TableController {
+
+    @Autowired
+    User2Service user2Service;
 
     @GetMapping("/basic_table")
     public String basic_table(){
@@ -46,6 +51,7 @@ public class TableController {
 
         // TODO : implement below
         // get uses from DB
+        //user2Service.getAll();
 
         return "table/dynamic_table"; // resources/templates/table/dynamic_table.html
     }
