@@ -6,6 +6,7 @@ package com.yen.springBootPOC2AdminSystem.controller;
 // https://www.youtube.com/watch?v=njvVPhCFH6o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=66
 // https://www.youtube.com/watch?v=pzL68_zvqK4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=67
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springBootPOC2AdminSystem.bean.User;
 import com.yen.springBootPOC2AdminSystem.bean.User2;
 import com.yen.springBootPOC2AdminSystem.exception.UserTooManyException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Arrays;
 import java.util.List;
@@ -34,7 +36,8 @@ public class TableController {
 
     // TODO : fix this (dynamic_table.html)
     @GetMapping("/dynamic_table")
-    public String dynamic_table(Model model){
+    // pn : page value, we get it via request, also set its defaultValue
+    public String dynamic_table(@RequestParam(value="pn", defaultValue = "1") Integer pn, Model model){
 
         // we'll parse table data dynamically
 //        List<User> users = Arrays.asList(
@@ -50,11 +53,16 @@ public class TableController {
 //            throw new UserTooManyException();
 //        }
 
-        // TODO : implement below
         // get uses from DB
         List<User2> list = user2Service.list();
+        //model.addAttribute("users", list);
 
-        model.addAttribute("users", list);
+        // show page by page
+        Page<User2> userPage = new Page<User2>(pn, 2);
+        // page check result
+        Page<User2> page = user2Service.page(userPage, null);
+
+        model.addAttribute("page", page);
 
         return "table/dynamic_table"; // resources/templates/table/dynamic_table.html
     }
