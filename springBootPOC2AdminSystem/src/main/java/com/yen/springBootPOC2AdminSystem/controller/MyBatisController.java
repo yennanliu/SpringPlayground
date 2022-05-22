@@ -7,6 +7,8 @@ import com.yen.springBootPOC2AdminSystem.bean.City;
 import com.yen.springBootPOC2AdminSystem.bean.Product;
 import com.yen.springBootPOC2AdminSystem.service.CityService;
 import com.yen.springBootPOC2AdminSystem.service.ProductService;
+import com.yen.springBootPOC2AdminSystem.service.impl.CityServiceImpl;
+import com.yen.springBootPOC2AdminSystem.service.impl.ProductServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -26,28 +28,28 @@ public class MyBatisController {
     JdbcTemplate jdbcTemplate;
 
     @Autowired
-    ProductService productService;
+    ProductService productServiceImpl;
 
     @Autowired
-    CityService cityService;
+    CityService cityServiceImpl;
 
     @ResponseBody
     @GetMapping("/acct")
     public Product getId(@RequestParam("id") Long id){
 
-        return productService.getProduct(id);
+        return productServiceImpl.getProduct(id);
     }
 
     @ResponseBody
     @GetMapping("/city")
     public City getCityById(@RequestParam("id") Long id){
-        return cityService.getById(id);
+        return cityServiceImpl.getById(id);
     }
 
     @ResponseBody
     @PostMapping("/city")
     public void saveCity(City city){
-        cityService.saveCity(city);
+        cityServiceImpl.saveCity(city);
     }
 
 }

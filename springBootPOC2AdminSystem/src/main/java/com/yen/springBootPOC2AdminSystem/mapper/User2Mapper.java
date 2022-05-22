@@ -1,6 +1,7 @@
 package com.yen.springBootPOC2AdminSystem.mapper;
 
 // https://www.youtube.com/watch?v=njvVPhCFH6o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=66
+// https://www.youtube.com/watch?v=pzL68_zvqK4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=67
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yen.springBootPOC2AdminSystem.bean.User2;

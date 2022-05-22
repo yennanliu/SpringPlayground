@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  *
  *  NOTE !!! we need @Mapper annotation
  *   -> so can avoid below errors
- *      1) Field productMapper in com.yen.springBootPOC2AdminSystem.service.ProductService required a bean of type 'com.yen.springBootPOC2AdminSystem.mapper.ProductMapper' that could not be found.
+ *      1) Field productMapper in com.yen.springBootPOC2AdminSystem.service.impl.ProductService required a bean of type 'com.yen.springBootPOC2AdminSystem.mapper.ProductMapper' that could not be found.
  *      2) Consider defining a bean of type 'com.yen.springBootPOC2AdminSystem.mapper.ProductMapper' in your configuration.
  */
 @Mapper
