@@ -61,24 +61,26 @@
                                 <table class="display table table-bordered table-striped" id="dynamic-table">
                                     <thead>
                                     <tr>
-<!--                                        <th>#</th>-->
-<!--                                        <th>name</th>-->
-<!--                                        <th>age</th>-->
-<!--                                        <th>email</th>-->
-<!--                                        <th>操作</th>-->
                                         <th>#</th>
-                                        <th>userName</th>
-                                        <th>password</th>
+                                        <th>name</th>
+                                        <th>age</th>
+                                        <th>email</th>
+                                        <th>操作</th>
+<!--                                        <th>#</th>-->
+<!--                                        <th>userName</th>-->
+<!--                                        <th>password</th>-->
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr class="gradeX" th:each="user: ${users.records}">
+                                    <!-- <tr class="gradeX" th:each="user: ${users.records}"> -->
+                                    <tr class="gradeX" th:each="user,stat${users}">
+                                        <!-- <td >=[[${user.password}]]</td> -->
+                                        <td th:text="${stat.count}">Trident</td>
+                                        <td th:text="${user.id}"></td>
                                         <td th:text="${user.userName}"Internet></td>
-                                        <td >=[[${user.password}]]</td>
-<!--                                        <td th:text="${user.id}"></td>-->
-<!--                                        <td>[[${user.name}]]</td>-->
-<!--                                        <td th:text="${user.age}">Win 95+</td>-->
-<!--                                        <td th:text="${user.email}">4</td>-->
+                                        <!-- <td>[[${user.name}]]</td> -->
+                                        <td th:text="${user.age}">Win 95+</td>
+                                        <td th:text="${user.email}">4</td>
                                         <td>
                                             <a th:href="@{/user/delete/{id}(id=${user.id},pn=${users.current})}" class="btn btn-danger btn-sm" type="button">删除</a>
                                         </td>

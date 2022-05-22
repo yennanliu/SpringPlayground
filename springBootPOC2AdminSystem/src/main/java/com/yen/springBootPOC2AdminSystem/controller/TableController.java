@@ -7,6 +7,7 @@ package com.yen.springBootPOC2AdminSystem.controller;
 // https://www.youtube.com/watch?v=pzL68_zvqK4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=67
 
 import com.yen.springBootPOC2AdminSystem.bean.User;
+import com.yen.springBootPOC2AdminSystem.bean.User2;
 import com.yen.springBootPOC2AdminSystem.exception.UserTooManyException;
 import com.yen.springBootPOC2AdminSystem.service.User2Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,9 @@ public class TableController {
 
         // TODO : implement below
         // get uses from DB
-        //user2Service.getAll();
+        List<User2> list = user2Service.list();
+
+        model.addAttribute("users", list);
 
         return "table/dynamic_table"; // resources/templates/table/dynamic_table.html
     }
