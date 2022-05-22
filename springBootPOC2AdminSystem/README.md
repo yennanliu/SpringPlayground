@@ -42,7 +42,7 @@
     - Steps
         - container set `DispatchServlet` attr, and bind it to `WebMvcProperties`.
             - corresponding conf : spring.mvc
-        - via `ServletRefistrationBean<DispatchServlet>`, DispatchServlet is equipped.
+        - via `ServletRegistrationBean<DispatchServlet>`, DispatchServlet is equipped.
         - default mapping path : `/`
             - can modify above in application.properties
     - Ref
