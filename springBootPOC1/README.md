@@ -137,7 +137,7 @@
         - All thymeleaf default val is in ThymeleafProperties
         - SpringTemplateEngine already auto config
         - ThymeleafViewResolver already auto config
-        - All developer needs to do : `develop html page`
+        - The only thing developer needs to do : `develop html page`
         - Note below conf:
         ```java
         // java
