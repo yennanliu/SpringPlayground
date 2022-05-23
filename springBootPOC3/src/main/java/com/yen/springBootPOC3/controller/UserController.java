@@ -25,11 +25,11 @@ public class UserController {
         return "saved";
     }
 
-    @GetMapping("/finduser/{lastname}")
+    @GetMapping(path="/finduser/{lastname}")
     @ResponseBody
-    public String findUser(@RequestParam("lastname") String lastname){
+    public String findUser(@PathVariable("lastname") String lastname){
         List<User> userList = userCrudRepository.findByLastName(lastname);
-        String users = "";
+        String users = " ";
         for (User user:userList){
             users += user.toString() + "  ";
         }
