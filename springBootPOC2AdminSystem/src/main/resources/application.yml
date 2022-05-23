@@ -42,6 +42,9 @@ Spring:
   jdbc:
     template:
       query-timeout: 3 # timeout if 3 sec no result
+  redis:   # for redis
+    url: redis://localhost:6379
+
 #server:
 #  servlet:
 #    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/
