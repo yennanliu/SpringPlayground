@@ -5,8 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-/** book p. 77 */
+/** book p. 79 */
 
 public interface UserCrudRepository extends JpaRepository<User, Long> {
-    List<User> finDByLastName(String lastname);
+    List<User> findByLastName(String lastname);
 }

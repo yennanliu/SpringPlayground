@@ -1,6 +1,5 @@
 package com.yen.springBootPOC3.controller;
 
-import com.sun.org.apache.bcel.internal.generic.PUSH;
 import com.yen.springBootPOC3.dao.UserCrudRepository;
 import com.yen.springBootPOC3.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +28,7 @@ public class UserController {
     @GetMapping("/finduser/{lastname}")
     @ResponseBody
     public String findUser(@RequestParam("lastname") String lastname){
-        List<User> userList = userCrudRepository.finDByLastName(lastname);
+        List<User> userList = userCrudRepository.findByLastName(lastname);
         String users = "";
         for (User user:userList){
             users += user.toString() + "  ";
