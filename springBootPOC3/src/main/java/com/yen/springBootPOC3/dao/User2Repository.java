@@ -8,6 +8,7 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import java.util.List;
 
 /** book p. 81 */
+// TODO : fix below
 
 @RepositoryRestResource(collectionResourceRel = "people", path="people")
 public class User2Repository {
