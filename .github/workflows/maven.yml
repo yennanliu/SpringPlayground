@@ -24,5 +24,3 @@ jobs:
         cache: maven
     - name: Build springBootPOC3
       run: cd springBootPOC3 && mvn package
-    - name: Build ref_project/markdown-blog-main
-      run: cd ref_project/markdown-blog-main && mvn package
