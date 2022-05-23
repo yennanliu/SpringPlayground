@@ -2,6 +2,7 @@ package com.yen.springBootPOC2AdminSystem;
 
 // https://www.youtube.com/watch?v=1uG7UXdiCYM&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
 // https://www.youtube.com/watch?v=njvVPhCFH6o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=66
+// https://www.youtube.com/watch?v=HcZCvC7jBlU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=70
 
 /** default test class for Spring boot */
 
@@ -11,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import javax.sql.DataSource;
@@ -29,6 +32,9 @@ class SpringBootPoc2AdminSystemApplicationTests {
 
 	@Autowired
 	User2Mapper user2Mapper;
+
+	@Autowired
+	StringRedisTemplate redisTemplate;
 
 	@Test
 	void contextLoads() {
@@ -58,6 +64,16 @@ class SpringBootPoc2AdminSystemApplicationTests {
 		/** Mybatis plus tests */
 		User2 u1 = user2Mapper.selectById(1);
 		log.info("user1 = {}", u1.toString());
+	}
+
+	@Test
+	void testRedis(){
+
+		ValueOperations<String, String> operations = redisTemplate.opsForValue();
+		operations.set("heyyyy", "wazzuppppp");
+		String res1 = operations.get("heyyyy");
+		
+		System.out.println("res1 = " + res1);
 	}
 
 }
