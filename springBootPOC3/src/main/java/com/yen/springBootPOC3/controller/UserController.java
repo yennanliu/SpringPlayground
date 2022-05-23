@@ -17,6 +17,7 @@ public class UserController {
     @Autowired
     private UserCrudRepository userCrudRepository;
 
+    // TODO : fix below (interact with mysql)
     @GetMapping("/add")
     @ResponseBody
     public String addNewUser(@RequestParam String firstname, @RequestParam String lastname){
