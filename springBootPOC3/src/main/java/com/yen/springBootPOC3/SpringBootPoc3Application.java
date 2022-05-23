@@ -49,7 +49,7 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 		log.info("Create table ...");
 
 		// create table Customers
-		jdbcTemplate.execute("DROP TABLE customers IF EXISTS");
+		jdbcTemplate.execute("DROP TABLE IF EXISTS customers");
 		jdbcTemplate.execute("CREATE TABLE customers (" + "id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
 
 		// split data array into firstName, lastName array
@@ -58,7 +58,6 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 				.stream()
 				.map(name -> name.split(" "))
 				.collect(Collectors.toList());
-
 
 		// inset to table (batchUpdate)
 		jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES(?,?)", splitNames);
@@ -74,27 +73,32 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 	public CommandLineRunner demo(UserRepository repository){
 		return (args) -> {
 
-			// save record to table
-			repository.save(new User("iori", "yagami"));
-			repository.save(new User("Ann", "Wu"));
-			repository.save(new User("Betty", "Martin"));
+			// create table Customers
+			jdbcTemplate.execute("DROP TABLE IF EXISTS user");
+			jdbcTemplate.execute("CREATE TABLE user (" + "firstname VARCHAR(255), lastname VARCHAR(255))");
 
-			// print record to console
-			log.info("Users found with findAll()");
-			log.info("--------------------------");
-			for (Object user: repository.findAll()){
-				log.info(user.toString());
-			}
-
-			// get id = 1 record, and print out in console
-			repository.findById(1L)
-					.ifPresent(
-							User -> {
-								log.info("user found with findById(1L): " );
-								log.info(User.toString());
-							}
-					);
-		};
+//
+//			// save record to table
+//			repository.save(new User("iori", "yagami"));
+//			repository.save(new User("Ann", "Wu"));
+//			repository.save(new User("Betty", "Martin"));
+//
+//			// print record to console
+//			log.info("Users found with findAll()");
+//			log.info("--------------------------");
+//			for (Object user: repository.findAll()){
+//				log.info(user.toString());
+//			}
+//
+//			// get id = 1 record, and print out in console
+//			repository.findById(1L)
+//					.ifPresent(
+//							User -> {
+//								log.info("user found with findById(1L): " );
+//								log.info(User.toString());
+//							}
+//					);
+			};
 	}
 
 }
