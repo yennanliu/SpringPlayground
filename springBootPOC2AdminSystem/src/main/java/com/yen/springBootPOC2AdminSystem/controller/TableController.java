@@ -5,6 +5,7 @@ package com.yen.springBootPOC2AdminSystem.controller;
 // https://www.youtube.com/watch?v=TOwcNVQtniU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=56
 // https://www.youtube.com/watch?v=njvVPhCFH6o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=66
 // https://www.youtube.com/watch?v=pzL68_zvqK4&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=67
+// https://www.youtube.com/watch?v=pRexnC6ldW8&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=69
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springBootPOC2AdminSystem.bean.User;
@@ -15,7 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.RedirectAttributesMethodArgumentResolver;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
@@ -32,6 +36,15 @@ public class TableController {
     public String basic_table(){
 
         return "table/basic_table"; // resources/templates/table/basic_table.html
+    }
+
+    @GetMapping("/user/delete/{id}")
+    public String deleteUser(@PathVariable("id") Long id,
+                             @RequestParam(value="pn", defaultValue = "1") Integer pn,
+                             RedirectAttributes ra){
+        user2Service.removeById(id);
+        ra.addAttribute("pn", pn);
+        return "redirect:/dynamic_table";
     }
 
     // TODO : fix this (dynamic_table.html)
