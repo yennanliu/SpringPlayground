@@ -8,6 +8,12 @@
 # Maven
 #---------------------
 
+# build
+mvn package
+
+# run
+java -jar <built_jar>
+
 #---------------------
 # intellJ
 #---------------------
