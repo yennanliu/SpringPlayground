@@ -2,15 +2,13 @@ package com.yen.springBootPOC3.entity;
 
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
-/** book p.76 */
+/** book p.76, p.85 */
 
 @Entity  // @Entity : label this si data entity class
 @ToString
+@Table(name="user") // add this line for table name mapping
 public class User {
     @Id  // @Id : make Id as PK (primary key)
     @GeneratedValue(strategy = GenerationType.IDENTITY) // use auto increase strategy for id creation
