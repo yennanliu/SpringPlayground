@@ -41,10 +41,17 @@ Spring:
             drop-table-allow: false
   jdbc:
     template:
-      query-timeout: 3 # timeout if 3 sec no result
+      query-timeout: 3 # timeout if no result in 3 sec
   redis:   # for redis
     url: redis://localhost:6379
-
+    client-type: jedis #Lettuce #jedis # declare explicitly we use jedis as client  (can set as Lettuce as well)
+#    lettuce:
+#      pool:
+#        max-active: 10
+#        min-idle: 5
+    jedis:
+      pool:
+        max-active: 10
 #server:
 #  servlet:
 #    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/

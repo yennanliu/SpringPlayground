@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,6 +36,9 @@ class SpringBootPoc2AdminSystemApplicationTests {
 
 	@Autowired
 	StringRedisTemplate redisTemplate;
+
+	@Autowired
+	RedisConnectionFactory redisConnectionFactory;
 
 	@Test
 	void contextLoads() {
@@ -72,7 +76,8 @@ class SpringBootPoc2AdminSystemApplicationTests {
 		ValueOperations<String, String> operations = redisTemplate.opsForValue();
 		operations.set("heyyyy", "wazzuppppp");
 		String res1 = operations.get("heyyyy");
-		
+
+		System.out.println(redisConnectionFactory.getClass());
 		System.out.println("res1 = " + res1);
 	}
 
