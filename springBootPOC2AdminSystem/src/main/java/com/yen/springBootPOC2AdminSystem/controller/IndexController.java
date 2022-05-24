@@ -1,7 +1,7 @@
 package com.yen.springBootPOC2AdminSystem.controller;
 
 // https://www.youtube.com/watch?v=O8WUR5aSt8U&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=44
-
+// https://www.youtube.com/watch?v=HcZCvC7jBlU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=70
 
 /** Controller for landing page
  *
@@ -11,6 +11,9 @@ package com.yen.springBootPOC2AdminSystem.controller;
 
 import com.yen.springBootPOC2AdminSystem.bean.User;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -23,6 +26,9 @@ import javax.servlet.http.HttpSession;
 @Slf4j
 @Controller
 public class IndexController {
+
+    @Autowired
+    StringRedisTemplate redisTemplate;
 
     /**
      *  Non - login page
@@ -81,6 +87,15 @@ public class IndexController {
 
         Object loginUser = session.getAttribute("loginUser");
         if (loginUser != null){
+
+            // show visit count via redis
+            ValueOperations<String, String> operations =  redisTemplate.opsForValue();
+            String c1 = operations.get("/main.html");
+            String c2 = operations.get("/sql");
+
+            model.addAttribute("mainCount", c1);
+            model.addAttribute("sqlCount", c2);
+
             return "main";
         }else{
             // if login failed, back to login page
