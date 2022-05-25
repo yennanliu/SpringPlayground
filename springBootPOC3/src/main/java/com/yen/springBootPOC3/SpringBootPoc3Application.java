@@ -2,10 +2,10 @@ package com.yen.springBootPOC3;
 
 /** Spring boot app entry point
  *
- *  book p.62, p.73, p.77
+ *  book p.62, p.73, p.77, p.90
  */
 
-
+import com.yen.springBootPOC3.dao.Person3Repository;
 import com.yen.springBootPOC3.dao.UserRepository;
 import com.yen.springBootPOC3.entity.Customer;
 import com.yen.springBootPOC3.entity.User;
@@ -43,6 +43,9 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
+	@Autowired
+	Person3Repository person3Repository;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -71,6 +74,11 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 
 	@Bean
 	public CommandLineRunner demo(UserRepository repository){
+
+
+		@Autowired
+		Person3Repository person3Repository;
+		
 		return (args) -> {
 
 			// create table Customers
@@ -99,6 +107,10 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 //							}
 //					);
 			};
+
+		// mongoDB demo
+
+
 	}
 
 }

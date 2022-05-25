@@ -3,6 +3,7 @@ package com.yen.springBootPOC2AdminSystem;
 // https://www.youtube.com/watch?v=1uG7UXdiCYM&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
 // https://www.youtube.com/watch?v=njvVPhCFH6o&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=66
 // https://www.youtube.com/watch?v=HcZCvC7jBlU&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=70
+// https://www.youtube.com/watch?v=X60MOsSfSTk&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=72
 
 /** default test class for Spring boot */
 
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 @Slf4j
-@SpringBootTest
+@SpringBootTest  // declare this is a test for spring boot
 class SpringBootPoc2AdminSystemApplicationTests {
 
 	@Autowired
