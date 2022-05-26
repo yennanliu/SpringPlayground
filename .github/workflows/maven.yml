@@ -22,5 +22,5 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         cache: maven
-    - name: Build springBootPOC3
-      run: cd springBootPOC3 && mvn package
+    - name: Build springBootPOC1
+      run: cd springBootPOC1 && mvn package
