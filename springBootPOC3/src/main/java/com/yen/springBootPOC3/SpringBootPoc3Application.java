@@ -50,27 +50,27 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		log.info("Create table ...");
-
-		// create table Customers
-		jdbcTemplate.execute("DROP TABLE IF EXISTS customers");
-		jdbcTemplate.execute("CREATE TABLE customers (" + "id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
-
-		// split data array into firstName, lastName array
-		List<Object[]> splitNames = Arrays
-				.asList("Jack woo", "Ann Lee", "Koo Shan")
-				.stream()
-				.map(name -> name.split(" "))
-				.collect(Collectors.toList());
-
-		// inset to table (batchUpdate)
-		jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES(?,?)", splitNames);
-
-		List<Map<String, Object>> res1 = jdbcTemplate.queryForList("SELECT id, first_name, last_name FROM customers");
-
-		for (Map<String, Object> record: res1){
-			System.out.println(record.toString());
-		}
+//		log.info("Create table ...");
+//
+//		// create table Customers
+//		jdbcTemplate.execute("DROP TABLE IF EXISTS customers");
+//		jdbcTemplate.execute("CREATE TABLE customers (" + "id SERIAL, first_name VARCHAR(255), last_name VARCHAR(255))");
+//
+//		// split data array into firstName, lastName array
+//		List<Object[]> splitNames = Arrays
+//				.asList("Jack woo", "Ann Lee", "Koo Shan")
+//				.stream()
+//				.map(name -> name.split(" "))
+//				.collect(Collectors.toList());
+//
+//		// inset to table (batchUpdate)
+//		jdbcTemplate.batchUpdate("INSERT INTO customers(first_name, last_name) VALUES(?,?)", splitNames);
+//
+//		List<Map<String, Object>> res1 = jdbcTemplate.queryForList("SELECT id, first_name, last_name FROM customers");
+//
+//		for (Map<String, Object> record: res1){
+//			System.out.println(record.toString());
+//		}
 
 	}
 
@@ -80,8 +80,8 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 		return (args) -> {
 
 			// create table Customers
-			jdbcTemplate.execute("DROP TABLE IF EXISTS user");
-			jdbcTemplate.execute("CREATE TABLE user (" + "firstname VARCHAR(255), lastname VARCHAR(255))");
+//			jdbcTemplate.execute("DROP TABLE IF EXISTS user");
+//			jdbcTemplate.execute("CREATE TABLE user (" + "firstname VARCHAR(255), lastname VARCHAR(255))");
 
 //
 //			// save record to table
