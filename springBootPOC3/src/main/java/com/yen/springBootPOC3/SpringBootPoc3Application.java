@@ -5,9 +5,10 @@ package com.yen.springBootPOC3;
  *  book p.62, p.73, p.77, p.90
  */
 
-import com.yen.springBootPOC3.dao.Person3Repository;
+import com.yen.springBootPOC3.dao.User2Repository;
 import com.yen.springBootPOC3.dao.UserRepository;
 import com.yen.springBootPOC3.entity.Customer;
+import com.yen.springBootPOC3.entity.Person;
 import com.yen.springBootPOC3.entity.User;
 import com.yen.springBootPOC3.servlet.MyServlet1;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +45,7 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 	JdbcTemplate jdbcTemplate;
 
 	@Autowired
-	Person3Repository person3Repository;
+	UserRepository personRepository;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -70,15 +71,12 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 		for (Map<String, Object> record: res1){
 			System.out.println(record.toString());
 		}
+
 	}
 
 	@Bean
 	public CommandLineRunner demo(UserRepository repository){
 
-
-		@Autowired
-		Person3Repository person3Repository;
-		
 		return (args) -> {
 
 			// create table Customers
@@ -106,10 +104,19 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 //								log.info(User.toString());
 //							}
 //					);
-			};
 
-		// mongoDB demo
+			// mongoDB demo
+			// TODO : fix below
+			System.out.println(">>> mongoDB demo");
+			personRepository.deleteAll();
+			personRepository.save(new User("AA", "BB"));
+			personRepository.save(new User("ZZ", "KK"));
+			for (User user : personRepository.findAll()){
+				System.out.println(user);
+			}
 
+			System.out.println(personRepository.findAll());
+		};
 
 	}
 
