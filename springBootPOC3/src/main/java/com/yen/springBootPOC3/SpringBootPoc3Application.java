@@ -107,15 +107,16 @@ public class SpringBootPoc3Application implements CommandLineRunner {
 
 			// mongoDB demo
 			// TODO : fix below
-			System.out.println(">>> mongoDB demo");
-			personRepository.deleteAll();
-			personRepository.save(new User("AA", "BB"));
-			personRepository.save(new User("ZZ", "KK"));
-			for (User user : personRepository.findAll()){
-				System.out.println(user);
-			}
+//			System.out.println(">>> mongoDB demo");
+//			personRepository.deleteAll();
+//			personRepository.save(new User("AA", "BB"));
+//			personRepository.save(new User("ZZ", "KK"));
+//			for (User user : personRepository.findAll()){
+//				System.out.println(user);
+//			}
+//
+//			System.out.println(personRepository.findAll());
 
-			System.out.println(personRepository.findAll());
 		};
 
 	}
