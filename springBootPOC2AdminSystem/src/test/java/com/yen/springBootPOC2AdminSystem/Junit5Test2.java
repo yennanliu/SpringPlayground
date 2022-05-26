@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 // https://www.youtube.com/watch?v=4lC90sbQ7a0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=73
 
-
 /** Note :
  *
  *   1) if one unit test failed, then all of its following tests will NOT be executed

@@ -1,9 +1,6 @@
 package com.yen.springBootPOC2AdminSystem;
 
 import org.junit.jupiter.api.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import static org.junit.jupiter.api.Assertions.*;
-
 
 // https://www.youtube.com/watch?v=JoqUZqBSUMc&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=75
 
