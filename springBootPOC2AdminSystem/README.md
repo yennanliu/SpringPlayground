@@ -1,6 +1,15 @@
 # springBootPOC2AdminSystem
 > Admin system with Spring Boot
 
+## Run
+```bash
+# start mysql
+brew services start mysql
+
+# start redis
+brew services start redis
+```
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
