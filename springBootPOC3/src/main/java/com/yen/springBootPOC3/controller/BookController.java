@@ -30,13 +30,11 @@ public class BookController {
 
         mav.addObject("booklist", bookDao.findAll());
         mav.setViewName("bookList");
-        //return mav;
-        //return "bookList";
         return mav;
     }
 
     // add book
-    @PostMapping("/add")
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String add(Book book){
         bookDao.save(book);
         return "forward:/book/list";  // re-direct
