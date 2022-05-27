@@ -1,7 +1,7 @@
 -- DDL for user2 table (mysql)
 -- DB : data
 
-CREATE TABLE user2 (
+CREATE TABLE IF NOT EXISTS user2 (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(30),
     age INT(3),

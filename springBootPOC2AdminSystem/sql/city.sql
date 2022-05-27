@@ -1,7 +1,7 @@
 -- DDL for city table (mysql)
 -- DB : data
 
-CREATE TABLE city (
+CREATE TABLE IF NOT EXISTS city (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(30),
     state VARCHAR(30),
