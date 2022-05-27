@@ -64,16 +64,12 @@ public class BookController {
     @GetMapping("/list2")
     public ModelAndView list2(Book book){
         ModelAndView mav = new ModelAndView();
+
         // TODO : fix below
-//        List<Book> bookList = bookDao.findAll(new Specification<Book>({
-//                        @Override
-//                                Predicate
-//                }
-//                )
-//
-//
+        List<Book> bookList = bookDao.findAll();
+
         mav.addObject("book", book);
-        //mav.addObject("booklist", bookList);
+        mav.addObject("booklist", bookList);
         mav.setViewName("bookUpDate");
 
         return mav;

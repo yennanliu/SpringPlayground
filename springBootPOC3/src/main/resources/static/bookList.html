@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<!-- book p.107 -->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Book management</title>
+</head>
+<body>
+<a href="/bookAdd.html">add</a><br/>
+
+<table>
+    <tr>
+        <th>No.</th>
+        <th>Book name</th>
+        <th>Book author</th>
+        <th>operation</th>
+    </tr>
+
+    <p th:each = "book:${booklist}}" >
+        <tr>
+            <td th:text = "${book.id}"></td>
+            <td th:text = "${book.name}"></td>
+            <td th:text = "${book.author}"></td>
+            <td>
+                <a th:href="'/book/preUpdate/' + ${book.id}"></a>modify</a>
+                <a th:href="'/book/delete?id=/' + ${book.id}"></a>delete</a>
+            </td>
+        </tr>
+    </p>
+</table>
+
+</body>
+</html>
