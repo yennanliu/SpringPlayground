@@ -22,11 +22,16 @@ public class BookController {
     private BookDao bookDao;
 
     // get all books
-    @GetMapping("/list")
+    @RequestMapping("/list")
     public ModelAndView list(){
+
         ModelAndView mav = new ModelAndView();
+        System.out.println(">>>> bookDao.findAll() = " + bookDao.findAll().toString());
+
         mav.addObject("booklist", bookDao.findAll());
         mav.setViewName("bookList");
+        //return mav;
+        //return "bookList";
         return mav;
     }
 
