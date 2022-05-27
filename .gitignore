@@ -50,3 +50,8 @@ springBootPOC3/mvnw
 springBootPOC3/mvnw.cmd
 springBootPOC3/target
 springBootPOC3.iml
+
+# springBlog
+SpringBlog/.mvn/*
+SpringBlog/mvnw
+SpringBlog/mvnw.cmd
