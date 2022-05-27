@@ -8,6 +8,12 @@ brew services start mysql
 
 # start redis
 brew services start redis
+
+# build
+mvn package
+
+# run
+java -jar <built_jar>
 ```
 
 ## API
