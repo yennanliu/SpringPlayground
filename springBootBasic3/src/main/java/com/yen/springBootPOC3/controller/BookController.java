@@ -41,6 +41,7 @@ public class BookController {
     }
 
     // find book by id
+    /** we have bookUpdate.html let user input updated book name, book author then back to  book/list */
     @GetMapping("/preUpdate/{id}")
     public ModelAndView preUpdate(@PathVariable("id") Integer id){
         ModelAndView mav = new ModelAndView();
@@ -52,14 +53,20 @@ public class BookController {
     // update book
     @PostMapping("/update")
     public String update(Book book){
+
+        /** NOTE !!! update is called via POST in bookUpdate.html, then bookDao.save(book), and re-direct to book/list  */
         bookDao.save(book);
+
         return "forward:/book/list";
     }
 
     // delete book
     @GetMapping("/delete")
     public String deleter(Integer id){
+
+        /** NOTE !!! delete is called via POST in bookList.html, then bookDao.deleteById(id), and re-direct to book/list */
         bookDao.deleteById(id);
+
         return "forward:/book/list";
     }
 
@@ -82,7 +89,7 @@ public class BookController {
     @ResponseBody
     @GetMapping("query")
     public List<Book> findByName(String name){
-        return bookDao.findByName("python book");
+        return bookDao.findByName("python cookbook");
     }
 
     // random show
