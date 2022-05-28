@@ -29,30 +29,30 @@ springMySQL1/.idea
 springMySQL1/target/classes
 springMySQL1/springMySQL1.iml
 
-# springBootPOC1
-springBootPOC1/.idea/
-springBootPOC1/SpeingBootPOC1.iml
-springBootPOC1/mvnw
-springBootPOC1/mvnw.cmd
-springBootPOC1/target
+# springBootBasic1
+springBootBasic1/.idea/
+springBootBasic1/SpeingBootPOC1.iml
+springBootBasic1/mvnw
+springBootBasic1/mvnw.cmd
+springBootBasic1/target
 
-# springBootPOC2AdminSystem
-springBootPOC2AdminSystem/.idea/
-springBootPOC2AdminSystem/springBootPOC2AdminSystem.iml
-springBootPOC2AdminSystem/mvnw
-springBootPOC2AdminSystem/mvnw.cmd
-springBootPOC2AdminSystem/target
+# springBootBasic2AdminSystem
+springBootBasic2AdminSystem/.idea/
+springBootBasic2AdminSystem/springBootBasic2AdminSystem.iml
+springBootBasic2AdminSystem/mvnw
+springBootBasic2AdminSystem/mvnw.cmd
+springBootBasic2AdminSystem/target
 
-# springBootPOC3
-springBootPOC3/.idea/
-springBootPOC3/SpeingBootPOC1.iml
-springBootPOC3/mvnw
-springBootPOC3/mvnw.cmd
-springBootPOC3/target
-springBootPOC3.iml
+# springBootBasic3
+springBootBasic3/.idea/
+springBootBasic3/SpeingBootPOC1.iml
+springBootBasic3/mvnw
+springBootBasic3/mvnw.cmd
+springBootBasic3/target
+springBootBasic3.iml
 
 # springBlog
-SpringBlog/.mvn/*
-SpringBlog/mvnw
-SpringBlog/mvnw.cmd
-SpringBlog.iml
+springBlog/.mvn/*
+springBlog/mvnw
+springBlog/mvnw.cmd
+springBlog.iml
