@@ -26,8 +26,9 @@ public class AccountServiceImpl implements AccountService {
 
         Account toAccount = accountDao.getById(toUser);
         toAccount.setBalance(toAccount.getBalance() + account);
+
         // make some error
-        int zero =  1 / 0;
+        //int zero =  1 / 0;
         accountDao.save(toAccount);
     }
 

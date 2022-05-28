@@ -32,6 +32,8 @@ java -jar <built_jar>
 | `GET` | GET | show all books | http://localhost:8888/book/list ||
 | `GET` | GET | add book | http://localhost:8888/book/add ||
 | `GET` | GET | add book | http://localhost:8888/book/query ||
+| `GET` | GET | add book | http://localhost:8888/account/transfer ||
+
 
 ## Ref
 
