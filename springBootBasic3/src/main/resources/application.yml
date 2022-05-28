@@ -11,6 +11,10 @@ Spring:
         enabled: true            # enable form (表單) REST function
     contentnegotiation:          # enable content negotiation. e.g. : http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml
       favor-parameter: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 #server:
 #  servlet:
 #    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/
