@@ -1,4 +1,4 @@
-# springBootPOC2AdminSystem
+# springBootBasic2 : AdminSystem
 > Admin system with Spring Boot
 
 ## Run

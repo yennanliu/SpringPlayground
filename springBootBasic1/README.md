@@ -1,4 +1,4 @@
-# springBootPOC1
+# springBootBasic1
 > Spring Boot basic project
 
 ## Quick Start

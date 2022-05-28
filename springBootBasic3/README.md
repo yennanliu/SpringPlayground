@@ -1,4 +1,4 @@
-# springBootPOC3
+# springBootBasic3
 > Spring Boot POC project (with book)
 
 ## Run
