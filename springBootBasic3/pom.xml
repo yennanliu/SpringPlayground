@@ -121,6 +121,8 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!-- https://stackoverflow.com/questions/64639836/plugin-org-springframework-bootspring-boot-maven-plugin-not-found -->
+				<version>${project.parent.version}</version>
 				<configuration>
 					<excludes>
 						<exclude>
