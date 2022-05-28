@@ -1,0 +1,47 @@
+person:
+ userName: Amy  # "Amy" is OK as well
+ # '' will use \n as new line, while "" will output \n as "\n" (a normal string)
+ boss: true
+ birth: 2021/01/01
+ age: 19
+# #interests: ["baseball", "sleep", "eat"]  # style1
+ interests:                                 # style2
+   - "baseball"
+   - "sleep"
+   - "eat"
+   - 199
+ animals: [duck, cat]
+ score: {math: 10, physics: 70}         # style1
+##  score:                              # style2
+##    math : 10
+##    physics: 70
+ salary:
+   - 112
+   - 100
+   - 99
+ pet:
+  name: lucky
+  weight: 100.01
+ allPets:
+   sick:
+     - {name: fish, weight: 0.1}
+     - {name: cat, weight: 20.23}
+   health:
+     - {name: tiger, weight: 200.31}
+     - {name: dragon, weight: 1300.99}
+Spring:
+  mvc:
+#    static-path-pattern: /res/**   # change default url path for static resources
+#  resources:                       # change default file directory for static resources
+#    static-locations: [classpath:/my_resources]
+#    add-mappings: false            # note !! if "false", will block ALL static resources mapping
+    cache:
+      period : 10                # set up cache period, unit : second
+    hiddenmethod:
+      filter:
+        enabled: true            # enable form (表單) REST function
+    contentnegotiation:          # enable content negotiation. e.g. : http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml
+      favor-parameter: true
+#server:
+#  servlet:
+#    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/

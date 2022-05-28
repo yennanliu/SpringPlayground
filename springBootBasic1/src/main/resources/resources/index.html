@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>This is the title of the Spring Boot POC!</title>
+</head>
+
+<body>
+
+<h1>Welcome !!</h1>
+<p>This is an example paragraph. Anything in the <strong>body</strong> tag will appear on the page, just like this <strong>p</strong> tag and its contents.</p>
+<hr/>
+
+*** Test REST request :
+
+<form action="user" method="get">
+    <input value="REST - GET 提交" type="submit"/>
+</form>
+
+<form action="user" method="post">
+    <input value="REST - POST 提交" type="submit"/>
+</form>
+
+<form action="user" method="post">
+    <!--
+    we STILL use method="post" here (for DELETE request)
+    plz check : https://youtu.be/Q6UkRz-qna4?t=311
+    -->
+    <input name="_method" type="hidden" value="DELETE">
+    <input value="REST - DELETE 提交" type="submit"/>
+</form>
+
+<form action="user" method="post">
+    <!-- we STILL use method="post", same as above -->
+    <input name="_method" type="hidden" value="PUT">
+    <input value="REST - PUT 提交" type="submit"/>
+</form>
+
+<hr/>
+
+*** Test basic Annotation :
+<ul>
+    <!-- <a href="car/777/owner/tom">car/{id}/owner/{userName}</a> -->
+    <a href="car/777/owner/tom?age=20&inters=baseball&inters=travel">car/{id}/owner/{userName}</a>
+    <li>@PathVariable (路徑變量)</li>
+    <li>@RequestHeader (獲取請求頭)</li>
+    <li>@RequestParam (獲取請求參數)</li>
+    <li>@CookieValue (獲取cookie值)</li>
+    <li>@RequestBody (獲取 請求體[POST] )</li>
+
+    <li>@RequestAttribute (獲取request域屬性)</li>
+    <li>@MatrixVariable (矩陣變量)</li>
+</ul>
+
+<!--
+
+    1) /cars/{path}?xxx=yyy&aaa=bbb : queryString, 查詢字符串. @RequestParam
+    2) /cars/path;low=34;brand=tesla,audi,benz : MatrixVariable (矩陣變量)
+
+    - 頁面開發, cookie禁用, session裡面的內容怎使用？
+        -> session.set(a,b) -> jsessionid -> cookie -> 每次請求攜帶 (original)
+        -> url 重寫: /abc;jessionid=xxx : 把cookie的值使用MatrixVariable方式傳遞 (now)
+-->
+
+<a href="/cars/sell;low=34;brand=LEXUS,porsche,audi">@MatrixVariable (矩陣變量)</a>
+<a href="/cars/sell;low=34;brand=LEXUS;audi;brand=benz">@MatrixVariable (矩陣變量)</a>
+<a href="/boss/1;age=20/2;age=10">@MatrixVariable (矩陣變量) /boss/{bossId}/{empId}</a>
+
+<br/>
+<hr/>
+
+</ul>
+<form action="/save" method="post">
+    測試 @RequestBody 獲取數據 <br/>
+    用戶名: <input name="userName"/> <br>
+    信箱: <input name="email"/>
+    <input type="submit" value="提交"/>
+</form>
+
+<hr/>
+
+<ol>
+    <li>矩陣變量需要在Spring boot中手動開啟</li>
+    <li>根據RFC3986規範, 矩陣變量應該綁定在路徑變量中</li>
+    <li>若是有多個矩陣變量, 應該使用英文符號, 進行分割</li>
+    <li>example : /cars/sell;low=34;brand=toyota,tsla,ford</li>
+</ol>
+
+<hr/>
+測試原生API: <hr/>
+測試封裝POJO:
+<form action="saveuser" method="post">
+    姓名： <input name="userName" value="blu mary"/> <br/>
+    年紀： <input name="age" value="20"/> <br/>
+    生日： <input name="birth" value="2022/01/01"/> <br/>
+<!--    寵物名： <input name="pet.name" value="lucky"/> <br/>-->
+<!--    寵物年紀： <input name="pet.age" value="3"/>-->
+    寵物： <input name="pet" value="lucky,3"/>
+    <input type="submit" value="保存"/>
+</form>
+
+</body>
+
+</html>

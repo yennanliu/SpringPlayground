@@ -1,0 +1,65 @@
+Spring:
+  mvc:
+    #    static-path-pattern: /res/**   # change default url path for static resources
+    #  resources:                       # change default file directory for static resources
+    #    static-locations: [classpath:/my_resources]
+    #    add-mappings: false            # note !! if "false", will block ALL static resources mapping
+    cache:
+      period : 1                # set up cache period, unit : second
+    hiddenmethod:
+      filter:
+        enabled: true            # enable form (表單) REST function
+    contentnegotiation:          # enable content negotiation. e.g. : http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml
+      favor-parameter: true
+  # mysql : https://www.youtube.com/watch?v=1uG7UXdiCYM&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=61
+  datasource:
+    url: jdbc:mysql://localhost:3306/data #jdbc:mysql://localhost:3306/sales
+    username: root
+    #password:
+    driver-class-name: com.mysql.cj.jdbc.Driver  #com.mysql.jdbc.Driver
+    # for druid-spring-boot-starter
+    druid:
+      aop-patterns: com.yen.springBootPOC2AdminSystem.*
+      filters: stat,wall
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: 123
+        resetEnable: false
+      web-stat-filter:
+        enabled: true
+        urlPattern: /*
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+      filter:
+        stat:
+          slow-sql-millis: 3000
+          logSlowSql: true
+          enabled: true
+        wall:
+          enabled: true
+          config:
+            drop-table-allow: false
+  jdbc:
+    template:
+      query-timeout: 3 # timeout if no result in 3 sec
+  redis:   # for redis
+    url: redis://localhost:6379
+    client-type: jedis #Lettuce #jedis # declare explicitly we use jedis as client  (can set as Lettuce as well)
+#    lettuce:
+#      pool:
+#        max-active: 10
+#        min-idle: 5
+    jedis:
+      pool:
+        max-active: 10
+#server:
+#  servlet:
+#    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/
+
+# for mybatis
+# FIX below
+mybatis:
+  #config-location: classspath:mybatis/mybatis-config.xml
+  mapper-locations: classspath:mybatis/mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true

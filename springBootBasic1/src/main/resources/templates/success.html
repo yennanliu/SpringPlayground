@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<!-- enable thymeleaf pattern-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1>hahaha ~ </h1>
+<h1 th:text="${msg}">msg from static html</h1>
+<!--
+Steps use thymeleaf :
+
+0) enable thymeleaf pattern : <html lang="en" xmlns:th="http://www.thymeleaf.org">
+1) write backend code (e.g. com.yen.SpringBootPart1.controller.ViewController.java)
+2) get val from backend :
+    2-1) if want to replace "aaa" -> th:aaa="${backend_val}"
+    2-2) we need "th:", and `"${}}`
+
+    example :
+        replace text :  <h1 th:text="${msg}">default msg</h1>
+        replace href :  <a href="google.com" th:href="${link}>xxx</a>
+-->
+<h2>
+    <a href="https://www.java.com" th:href="${link}">go Java</a> <br/>
+    <a href="https://www.java.com" th:href="@{link}">go Java 2</a> <br/>  <!-- will return https://www.java.com/#{link} -->
+</h2>
+
+</body>
+</html>
