@@ -37,6 +37,7 @@ jconsole
 | `GET` | GET | mybatis 2 | http://localhost:8888/city?id=5 | get city with id
 | `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP|create city with name, state, country via POST
 | `GET` | GET | health monitor | http://localhost:8888/actuator, <br> http://localhost:8888/actuator/health, <br> http://localhost:8888/actuator/beans, <br> http://localhost:8888/actuator/conditions, <br> http://localhost:8888/actuator/configprops, <br> http://localhost:8888/actuator/metrics|only all endpoints health, then <host>/actuator/health shows health|
+| `GET` | GET | app info | http://localhost:8888/actuator/info ||
 
 ## Important Concepts
 

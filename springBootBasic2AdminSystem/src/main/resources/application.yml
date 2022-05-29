@@ -76,3 +76,9 @@ management:
   endpoint:
     health:
       show-details: always # always show health details
+#info:
+#  appName: springBootBasic2AdminSystem
+#  appVersion: 1.0.0
+#  mavenProjectName: @project.artifactId@
+#  mavenProjectVersion: @project.version@
+#
