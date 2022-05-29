@@ -36,12 +36,12 @@ jconsole
 | `GET` | GET | mybatis 1 | http://localhost:8888/acct ||
 | `GET` | GET | mybatis 2 | http://localhost:8888/city?id=5 | get city with id
 | `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP|create city with name, state, country via POST
-| `GET` | GET | health monitor | http://localhost:8888/actuator, http://localhost:8888/actuator/health, http://localhost:8888/actuator/beans, http://localhost:8888/actuator/conditions, http://localhost:8888/actuator/configprops, http://localhost:8888/actuator/metrics||
+| `GET` | GET | health monitor | http://localhost:8888/actuator, <br> http://localhost:8888/actuator/health, <br> http://localhost:8888/actuator/beans, <br> http://localhost:8888/actuator/conditions, <br> http://localhost:8888/actuator/configprops, <br> http://localhost:8888/actuator/metrics||
 
 ## Important Concepts
 
 - Interceptor
-    <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootPOC2AdminSystem/doc/pic/interceptor1.png">
+    <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootBasic2AdminSystem/doc/pic/interceptor1.png">
     - Steps
         - 1. Based on reqeust, find `HandlerExecutionChain`(handlers, and interceptors which can handle current request).
         - 2. `Normal order` run interceptors' `preHandle` method
