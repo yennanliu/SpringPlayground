@@ -31,6 +31,7 @@ java -jar <built_jar>
 | `GET` | GET | mybatis 1 | http://localhost:8888/acct ||
 | `GET` | GET | mybatis 2 | http://localhost:8888/city?id=5 | get city with id
 | `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP|create city with name, state, country via POST
+| `GET` | GET | health monitor | http://localhost:8888/actuator, http://localhost:8888/actuator/health||
 
 ## Important Concepts
 
