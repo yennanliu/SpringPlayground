@@ -66,9 +66,13 @@ mybatis:
 
 # https://www.youtube.com/watch?v=6Wiz3BuvoE0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=79
 # management : for actuator config
+# management.endpoint.<name>.xxx :  setting for specific endpoint
 management:
   endpoints:
     enabled-by-default: true # open all monitor endpoints
     web:
       exposure:
         include: "*" # expose all endpoints via web
+  endpoint:
+    health:
+      show-details: always # always show health details
