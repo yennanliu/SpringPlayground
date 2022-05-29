@@ -16,6 +16,11 @@ mvn package
 java -jar <built_jar>
 ```
 
+## Monitor
+```bash
+jconsole
+```
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -31,7 +36,7 @@ java -jar <built_jar>
 | `GET` | GET | mybatis 1 | http://localhost:8888/acct ||
 | `GET` | GET | mybatis 2 | http://localhost:8888/city?id=5 | get city with id
 | `POST` | POST | mybatis 3 | http://localhost:8888/city?name=may&state=OSK&country=JP|create city with name, state, country via POST
-| `GET` | GET | health monitor | http://localhost:8888/actuator, http://localhost:8888/actuator/health||
+| `GET` | GET | health monitor | http://localhost:8888/actuator, http://localhost:8888/actuator/health, http://localhost:8888/actuator/beans, http://localhost:8888/actuator/conditions, http://localhost:8888/actuator/configprops, http://localhost:8888/actuator/metrics||
 
 ## Important Concepts
 

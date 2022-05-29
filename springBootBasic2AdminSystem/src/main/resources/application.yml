@@ -63,3 +63,12 @@ mybatis:
   mapper-locations: classspath:mybatis/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+# https://www.youtube.com/watch?v=6Wiz3BuvoE0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=79
+# management : for actuator config
+management:
+  endpoints:
+    enabled-by-default: true # open all monitor endpoints
+    web:
+      exposure:
+        include: "*" # expose all endpoints via web
