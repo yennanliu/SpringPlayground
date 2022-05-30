@@ -144,6 +144,14 @@
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
+
+		<!-- https://www.youtube.com/watch?v=yFI4QwPZMew&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=81 -->
+		<dependency>
+			<groupId>de.codecentric</groupId>
+			<artifactId>spring-boot-admin-starter-client</artifactId>
+			<version>2.3.1</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

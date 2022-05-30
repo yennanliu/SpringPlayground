@@ -52,6 +52,10 @@ Spring:
     jedis:
       pool:
         max-active: 10
+    boot:
+      admin:  # admin monitor
+        client:
+          url: http://localhost:8888
 #server:
 #  servlet:
 #    context-path: /world         # will make default URL path from http://localhost:8888 to http://localhost:8888/world/
@@ -81,4 +85,4 @@ management:
 #  appVersion: 1.0.0
 #  mavenProjectName: @project.artifactId@
 #  mavenProjectVersion: @project.version@
-#
+
