@@ -6,14 +6,14 @@
 # build
 mvn package
 
-# run
-java -jar <built_jar>
-
-# run with env profile
+# run with dev profile
 java -jar target/springProfilesChangeDemo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 
 # run with prod profile
 java -jar target/springProfilesChangeDemo-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+
+# run with dev profile with different name
+java -jar target/springProfilesChangeDemo-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev --person.name=RYU
 ```
 
 ## Monitor
