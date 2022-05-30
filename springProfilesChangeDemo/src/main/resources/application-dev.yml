@@ -1,2 +1,4 @@
 person:
   name: dev-Lynn
+server:
+  port: 8887
