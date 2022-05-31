@@ -25,4 +25,6 @@ jconsole
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| `GET` | GET | | http://localhost:8888/ ||
+| `GET` | defaul env | | http://localhost:8888/ ||
+| `GET` | dev env | | http://localhost:8887/ ||
+| `GET` | prod env | | http://localhost:8886/ ||
