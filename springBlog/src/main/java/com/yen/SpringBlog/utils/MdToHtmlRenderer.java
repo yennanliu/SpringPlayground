@@ -10,7 +10,7 @@ import java.util.List;
 
 public class MdToHtmlRenderer {
 
-    public String redenHTML(List<String> markdownLines){
+    public static String renderHtml(List<String> markdownLines){
 
         Parser parser = Parser.builder().build();
         HtmlRenderer renderer = HtmlRenderer.builder().build();
@@ -21,7 +21,6 @@ public class MdToHtmlRenderer {
             Node document = parser.parse(markDownLine);
             renderedSB.append(renderer.render(document));
         }
-
         return new String(renderedSB);
     }
 
