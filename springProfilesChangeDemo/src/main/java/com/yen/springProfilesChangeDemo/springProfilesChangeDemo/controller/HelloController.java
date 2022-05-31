@@ -33,6 +33,20 @@ public class HelloController {
         return person;
     }
 
+/**
+ *   TODO : fix below:
+ *
+ *   Field person2 in com.yen.springProfilesChangeDemo.springProfilesChangeDemo.controller.HelloController required a bean of type 'com.yen.springProfilesChangeDemo.springProfilesChangeDemo.bean.Person2' that could not be found.
+ *
+ *    The injection point has the following annotations:
+ * 	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+ *
+ * Action:
+ *
+ * Consider defining a bean of type 'com.yen.springProfilesChangeDemo.springProfilesChangeDemo.bean.Person2' in your configuration.
+ *
+ * Process finished with exit code 1
+ */
 //    @Autowired
 //    private Person2 person2;
 
