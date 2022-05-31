@@ -3,6 +3,7 @@ package com.yen.springProfilesChangeDemo.springProfilesChangeDemo.controller;
 // https://www.youtube.com/watch?v=newMNCS4sik&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=82
 
 import com.yen.springProfilesChangeDemo.springProfilesChangeDemo.bean.Person;
+import com.yen.springProfilesChangeDemo.springProfilesChangeDemo.bean.Person2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,8 +27,17 @@ public class HelloController {
 
     @Autowired
     private Person person;
+
     @GetMapping("/test")
-    public Person hello2(){
+    public Person person(){
+        return person;
+    }
+
+    @Autowired
+    private Person2 person2;
+
+    @GetMapping("/test2")
+    public Person person2(){
         return person;
     }
 
