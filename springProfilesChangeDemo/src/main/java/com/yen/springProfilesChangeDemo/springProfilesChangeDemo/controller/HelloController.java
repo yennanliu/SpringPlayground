@@ -33,12 +33,13 @@ public class HelloController {
         return person;
     }
 
-    @Autowired
-    private Person2 person2;
+//    @Autowired
+//    private Person2 person2;
 
-    @GetMapping("/test2")
-    public Person person2(){
-        return person;
-    }
+//    @GetMapping("/test2")
+//    public String person2(){
+//
+//        return person2.getClass().toString();
+//    }
 
 }
