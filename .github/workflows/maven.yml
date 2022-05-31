@@ -24,3 +24,5 @@ jobs:
         cache: maven
     - name: Build springBootMonitor
       run: cd springBootMonitor && mvn package
+    - name: Build springProfilesChangeDemo
+      run: cd springProfilesChangeDemo && mvn package
