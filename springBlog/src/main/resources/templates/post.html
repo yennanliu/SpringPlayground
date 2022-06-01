@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<!-- https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-spring-boot-part-5.html -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:if="${error}"> Error | this is error ... </title>
+    <title th:unless="${error}" th:text="${post.title + ' | yennj12'}"> | yennj12 </title>
+
+    <!-- Link Bootstrap WebJar -->
+
+</head>
+<body>
+<!-- Insert the header frament -->
+<div th:insert="header"></div>
+<div class="d-flex justify-content-center" style="margin: 10px;">
+    <!-- If no post by the given ID exists -->
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        Sorry, the post you requested doesn't exist!
+    </div>
+    <!-- If a post by the given ID exists -->
+    <article th:unless="${error}">
+        <h1 th:utext="${post.title}">Title</h1>
+        <p class="card-subtitle mb-2"
+           th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</p>
+        <p th:utext="${post.content}">Content</p>
+    </article>
+</div>
+</body>
+</html>
