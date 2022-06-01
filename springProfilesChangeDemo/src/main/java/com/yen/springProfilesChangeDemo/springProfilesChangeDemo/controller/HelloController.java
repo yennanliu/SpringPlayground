@@ -1,6 +1,7 @@
 package com.yen.springProfilesChangeDemo.springProfilesChangeDemo.controller;
 
 // https://www.youtube.com/watch?v=newMNCS4sik&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=82
+// https://www.youtube.com/watch?v=Eic1OfY_1ZY&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=83
 
 import com.yen.springProfilesChangeDemo.springProfilesChangeDemo.bean.Person;
 import com.yen.springProfilesChangeDemo.springProfilesChangeDemo.bean.Person2;
@@ -19,6 +20,9 @@ public class HelloController {
     @Value("${person.name:Joe}")
 
     private String name;
+
+    @Value("${JAVA_HOME}")
+    private String msg;
 
     @GetMapping("/")
     public String hello(){
@@ -55,5 +59,11 @@ public class HelloController {
 //
 //        return person2.getClass().toString();
 //    }
+
+    @GetMapping("/java_home")
+    public String getMsg(){
+        //String msg = "/apache-maven-3.6.3/bin/mvn0";
+        return msg;
+    }
 
 }
