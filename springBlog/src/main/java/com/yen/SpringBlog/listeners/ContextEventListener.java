@@ -6,12 +6,15 @@ import com.yen.SpringBlog.entities.Author;
 import com.yen.SpringBlog.entities.Post;
 import com.yen.SpringBlog.repository.AuthorRepository;
 import com.yen.SpringBlog.repository.PostRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 
 import javax.annotation.Resource;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -21,6 +24,7 @@ import static com.yen.SpringBlog.utils.MdFileReader.*;
 import static com.yen.SpringBlog.utils.PostUtil.*;
 import static com.yen.SpringBlog.utils.AuthorUtil.*;
 
+@Slf4j
 public class ContextEventListener implements ApplicationListener<ContextRefreshedEvent> {
 
     @Autowired
@@ -41,9 +45,16 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
         Arrays.stream(postFiles).forEach(postFile -> {
+
             // TODO : fix below
+            // https://stackoverflow.com/questions/14526260/how-do-i-get-the-file-name-from-a-string-containing-the-absolute-file-path
+            Path p = Paths.get(postFile.toString());
             //Optional<String> postFileNameOpt = Optional.ofNullable(postFile.getFilename());
-            Optional<String> postFileNameOpt = Optional.ofNullable("xxx");
+            Optional<String> postFileNameOpt = Optional.ofNullable(p.getFileName().toString());
+
+            log.info(">>> p = {}", p);
+            log.info(">>> postFileNameOpt = {}", postFileNameOpt);
+
             Post post = new Post();
 
             if (postFileNameOpt.isPresent()) {
@@ -61,7 +72,7 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 
                 // TODO : check if below logic works
                 if (postOpt == null) {
-                    System.out.println("Post with ID: " + id + " does not exist. Creating post...");
+                    log.info(">>> Post with ID: " + id + " does not exist. Creating post...");
 
                     post.setTitle(title);
                     post.setAuthor(author);
@@ -71,12 +82,12 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 
                     postRepository.save(post);
 
-                    System.out.println("Post with ID: " + id + " created.");
+                    log.info(">>> Post with ID: " + id + " created.");
                 } else {
-                    System.out.println("Post with ID: " + id + " exists.");
+                    log.info(">>> Post with ID: " + id + " exists.");
                 }
             } else {
-                System.out.println("postFileName is null, should not be null");
+                log.info(">>> postFileName is null, should not be null");
             }
         });
     }
