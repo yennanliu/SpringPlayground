@@ -7,6 +7,12 @@
 	- `post blog` features
 	- login features
 
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET /` | GET | posts page | http://localhost:8888/posts |home page|
+
 ## Ref
 - code
 	- source
