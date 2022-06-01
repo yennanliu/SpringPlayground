@@ -2,8 +2,8 @@ package com.yen.SpringBlog.entities;
 
 // https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-1.html
 
+import com.yen.SpringBlog.utils.LocalDateTimeConverter;
 import lombok.Data;
-import org.springframework.data.jpa.convert.threeten.Jsr310JpaConverters;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 public class Post {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private Long id;
 
@@ -28,10 +29,12 @@ public class Post {
     private String synopsis; // outline
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    //@JoinColumn(name = "author_id")
+    // https://blog.csdn.net/h1101723183/article/details/78400768  // TODO : fix below (DDL error)
+    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "none", value = ConstraintMode.NO_CONSTRAINT))
     private Author author;
 
     @Column
-    @Convert(converter = Jsr310JpaConverters.LocalDateTimeConverter.class)
+    @Convert(converter = LocalDateTimeConverter.class)
     private LocalDateTime localDateTime;
 }
