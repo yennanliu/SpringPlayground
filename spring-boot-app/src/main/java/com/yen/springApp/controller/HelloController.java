@@ -1,4 +1,4 @@
-package controller;
+package com.yen.springApp.controller;
 
 // https://www.youtube.com/watch?v=gFz5MLFSQKQ&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=84
 
