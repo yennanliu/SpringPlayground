@@ -56,3 +56,7 @@ springBlog/.mvn/*
 springBlog/mvnw
 springBlog/mvnw.cmd
 springBlog.iml
+
+# springBootCustomerStarter
+springBootCustomerStarter/.idea/
+springBootCustomerStarter/springBootCustomerStarter.iml
