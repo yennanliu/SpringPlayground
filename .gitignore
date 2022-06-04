@@ -63,3 +63,5 @@ springBootCustomerStarter/springBootCustomerStarter.iml
 springBootCustomerStarter/spring-boot-autoconfigurer/spring-boot-autoconfigurer.iml
 springBootCustomerStarter/spring-boot-autoconfigurer/src/main/java/com/yen/hello/auto/
 springBootCustomerStarter/spring-boot-starter/spring-boot-starter.iml
+spring-boot-app/target/
+springBootCustomerStarter/spring-boot-autoconfigurer/target/
