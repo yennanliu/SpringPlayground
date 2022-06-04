@@ -60,3 +60,6 @@ springBlog.iml
 # springBootCustomerStarter
 springBootCustomerStarter/.idea/
 springBootCustomerStarter/springBootCustomerStarter.iml
+springBootCustomerStarter/spring-boot-autoconfigurer/spring-boot-autoconfigurer.iml
+springBootCustomerStarter/spring-boot-autoconfigurer/src/main/java/com/yen/hello/auto/
+springBootCustomerStarter/spring-boot-starter/spring-boot-starter.iml

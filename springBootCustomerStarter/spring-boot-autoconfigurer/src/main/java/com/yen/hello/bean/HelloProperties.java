@@ -1,4 +1,4 @@
-package com.yen.hello;
+package com.yen.hello.bean;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
