@@ -1,5 +1,28 @@
 # Spring boot advance 1
 
+## Important concept
+- Cache
+	- since Spring 3.1
+		- `org.springframwork.cache.Cache`
+			- cache implementation, define cache op
+				- class : RedisCache, EhCacheCache, ConcurrentMapCache..
+		- `org.springframwork.cache.CacheManager`
+			- cache manager, manage cache components
+		- `@Cacheable`
+			- if implement on a method, then such method will have cache mechanism
+		- `@CacheEvict`
+			- clean cache
+		- `@CachePut`
+			- make sure method is called, put result to cache
+		- `@EnableCaching`
+			- enable cache (based on annotation)
+		- `@keyGenerator`
+			- generate key for cache
+		- `@serialize`
+			- serialization for cache value
+		- ref
+			- https://www.youtube.com/watch?v=puGukebF5E0&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=3
+
 ## Ref
 - Course
 	- Material
