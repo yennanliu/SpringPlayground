@@ -12,6 +12,6 @@ CREATE TABLE IF NOT EXISTS employee (
 -- insert data
 INSERT INTO employee
 values
-(1, "Bob", "Dylan", "bob@google.com", 1, 1),
-(1, "Lee", "Yoo", "Lee@google.com", 0, 2),
-(1, "Jill", "Smith", "Jill@google.com", 0, 2);
+(1, "Bob", "bob@google.com", 1, 1),
+(2, "Lee", "Lee@google.com", 0, 2),
+(3, "Jill", "Jill@google.com", 0, 2);
