@@ -1,5 +1,12 @@
 # Spring boot advance 1
 
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET` | GET | get employee by id | http://localhost:8888/emp/{id} |id=1 or 2 or 3...|
+
+
 ## Important concept
 - Cache
 	- since Spring 3.1
