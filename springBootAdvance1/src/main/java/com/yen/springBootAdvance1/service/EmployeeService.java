@@ -1,6 +1,7 @@
 package com.yen.springBootAdvance1.service;
 
 // https://www.youtube.com/watch?v=Un_YC0fBKls&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=4
+// https://www.youtube.com/watch?v=4dRfvI1tnqs&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=5
 
 import com.yen.springBootAdvance1.bean.Employee;
 import com.yen.springBootAdvance1.mapper.EmployeeMapper;
@@ -18,6 +19,5 @@ public class EmployeeService {
         Employee emp = employeeMapper.getEmpById(id);
         return emp;
     }
-
 
 }
