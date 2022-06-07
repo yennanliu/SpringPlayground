@@ -21,7 +21,7 @@ import java.util.Optional;
 @RequestMapping("/posts")
 public class PostController {
 	private final PostRepository postRepository;
-	private final int PAGINATIONSIZE = 2;
+	private final int PAGINATIONSIZE = 100; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
 	public PostController(PostRepository postRepository) {
