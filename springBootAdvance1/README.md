@@ -6,6 +6,7 @@
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | `GET` | GET | get employee by id | http://localhost:8888/emp/{id} |id=1 or 2 or 3...|
+| `GET` | GET | update employee by id | http://localhost:8888/emp?id=1&lastName=xxx&gender=0 |id=1 or 2 or 3...|
 
 
 ## Important concept
