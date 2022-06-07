@@ -1,4 +1,5 @@
 # Spring boot advance 1
+> Spring boot advance demo
 
 ## API
 
@@ -10,7 +11,6 @@
 ## Important concept
 
 - Cache
-	<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/cache1.png">
 	- since Spring 3.1
 		- `org.springframwork.cache.Cache`
 			- cache implementation, define cache op
@@ -29,6 +29,7 @@
 			- generate key for cache
 		- `@serialize`
 			- serialization for cache value
+		<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/cache1.png">
 		- ref
 			- https://www.youtube.com/watch?v=puGukebF5E0&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=3
 
