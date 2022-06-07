@@ -8,7 +8,9 @@
 
 
 ## Important concept
+
 - Cache
+	<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/cache1.png">
 	- since Spring 3.1
 		- `org.springframwork.cache.Cache`
 			- cache implementation, define cache op
