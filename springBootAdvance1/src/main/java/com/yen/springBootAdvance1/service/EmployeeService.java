@@ -23,7 +23,7 @@ public class EmployeeService {
     /**
      *  @Cacheable
      *
-     *   -> Cache method result, will use cache when there is same request again
+     *   -> Cache method's result, will use cache when there is same request again
      *
      *   -> CacheManager for cache management, every cache has its name in CacheManager
      *

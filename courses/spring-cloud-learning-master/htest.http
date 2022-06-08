@@ -1,0 +1,242 @@
+GET http://localhost:8001/payment/get/1
+Accept: application/json
+
+###
+
+
+POST http://localhost:8001/payment/create?serial=NY001
+Content-Type: application/json
+
+{
+}
+
+###
+
+
+GET http://localhost:80/consumer/payment/get/6
+Accept: application/json
+
+###
+
+GET http://localhost:80/consumer/payment/getForEntity/6
+Accept: application/json
+
+###
+
+GET http://localhost:80/consumer/payment/create?serial=NY002
+Content-Type: application/json
+
+###
+
+
+GET http://localhost:8004/payment/zk
+Accept: application/json
+
+###
+
+
+GET http://localhost:80/consumer/paymentzk
+Accept: application/json
+
+###
+
+GET http://localhost:8006/payment/consul
+Accept: application/json
+
+###
+
+GET http://localhost:80/consumer/paymentconsul
+Accept: application/json
+
+###
+
+
+GET http://localhost:80/consumer/payment/lb
+Accept: application/json
+
+###
+
+
+
+GET http://localhost:80/consumer/payment/feign/timeout
+Accept: application/json
+
+###
+
+GET http://localhost:8001/payment/feign/timeout
+Accept: application/json
+
+###
+
+
+GET http://localhost:8001/payment/hystrix/ok/6
+Accept: application/json
+
+###
+
+
+GET http://localhost:8001/payment/hystrix/timeout/6
+Accept: application/json
+
+###
+
+GET http://localhost:80/consumer/payment/hystrix/ok/6
+Accept: application/json
+
+###
+
+GET http://localhost:80/consumer/payment/hystrix/timeout/6
+Accept: application/json
+
+###
+
+
+GET http://localhost:8001/payment/circuit/1
+Accept: application/json
+
+###
+
+GET http://localhost:8001/payment/circuit/-1
+Accept: application/json
+
+###
+
+
+GET http://localhost:9527/payment/get/1
+Accept: application/json
+
+###
+
+
+GET http://localhost:9527/payment/lb
+Accept: application/json
+Cookie: username=myname
+
+###
+
+
+GET http://localhost:9527/payment/get/1?username=sg
+Accept: application/json
+
+###
+
+
+GET http://localhost:3355/configInfo
+Accept: application/json
+
+###
+
+GET http://localhost:3366/configInfo
+Accept: application/json
+
+###
+
+POST http://localhost:3355/actuator/refresh
+Accept: application/json
+
+###
+
+POST http://localhost:3344/actuator/bus-refresh
+Accept: application/json
+
+###
+
+POST http://localhost:3344/actuator/bus-refresh/config-client:3355
+Accept: application/json
+
+###
+
+
+
+GET http://localhost:8801/sendMessage
+Accept: application/json
+
+###
+
+GET http://localhost/consumer/payment/zipkin
+Accept: application/json
+
+###
+
+
+GET http://localhost:9001/payment/nacos/1
+Accept: application/json
+
+###
+
+
+GET http://localhost:9002/payment/nacos/2
+Accept: application/json
+
+###
+
+
+GET http://localhost:83/consumer/payment/nacos/1
+Accept: application/json
+
+###
+
+GET http://localhost:3377/config/info
+Accept: application/json
+
+###
+
+GET http://localhost:8401/testA
+Accept: application/json
+
+###
+
+GET http://localhost:8401/testB
+Accept: application/json
+
+###
+
+GET http://localhost:8401/testD
+Accept: application/json
+
+###
+
+
+GET http://localhost:8401/testHotKey?p1=1
+Accept: application/json
+
+###
+
+GET http://localhost:8401/testHotKey?p1=5
+Accept: application/json
+
+###
+
+
+GET http://localhost:8401/byResource
+Accept: application/json
+
+###
+
+
+GET http://localhost:8401/rateLimit/byUrl
+Accept: application/json
+
+###
+
+
+GET http://localhost:8401/rateLimit/customerBlockHandler
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:84/consumer/fallback/4
+Accept: application/json
+
+###
+
+GET http://127.0.0.1:84/consumer/paymentSQL/4
+Accept: application/json
+
+###
+
+
+GET http://127.0.0.1:2001/order/create?userId=1&productId=1&count=10&money=100
+Accept: application/json
+
+###

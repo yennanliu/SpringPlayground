@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+    id 'maven'
+}
+
+jar.enabled = true
+
+group 'com.bp'
+version '1.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'cn.hutool:hutool-all:5.1.0'
+}
