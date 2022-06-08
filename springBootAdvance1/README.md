@@ -8,6 +8,7 @@
 | `GET` | GET | get employee by id | http://localhost:8888/emp/{id}, http://localhost:8888/emp?id=3 |id=1 or 2 or 3...|
 | `GET` | GET | update employee by id | http://localhost:8888/emp?id=1&lastName=xxx&gender=0 |id=1 or 2 or 3...|
 | `GET` | GET | delete employee by id | http://localhost:8888/delemp?id=1 |id=1 or 2 or 3...|
+| `GET` | GET | get employee by lastName | http://localhost:8888/lastname/{lastname}, http://localhost:8888/emp/lastname/Jill |lastname=Bob or Lily or Kim...|
 
 ## Important concept
 

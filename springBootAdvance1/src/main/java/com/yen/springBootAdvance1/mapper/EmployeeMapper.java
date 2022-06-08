@@ -1,6 +1,7 @@
 package com.yen.springBootAdvance1.mapper;
 
 // https://www.youtube.com/watch?v=Un_YC0fBKls&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=4
+// https://www.youtube.com/watch?v=oFjcnwkZA3A&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=10
 
 import com.yen.springBootAdvance1.bean.Employee;
 import org.apache.ibatis.annotations.*;
@@ -19,4 +20,7 @@ public interface EmployeeMapper {
 
     @Insert("INSERT INTO employee(lastName,email,gender,dId) VALUES(#{lastName},#{email},#{gender},#{dId})")
     public void insertEmp(Employee employee);
+
+    @Select("SELECT * FROM employee WHERE lastName = #{lastName}")
+    public Employee getEmpByLastName(String lastName);
 }

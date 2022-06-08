@@ -5,6 +5,7 @@ package com.yen.springBootAdvance1.service;
 // https://www.youtube.com/watch?v=9GiDJMkIdns&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=6
 // https://www.youtube.com/watch?v=gfNx_iT6QpE&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=7
 // https://www.youtube.com/watch?v=eIZxMWXEPmA&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=8
+// https://www.youtube.com/watch?v=oFjcnwkZA3A&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=10
 
 import com.yen.springBootAdvance1.bean.Employee;
 import com.yen.springBootAdvance1.mapper.EmployeeMapper;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -136,12 +138,28 @@ public class EmployeeService {
      *                  - if method has error, then cache will NOT be cleared
      */
 
-    @CacheEvict(value = "emp", key= "#id")
+    //@CacheEvict(value = "emp", key= "#id")
     //@CacheEvict(value = "emp", allEntries = true)
     //@CacheEvict(value = "emp", allEntries = true, beforeInvocation = true)
     public void deleteEmp(Integer id){
         System.out.println(">>> deleteEmp : id = " + id);
         employeeMapper.deleteEmpById(id);
+    }
+
+    /**
+     *   via @Caching, we can define MULTIPLE cache annotations
+     */
+    @Caching(
+            cacheable = {
+                    @Cacheable(value = "emp", key = "#lastName")
+            },
+            put = {
+                    @CachePut(value = "emp", key = "#result.id"),
+                    @CachePut(value = "emp", key = "#result.email")
+            }
+    )
+    public Employee getEmpByLastName(String lastName){
+        return employeeMapper.getEmpByLastName(lastName);
     }
 
 }
