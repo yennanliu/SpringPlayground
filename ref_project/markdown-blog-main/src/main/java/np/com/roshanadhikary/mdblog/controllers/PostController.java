@@ -3,6 +3,7 @@ package np.com.roshanadhikary.mdblog.controllers;
 import np.com.roshanadhikary.mdblog.entities.Author;
 import np.com.roshanadhikary.mdblog.entities.Post;
 import np.com.roshanadhikary.mdblog.repositories.PostRepository;
+import np.com.roshanadhikary.mdblog.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +26,9 @@ public class PostController {
 	public PostController(PostRepository postRepository) {
 		this.postRepository = postRepository;
 	}
+
+	@Autowired
+	PostService postService;
 
 	@GetMapping("")
 	public String getPaginatedPosts(
@@ -81,6 +85,8 @@ public class PostController {
 		post.setAuthor(author);
 
 		System.out.println(">>>> create end ...");
+
+		postService.savePost(post);
 
 		return post;
 	}
