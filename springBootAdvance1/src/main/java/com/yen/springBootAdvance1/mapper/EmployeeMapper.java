@@ -15,7 +15,7 @@ public interface EmployeeMapper {
     public void updateEmp(Employee employee);
 
     @Delete("DELETE FROM employee where id=#{id}")
-    public void deleteEmp(Integer id);
+    public void deleteEmpById(Integer id);
 
     @Insert("INSERT INTO employee(lastName,email,gender,dId) VALUES(#{lastName},#{email},#{gender},#{dId})")
     public void insertEmp(Employee employee);

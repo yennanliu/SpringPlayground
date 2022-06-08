@@ -4,10 +4,12 @@ package com.yen.springBootAdvance1.service;
 // https://www.youtube.com/watch?v=4dRfvI1tnqs&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=5
 // https://www.youtube.com/watch?v=9GiDJMkIdns&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=6
 // https://www.youtube.com/watch?v=gfNx_iT6QpE&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=7
+// https://www.youtube.com/watch?v=eIZxMWXEPmA&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=8
 
 import com.yen.springBootAdvance1.bean.Employee;
 import com.yen.springBootAdvance1.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -119,6 +121,27 @@ public class EmployeeService {
         System.out.println(">>> updateEmp with employee = " + employee);
         employeeMapper.updateEmp(employee);
         return employee;
+    }
+
+    /**
+     *   @CacheEvict : clear cache
+     *
+     *   - declare which cache to clear via key
+     *
+     *   - allEntries : whether clear ALL cache
+     *      - default : false
+     *
+     *   - beforeInvocation : whether clear cache before method is called
+     *      - default : false (after method)
+     *                  - if method has error, then cache will NOT be cleared
+     */
+
+    @CacheEvict(value = "emp", key= "#id")
+    //@CacheEvict(value = "emp", allEntries = true)
+    //@CacheEvict(value = "emp", allEntries = true, beforeInvocation = true)
+    public void deleteEmp(Integer id){
+        System.out.println(">>> deleteEmp : id = " + id);
+        employeeMapper.deleteEmpById(id);
     }
 
 }
