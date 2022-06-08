@@ -1,6 +1,8 @@
 -- DDL for employee table (mysql)
 -- DB : spring_cache
 
+-- DROP TABLE employee;
+
 CREATE TABLE IF NOT EXISTS employee (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     lastName VARCHAR(30),

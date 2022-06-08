@@ -96,14 +96,25 @@ public class EmployeeService {
     }
 
     /**
-     *   @CachePut :  not only call method, but also update cache
+     *   @CachePut :  not only call method, but also update cache (sync with cache)
      *              -> modify DB data, and update cache
      *
      *   steps:
      *      - step1: call target method
      *      - step2: cache result from target method
+     *
+     *   test steps:
+     *      - step1:  query employee id=1, put result to cache
+     *      - step2:  run same query again
+     *      - step3:  update employee id=1 (lastName=xxx, gender=0)
+     *                - update cache as well
+     *      - step4: query employee id=1
+     *                - should be updated employee id=1
+     *                - key= "#employee.id" ( via insert employee id)
+     *                - key= "#result.id" ( via result's employee id)
      */
-    @CachePut(value = "emp")
+    //@CachePut(value = "emp")
+    @CachePut(value = "emp", key= "#employee.id")
     public Employee updateEmp(Employee employee){
         System.out.println(">>> updateEmp with employee = " + employee);
         employeeMapper.updateEmp(employee);
