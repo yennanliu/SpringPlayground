@@ -68,7 +68,8 @@ public class PostController {
 	public Post createPost(@RequestParam(value = "id") int id,
 						   @RequestParam(value = "title") String title,
 						   @RequestParam(value = "content") String content,
-						   @RequestParam(value = "synopsis") String synopsis){
+						   @RequestParam(value = "synopsis") String synopsis,
+						   @RequestParam(value = "author_id") int author_id){
 
 		System.out.println(">>>> create start ...");
 
