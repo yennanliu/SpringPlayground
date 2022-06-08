@@ -1,5 +1,6 @@
 package np.com.roshanadhikary.mdblog.controllers;
 
+import np.com.roshanadhikary.mdblog.entities.Author;
 import np.com.roshanadhikary.mdblog.entities.Post;
 import np.com.roshanadhikary.mdblog.repositories.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,5 +57,31 @@ public class PostController {
 			model.addAttribute("error", "no-post");
 		}
 		return "post";
+	}
+
+	@ResponseBody
+	@PostMapping("/create")
+	public Post createPost(@RequestParam(value = "id") int id,
+						   @RequestParam(value = "title") String title,
+						   @RequestParam(value = "content") String content,
+						   @RequestParam(value = "synopsis") String synopsis){
+
+		System.out.println(">>>> create start ...");
+
+		Post post = new Post();
+		post.setId(id);
+		post.setTitle(title);
+		post.setSynopsis(synopsis);
+		post.setContent(content);
+
+		System.out.println(">>> post = " + post);
+
+		// TODO : fix this
+		Author author = new Author();
+		post.setAuthor(author);
+
+		System.out.println(">>>> create end ...");
+
+		return post;
 	}
 }
