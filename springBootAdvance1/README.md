@@ -38,6 +38,34 @@ docker run -d -p 6379:6379 --name myredis redis
 docker ps -a
 
 redis-cli
+
+# basic command
+# https://redis.io/commands/
+
+# 1) String
+# append to key (msg)
+append msg hello
+append msg world
+
+# get by key
+get msg
+
+# 2) List
+# push into list
+LPUSH mylist 1 2 3
+
+# pop element from list (from left, right)
+LPOP mylist
+RPOP mylist
+
+# 3) Set
+SADD myset tim jack
+
+SMEMBERS myset
+
+# 4) check is elment in a key
+SISMEMBER myset lynn
+SISMEMBER myset tim
 ```
 
 ## API
