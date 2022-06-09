@@ -8,9 +8,9 @@ package com.yen.springBootAdvance1.controller;
 import com.yen.springBootAdvance1.bean.Employee;
 import com.yen.springBootAdvance1.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 public class EmployeeController {
@@ -24,10 +24,29 @@ public class EmployeeController {
         return emp;
     }
 
-    @GetMapping("/emp")
-    public Employee update(Employee employee){
+    @PostMapping("/emp")
+    public Employee update(@RequestParam(name = "id") Integer id,
+                           @RequestParam(name = "lastName") String lastName,
+                           @RequestParam(name = "email", required=false) String email,
+                           @RequestParam(name = "gender", required=false) Integer gender,
+                           @RequestParam(name = "dId", required=false) Integer dId){
+
+        Employee employee = new Employee();
+
+        employee.setId(id);
+        employee.setLastName(lastName);
+        employee.setEmail(email);
+        employee.setGender(gender);
+        employee.setDId(dId);
+
         Employee emp = employeeService.updateEmp(employee);
         return emp;
+    }
+
+    @PostMapping("/api/foos")
+    @ResponseBody
+    public String addFoo(@RequestParam(name = "id") String fooId, @RequestParam String name) {
+        return "ID: " + fooId + " Name: " + name;
     }
 
     @GetMapping("/delemp")

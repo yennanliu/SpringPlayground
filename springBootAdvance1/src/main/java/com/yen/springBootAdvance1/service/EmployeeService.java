@@ -10,12 +10,10 @@ package com.yen.springBootAdvance1.service;
 import com.yen.springBootAdvance1.bean.Employee;
 import com.yen.springBootAdvance1.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.cache.annotation.Caching;
+import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
 
+@CacheConfig(cacheNames = "#emp") // extract common cache config : can add #emp cache to all methods in this class
 @Service
 public class EmployeeService {
 
