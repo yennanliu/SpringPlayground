@@ -4,12 +4,25 @@
 
 ## Run
 ```bash
-# run app
+#---------------------------
+# Run app
+#---------------------------
 
-# install Redis (Docker)
+# build
+mvn package
+
+# run
+java -jar <built_jar>
+
+
+
+#---------------------------
+# Run Redis
+#---------------------------
+
+# Install Redis (Docker)
 # https://hub.docker.com/_/redis
 # https://www.youtube.com/watch?v=c3lLy3KCjYk&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=10
-
 docker pull redis
 
 # check pull images
