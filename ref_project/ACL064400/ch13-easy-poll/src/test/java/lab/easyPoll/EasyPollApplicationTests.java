@@ -1,0 +1,14 @@
+package lab.easyPoll;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+
+@SpringBootTest
+class EasyPollApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
