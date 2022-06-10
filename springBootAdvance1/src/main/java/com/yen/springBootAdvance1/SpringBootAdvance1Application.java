@@ -2,6 +2,7 @@ package com.yen.springBootAdvance1;
 
 // https://www.youtube.com/watch?v=Un_YC0fBKls&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=3
 // https://www.youtube.com/watch?v=4dRfvI1tnqs&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=5
+// https://www.youtube.com/watch?v=JDlq3u_EEWI&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=12
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -31,6 +32,10 @@ import org.springframework.cache.annotation.EnableCaching;
  *    				 - @Cacheable
  *    				 - @CacheEvict
  *    				 - @CachePut
+ *
+ *    5) install Redis via docker
+ *       install spring boot Redis starter
+ *       config Redis (in spring boot)
  */
 @MapperScan("com.yen.springBootAdvance1.mapper")
 @SpringBootApplication
