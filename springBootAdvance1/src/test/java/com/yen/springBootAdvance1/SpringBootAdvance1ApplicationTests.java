@@ -23,6 +23,9 @@ class SpringBootAdvance1ApplicationTests {
 	@Autowired
 	RedisTemplate redisTemplate; // (connect via <k-v> Object) RedisTemplate<Object, Object>
 
+	@Autowired
+	RedisTemplate<Object, Employee> empRedisTemplate;
+
 	@Test
 	void contextLoads() {
 
@@ -45,6 +48,7 @@ class SpringBootAdvance1ApplicationTests {
 	@Test
 	public void Test1(){
 
+		/** String op demo */
 		// save a String to redis
 		stringRedisTemplate.opsForValue().append("msg", "hello");
 		stringRedisTemplate.opsForValue().append("msg", "yooooo");
@@ -53,6 +57,30 @@ class SpringBootAdvance1ApplicationTests {
 		String res1 = stringRedisTemplate.opsForValue().get("msg");
 		System.out.println(">>> res1 = " + res1);
 
+		// clean
+		stringRedisTemplate.delete("msg");
+
+		/** List op demo */
+		stringRedisTemplate.opsForList().leftPush("mylist", "1");
+		stringRedisTemplate.opsForList().leftPush("mylist", "2");
+		stringRedisTemplate.opsForList().leftPush("mylist", "3");
+	}
+
+	/** test save object to redis */
+	@Test
+	public void Test2(){
+
+		Employee empById = employeeMapper.getEmpById(1);
+		System.out.println(">>> empById = " + empById);
+
+		// by default, will use jdk serialization mechanism save serializable obj to redis ( not readable)
+		redisTemplate.opsForValue().set("emp1", empById); // may have this error if Employee class is not yet Serializable : Caused by: java.lang.IllegalArgumentException: DefaultSerializer requires a Serializable payload but received an object of type [com.yen.springBootAdvance1.bean.Employee]
+
+		// approach 1) save data with json form
+
+		// approach 2) save data with custom RedisTemplate (implemented by Jackson2JsonRedisSerializer)
+		// plz check com.yen.springBootAdvance1.config.MyRedisConfig
+		empRedisTemplate.opsForValue().set("emp02", empById);
 	}
 
 }
