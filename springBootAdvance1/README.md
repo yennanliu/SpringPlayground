@@ -15,6 +15,11 @@ mvn package
 java -jar <built_jar>
 
 
+#---------------------------
+# Run Mysql
+#---------------------------
+brew services start mysql
+mysql -u root
 
 #---------------------------
 # Run Redis
@@ -38,6 +43,10 @@ docker run -d -p 6379:6379 --name myredis redis
 docker ps -a
 
 redis-cli
+
+# remove/stop container
+docker stop <container_id>
+docker rm  <container_id>
 
 # basic command
 # https://redis.io/commands/
