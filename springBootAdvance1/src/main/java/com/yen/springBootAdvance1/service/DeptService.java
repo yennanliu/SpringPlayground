@@ -14,7 +14,8 @@ public class DeptService {
     @Autowired
     DepartmentMapper departmentMapper;
 
-    @Cacheable(cacheNames = "dept", key = "id")
+    //@Cacheable(cacheNames = "dept", key= "#dept.id")
+    @Cacheable(cacheNames = {"dept"})
     public Department getDeptById(Integer id){
         System.out.println(">>> query Department ..." + id);
         Department department = departmentMapper.getDeptById(id);
