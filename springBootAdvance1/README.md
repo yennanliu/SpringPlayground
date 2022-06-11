@@ -6,7 +6,6 @@
 
 <details>
 <summary>App</summary>
-</details>
 
 ```bash
 #---------------------------
@@ -27,9 +26,11 @@ brew services start mysql
 mysql -u root
 ```
 
+</details>
+
+
 <details>
 <summary>Docker, Redis</summary>
-</details>
 
 ```bash
 #---------------------------
@@ -87,6 +88,7 @@ SMEMBERS myset
 SISMEMBER myset lynn
 SISMEMBER myset tim
 ```
+</details>
 
 ## API
 
