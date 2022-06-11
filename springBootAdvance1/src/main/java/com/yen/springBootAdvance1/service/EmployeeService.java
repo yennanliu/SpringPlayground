@@ -93,6 +93,7 @@ public class EmployeeService {
      *   - Use Redis for our cache
      */
     @Cacheable(cacheNames = {"emp"})
+    //@Cacheable(cacheNames = {"emp"}, cacheManager = "employeeCacheManager")
     //@Cacheable(cacheNames = {"emp"}, condition = "#id>0")
     //@Cacheable(cacheNames = {"emp"}, key = "#root.methodName + '[' + #id + ']'")
     //@Cacheable(cacheNames = {"emp"}, keyGenerator = "myKeyGenerator")

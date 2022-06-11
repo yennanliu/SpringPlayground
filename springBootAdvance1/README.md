@@ -3,6 +3,11 @@
 
 
 ## Run
+
+<details>
+<summary>App</summary>
+</details>
+
 ```bash
 #---------------------------
 # Run app
@@ -20,7 +25,13 @@ java -jar <built_jar>
 #---------------------------
 brew services start mysql
 mysql -u root
+```
 
+<details>
+<summary>Docker, Redis</summary>
+</details>
+
+```bash
 #---------------------------
 # Run Redis
 #---------------------------
