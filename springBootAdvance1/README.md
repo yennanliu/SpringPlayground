@@ -125,6 +125,20 @@ SISMEMBER myset tim
 		- ref
 			- https://www.youtube.com/watch?v=puGukebF5E0&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=3
 
+- Spring boot & msg
+	- form
+		- queue
+		- topic (pub-sub)
+	- method
+		- JMS
+			- Java Message Service, implementation based on JVM
+			- ActiveMQ, HornetMQ
+		- AMQP
+			- Advanced Message Queuing Protocol
+			- RabbitMQ is one of the implementations
+		- RabbitMQ
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/jms_amqp.png">
+
 ## Ref
 - Course
 	- Material
