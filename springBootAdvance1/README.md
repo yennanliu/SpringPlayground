@@ -125,7 +125,7 @@ SISMEMBER myset tim
 		- ref
 			- https://www.youtube.com/watch?v=puGukebF5E0&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=3
 
-- Spring boot & msg
+- Message (and spring boot)
 	- form
 		- queue
 		- topic (pub-sub)
@@ -137,7 +137,27 @@ SISMEMBER myset tim
 			- Advanced Message Queuing Protocol
 			- RabbitMQ is one of the implementations
 		- RabbitMQ
+			- AMQP implementation via erlang
+			- Componenets
+				- Message
+					- rounting-key
+					- priority
+					- delivery-mode
+				- Publisher
+				- Exchange
+					- direct
+					- fanout topic
+					- headers
+				- Queue
+				- Binding
+				- Connection
+				- Channel
+				- Consumer
+				- Virtual Host
+				- Broker
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/jms_amqp.png">
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ1.png">
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ2.png">
 
 ## Ref
 - Course
