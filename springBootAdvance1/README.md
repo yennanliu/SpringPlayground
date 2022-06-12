@@ -96,7 +96,7 @@ SISMEMBER myset tim
 
 ```bash
 #---------------------------
-# Run Redis
+# Run RabbitMQ
 #---------------------------
 
 # Install RabbitMQ (Docker)
@@ -105,6 +105,7 @@ SISMEMBER myset tim
 docker pull rabbitmq:3.10-management
 
 # check pull images
+# account : guest, pwd: guest
 docker images
 
 # run Redis (Docker)
@@ -191,10 +192,12 @@ docker rm  <container_id>
 				- Consumer
 				- Virtual Host
 				- Broker
-			- exchange type
+			- Exchange type
 				- direct exchange
 				- fanout exchange
 				- topic exchange
+			- Basic RabbitMQ demo
+				- https://www.youtube.com/watch?v=IVjsiu0OrfQ&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=16
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/jms_amqp.png">
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ1.png">
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ2.png">
