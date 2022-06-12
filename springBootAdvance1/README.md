@@ -155,9 +155,18 @@ SISMEMBER myset tim
 				- Consumer
 				- Virtual Host
 				- Broker
+			- exchange type
+				- direct exchange
+				- fanout exchange
+				- topic exchange
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/jms_amqp.png">
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ1.png">
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ2.png">
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ3.png">
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ4.png">
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ5.png">
+	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance1/doc/pic/RabbitMQ6.png">
+
 
 ## Ref
 - Course
