@@ -35,6 +35,7 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
 		Arrays.stream(postFiles).forEach(postFile -> {
+
 			Optional<String> postFileNameOpt = Optional.ofNullable(postFile.getFilename());
 			Post post = new Post();
 

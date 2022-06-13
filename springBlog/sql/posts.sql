@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS markdownblogdb.posts (
     title VARCHAR(30),
     content VARCHAR(30),
     synopsis VARCHAR(30),
-    author VARCHAR(30),
+    author_id VARCHAR(30),
     localDateTime VARCHAR(30)
 );
 

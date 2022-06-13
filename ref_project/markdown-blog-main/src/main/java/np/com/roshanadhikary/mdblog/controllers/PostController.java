@@ -83,6 +83,8 @@ public class PostController {
 
 		// TODO : fix this
 		Author author = new Author();
+		author.setId(author_id);
+
 		post.setAuthor(author);
 
 		System.out.println(">>>> create end ...");
