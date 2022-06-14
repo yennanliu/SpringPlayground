@@ -2,6 +2,7 @@ package com.yen.springBootAdvance2;
 
 // https://www.youtube.com/watch?v=FqHO8tiUthQ&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=18
 
+import com.yen.springBootAdvance2.bean.Book;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,11 @@ class SpringBootAdvance2ApplicationTests {
 	RabbitTemplate rabbitTemplate;
 
 	/**
-	 *   Send msg
-	 *
-	 *   1) p2p (point to point)
-	 *
+	 *   Send msg to RabbitMQ
+	 *    - p2p (point to point)
 	 */
 	@Test
-	void contextLoads() {
+	void sendMsg() {
 
 		// we need to define our own message (can customize body, header)
 		//rabbitTemplate.send(exchange, routeKey, message);
@@ -38,19 +37,29 @@ class SpringBootAdvance2ApplicationTests {
 
 		// object is serialized (default method) and sent to RabbitMQ
 		rabbitTemplate.convertAndSend("exchange.direct", "yen.news", map);
+
+		rabbitTemplate.convertAndSend("exchange.direct", "yen.news", new Book("scala playbook", "tim"));
 	}
 
 	/**
-	 *   Receive msg
-	 *
+	 *   Receive msg from RabbitMQ
 	 */
 	@Test
-	public void receive(){
+	public void receiveMsg(){
 
 		Object o = rabbitTemplate.receiveAndConvert("com.yen");
 		System.out.println(o.getClass());
 		System.out.println(o);
 
+	}
+
+	/**
+	 *   Broadcast msg to RabbitMQ
+	 */
+	@Test
+	public void broadCastMsg(){
+
+		rabbitTemplate.convertAndSend("exchange.fanout", "", new Book("python manual","jack"));
 	}
 
 }
