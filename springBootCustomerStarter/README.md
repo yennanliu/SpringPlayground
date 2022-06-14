@@ -1,5 +1,9 @@
 # springBootCustomerStarter
 
+## Run
+```bash
+```
+
 ## Ref
 -  https://www.youtube.com/watch?v=gFz5MLFSQKQ&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=84
 - code

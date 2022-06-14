@@ -12,9 +12,9 @@ import java.math.BigInteger;
 public class Task {
 
     private Integer id;
-    private String userId;
+    private Integer userId;
     private String taskName;
-    private BigInteger startTime;
+    private Integer startTime;
     //private BigInteger endTime;
     private String status;
 }
