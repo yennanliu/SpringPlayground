@@ -70,3 +70,6 @@ springBootCustomerStarter/spring-boot-autoconfigurer/target/
 springBootAdvance1/.mvn/
 springBootAdvance1/mvnw
 springBootAdvance1/mvnw.cmd
+
+# pocDownloadService
+pocDownloadService/.idea/
