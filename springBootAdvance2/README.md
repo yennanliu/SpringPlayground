@@ -104,6 +104,8 @@ docker rm  <container_id>
 				- topic exchange
 			- Basic RabbitMQ demo
 				- https://www.youtube.com/watch?v=IVjsiu0OrfQ&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=16
+			- Tricks
+				-  `AmqpAdmin`: Create & remove : Queue, Exchange, Binding (via code)
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance2/doc/pic/jms_amqp.png">
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance2/doc/pic/RabbitMQ1.png">
 	- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance2/doc/pic/RabbitMQ2.png">
