@@ -46,6 +46,8 @@ class SpringBootAdvance2ApplicationTests {
 		// binding exchange and queue
 		amqpAdmin.declareBinding(new Binding("test.queue", Binding.DestinationType.QUEUE, "test.exchange", "test.key", null));
 		System.out.println(">>> binding created");
+
+		// there are deletion ops such as delete exchange, queue, binding...
 	}
 
 	/**
