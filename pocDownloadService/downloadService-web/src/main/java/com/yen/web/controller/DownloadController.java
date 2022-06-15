@@ -1,4 +1,4 @@
-package com.yen.web;
+package com.yen.web.controller;
 
 import com.yen.api.DownloadApi;
 import com.yen.model.DownloadRequest;
@@ -9,9 +9,10 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 public class DownloadController implements DownloadApi {
-    
+
     @Override
     public DownloadResponse createDownload(DownloadRequest request) {
+        System.out.println(">>> download run ...");
         return null;
     }
 

@@ -4,10 +4,10 @@ import com.yen.data.bean.Task;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping(value = "/meta")
-public interface MetaDataApi {
+@RequestMapping(value = "/history")
+public interface HistoryApi {
 
-    @GetMapping("/getHistory")
-    public Task[] getDownloadHistory();
+    @GetMapping("/list")
+    public Task[] getAllHistory();
 
 }
