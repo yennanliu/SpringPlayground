@@ -1,4 +1,4 @@
-package com.yen.api.model;
+package com.yen.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

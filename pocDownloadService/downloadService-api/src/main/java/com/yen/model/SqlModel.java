@@ -1,17 +1,16 @@
-package com.yen.api.model;
+package com.yen.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Map;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DownloadRequest {
+public class SqlModel {
 
-    private Map<String, Object> parameters;
+    private Integer downloadId;
+    private String  downloadSql;
 }
