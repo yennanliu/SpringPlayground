@@ -12,9 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class DownloadController implements DownloadApi {
 
     @Override
-    public DownloadResponse createDownload(DownloadRequest request) {
+    public DownloadResponse createDownload(String exportType, Integer startDate, Integer endDate) {
+
+        System.out.println(">>> exportType = " + exportType);
+        System.out.println(">>> startDate = " + startDate);
+        System.out.println(">>> endDate = " + endDate);
         System.out.println(">>> download run ...");
         return null;
     }
-
 }

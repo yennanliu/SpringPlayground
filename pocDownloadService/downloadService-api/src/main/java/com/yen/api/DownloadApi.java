@@ -7,8 +7,12 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(value = "/task")
 public interface DownloadApi {
 
-    // TODO : fix return type
     @PostMapping("/create")
-    public DownloadResponse createDownload(@RequestBody DownloadRequest request);
+    // TODO : fix param
+    //public DownloadResponse createDownload(@RequestBody DownloadRequest request);
+    public DownloadResponse createDownload(@RequestParam(name = "exportType") String exportType,
+                                           @RequestParam(name = "startDate") Integer startDate,
+                                           @RequestParam(name = "endDate") Integer endDate
+                                           );
 
 }
