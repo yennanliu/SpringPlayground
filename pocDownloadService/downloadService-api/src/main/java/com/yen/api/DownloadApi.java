@@ -10,7 +10,10 @@ public interface DownloadApi {
     @PostMapping("/create")
     // TODO : fix param
     //public DownloadResponse createDownload(@RequestBody DownloadRequest request);
-    public DownloadResponse createDownload(@RequestParam(name = "exportType") String exportType,
+    public DownloadResponse createDownload(
+                                           @RequestParam(name = "userList") Integer[] userList,
+                                           @RequestParam(name = "reportField") String[] reportField,
+                                           @RequestParam(name = "exportType") String exportType,
                                            @RequestParam(name = "startDate") Integer startDate,
                                            @RequestParam(name = "endDate") Integer endDate
                                            );

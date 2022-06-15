@@ -14,8 +14,8 @@ public class HistoryController implements HistoryApi {
     public ArrayList<Task> getAllHistory() {
         System.out.println(">>> get all history ...");
 
-        Task t1 = new Task(001, new Integer[]{1,2,3}, new String[]{"colA", "colB"},100, 200, "trade", "running");
-        Task t2 = new Task(002, new Integer[]{4,5}, new String[]{"colC", "colD"},300, 400, "deposit", "completed");
+        Task t1 = new Task(001, new Integer[]{1,2,3}, new String[]{"colA", "colB"},"trade", 200, 300, "running");
+        Task t2 = new Task(001, new Integer[]{4,5}, new String[]{"colC", "colD"},"deposit", 500, 600, "completed");
 
         ArrayList tasks = new ArrayList();
         tasks.add(t1);

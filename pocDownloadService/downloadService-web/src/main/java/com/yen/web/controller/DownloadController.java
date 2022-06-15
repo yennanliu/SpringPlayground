@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class DownloadController implements DownloadApi {
 
     @Override
-    public DownloadResponse createDownload(String exportType, Integer startDate, Integer endDate) {
+    public DownloadResponse createDownload(Integer[] userList, String[] reportField, String exportType, Integer startDate, Integer endDate) {
 
+        System.out.println(">>> userList = " + userList);
+        System.out.println(">>> reportField = " + reportField);
         System.out.println(">>> exportType = " + exportType);
         System.out.println(">>> startDate = " + startDate);
         System.out.println(">>> endDate = " + endDate);
@@ -23,6 +25,7 @@ public class DownloadController implements DownloadApi {
 
     @Override
     public void runDownload(String taskId) {
+
         System.out.println(">>> download task run ... id = " + taskId);
     }
 

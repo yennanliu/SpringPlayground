@@ -14,8 +14,8 @@ public class Task {
     private Integer id;
     private Integer[] userList;
     private String[] reportField;
+    private String  exportType;
     private Integer startTime;
     private Integer endTime;
-    private String  reportType;
     private String status;
 }
