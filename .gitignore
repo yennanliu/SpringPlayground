@@ -75,3 +75,4 @@ springBootAdvance1/mvnw.cmd
 pocDownloadService/.idea/
 pocDownloadService/downloadService-api/target/
 pocDownloadService/downloadService-data/target/
+pocDownloadService/downloadService-web/target/classes/
