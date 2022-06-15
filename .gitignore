@@ -76,3 +76,5 @@ pocDownloadService/.idea/
 pocDownloadService/downloadService-api/target/
 pocDownloadService/downloadService-data/target/
 pocDownloadService/downloadService-web/target/classes/
+pocDownloadService/downloadService-web/target/maven-archiver/pom.properties
+pocDownloadService/downloadService-web/target/maven-status/maven-compiler-plugin/compile/default-compile/*
