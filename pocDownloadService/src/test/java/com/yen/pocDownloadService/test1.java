@@ -10,7 +10,7 @@ public class test1 {
 
     @Test
     public void testLoadModule(){
-        
+
         User u1 = new User(100, "JACK", 1);
         Task t1 = new Task(1, 100, 200, "trading", "success");
 
