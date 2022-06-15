@@ -12,7 +12,7 @@ public class test1 {
     public void testLoadModule(){
 
         User u1 = new User(100, "JACK", 1);
-        
+
         Task t1 = new Task(001, new Integer[]{1,2,3}, new String[]{"colA", "colB"},"trade", 200, 300, "running");
         Task t2 = new Task(001, new Integer[]{4,5}, new String[]{"colC", "colD"},"deposit", 500, 600, "completed");
 
