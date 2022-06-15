@@ -15,4 +15,7 @@ public interface DownloadApi {
                                            @RequestParam(name = "endDate") Integer endDate
                                            );
 
+    @PostMapping("/run")
+    public void runDownload(@RequestParam(name="taskId") String taskId);
+
 }

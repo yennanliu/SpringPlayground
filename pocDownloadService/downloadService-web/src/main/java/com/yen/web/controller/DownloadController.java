@@ -21,4 +21,9 @@ public class DownloadController implements DownloadApi {
         return null;
     }
 
+    @Override
+    public void runDownload(String taskId) {
+        System.out.println(">>> download task run ... id = " + taskId);
+    }
+
 }
