@@ -13,3 +13,10 @@
 ## Run
 
 ## Reference
+
+## TODO:
+- 20220615
+	- Async
+	- S3 integration
+	- unit tests
+	- DB integration
