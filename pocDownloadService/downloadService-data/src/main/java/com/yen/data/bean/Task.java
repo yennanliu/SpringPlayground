@@ -12,8 +12,10 @@ import java.math.BigInteger;
 public class Task {
 
     private Integer id;
+    private Integer[] userList;
+    private String[] reportField;
     private Integer startTime;
     private Integer endTime;
-    private String  exportType;
+    private String  reportType;
     private String status;
 }
