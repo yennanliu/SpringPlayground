@@ -11,11 +11,11 @@ public class test1 {
     @Test
     public void testLoadModule(){
 
-//        User u1 = new User(100, "JACK", 1);
-//        Task t1 = new Task(1, 100, "hello task", 123423, "success");
-//
-//        System.out.println(">>> u1 = " + u1);
-//        System.out.println(">>> t1 = " + t1);
+        User u1 = new User(100, "JACK", 1);
+        Task t1 = new Task(1, 100, "hello task", 123423, "success");
+
+        System.out.println(">>> u1 = " + u1);
+        System.out.println(">>> t1 = " + t1);
     }
 
 }
