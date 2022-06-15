@@ -1,6 +1,7 @@
 package com.yen.web.controller;
 
 import com.yen.api.HistoryApi;
+import com.yen.data.bean.History;
 import com.yen.data.bean.Task;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,10 @@ public class HistoryController implements HistoryApi {
         ArrayList tasks = new ArrayList();
         tasks.add(t1);
         tasks.add(t2);
+
+        // TODO : fix to use History as return type
+        //History history = new History();
+        //history.setTasks(tasks);
 
         return tasks;
     }

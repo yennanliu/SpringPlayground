@@ -5,11 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class History {
 
-    private Task[] tasks;
+    private ArrayList<Task> tasks;
 }
