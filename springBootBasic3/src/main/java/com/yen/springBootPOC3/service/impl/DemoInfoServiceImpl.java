@@ -2,11 +2,12 @@ package com.yen.springBootPOC3.service.impl;
 
 import com.yen.springBootPOC3.dao.DemoInfoRepository;
 import com.yen.springBootPOC3.entity.DemoInfo;
-import com.yen.springBootPOC3.service.DemoService;
+import com.yen.springBootPOC3.service.DemoInfoService;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -14,7 +15,8 @@ import java.util.Optional;
 
 /** book p.146 */
 
-public class DemoServiceImpl implements DemoService {
+@Service("demoInfoService")
+public class DemoInfoServiceImpl implements DemoInfoService {
 
     // attr
     /** we need this '', or will face error. '' means this is an instance */
