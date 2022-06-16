@@ -78,3 +78,7 @@ pocDownloadService/downloadService-data/target/
 pocDownloadService/downloadService-web/target/classes/
 pocDownloadService/downloadService-web/target/maven-archiver/pom.properties
 pocDownloadService/downloadService-web/target/maven-status/maven-compiler-plugin/compile/default-compile/*
+
+# springBootAdvance4
+springBootAdvance4/.idea/
+springBootAdvance4.iml
