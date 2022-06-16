@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  *  ConsumerUserApplication
- *  
+ *
  *   step 1) import dep
  *   step 2) config dubbo registry url
  *   step 3) call service
