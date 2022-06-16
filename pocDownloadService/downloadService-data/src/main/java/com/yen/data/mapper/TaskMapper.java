@@ -14,6 +14,4 @@ public interface TaskMapper {
     @Select("SELECT * FROM tasks")
     public Task[] getAllTask();
 
-    @Insert("INSERT INTO history VALUES ()")
-    public void insertTask();
 }

@@ -8,7 +8,7 @@ import software.amazon.awssdk.services.redshiftdata.model.*;
 
 import java.util.function.Consumer;
 
-public class RedshiftServiceImpl implements myRedshiftService, RedshiftDataClient {
+public class RedshiftServiceImpl implements myRedshiftService {
     @Override
     public String runQuery(String querySQL) {
         System.out.println("run query : " + querySQL);
@@ -23,26 +23,6 @@ public class RedshiftServiceImpl implements myRedshiftService, RedshiftDataClien
 
     public void runQuery() {
         System.out.println("run query >>>>> " );
-    }
-
-    @Override
-    public String serviceName() {
-        return null;
-    }
-
-    @Override
-    public void close() {
-
-    }
-
-    @Override
-    public BatchExecuteStatementResponse batchExecuteStatement(BatchExecuteStatementRequest batchExecuteStatementRequest) throws ValidationException, ActiveStatementsExceededException, BatchExecuteStatementException, AwsServiceException, SdkClientException, RedshiftDataException {
-        return RedshiftDataClient.super.batchExecuteStatement(batchExecuteStatementRequest);
-    }
-
-    @Override
-    public BatchExecuteStatementResponse batchExecuteStatement(Consumer<BatchExecuteStatementRequest.Builder> batchExecuteStatementRequest) throws ValidationException, ActiveStatementsExceededException, BatchExecuteStatementException, AwsServiceException, SdkClientException, RedshiftDataException {
-        return RedshiftDataClient.super.batchExecuteStatement(batchExecuteStatementRequest);
     }
 
 }
