@@ -8,7 +8,7 @@ import com.yen.ticket.service.TicketService;
 import org.springframework.stereotype.Component;
 
 @Component
-@Service  // publish service
+@Service // publish service
 public class TicketServiceImpl implements TicketService {
     @Override
     public String getTicket() {
