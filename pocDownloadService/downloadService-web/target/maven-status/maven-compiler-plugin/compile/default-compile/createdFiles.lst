@@ -1,2 +1,4 @@
 com/yen/web/controller/BaseController.class
 com/yen/web/DownloadApp.class
+com/yen/web/service/impl/S3ServiceImpl.class
+com/yen/web/service/impl/RedshiftServiceImpl.class

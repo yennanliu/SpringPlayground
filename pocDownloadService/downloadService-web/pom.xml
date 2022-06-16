@@ -74,6 +74,12 @@
             <scope>compile</scope>
         </dependency>
 
+        <dependency>
+            <groupId>com.yen</groupId>
+            <artifactId>downloadService-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
