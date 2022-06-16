@@ -1,14 +1,8 @@
 # springBootAdvance4
-> ZK, Euruka, demo
+>  SpringBoot、Dubbo、Zookeeper integration demo
 
 ## Run
 ```bash
-# start mysql
-brew services start mysql
-
-# start redis
-brew services start redis
-
 # build
 mvn package
 
