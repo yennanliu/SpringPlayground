@@ -82,9 +82,10 @@ pocDownloadService/downloadService-web/target/maven-archiver/pom.properties
 pocDownloadService/downloadService-web/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst
 pocDownloadService/downloadService-web/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/createdFiles.lst
 pocDownloadService/downloadService-web/target/maven-status/
- pocDownloadService/downloadService-web/target/*
+pocDownloadService/downloadService-web/target/*
 
 # springBootAdvance4
 springBootAdvance4/.idea/
 springBootAdvance4.iml
 springBootAdvance4/springBootAdvance4/.idea
+springBootAdvance4/provider-ticker/target/
