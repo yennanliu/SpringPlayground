@@ -14,9 +14,12 @@ public class test {
     @Test
     public void test1(){
 
+        RedshiftServiceImpl redshiftService1 = new RedshiftServiceImpl();
         System.out.println(123);
-        System.out.println(redshiftService);
-        //System.out.println(redshiftService.runQuery());
+        System.out.println(redshiftService1.runQuery("123"));
+        //System.out.println(redshiftServiceimpl.runQuery("123"));
+
+        System.out.println(redshiftService1.runUnload("myTable", "myFile"));
     }
 
 }
