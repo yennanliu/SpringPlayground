@@ -24,25 +24,16 @@ java -jar <built_jar>
 # Run RabbitMQ
 #---------------------------
 
-# Install RabbitMQ (Docker)
-# https://www.youtube.com/watch?v=IVjsiu0OrfQ&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=16
-# management : has UI
-docker pull rabbitmq:3.10-management
+# https://www.youtube.com/watch?v=wg8ZARFcCFk&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=33
+docker pull zookeeper
 
 # check pull images
 # account : guest, pwd: guest
 docker images
 
-# run Redis (Docker)
-# -d : run in background
-# -p : expose docker internal 6379 port to local machine's 6379 port 
-# --name : name docker instance
-# name of iamge we want to run
-# 5672 : client, RabbitMQ port, 15672: UI port
-docker run -d -p 5672:5672 -p 15672:15672 --name myrabbitmq <docker_img_id>
-
-# visit RabbitMQ UI
-# http://localhost:15672/
+# run zookeeper (Docker)
+# https://hub.docker.com/_/zookeeper
+docker run --name zk01 -p 2181:2181 --restart always -d <zookeeper_img_id>
 
 docker ps -a
 
@@ -50,6 +41,8 @@ docker ps -a
 docker stop <container_id>
 docker rm  <container_id>
 ```
+
+</details>
 
 ## API
 
