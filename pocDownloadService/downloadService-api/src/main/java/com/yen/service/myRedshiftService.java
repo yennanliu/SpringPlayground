@@ -3,7 +3,7 @@ package com.yen.service;
 import org.springframework.stereotype.Service;
 
 @Service
-public interface RedshiftService {
+public interface myRedshiftService {
 
     public String runQuery(String querySQL);
 

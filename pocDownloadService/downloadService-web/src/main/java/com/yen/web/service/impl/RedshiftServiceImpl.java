@@ -1,8 +1,14 @@
 package com.yen.web.service.impl;
 
-import com.yen.service.RedshiftService;
+import com.yen.service.myRedshiftService;
+import software.amazon.awssdk.awscore.exception.AwsServiceException;
+import software.amazon.awssdk.core.exception.SdkClientException;
+import software.amazon.awssdk.services.redshiftdata.RedshiftDataClient;
+import software.amazon.awssdk.services.redshiftdata.model.*;
 
-public class RedshiftServiceImpl implements RedshiftService {
+import java.util.function.Consumer;
+
+public class RedshiftServiceImpl implements myRedshiftService, RedshiftDataClient {
     @Override
     public String runQuery(String querySQL) {
         System.out.println("run query : " + querySQL);
@@ -17,6 +23,26 @@ public class RedshiftServiceImpl implements RedshiftService {
 
     public void runQuery() {
         System.out.println("run query >>>>> " );
+    }
+
+    @Override
+    public String serviceName() {
+        return null;
+    }
+
+    @Override
+    public void close() {
+
+    }
+
+    @Override
+    public BatchExecuteStatementResponse batchExecuteStatement(BatchExecuteStatementRequest batchExecuteStatementRequest) throws ValidationException, ActiveStatementsExceededException, BatchExecuteStatementException, AwsServiceException, SdkClientException, RedshiftDataException {
+        return RedshiftDataClient.super.batchExecuteStatement(batchExecuteStatementRequest);
+    }
+
+    @Override
+    public BatchExecuteStatementResponse batchExecuteStatement(Consumer<BatchExecuteStatementRequest.Builder> batchExecuteStatementRequest) throws ValidationException, ActiveStatementsExceededException, BatchExecuteStatementException, AwsServiceException, SdkClientException, RedshiftDataException {
+        return RedshiftDataClient.super.batchExecuteStatement(batchExecuteStatementRequest);
     }
 
 }
