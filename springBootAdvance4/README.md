@@ -15,7 +15,7 @@ java -jar <built_jar>
 
 ```bash
 #---------------------------
-# Run RabbitMQ
+# Run Zookeeper
 #---------------------------
 
 # https://www.youtube.com/watch?v=wg8ZARFcCFk&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=33
