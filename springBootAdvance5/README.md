@@ -15,7 +15,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | `GET` | GET | | http://localhost:8761/ | Eureka UI
-
+| `GET` | GET | | localhost:8001/ticket | get ticket endpoint
 
 ## Important Concepts
 
