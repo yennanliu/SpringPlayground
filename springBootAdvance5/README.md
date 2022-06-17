@@ -14,7 +14,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| `GET` | GET | | http://localhost:8761/  || Eureka UI
+| `GET` | GET | | http://localhost:8761/ | Eureka UI
 
 
 ## Important Concepts

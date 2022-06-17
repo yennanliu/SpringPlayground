@@ -1,0 +1,13 @@
+# https://youtu.be/0yzA8_In-vg?t=112
+server:
+  port: 8001
+spring:
+  application:
+    name: provider-ticket
+
+eureka:
+  instance:
+    prefer-ip-address: true # use ip address when register service
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
