@@ -4,10 +4,15 @@ package com.yen.eurekaserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 /**
  *  Registry center
+ *
+ *   1) config Eureka
+ *   2) @EnableEurekaServer (Enable Eureka Server)
  */
+@EnableEurekaServer
 @SpringBootApplication
 public class DemoApplication {
 

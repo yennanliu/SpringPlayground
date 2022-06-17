@@ -1,0 +1,11 @@
+# https://youtu.be/P5o-6Od5cfc?t=343
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: eureka-server # eureka instance host name
+  client:
+    register-with-eureka: false # NOT register eureka instance itself to registry center
+    fetch-registry: false # NOT get service info from eureka instance (since eureka is registry center)
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
