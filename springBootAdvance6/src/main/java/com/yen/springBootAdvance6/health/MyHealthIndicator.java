@@ -16,7 +16,7 @@ public class MyHealthIndicator implements HealthIndicator {
 
         // if health
         //return Health.up().build();
-        
+
         // if NOT health
         return Health.down().withDetail("msg", "service is wrong").build();
     }
