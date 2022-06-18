@@ -1,7 +1,7 @@
 # springBootAdvance5
 >   SpringCloud Eureka integration demo
 
-- <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance5/doc/pic/eureka2.png">
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance5/doc/pic/eureka2.png">
 
 ## Run
 ```bash
@@ -33,8 +33,8 @@ java -jar provider-ticket-0.0.1-8002.jar
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | `GET` | GET | | http://localhost:8761/ | Eureka UI
-| `GET` | GET | | localhost:8001/ticket, localhost:8002/ticket | ticket provider
-| `GET` | GET | | localhost:8200/buy | ticket consumer
+| `GET` | GET | | http://localhost:8001/ticket, http://localhost:8002/ticket | ticket provider
+| `GET` | GET | | http://localhost:8200/buy | ticket consumer
 
 ## Important Concepts
 
