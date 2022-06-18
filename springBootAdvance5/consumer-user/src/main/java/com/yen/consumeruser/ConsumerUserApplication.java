@@ -5,6 +5,7 @@ package com.yen.consumeruser;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.client.RestTemplate;
 
@@ -19,6 +20,7 @@ public class ConsumerUserApplication {
 
 	// TODO : check how does this work !!
 	/** via RestTemplate, we can send HTTP request */
+	@LoadBalanced // enable load balance mechanism
 	@Bean
 	public RestTemplate restTemplate(){
 		return new RestTemplate();
