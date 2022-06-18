@@ -34,7 +34,7 @@ java -jar provider-ticket-0.0.1-8002.jar
 | ----- | -------- | ---- | ----- | ---- |
 | `GET` | GET | | http://localhost:8761/ | Eureka UI
 | `GET` | GET | | http://localhost:8001/ticket, http://localhost:8002/ticket | ticket provider
-| `GET` | GET | | http://localhost:8200/buy | ticket consumer
+| `GET` | GET | | http://localhost:8200/buy, http://localhost:8200/buy?name=jack | ticket consumer
 
 ## Important Concepts
 

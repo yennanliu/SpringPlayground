@@ -22,7 +22,7 @@ public class UserController {
         // ticket provider service
         String s = restTemplate.getForObject("http://PROVIDER-TICKET/ticket", String.class);
 
-        return ">>>" + name + "buy a ticket !!!" + s;
+        return ">>> " + name + " buy a ticket !!!" + s;
     }
 
 }
