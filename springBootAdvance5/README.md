@@ -20,6 +20,10 @@ java -jar <built_jar>
 # compile module
 # maven -> click module -> package
 # compiled jar can be found in "target"
+
+# run
+java -jar provider-ticket-0.0.1-8001.jar
+java -jar provider-ticket-0.0.1-8002.jar
 ```
 
 ## API
