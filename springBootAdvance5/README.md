@@ -3,11 +3,23 @@
 
 ## Run
 ```bash
+#---------------------
+# Command line
+#---------------------
+
 # build
 mvn package
 
 # run
 java -jar <built_jar>
+
+#---------------------
+# intellJ
+#---------------------
+
+# compile module
+# maven -> click module -> package
+# compiled jar can be found in "target"
 ```
 
 ## API
