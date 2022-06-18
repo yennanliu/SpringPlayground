@@ -18,7 +18,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| `GET` | GET | | http://localhost:8888/metrics | actuator metrics
+| `GET` | GET | |http://localhost:8080/actuator, http://localhost:8080/actuator/health  | actuator metrics
 
 ## Important Concepts
 
