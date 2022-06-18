@@ -29,3 +29,4 @@ java -jar <built_jar>
 - Course
     - Video
         - https://www.youtube.com/watch?v=YAp8e-4VArM&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=38
+        - https://www.youtube.com/watch?v=l4nXDzPX0co&list=PLmOn9nNkQxJESDPnrV6v_aiFgsehwLgku&index=39
