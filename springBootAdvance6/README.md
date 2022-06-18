@@ -1,5 +1,7 @@
 # springBootAdvance6
->   Spring boot actuator integration demo
+> Spring boot actuator integration demo
+
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBootAdvance6/doc/pic/actuator1.png">
 
 ## Run
 ```bash
