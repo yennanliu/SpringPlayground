@@ -1,4 +1,6 @@
 com/yen/web/controller/BaseController.class
+com/yen/web/service/impl/HistoryServiceImpl.class
 com/yen/web/DownloadApp.class
-com/yen/web/controller/HistoryController.class
 com/yen/web/controller/DownloadController.class
+com/yen/web/mapper/HistoryMapper2.class
+com/yen/web/service/HistoryService.class
