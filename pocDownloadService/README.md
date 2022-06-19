@@ -6,6 +6,7 @@
 | ----- | -------- | ---- | ----- | ---- |
 | Download |  |  |  | |
 | Create task | POST |  |  ||
+| Run task | POST | http://localhost:8888/task/run?taskId=123 |  ||
 | Get task | GET |  |  | |
 | List task | GET |  |  | |
 | Delete task | DELETE |  |  | |
