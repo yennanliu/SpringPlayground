@@ -2,8 +2,10 @@ package com.yen.data.mapper;
 
 import com.yen.data.bean.Task;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+@Mapper
 public interface HistoryMapper {
 
     // TODO : fix below data type (e.g. how to deal with array IO with mysql)
