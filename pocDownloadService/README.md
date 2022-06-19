@@ -8,6 +8,8 @@
 | Get task | GET |  |  | |
 | List task | GET |  |  | |
 | Delete task | DELETE |  |  | |
+|  |  |  |  | |
+| test endpoint| GET | http://localhost:8888/hello |  | |
 
 
 ## Run
