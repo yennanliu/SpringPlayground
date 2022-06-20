@@ -131,6 +131,7 @@ docker rm  <container_id>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| Employee |  | | |
 | `GET` | GET | get employee by id | http://localhost:8888/emp/{id}, http://localhost:8888/emp/1|id=1 or 2 or 3...|
 | `POST` | POST | update employee by id | http://localhost:8888/emp |id=xxx, lastName=yyy ...|
 | `GET` | GET | delete employee by id | http://localhost:8888/delemp?id=1 |id=1 or 2 or 3...|
