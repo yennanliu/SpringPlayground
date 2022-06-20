@@ -136,6 +136,9 @@ docker rm  <container_id>
 | `GET` | GET | delete employee by id | http://localhost:8888/delemp?id=1 |id=1 or 2 or 3...|
 | `GET` | GET | get employee by lastName | http://localhost:8888/lastname/{lastname}, http://localhost:8888/emp/lastname/Jill |lastname=Bob or Lily or Kim...|
 | `GET` | GET | get dept by id | http://localhost:8888/dept/{id}, http://localhost:8888/dept/1|id=1 or 2 or 3...|
+| `POST` | POST | add new employee | http://localhost:8888/emp/add?id=4&lastName=kkk&email=xxx@google.com&gender=1&dId=100 |
+| Test |  | | |
+| `GET` | GET | test endpoint | http://localhost:8888/test ||
 
 ## Important concept
 

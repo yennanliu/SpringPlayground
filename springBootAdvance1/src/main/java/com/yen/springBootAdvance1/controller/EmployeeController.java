@@ -58,4 +58,17 @@ public class EmployeeController {
         return employeeService.getEmpByLastName(lastName);
     }
 
+    @PostMapping("/emp/add")
+    public void addEmp(@RequestParam(value = "id") int id,
+                       @RequestParam(value="lastName") String lastName,
+                       @RequestParam(value="email") String email,
+                       @RequestParam(value="gender") int gender,
+                       @RequestParam(value="dId") int dId){
+
+        Employee employee = new Employee(id, lastName, email, gender, dId);
+        System.out.println(">>> insert employee : " + employee);
+
+        employeeService.insertEmp(employee);
+    }
+
 }

@@ -13,6 +13,7 @@ import com.yen.springBootAdvance1.mapper.EmployeeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @CacheConfig(cacheNames = "#emp") // extract common cache config : can add #emp cache to all methods in this class
 @Service
@@ -165,6 +166,11 @@ public class EmployeeService {
     )
     public Employee getEmpByLastName(String lastName){
         return employeeMapper.getEmpByLastName(lastName);
+    }
+
+    public void insertEmp(Employee employee){
+
+        employeeMapper.insertEmp(employee);
     }
 
 }
