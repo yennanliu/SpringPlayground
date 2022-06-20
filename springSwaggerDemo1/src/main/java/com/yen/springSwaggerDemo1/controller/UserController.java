@@ -46,4 +46,10 @@ public class UserController {
         System.out.println(">>> add user : " + user);
     }
 
+    @GetMapping("/user/{id}")
+    public User getUserById(int id){
+        // make a fake response below
+        return new User(id, "xxx");
+    }
+
 }
