@@ -5,7 +5,10 @@
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| Swagger |  |  |  ||
 | `GET /` | GET | API page | http://localhost:8888/swagger-ui.html |swagger page|
+| Test |  |  |  ||
+| GET | GET | hello endpoint  |  http://localhost:8888/test ||
 
 
 ## Ref
