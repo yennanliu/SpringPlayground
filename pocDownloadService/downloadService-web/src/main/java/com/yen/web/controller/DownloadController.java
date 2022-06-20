@@ -2,9 +2,11 @@ package com.yen.web.controller;
 
 import com.yen.api.DownloadApi;
 import com.yen.data.bean.Task;
-import com.yen.data.mapper.HistoryMapper;
+//import com.yen.data.mapper.HistoryMapper;
 import com.yen.model.DownloadRequest;
 import com.yen.model.DownloadResponse;
+import com.yen.web.mapper.HistoryMapper2;
+import com.yen.web.service.HistoryService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DownloadController implements DownloadApi {
 
     @Autowired
-    HistoryMapper historyMapper;
+    HistoryService historyService;
 
     @Override
     public DownloadResponse createDownload(Integer[] userList, String[] reportField, String exportType, Integer startDate, Integer endDate) {
@@ -38,7 +40,8 @@ public class DownloadController implements DownloadApi {
         System.out.println(">>> task = " + task);
 
         // public Task[] insertTask(Integer id, String userList, String reportField, String exportType, Integer startTime, Integer endTime, String status);
-        historyMapper.insertTask(10, userList.toString(), reportField.toString(), exportType, startDate, endDate, "running");
+        //historyMapper2.insertTask(10, userList.toString(), reportField.toString(), exportType, startDate, endDate, "running");
+        historyService.addTask(task);
 
         // TODO : fix return value
         return null;
