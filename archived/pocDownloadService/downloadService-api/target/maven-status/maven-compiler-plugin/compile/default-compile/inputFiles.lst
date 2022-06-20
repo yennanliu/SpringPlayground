@@ -1,0 +1,9 @@
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/api/DownloadApi.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/service/myRedshiftService.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/model/ErrorCode.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/service/S3Service.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/model/DownloadRequest.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/model/SqlModel.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/model/DownloadResult.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/model/DownloadResponse.java
+/Users/yennanliu/SpringPlayground/pocDownloadService/downloadService-api/src/main/java/com/yen/api/HistoryApi.java

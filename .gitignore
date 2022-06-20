@@ -85,6 +85,7 @@ pocDownloadService/downloadService-web/target/maven-status/
 pocDownloadService/downloadService-web/target/*
 pocDownloadService/downloadService-web/target
 pocDownloadService/downloadService-web/target/maven-archiver
+pocDownloadService/downloadService-web/target/maven-archiver/pom.properties
 
 # springBootAdvance4
 springBootAdvance4/.idea/
