@@ -3,6 +3,10 @@
 
 ## Steps
 
+## User flows
+```
+Report type (report field) -> Create task (filter, feilds) -> Run task -> Notify when Task completed -> Download url -> History tasks
+``` 
 
 ## Run
 
