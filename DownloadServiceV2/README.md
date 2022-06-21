@@ -27,8 +27,11 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| Download | | | |
+| get report fields | GET | | http://localhost:8888/report/{name}, http://localhost:8888/report?name=trade , http://localhost:8888/report?name=deposit |
+|  |  | | |
 | Test |  | | |
-| test endpoint |  http://localhost:8888/test | | |
+| test endpoint |GET | http://localhost:8888/test | |
 
 
 ## Important Concepts
