@@ -31,9 +31,20 @@ brew services start mysql
 mysql -u root
 ```
 
+</details>
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
 
+
+
+## Important Concepts
+
+## Ref
+
+- Course
+    - Video
+        - https://www.youtube.com/watch?v=MK5KDjTQysA&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0
