@@ -15,6 +15,9 @@
 	<groupId>com.yen</groupId>
 	<artifactId>springCloud1</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<modules>
+		<module>cloud-provider-payment8001</module>
+	</modules>
 	<packaging>pom</packaging>
 
 	<name>springCloud1</name>
