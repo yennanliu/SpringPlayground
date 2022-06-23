@@ -36,8 +36,15 @@ java -jar <built_jar>
 |  |  | | |
 | Test |  | | |
 | test endpoint |GET | http://localhost:8888/test | |
+| test endpoint |GET | http://localhost:8888/user | |
 
 
 ## Important Concepts
+- How to use local modules ?
+    - step 1) add module to pom.xml
+        - https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/download-service-api/pom.xml#L21
+        - https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/download-service-web/pom.xml#L22
+    - step 2) at intellJ, reload pom.xml (click "wheel")
+    - step 3) then you should be able to import class from local modules
 
 ## Ref
