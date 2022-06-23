@@ -8,66 +8,59 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <!--
+    Pom.xml modify from here :  (1st comment)
+    https://www.youtube.com/watch?v=HQH90WprYgw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9
+    -->
+
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>cloud-provider-payment8001</artifactId>
 
-    <properties>
-    </properties>
-
     <dependencies>
-
-        <!-- https://www.youtube.com/watch?v=HQH90WprYgw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=9 -->
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.22</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-devtools</artifactId>
             <scope>runtime</scope>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
 
     </dependencies>
-
 
 </project>
