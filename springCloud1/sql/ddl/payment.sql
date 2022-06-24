@@ -1,5 +1,5 @@
 -- DDL for payment table
--- DB : spring_cloud
+-- DB : spring_cloud (mysql)
 -- table : payment
 -- https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=10
 
