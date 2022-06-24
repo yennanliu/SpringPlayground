@@ -13,5 +13,5 @@ import java.util.Map;
 public class Admin implements Serializable {
 
     String name;
-    Map<String, String> param;
+    Map<String, Object> param;
 }

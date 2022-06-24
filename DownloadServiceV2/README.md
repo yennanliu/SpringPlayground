@@ -46,5 +46,12 @@ java -jar <built_jar>
         - https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/download-service-web/pom.xml#L22
     - step 2) at intellJ, reload pom.xml (click "wheel")
     - step 3) then you should be able to import class from local modules
+- Send `Map<String, Object>` with POST request via Postname ?
+    - step 1) set up url (endpoint), choose POST type
+    - step 2) Body -> raw -> choose "Json" type
+    - step 3) add content into body (Map<String, Object>)
+    - step 4) send request
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/doc/pic/post_with_map_1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/doc/pic/post_with_map_2.png">
 
 ## Ref
