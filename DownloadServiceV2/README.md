@@ -51,7 +51,9 @@ java -jar <built_jar>
     - step 2) Body -> raw -> choose "Json" type
     - step 3) add content into body (Map<String, Object>)
     - step 4) send request
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/doc/pic/post_with_map_1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/doc/pic/post_with_map_2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/doc/img/post_with_map_1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/DownloadServiceV2/doc/img/post_with_map_2.png">
+    - Ref
+        - http://www.codebaoku.com/it-java/it-java-220952.html
 
 ## Ref
