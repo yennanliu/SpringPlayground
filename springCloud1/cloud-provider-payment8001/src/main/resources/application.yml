@@ -4,15 +4,16 @@ server:
 
 spring:
   application:
-    admin:
       name: cloud-payment-service
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource  # current data src type
     driver-class-name: org.gjt.mm.mysql.Driver    # mysql driver
-    url: jdbc:mysql://localhost:3306/spring_cloud?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    url: jdbc:mysql://localhost:3306/data?useUnicode=true&characterEncoding=utf-8&useSSL=false
     username: root
     password:
 
 mybatis:
-  mapperLocations: classpath:mapper/*.xml
+  # TODO : fix to use classpath instead of hardcode path
+  #mapperLocations: classpath:mapper/*.xml
+  mapperLocations: springCloud1/cloud-provider-payment8001/src/main/resources:mapper/*.xml
   type-aliases-package: com.yen.springCloud1.entities  # package which has entities aliases classes
