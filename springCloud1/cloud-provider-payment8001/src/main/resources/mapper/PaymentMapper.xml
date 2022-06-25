@@ -12,6 +12,7 @@ Ref
         VALUES (#{serial});
     </insert>
 
+    <!-- col name mapping -->
     <resultMap id="BaseResultMap" type="com.yen.entities.Payment">
         <id column="id" property="id" jdbcType="BIGINT"></id>
         <id column="serial" property="serial" jdbcType="VARCHAR"></id>
