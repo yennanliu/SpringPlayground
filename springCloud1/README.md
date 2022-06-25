@@ -37,8 +37,10 @@ mysql -u root
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| Payment |  | | |
+| get payment | GET | http://localhost:8001/payment/get/1 | |
 | Test |  | | |
-
+| test1 | GET | http://localhost:8001/test | |
 
 
 ## Important Concepts
