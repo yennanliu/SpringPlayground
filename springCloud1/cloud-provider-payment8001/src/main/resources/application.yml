@@ -14,6 +14,7 @@ spring:
 
 mybatis:
   # TODO : fix to use classpath instead of hardcode path
+  # TODO : fix to use PaymentMapper.xml (instead of code at PaymentDao)
   #mapperLocations: classpath:mapper/*.xml
-  mapperLocations: springCloud1/cloud-provider-payment8001/src/main/resources:mapper/*.xml
+  #mapperLocations: springCloud1/cloud-provider-payment8001/src/main/resources:mapper/*.xml
   type-aliases-package: com.yen.springCloud1.entities  # package which has entities aliases classes
