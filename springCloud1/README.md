@@ -39,6 +39,7 @@ mysql -u root
 | ----- | -------- | ---- | ----- | ---- |
 | Payment |  | | |
 | get payment | GET | http://localhost:8001/payment/get/1 | |
+| crearte payment | POST | http://localhost:8001/payment/create?serial=549494489 | |
 | Test |  | | |
 | test1 | GET | http://localhost:8001/test | |
 
