@@ -6,10 +6,7 @@ import com.yen.entities.CommonResult;
 import com.yen.entities.Payment;
 import com.yen.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -39,9 +36,10 @@ public class PaymentController {
     }
 
     @GetMapping("/get/{id}")
-    public CommonResult getPaymentById(Long id){
+    public CommonResult getPaymentById(@PathVariable("id") Long id){
 
         Payment payment = paymentService.getPaymentById(id);
+        log.info(">>> id = " + id);
         log.info(">>> getPaymentById result = " + payment);
 
         if (payment != null){
