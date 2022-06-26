@@ -35,11 +35,11 @@ mysql -u root
 
 ## API
 
-| API | Type | Purpose | Example cmd | Comment|
+| API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Payment |  | | |
-| get payment | GET | http://localhost:8001/payment/get/1 | |
-| crearte payment | POST | http://localhost:8001/payment/create?serial=549494489 | |
+| get payment | GET | http://localhost:8001/payment/get/1 | get payment by id |
+| crearte payment | POST | http://localhost:8001/payment/create?serial=549494489 | create new payment with `Payment` (serial)|
 | Test |  | | |
 | test1 | GET | http://localhost:8001/test | |
 
