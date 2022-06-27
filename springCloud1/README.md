@@ -37,9 +37,13 @@ mysql -u root
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Payment |  | | |
-| get payment | GET | http://localhost:8001/payment/get/1 | get payment by id |
-| crearte payment | POST | http://localhost:8001/payment/create?serial=549494489 | create new payment with `Payment` (serial)|
+| Provider-Payment8001 |  | | |
+| get payment | GET | http://localhost:8001/payment/get/1 | get payment by id (via payment-8001)|
+| crearte payment | POST | http://localhost:8001/payment/
+create?serial=549494489 | create new payment with `Payment` (serial)|
+| Consumer-order80 |  | | |
+| get payment | GET | http://localhost/consumer/payment/get/4| get payment by id (via consumer-order-80)|
+| crearte payment | GET | http://localhost:80/consumer/payment/create?serial=7777 | create new payment with `Payment` (serial) via consumer-order-80)|
 | Test |  | | |
 | test1 | GET | http://localhost:8001/test | |
 
