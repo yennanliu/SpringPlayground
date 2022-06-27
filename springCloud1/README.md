@@ -45,9 +45,18 @@ mysql -u root
 
 
 ## Important Concepts
+- RestTemplate
+    - via `restTemplate` visit Rest endpoints
+    - params:
+        - url : REST address
+        - requestMap : request params
+        - ResponseBean.class : HTTP response encapsulation class
+    - Ref
+         - https://youtu.be/8d6BvCZxPwQ?t=604
+         - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html
+         - https://www.baeldung.com/rest-template
 
 ## Ref
-
 - Course
     - Video
         - https://www.youtube.com/watch?v=MK5KDjTQysA&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0
