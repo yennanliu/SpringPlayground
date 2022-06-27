@@ -10,7 +10,8 @@
 
 	<modules>
 		<module>cloud-provider-payment8001</module>
-	</modules>
+        <module>cloud-consumer-order80</module>
+    </modules>
 
 	<!--
 	Pom.xml modify from here :  (1st comment)
