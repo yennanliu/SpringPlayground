@@ -7,6 +7,7 @@ import com.yen.mapper.UserMapper;
 import org.junit.Test;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
+import org.mockito.InOrder;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,7 +25,7 @@ public class UserServiceTest {
     UserMapper userMapper;
 
     @Test
-    public void getUserByIdTest(){
+    public void getUserByNameTest1(){
         /**
          *  define when mock userMapper is called, and param = "amy"
          *  -> it will return new User("amy", 10) new instance
@@ -39,7 +40,7 @@ public class UserServiceTest {
         Assert.assertEquals(user.getName(), "amy");
     }
     @Test
-    public void getUserByIdTest2(){
+    public void getUserByNameTest2(){
 
         Mockito.when(userService.getUserByName(Mockito.anyString())).thenReturn(new User("amy", 10));
 
@@ -52,7 +53,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserByIdTest3(){
+    public void getUserByNameTest3(){
 
         Mockito.when(userService.getUserByName("Zad")).thenThrow(new RuntimeException("mock throw exception"));
         //User user = userService.getUserByName("Zad"); //會拋出一個RuntimeException
@@ -61,12 +62,25 @@ public class UserServiceTest {
     }
 
     @Test
-    public void getUserByIdTest4(){
+    public void getUserByNameTest4(){
 
         // TODO : fix below
         Mockito.when(userMapper.getUserByName("amy")).thenReturn(new User("amy", 10));
         //Mockito.verify(userService, Mockito.times(1)).getUserByName(Mockito.eq("amy"));
+    }
 
+    @Test
+    public void getUserByNameTest5(){
+
+        // TODO : fix below
+
+        Mockito.when(userMapper.getUserByName("amy")).thenReturn(new User("amy", 10));
+        Mockito.when(userMapper.getUserByName("zz")).thenReturn(new User("zz", 10));
+
+//        InOrder inOrder = Mockito.inOrder(userService);
+//        inOrder.verify(userService).getUserByName("amy");
+//        inOrder.verify(userService).getUserByName("zz");
+//        inOrder.verify(userService).insertUser(Mockito.any(User.class));
     }
 
 }
