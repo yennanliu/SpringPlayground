@@ -26,5 +26,4 @@ public class HelloController {
         return admin;
     }
 
-
 }

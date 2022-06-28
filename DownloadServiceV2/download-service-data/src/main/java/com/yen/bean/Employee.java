@@ -14,7 +14,6 @@ import java.sql.Date;
 public class Employee {
 
     private Long emp_id;
-
     private String emp_name;
     private String emp_team;
     private Date emp_birthDate;
