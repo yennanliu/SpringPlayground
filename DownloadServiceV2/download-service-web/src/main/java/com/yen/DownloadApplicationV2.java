@@ -8,10 +8,10 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @MapperScan("com.yen.mapper")
 @ComponentScan(basePackages = {"com.yen"})
-public class DownloadApplication {
+public class DownloadApplicationV2 {
     public static void main(String[] args) {
 
-        SpringApplication.run(DownloadApplication.class, args);
+        SpringApplication.run(DownloadApplicationV2.class, args);
     }
 
 }
