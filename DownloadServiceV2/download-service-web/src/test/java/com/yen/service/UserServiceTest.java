@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -22,7 +23,7 @@ public class UserServiceTest {
     @Autowired
     UserService userService;
 
-    @Autowired
+    @MockBean // NOTE !!! here we have to use @MockBean annotation; instead of @Autowired
     UserMapper userMapper;
 
     @Test
