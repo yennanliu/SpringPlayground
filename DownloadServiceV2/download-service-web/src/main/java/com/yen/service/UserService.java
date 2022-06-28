@@ -5,13 +5,16 @@ package com.yen.service;
 import com.yen.bean.User;
 import com.yen.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+// TODO: implement its impl
+@Service
 public class UserService {
 
     @Autowired
     UserMapper userMapper;
 
-    public User getUserById(String name) {
+    public User getUserByName(String name) {
         return userMapper.getUserByName(name);
     }
 
