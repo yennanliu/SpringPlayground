@@ -22,5 +22,4 @@ public class ApplicationContextConfig {
      *   -> "application.yml <bean id = "" class = ""></bean>"
      *
      */
-
 }

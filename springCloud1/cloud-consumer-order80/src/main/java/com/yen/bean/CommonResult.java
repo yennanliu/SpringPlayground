@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/** copy from cloud-provider-payment8001 */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

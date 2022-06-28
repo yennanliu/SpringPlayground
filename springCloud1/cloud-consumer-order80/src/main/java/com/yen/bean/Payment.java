@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
+/** copy from cloud-provider-payment8001 */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
