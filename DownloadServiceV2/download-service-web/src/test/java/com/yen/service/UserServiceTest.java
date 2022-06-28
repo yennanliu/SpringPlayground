@@ -41,5 +41,26 @@ public class UserServiceTest {
         Assert.assertEquals(user.getAge(), 10);
         Assert.assertEquals(user.getName(), "amy");
     }
+    @Test
+    public void getUserByIdTest2(){
+
+        Mockito.when(userService.getUserByName(Mockito.anyString())).thenReturn(new User("amy", 10));
+
+        // return User("amy", 10) instance with any name
+        User user = userService.getUserByName("xxx");
+
+        Assert.assertNotNull(user);
+        Assert.assertEquals(user.getAge(), 10);
+        Assert.assertEquals(user.getName(), "amy");
+    }
+
+    @Test
+    public void getUserByIdTest3(){
+
+        Mockito.when(userService.getUserByName("Zad")).thenThrow(new RuntimeException("mock throw exception"));
+        //User user = userService.getUserByName("Zad"); //會拋出一個RuntimeException
+
+        Assert.assertThrows(RuntimeException.class, () -> { userService.getUserByName("Zad");});
+    }
 
 }
