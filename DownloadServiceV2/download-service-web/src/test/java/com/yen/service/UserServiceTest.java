@@ -4,11 +4,8 @@ package com.yen.service;
 
 import com.yen.bean.User;
 import com.yen.mapper.UserMapper;
-//import org.junit.jupiter.api.Test;
 import org.junit.Test;
-//import org.junit.jupiter.api.Test;
 import org.junit.Assert;
-//import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,6 +58,15 @@ public class UserServiceTest {
         //User user = userService.getUserByName("Zad"); //會拋出一個RuntimeException
 
         Assert.assertThrows(RuntimeException.class, () -> { userService.getUserByName("Zad");});
+    }
+
+    @Test
+    public void getUserByIdTest4(){
+
+        // TODO : fix below
+        Mockito.when(userMapper.getUserByName("amy")).thenReturn(new User("amy", 10));
+        //Mockito.verify(userService, Mockito.times(1)).getUserByName(Mockito.eq("amy"));
+
     }
 
 }
