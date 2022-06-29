@@ -59,6 +59,8 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
          - https://youtu.be/8d6BvCZxPwQ?t=604
          - https://docs.spring.io/spring-framework/docs/current/javadoc-api/org/springframework/web/client/RestTemplate.html
          - https://www.baeldung.com/rest-template
+- Project refactor (extract common methods to module, and use it)
+    - https://www.youtube.com/watch?v=D1pH2Ee88OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=15
 
 ## Ref
 - Course
