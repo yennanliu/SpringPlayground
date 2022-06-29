@@ -1,6 +1,7 @@
 package com.yen.controller;
 
 // https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=10
+// https://www.youtube.com/watch?v=38XoPk5l5DQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=14
 
 import com.yen.entities.CommonResult;
 import com.yen.entities.Payment;
@@ -23,7 +24,7 @@ public class PaymentController {
      *  -> it's better to return CommonResult to FE; instead of complex result (binding with biz logic)
      */
     @PostMapping("/create")
-    public CommonResult create(Payment payment){
+    public CommonResult create(@RequestBody Payment payment){ // NOTE !!! we need @RequestBody , so  cloud-consumer-order80 can call cloud-provider-payment8001's payment create method properly
 
         int result = paymentService.create(payment);
         log.info(">>> create payment = " + payment);
