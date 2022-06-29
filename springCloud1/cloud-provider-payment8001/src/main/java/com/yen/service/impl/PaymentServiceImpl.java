@@ -1,7 +1,7 @@
 package com.yen.service.impl;
 
+import com.yen.bean.Payment;
 import com.yen.dao.PaymentDao;
-import com.yen.entities.Payment;
 import com.yen.service.PaymentService;
 
 import org.springframework.stereotype.Service;

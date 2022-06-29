@@ -3,8 +3,8 @@ package com.yen.controller;
 // https://www.youtube.com/watch?v=4wWM7MmfxXw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=10
 // https://www.youtube.com/watch?v=38XoPk5l5DQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=14
 
-import com.yen.entities.CommonResult;
-import com.yen.entities.Payment;
+import com.yen.bean.CommonResult;
+import com.yen.bean.Payment;
 import com.yen.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
