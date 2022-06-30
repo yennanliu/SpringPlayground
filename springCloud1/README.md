@@ -61,6 +61,8 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
          - https://www.baeldung.com/rest-template
 - Project refactor (extract common methods to module, and use it)
     - https://www.youtube.com/watch?v=D1pH2Ee88OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=15
+- Eureka
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/eureka1.png">
 
 ## Ref
 - Course
