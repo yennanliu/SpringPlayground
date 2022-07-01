@@ -51,7 +51,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Eureka |  | | |
-| service UI | GET | http://localhost:7001/ | Eureka UI |
+| service UI | GET | http://localhost:7001/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
