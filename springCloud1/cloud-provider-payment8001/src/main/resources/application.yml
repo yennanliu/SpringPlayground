@@ -21,7 +21,7 @@ eureka:
     fetchRegistry: true
     service-url:
       # https://blog.csdn.net/xiaozhu0301/article/details/109604443
-      defaultZone: http://localhost:7001/eureka/
+      defaultZone: http://localhost:7001/eureka
 
 mybatis:
   # TODO : fix to use classpath instead of hardcode path
