@@ -10,4 +10,5 @@ eureka:
     fetch-registry: false
     service-url:
       # url for service register/access (via eureka)
-      defaultzone: http://${eureka.instance.hostname}${server.port}/eureka/
+      # https://blog.csdn.net/xiaozhu0301/article/details/109604443
+      defaultZone: http://${eureka.instance.hostname}${server.port}/eureka/
