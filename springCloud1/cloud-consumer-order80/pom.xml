@@ -58,6 +58,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!--
+        eureka client
+        https://youtu.be/ARfdin7xoZI?t=177
+        -->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>-->
+<!--        </dependency>-->
+
     </dependencies>
 
 </project>
