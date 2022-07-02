@@ -1,4 +1,5 @@
 # https://youtu.be/HQH90WprYgw?t=646
+# https://www.youtube.com/watch?v=M2Wit3w2wLU&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=21
 server:
   port: 8001
 
@@ -21,7 +22,10 @@ eureka:
     fetchRegistry: true
     service-url:
       # https://blog.csdn.net/xiaozhu0301/article/details/109604443
-      defaultZone: http://localhost:7001/eureka
+      # single node mode
+      #defaultZone: http://localhost:7001/eureka
+      # cluster mode
+      defaultZone:  http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
 
 mybatis:
   # TODO : fix to use classpath instead of hardcode path
