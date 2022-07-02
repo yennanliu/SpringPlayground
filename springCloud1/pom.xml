@@ -13,7 +13,8 @@
         <module>cloud-consumer-order80</module>
         <module>cloud-api-commons</module>
         <module>cloud-eureka-server7001</module>
-    </modules>
+		<module>cloud-eureka-server7002</module>
+	</modules>
 
 	<!--
 	Pom.xml modify from here :  (1st comment)

@@ -1,11 +1,11 @@
 # https://www.youtube.com/watch?v=3yGY9RxCtOc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=17
 # https://www.youtube.com/watch?v=ukm7jep5doc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=20
 server:
-  port: 7001
+  port: 7002
 eureka:
   instance:
     #hostname: localhost
-    hostname: eureka7001.com  # eureka service instance name
+    hostname: eureka7002.com  # eureka service instance name
   client:
     # no need to register itself
     register-with-eureka: false
@@ -16,4 +16,4 @@ eureka:
       # single node mode
       #defaultZone: http://${eureka.instance.hostname}${server.port}/eureka/
       # cluster mode
-      defaultZone: http://eureka7002:7002/eureka/
+      defaultZone: http://eureka7001:7001/eureka/
