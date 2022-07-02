@@ -1,0 +1,14 @@
+# https://www.youtube.com/watch?v=3yGY9RxCtOc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=17
+server:
+  port: 7001
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    # no need to register itself
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      # url for service register/access (via eureka)
+      # https://blog.csdn.net/xiaozhu0301/article/details/109604443
+      defaultZone: http://${eureka.instance.hostname}${server.port}/eureka/
