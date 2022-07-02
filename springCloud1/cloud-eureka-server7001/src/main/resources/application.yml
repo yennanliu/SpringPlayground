@@ -16,4 +16,4 @@ eureka:
       # single node mode
       #defaultZone: http://${eureka.instance.hostname}${server.port}/eureka/
       # cluster mode
-      defaultZone: http://eureka7002:7002/eureka/
+      defaultZone: http://eureka7002.com:7002/eureka/

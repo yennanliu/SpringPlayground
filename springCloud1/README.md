@@ -50,8 +50,11 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Eureka |  | | |
-| service UI | GET | http://localhost:7001/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
+| Eureka  cluter|  | | |
+| service UI | GET | http://localhost:7001/  or http://eureka7001.com:7001/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
+| service UI | GET | http://localhost:7002/  or http://eureka7002.com:7002/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
+|[Eureka single :  springCloud1_backup](https://github.com/yennanliu/SpringPlayground/tree/main/archived/springCloud1_backup)|  | | |
+
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
