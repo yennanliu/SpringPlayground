@@ -1,6 +1,7 @@
 package com.yen.service.impl;
 
 import com.yen.service.FileService;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
@@ -9,6 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
+@Service
 public class FileServiceImpl implements FileService {
 
     @Override
@@ -22,7 +24,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void mergeDownloadCsv(Path[] paths, String destFile) throws IOException {
+    public void mergeDownloadCsv(List<Path> paths, String destFile) throws IOException {
 
         // https://gist.github.com/alexwanng/d15941b58237ea89dc13e040ba6bc534
 
