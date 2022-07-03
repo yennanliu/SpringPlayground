@@ -37,6 +37,8 @@ java -jar <built_jar>
 | Test |  | | |
 | test endpoint |GET | http://localhost:8888/test | |
 | test endpoint |GET | http://localhost:8888/user | |
+| Swagger |  |  |  ||
+| GET | GET | API page | http://localhost:8888/swagger-ui.html |swagger page|
 
 
 ## Important Concepts
