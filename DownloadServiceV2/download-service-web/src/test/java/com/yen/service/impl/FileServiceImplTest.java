@@ -26,7 +26,6 @@ public class FileServiceImplTest {
 
         String prefix = currentPath + "/src/test/resources/";
 
-
         /**
          *  https://docs.oracle.com/javase/tutorial/essential/io/pathOps.html
          *    -> You can easily create a Path object by using one of the following get methods from the Paths (note the plural) helper class:
