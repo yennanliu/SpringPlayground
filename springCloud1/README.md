@@ -43,7 +43,7 @@ mysql -u root
 | get payment | GET | http://localhost:8001/payment/get/1 | get payment by id (via payment-8001)|
 | crearte payment | POST | http://localhost:8001/payment/
 create?serial=549494489 | create new payment with `Payment` (serial)|
-| discovery | GET | http://localhost:8001/payment/discovery | |
+| discovery client (via eureka)| GET | http://localhost:8001/payment/discovery | |
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
@@ -51,6 +51,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | get payment | GET | http://localhost:8002/payment/get/1 | get payment by id (via payment-8002)|
 | crearte payment | POST | http://localhost:8002/payment/
 create?serial=549494489 | create new payment with `Payment` (serial)|
+| discovery client (via eureka)| GET | http://localhost:8002/payment/discovery | |
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
