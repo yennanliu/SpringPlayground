@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -18,7 +19,7 @@ public class FileServiceImplTest {
     FileService fileService;
 
     @Test
-    public void mergeDownloadCsvTest(){
+    public void mergeDownloadCsvTest() throws IOException {
 
         /**
          *  https://docs.oracle.com/javase/tutorial/essential/io/pathOps.html
@@ -29,13 +30,15 @@ public class FileServiceImplTest {
         Path p2 = Paths.get("/data/test2.csv");
         Path p3 = Paths.get("/data/test3.csv");
 
+        String destFile = "mergedOutput";
+
         Path[] paths = new Path[]{p1,p2,p3};
         //System.out.println(">>> paths = " + paths.toString());
         for (Path p : paths){
             System.out.println(">>> p = " + p);
         }
 
-        //fileService.mergeDownloadCsv();
-
+        fileService.mergeDownloadCsv(paths, destFile);
     }
+
 }

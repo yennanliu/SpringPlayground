@@ -10,7 +10,7 @@ public interface FileService {
 
     public void getDownloadCsv(String url);
 
-    public void mergeDownloadCsv(List<Path> paths, String destFile) throws IOException;
+    public void mergeDownloadCsv(Path[] paths, String destFile) throws IOException;
 
     public void uploadFile(String url);
 }

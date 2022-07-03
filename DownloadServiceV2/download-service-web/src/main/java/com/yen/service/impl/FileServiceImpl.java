@@ -24,7 +24,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void mergeDownloadCsv(List<Path> paths, String destFile) throws IOException {
+    public void mergeDownloadCsv(Path[] paths, String destFile) throws IOException {
 
         // https://gist.github.com/alexwanng/d15941b58237ea89dc13e040ba6bc534
 
