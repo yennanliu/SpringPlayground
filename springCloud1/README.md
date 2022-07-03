@@ -29,6 +29,8 @@ java -jar <built_jar>
 #---------------------------
 brew services start mysql
 mysql -u root
+
+# DB : data, table : payment
 ```
 
 </details>
@@ -40,6 +42,13 @@ mysql -u root
 | cloud-provider-payment8001 |  | | |
 | get payment | GET | http://localhost:8001/payment/get/1 | get payment by id (via payment-8001)|
 | crearte payment | POST | http://localhost:8001/payment/
+create?serial=549494489 | create new payment with `Payment` (serial)|
+
+| API | Type | Example cmd | Purpose | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| cloud-provider-payment8002 |  | | |
+| get payment | GET | http://localhost:8002/payment/get/1 | get payment by id (via payment-8002)|
+| crearte payment | POST | http://localhost:8002/payment/
 create?serial=549494489 | create new payment with `Payment` (serial)|
 
 | API | Type | Example cmd | Purpose | Comment|

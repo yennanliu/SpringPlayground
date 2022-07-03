@@ -36,9 +36,9 @@ public class PaymentController {
         log.info(">>> paymentService result = " + result);
 
         if (result > 0){
-            return new CommonResult(200, "insert DB ok + serverPort = " + serverPort, result);
+            return new CommonResult(200, "insert DB ok, serverPort = " + serverPort, result);
         }else{
-            return new CommonResult(444, "insert DB failed + serverPort = " + serverPort, null);
+            return new CommonResult(444, "insert DB failed, serverPort = " + serverPort, null);
         }
     }
 
