@@ -35,15 +35,15 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Download | | | |
-| get report fields | GET | | http://localhost:8888/report/{name}, http://localhost:8888/report?name=trade , http://localhost:8888/report?name=deposit |
-| test paging |GET | http://localhost:8888/msg?page=1&size=1 or http://localhost:8888/msg?page=1&size=2  or http://localhost:8888/msg?page=0&size=10| |
+| get report fields | GET | get fields for report| http://localhost:8888/report/{name}, http://localhost:8888/report?name=trade , http://localhost:8888/report?name=deposit |
+| test paging |GET |query DB with page, size| http://localhost:8888/msg?page=1&size=1 or http://localhost:8888/msg?page=1&size=2  or http://localhost:8888/msg?page=0&size=10 |
 |  |  | | |
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
-| test endpoint |GET | http://localhost:8888/test | |
-| test endpoint |GET | http://localhost:8888/user | |
+| test endpoint |GET | | http://localhost:8888/test |
+| test endpoint |GET | | http://localhost:8888/user |
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
