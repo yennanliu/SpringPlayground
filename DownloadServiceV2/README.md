@@ -3,10 +3,12 @@
 
 ## Steps
 
+
 ## User flows
 ```
 Report type (report field) -> Create task (filter, feilds) -> Run task -> Notify when Task completed -> Download url -> History tasks
 ``` 
+
 
 ## Run
 
@@ -27,6 +29,7 @@ java -jar <built_jar>
 
 </details>
 
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -34,9 +37,15 @@ java -jar <built_jar>
 | Download | | | |
 | get report fields | GET | | http://localhost:8888/report/{name}, http://localhost:8888/report?name=trade , http://localhost:8888/report?name=deposit |
 |  |  | | |
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
 | test endpoint |GET | http://localhost:8888/test | |
 | test endpoint |GET | http://localhost:8888/user | |
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
 | Swagger |  |  |  ||
 | GET | GET | API page | http://localhost:8888/swagger-ui.html |swagger page|
 
