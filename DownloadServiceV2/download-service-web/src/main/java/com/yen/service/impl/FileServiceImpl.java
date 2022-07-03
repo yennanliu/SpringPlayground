@@ -3,9 +3,7 @@ package com.yen.service.impl;
 import com.yen.service.FileService;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -34,8 +32,8 @@ public class FileServiceImpl implements FileService {
 
         System.out.println(">>> paths = " + paths.toString());
 
+        /** Part 1 : merge csv */
         Set<String> header = new HashSet<>(Arrays.asList());
-
         List<String> mergedLines = new ArrayList<>();
 
         for (Path p : paths){
@@ -47,22 +45,31 @@ public class FileServiceImpl implements FileService {
             }
             mergedLines.addAll(lines.subList(1, lines.size()));
         }
+
         System.out.println(">>> mergedLines = " + mergedLines);
 
-        // save to csv
-        try {
-            File myObj = new File(destFile);
-            FileWriter fWriter = new FileWriter(destFile);
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-            } else {
-                System.out.println("File already exists.");
+        /** Part 2 : save output (as csv) */
+        // https://www.programcreek.com/2011/03/java-write-to-a-file-code-example/
+
+        BufferedWriter bw = null;
+        try{
+            File file = new File(destFile);
+            FileOutputStream fos = new FileOutputStream(file);
+
+            bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            for (String s : mergedLines) {
+                bw.write(s);
+                bw.newLine();
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
+        }catch (Exception e){
             e.printStackTrace();
         }
-
+        finally {
+            if (bw != null){
+                bw.close();
+            }
+        }
     }
 
     @Override
