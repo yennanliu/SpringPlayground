@@ -1,6 +1,7 @@
 package com.yen.controller;
 
 // https://www.youtube.com/watch?v=8d6BvCZxPwQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=13
+// https://www.youtube.com/watch?v=uLnMgNai8nc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=23
 
 import com.yen.bean.CommonResult;
 import com.yen.bean.Payment;
@@ -20,7 +21,10 @@ import javax.annotation.Resource;
 @RequestMapping("/consumer")
 public class OrderController {
 
-    public static final String PAYMENT_URL = "http://localhost:8001";
+    // single node mode
+    //public static final String PAYMENT_URL = "http://localhost:8001";
+    // cluster mode (NOTE !!! we ONLY care service name; instead of actual url) (with service name http://CLOUD-PAYMENT-SERVICE, consumer-80 will use either payment8001 or payment8002)
+    public static final String PAYMENT_URL = "http://CLOUD-PAYMENT-SERVICE";
 
     @Resource
     RestTemplate restTemplate;
