@@ -21,19 +21,28 @@ public class FileServiceImplTest {
     @Test
     public void mergeDownloadCsvTest() throws IOException {
 
+        String currentPath = new java.io.File(".").getCanonicalPath();
+        System.out.println(">>> Current dir:" + currentPath);
+
+        String prefix = currentPath + "/src/test/resources/";
+
+
         /**
          *  https://docs.oracle.com/javase/tutorial/essential/io/pathOps.html
          *    -> You can easily create a Path object by using one of the following get methods from the Paths (note the plural) helper class:
          */
 
-        Path p1 = Paths.get("/data/test.csv");
-        Path p2 = Paths.get("/data/test2.csv");
-        Path p3 = Paths.get("/data/test3.csv");
+        //Path p1 = Paths.get("/src/main/resources/data/test1.csv");
+        Path p1 = Paths.get(prefix + "data/test1.csv");
+        Path p2 = Paths.get(prefix + "data/test2.csv");
+        Path p3 = Paths.get(prefix + "data/test3.csv");
 
         String destFile = "mergedOutput";
 
         Path[] paths = new Path[]{p1,p2,p3};
+        //Path[] paths = new Path[]{p1};
         //System.out.println(">>> paths = " + paths.toString());
+
         for (Path p : paths){
             System.out.println(">>> p = " + p);
         }
