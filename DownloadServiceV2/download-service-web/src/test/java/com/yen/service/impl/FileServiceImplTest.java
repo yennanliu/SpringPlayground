@@ -36,7 +36,7 @@ public class FileServiceImplTest {
         Path p2 = Paths.get(prefix + "data/test2.csv");
         Path p3 = Paths.get(prefix + "data/test3.csv");
 
-        String destFile = "mergedOutput";
+        String destFile = prefix + "data/mergedOutput.csv";
 
         Path[] paths = new Path[]{p1,p2,p3};
         //Path[] paths = new Path[]{p1};

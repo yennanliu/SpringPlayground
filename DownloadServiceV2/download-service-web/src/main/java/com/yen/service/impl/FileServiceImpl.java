@@ -3,6 +3,8 @@ package com.yen.service.impl;
 import com.yen.service.FileService;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -22,10 +24,13 @@ public class FileServiceImpl implements FileService {
 
     }
 
+    // TODO : optimize performance : either use library or tune algorithm
     @Override
     public void mergeDownloadCsv(Path[] paths, String destFile) throws IOException {
 
         // https://gist.github.com/alexwanng/d15941b58237ea89dc13e040ba6bc534
+        // https://github.com/james-schmidt/CSVDataMerge
+        // https://github.com/search?l=Java&o=desc&q=merge+csv&s=stars&type=Repositories
 
         System.out.println(">>> paths = " + paths.toString());
 
@@ -43,6 +48,21 @@ public class FileServiceImpl implements FileService {
             mergedLines.addAll(lines.subList(1, lines.size()));
         }
         System.out.println(">>> mergedLines = " + mergedLines);
+
+        // save to csv
+        try {
+            File myObj = new File(destFile);
+            FileWriter fWriter = new FileWriter(destFile);
+            if (myObj.createNewFile()) {
+                System.out.println("File created: " + myObj.getName());
+            } else {
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+
     }
 
     @Override
