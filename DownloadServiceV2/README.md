@@ -36,6 +36,7 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | Download | | | |
 | get report fields | GET | | http://localhost:8888/report/{name}, http://localhost:8888/report?name=trade , http://localhost:8888/report?name=deposit |
+| test paging |GET | http://localhost:8888/msg?page=1&size=1 or http://localhost:8888/msg?page=1&size=2  or http://localhost:8888/msg?page=0&size=10| |
 |  |  | | |
 
 | API | Type | Purpose | Example cmd | Comment|
