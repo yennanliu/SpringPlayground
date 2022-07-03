@@ -1,0 +1,36 @@
+# https://youtu.be/HQH90WprYgw?t=646
+# https://www.youtube.com/watch?v=M2Wit3w2wLU&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=21
+# https://www.youtube.com/watch?v=uLnMgNai8nc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=23
+server:
+  port: 8002
+
+spring:
+  application:
+      name: cloud-payment-service
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource  # current data src type
+    driver-class-name: org.gjt.mm.mysql.Driver    # mysql driver
+    url: jdbc:mysql://localhost:3306/data?useUnicode=true&characterEncoding=utf-8&useSSL=false
+    username: root
+    password:
+
+# https://youtu.be/ARfdin7xoZI?t=340
+eureka:
+  client:
+    # whether register current service to eureka
+    register-with-eureka: true
+    # whether let eureka server get current registry info. Have to set as true if in cluster mode, so can run with ribbon for load balance
+    fetchRegistry: true
+    service-url:
+      # https://blog.csdn.net/xiaozhu0301/article/details/109604443
+      # single node mode
+      #defaultZone: http://localhost:7001/eureka
+      # cluster mode
+      defaultZone:  http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+
+mybatis:
+  # TODO : fix to use classpath instead of hardcode path
+  # TODO : fix to use PaymentMapper.xml (instead of code at PaymentDao)
+  #mapperLocations: classpath:mapper/*.xml
+  #mapperLocations: springCloud1/cloud-provider-payment8001/src/main/resources:mapper/*.xml
+  type-aliases-package: com.yen.springCloud1.entities  # package which has entities aliases classes
