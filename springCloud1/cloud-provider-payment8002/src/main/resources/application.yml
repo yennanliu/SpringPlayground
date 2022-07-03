@@ -30,6 +30,7 @@ eureka:
   # https://youtu.be/-nlQVEau5FE?t=200
   instance:
     instance-id: payment8002
+    prefer-ip-address: true # visit url shows ip address
 
 mybatis:
   # TODO : fix to use classpath instead of hardcode path
