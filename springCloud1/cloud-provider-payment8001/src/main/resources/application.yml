@@ -26,6 +26,9 @@ eureka:
       #defaultZone: http://localhost:7001/eureka
       # cluster mode
       defaultZone:  http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  # https://youtu.be/-nlQVEau5FE?t=200
+  instance:
+    instance-id: payment8001
 
 mybatis:
   # TODO : fix to use classpath instead of hardcode path
