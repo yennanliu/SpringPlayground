@@ -14,13 +14,13 @@ import javax.persistence.Table;
 public class Message {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     private String id;
 
-    @Column(name = "CONTENT")
+    @Column(name = "content")
     private String content;
 
-    @Column(name = "CREATE_TIME") // sort by this col
+    @Column(name = "create_time") // sort by this col
     private Long createTime;
 
     // getter, setter
