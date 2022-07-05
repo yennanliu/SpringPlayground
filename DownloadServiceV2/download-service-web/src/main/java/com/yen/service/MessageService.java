@@ -28,7 +28,9 @@ public class MessageService {
                  *  size : record per page
                  *  Sort.by("createTime").descending()) : descending sort by create_Time
                  */
-                PageRequest.of(page, size, Sort.by("createTime").descending()));
+                PageRequest.of(page, size, Sort.by("createTime").descending())
+
+                );
 
                 pageResult.getNumberOfElements(); // record of current page 本頁筆數
                 pageResult.getSize();             // record per page 每頁筆數
