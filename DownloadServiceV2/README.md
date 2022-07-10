@@ -41,6 +41,14 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| Car | | | |
+| get all cars | GET | get all cars | http://localhost:8888/car/all |
+| get car by brand | GET | get car by brand  |http://localhost:8888/car?brand=tesla |
+| test paging |GET |query DB with page, size| http://localhost:8888/msg?page=1&size=1 or http://localhost:8888/msg?page=1&size=2  or http://localhost:8888/msg?page=0&size=10 |
+|  |  | | |
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
 | test endpoint |GET | | http://localhost:8888/test |
 | test endpoint |GET | | http://localhost:8888/user |
