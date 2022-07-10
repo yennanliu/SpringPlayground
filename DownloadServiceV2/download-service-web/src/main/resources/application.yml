@@ -1,0 +1,7 @@
+# pagehelper
+# https://www.cnblogs.com/xifengxiaoma/p/11027551.html
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
