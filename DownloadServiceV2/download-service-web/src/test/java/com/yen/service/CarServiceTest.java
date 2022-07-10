@@ -34,17 +34,17 @@ public class CarServiceTest {
 
         int startPage = 1;
         int pageSize = 1;
+        int navigatePage = 2;
 
         System.out.println(">>> startPage = " + startPage);
         System.out.println(">>> pageSize = " + pageSize);
 
         PageHelper.startPage(startPage, pageSize);
-        //PageHelper.orderBy("id ASC");
-
         List<User> allUser = userService.getAllUser();
+
         System.out.println(">>> allUser = " + allUser);
 
-        PageInfo<User> pageInfo = new PageInfo<User>(allUser);
+        PageInfo<User> pageInfo = new PageInfo<User>(allUser, navigatePage);
 
         long total = pageInfo.getTotal();
         int pages = pageInfo.getPages();
