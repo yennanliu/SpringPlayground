@@ -7,6 +7,8 @@ import com.yen.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 // TODO: implement its impl
 @Service
 public class UserService {
@@ -15,11 +17,17 @@ public class UserService {
     UserMapper userMapper;
 
     public User getUserByName(String name) {
+
         return userMapper.getUserByName(name);
     }
 
     public void insertUser(User user) {
-         userMapper.insertUser(user);
+
+        userMapper.insertUser(user);
     }
 
+    public List<User> getAllUser() {
+
+        return userMapper.getAllUser();
+    }
 }

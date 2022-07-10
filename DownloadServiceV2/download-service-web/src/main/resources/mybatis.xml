@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- ref : https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+<!--    <environments default="development">-->
+<!--        <environment id="development">-->
+<!--            <transactionManager type="JDBC" />-->
+<!--            &lt;!&ndash; 數據庫連接,由mybatis管理&ndash;&gt;-->
+<!--            <dataSource type="POOLED">-->
+<!--                <property name="driver" value="com.mysql.jdbc.Driver" />-->
+<!--                <property name="url" value="jdbc:mysql://localhost:3306/data?useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=UTC" />-->
+<!--                <property name="username" value="root" />-->
+<!--                <property name="password" value="" />-->
+<!--            </dataSource>-->
+<!--        </environment>-->
+<!--    </environments>-->
+
+    <!--
+        PageInterceptor
+        ref : https://blog.csdn.net/haiyanggeng/article/details/80387270
+    -->
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+    
+    <!-- tb_userinfo 資料表配置 -->
+<!--    <mappers>-->
+<!--        <mapper resource="config/tb_userinfoMapper.xml"/>-->
+<!--    </mappers>-->
+</configuration>
