@@ -12,8 +12,8 @@ public interface CarApi {
     @GetMapping("/car/all")
     public Car[] getAllCar();
 
-//    @PostMapping("/car/all/page")
-//    public Car[] getAllCarPage(@RequestBody CarRequest carRequest);
+    @PostMapping("/car/all/page")
+    public Car[] getAllCarPage(@RequestBody CarRequest carRequest);
 
     @GetMapping("/car")
     public Car getCarByBrand(@RequestParam("brand") String brand);

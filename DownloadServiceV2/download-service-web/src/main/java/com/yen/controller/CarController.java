@@ -20,16 +20,16 @@ public class CarController implements CarApi {
         return carService.getAllCar();
     }
 
-//    @Override
-//    public Car[] getAllCarPage(@RequestBody CarRequest request) {
-//
-//        Car[] cars = carService.getAllCarPage(request.getPageNum(), request.getPageSize());
-//
-//        System.out.println(">>> getAllCarPage request = " + request);
-//        System.out.println(">>> getAllCarPage response = " + cars);
-//
-//        return carService.getAllCarPage(request.getPageNum(), request.getPageSize());
-//    }
+    @Override
+    public Car[] getAllCarPage(@RequestBody CarRequest request) {
+
+        Car[] cars = carService.getAllCarPage(request.getPageNum(), request.getPageSize());
+
+        System.out.println(">>> getAllCarPage request = " + request);
+        System.out.println(">>> getAllCarPage response = " + cars);
+
+        return carService.getAllCarPage(request.getPageNum(), request.getPageSize());
+    }
 
     @Override
     public Car getCarByBrand(@RequestParam("brand") String brand) {
