@@ -118,26 +118,6 @@
             <version>1.6.8</version>
         </dependency>
 
-        <!--
-            plugin for mybatis paging
-            https://juejin.cn/post/6996303139540467749
-        -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.2.0</version>
-        </dependency>
-
-        <!--
-        pagehelper
-        https://www.cnblogs.com/xifengxiaoma/p/11027551.html
-         -->
-<!--        <dependency>-->
-<!--            <groupId>com.github.pagehelper</groupId>-->
-<!--            <artifactId>pagehelper-spring-boot-starter</artifactId>-->
-<!--            <version>1.3.0</version>-->
-<!--        </dependency>-->
-
     </dependencies>
 
 </project>

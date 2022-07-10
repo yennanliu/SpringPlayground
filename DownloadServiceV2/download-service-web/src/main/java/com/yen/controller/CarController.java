@@ -1,5 +1,6 @@
 package com.yen.controller;
 
+import com.github.pagehelper.Page;
 import com.yen.api.CarApi;
 import com.yen.bean.Car;
 import com.yen.bean.request.CarRequest;
@@ -21,14 +22,14 @@ public class CarController implements CarApi {
     }
 
     @Override
-    public Car[] getAllCarPage(@RequestBody CarRequest request) {
+    public Page getAllCarPage(@RequestBody CarRequest request) {
 
-        Car[] cars = carService.getAllCarPage(request.getPageNum(), request.getPageSize());
+        Page cars = carService.getAllCarPage(request.getPageNum(), request.getPageSize());
 
         System.out.println(">>> getAllCarPage request = " + request);
         System.out.println(">>> getAllCarPage response = " + cars);
 
-        return carService.getAllCarPage(request.getPageNum(), request.getPageSize());
+        return cars;
     }
 
     @Override

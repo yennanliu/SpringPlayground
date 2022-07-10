@@ -20,7 +20,7 @@ public class CarService {
         return carMapper.getAllCar();
     }
 
-    public Car[] getAllCarPage(int pageNum, int pageSize){
+    public Page getAllCarPage(int pageNum, int pageSize){
         //Pager<Car> pager = new Pager<Car>();
         //Page page = PageHelper.startPage(pageNum, pageSize);
         // List<SysUser> sysMenus = sysUserMapper.selectPage();
@@ -29,8 +29,13 @@ public class CarService {
         System.out.println(">>> pageSize = " + pageSize);
 
         PageHelper.startPage(pageNum, pageSize);
-        Car[] cars = carMapper.getAllCar();
-        return cars;
+        List<Car> cars = carMapper.getAllCarByPage();
+        Page page = (Page) cars;
+
+        System.out.println(">>> page = " + page);
+        System.out.println(">>> page.getResult() = " + page.getResult());
+
+        return page;
     }
 
 

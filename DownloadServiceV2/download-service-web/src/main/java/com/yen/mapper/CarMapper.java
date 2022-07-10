@@ -9,6 +9,8 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface CarMapper {
 
@@ -16,7 +18,7 @@ public interface CarMapper {
     public Car[] getAllCar();
 
     @Select("SELECT * FROM car")
-    public PageInfo<Car> getAllCarByPage();
+    public List<Car> getAllCarByPage();
 
     @Select("SELECT * FROM car WHERE brand = #{brand}")
     public Car getCarByBrand(String brand);

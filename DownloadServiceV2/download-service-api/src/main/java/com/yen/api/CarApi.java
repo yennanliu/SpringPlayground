@@ -1,5 +1,6 @@
 package com.yen.api;
 
+import com.github.pagehelper.Page;
 import com.yen.bean.Car;
 import com.yen.bean.request.CarRequest;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,7 +14,7 @@ public interface CarApi {
     public Car[] getAllCar();
 
     @PostMapping("/car/all/page")
-    public Car[] getAllCarPage(@RequestBody CarRequest carRequest);
+    public Page getAllCarPage(@RequestBody CarRequest carRequest);
 
     @GetMapping("/car")
     public Car getCarByBrand(@RequestParam("brand") String brand);
