@@ -1,6 +1,7 @@
 package com.yen.service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yen.bean.User;
 import org.junit.Test;
 import org.junit.Assert;
@@ -24,19 +25,37 @@ public class CarServiceTest {
     /**
      *   mybatis PageHelper test 1
      *
-     *      -> ref : https://zendei.com/article/94778.html
+     *      -> ref :
+     *          https://zendei.com/article/94778.html
+     *          https://developer.aliyun.com/article/240740
      */
     @Test
     public void test1(){
 
-        int startPage= 2;
-        int pageSize= 2;
+        int startPage = 1;
+        int pageSize = 1;
+
+        System.out.println(">>> startPage = " + startPage);
+        System.out.println(">>> pageSize = " + pageSize);
 
         PageHelper.startPage(startPage, pageSize);
         //PageHelper.orderBy("id ASC");
 
         List<User> allUser = userService.getAllUser();
-
         System.out.println(">>> allUser = " + allUser);
+
+        PageInfo<User> pageInfo = new PageInfo<User>(allUser);
+
+        long total = pageInfo.getTotal();
+        int pages = pageInfo.getPages();
+        int pagesize = pageInfo.getPageSize();
+
+        System.out.println(">>> total = " + total);
+        System.out.println(">>> pages = " + pages);
+        System.out.println(">>> pagesize = " + pagesize);
+        System.out.println(">>> pageInfo.getNextPage() = " + pageInfo.getNextPage());
+
+
+
     }
 }
