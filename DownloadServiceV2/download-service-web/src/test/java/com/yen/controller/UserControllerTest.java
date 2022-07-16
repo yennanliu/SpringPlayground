@@ -3,7 +3,6 @@ package com.yen.controller;
 // https://www.tpisoftware.com/tpu/articleDetails/1256
 
 import com.yen.bean.User;
-import javafx.application.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

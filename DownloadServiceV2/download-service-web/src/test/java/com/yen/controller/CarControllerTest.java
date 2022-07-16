@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -37,7 +38,20 @@ public class CarControllerTest {
     public void setup() throws Exception {
         this.mockMvc = standaloneSetup(this.carController).build(); // Standalone context
 
-        Car car1 = new Car("ZJZ", 1000);
+        Car car1 = new Car("benz", 1000);
+    }
+
+    @Test
+    public void testGetUser() throws Exception{
+
+        // Mocking
+        Car car1 = new Car("benz", 1000);
+        when(this.carService.getCarByBrand("benz")).thenReturn(car1);
+
+        ResultActions resultActions = mockMvc.perform(get("/car?brand=benz").contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(status().is2xxSuccessful());
     }
 
 }
