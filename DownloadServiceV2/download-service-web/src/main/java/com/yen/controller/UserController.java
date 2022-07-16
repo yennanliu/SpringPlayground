@@ -14,6 +14,7 @@ public class UserController implements UserApi {
         User u2 = new User("lynn", 28);
 
         System.out.println(">>> u1 = " + u1);
+        
         return u1;
     }
 }
