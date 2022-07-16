@@ -106,3 +106,4 @@ DownloadServiceV2/download-service-api/target/
 # springCloud1
 springCloud1.iml
 springCloud1/.idea
+springCloud1/.mvn
