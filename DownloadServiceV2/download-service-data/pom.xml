@@ -31,6 +31,26 @@
             <version>2.6.8</version>
         </dependency>
 
+        <!--
+    plugin for mybatis paging
+    https://juejin.cn/post/6996303139540467749
+-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <!-- <version>5.2.0</version> -->
+            <version>4.2.1</version>
+        </dependency>
+
     </dependencies>
+
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.springframework.boot</groupId>-->
+<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
 
 </project>

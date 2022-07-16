@@ -11,6 +11,19 @@
 
     <artifactId>download-service-web</artifactId>
 
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                <configuration>-->
+<!--                    <source>6</source>-->
+<!--                    <target>6</target>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
+
     <dependencies>
 
         <!-- add local module dep -->
@@ -103,16 +116,6 @@
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>1.6.8</version>
-        </dependency>
-
-        <!--
-            plugin for mybatis paging
-            https://juejin.cn/post/6996303139540467749
-        -->
-        <dependency>
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.2.0</version>
         </dependency>
 
     </dependencies>

@@ -5,8 +5,13 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface UserMapper {
+
+    @Select("SELECT * FROM user")
+    public List<User> getAllUser();
 
     @Select("SELECT * FROM user WHERE id = #{id}")
     public User getUserByName(String name);
