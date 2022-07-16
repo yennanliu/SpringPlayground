@@ -55,7 +55,5 @@ public class CarServiceTest {
         System.out.println(">>> pagesize = " + pagesize);
         System.out.println(">>> pageInfo.getNextPage() = " + pageInfo.getNextPage());
 
-
-
     }
 }
