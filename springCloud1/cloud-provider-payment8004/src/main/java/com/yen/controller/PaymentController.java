@@ -18,6 +18,7 @@ public class PaymentController {
 
     @RequestMapping(value = "/payment/zk")
     public String paymentZK(){
+
         return "spring cloud with ZK : " + serverPort + UUID.randomUUID().toString();
     }
 

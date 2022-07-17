@@ -66,6 +66,10 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | service UI | GET | http://localhost:7002/  or http://eureka7002.com:7002/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
 |[Eureka single :  springCloud1_backup](https://github.com/yennanliu/SpringPlayground/tree/main/archived/springCloud1_backup)|  | | |
 
+| API | Type | Example cmd | Purpose | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Zookeeper is register center |  | | |
+| node1 | GET | http://localhost:8004/payment/zk | |
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
