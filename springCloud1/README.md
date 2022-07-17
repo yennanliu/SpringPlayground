@@ -1,6 +1,7 @@
 # Spring Cloud 1
 > Spring cloud micro-service demo
 <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/spring_cloud_intro.png">
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/register_service_cap.png">
 
 ## Steps
 ```
