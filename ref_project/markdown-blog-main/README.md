@@ -16,7 +16,12 @@ Markdown blog from my blog post series
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| `GET /` | GET | homepage | http://localhost:8080/posts |home page|
+| `GET /` | GET | homepage | http://localhost:8888/posts |home page|
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET /` | GET |Swagger | 	http://localhost:8888/swagger-ui.html |Api page|
+
 
 
 ## System dep
