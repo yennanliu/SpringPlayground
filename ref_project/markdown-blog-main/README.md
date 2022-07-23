@@ -1,6 +1,8 @@
 # markdown-blog
-Markdown blog from my blog post series, beginning from [Part 1](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-1.html).
+> Build a blog via spring boot with markdown
 
+## Tutorial
+Markdown blog from my blog post series, beginning from [Part 1](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-1.html).
 - [Build a Markdown-based Blog with Spring Boot - Part 6](https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-spring-boot-part-6.html)
 - [Build a Markdown-based Blog with Spring Boot - Part 5](https://www.roshanadhikary.com.np/2021/07/build-a-markdown-based-blog-with-spring-boot-part-5.html)
 - [Build a Markdown-based Blog with Spring Boot - Part 4](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-4.html)
@@ -8,5 +10,11 @@ Markdown blog from my blog post series, beginning from [Part 1](https://www.rosh
 - [Build a Markdown-based Blog with Spring Boot - Part 2](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-2.html)
 - [Build a Markdown-based Blog with Spring Boot - Part 1](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-1.html)
 
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| `GET /` | GET | homepage | http://localhost:8080/posts |home page|
+
 ## System dep
-- Java 11
+- Java 11 (JDK 11)
