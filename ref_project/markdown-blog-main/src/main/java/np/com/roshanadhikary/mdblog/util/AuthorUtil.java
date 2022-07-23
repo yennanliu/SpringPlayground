@@ -11,10 +11,11 @@ public class AuthorUtil {
 		if (authorOpt.isPresent()) {
 			return authorOpt.get();
 		} else {
+
 			Author roshanAuthor = new Author();
-			roshanAuthor.setName("Roshan Adhikari");
-			roshanAuthor.setEmail("nahsorad@gmail.com");
-			roshanAuthor.setUrl("roshanadhikari.name.np");
+			roshanAuthor.setName("yen");
+			roshanAuthor.setEmail("y999@gmail.com");
+			roshanAuthor.setUrl("yen.xx.yy");
 
 			authorRepository.save(roshanAuthor);
 			return roshanAuthor;
