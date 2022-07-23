@@ -31,7 +31,7 @@ public class PostController {
 	@Autowired
 	PostService postService;
 
-	@GetMapping("")
+	@GetMapping("/all")
 	public String getPaginatedPosts(
 			@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value="size", defaultValue = "" + PAGINATIONSIZE) int size,
@@ -94,4 +94,5 @@ public class PostController {
 
 		return post;
 	}
+
 }

@@ -10,6 +10,6 @@ public class RootController {
 
 	@GetMapping("")
 	public String index() {
-		return "redirect:/posts";
+		return "redirect:/posts/all";
 	}
 }
