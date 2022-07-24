@@ -3,6 +3,7 @@ package np.com.roshanadhikary.mdblog.controllers;
 import lombok.extern.log4j.Log4j2;
 import np.com.roshanadhikary.mdblog.entities.Author;
 import np.com.roshanadhikary.mdblog.entities.Post;
+import np.com.roshanadhikary.mdblog.entities.request.CreatePost;
 import np.com.roshanadhikary.mdblog.repositories.PostRepository;
 import np.com.roshanadhikary.mdblog.service.PostService;
 
@@ -83,7 +84,7 @@ public class PostController {
 //						   @RequestParam(value = "synopsis") String synopsis,
 //						   @RequestParam(value = "author_id") int author_id){
 
-	public Post createPost(@RequestBody Post request){
+	public Post createPost(@RequestBody CreatePost request){
 
 		log.info(">>> create post start ...");
 
