@@ -1,7 +1,7 @@
 package np.com.roshanadhikary.mdblog.controllers;
 
 import lombok.extern.log4j.Log4j2;
-import np.com.roshanadhikary.mdblog.entities.Author;
+
 import np.com.roshanadhikary.mdblog.entities.Post;
 import np.com.roshanadhikary.mdblog.entities.request.CreatePost;
 import np.com.roshanadhikary.mdblog.repositories.PostRepository;

@@ -87,6 +87,7 @@ public class WebConfig implements WebMvcConfigurer { // enable MatrixVariable me
                 // define which media types are supported
                 mediaTypes.put("json", MediaType.APPLICATION_JSON);
                 mediaTypes.put("xml", MediaType.APPLICATION_XML);
+
                 // TODO : fix this
                 mediaTypes.put("yen", MediaType.parseMediaType("application/x-yen"));
 
