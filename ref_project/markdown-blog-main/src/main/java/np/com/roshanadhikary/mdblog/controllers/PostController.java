@@ -1,10 +1,12 @@
 package np.com.roshanadhikary.mdblog.controllers;
 
+import lombok.extern.log4j.Log4j2;
 import np.com.roshanadhikary.mdblog.entities.Author;
 import np.com.roshanadhikary.mdblog.entities.Post;
 import np.com.roshanadhikary.mdblog.repositories.PostRepository;
 import np.com.roshanadhikary.mdblog.service.PostService;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,12 +21,14 @@ import java.util.Optional;
 
 @Controller
 @RequestMapping("/posts")
+@Log4j2
 public class PostController {
 	private final PostRepository postRepository;
 	private final int PAGINATIONSIZE = 100; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
 	public PostController(PostRepository postRepository) {
+
 		this.postRepository = postRepository;
 	}
 
@@ -49,6 +53,7 @@ public class PostController {
 		model.addAttribute("pageRequested", page);
 		model.addAttribute("paginationSize", PAGINATIONSIZE);
 		model.addAttribute("numOfPages", numOfPages);
+
 		return "posts";
 	}
 
@@ -61,6 +66,7 @@ public class PostController {
 		} else {
 			model.addAttribute("error", "no-post");
 		}
+
 		return "post";
 	}
 
@@ -79,28 +85,24 @@ public class PostController {
 
 	public Post createPost(@RequestBody Post request){
 
-		System.out.println(">>>> create start ...");
+		log.info(">>> create post start ...");
 
 		Post post = new Post();
 //		post.setId(id);
 //		post.setTitle(title);
 //		post.setSynopsis(synopsis);
 //		post.setContent(content);
-		post.setAuthor(request.getAuthor());
-		post.setId(request.getId());
-		post.setTitle(request.getTitle());
-		post.setSynopsis(request.getSynopsis());
-		post.setContent(request.getContent());
+//		post.setAuthor(request.getAuthor());
+//		post.setId(request.getId());
+//		post.setTitle(request.getTitle());
+//		post.setSynopsis(request.getSynopsis());
+//		post.setContent(request.getContent());
 
-		System.out.println(">>> post = " + post);
+		BeanUtils.copyProperties(request, post);
 
-		// TODO : fix this
-//		Author author = new Author();
-//		author.setId(request.getAuthor());
-//
-//		post.setAuthor(author);
-
-		System.out.println(">>>> create end ...");
+		log.info(">>> request = " + request);
+		log.info(">>> post = " + post);
+		log.info(">>>> create post end ...");
 
 		postService.savePost(post);
 
