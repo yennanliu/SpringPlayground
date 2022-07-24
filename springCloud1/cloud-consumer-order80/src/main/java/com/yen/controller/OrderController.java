@@ -60,6 +60,7 @@ public class OrderController {
      */
     @GetMapping("/payment/getForEntity/{id}")
     public CommonResult<Payment> getPayment2(@PathVariable("id") Long id){
+        
         log.info(">>> consumer-order-80 call /payment/getForEntity/{id} ...", id);
         ResponseEntity<CommonResult> entity = restTemplate.getForEntity(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
 
