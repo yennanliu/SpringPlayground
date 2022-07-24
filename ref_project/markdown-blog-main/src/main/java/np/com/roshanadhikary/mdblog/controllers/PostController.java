@@ -64,29 +64,41 @@ public class PostController {
 		return "post";
 	}
 
+	@GetMapping("/create_post")
+	public String createPostAtPage(){
+		return "create_host";
+	}
+
 	@ResponseBody
 	@PostMapping("/create")
-	public Post createPost(@RequestParam(value = "id") int id,
-						   @RequestParam(value = "title") String title,
-						   @RequestParam(value = "content") String content,
-						   @RequestParam(value = "synopsis") String synopsis,
-						   @RequestParam(value = "author_id") int author_id){
+//	public Post createPost(@RequestParam(value = "id") int id,
+//						   @RequestParam(value = "title") String title,
+//						   @RequestParam(value = "content") String content,
+//						   @RequestParam(value = "synopsis") String synopsis,
+//						   @RequestParam(value = "author_id") int author_id){
+
+	public Post createPost(@RequestBody Post request){
 
 		System.out.println(">>>> create start ...");
 
 		Post post = new Post();
-		post.setId(id);
-		post.setTitle(title);
-		post.setSynopsis(synopsis);
-		post.setContent(content);
+//		post.setId(id);
+//		post.setTitle(title);
+//		post.setSynopsis(synopsis);
+//		post.setContent(content);
+		post.setAuthor(request.getAuthor());
+		post.setId(request.getId());
+		post.setTitle(request.getTitle());
+		post.setSynopsis(request.getSynopsis());
+		post.setContent(request.getContent());
 
 		System.out.println(">>> post = " + post);
 
 		// TODO : fix this
-		Author author = new Author();
-		author.setId(author_id);
-
-		post.setAuthor(author);
+//		Author author = new Author();
+//		author.setId(request.getAuthor());
+//
+//		post.setAuthor(author);
 
 		System.out.println(">>>> create end ...");
 

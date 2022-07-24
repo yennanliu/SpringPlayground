@@ -1,15 +1,20 @@
 package np.com.roshanadhikary.mdblog.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import np.com.roshanadhikary.mdblog.util.LocalDateTimeConverter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "posts")
-public class Post {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Post implements Serializable {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column

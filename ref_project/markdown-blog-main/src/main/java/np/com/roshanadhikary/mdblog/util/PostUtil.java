@@ -13,6 +13,7 @@ public class PostUtil {
 		return mdLinesOpt.isEmpty() ? "" : renderHtml(mdLinesOpt.get());
 	}
 
+	// get sample content
 	public static String getSynopsisFromHtmlContent(String htmlContent) {
 		String content = Jsoup.parse(htmlContent).text();
 		return content.length() <= 150 ? content : content.substring(0, 149);
