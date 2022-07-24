@@ -2,10 +2,14 @@ package com.yen.controller;
 
 // https://www.youtube.com/watch?v=8d6BvCZxPwQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=13
 // https://www.youtube.com/watch?v=uLnMgNai8nc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=23
+// https://www.youtube.com/watch?v=g-xOH7s1zXs&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=38
 
 import com.yen.bean.CommonResult;
 import com.yen.bean.Payment;
+
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -47,6 +51,26 @@ public class OrderController {
          */
         log.info(">>> consumer-order-80 call /payment/get/{id} ...", id);
         return restTemplate.getForObject(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
+    }
+
+    /**
+     *  for restTemplate,
+     *      -> if want simple json response -> use getForObject
+     *      -> if want detail info response -> use getForEntity
+     */
+    @GetMapping("/payment/getForEntity/{id}")
+    public CommonResult<Payment> getPayment2(@PathVariable("id") Long id){
+        log.info(">>> consumer-order-80 call /payment/getForEntity/{id} ...", id);
+        ResponseEntity<CommonResult> entity = restTemplate.getForEntity(PAYMENT_URL + "/payment/get/" + id, CommonResult.class);
+
+        log.info(">>> entity.getStatusCode() = " + entity.getStatusCode());
+
+        // NOTE here !!! have to check response status via getStatusCode
+        if (entity.getStatusCode().is2xxSuccessful()){
+            return entity.getBody();
+        }else{
+            return new CommonResult<>(444, "getPayment2 op failed");
+        }
     }
 
 }

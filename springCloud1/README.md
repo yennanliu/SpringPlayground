@@ -93,6 +93,9 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - https://www.youtube.com/watch?v=D1pH2Ee88OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=15
 - Eureka
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/eureka1.png">
+- Ribbon
+    - Load balance + RestTemplate
+        - https://www.youtube.com/watch?v=g-xOH7s1zXs&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=38
 
 ## Ref
 - Course
