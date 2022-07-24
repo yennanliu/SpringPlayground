@@ -13,6 +13,12 @@ Create module -> modify POM -> create YML -> main app -> biz class
 <details>
 <summary>App</summary>
 
+- Note : Please follow below steps launch system:
+    - run cloud-eureka-server7001
+    - run cloud-eureka-server7002
+    - run cloud-provider-payment8001
+    - run cloud-consumer-order80
+
 ```bash
 #---------------------------
 # Run app
