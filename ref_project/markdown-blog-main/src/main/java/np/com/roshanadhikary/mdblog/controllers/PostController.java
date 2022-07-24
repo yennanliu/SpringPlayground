@@ -71,11 +71,6 @@ public class PostController {
 		return "post";
 	}
 
-	@GetMapping("/create_post")
-	public String createPostAtPage(){
-		return "create_host";
-	}
-
 	@ResponseBody
 	@PostMapping("/create")
 //	public Post createPost(@RequestParam(value = "id") int id,
