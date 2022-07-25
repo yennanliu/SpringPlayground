@@ -17,6 +17,8 @@ Markdown blog from my blog post series
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | `GET /` | GET | homepage | http://localhost:8888/posts/all |home page|
+| `POST /` | POST | new post | http://localhost:8888/new |create new post|
+
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |

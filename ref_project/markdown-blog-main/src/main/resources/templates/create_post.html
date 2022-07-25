@@ -13,7 +13,7 @@
 
 <h2>Write a blog:</h2>
 
-<form action="savepost" method="post">
+<form action="#"  th:action="@{/posts/create}" th:object="${CreatePost}"  method="post">
     id <input name="id" value="001"/> <br/>
     title <input name="title" value="my title"/> <br/>
     content <input name="content" value="some content..."/> <br/>
