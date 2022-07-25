@@ -37,8 +37,9 @@ java -jar <built_jar>
 | `GET` | GET | test endpoint | http://localhost:8888/boss/1;age=20/2;age=10  ||
 | `GET /test/person2` | GET | test |http://localhost:8888/test/person2 ||
 | `GET /test/person` | GET | test |http://localhost:8888/person?format=json, http://localhost:8888/person?format=xml ||
-| `GET /test/file_resource` | GET | test |http://localhost:8888/test/file_resource ||
-| `GET /yen_test1` | GET | test |http://localhost:8888/yen_test1 | thymeleaf test|
+| `GET /test/file_resource` | GET | test | http://localhost:8888/test/file_resource ||
+| `GET /yen_test1` | GET | test | http://localhost:8888/yen_test1 | thymeleaf test|
+| `GET /greeting` | GET | test | http://localhost:8888/greeting | form submit demo|
 
 ## Important Concepts
 
