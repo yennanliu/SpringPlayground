@@ -71,15 +71,23 @@ public class PostController {
 		return "post";
 	}
 
+	@GetMapping("/create")
+	public String createPostForm(Model model){
+		model.addAttribute("CreatePost", new CreatePost());
+		return "create_post";
+	}
+
 	@ResponseBody
-	@PostMapping("/create")
+	//@PostMapping("/create")
+	@RequestMapping(value="/create", method= RequestMethod.POST)
 //	public Post createPost(@RequestParam(value = "id") int id,
 //						   @RequestParam(value = "title") String title,
 //						   @RequestParam(value = "content") String content,
 //						   @RequestParam(value = "synopsis") String synopsis,
 //						   @RequestParam(value = "author_id") int author_id){
 
-	public Post createPost(@RequestBody CreatePost request){
+	//public Post createPost(@RequestBody CreatePost request){
+	public Post createPost( CreatePost request){
 
 		log.info(">>> create post start ...");
 

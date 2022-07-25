@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>This is the title of the Spring Boot POC!</title>
 </head>
 
@@ -13,12 +13,17 @@
 
 <h2>Write a blog:</h2>
 
-<form action="#"  th:action="@{/posts/create}" th:object="${CreatePost}"  method="post">
-    id <input name="id" value="001"/> <br/>
-    title <input name="title" value="my title"/> <br/>
-    content <input name="content" value="some content..."/> <br/>
-    author <input name="author" value="Lynn"/> <br/>
-    <input type="submit" value="submit"/>
+<!-- <form action="#"  th:action="@{/posts/create}" th:object="${CreatePost}"  method="post"> -->
+<!-- <form action="#" th:action="@{/result}" th:object="${CreatePost}" method="post"> -->
+<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post">
+
+    <p>Id: <input type="text" th:field="*{id}" /></p>
+    <p>title: <input type="text" th:field="*{title}" /></p>
+    <p>content: <input type="text" th:field="*{content}" /></p>
+    <p>author: <input type="text" th:field="*{author}" /></p>
+    <!-- <input type="submit" value="submit"/> -->
+    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+
 </form>
 
 </body>
