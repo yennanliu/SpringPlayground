@@ -62,16 +62,44 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>2.2.2</version>
 		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<!-- 打包時排除JRebel插件生成的組態檔 -->
+				<excludes>
+					<exclude>**/rebel.xml</exclude>
+				</excludes>
+			</resource>
+
+			<!--
+			打包所有resources下的檔案
+			https://www.uj5u.com/houduan/253468.html
+			-->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+
 	</build>
 
 </project>

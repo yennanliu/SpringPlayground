@@ -5,6 +5,8 @@ import com.yen.springMybatisDemo1.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -13,6 +15,10 @@ public class UserService {
 
     public User getOneUser(int id){
         return userMapper.select1(id);
+    }
+
+    public List<User> getAllUser(){
+        return userMapper.selectAll();
     }
 
     public int insertOneUser(User user){
