@@ -6,7 +6,7 @@ DROP table comment;
 CREATE TABLE IF NOT EXISTS comment (
     id INT AUTO_INCREMENT,
     content VARCHAR(20),
-    commentDate datetime(3) DEFAULT CURRENT_TIMESTAMP(3),
+    comment_date datetime(3) DEFAULT CURRENT_TIMESTAMP(3),
     PRIMARY KEY (id)
 );
 

@@ -5,10 +5,17 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yen.springMybatisDemo1.mapper.CommentMapper">
 
-    <select id="select1" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.Comment">
+    <!-- https://blog.csdn.net/m0_46409345/article/details/108649541 -->
+    <resultMap type="com.yen.springMybatisDemo1.bean.Comment" id="CommentResult">
+        <id property="id" column="id"></id>
+        <!-- <association property="comment" javaType="commentDate" column="comment_date" select="selectComment1"/> -->
+        <result property="commentDate" column="comment_date"></result>
+    </resultMap>
+
+    <select id="select1" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.Comment" resultMap="CommentResult">
         SELECT * FROM comment WHERE id=#{id} LIMIT 1;
     </select>
-    <select id="selectAll" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.Comment">
+    <select id="selectAll" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.Comment" resultMap="CommentResult">
         SELECT * FROM comment;
     </select>
 
