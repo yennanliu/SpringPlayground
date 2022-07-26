@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springMybatisDemo1.mapper.CommentMapper">
+
+    <select id="select1" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.comment">
+        SELECT * FROM comment WHERE id=#{id} LIMIT 1;
+    </select>
+    <select id="selectAll" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.comment">
+        SELECT * FROM comment;
+    </select>
+
+</mapper>

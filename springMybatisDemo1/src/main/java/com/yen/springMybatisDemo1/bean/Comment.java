@@ -18,5 +18,6 @@ public class Comment {
     private int id;
     private String content;
     private Date commentDate = new Date();
-    private Blog blog;
+
+    //private Blog blog;
 }
