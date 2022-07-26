@@ -77,7 +77,7 @@ public class PostController {
 		return "create_post";
 	}
 
-	@ResponseBody
+	//@ResponseBody
 	//@PostMapping("/create")
 	@RequestMapping(value="/create", method= RequestMethod.POST)
 //	public Post createPost(@RequestParam(value = "id") int id,
@@ -87,7 +87,7 @@ public class PostController {
 //						   @RequestParam(value = "author_id") int author_id){
 
 	//public Post createPost(@RequestBody CreatePost request){
-	public Post createPost( CreatePost request){
+	public String createPost( CreatePost request){
 
 		log.info(">>> create post start ...");
 
@@ -110,7 +110,7 @@ public class PostController {
 
 		postService.savePost(post);
 
-		return post;
+		return "success";
 	}
 
 }
