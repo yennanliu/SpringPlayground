@@ -102,6 +102,9 @@ public class ParamController {
      */
     @PostMapping("/saveuser")
     public Person2 saveuser(Person2 person){
+
+        System.out.println(">>> person = " + person);
+
         return person;
     }
 
