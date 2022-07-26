@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringMybatisDemo1Application {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringMybatisDemo1Application.class, args);
 	}
 
