@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mybatis.sqlmap.TB_UserInfoMapper">
+    <select id="select1" parameterType="string" resultType="mybatis.pojo.TB_UserInfo">
+        SELECT * FROM tb_userinfo WHERE id=#{id}
+    </select>
+
+    <insert id="insert1" parameterType="mybatis.pojo.TB_UserInfo">
+        insert into tb_userinfo(id,userName,age)values(#{id},#{userName},#{age});
+    </insert>
+
+    <update id="update1" parameterType="mybatis.pojo.TB_UserInfo">
+        update tb_userinfo set userName = #{userName} WHERE id=#{id}
+    </update>
+
+    <delete id="delete1" parameterType="string">
+        delete FROM tb_userinfo WHERE id=#{value}
+    </delete>
+</mapper>
