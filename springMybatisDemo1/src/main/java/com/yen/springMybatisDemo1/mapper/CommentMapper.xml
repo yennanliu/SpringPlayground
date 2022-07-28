@@ -7,7 +7,16 @@
 
     <!--
         https://blog.csdn.net/m0_46409345/article/details/108649541
+        https://blog.csdn.net/li_w_ch/article/details/109802957
         https://www.youtube.com/watch?v=gk_pm_Uaa_Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=41
+
+        type : class type
+        id property : set up PK mapping
+        result property : set up regular attr mapping
+        property: attr name in mapping, HAVE to be as same as attr name in bean class
+        column : sql return col name,  (e.g. a in "SELECT col as a")
+
+        NOTE : resultMap only takes effect in SELECT query (NOT in op such as insert, update, delete...)
     -->
     <resultMap id="CommentMap1" type="com.yen.springMybatisDemo1.bean.Comment">
         <id property="id" column="id"></id> <!-- id for main key -->
