@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,6 +26,8 @@ import java.util.Optional;
 @Log4j2
 public class PostController {
 	private final PostRepository postRepository;
+
+	// TODO : implement paging with it
 	private final int PAGINATIONSIZE = 100; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
@@ -77,36 +80,21 @@ public class PostController {
 		return "create_post";
 	}
 
-	//@ResponseBody
-	//@PostMapping("/create")
 	@RequestMapping(value="/create", method= RequestMethod.POST)
-//	public Post createPost(@RequestParam(value = "id") int id,
-//						   @RequestParam(value = "title") String title,
-//						   @RequestParam(value = "content") String content,
-//						   @RequestParam(value = "synopsis") String synopsis,
-//						   @RequestParam(value = "author_id") int author_id){
-
-	//public Post createPost(@RequestBody CreatePost request){
 	public String createPost( CreatePost request){
 
 		log.info(">>> create post start ...");
 
 		Post post = new Post();
-//		post.setId(id);
-//		post.setTitle(title);
-//		post.setSynopsis(synopsis);
-//		post.setContent(content);
-//		post.setAuthor(request.getAuthor());
-//		post.setId(request.getId());
-//		post.setTitle(request.getTitle());
-//		post.setSynopsis(request.getSynopsis());
-//		post.setContent(request.getContent());
 
 		BeanUtils.copyProperties(request, post);
+		post.setDateTime(LocalDateTime.now());
+		post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
 
 		log.info(">>> request = " + request);
-		log.info(">>> post = " + post);
 		log.info(">>>> create post end ...");
+
+		post.setDateTime(LocalDateTime.now());
 
 		postService.savePost(post);
 
