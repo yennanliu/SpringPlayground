@@ -18,6 +18,7 @@ public class TestCommentService {
 
         Comment c1 = commentService.getOneComment(1);
         System.out.println(">>> c1 = " + c1);
+        System.out.println(">>> c1.toString = " + c1.toString());
 
         List<Comment> comments = commentService.getAllComment();
         System.out.println(">>> comments = " + comments);
