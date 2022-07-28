@@ -29,9 +29,15 @@
     <select id="select1" resultMap="CommentMap1" parameterType="int">
         SELECT * FROM comment WHERE id=#{id} LIMIT 1;
     </select>
+
     <!-- <select id="selectAll" parameterType="int" resultType="com.yen.springMybatisDemo1.bean.Comment"> -->
     <select id="selectAll" resultMap="CommentMap1">
         SELECT * FROM comment;
     </select>
+
+
+<!--    <select id="selectCommentDate" resultMap="CommentMap1">-->
+<!--        SELECT comment_date FROM comment LIMIT 1;-->
+<!--    </select>-->
 
 </mapper>

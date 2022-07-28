@@ -22,6 +22,9 @@ public class TestCommentService {
 
         List<Comment> comments = commentService.getAllComment();
         System.out.println(">>> comments = " + comments);
+
+//        String d1 = commentService.selectCommentDate();
+//        System.out.println(">>> d1 = " + d1);
     }
 
 }

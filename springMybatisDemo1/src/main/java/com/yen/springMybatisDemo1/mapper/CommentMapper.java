@@ -10,4 +10,6 @@ public interface CommentMapper {
 
     public Comment select1(int id);
     public List<Comment> selectAll();
+
+    //public String selectCommentDate();
 }

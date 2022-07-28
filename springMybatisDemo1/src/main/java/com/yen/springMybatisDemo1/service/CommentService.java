@@ -14,11 +14,16 @@ public class CommentService {
     CommentMapper commentMapper;
 
     public Comment getOneComment(int id){
+
         return commentMapper.select1(id);
     }
 
     public List<Comment> getAllComment(){
         return commentMapper.selectAll();
+    }
+
+    public String selectCommentDate(){
+        return commentMapper.selectCommentDate();
     }
 
 }
