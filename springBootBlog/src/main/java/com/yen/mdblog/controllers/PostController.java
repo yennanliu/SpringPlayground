@@ -50,7 +50,7 @@ public class PostController {
 			@RequestParam(value="size", defaultValue = "" + PAGINATIONSIZE) int size,
 			Model model) {
 
-		Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "id"));
+		Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
 
