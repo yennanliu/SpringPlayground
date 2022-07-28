@@ -1,5 +1,7 @@
 package com.yen.mdblog.controllers;
 
+import com.yen.mdblog.entities.Author;
+import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
 
 import com.yen.mdblog.entities.Post;
@@ -38,6 +40,9 @@ public class PostController {
 
 	@Autowired
 	PostService postService;
+
+	@Autowired
+	AuthorService authorService;
 
 	@GetMapping("/all")
 	public String getPaginatedPosts(
@@ -86,17 +91,22 @@ public class PostController {
 		log.info(">>> create post start ...");
 
 		Post post = new Post();
+		Author author = new Author();
+		author.setId(request.getId());
 
 		BeanUtils.copyProperties(request, post);
 		post.setDateTime(LocalDateTime.now());
 		post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
+		post.setAuthor(author);
 
 		log.info(">>> request = " + request);
+		log.info(">>> post = " + post);
 		log.info(">>>> create post end ...");
 
 		post.setDateTime(LocalDateTime.now());
 
 		postService.savePost(post);
+		authorService.saveAuthor(author);
 
 		return "success";
 	}
