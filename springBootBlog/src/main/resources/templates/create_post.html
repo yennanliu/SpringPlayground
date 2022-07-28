@@ -10,14 +10,12 @@
 
 <div th:insert="header"></div>
 
-<h1>Create A New Post</h1>
+<h1 align="center">Create A New Post</h1>
 <hr/>
-
-<h2>Write a blog:</h2>
 
 <!-- <form action="#"  th:action="@{/posts/create}" th:object="${CreatePost}"  method="post"> -->
 <!-- <form action="#" th:action="@{/result}" th:object="${CreatePost}" method="post"> -->
-<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post">
+<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post" align="center">
 
     <p>Id: <input type="text" th:field="*{id}" /></p>
     <p>title: <input type="text" th:field="*{title}" /></p>
