@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet"
+		  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		  crossorigin="anonymous"
+		  th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+	>
+</head>
+<body>
+	<div class="container" th:fragment="header" style="text-align:center;margin-top:10px;">
+		<p class="title">Free blog by anonymous</p>
+		<p class="lead">
+			<a class="card-link" href="/posts/all" role="button">Home</a>
+			<a class="card-link" href="/posts/create" role="button">New Blog</a>
+			<a class="card-link" href="https://google.com" target="_blank" role="button">Google</a>
+		</p>
+		<hr>
+	</div>
+</body>
+</html>
