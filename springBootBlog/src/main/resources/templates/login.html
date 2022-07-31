@@ -9,10 +9,11 @@
 
 <div th:insert="header"></div>
 
-<h1 align="center">Login to admin</h1>
+<h1 align="center">Admin Login</h1>
 <hr/>
 
-<form action="#" th:action="@{/login}" th:object="${User}" method="post" align="center">
+<!-- <form action="#" th:action="@{/login}" method="post" align="center"> -->
+<form class="form-signin" action="index.html" method="post" th:action="@{/login}" align="center">
 
     <p>UserName: <input type="text" th:field="*{userName}" /></p>
     <p>Password: <input type="text" th:field="*{passWord}" /></p>
