@@ -11,5 +11,7 @@ public interface CommentMapper {
     public Comment select1(int id);
     public List<Comment> selectAll();
 
+    String selectCommentDate();
+
     //public String selectCommentDate();
 }

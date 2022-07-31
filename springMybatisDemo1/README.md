@@ -1,6 +1,9 @@
 # springMybatisDemo1
 > Mybatis demo with spring boot
 
+- Features
+    - myBatis mapping, resultMap...
+    - paging
 
 ## Steps
 
@@ -8,6 +11,9 @@
 
 <details>
 <summary>App</summary>
+
+- prerequisite
+    - plz run all DDL under /sql/ddl
 
 ```bash
 #---------------------------
