@@ -4,6 +4,7 @@ package com.yen.controller;
 // https://www.youtube.com/watch?v=38XoPk5l5DQ&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=14
 // https://www.youtube.com/watch?v=uLnMgNai8nc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=23
 // https://www.youtube.com/watch?v=5o6W57mRJA0&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=25
+// https://www.youtube.com/watch?v=m_MHwd3Dls4&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=43
 
 import com.yen.bean.CommonResult;
 import com.yen.bean.Payment;
@@ -81,6 +82,11 @@ public class PaymentController {
         }
 
         return this.discoveryClient;
+    }
+
+    @GetMapping("/lb")
+    public String getPaymentLB(){
+        return serverPort;
     }
 
 }
