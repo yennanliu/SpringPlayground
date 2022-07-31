@@ -1,6 +1,6 @@
 package com.yen.mdblog.service;
 
-import com.yen.mdblog.entities.Author;
+import com.yen.mdblog.entity.Author;
 
 public interface AuthorService {
 

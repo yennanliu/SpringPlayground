@@ -1,4 +1,4 @@
-package com.yen.mdblog.entities;
+package com.yen.mdblog.entity;
 
 import lombok.Data;
 import javax.persistence.*;

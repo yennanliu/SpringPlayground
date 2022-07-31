@@ -1,6 +1,6 @@
 package com.yen.mdblog.mapper;
 
-import com.yen.mdblog.entities.Post;
+import com.yen.mdblog.entity.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;

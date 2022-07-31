@@ -1,12 +1,12 @@
-package com.yen.mdblog.controllers;
+package com.yen.mdblog.controller;
 
-import com.yen.mdblog.entities.Author;
+import com.yen.mdblog.entity.Author;
 import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
 
-import com.yen.mdblog.entities.Post;
-import com.yen.mdblog.entities.request.CreatePost;
-import com.yen.mdblog.repositories.PostRepository;
+import com.yen.mdblog.entity.Post;
+import com.yen.mdblog.entity.request.CreatePost;
+import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 
 import org.springframework.beans.BeanUtils;

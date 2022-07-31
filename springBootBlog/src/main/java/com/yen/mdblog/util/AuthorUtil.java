@@ -1,7 +1,7 @@
 package com.yen.mdblog.util;
 
-import com.yen.mdblog.entities.Author;
-import com.yen.mdblog.repositories.AuthorRepository;
+import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.repository.AuthorRepository;
 
 import java.util.Optional;
 

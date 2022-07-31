@@ -1,12 +1,10 @@
-package com.yen.mdblog.controllers;
+package com.yen.mdblog.controller;
 
-import com.yen.mdblog.entities.User;
+import com.yen.mdblog.entity.User;
 import lombok.extern.log4j.Log4j2;
-import org.jsoup.internal.StringUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Log4j2
