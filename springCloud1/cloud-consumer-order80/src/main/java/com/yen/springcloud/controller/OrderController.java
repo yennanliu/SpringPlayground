@@ -8,13 +8,18 @@ package com.yen.springcloud.controller;
 import com.yen.bean.CommonResult;
 import com.yen.bean.Payment;
 
+import com.yen.springcloud.lb.MyLoadBalancer;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
+import java.net.URI;
+import java.util.List;
 
 /** Payment consumer ( consumer-order-80)
  *
@@ -33,6 +38,11 @@ public class OrderController {
 
     @Resource
     RestTemplate restTemplate;
+
+    @Resource
+    private MyLoadBalancer myLoadBalancer;
+    @Resource
+    private DiscoveryClient discoveryClient;
 
     @GetMapping("/payment/create")
     public CommonResult<Payment> create(Payment payment){
@@ -73,6 +83,22 @@ public class OrderController {
         }else{
             return new CommonResult<>(444, "getPayment2 op failed");
         }
+    }
+
+    @GetMapping("/payment/lb")
+    public String getPaymentLB(){
+
+        List<ServiceInstance> instances = discoveryClient.getInstances("CLOUD-PAYMENT-SERVICE");
+
+        if (instances == null || instances.size() <= 0){
+            return null;
+        }
+
+        // use our own myLoadBalancer
+        ServiceInstance serviceInstance = myLoadBalancer.instances(instances);
+        URI uri = serviceInstance.getUri();
+
+        return restTemplate.getForObject(uri + "/payment/lb", String.class);
     }
 
 }
