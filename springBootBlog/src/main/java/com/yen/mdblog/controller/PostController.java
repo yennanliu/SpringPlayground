@@ -86,7 +86,7 @@ public class PostController {
 	}
 
 	@RequestMapping(value="/create", method= RequestMethod.POST)
-	public String createPost( CreatePost request){
+	public String createPost(CreatePost request){
 
 		log.info(">>> create post start ...");
 
