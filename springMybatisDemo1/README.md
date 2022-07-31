@@ -2,7 +2,10 @@
 > Mybatis demo with spring boot
 
 - Features
-    - myBatis mapping, resultMap...
+    - myBatis 
+        - mapping
+        - resultMap
+        - dynamic SQL
     - paging
 
 ## Steps
@@ -42,4 +45,4 @@ java -jar <built_jar>
 
 - Course
     - Video
-        - xxx
+        - https://www.youtube.com/watch?v=PG1lABauiSc&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=1
