@@ -65,6 +65,8 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | cloud-consumer-order80 |  | | |
 | get payment | GET | http://localhost/consumer/payment/get/4| get payment by id (via consumer-order-80)|
 | crearte payment | GET | http://localhost:80/consumer/payment/create?serial=7777 | create new payment with `Payment` (serial) via consumer-order-80)|
+| Load balancer demo | GET |http://localhost/consumer/payment/lb | test LB algorithm implenmented by us|
+
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |

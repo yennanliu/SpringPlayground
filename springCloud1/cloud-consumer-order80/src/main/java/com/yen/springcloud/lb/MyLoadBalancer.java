@@ -8,6 +8,7 @@ import java.util.List;
 
 public interface MyLoadBalancer {
 
+    // interface, in order to get # of machines in cluster
     ServiceInstance instances(List<ServiceInstance> serviceInstanceList);
 
 }
