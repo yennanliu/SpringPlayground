@@ -2,18 +2,19 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>LOGIN</title>
 </head>
+
 <body>
 
 <div th:insert="header"></div>
 
-<h1 align="center">Admin Login</h1>
+<h1 align="center">LOGIN</h1>
 <hr/>
 
-<!-- <form action="#" th:action="@{/login}" method="post" align="center"> -->
-<form class="form-signin" action="index.html" method="post" th:action="@{/login}" align="center">
+<form action="#" th:action="@{/login}" th:object="${LoginRequest}" method="post" align="center">
+<!--  <form class="form-signin" action="index.html" method="post" th:action="@{/login}"  th:object="${LoginRequest}" align="center"> -->
 
     <p>UserName: <input type="text" th:field="*{userName}" /></p>
     <p>Password: <input type="text" th:field="*{passWord}" /></p>
@@ -22,4 +23,5 @@
 </form>
 
 </body>
+
 </html>
