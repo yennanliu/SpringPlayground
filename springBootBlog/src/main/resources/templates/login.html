@@ -14,7 +14,6 @@
 <hr/>
 
 <form action="#" th:action="@{/login}" th:object="${LoginRequest}" method="post" align="center">
-<!--  <form class="form-signin" action="index.html" method="post" th:action="@{/login}"  th:object="${LoginRequest}" align="center"> -->
 
     <p>UserName: <input type="text" th:field="*{userName}" /></p>
     <p>Password: <input type="text" th:field="*{passWord}" /></p>

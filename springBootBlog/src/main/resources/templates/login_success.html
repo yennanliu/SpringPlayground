@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>Login success!</title>
 </head>
 <body>
-    <h1>Login success!</h1>
+<div th:insert="header"></div>
+<h2>Welcome~ th:text="${userName}"</h2>
+
+</div>
 </body>
 </html>
