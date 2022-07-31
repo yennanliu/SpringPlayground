@@ -21,21 +21,17 @@ public class LoginController {
     @GetMapping(value = {"/login"})
     public String loginInit(Model model){
 
-        // TODO : fix this workaround
-        model.addAttribute("userName", "user");
-        model.addAttribute("passWord", "123");
-
-        model.addAttribute("LoginRequest", new LoginRequest("user", "123"));
+        // return LoginRequest instance as placeholder, so login html can use it and pass var to login post method (as below)
+        //model.addAttribute("LoginRequest", new LoginRequest("user", "123"));
+        model.addAttribute("LoginRequest", new LoginRequest());
 
         return "login";
     }
 
-    //@PostMapping("/login")
     @RequestMapping(value="/login", method= RequestMethod.POST)
     public String login(LoginRequest request){
 
         log.info(">>> login start ...");
-
         log.info(">>> loginRequest = " + request);
 
         User user = new User();
@@ -48,7 +44,6 @@ public class LoginController {
             return "login_success";
         }else{
             log.info(">>> login failed, plz try again ...");
-            //return "login_success";
             return "redirect:/login";
         }
     }
