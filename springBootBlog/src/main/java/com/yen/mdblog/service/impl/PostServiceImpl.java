@@ -14,11 +14,18 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getById(Long id) {
+
         return postMapper.getById(id);
     }
 
     @Override
+    public int getTotalPost() {
+        return postMapper.getPostCount();
+    }
+
+    @Override
     public void savePost(Post post) {
+
         postMapper.insertPost(post);
     }
 
