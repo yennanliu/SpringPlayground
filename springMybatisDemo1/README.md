@@ -37,7 +37,15 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Test | GET | test | http://localhost:8888/test |
+| get all users | GET | test | http://localhost:8888/user/total |
+| get users by page | POST | test | curl -X 'POST' \
+  'http://localhost:8888/user/get_user?page=1&size=4' \
+  -H 'accept: */*' \
+  -d '' |
 
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Swagger UI | GET | test | http://localhost:8888/swagger-ui/index.html |
 
 ## Important Concepts
 

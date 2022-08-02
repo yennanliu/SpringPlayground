@@ -6,11 +6,11 @@
 <mapper namespace="com.yen.springMybatisDemo1.mapper.User2Mapper">
 
     <select id="findByPager" resultType="com.yen.springMybatisDemo1.bean.User">
-        SELECT * FROM user LIMIT #{page}, #{size};
+        SELECT * FROM user LIMIT #{page}, #{size}
     </select>
 
     <select id="count" resultType="long">
-        SELECT COUNT(1) FROM user;
+        SELECT COUNT(1) FROM user
     </select>
 
 </mapper>

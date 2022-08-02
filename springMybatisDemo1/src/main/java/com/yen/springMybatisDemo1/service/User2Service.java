@@ -6,11 +6,13 @@ import com.yen.springMybatisDemo1.bean.Pager;
 import com.yen.springMybatisDemo1.bean.User;
 import com.yen.springMybatisDemo1.mapper.User2Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class User2Service {
 
     @Autowired
@@ -32,6 +34,10 @@ public class User2Service {
         System.out.println(">>> pager = " + pager);
 
         return pager;
+    }
+
+    public long getTotal(){
+        return user2Mapper.count();
     }
 
 }
