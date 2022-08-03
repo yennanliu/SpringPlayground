@@ -11,6 +11,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.net.URL;
 
 @Service
 @Log4j2
@@ -54,6 +55,19 @@ public class S3ServiceImpl implements S3Service {
     public void putS3Object(String key, File file) {
 
         putS3Object(defaultBucket, key, file);
+    }
+
+    @Override
+    public URL getS3FileUrl(String bucket, String key, File file) {
+        try{
+            final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build();
+            URL s3URL = s3.getUrl(bucket, key+file);
+            // s3Client.getUrl("your-bucket", "some-path/some-key.jpg").toString()
+            return s3URL;
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 }
