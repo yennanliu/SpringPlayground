@@ -95,9 +95,9 @@ public class PostController {
 		author.setId(request.getId());
 
 		int postCount = postService.getTotalPost();
-		post.setId(postCount+1);
 
 		BeanUtils.copyProperties(request, post);
+		post.setId(postCount+1);
 		post.setDateTime(LocalDateTime.now());
 		post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
 		post.setAuthor(author);
