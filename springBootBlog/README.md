@@ -2,9 +2,6 @@
 > Build a blog via spring boot with markdown
 
 
-## Steps
-
-
 ## Run
 
 <details>
@@ -21,7 +18,8 @@ mvn package
 # run
 java -jar <built_jar>
 ```
-
+</details>
+  
 
 ## API
 | API | Type | Purpose | Example cmd | Comment|
