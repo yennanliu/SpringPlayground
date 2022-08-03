@@ -8,9 +8,11 @@ import com.yen.service.S3Service;
 import lombok.extern.log4j.Log4j2;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.io.File;
 
+@Service
 @Log4j2
 public class S3ServiceImpl implements S3Service {
 
