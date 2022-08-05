@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.File;
-import java.io.IOException;
+
 import java.net.URL;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -39,7 +40,16 @@ public class S3Controller {
     }
 
     @GetMapping("/s3/download")
-    public String download(@RequestParam("s3_file") String s3File){
+    public void download(){
+
+        String BUCKET_NAME =  "yen-bucket1";
+        String KEY = "";  // upload file name (s3)
+        String fileName = "README.md"; // s3 file we want to download
+        s3Service.downloadFile(BUCKET_NAME, KEY, fileName);
+    }
+
+    @GetMapping("/s3/get_download_url")
+    public String getDownloadURL(@RequestParam("s3_file") String s3File){
 
         Path currentRelativePath = Paths.get("");
         String current_path = currentRelativePath.toAbsolutePath().toString();
@@ -54,6 +64,8 @@ public class S3Controller {
         log.info(">>> s3FileURL = {}", s3FileURL);
         log.info(">>> s3FileURL.getPath() = {}", s3FileURL.getPath());
         log.info(">>> s3FileURL.getFile() = {}", s3FileURL.getFile());
+
+
 //        try {
 //            log.info(">>> s3FileURL = {}", s3FileURL.getContent());
 //        } catch (IOException e) {

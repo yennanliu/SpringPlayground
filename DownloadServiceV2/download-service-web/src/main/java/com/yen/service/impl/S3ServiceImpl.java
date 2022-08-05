@@ -3,6 +3,7 @@ package com.yen.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+import com.amazonaws.services.s3.model.S3Object;
 import com.yen.service.S3Service;
 
 import lombok.extern.log4j.Log4j2;
@@ -11,6 +12,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 
 @Service
@@ -68,6 +71,28 @@ public class S3ServiceImpl implements S3Service {
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public S3Object downloadFile(String bucket, String key, String fileName) {
+
+        // https://stackoverflow.com/questions/44120235/how-to-download-a-file-from-s3-using-provided-url
+        // https://www.programcreek.com/java-api-examples/?api=com.amazonaws.services.s3.AmazonS3URI
+
+        final String prefix = "https://s3.amazonaws.com/";
+        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build();
+        URI fileToBeDownloaded = null;
+        try {
+            //URI fileToBeDownloaded = new URI("https://s3.amazonaws.com/account-update/input.csv");
+            //String fileURI = prefix + bucket + fileName;
+            String fileURI = "https://s3.amazonaws.com/yen-bucket1/README.md";
+            log.info(">>> fileURI = {}", fileURI);
+            fileToBeDownloaded = new URI(prefix + bucket + fileName);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+        S3Object s3Object = s3.getObject(bucket, key);
+        return s3Object;
     }
 
 }
