@@ -3,6 +3,7 @@ package com.yen.service.impl;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3ClientBuilder;
 
+import com.amazonaws.services.s3.AmazonS3URI;
 import com.amazonaws.services.s3.model.S3Object;
 import com.yen.service.S3Service;
 
@@ -80,18 +81,27 @@ public class S3ServiceImpl implements S3Service {
         // https://www.programcreek.com/java-api-examples/?api=com.amazonaws.services.s3.AmazonS3URI
 
         final String prefix = "https://s3.amazonaws.com/";
+
         final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build();
+        //URI fileToBeDownloaded = null;
         URI fileToBeDownloaded = null;
         try {
-            //URI fileToBeDownloaded = new URI("https://s3.amazonaws.com/account-update/input.csv");
-            //String fileURI = prefix + bucket + fileName;
-            String fileURI = "https://s3.amazonaws.com/yen-bucket1/README.md";
-            log.info(">>> fileURI = {}", fileURI);
-            fileToBeDownloaded = new URI(prefix + bucket + fileName);
+            //fileToBeDownloaded = new URI("https://s3.amazonaws.com/account-update/input.csv");
+            fileToBeDownloaded = new URI("https://s3.amazonaws.com/yen-bucket1/README.md");
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
-        S3Object s3Object = s3.getObject(bucket, key);
+        //String fileURI = prefix + bucket + fileName;
+        //String fileURI = "https://s3.amazonaws.com/yen-bucket1/README.md";
+        AmazonS3URI s3URI = new AmazonS3URI(fileToBeDownloaded);
+
+        //log.info(">>> fileURI = {}", fileURI);
+        log.info(">>> s3URI = {}", s3URI);
+
+        S3Object s3Object = s3.getObject(s3URI.getBucket(), s3URI.getKey());
+        //fileToBeDownloaded = new URI(prefix + bucket + fileName);
+        //S3Object s3Object = s3.getObject(bucket, key);
+
         return s3Object;
     }
 
