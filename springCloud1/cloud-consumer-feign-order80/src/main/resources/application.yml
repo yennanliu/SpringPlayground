@@ -16,3 +16,11 @@ eureka:
       #defaultZone: http://localhost:7001/eureka
       # cluster mode
       defaultZone:  http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+
+# https://www.youtube.com/watch?v=6o4pd_B62SE&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=46
+# set up feign client timeout (OpenFeign supports Ribbon by default)
+ribbon:
+  # duration to set up connection
+  ReadTimeout: 5000
+  # duration to get resources from service (after connection is created)
+  ConnectTimeout : 5000
