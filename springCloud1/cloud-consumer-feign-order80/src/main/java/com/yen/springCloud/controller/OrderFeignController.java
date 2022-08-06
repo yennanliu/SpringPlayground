@@ -27,4 +27,10 @@ public class OrderFeignController {
         return res;
     }
 
+    @GetMapping("/consumer/payment/feign/timeout")
+    public String paymentFeignTimeout(){
+        // openfeign-ribbon : client wait 1 sec before timeout
+        return paymentFeignService.paymentFeignTimeout();
+    }
+
 }

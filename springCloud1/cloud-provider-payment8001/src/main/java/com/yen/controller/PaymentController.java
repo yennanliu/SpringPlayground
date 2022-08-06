@@ -5,6 +5,7 @@ package com.yen.controller;
 // https://www.youtube.com/watch?v=uLnMgNai8nc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=23
 // https://www.youtube.com/watch?v=5o6W57mRJA0&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=25
 // https://www.youtube.com/watch?v=m_MHwd3Dls4&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=43
+// https://www.youtube.com/watch?v=6o4pd_B62SE&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=45
 
 import com.yen.bean.CommonResult;
 import com.yen.bean.Payment;
@@ -16,7 +17,9 @@ import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.beans.IntrospectionException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/payment")
@@ -86,6 +89,17 @@ public class PaymentController {
 
     @GetMapping("/lb")
     public String getPaymentLB(){
+        return serverPort;
+    }
+
+    @GetMapping("/feign/timeout")
+    // method for time out demo
+    public String paymentFeignTimeout(){
+        try{
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         return serverPort;
     }
 
