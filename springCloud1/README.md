@@ -106,6 +106,12 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
         - https://www.youtube.com/watch?v=g-xOH7s1zXs&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=38
         - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/ribbon1.png">
         - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/ribbon2.png">
+- Feign
+    - `Feign, OpenFeign`
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign4.png">
 
 ## Ref
 - Course
