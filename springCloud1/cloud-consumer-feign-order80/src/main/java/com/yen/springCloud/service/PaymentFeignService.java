@@ -4,6 +4,7 @@ package com.yen.springCloud.service;
 
 import com.yen.bean.CommonResult;
 import com.yen.bean.Payment;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
