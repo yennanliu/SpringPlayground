@@ -1,6 +1,8 @@
 # Spring Playground
 > POC projects built via Java spring framework
 
+<p align="center"><img src ="./doc/pic/springplayground.png"></p>
+
 ## Structure
 
 <details>
