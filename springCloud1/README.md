@@ -67,6 +67,11 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | crearte payment | GET | http://localhost:80/consumer/payment/create?serial=7777 | create new payment with `Payment` (serial) via consumer-order-80)|
 | Load balancer demo | GET |http://localhost/consumer/payment/lb | test LB algorithm implenmented by us|
 
+| API | Type | Example cmd | Purpose | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| cloud-consumer-feign-order80 |  | | |
+| get payment (via `feign client`)| GET | http://localhost/consumer/payment/get/4| get payment by id (via cloud-consumer-feign-order80)|
+
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
@@ -84,6 +89,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
 | test1 | GET | http://localhost:8001/test | |
+
 
 
 ## Important Concepts
@@ -108,6 +114,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
         - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/ribbon2.png">
 - Feign
     - `Feign, OpenFeign`
+    - `to-call service endpoint + @FeignClient `
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign1.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign2.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign3.png">

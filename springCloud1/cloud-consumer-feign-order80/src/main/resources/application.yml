@@ -2,11 +2,15 @@
 server:
   port: 80
 
+spring:
+  application:
+    name: cloud-order-feign-service
+
 # https://youtu.be/ARfdin7xoZI?t=340
 eureka:
   client:
     # a pure client, so NO need to register on eureka
-    register-with-eureka: true
+    register-with-eureka: false
     service-url:
       # single node mode
       #defaultZone: http://localhost:7001/eureka
