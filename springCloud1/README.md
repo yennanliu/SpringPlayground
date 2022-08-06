@@ -121,7 +121,8 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign4.png">
     - Architecture with Feign
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_arch.png">
-
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_code1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_code2.png">
 
 ## Ref
 - Course
