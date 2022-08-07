@@ -13,4 +13,5 @@ public class RootController {
 
 		return "redirect:/posts/all";
 	}
+
 }

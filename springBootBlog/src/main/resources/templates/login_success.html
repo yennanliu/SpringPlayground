@@ -1,14 +1,33 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
+
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+>
+
 <head>
     <meta charset="UTF-8">
     <title>Login success!</title>
 </head>
-<body>
 <div th:insert="header"></div>
-<h2>Welcome~ th:text="${userName}"</h2>
-
+<h1 align="center">Admin Page</h1>
+<h2 align="center">Welcome!</h2>
+<!-- <h2 align="center">Welcome! th:text="${userName}"</h2> -->
+<body>
+<div class="container">
+    <div th:each="post : ${posts}" class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:utext="${post.title}">Post title</h5>
+            <h6 class="card-subtitle mb-2"
+                th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
+            <p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
+            <a href="#" th:href="'/posts/' + ${post.id}" th:text="${'Read more'}" class="card-link">Read more</a>
+        </div>
+    </div>
 </div>
 </body>
 </html>

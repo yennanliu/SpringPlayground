@@ -27,7 +27,10 @@ import java.util.Optional;
 @RequestMapping("/posts")
 @Log4j2
 public class PostController {
-	private final PostRepository postRepository;
+	//private final PostRepository postRepository;
+
+	@Autowired
+	PostRepository postRepository;
 
 	// TODO : implement paging with it
 	private final int PAGINATIONSIZE = 100; // how many posts show in a http://localhost:8080/posts/ page
@@ -56,6 +59,9 @@ public class PostController {
 
 		long postCount = postRepository.count();
 		int numOfPages = (int) Math.ceil((postCount * 1.0) / PAGINATIONSIZE);
+
+		log.info(">>> postCount = " + postCount);
+		log.info(">>> numOfPages = " + numOfPages);
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("postCount", postCount);
