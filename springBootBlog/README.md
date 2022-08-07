@@ -37,8 +37,23 @@ java -jar <built_jar>
 - Java 11 (JDK 11)
 
 
+## TODO
+
+<details>
+<summary>TODO</summary>
+
+1. paging
+2. admin page (modify blogs ...)
+3. filter blog
+4. timeline
+5. fix load history post
+6. logout
+7. 404, 500 ... html
+
+</details>
+
 ## Reference
-Markdown blog from my blog post series
+Markdown blog from below post series
 - [Build a Markdown-based Blog with Spring Boot - Part 1](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-1.html)
 - [Build a Markdown-based Blog with Spring Boot - Part 2](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-2.html)
 - [Build a Markdown-based Blog with Spring Boot - Part 3](https://www.roshanadhikary.com.np/2021/05/build-a-markdown-based-blog-with-spring-boot-part-3.html)
