@@ -9,7 +9,7 @@
     <select id="insertUser">
         INSERT INTO my_user(username, password, age, sex, email)
         values
-        (#{username},#{password},#{age},#{sex},#{email}),
+        (#{username},#{password},#{age},#{sex},#{email})
     </select>
 
 </mapper>
