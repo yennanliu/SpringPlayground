@@ -6,10 +6,10 @@
 <mapper namespace="com.yen.springMybatisDemo1.mapper.MyUserMapper">
 
     <!-- int insertUser(MyUser user); -->
-    <select id="insertUser">
+    <insert id="insertUser">
         INSERT INTO my_user(username, password, age, sex, email)
         values
         (#{username},#{password},#{age},#{sex},#{email})
-    </select>
+    </insert>
 
 </mapper>
