@@ -33,8 +33,14 @@ public class S3ServiceImpl implements S3Service {
 
         String bucketName = StringUtils.isBlank(bucket)? defaultBucket:bucket;
         log.info(String.format("bucket=%s, region=%s, key=%s, file=%s", bucketName, region, key, file.getPath()));
-        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build();
+
+        final AmazonS3 s3 = AmazonS3ClientBuilder
+                .standard()
+                .withRegion(region)
+                .build();
+
         s3.putObject(bucketName, key, file);
+
         return s3.generatePresignedUrl(bucketName, key, null).getPath();
     }
 
@@ -42,6 +48,7 @@ public class S3ServiceImpl implements S3Service {
     public void putS3Object(String bucket, String key, File file) {
 
         int time = 0;
+
         while (time <= DEFAULT_EXPIRE_TIME) {
             try {
                 String path = putObject(bucket, key, file);
@@ -53,7 +60,7 @@ public class S3ServiceImpl implements S3Service {
             }
         }
         if (time > DEFAULT_EXPIRE_TIME) {
-            throw new RuntimeException(">>> File push to S3 system retry "+DEFAULT_EXPIRE_TIME+" times fail");
+            throw new RuntimeException(">>> File push to S3 system retry " + DEFAULT_EXPIRE_TIME + " times fail");
         }
     }
 
@@ -66,7 +73,11 @@ public class S3ServiceImpl implements S3Service {
     @Override
     public URL getS3FileUrl(String bucket, String key, File file) {
         try{
-            final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build();
+            final AmazonS3 s3 = AmazonS3ClientBuilder
+                    .standard()
+                    .withRegion(region)
+                    .build();
+
             URL s3URL = s3.getUrl(bucket, key+file);
             // s3Client.getUrl("your-bucket", "some-path/some-key.jpg").toString()
             return s3URL;
@@ -84,7 +95,11 @@ public class S3ServiceImpl implements S3Service {
 
         final String prefix = "https://s3.amazonaws.com/";
 
-        final AmazonS3 s3 = AmazonS3ClientBuilder.standard().withRegion(region).build();
+        final AmazonS3 s3 = AmazonS3ClientBuilder
+                .standard()
+                .withRegion(region)
+                .build();
+
         //URI fileToBeDownloaded = null;
         URI fileToBeDownloaded = null;
         try {
