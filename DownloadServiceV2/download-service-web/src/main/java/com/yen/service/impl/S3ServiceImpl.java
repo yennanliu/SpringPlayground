@@ -130,7 +130,7 @@ public class S3ServiceImpl implements S3Service {
     }
 
     @Override
-    public URL createPresignedUrl(String bucket, String key, String fileName) {
+    public URL createPresignedUrl(String bucket, String key) {
 
         // https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html
 

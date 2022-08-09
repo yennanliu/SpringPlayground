@@ -15,6 +15,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.io.File;
+import java.net.URL;
 
 @Component
 @Configurable
@@ -48,6 +49,10 @@ public class DownloadUpload2S3Job {
 
         log.info(">>> upload to s3");
         s3Service.putObject(BUCKET_NAME, "upload1/" +DEST_FILE, new File(DEST_FILE));
+
+        log.info(">>> get PresignedUrl");
+        URL presignedUrl = s3Service.createPresignedUrl(BUCKET_NAME, "upload1/"+DEST_FILE);
+        log.info(">>> presignedUrl = " + presignedUrl);
     }
 
 }

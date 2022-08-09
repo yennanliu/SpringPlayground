@@ -98,7 +98,7 @@ public class S3Controller {
         String file = "README.md"; // to-upload file name (local)
         log.info(">>> BUCKET_NAME={}, Key={}, file={}", BUCKET_NAME, s3File, file);
 
-        URL s3PresignedUrl = s3Service.createPresignedUrl(BUCKET_NAME, KEY, file);
+        URL s3PresignedUrl = s3Service.createPresignedUrl(BUCKET_NAME, KEY);
         log.info(">>> s3PresignedUrl = {}", s3PresignedUrl);
         log.info(">>> s3PresignedUrl.getPath() = {}", s3PresignedUrl.getPath());
         log.info(">>> s3PresignedUrl.getFile() = {}", s3PresignedUrl.getFile());
