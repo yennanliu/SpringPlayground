@@ -1,5 +1,11 @@
 package com.yen.service.impl;
 
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.HttpMethod;
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.yen.service.S3Service;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -18,25 +24,26 @@ import java.io.File;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.Instant;
 
 @Service
 @Log4j2
 public class S3ServiceImpl implements S3Service {
 
-    String region = "ap-northeast-1";
-    String defaultBucket = "default_bucket";
+    String REGION = "ap-northeast-1";
+    String DEFAULT_BUCKET = "default_bucket";
 
     private static final int DEFAULT_EXPIRE_TIME = 5;
 
     @Override
     public String putObject(String bucket, String key, File file) {
 
-        String bucketName = StringUtils.isBlank(bucket)? defaultBucket:bucket;
-        log.info(String.format("bucket=%s, region=%s, key=%s, file=%s", bucketName, region, key, file.getPath()));
+        String bucketName = StringUtils.isBlank(bucket)? DEFAULT_BUCKET:bucket;
+        log.info(String.format("bucket=%s, region=%s, key=%s, file=%s", bucketName, REGION, key, file.getPath()));
 
         final AmazonS3 s3 = AmazonS3ClientBuilder
                 .standard()
-                .withRegion(region)
+                .withRegion(REGION)
                 .build();
 
         s3.putObject(bucketName, key, file);
@@ -67,7 +74,7 @@ public class S3ServiceImpl implements S3Service {
     @Override
     public void putS3Object(String key, File file) {
 
-        putS3Object(defaultBucket, key, file);
+        putS3Object(DEFAULT_BUCKET, key, file);
     }
 
     @Override
@@ -75,7 +82,7 @@ public class S3ServiceImpl implements S3Service {
         try{
             final AmazonS3 s3 = AmazonS3ClientBuilder
                     .standard()
-                    .withRegion(region)
+                    .withRegion(REGION)
                     .build();
 
             URL s3URL = s3.getUrl(bucket, key+file);
@@ -97,7 +104,7 @@ public class S3ServiceImpl implements S3Service {
 
         final AmazonS3 s3 = AmazonS3ClientBuilder
                 .standard()
-                .withRegion(region)
+                .withRegion(REGION)
                 .build();
 
         //URI fileToBeDownloaded = null;
@@ -120,6 +127,58 @@ public class S3ServiceImpl implements S3Service {
         //S3Object s3Object = s3.getObject(bucket, key);
 
         return s3Object;
+    }
+
+    @Override
+    public URL createPresignedUrl(String bucket, String key, String fileName) {
+
+        // https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html
+
+        Regions clientRegion = Regions.DEFAULT_REGION;
+        String bucketName = bucket;
+        String objectKey = key;
+
+        log.info(">>> clientRegion = {}, bucketName = {}, objectKey = {}", clientRegion, bucket, key);
+
+        URL url = null;
+
+        try {
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion(clientRegion)
+                    .withCredentials(new ProfileCredentialsProvider())
+                    .build();
+
+            // Set the presigned URL to expire after one hour.
+            java.util.Date expiration = new java.util.Date();
+            long expTimeMillis = Instant.now().toEpochMilli();
+            expTimeMillis += 1000 * 60 * 60;
+            expiration.setTime(expTimeMillis);
+
+            // Generate the presigned URL.
+            System.out.println("Generating pre-signed URL.");
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                    new GeneratePresignedUrlRequest(bucketName, objectKey)
+                            .withMethod(HttpMethod.GET)
+                            .withExpiration(expiration);
+            url = s3Client.generatePresignedUrl(generatePresignedUrlRequest);
+
+            log.info(">>> Pre-Signed URL: " + url.toString());
+
+            return url;
+
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process
+            // it, so it returned an error response.
+            e.printStackTrace();
+            log.info(">>> Pre-Signed URL: " + url.toString());
+            return url;
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client
+            // couldn't parse the response from Amazon S3.
+            e.printStackTrace();
+            log.info(">>> Pre-Signed URL: " + url.toString());
+            return url;
+        }
     }
 
 }

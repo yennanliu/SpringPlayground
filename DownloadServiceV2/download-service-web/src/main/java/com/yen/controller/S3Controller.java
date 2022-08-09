@@ -86,4 +86,24 @@ public class S3Controller {
         return s3FileURL.getPath();
     }
 
+    @GetMapping("/s3/get_presigned_url")
+    public String getPresignedURL(@RequestParam("s3_file") String s3File){
+
+        Path currentRelativePath = Paths.get("");
+        String current_path = currentRelativePath.toAbsolutePath().toString();
+        log.info("current_path : {}", current_path);
+
+        String BUCKET_NAME =  "yen-bucket1";
+        String KEY = s3File;  // upload file name (s3)
+        String file = "README.md"; // to-upload file name (local)
+        log.info(">>> BUCKET_NAME={}, Key={}, file={}", BUCKET_NAME, s3File, file);
+
+        URL s3PresignedUrl = s3Service.createPresignedUrl(BUCKET_NAME, KEY, file);
+        log.info(">>> s3PresignedUrl = {}", s3PresignedUrl);
+        log.info(">>> s3PresignedUrl.getPath() = {}", s3PresignedUrl.getPath());
+        log.info(">>> s3PresignedUrl.getFile() = {}", s3PresignedUrl.getFile());
+
+        return s3PresignedUrl.getPath();
+    }
+
 }
