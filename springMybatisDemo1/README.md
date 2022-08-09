@@ -46,6 +46,12 @@ java -jar <built_jar>
 
 ## Important Concepts
 
+- MyBatis
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1//doc/pic/mybatis_xml_1.png">
+
+- SQL session
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/sqlsession.png">
+
 ## Ref
 
 - Course
