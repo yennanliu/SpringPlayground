@@ -27,4 +27,7 @@ public interface MyUserMapper {
     /** modify user */
     void updateUser(int id, String username);
 
+    /** delete user */
+    void deleteUser(int id);
+
 }

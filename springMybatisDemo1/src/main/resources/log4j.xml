@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">-->
 
-<!-- https://github.com/dev9com/mybatis-sample/blob/master/src/main/resources/log4j.xml -->
+<!--&lt;!&ndash; https://github.com/dev9com/mybatis-sample/blob/master/src/main/resources/log4j.xml &ndash;&gt;-->
 
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<!--<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">-->
 
-    <!-- Console output -->
+<!--    &lt;!&ndash; Console output &ndash;&gt;-->
 
-    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss} %m  (%F:%L) \n"/>
-        </layout>
-    </appender>
+<!--    <appender name="STDOUT" class="org.apache.log4j.ConsoleAppender">-->
+<!--        <layout class="org.apache.log4j.PatternLayout">-->
+<!--            <param name="ConversionPattern" value="%-5p %d{MM-dd HH:mm:ss} %m  (%F:%L) \n"/>-->
+<!--        </layout>-->
+<!--    </appender>-->
 
-    <!-- set the priority to debug for these two values to see nice debugging output -->
-    <category name="java.sql">
-        <priority value="debug" />
-    </category>
+<!--    &lt;!&ndash; set the priority to debug for these two values to see nice debugging output &ndash;&gt;-->
+<!--    <category name="java.sql">-->
+<!--        <priority value="debug" />-->
+<!--    </category>-->
 
-    <category name="orh.apache.ibatis">
-        <priority value="info" />
-    </category>
+<!--    <category name="orh.apache.ibatis">-->
+<!--        <priority value="info" />-->
+<!--    </category>-->
 
-    <root>
-        <priority value ="error" />
-        <appender-ref ref="STDOUT" />
-    </root>
+<!--    <root>-->
+<!--        <priority value ="error" />-->
+<!--        <appender-ref ref="STDOUT" />-->
+<!--    </root>-->
 
-</log4j:configuration>
+<!--</log4j:configuration>-->

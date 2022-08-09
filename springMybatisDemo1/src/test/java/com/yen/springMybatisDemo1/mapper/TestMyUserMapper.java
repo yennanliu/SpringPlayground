@@ -44,4 +44,12 @@ public class TestMyUserMapper {
         myUserMapper.updateUser(2, "zzzzz");
     }
 
+    /** test delete user */
+    @Test
+    public void test4(){
+
+        myUserMapper.deleteUser(5);
+        myUserMapper.deleteUser(6);
+    }
+
 }

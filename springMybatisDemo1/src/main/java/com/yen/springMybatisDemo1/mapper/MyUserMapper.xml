@@ -22,5 +22,9 @@ https://www.youtube.com/watch?v=UuYZjy-TXo0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         UPDATE my_user SET username = #{username} WHERE id = #{id}
     </update>
 
+    <!-- void deleteUser(int id); -->
+    <delete id="deleteUser">
+        DELETE FROM my_user WHERE id = #{id}
+    </delete>
 
 </mapper>
