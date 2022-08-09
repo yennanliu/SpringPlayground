@@ -134,7 +134,8 @@ public class S3ServiceImpl implements S3Service {
 
         // https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html
 
-        Regions clientRegion = Regions.DEFAULT_REGION;
+        //Regions clientRegion = Regions.DEFAULT_REGION;
+        Regions clientRegion = Regions.AP_NORTHEAST_1;
         String bucketName = bucket;
         String objectKey = key;
 
