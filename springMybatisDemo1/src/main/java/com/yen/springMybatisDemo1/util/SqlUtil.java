@@ -1,6 +1,7 @@
 package com.yen.springMybatisDemo1.util;
 
 // https://www.youtube.com/watch?v=DACvS6eOiGI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=12
+// https://www.youtube.com/watch?v=EYMDtHRLyCM&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=13
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -29,7 +30,11 @@ public class SqlUtil {
         SqlSessionFactory sqlSessionFactory = sqlSessionFactoryBuilder.build(is);
         
         // get session
-        SqlSession sqlSession = sqlSessionFactory.openSession();
+        /**
+         *  SqlSession by default is non auto commit
+         *  -> we can enable auto commit via sqlSessionFactory.openSession(true);
+         */
+        SqlSession sqlSession = sqlSessionFactory.openSession(true); // true : auto commit
 
         return sqlSession;
     }

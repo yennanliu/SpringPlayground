@@ -75,6 +75,13 @@
 			<version>1.6.8</version>
 		</dependency>
 
+		<!-- log4j logging -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
     </dependencies>
 
 	<build>

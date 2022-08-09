@@ -1,6 +1,7 @@
 package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=DACvS6eOiGI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=12
+// https://www.youtube.com/watch?v=EYMDtHRLyCM&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=13
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 

@@ -52,6 +52,10 @@ java -jar <built_jar>
 - SQL session
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/sqlsession.png">
 
+- log4j logging
+    - priority : FATAL > ERROR > WARN > INFO > DEBUG
+    - log info becomes more detail from left to right (FATAL -> ... -> DEBUG)
+
 ## Ref
 
 - Course
