@@ -16,6 +16,7 @@ public class TestMyUserMapper {
     @Autowired
     MyUserMapper myUserMapper;
 
+    /** test insert user */
     @Test
     public void test1(){
 
@@ -26,11 +27,21 @@ public class TestMyUserMapper {
         System.out.println(">>> res2 = " + res2);
     }
 
+    /** test insert user with sqlSession */
     @Test
     public void test2(){
 
         // via sqlSession
         // https://www.youtube.com/watch?v=DACvS6eOiGI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=12
+    }
+
+
+    /** test update user */
+    @Test
+    public void test3(){
+
+        myUserMapper.updateUser(1, "jackkkk");
+        myUserMapper.updateUser(2, "zzzzz");
     }
 
 }

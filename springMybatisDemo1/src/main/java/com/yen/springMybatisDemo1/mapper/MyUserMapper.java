@@ -1,6 +1,7 @@
 package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=xVdgzSkU6po&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=10
+// https://www.youtube.com/watch?v=UuYZjy-TXo0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=13
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -20,6 +21,10 @@ public interface MyUserMapper {
      *            table --> bean class (pojo) --> mapper interface -> mapper xml
      */
 
+    /** add new user */
     int insertUser(MyUser user);
+
+    /** modify user */
+    void updateUser(int id, String username);
 
 }

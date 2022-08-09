@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!-- https://www.youtube.com/watch?v=izBUTCZ0ZPs&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=10 -->
+<!--
+
+https://www.youtube.com/watch?v=izBUTCZ0ZPs&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=10
+https://www.youtube.com/watch?v=UuYZjy-TXo0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=13
+
+-->
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -11,5 +16,11 @@
         values
         (#{username},#{password},#{age},#{sex},#{email})
     </insert>
+
+    <!-- void updateUser(MyUser user); -->
+    <update id="updateUser">
+        UPDATE my_user SET username = #{username} WHERE id = #{id}
+    </update>
+
 
 </mapper>
