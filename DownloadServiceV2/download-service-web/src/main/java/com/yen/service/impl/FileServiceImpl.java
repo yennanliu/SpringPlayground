@@ -1,6 +1,8 @@
 package com.yen.service.impl;
 
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.yen.service.FileService;
+import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -74,9 +76,77 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public void uploadFile(String url) {
+    public void saveFile(String srcFile, String destFile) {
 
-        System.out.println("upload file");
+        List<String> lines = null;
+        try {
+            lines = Files.readAllLines(Path.of(srcFile), Charset.forName("UTF-8"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BufferedWriter bw = null;
+        try{
+            File file = new File(destFile);
+            FileOutputStream fos = new FileOutputStream(file);
+
+            bw = new BufferedWriter(new OutputStreamWriter(fos));
+
+            for (String s : lines) {
+                bw.write(s);
+                bw.newLine();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        finally {
+            if (bw != null){
+                try {
+                    bw.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+    }
+
+    @Override
+    public void saveS3File(S3ObjectInputStream s3InputStream, String destFile) {
+
+        InputStream in = s3InputStream;
+        byte[] buf = new byte[1024];
+        OutputStream out = null;
+        try {
+            out = new FileOutputStream(destFile);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        int count;
+        while(true)
+        {
+            try {
+                if (!((count = in.read(buf)) != -1)) break;
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if( Thread.interrupted() ) {
+                try {
+                    throw new InterruptedException();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            try {
+                out.write(buf, 0, count);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        try {
+            in.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
