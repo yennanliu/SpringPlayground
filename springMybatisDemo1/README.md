@@ -52,6 +52,9 @@ java -jar <built_jar>
 - MyBatis variable 
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1//doc/pic/mybatis_variable.png">
 
+- Init a new MyBatis project
+    - https://www.youtube.com/watch?v=MrvOMJbA_B8&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=19
+
 - SQL session
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/sqlsession.png">
 
