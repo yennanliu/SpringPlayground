@@ -46,8 +46,11 @@ java -jar <built_jar>
 
 ## Important Concepts
 
-- MyBatis
+- MyBatis mapping
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1//doc/pic/mybatis_xml_1.png">
+
+- MyBatis variable 
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1//doc/pic/mybatis_variable.png">
 
 - SQL session
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/sqlsession.png">

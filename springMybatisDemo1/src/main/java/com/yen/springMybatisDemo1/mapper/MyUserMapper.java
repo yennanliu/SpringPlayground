@@ -19,6 +19,8 @@ public interface MyUserMapper {
      *     1) namespace should use mapper class (com.yen.springMybatisDemo1.mapper.MyUserMapper in MyUserMapper.xml)
      *     2) SQL method name (in MyUserMapper.java) is as same as SQL id in xml (in MyUserMapper.xml)
      *
+     *     (one to one relation)
+     *
      *     Note :
      *         -> mapping relation :
      *            table --> bean class (pojo) --> mapper interface -> mapper xml
