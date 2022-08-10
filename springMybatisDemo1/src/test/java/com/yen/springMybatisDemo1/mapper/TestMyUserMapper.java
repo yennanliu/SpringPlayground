@@ -2,6 +2,7 @@ package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=DACvS6eOiGI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=12
 // https://www.youtube.com/watch?v=EYMDtHRLyCM&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=13
+// https://www.youtube.com/watch?v=Tj14NvhKaGk&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=14
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -9,6 +10,8 @@ import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 @SpringBootTest
 public class TestMyUserMapper {
@@ -50,6 +53,19 @@ public class TestMyUserMapper {
 
         myUserMapper.deleteUser(5);
         myUserMapper.deleteUser(6);
+    }
+
+    /** test get user */
+    @Test
+    public void test5(){
+
+        MyUser u1 = myUserMapper.getUserById(1);
+        System.out.println(">>> u1 = " + u1);
+
+        System.out.println("================");
+
+        List<MyUser> user_list = myUserMapper.getAllUser();
+        user_list.forEach(System.out::println);
     }
 
 }

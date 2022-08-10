@@ -24,3 +24,9 @@ ribbon:
   ReadTimeout: 5000
   # duration to get resources from service (after connection is created)
   ConnectTimeout : 5000
+
+# https://www.youtube.com/watch?v=8PVkp8jc-N8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=47
+logging:
+  level:
+    # feign log level for monitoring endpoints
+    com.yen.springCloud.service.PaymentFeignService: debug

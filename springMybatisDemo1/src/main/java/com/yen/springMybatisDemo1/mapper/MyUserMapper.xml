@@ -27,4 +27,20 @@ https://www.youtube.com/watch?v=UuYZjy-TXo0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         DELETE FROM my_user WHERE id = #{id}
     </delete>
 
+    <!-- MyUser getUserById(int id); -->
+    <select id="getUserById" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT * FROM my_user WHERE id = #{id}
+    </select>
+
+    <!--
+         List<MyUser> getAllUser();
+
+         -> for select, we have to set either resultType or resultMap
+            -> resultType : set up default mapping relation
+            -> resultMap : set up user-defined mapping relation
+    -->
+    <select id="getAllUser" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT * FROM my_user
+    </select>
+
 </mapper>
