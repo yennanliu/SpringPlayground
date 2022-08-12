@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+https://www.youtube.com/watch?v=_5a7CjR-XSw&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=22
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springMybatisDemo1.mapper.ParameterMapper">
+
+    <!-- List<MyUser> getAllUser(); -->
+    <select id="getAllUser" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT * FROM my_user
+    </select>
+
+</mapper>
