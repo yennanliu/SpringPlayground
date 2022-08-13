@@ -2,6 +2,8 @@ package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=_5a7CjR-XSw&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=22
 // https://www.youtube.com/watch?v=eesVBIuTC1k&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=23
+// https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
+// https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -26,6 +28,14 @@ import java.util.List;
  *       2) #{} : replacement (佔位符賦值)
  *              -> prefer this
  *              -> has NO SQL injection issue
+ *
+ *       3) example cases:
+ *
+ *          -> 3-1) mapper interface has single parameter (name)
+ *              -> via #{}
+ *              -> via "'" + ${} + "'"
+ *
+ *          -> 3-2)
  */
 
 @SpringBootTest
@@ -39,6 +49,13 @@ public class TestParameterMapper {
 
         List<MyUser> user_list = parameterMapper.getAllUser();
         user_list.forEach(System.out::println);
+    }
+
+    @Test
+    public void test2(){
+
+        MyUser u1 = parameterMapper.getUserByName("lynn");
+        System.out.println(">>> u1 = " + u1);
     }
 
     /** review : tradition JDBC op */

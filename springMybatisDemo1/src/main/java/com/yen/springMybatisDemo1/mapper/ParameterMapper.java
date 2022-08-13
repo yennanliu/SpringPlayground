@@ -12,4 +12,7 @@ public interface ParameterMapper {
 
     /** select all users */
     List<MyUser> getAllUser();
+
+    /** get user by username */
+    MyUser getUserByName(String username);
 }
