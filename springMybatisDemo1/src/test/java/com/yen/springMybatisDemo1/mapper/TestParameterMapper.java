@@ -4,6 +4,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=eesVBIuTC1k&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=23
 // https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
 // https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
+// https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=26
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -35,7 +36,13 @@ import java.util.List;
  *              -> via #{}
  *              -> via "'" + ${} + "'"
  *
- *          -> 3-2)
+ *          -> 3-2) mapper interface has MULTIPLE parameters (multiple format)
+ *              -> Mybatis will put those params in a map (k-v) collection
+ *              -> can access them via 2 ways
+ *                  -> arg0, arg1, ... as "key"
+ *                  -> param1, param2, ...  as "value"
+ *
+ *                  -> example : #{arg0}, #{arg1}...
  */
 
 @SpringBootTest
@@ -55,6 +62,13 @@ public class TestParameterMapper {
     public void test2(){
 
         MyUser u1 = parameterMapper.getUserByName("lynn");
+        System.out.println(">>> u1 = " + u1);
+    }
+
+    @Test
+    public void test3(){
+
+        MyUser u1 = parameterMapper.checkLogin("amy", "123");
         System.out.println(">>> u1 = " + u1);
     }
 

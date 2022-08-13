@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!--
 https://www.youtube.com/watch?v=_5a7CjR-XSw&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=22
+https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=26
 -->
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -15,6 +16,22 @@ https://www.youtube.com/watch?v=_5a7CjR-XSw&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
     <!-- MyUser getUserByName(String username); -->
     <select id="getUserByName" resultType="com.yen.springMybatisDemo1.bean.MyUser">
         SELECT * FROM my_user WHERE username = #{username}
+    </select>
+
+    <!--
+        MyUser checkLogin(String username, String password);
+
+        NOTE : if there are multiple params,
+               mybatis will put them in k-v (key-value) format
+               so, {arg0:param1, arg1:param2,...}
+               -> we can use them via key or value as above
+    -->
+    <select id="checkLogin" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT * FROM my_user
+        WHERE
+        username = #{username}
+        AND
+        password = #{password}
     </select>
 
 </mapper>
