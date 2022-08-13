@@ -75,6 +75,12 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| cloud-provider-hystrix-payment8001 |  | | |
+| get payment (with `hystrix`)| GET | http://localhost:8001/payment/hystrix/ok/31 | get payment by id (via cloud-provider-hystrix-payment8001)|
+| get payment (with `hystrix`)| GET | http://localhost:8001/payment/hystrix/timeout/31 | get payment with timeout error (via cloud-provider-hystrix-payment8001)|
+
+| API | Type | Example cmd | Purpose | Comment|
+| ----- | -------- | ---- | ----- | ---- |
 | Eureka cluter (register center)|  | | |
 | service UI | GET | http://localhost:7001/  or http://eureka7001.com:7001/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
 | service UI | GET | http://localhost:7002/  or http://eureka7002.com:7002/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
