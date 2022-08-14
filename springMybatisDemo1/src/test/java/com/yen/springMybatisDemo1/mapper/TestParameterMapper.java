@@ -58,6 +58,8 @@ import java.util.Map;
  *              -> NOTE : attrName is based on getter, setter, but not whether such attr exists or not
  *
  *          -> 3-5) use "@Param" annotation as declared parameter
+ *              -> Mybatis will put those params in a map (k-v) collection
+ *              -> access via #{paramName}
  */
 
 @SpringBootTest
@@ -111,7 +113,7 @@ public class TestParameterMapper {
         MyUser u1 = parameterMapper.checkLogin3("amy", "123");
         System.out.println(">>> u1 = " + u1);
     }
-    
+
     /** review : tradition JDBC op */
     @Test
     public void testJDBC() throws Exception {
