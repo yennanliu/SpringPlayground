@@ -1,16 +1,18 @@
 package com.yen.springCourseSystem.service;
 
-// book p. 249
+// book p. 250
 
-import com.yen.springCourseSystem.bean.CourseType;
+import com.yen.springCourseSystem.Util.CourseQueryHelper;
+import com.yen.springCourseSystem.bean.Course;
 
 import java.util.List;
 
 public interface CourseService {
 
-    void addCourseType(CourseType courseType);
-    void removeCourseType(Integer typeId);
-    void updateCourseType(CourseType courseType);
-    CourseType getCourseTypeById(Integer typeId);
-    List<CourseType> loadAll();
+    void addCourse(Course course);
+    void removeCourseByNo(String courseNo);
+    void updateCourse(Course course);
+    Course loadCourseByNo(String courseNo);
+    List<Course> loadScopedCourses(CourseQueryHelper helper);
+    byte[] getTextBookPic(String courseNo);
 }
