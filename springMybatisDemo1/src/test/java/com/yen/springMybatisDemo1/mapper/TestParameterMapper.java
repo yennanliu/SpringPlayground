@@ -5,6 +5,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
 // https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
 // https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=26
+// https://www.youtube.com/watch?v=RZRKAEyAOfQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=27
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -17,7 +18,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *    Mybatis has 2 ways get parameter (to SQL)
@@ -43,6 +46,8 @@ import java.util.List;
  *                  -> param1, param2, ...  as "value"
  *
  *                  -> example : #{arg0}, #{arg1}...
+ *          -> 3-3) mapper interface has MULTIPLE parameters, we can put all parameters into a Map
+ *               ->
  */
 
 @SpringBootTest
@@ -69,6 +74,17 @@ public class TestParameterMapper {
     public void test3(){
 
         MyUser u1 = parameterMapper.checkLogin("amy", "123");
+        System.out.println(">>> u1 = " + u1);
+    }
+
+    @Test
+    public void test4(){
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("username", "jackkkk");
+        map.put("password", "123");
+
+        MyUser u1 = parameterMapper.checkLogin2(map);
         System.out.println(">>> u1 = " + u1);
     }
 

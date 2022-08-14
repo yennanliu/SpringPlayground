@@ -34,4 +34,15 @@ https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         password = #{password}
     </select>
 
+    <!--
+        MyUser checkLogin2(Map<String, Object> map);
+    -->
+    <select id="checkLogin2" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT * FROM my_user
+        WHERE
+        username = #{username}
+        AND
+        password = #{password}
+    </select>
+
 </mapper>
