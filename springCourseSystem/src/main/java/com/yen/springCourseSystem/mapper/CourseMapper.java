@@ -11,7 +11,7 @@ public interface CourseMapper{
 
     void addCourse(Course course);
     boolean removeCourseByNo(String courseNo);
-    boolean removeCourseByType(Integer typeId);
+    boolean removeCourseByTypeId(Integer typeId);
     void updateCourse(Course course);
     Course loadCourseByNo(String courseNo);
     List<String> loadCourseByTypeId(Integer typeId);

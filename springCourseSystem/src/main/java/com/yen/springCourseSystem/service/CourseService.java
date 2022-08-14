@@ -10,7 +10,7 @@ import java.util.List;
 public interface CourseService {
 
     void addCourse(Course course);
-    void removeCourseByNo(String courseNo);
+    boolean removeCourseByNo(String courseNo);
     void updateCourse(Course course);
     Course loadCourseByNo(String courseNo);
     List<Course> loadScopedCourses(CourseQueryHelper helper);
