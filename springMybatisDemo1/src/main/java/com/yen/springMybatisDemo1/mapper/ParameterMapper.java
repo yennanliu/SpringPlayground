@@ -3,6 +3,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=_5a7CjR-XSw&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=22
 // https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=26
 // https://www.youtube.com/watch?v=RZRKAEyAOfQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=27
+// https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 import org.apache.ibatis.annotations.Mapper;
@@ -24,5 +25,8 @@ public interface ParameterMapper {
 
     /** verify login V2 (param is a map) */
     MyUser checkLogin2(Map<String, Object> map);
+
+    /** insert a new user (param is an actual class) */
+    int insertUser(MyUser user);
 
 }

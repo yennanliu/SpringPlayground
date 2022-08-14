@@ -45,4 +45,12 @@ https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         password = #{password}
     </select>
 
+    <!-- int insertUser(MyUser user); -->
+    <insert id="insertUser">
+        INSERT INTO
+        my_user(username, password, age, sex, email)
+        values
+        (#{username}, #{password}, #{age}, #{sex}, #{email})
+    </insert>
+
 </mapper>

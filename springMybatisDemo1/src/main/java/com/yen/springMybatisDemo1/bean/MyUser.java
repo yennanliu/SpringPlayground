@@ -19,7 +19,7 @@ public class MyUser {
 
     private Integer age;
 
-    private String sex;
+    private Integer sex;
 
     private String email;
 }

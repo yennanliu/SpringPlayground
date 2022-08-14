@@ -23,8 +23,8 @@ public class TestMyUserMapper {
     @Test
     public void test1(){
 
-        int res1 = myUserMapper.insertUser(new MyUser("ll","123",10,"0","yoh@google.com"));
-        int res2 = myUserMapper.insertUser(new MyUser("kk","123",10,"0","yoh@google.com"));
+        int res1 = myUserMapper.insertUser(new MyUser("ll","123",10,0,"yoh@google.com"));
+        int res2 = myUserMapper.insertUser(new MyUser("kk","123",10,1,"yoh@google.com"));
 
         System.out.println(">>> res1 = " + res1);
         System.out.println(">>> res2 = " + res2);

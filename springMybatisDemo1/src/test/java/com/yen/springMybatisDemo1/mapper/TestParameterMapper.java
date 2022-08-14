@@ -6,6 +6,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=4oaMxuXRV0U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=25
 // https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=26
 // https://www.youtube.com/watch?v=RZRKAEyAOfQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=27
+// https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -47,7 +48,12 @@ import java.util.Map;
  *
  *                  -> example : #{arg0}, #{arg1}...
  *          -> 3-3) mapper interface has MULTIPLE parameters, we can put all parameters into a Map
- *               ->
+ *               -> then we can access all params in Map via  #{}
+ *               -> plz check below "test4"
+ *
+ *          -> 3-4) mapper interface parameter is an actual class
+ *              -> then we can access all params in Map via  #{attrName}
+ *              -> NOTE : attrName is based on getter, setter, but not whether such attr exists or not
  */
 
 @SpringBootTest
@@ -87,6 +93,14 @@ public class TestParameterMapper {
         MyUser u1 = parameterMapper.checkLogin2(map);
         System.out.println(">>> u1 = " + u1);
     }
+
+    @Test
+    public void test5(){
+
+        Integer res1 = parameterMapper.insertUser(new MyUser("ZZZ","777",10,1,"ZZZ@google.com"));
+        System.out.println(">>> res1 = " + res1);
+    }
+
 
     /** review : tradition JDBC op */
     @Test
