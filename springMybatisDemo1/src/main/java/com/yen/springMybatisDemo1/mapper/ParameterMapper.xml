@@ -45,6 +45,17 @@ https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         password = #{password}
     </select>
 
+    <!--
+        MyUser checkLogin3(@Param("username") String username, @Param("password") String password);
+    -->
+    <select id="checkLogin3" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT * FROM my_user
+        WHERE
+        username = #{username}
+        AND
+        password = #{password}
+    </select>
+
     <!-- int insertUser(MyUser user); -->
     <insert id="insertUser">
         INSERT INTO

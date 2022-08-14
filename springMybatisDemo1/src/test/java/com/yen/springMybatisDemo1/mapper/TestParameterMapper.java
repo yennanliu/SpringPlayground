@@ -7,9 +7,11 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=26
 // https://www.youtube.com/watch?v=RZRKAEyAOfQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=27
 // https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
+// https://www.youtube.com/watch?v=9Q-SJ1lqJfA&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
+import org.apache.ibatis.annotations.Param;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +56,8 @@ import java.util.Map;
  *          -> 3-4) mapper interface parameter is an actual class
  *              -> then we can access all params in Map via  #{attrName}
  *              -> NOTE : attrName is based on getter, setter, but not whether such attr exists or not
+ *
+ *          -> 3-5) use "@Param" annotation as declared parameter
  */
 
 @SpringBootTest
@@ -101,7 +105,13 @@ public class TestParameterMapper {
         System.out.println(">>> res1 = " + res1);
     }
 
+    @Test
+    public void test6(){
 
+        MyUser u1 = parameterMapper.checkLogin3("amy", "123");
+        System.out.println(">>> u1 = " + u1);
+    }
+    
     /** review : tradition JDBC op */
     @Test
     public void testJDBC() throws Exception {
