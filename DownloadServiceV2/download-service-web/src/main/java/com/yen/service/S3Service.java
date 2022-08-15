@@ -17,6 +17,8 @@ public interface S3Service {
 
     public S3Object downloadFile(String bucket, String key, String fileName);
 
+    public byte[] downloadS3Object(String bucketName, String path);
+
     public URL createPresignedUrl(String bucket, String key);
 
 }

@@ -6,6 +6,8 @@ import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.util.IOUtils;
 import com.yen.service.S3Service;
 
 import com.amazonaws.services.s3.AmazonS3;
@@ -17,6 +19,7 @@ import lombok.extern.log4j.Log4j2;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -25,6 +28,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Instant;
+import java.util.zip.ZipInputStream;
 
 @Service
 @Log4j2
@@ -127,6 +131,31 @@ public class S3ServiceImpl implements S3Service {
         //S3Object s3Object = s3.getObject(bucket, key);
 
         return s3Object;
+    }
+
+    @Override
+    public byte[] downloadS3Object(String bucketName, String path) {
+
+        final AmazonS3 s3 = AmazonS3ClientBuilder
+                .standard()
+                .withRegion(REGION)
+                .build();
+
+        try {
+            log.info(">>> S3ServiceImpl - downloadS3Object OK, bucket={}, path={}", bucketName, path);
+            S3Object s3Object = s3.getObject(bucketName, path);
+            // download zip file : https://stackoverflow.com/questions/50437965/download-the-files-inside-compressed-gz-files-from-s3-bucket
+            ResponseEntity<String> respBody = ResponseEntity.ok(IOUtils.toString(new ZipInputStream(s3Object.getObjectContent())));
+            //return IOUtils.toByteArray(s3Object.getObjectContent());
+            return respBody.getBody().getBytes();
+        }catch (Exception e) {
+            log.error(">>> S3ServiceImpl - downloadS3Object failed.", e);
+            try {
+                throw new Exception(">>> S3ServiceImpl - downloadS3Object failed");
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
