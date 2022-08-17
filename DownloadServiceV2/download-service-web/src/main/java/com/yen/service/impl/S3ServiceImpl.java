@@ -5,15 +5,10 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.SdkClientException;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
-import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.*;
+import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import com.yen.service.S3Service;
-
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.AmazonS3ClientBuilder;
-import com.amazonaws.services.s3.AmazonS3URI;
-import com.amazonaws.services.s3.model.S3Object;
 
 import lombok.extern.log4j.Log4j2;
 
@@ -29,6 +24,20 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.time.Instant;
 import java.util.zip.ZipInputStream;
+
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.profile.ProfileCredentialsProvider;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3ClientBuilder;
+import com.amazonaws.services.s3.model.GetObjectRequest;
+import com.amazonaws.services.s3.model.S3Object;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 @Service
 @Log4j2
@@ -115,22 +124,117 @@ public class S3ServiceImpl implements S3Service {
         URI fileToBeDownloaded = null;
         try {
             //fileToBeDownloaded = new URI("https://s3.amazonaws.com/account-update/input.csv");
-            fileToBeDownloaded = new URI("https://s3.amazonaws.com/yen-bucket1/README.md");
+            //fileToBeDownloaded = new URI("https://s3.amazonaws.com/yen-bucket1/README.md");
+            String url = prefix + bucket + "/" + key;
+            System.out.println(">>> url = " + url);
+            fileToBeDownloaded = new URI(url);
         } catch (URISyntaxException e) {
             throw new RuntimeException(e);
         }
+
         //String fileURI = prefix + bucket + fileName;
         //String fileURI = "https://s3.amazonaws.com/yen-bucket1/README.md";
         AmazonS3URI s3URI = new AmazonS3URI(fileToBeDownloaded);
 
-        //log.info(">>> fileURI = {}", fileURI);
         log.info(">>> s3URI = {}", s3URI);
 
         S3Object s3Object = s3.getObject(s3URI.getBucket(), s3URI.getKey());
-        //fileToBeDownloaded = new URI(prefix + bucket + fileName);
-        //S3Object s3Object = s3.getObject(bucket, key);
 
         return s3Object;
+    }
+
+    @Override
+    public S3Object downloadFileV2(String bucket, String key) {
+
+        // https://docs.aws.amazon.com/AmazonS3/latest/userguide/download-objects.html
+
+        S3Object fullObject = null;
+        S3Object objectPortion = null;
+        S3Object headerOverrideObject = null;
+
+        try {
+
+            AmazonS3 s3Client = AmazonS3ClientBuilder.standard()
+                    .withRegion(REGION)
+                    .build();
+
+            // Get an object and print its contents.
+            System.out.println("Downloading an object");
+            fullObject = s3Client.getObject(new GetObjectRequest(bucket, key));
+            System.out.println("Content-Type: " + fullObject.getObjectMetadata().getContentType());
+            System.out.println("Content: ");
+            displayTextInputStream(fullObject.getObjectContent());
+
+            // Get an entire object, overriding the specified response headers, and print the object's content.
+            ResponseHeaderOverrides headerOverrides = new ResponseHeaderOverrides()
+                    .withCacheControl("No-cache")
+                    .withContentDisposition("attachment; filename=example.txt");
+            GetObjectRequest getObjectRequestHeaderOverride = new GetObjectRequest(bucket, key)
+                    .withResponseHeaders(headerOverrides);
+            headerOverrideObject = s3Client.getObject(getObjectRequestHeaderOverride);
+            displayTextInputStream(headerOverrideObject.getObjectContent());
+
+            return fullObject;
+
+        } catch (AmazonServiceException e) {
+            // The call was transmitted successfully, but Amazon S3 couldn't process
+            // it, so it returned an error response.
+            e.printStackTrace();
+        } catch (SdkClientException e) {
+            // Amazon S3 couldn't be contacted for a response, or the client
+            // couldn't parse the response from Amazon S3.
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            // To ensure that the network connection doesn't remain open, close any open input streams.
+            if (fullObject != null) {
+                try {
+                    fullObject.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (objectPortion != null) {
+                try {
+                    objectPortion.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            if (headerOverrideObject != null) {
+                try {
+                    headerOverrideObject.close();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return fullObject;
+    }
+
+    @Override
+    public ObjectMetadata downloadFileV3(String bucket, String key, String localFilename) {
+
+        AmazonS3Client s3Client = new AmazonS3Client();
+
+        File localFile = new File(localFilename);
+
+        ObjectMetadata object = s3Client.getObject(
+                new GetObjectRequest(bucket, key),
+                localFile);
+
+        return object;
+    }
+
+    private static void displayTextInputStream(InputStream input) throws IOException {
+        // Read the text input stream one line at a time and display each line.
+        BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        System.out.println();
     }
 
     @Override
@@ -210,6 +314,15 @@ public class S3ServiceImpl implements S3Service {
             log.info(">>> Pre-Signed URL: " + url.toString());
             return url;
         }
+    }
+
+    public void test(){
+
+        AmazonS3Client s3Client = new AmazonS3Client();
+
+        File localFile = new File("localFilename");
+
+        ObjectMetadata object = s3Client.getObject(new GetObjectRequest("bucket", "s3FileName"), localFile);
     }
 
 }

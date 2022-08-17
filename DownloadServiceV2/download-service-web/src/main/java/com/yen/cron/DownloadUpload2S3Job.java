@@ -1,5 +1,6 @@
 package com.yen.cron;
 
+import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 
@@ -35,15 +36,16 @@ public class DownloadUpload2S3Job {
         log.info(">>> DownloadUpload2S3Job run ...");
 
         String BUCKET_NAME =  "yen-bucket1";
-        String KEY = "test2";  // upload file name (s3)
-        String S3_SRC_FILE = "README.md"; // s3 file we want to download
-        String DEST_FILE = "readme_download.md";
+        String KEY = "README.md";  // file path (directory + filename) (s3)
+        String DEST_FILE = "readme_downloadXXX.md";
 
         log.info(">>> download from s3");
         // save file
-        S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
-        S3ObjectInputStream s3is = s3Object.getObjectContent();
-        fileService.saveS3File(s3is, DEST_FILE);
+        //S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
+        //S3Object s3Object = s3Service.downloadFileV2(BUCKET_NAME, KEY);
+        ObjectMetadata s3Object = s3Service.downloadFileV3(BUCKET_NAME, KEY, DEST_FILE);
+//        S3ObjectInputStream s3is = s3Object.getObjectContent();
+//        fileService.saveS3File(s3is, DEST_FILE);
 
         log.info(">>> transform");
 
