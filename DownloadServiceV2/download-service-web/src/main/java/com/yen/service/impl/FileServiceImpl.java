@@ -12,6 +12,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 @Service
 public class FileServiceImpl implements FileService {
@@ -26,6 +28,7 @@ public class FileServiceImpl implements FileService {
     public void getDownloadCsv(String url) {
 
     }
+
 
     // TODO : optimize performance : either use library or tune algorithm
     @Override
@@ -158,6 +161,108 @@ public class FileServiceImpl implements FileService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void unZipFile(String zipFilePath, String desDirectory) throws Exception {
+
+        File desDir = new File(desDirectory);
+        if (!desDir.exists()) {
+            boolean mkdirSuccess = desDir.mkdir();
+            if (!mkdirSuccess) {
+                throw new Exception("建立解壓目標資料夾失敗");
+            }
+        }
+        // 讀入流
+        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));
+        // 遍歷每一個檔案
+        ZipEntry zipEntry = zipInputStream.getNextEntry();
+        while (zipEntry != null) {
+            if (zipEntry.isDirectory()) { // 資料夾
+                String unzipFilePath = desDirectory + File.separator + zipEntry.getName();
+                // 直接建立
+                mkdir(new File(unzipFilePath));
+            } else { // 檔案
+                String unzipFilePath = desDirectory + File.separator + zipEntry.getName();
+                File file = new File(unzipFilePath);
+                // 建立父目錄
+                mkdir(file.getParentFile());
+                // 寫出檔案流
+                BufferedOutputStream bufferedOutputStream =
+                        new BufferedOutputStream(new FileOutputStream(unzipFilePath));
+                byte[] bytes = new byte[1024];
+                int readLen;
+                while ((readLen = zipInputStream.read(bytes)) != -1) {
+                    bufferedOutputStream.write(bytes, 0, readLen);
+                }
+                bufferedOutputStream.close();
+            }
+            zipInputStream.closeEntry();
+            zipEntry = zipInputStream.getNextEntry();
+        }
+        zipInputStream.close();
+    }
+
+    @Override
+    public void unZipSingleFile(String zipFilePath, String outputFile) throws Exception {
+        // 讀入流
+        ZipInputStream zipInputStream = new ZipInputStream(new FileInputStream(zipFilePath));
+
+        String unzipFilePath = outputFile;
+        File file = new File(unzipFilePath);
+        // 寫出檔案流
+        BufferedOutputStream bufferedOutputStream =
+                new BufferedOutputStream(new FileOutputStream(unzipFilePath));
+        byte[] bytes = new byte[1024];
+        int readLen;
+        while ((readLen = zipInputStream.read(bytes)) != -1) {
+            bufferedOutputStream.write(bytes, 0, readLen);
+        }
+        bufferedOutputStream.close();
+        zipInputStream.closeEntry();
+        zipInputStream.close();
+    }
+
+    @Override
+    public List<String> listFilesForFolder(final File folder) {
+        List<String> result = new ArrayList<String>();
+        for (final File fileEntry : folder.listFiles()) {
+            if (fileEntry.isDirectory()) {
+                listFilesForFolder(fileEntry);
+            } else {
+                result.add(String.valueOf(fileEntry));
+                System.out.println(fileEntry.getName());
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public List<List<String>> loadCSVFile(File fileName) {
+        final String COMMA_DELIMITER = ",";
+
+        List<List<String>> records = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(COMMA_DELIMITER);
+                records.add(Arrays.asList(values));
+            }
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return records;
+    }
+
+    // 如果父目錄不存在則建立
+    private static void mkdir(File file) {
+        if (null == file || file.exists()) {
+            return;
+        }
+        mkdir(file.getParentFile());
+        file.mkdir();
     }
 
 }

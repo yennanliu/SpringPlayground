@@ -21,6 +21,7 @@ import java.net.URL;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 @RestController
 @Log4j2
@@ -63,12 +64,12 @@ public class S3Controller {
     }
 
     @GetMapping("/s3/downloadObject")
-    public void downloadObject(){
+    public void downloadObject() throws Exception {
 
         String BUCKET_NAME =  "yen-bucket1";
-        String KEY = "test2";  // upload file name (s3)
+        String KEY = "test_file.zip";//"readme_downloadXXX.md.zip"; //"README.md";  // upload file name (s3)
         String S3_SRC_FILE = "README.md"; // s3 file we want to download
-        String DEST_FILE = "readme_download.md";
+        String DEST_FILE = "readme_download_zzzzzzz.md";
 
 //        String BUCKET_NAME =  "yen-bucket1";
 //        String KEY = "test2";  // upload file name (s3)
@@ -80,7 +81,18 @@ public class S3Controller {
 
         S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
         S3ObjectInputStream s3is = s3Object.getObjectContent();
-        fileService.saveS3File(s3is, "READMEXXX.md");
+        fileService.saveS3File(s3is, KEY);
+
+        fileService.unZipFile(KEY, "file_unzip");
+        //fileService.unZipSingleFile("test_file.zip", "unzip_xxx.csv");
+
+        List<String> files = fileService.listFilesForFolder(new File("file_unzip"));
+
+        System.out.println(">>> 1st file " + files.get(0));
+        System.out.println(">>> files = " + files.toString());
+
+        List<List<String>> data = fileService.loadCSVFile(new File(files.get(0)));
+        data.forEach(x-> System.out.println(x));
 
         //System.out.println(">>> resp = " + resp);
     }

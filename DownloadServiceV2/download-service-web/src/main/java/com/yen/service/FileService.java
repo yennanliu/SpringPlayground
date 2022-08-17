@@ -25,4 +25,11 @@ public interface FileService {
     public void saveS3File(S3ObjectInputStream s3InputStream,  String destFile);
 
     public void saveByteToFile(byte[] bytes, String fileName);
+
+    public void unZipFile(String zipFilePath, String desDirectory) throws Exception;
+
+    public void unZipSingleFile(String zipFilePath, String outputFile) throws Exception;
+
+    public List<String> listFilesForFolder(final File folder);
+    public List<List<String>> loadCSVFile(File fileName);
 }
