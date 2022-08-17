@@ -23,4 +23,6 @@ public interface FileService {
     public void saveFile(String srcFile,  String destFile);
 
     public void saveS3File(S3ObjectInputStream s3InputStream,  String destFile);
+
+    public void saveByteToFile(byte[] bytes, String fileName);
 }

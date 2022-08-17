@@ -2,6 +2,8 @@ package com.yen.service.impl;
 
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
 import com.yen.service.FileService;
+
+import org.apache.commons.io.FileUtils;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
 
@@ -144,6 +146,15 @@ public class FileServiceImpl implements FileService {
         }
         try {
             in.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void saveByteToFile(byte[] bytes, String fileName) {
+        try {
+            FileUtils.writeByteArrayToFile(new File(fileName), bytes);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

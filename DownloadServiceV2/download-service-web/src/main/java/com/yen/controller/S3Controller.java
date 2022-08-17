@@ -2,6 +2,7 @@ package com.yen.controller;
 
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.yen.service.FileService;
 import com.yen.service.S3Service;
 
 import com.yen.util.S3FileUtil;
@@ -28,6 +29,9 @@ public class S3Controller {
     @Autowired
     S3Service s3Service;
 
+    @Autowired
+    FileService fileService;
+
     @GetMapping("/s3/upload")
     public void upload(@RequestParam("dest_file") String destFile){
 
@@ -48,15 +52,37 @@ public class S3Controller {
     public void download(){
 
         String BUCKET_NAME =  "yen-bucket1";
-        String KEY = "test2";  // upload file name (s3)
-        String fileName = "README.md"; // s3 file we want to download
-        S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY, fileName);
+        String KEY = "README.md";  // upload file name (s3)
+        S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
 
         S3ObjectInputStream s3is = s3Object.getObjectContent();
 
         // read content
         S3FileUtil s3FileUtil = new S3FileUtil();
         s3FileUtil.read(s3is);
+    }
+
+    @GetMapping("/s3/downloadObject")
+    public void downloadObject(){
+
+        String BUCKET_NAME =  "yen-bucket1";
+        String KEY = "test2";  // upload file name (s3)
+        String S3_SRC_FILE = "README.md"; // s3 file we want to download
+        String DEST_FILE = "readme_download.md";
+
+//        String BUCKET_NAME =  "yen-bucket1";
+//        String KEY = "test2";  // upload file name (s3)
+//        String fileName = "README.md"; // s3 file we want to download
+//        byte[] resp = s3Service.downloadS3Object(BUCKET_NAME, fileName);
+//
+//        System.out.println(">>> save file .... ");
+//        fileService.saveByteToFile(resp, "READMEXXX.md");
+
+        S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
+        S3ObjectInputStream s3is = s3Object.getObjectContent();
+        fileService.saveS3File(s3is, "READMEXXX.md");
+
+        //System.out.println(">>> resp = " + resp);
     }
 
     // TODO : fix this (get s3 download link)

@@ -99,7 +99,7 @@ public class S3ServiceImpl implements S3Service {
     }
 
     @Override
-    public S3Object downloadFile(String bucket, String key, String fileName) {
+    public S3Object downloadFile(String bucket, String key) {
 
         // https://stackoverflow.com/questions/44120235/how-to-download-a-file-from-s3-using-provided-url
         // https://www.programcreek.com/java-api-examples/?api=com.amazonaws.services.s3.AmazonS3URI
@@ -147,6 +147,7 @@ public class S3ServiceImpl implements S3Service {
             // download zip file : https://stackoverflow.com/questions/50437965/download-the-files-inside-compressed-gz-files-from-s3-bucket
             ResponseEntity<String> respBody = ResponseEntity.ok(IOUtils.toString(new ZipInputStream(s3Object.getObjectContent())));
             //return IOUtils.toByteArray(s3Object.getObjectContent());
+            log.info(">>> S3ServiceImpl - downloadS3Object OK");
             return respBody.getBody().getBytes();
         }catch (Exception e) {
             log.error(">>> S3ServiceImpl - downloadS3Object failed.", e);

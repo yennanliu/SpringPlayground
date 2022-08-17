@@ -15,7 +15,7 @@ public interface S3Service {
 
     public URL getS3FileUrl(String bucket, String key, File file);
 
-    public S3Object downloadFile(String bucket, String key, String fileName);
+    public S3Object downloadFile(String bucket, String key);
 
     public byte[] downloadS3Object(String bucketName, String path);
 

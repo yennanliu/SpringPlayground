@@ -41,7 +41,7 @@ public class DownloadUpload2S3Job {
 
         log.info(">>> download from s3");
         // save file
-        S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY, S3_SRC_FILE);
+        S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
         S3ObjectInputStream s3is = s3Object.getObjectContent();
         fileService.saveS3File(s3is, DEST_FILE);
 
