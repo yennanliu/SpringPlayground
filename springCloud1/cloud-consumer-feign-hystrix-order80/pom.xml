@@ -9,12 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>cloud-consumer-feign-order80</artifactId>
+    <artifactId>cloud-consumer-feign-hystrix-order80</artifactId>
 
     <properties>
     </properties>
-
-    <!-- https://www.youtube.com/watch?v=f2emw-DPJ_A&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=44 -->
 
     <dependencies>
 
