@@ -64,4 +64,12 @@ https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         (#{username}, #{password}, #{age}, #{sex}, #{email})
     </insert>
 
+    <!-- Integer getAllUserCount(); -->
+    <select id="getAllUserCount" resultType="java.lang.Integer">
+        SELECT
+        COUNT(1)
+        FROM
+        my_user
+    </select>
+
 </mapper>

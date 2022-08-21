@@ -8,6 +8,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=RZRKAEyAOfQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=27
 // https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=9Q-SJ1lqJfA&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
+// https://www.youtube.com/watch?v=vwj4GNZVuh4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -60,6 +61,14 @@ import java.util.Map;
  *          -> 3-5) use "@Param" annotation as declared parameter
  *              -> Mybatis will put those params in a map (k-v) collection
  *              -> access via #{paramName}
+ *
+ *       4) Mybatis type alias:
+ *          example :
+ *              4-1) java.Lang.Integer -> int, Integer
+ *              4-2) int -> _int, _integer
+ *              4-3) Map -> map
+ *              4-4) String -> string
+ *
  */
 
 @SpringBootTest
@@ -112,6 +121,13 @@ public class TestParameterMapper {
 
         MyUser u1 = parameterMapper.checkLogin3("amy", "123");
         System.out.println(">>> u1 = " + u1);
+    }
+
+    @Test
+    public void test7(){
+
+        Integer res1 = parameterMapper.getAllUserCount();
+        System.out.println(">>> res1 = " + res1);
     }
 
     /** review : tradition JDBC op */

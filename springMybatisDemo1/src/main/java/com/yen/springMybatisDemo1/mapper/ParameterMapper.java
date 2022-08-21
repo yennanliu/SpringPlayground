@@ -5,6 +5,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=RZRKAEyAOfQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=27
 // https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=9Q-SJ1lqJfA&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
+// https://www.youtube.com/watch?v=vwj4GNZVuh4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 import org.apache.ibatis.annotations.Mapper;
@@ -40,5 +41,9 @@ public interface ParameterMapper {
 
     /** insert a new user (param is an actual class) */
     int insertUser(MyUser user);
+
+    /** select all users count */
+    Integer getAllUserCount();
+
 
 }
