@@ -7,8 +7,10 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=9Q-SJ1lqJfA&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=vwj4GNZVuh4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 // https://www.youtube.com/watch?v=7EKLqmiYwAQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
+// https://www.youtube.com/watch?v=xwf7iCOgzLU&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=34
 
 import com.yen.springMybatisDemo1.bean.MyUser;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -53,5 +55,21 @@ public interface ParameterMapper {
      *   -> (Map 's k-v value)
      */
     Map<String, Object> getUserByIdToMap(@Param("id") Integer id);
+
+    /** select all users return as Map
+     *
+     *  NOTE !!! : for multiple Map return, we HAVE to use List<T> as return type
+     */
+    List<Map<String, Object>> getAllUserToMap();
+
+    /**  select all users return as Map : V2
+     *
+     *   -> use  @MapKey("id"),
+     *   -> so use part of return value as key, all return value as value
+     *
+     *  https://youtu.be/xwf7iCOgzLU?t=289
+     */
+    @MapKey("id") // NOTE !! have to use UNIQUE key (or some value may be overridden)
+    Map<String, Object> getAllUserToMap2();
 
 }

@@ -11,6 +11,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=vwj4GNZVuh4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 // https://www.youtube.com/watch?v=7EKLqmiYwAQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 // https://www.youtube.com/watch?v=7EKLqmiYwAQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
+// https://www.youtube.com/watch?v=xwf7iCOgzLU&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=34
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -74,6 +75,19 @@ import java.util.Map;
  *       5) if set return type as Map<String, Object>
  *          -> will use attribute name as key, value as value
  *          -> e.g. : res1 = {password=123, sex=0, id=1, age=10, email=amy@google.com, username=amy}
+ *
+ *       6) if want to return multiple Map type
+ *          -> can set return type as List<Map<String, Object>>
+ *
+ *       6') Or, we can still set return type as Map<String, Object>,
+ *           but add @MapKey("id")
+ *           -> so will use id as key, and still return result in Map<String, Object> form
+ *           -> e.g.
+ *           ```
+ *               @MapKey("id") // NOTE !! have to use UNIQUE key (or some value may be overridden)
+ *               Map<String, Object> getAllUserToMap2();
+ *           ```
+ *
  *
  */
 
@@ -143,6 +157,23 @@ public class TestParameterMapper {
         Map<String, Object> res1 = parameterMapper.getUserByIdToMap(1);
         System.out.println(">>> res1 = " + res1);
         System.out.println(">>> res1.email = " + res1.get("email"));
+    }
+
+    /** NOTE this example !!! (result type as List<Map<String, Object>>) */
+    @Test
+    public void test9(){
+
+        List<Map<String, Object>> res1 = parameterMapper.getAllUserToMap();
+        System.out.println(">>> res1 = " + res1); // >>> res1 = [{password=123, sex=0, id=1, age=10, email=amy@google.com, username=amy}, {password=456, sex=0, id=2, age=36, email=jack@google.com, username=jack}, {password=888, sex=0, id=3, age=20, email=lynn@google.com, username=lynn}]
+        System.out.println(">>> res1.get(0) = " + res1.get(0));
+    }
+
+    @Test
+    public void test10(){
+
+        Map<String, Object> res1 = parameterMapper.getAllUserToMap2();
+        System.out.println(">>> res1 = " + res1); // >>> res1 = {1={password=123, sex=0, id=1, age=10, email=amy@google.com, username=amy}, 2={password=456, sex=0, id=2, age=36, email=jack@google.com, username=jack}, 3={password=888, sex=0, id=3, age=20, email=lynn@google.com, username=lynn}}
+        System.out.println(">>> res1.get(1) = " + res1.get(1));
     }
 
     /** review : tradition JDBC op */

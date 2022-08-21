@@ -81,4 +81,26 @@ https://www.youtube.com/watch?v=kmPPvKs0G6Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIi
         WHERE id = #{id}
     </select>
 
+    <!--
+        Map<String, Object> getAllUserToMap();
+
+        NOTE : set resultType as "Map"
+    -->
+    <select id="getAllUserToMap" resultType="Map">
+        SELECT
+        *
+        FROM
+        my_user
+    </select>
+
+    <!--
+        List<Map<String, Object>> getAllUserToMap2();
+    -->
+    <select id="getAllUserToMap2" resultType="Map">
+        SELECT
+        *
+        FROM
+        my_user
+    </select>
+
 </mapper>
