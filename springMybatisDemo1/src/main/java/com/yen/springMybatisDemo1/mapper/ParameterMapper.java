@@ -6,6 +6,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=9Q-SJ1lqJfA&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=vwj4GNZVuh4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
+// https://www.youtube.com/watch?v=7EKLqmiYwAQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,5 +46,12 @@ public interface ParameterMapper {
     /** select all users count */
     Integer getAllUserCount();
 
+    /** select user info return as Map
+     *
+     *   -> if result type as Map<String, Object>
+     *   -> will use att-name as key, value as value
+     *   -> (Map 's k-v value)
+     */
+    Map<String, Object> getUserByIdToMap(@Param("id") Integer id);
 
 }

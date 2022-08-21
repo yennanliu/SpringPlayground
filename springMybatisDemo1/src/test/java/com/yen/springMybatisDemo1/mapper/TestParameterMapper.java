@@ -9,6 +9,8 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=CzlctiCjlZE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=9Q-SJ1lqJfA&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=28
 // https://www.youtube.com/watch?v=vwj4GNZVuh4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
+// https://www.youtube.com/watch?v=7EKLqmiYwAQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
+// https://www.youtube.com/watch?v=7EKLqmiYwAQ&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=32
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
@@ -69,6 +71,10 @@ import java.util.Map;
  *              4-3) Map -> map
  *              4-4) String -> string
  *
+ *       5) if set return type as Map<String, Object>
+ *          -> will use attribute name as key, value as value
+ *          -> e.g. : res1 = {password=123, sex=0, id=1, age=10, email=amy@google.com, username=amy}
+ *
  */
 
 @SpringBootTest
@@ -128,6 +134,15 @@ public class TestParameterMapper {
 
         Integer res1 = parameterMapper.getAllUserCount();
         System.out.println(">>> res1 = " + res1);
+    }
+
+    /** NOTE this example !!! (result type as Map<String, Object>) */
+    @Test
+    public void test8(){
+
+        Map<String, Object> res1 = parameterMapper.getUserByIdToMap(1);
+        System.out.println(">>> res1 = " + res1);
+        System.out.println(">>> res1.email = " + res1.get("email"));
     }
 
     /** review : tradition JDBC op */
