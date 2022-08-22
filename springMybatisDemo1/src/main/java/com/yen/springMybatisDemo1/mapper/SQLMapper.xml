@@ -7,11 +7,11 @@
 
     <!-- List<MyUser> getUserByLike(@Param("userName") String userName) -->
     <select id="getUserByLike" resultType="com.yen.springMybatisDemo1.bean.MyUser">
-        SELECT
-        *
-        FROM
-        my_user
-        WHERE username like '%${username}%'
+        <!-- V2 -->
+        <!-- SELECT * FROM my_user WHERE username like '%${username}%' -->
+
+        <!-- V2 -->
+        SELECT * FROM my_user WHERE username like "%"#{username}"%"
     </select>
 
 </mapper>
