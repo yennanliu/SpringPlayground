@@ -177,20 +177,20 @@ public class TestParameterMapper {
     }
 
     /** review : tradition JDBC op */
-    @Test
-    public void testJDBC() throws Exception {
-
-        String url = "jdbc:mysql://localhost:3306/mybatis";
-        String user = "root";
-        String password = "";
-
-        String sql1 = "SELECT * FROM my_user WHERE id = ?";
-        String sql2 = "SELECT * FROM my_user WHERE id = {}";
-
-        Class.forName("");
-        Connection connection = DriverManager.getConnection(url, user, password);
-        PreparedStatement ps = connection.prepareStatement(sql1);
-        ps.setString(1, "1");
-    }
+//    @Test
+//    public void testJDBC() throws Exception {
+//
+//        String url = "jdbc:mysql://localhost:3306/mybatis";
+//        String user = "root";
+//        String password = "";
+//
+//        String sql1 = "SELECT * FROM my_user WHERE id = ?";
+//        String sql2 = "SELECT * FROM my_user WHERE id = {}";
+//
+//        Class.forName("");
+//        Connection connection = DriverManager.getConnection(url, user, password);
+//        PreparedStatement ps = connection.prepareStatement(sql1);
+//        ps.setString(1, "1");
+//    }
 
 }

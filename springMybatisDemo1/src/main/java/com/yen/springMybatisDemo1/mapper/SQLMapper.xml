@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://blog.csdn.net/feinifi/article/details/88769101 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springMybatisDemo1.mapper.SQLMapper">
+
+    <!-- List<MyUser> getUserByLike(@Param("userName") String userName) -->
+    <select id="getUserByLike" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT
+        *
+        FROM
+        my_user
+        WHERE username like '%${username}%'
+    </select>
+
+</mapper>

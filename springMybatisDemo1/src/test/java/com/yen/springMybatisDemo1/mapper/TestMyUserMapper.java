@@ -5,9 +5,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=Tj14NvhKaGk&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=14
 
 import com.yen.springMybatisDemo1.bean.MyUser;
-
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
