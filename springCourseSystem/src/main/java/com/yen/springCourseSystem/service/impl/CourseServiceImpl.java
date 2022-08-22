@@ -57,16 +57,42 @@ public class CourseServiceImpl implements CourseService {
 
         // TODO : check "initialCapacity"
         Map<String, Object> map = new HashMap<>(16);
-
-        // TODO : fix this when helper.QryCourseName is implemented
-        return null;
+        // TODO : fix below (?)
+        //map = getQueryHelper(helper);
+        List<Course> list = courseMapper.loadScopedCourses(map);
+        return list;
     }
 
     @Override
     public byte[] getTextBookPic(String courseNo) {
 
-        // TODO : fix this when helper.QryCourseName is implemented
-        return new byte[0];
+        byte[] textBookPic = null;
+        Course course = courseMapper.loadCourseByNo(courseNo);
+        textBookPic = course.getCourseTextBookPic();
+        return textBookPic;
+    }
+
+    private Map<String, Object> GetQueryHelper(CourseQueryHelper helper){
+
+        Map<String, Object> map = new HashMap<>(16);
+
+        if (helper.getQryCourseName() != null){
+            map.put("qryCourseName", helper.getQryCourseName());
+        }
+
+        if (helper.getQryEndPoint() != null){
+            map.put("qryEndPoint", helper.getQryEndPoint());
+        }
+
+        if (helper.getQryStartPoint() != null){
+            map.put("qryStartPoint", helper.getQryStartPoint());
+        }
+
+        if (helper.getQryCourseType() != null){
+            map.put("qryCourseType", helper.getQryCourseType());
+        }
+
+        return map;
     }
 
 }
