@@ -15,11 +15,18 @@ public class TestEmpMapper {
     @Autowired
     EmpMapper empMapper;
 
+    /** Deal with java bean attr - SQL col mismatch case
+     *
+     *    solution 1) : use alias in SQL query in mapper xml
+     *    solution 2) : 
+     *
+     */
     @Test
     public void test1(){
 
         List<Emp> res1 = empMapper.getAllEmp();
         System.out.println(">>> res1 = " + res1);
+        res1.stream().forEach(System.out::println);
     }
 
 }

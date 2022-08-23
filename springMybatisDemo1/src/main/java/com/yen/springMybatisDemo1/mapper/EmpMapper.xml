@@ -7,10 +7,11 @@
 
     <!-- List<Emp> getAllEmp() -->
     <select id="getAllEmp" resultType="com.yen.springMybatisDemo1.bean.Emp">
-        SELECT
-        *
-        FROM
-        emp
+        <!-- v1 -->
+        <!-- SELECT * FROM emp -->
+
+        <!-- V2 -->
+        SELECT eid, emp_name, age, sex, email FROM emp
     </select>
 
 </mapper>
