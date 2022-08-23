@@ -9,9 +9,10 @@
     <select id="getAllEmp" resultType="com.yen.springMybatisDemo1.bean.Emp">
         <!-- v1 -->
         <!-- SELECT * FROM emp -->
+        SELECT * FROM emp
 
         <!-- V2 -->
-        SELECT eid, emp_name, age, sex, email FROM emp
+        <!-- SELECT eid, emp_name, age, sex, email FROM emp -->
     </select>
 
 </mapper>

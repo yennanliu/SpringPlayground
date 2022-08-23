@@ -18,8 +18,8 @@ public class TestEmpMapper {
     /** Deal with java bean attr - SQL col mismatch case
      *
      *    solution 1) : use alias in SQL query in mapper xml
-     *    solution 2) : 
-     *
+     *    solution 2) : via mybatis conf (mybatis.configuration.map-underscore-to-camel-case = true)
+     *    solution 3) : via resultMap
      */
     @Test
     public void test1(){
