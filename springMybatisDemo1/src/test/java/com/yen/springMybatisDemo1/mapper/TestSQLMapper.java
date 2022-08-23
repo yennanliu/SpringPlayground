@@ -32,4 +32,11 @@ public class TestSQLMapper {
         System.out.println(">>> res1 = " + res1);
     }
 
+    @Test
+    public void test3(){
+
+        List<MyUser> res1 = sqlMapper.getUserByTableName("my_user");
+        System.out.println(">>> res1 = " + res1);
+    }
+
 }

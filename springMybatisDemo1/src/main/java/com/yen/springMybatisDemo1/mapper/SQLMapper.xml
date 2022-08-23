@@ -22,4 +22,12 @@
         <!-- V2 -->
     </delete>
 
+    <!-- List<MyUser> getUserByTableName(@Param("tableName") String tableName); -->
+    <select id="getUserByTableName" resultType="com.yen.springMybatisDemo1.bean.MyUser">
+        SELECT
+        *
+        FROM
+        ${tableName}
+    </select>
+
 </mapper>
