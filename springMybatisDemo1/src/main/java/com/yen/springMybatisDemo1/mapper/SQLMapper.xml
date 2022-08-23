@@ -7,11 +7,19 @@
 
     <!-- List<MyUser> getUserByLike(@Param("userName") String userName) -->
     <select id="getUserByLike" resultType="com.yen.springMybatisDemo1.bean.MyUser">
-        <!-- V2 -->
+        <!-- V1 -->
         <!-- SELECT * FROM my_user WHERE username like '%${username}%' -->
 
         <!-- V2 -->
         SELECT * FROM my_user WHERE username like "%"#{username}"%"
     </select>
+
+    <!-- int deleteMulti(@Param("ids") String ids); -->
+    <delete id="deleteMulti">
+        <!-- V1 -->
+        DELETE FROM my_user WHERE id in  (${ids})
+
+        <!-- V2 -->
+    </delete>
 
 </mapper>
