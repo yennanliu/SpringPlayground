@@ -2,6 +2,7 @@ package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=sgmK0NNNQdE&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=35
 // https://www.youtube.com/watch?v=8XqiR7n3O5U&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=36
+// https://www.youtube.com/watch?v=_gS0vSjXpwg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=37
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 import org.junit.jupiter.api.Test;
@@ -37,6 +38,12 @@ public class TestSQLMapper {
 
         List<MyUser> res1 = sqlMapper.getUserByTableName("my_user");
         System.out.println(">>> res1 = " + res1);
+    }
+
+    @Test
+    public void test4(){
+
+        sqlMapper.insertUser(new MyUser("k999", "123", 20, 1, "k999@snk.com"));
     }
 
 }
