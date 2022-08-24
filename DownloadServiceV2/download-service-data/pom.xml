@@ -32,9 +32,9 @@
         </dependency>
 
         <!--
-    plugin for mybatis paging
-    https://juejin.cn/post/6996303139540467749
--->
+            plugin for mybatis paging
+            https://juejin.cn/post/6996303139540467749
+        -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper</artifactId>
