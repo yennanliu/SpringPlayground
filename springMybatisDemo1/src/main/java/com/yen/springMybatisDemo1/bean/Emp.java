@@ -18,4 +18,5 @@ public class Emp {
     private Integer age;
     private String sex;
     private String email;
+    private Integer did;
 }

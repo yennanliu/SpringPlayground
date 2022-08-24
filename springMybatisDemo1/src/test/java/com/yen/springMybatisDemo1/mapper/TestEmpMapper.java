@@ -1,6 +1,8 @@
 package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=D_DDE_o7ks0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=39
+// https://www.youtube.com/watch?v=gk_pm_Uaa_Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=42
+// https://www.youtube.com/watch?v=gk_pm_Uaa_Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=42
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
@@ -25,6 +27,14 @@ public class TestEmpMapper {
     public void test1(){
 
         List<Emp> res1 = empMapper.getAllEmp();
+        System.out.println(">>> res1 = " + res1);
+        res1.stream().forEach(System.out::println);
+    }
+
+    @Test
+    public void test2(){
+
+        List<Emp> res1 = empMapper.getAllEmp2();
         System.out.println(">>> res1 = " + res1);
         res1.stream().forEach(System.out::println);
     }

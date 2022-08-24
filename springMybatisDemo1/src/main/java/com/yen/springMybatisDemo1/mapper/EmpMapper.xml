@@ -5,6 +5,23 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yen.springMybatisDemo1.mapper.EmpMapper">
 
+    <!--
+        resultMap : user defined mapping
+        https://youtu.be/gk_pm_Uaa_Y?t=125
+    -->
+    <resultMap id="empResultMap" type="com.yen.springMybatisDemo1.bean.Emp">
+        <!--
+            property : java bean attr name
+            column : SQL table column name
+        -->
+        <id property="eid" column="eid"></id>  <!-- PK (primary key) -->
+        <result property="empName" column="emp_name"></result> <!-- other normal attr -->
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <result property="did" column="did"></result>
+    </resultMap>
+
     <!-- List<Emp> getAllEmp() -->
     <select id="getAllEmp" resultType="com.yen.springMybatisDemo1.bean.Emp">
         <!-- v1 -->
@@ -13,6 +30,16 @@
 
         <!-- V2 -->
         <!-- SELECT eid, emp_name, age, sex, email FROM emp -->
+    </select>
+
+    <!--
+        List<Emp> getAllEmp2()
+
+        -> via resultMap
+        -> for dealing with "java bean attr - db table attr name mismatch" case
+    -->
+    <select id="getAllEmp2" resultMap="empResultMap">
+        SELECT * FROM emp
     </select>
 
 </mapper>
