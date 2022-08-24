@@ -11,8 +11,14 @@
     -->
     <resultMap id="empResultMap" type="com.yen.springMybatisDemo1.bean.Emp">
         <!--
-            property : java bean attr name
-            column : SQL table column name
+
+            resultMap : ONLY works in "select" command
+
+            id : java bean attr name
+            property : java bean attr
+            column : SQL query col name
+
+            type : mapping result type
         -->
         <id property="eid" column="eid"></id>  <!-- PK (primary key) -->
         <result property="empName" column="emp_name"></result> <!-- other normal attr -->

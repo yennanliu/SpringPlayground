@@ -21,7 +21,22 @@ public class TestEmpMapper {
      *
      *    solution 1) : use alias in SQL query in mapper xml
      *    solution 2) : via mybatis conf (mybatis.configuration.map-underscore-to-camel-case = true)
-     *    solution 3) : via resultMap
+     *    solution 3) : via resultMap : use user-own defined mapping
+     *
+     *      e.g. :
+     *
+     *       <resultMap id="empResultMap" type="com.yen.springMybatisDemo1.bean.Emp">
+     *         <!--
+     *             property : java bean attr name
+     *             column : SQL table column name
+     *         -->
+     *         <id property="eid" column="eid"></id>  <!-- PK (primary key) -->
+     *         <result property="empName" column="emp_name"></result> <!-- other normal attr -->
+     *         <result property="age" column="age"></result>
+     *         <result property="sex" column="sex"></result>
+     *         <result property="email" column="email"></result>
+     *         <result property="did" column="did"></result>
+     *      </resultMap>
      */
     @Test
     public void test1(){
