@@ -5,10 +5,12 @@ package com.yen.springCourseSystem.service.impl;
 import com.yen.springCourseSystem.bean.User;
 import com.yen.springCourseSystem.mapper.UserMapper;
 import com.yen.springCourseSystem.service.UserService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Resource

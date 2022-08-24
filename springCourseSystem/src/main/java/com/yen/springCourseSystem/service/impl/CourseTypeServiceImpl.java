@@ -6,10 +6,12 @@ import com.yen.springCourseSystem.bean.CourseType;
 import com.yen.springCourseSystem.mapper.CourseMapper;
 import com.yen.springCourseSystem.mapper.CourseTypeMapper;
 import com.yen.springCourseSystem.service.CourseTypeService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
+@Service
 public class CourseTypeServiceImpl implements CourseTypeService {
 
     @Resource

@@ -6,6 +6,7 @@ import com.yen.springCourseSystem.Util.CourseQueryHelper;
 import com.yen.springCourseSystem.bean.Course;
 import com.yen.springCourseSystem.mapper.CourseMapper;
 import com.yen.springCourseSystem.service.CourseService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 
@@ -13,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 public class CourseServiceImpl implements CourseService {
 
     @Resource
