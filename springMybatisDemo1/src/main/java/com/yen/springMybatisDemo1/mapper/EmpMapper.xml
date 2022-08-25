@@ -28,6 +28,16 @@
         <result property="did" column="did"></result>
     </resultMap>
 
+    <resultMap id="empAndDeptResultMap" type="com.yen.springMybatisDemo1.bean.Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result> <!-- other normal attr -->
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <result property="dept.did" column="did"></result>
+        <result property="dept.deptName" column="dept_name"></result>
+    </resultMap>
+
     <!-- List<Emp> getAllEmp() -->
     <select id="getAllEmp" resultType="com.yen.springMybatisDemo1.bean.Emp">
         <!-- v1 -->
@@ -46,6 +56,20 @@
     -->
     <select id="getAllEmp2" resultMap="empResultMap">
         SELECT * FROM emp
+    </select>
+
+    <!-- Emp getEmpAndDept(@Param("eid") Integer eid); -->
+    <select id="getEmpAndDept" resultMap="empAndDeptResultMap">
+        SELECT
+        *
+        FROM
+        emp e
+        LEFT JOIN
+        dept d
+        ON
+        e.did = d.did
+        WHERE
+        e.eid = #{eid}
     </select>
 
 </mapper>
