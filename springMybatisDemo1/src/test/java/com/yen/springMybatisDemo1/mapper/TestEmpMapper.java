@@ -43,7 +43,7 @@ public class TestEmpMapper {
      *
      *  2) Deal with multiple-to-one mapping:
      *
-     *     solution 1)
+     *     solution 1) : resultMap, use multi-one mapping
      *     solution 2)
      *     solution 3)
      *

@@ -20,6 +20,6 @@ public interface EmpMapper {
     /** get all employees V2 */
     List<Emp> getAllEmp2();
 
-    /** get employee and his/her department */
+    /** get employee and his/her department (multi-one mapping) */
     Emp getEmpAndDept(@Param("eid") Integer eid);
 }
