@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS course(
     course_status varchar(1) not null,
     course_reqs varchar(20) not null,
     course_points decimal(3,1),
-    course_demo varchar(1000),
+    course_memo varchar(1000),
     course_textbook_pic mediumblob,
     constraint FK_COURSE_TYPE FOREIGN KEY (type_id) references course_type(type_id)
 );
