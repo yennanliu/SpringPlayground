@@ -31,5 +31,6 @@ public interface FileService {
     public void unZipSingleFile(String zipFilePath, String outputFile) throws Exception;
 
     public List<String> listFilesForFolder(final File folder);
+
     public List<List<String>> loadCSVFile(File fileName);
 }
