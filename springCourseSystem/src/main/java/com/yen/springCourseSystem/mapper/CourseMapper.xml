@@ -51,6 +51,32 @@
     </insert>
 
     <!-- delete -->
+    <delete id="removeCourseByNo" parameterType="String">
+        DELETE FROM course
+        WHERE course_no = #{courseNo}
+    </delete>
 
+    <delete id="removeCourseByTypeId" parameterType="int">
+        DELETE FROM course
+        WHERE type_id = #{typeId}
+    </delete>
+
+    <!-- modify -->
+    <update id="updateCourse" parameterType="com.yen.springCourseSystem.bean.Course">
+        UPDATE course
+        <set>
+            <if test="courseName != null">course_name = #{courseName}, </if>
+            <if test="courseHours != null">course_hours = #{courseHours},</if>
+            <if test="courseType != null">, type_id = #{courseType.typeID}</if>
+            <if test="courseStatus != null">course_status = #{courseStatus}, </if>
+            <if test="reqs != null">, course_reqs #{reqs}</if>
+            <if test="coursePoint != null">course_point = #{coursePoint}, </if>
+            <if test="courseMemo != null">course_memo = #{courseMemo}, </if>
+            <if test="courseTextBookPic != null">, course_text_book_pic = #{courseTextBookPic, jdbcType=BLOB}</if>
+        </set>
+        WHERE course_no = #{courseNo}
+    </update>
+
+    <!-- TODO : start from here -->
 
 </mapper>
