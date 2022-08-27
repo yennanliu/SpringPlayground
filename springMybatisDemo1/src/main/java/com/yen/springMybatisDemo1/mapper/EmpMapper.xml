@@ -55,6 +55,11 @@
         </association>
     </resultMap>
 
+    <!--
+        select : set up step SQL id (namespace.sqlId or mapper class name)
+        column : set up step SQL condition (where ...)
+        property : multiple - one class type
+    -->
     <resultMap id="empAndDeptByStepResultMap" type="com.yen.springMybatisDemo1.bean.Emp">
         <id property="eid" column="eid"></id>
         <result property="empName" column="emp_name"></result> <!-- other normal attr -->

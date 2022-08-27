@@ -25,3 +25,9 @@
 #  <mapper resource="com/mybatis3/mappers/StudentMapper.xml" />
 #  </mappers>
 #  </configuration>
+
+<configuration>
+<settings>
+<setting name="logImpl" value="LOG4J"/>
+</settings>
+</configuration>
