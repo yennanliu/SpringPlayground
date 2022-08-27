@@ -2,6 +2,7 @@ package com.yen.springcloud.service;
 
 // https://www.youtube.com/watch?v=BFYHIlX_Sts&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=51
 // https://www.youtube.com/watch?v=lKBUCu8rItI&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=54
+// https://www.youtube.com/watch?v=NGhYY67j1kc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=56
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -20,15 +21,11 @@ public class PaymentService {
     }
 
     /** normal access (must be an error) */
-    @HystrixCommand(
-            fallbackMethod = "paymentInfo_TimeoutHandler",
-            commandProperties = {@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value = "3000")}) // backup method when timeout happen
     public String paymentInfo_Timeout(Integer id){
 
-        int timeNumber = 5;
-        // sleep for 5 sec
-
+        int timeNumber = 3000;
         // int age = 10 / 0 ;
+
         try{
             TimeUnit.SECONDS.sleep(timeNumber);
         }catch (InterruptedException e){
