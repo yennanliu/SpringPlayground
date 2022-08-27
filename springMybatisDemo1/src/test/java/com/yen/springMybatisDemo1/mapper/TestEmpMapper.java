@@ -4,6 +4,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=gk_pm_Uaa_Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=42
 // https://www.youtube.com/watch?v=gk_pm_Uaa_Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=42
 // https://www.youtube.com/watch?v=3DntOk8Nj0A&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=43
+// https://www.youtube.com/watch?v=c9cs2_Qox2I&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=44
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class TestEmpMapper {
      *  2) Deal with multiple-to-one mapping:
      *
      *     solution 1) : resultMap, use multi-one mapping
-     *     solution 2)
+     *     solution 2) : association
      *     solution 3)
      *
      *
@@ -70,6 +71,9 @@ public class TestEmpMapper {
 
         Emp res1 = empMapper.getEmpAndDept(1);
         System.out.println(">>> res1 = " + res1);
+
+        Emp res2 = empMapper.getEmpAndDept(3);
+        System.out.println(">>> res2 = " + res2);
     }
 
 }

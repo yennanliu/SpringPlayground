@@ -15,7 +15,6 @@ package com.yen.springMybatisDemo1.mapper;
 
 import com.yen.springMybatisDemo1.bean.MyUser;
 
-import org.apache.ibatis.annotations.Param;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;

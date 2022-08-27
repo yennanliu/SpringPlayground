@@ -38,6 +38,23 @@
         <result property="dept.deptName" column="dept_name"></result>
     </resultMap>
 
+    <!--
+        association : deal with multiple to one
+        property : attr name ( for multiple to one)
+        javaType : attr type
+    -->
+    <resultMap id="empAndDeptResultMap2" type="com.yen.springMybatisDemo1.bean.Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result> <!-- other normal attr -->
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <association property="dept" javaType="com.yen.springMybatisDemo1.bean.Dept">
+            <id property="did" column="did"></id>
+            <result property="deptName" column="dept_name"></result>
+        </association>
+    </resultMap>
+
     <!-- List<Emp> getAllEmp() -->
     <select id="getAllEmp" resultType="com.yen.springMybatisDemo1.bean.Emp">
         <!-- v1 -->
@@ -59,7 +76,8 @@
     </select>
 
     <!-- Emp getEmpAndDept(@Param("eid") Integer eid); -->
-    <select id="getEmpAndDept" resultMap="empAndDeptResultMap">
+    <!-- <select id="getEmpAndDept" resultMap="empAndDeptResultMap"> -->
+    <select id="getEmpAndDept" resultMap="empAndDeptResultMap2">
         SELECT
         *
         FROM
