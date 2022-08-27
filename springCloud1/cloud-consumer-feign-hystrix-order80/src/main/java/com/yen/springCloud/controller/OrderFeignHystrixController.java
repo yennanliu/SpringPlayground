@@ -2,6 +2,7 @@ package com.yen.springCloud.controller;
 
 // https://www.youtube.com/watch?v=NGhYY67j1kc&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=56
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import com.yen.bean.CommonResult;
@@ -16,6 +17,7 @@ import javax.annotation.Resource;
 
 @RestController
 @Slf4j
+@DefaultProperties(defaultFallback = "payment_Global_FallbackMethod")
 public class OrderFeignHystrixController {
 
     @Resource
@@ -28,9 +30,10 @@ public class OrderFeignHystrixController {
         return result;
     }
 
-    @HystrixCommand(
-            fallbackMethod = "paymentTimeOutFallbackMethod",
-            commandProperties = {@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value = "1500")}) // backup method when timeout happen
+//    @HystrixCommand(
+//            fallbackMethod = "paymentTimeOutFallbackMethod",
+//            commandProperties = {@HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value = "1500")}) // backup method when timeout happen
+    @HystrixCommand // if no define, will use default (as @DefaultProperties(defaultFallback = "payment_Global_FallbackMethod") define)
     @GetMapping("/consumer/payment/hystrix/timeout/{id}")
     public String paymentInfo_Timeout(@PathVariable("id") Integer id){
         String result = paymentFeignService.paymentInfo_Timeout(id);
@@ -39,6 +42,11 @@ public class OrderFeignHystrixController {
 
     public String paymentTimeOutFallbackMethod(@PathVariable("id") Integer id){
         return ">>> consumer 80, payment system NO response after 10 sec, plz check/retry later ...";
+    }
+
+    /** global fallback method */
+    public String payment_Global_FallbackMethod(){
+        return "GLOBAL exception handler... plz try again";
     }
 
 }
