@@ -55,6 +55,18 @@
         </association>
     </resultMap>
 
+    <resultMap id="empAndDeptByStepResultMap" type="com.yen.springMybatisDemo1.bean.Emp">
+        <id property="eid" column="eid"></id>
+        <result property="empName" column="emp_name"></result> <!-- other normal attr -->
+        <result property="age" column="age"></result>
+        <result property="sex" column="sex"></result>
+        <result property="email" column="email"></result>
+        <association property="dept"
+                     select="com.yen.springMybatisDemo1.mapper.DeptMapper.getEmpAndDeptByStep2"
+                     column="did">
+        </association>
+    </resultMap>
+
     <!-- List<Emp> getAllEmp() -->
     <select id="getAllEmp" resultType="com.yen.springMybatisDemo1.bean.Emp">
         <!-- v1 -->
@@ -88,6 +100,11 @@
         e.did = d.did
         WHERE
         e.eid = #{eid}
+    </select>
+
+    <!-- Emp getEmpAndDeptByStep1(@Param("eid") Integer eid); -->
+    <select id="getEmpAndDeptByStep1" resultMap="empAndDeptByStepResultMap">
+        SELECT * FROM emp WHERE eid = #{eid}
     </select>
 
 </mapper>
