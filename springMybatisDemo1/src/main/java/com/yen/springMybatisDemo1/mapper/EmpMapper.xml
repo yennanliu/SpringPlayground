@@ -42,6 +42,8 @@
         association : deal with multiple to one
         property : attr name ( for multiple to one)
         javaType : attr type
+
+        fetchType = "lazy|eager", lazy : delay loading, eager : load everytime
     -->
     <resultMap id="empAndDeptResultMap2" type="com.yen.springMybatisDemo1.bean.Emp">
         <id property="eid" column="eid"></id>

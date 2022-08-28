@@ -5,9 +5,38 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yen.springMybatisDemo1.mapper.DeptMapper">
 
+    <!--
+        collection : deal with one-to-multiple
+
+    -->
+    <resultMap id="DeptAndEmpResultMap" type="com.yen.springMybatisDemo1.bean.Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection property="emps" ofType="com.yen.springMybatisDemo1.bean.Emp">
+            <id property="eid" column="eid"></id>
+            <result property="empName" column="emp_name"></result>
+            <result property="age" column="age"></result>
+            <result property="sex" column="sex"></result>
+            <result property="email" column="email"></result>
+        </collection>
+    </resultMap>
+
     <!-- Dept getEmpAndDeptByStep2(@Param("did") Integer did); -->
     <select id="getEmpAndDeptByStep2" resultType="com.yen.springMybatisDemo1.bean.Dept">
         SELECT * FROM dept WHERE did = #{did}
+    </select>
+
+    <!-- Dept getDeptAndEmp(@Param("did") Integer did); -->
+    <select id="getDeptAndEmp" resultMap="DeptAndEmpResultMap">
+        SELECT
+        *
+        FROM
+        dept
+        LEFT JOIN
+        emp
+        ON
+        dept.did = emp.did
+        WHERE dept.did = #{did}
     </select>
 
 </mapper>

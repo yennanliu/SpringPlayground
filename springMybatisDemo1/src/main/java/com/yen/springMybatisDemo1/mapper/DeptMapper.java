@@ -2,6 +2,7 @@ package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=MplwOygXyBo&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=39
 // https://www.youtube.com/watch?v=bnTL0IZ6QXk&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=44
+// https://www.youtube.com/watch?v=nvLKTBxgIdg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=46
 
 import com.yen.springMybatisDemo1.bean.Dept;
 import org.apache.ibatis.annotations.Mapper;
@@ -15,5 +16,8 @@ public interface DeptMapper {
      *   step 2) : get dept info via emp info
      */
     Dept getEmpAndDeptByStep2(@Param("did") Integer did);
+
+    /** dept and all employee in dept */
+    Dept getDeptAndEmp(@Param("did") Integer did);
 
 }
