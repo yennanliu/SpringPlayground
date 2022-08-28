@@ -12,11 +12,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @MapperScan(basePackages = "com.yen.springCourseSystem.mapper")
 @EnableTransactionManagement // TODO : recheck this
 @SpringBootApplication
-public class SpringCourseSystemApplication {
+public class CourseSystemApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(SpringCourseSystemApplication.class, args);
+		SpringApplication.run(CourseSystemApplication.class, args);
 	}
 
 }
