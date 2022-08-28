@@ -62,6 +62,17 @@ java -jar <built_jar>
     - priority : FATAL > ERROR > WARN > INFO > DEBUG
     - log info becomes more detail from left to right (FATAL -> ... -> DEBUG)
 
+- Mapping
+    - multiple to one
+        - solution 1) : resultMap, use multi-one mapping
+        - solution 2) : association (plz check EmpMapper.xml)
+        - solution 3) : association (steps SQL, 分步查詢) (used most often)
+    - one to multiple
+        - solution 1) : collection
+        - solution 2) : collection (steps SQL, 分步查詢)
+    - Ref
+        - [TestEmpMapper](https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/src/test/java/com/yen/springMybatisDemo1/mapper/TestEmpMapper.java)
+
 ## Ref
 
 - Course

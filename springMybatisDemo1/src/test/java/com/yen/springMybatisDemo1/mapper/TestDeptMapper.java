@@ -19,6 +19,11 @@ public class TestDeptMapper {
 
         Dept res1 = deptMapper.getDeptAndEmp(1);
         System.out.println(">>> res1 = " + res1);
+
+        System.out.println("====================");
+
+        Dept res2 = deptMapper.getDeptAndEmp(3);
+        System.out.println(">>> res2 = " + res2);
     }
 
 }

@@ -49,6 +49,12 @@ public class TestEmpMapper {
      *     solution 2) : association (plz check EmpMapper.xml)
      *     solution 3) : association (steps SQL, 分步查詢) (used most often)
      *
+     *  3) Deal with one-to-multiple mapping:
+     *
+     *     solution 1) : collection
+     *     solution 2) : collection (steps SQL, 分步查詢)
+     *
+     *
      */
     @Test
     public void test1(){
