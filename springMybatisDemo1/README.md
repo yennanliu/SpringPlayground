@@ -63,6 +63,10 @@ java -jar <built_jar>
     - log info becomes more detail from left to right (FATAL -> ... -> DEBUG)
 
 - Mapping
+    - Deal with java bean attr - SQL col mismatch case
+     - solution 1) : use alias in SQL query in mapper xml
+     - solution 2) : via mybatis conf (`mybatis.configuration.map-underscore-to-camel-case = true`)
+     - solution 3) : via resultMap : use user-own defined mapping
     - multiple to one
         - solution 1) : resultMap, use multi-one mapping
         - solution 2) : association (plz check EmpMapper.xml)

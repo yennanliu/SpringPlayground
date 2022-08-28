@@ -5,6 +5,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=gk_pm_Uaa_Y&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=42
 // https://www.youtube.com/watch?v=3DntOk8Nj0A&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=43
 // https://www.youtube.com/watch?v=bnTL0IZ6QXk&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=44
+// https://www.youtube.com/watch?v=I4obnFs_CB8&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=47
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.apache.ibatis.annotations.Mapper;
@@ -29,4 +30,11 @@ public interface EmpMapper {
      *   step 1) : get employee info
      */
     Emp getEmpAndDeptByStep1(@Param("eid") Integer eid);
+
+    /**
+     * dept and all employees in dept  (via step SQL 分步查詢)
+     *
+     *   step 2) get emp info with did
+     */
+    List<Emp> getDeptAndEmpByStep2(@Param("did") Integer did);
 }

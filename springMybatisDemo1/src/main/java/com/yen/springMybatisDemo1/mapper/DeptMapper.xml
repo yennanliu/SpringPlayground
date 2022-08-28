@@ -25,6 +25,16 @@
         </collection>
     </resultMap>
 
+    <resultMap id="DeptAndEmpByStepResultMap" type="com.yen.springMybatisDemo1.bean.Dept">
+        <id property="did" column="did"></id>
+        <result property="deptName" column="dept_name"></result>
+        <collection
+                property="emps"
+                select="com.yen.springMybatisDemo1.mapper.EmpMapper.getDeptAndEmpByStep2"
+                column="did">
+        </collection>
+    </resultMap>
+
     <!-- Dept getEmpAndDeptByStep2(@Param("did") Integer did); -->
     <select id="getEmpAndDeptByStep2" resultType="com.yen.springMybatisDemo1.bean.Dept">
         SELECT * FROM dept WHERE did = #{did}
@@ -41,6 +51,15 @@
         ON
         dept.did = emp.did
         WHERE dept.did = #{did}
+    </select>
+
+    <!-- Dept getDeptAndEmpByStep1(@Param("did") Integer did); -->
+    <select id="getDeptAndEmpByStep1" resultMap="DeptAndEmpByStepResultMap">
+        SELECT
+        *
+        FROM
+        dept
+        WHERE did = #{did}
     </select>
 
 </mapper>

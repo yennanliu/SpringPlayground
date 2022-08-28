@@ -114,4 +114,9 @@
         SELECT * FROM emp WHERE eid = #{eid}
     </select>
 
+    <!-- List<Emp> getDeptAndEmpByStep2(@Param("did") Integer did); -->
+    <select id="getDeptAndEmpByStep2" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT * FROM emp WHERE did = #{did}
+    </select>
+
 </mapper>

@@ -72,6 +72,7 @@ public class TestEmpMapper {
         res1.stream().forEach(System.out::println);
     }
 
+    /** multiple-one mapping demo (via collection) */
     @Test
     public void test3(){
 
@@ -82,6 +83,7 @@ public class TestEmpMapper {
         System.out.println(">>> res2 = " + res2);
     }
 
+    /** multiple-one mapping demo (via step SQL 分步查詢) */
     @Test
     public void test4(){
 
