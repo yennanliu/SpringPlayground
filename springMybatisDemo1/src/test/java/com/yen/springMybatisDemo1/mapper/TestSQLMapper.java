@@ -23,7 +23,7 @@ public class TestSQLMapper {
 
         List<MyUser> res1 = sqlMapper.getUserByLike("z");
         System.out.println(">>> res1 = " + res1);
-        System.out.println(">>> res1.get(0) = " + res1.get(0));
+        //System.out.println(">>> res1.get(0) = " + res1.get(0));
     }
 
     @Test
