@@ -77,6 +77,49 @@
         WHERE course_no = #{courseNo}
     </update>
 
-    <!-- TODO : start from here -->
+    <!-- select -->
+    <select id="loadCourseByNo" parameterType="string" resultMap="courseRM">
+        SELECT
+        p.course_no,
+        p.course_name,
+        p.course_hours,
+        p.course_status,
+        p.course_reqs,
+        p.course_point,
+        p.course_memo,
+        p.course_textbook_pic,
+        b.type_id,
+        b.type_name,
+        FROM
+        course p
+        LEFT JOIN
+        course_type b
+        ON
+        p.type_id = b.type_id
+        WHERE p.course_no = #{courseNo}
+    </select>
+
+    <select id="loadCourseByTypeId" parameterType="int" resultType="string">
+        SELECT
+        course_no
+        FROM
+        course
+        WHERE type_id = #{typeId}
+    </select>
+
+    <!-- select with paging -->
+    <select id="loadScopedCourses" parameterType="map" resultType="com.yen.springCourseSystem.bean.Course" resultMap="courseRM">
+        SELECT * FROM course p
+        LEFT JOIN course_type b
+        ON p.type_id = b.type_id
+        <where>
+            l = 1
+            <if test="qryCourseName != null"> and p.course_name like concat(concat('%', #{qryCourseName}), '%')</if>
+            <if test="qryStartPoint != null"> and p.course_point >= #{qryStartPoint}</if>
+            <if test="qryEndPoint != null"> and p.course_point <![CDATA[ <= ]]> #{qryEndPoint}</if>
+            <if test="typeId != null"> and p.type_id = #{typeId}</if>
+        </where>
+        ORDER BY p.course_no
+    </select>
 
 </mapper>
