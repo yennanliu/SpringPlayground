@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springMybatisDemo1.mapper.DynamicSqlMapper">
+
+    <!-- List<Emp> getEmpByCondition(Emp emp); -->
+    <select id="getEmpByCondition" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT * FROM emp
+        WHERE
+        1 = 1
+        <if test="empName != null and empName != ''">
+            AND emp_name = #{empName}
+        </if>
+        <if test="age != null and age != ''">
+            AND age = #{age}
+        </if>
+        <if test="sex != null and sex != ''">
+            AND sex = #{sex}
+        </if>
+        <if test="email != null and email != ''">
+            AND email = #{email}
+        </if>
+    </select>
+
+</mapper>

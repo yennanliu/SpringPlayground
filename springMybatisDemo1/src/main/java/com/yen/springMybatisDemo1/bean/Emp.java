@@ -21,4 +21,14 @@ public class Emp {
     private String email;
     private Integer did;
     private Dept dept; // multiple to one
+
+    // constructor
+
+    public Emp(String empName, Integer age, String sex, String email) {
+        this.empName = empName;
+        this.age = age;
+        this.sex = sex;
+        this.email = email;
+    }
+
 }
