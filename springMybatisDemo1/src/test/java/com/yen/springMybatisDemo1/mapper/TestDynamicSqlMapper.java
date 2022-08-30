@@ -3,6 +3,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=dNLGsANJ790&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=50
 // https://www.youtube.com/watch?v=VqjaBphBdH4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=50
 // https://www.youtube.com/watch?v=t0pYgJu_nJ0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
+// https://www.youtube.com/watch?v=bUXDOzn1phg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
@@ -40,8 +41,11 @@ public class TestDynamicSqlMapper {
      *      -> if there is content in <trim></trim> -> works
      *      -> if there is NO content in <trim></trim> -> do nothing
      *
+     *  4) choose, when, otherwise => similar as if, elseif, else in java
+     *      -> we need one "when" at least
+     *      -> we can only have one "otherwise" at MOST
      *
-     *  4) NOTE : where 1 = 1 trick
+     *  5) NOTE : where 1 = 1 trick
      *
      *      e.g. :
      *         WHERE
@@ -97,6 +101,23 @@ public class TestDynamicSqlMapper {
         System.out.println(res3);
 
         List<Emp> res4 = dynamicSqlMapper.getEmpByCondition3(new Emp(null, null, "1", null));
+        System.out.println(res4);
+    }
+
+    /**  test getEmpByChoose */
+    @Test
+    public void test4(){
+
+        List<Emp> res1 = dynamicSqlMapper.getEmpByChoose(new Emp("jack", 29, "1", "jack@fb.com"));
+        System.out.println(res1);
+
+        List<Emp> res2 = dynamicSqlMapper.getEmpByChoose(new Emp("jack", 29, null, "jack@fb.com"));
+        System.out.println(res2);
+
+        List<Emp> res3 = dynamicSqlMapper.getEmpByChoose(new Emp(null, 29, null, null));
+        System.out.println(res3);
+
+        List<Emp> res4 = dynamicSqlMapper.getEmpByChoose(new Emp(null, null, null, null));
         System.out.println(res4);
     }
 

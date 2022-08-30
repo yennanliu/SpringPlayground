@@ -80,4 +80,34 @@
         </trim>
     </select>
 
+    <!--
+         List<Emp> getEmpByChoose(Emp emp);
+
+         NOTE :
+            choose, when, otherwise is "if..else" logic
+            so there is ONLY one executed condition, so we don't need "and" in SQL syntax
+    -->
+    <select id="getEmpByChoose" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT * FROM emp
+        <where>
+            <choose>
+                <when test="empName != null and empName != ''">
+                    emp_name = #{empName}
+                </when>
+                <when test="age != null and age != ''">
+                    age = #{age}
+                </when>
+                <when test="sex != null and sex != ''">
+                    sex = #{sex}
+                </when>
+                <when test="email != null and email != ''">
+                    email = #{email}
+                </when>
+                <otherwise>
+                    did = 1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
 </mapper>
