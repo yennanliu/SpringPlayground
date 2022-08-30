@@ -26,7 +26,7 @@ jobs:
       run: cd springBootMonitor && mvn package
     - name: Build springProfilesChangeDemo
       run: cd springProfilesChangeDemo && mvn package
-    - name: Build springBootBlog
-      run: cd springBootBlog && mvn package
+    # - name: Build springBootBlog
+    #   run: cd springBootBlog && mvn package
     - name: Build springCloud1
       run: cd springCloud1 && mvn package
