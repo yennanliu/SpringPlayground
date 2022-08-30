@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<!-- book p.268 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
+      xmlns:margin="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Course System Admin</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div id="header">
+        Course Admin System
+        <img id="headpic" width="30" height="30" th:src="@{/pics/sbl.png}" />
+    </div>
+    <div style="float:right; margin:30px;">
+        Operator : [[${user.name}}]] & nbsp;
+        <a th:href="@{/security/logout}" title="click leave system" id="logout">
+            <img id="lopics"  width="30" height="30" th:src="@{/pics/logout.png}" />
+            <span style="cursor: pointer" class="linkspan">logout</span>
+        </a>
+    </div>
+    </div>
+
+
+</body>
+</html>
