@@ -23,7 +23,6 @@ public class Emp {
     private Dept dept; // multiple to one
 
     // constructor
-
     public Emp(String empName, Integer age, String sex, String email) {
         this.empName = empName;
         this.age = age;

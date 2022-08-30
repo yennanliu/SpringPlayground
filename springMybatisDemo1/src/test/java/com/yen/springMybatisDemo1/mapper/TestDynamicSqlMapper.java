@@ -15,6 +15,21 @@ public class TestDynamicSqlMapper {
     @Autowired
     DynamicSqlMapper dynamicSqlMapper;
 
+    /** dynamic SQL demo
+     *
+     *  1) if : based on test attr, decide whether put content in <if></if> to SQL
+     *
+     *      e.g. :
+     *         <if test="empName != null and empName != ''">
+     *             AND emp_name = #{empName}
+     *         </if>
+     *
+     *  2) NOTE : where 1 = 1 trick
+     *
+     *      e.g. :
+     *         WHERE
+     *         1 = 1
+     */
     @Test
     public void test1(){
 
@@ -26,6 +41,9 @@ public class TestDynamicSqlMapper {
 
         List<Emp> res3 = dynamicSqlMapper.getEmpByCondition(new Emp(null, 29, null, null));
         System.out.println(res3);
+
+        List<Emp> res4 = dynamicSqlMapper.getEmpByCondition(new Emp(null, null, "1", null));
+        System.out.println(res4);
     }
 
 }
