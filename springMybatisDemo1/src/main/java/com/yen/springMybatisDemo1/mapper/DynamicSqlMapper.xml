@@ -40,7 +40,7 @@
         SELECT * FROM emp
         <where>
             <if test="empName != null and empName != ''">
-                AND emp_name = #{empName}
+                emp_name = #{empName}
             </if>
             <if test="age != null and age != ''">
                 AND age = #{age}
@@ -52,6 +52,32 @@
                 AND email = #{email}
             </if>
         </where>
+    </select>
+
+    <!--
+        List<Emp> getEmpByCondition3(Emp emp);
+
+            prefix :  add defined val before specific content
+            suffix :  add defined val after specific content
+            suffixOverrides : remove defined val before specific content
+            prefixOverrides : remove defined val after specific content
+    -->
+    <select id="getEmpByCondition3" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT * FROM emp
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName} AND
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age} AND
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex} OR
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email}
+            </if>
+        </trim>
     </select>
 
 </mapper>

@@ -2,6 +2,7 @@ package com.yen.springMybatisDemo1.mapper;
 
 // https://www.youtube.com/watch?v=dNLGsANJ790&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=50
 // https://www.youtube.com/watch?v=VqjaBphBdH4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=50
+// https://www.youtube.com/watch?v=t0pYgJu_nJ0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
@@ -30,8 +31,17 @@ public class TestDynamicSqlMapper {
      *             and remove redundant "and", "or" in front of it
      *
      *             -> when there is NO content, "where" syntax will not be generated (do nothing)
+     *  3) trim :
+     *      prefix :  add defined val before specific content
+     *      suffix :  add defined val after specific content
+     *      suffixOverrides : remove defined val before specific content
+     *      prefixOverrides : remove defined val after specific content
      *
-     *  3) NOTE : where 1 = 1 trick
+     *      -> if there is content in <trim></trim> -> works
+     *      -> if there is NO content in <trim></trim> -> do nothing
+     *
+     *
+     *  4) NOTE : where 1 = 1 trick
      *
      *      e.g. :
      *         WHERE
@@ -70,6 +80,23 @@ public class TestDynamicSqlMapper {
         System.out.println(res3);
 
         List<Emp> res4 = dynamicSqlMapper.getEmpByCondition2(new Emp(null, null, "1", null));
+        System.out.println(res4);
+    }
+
+    /**  test multi condition dynamic SQL V3 */
+    @Test
+    public void test3(){
+
+        List<Emp> res1 = dynamicSqlMapper.getEmpByCondition3(new Emp("jack", 29, "1", "jack@fb.com"));
+        System.out.println(res1);
+
+        List<Emp> res2 = dynamicSqlMapper.getEmpByCondition3(new Emp("jack", 29, null, "jack@fb.com"));
+        System.out.println(res2);
+
+        List<Emp> res3 = dynamicSqlMapper.getEmpByCondition3(new Emp(null, 29, null, null));
+        System.out.println(res3);
+
+        List<Emp> res4 = dynamicSqlMapper.getEmpByCondition3(new Emp(null, null, "1", null));
         System.out.println(res4);
     }
 
