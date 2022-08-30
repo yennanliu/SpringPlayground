@@ -5,7 +5,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yen.springMybatisDemo1.mapper.DynamicSqlMapper">
 
-    <!-- List<Emp> getEmpByCondition(Emp emp); -->
+    <!--
+        List<Emp> getEmpByCondition(Emp emp);
+
+        multi condition dynamic SQL V1
+    -->
     <select id="getEmpByCondition" resultType="com.yen.springMybatisDemo1.bean.Emp">
         SELECT * FROM emp
         WHERE
@@ -22,6 +26,32 @@
         <if test="email != null and email != ''">
             AND email = #{email}
         </if>
+    </select>
+
+    <!--
+        List<Emp> getEmpByCondition2(Emp emp);
+
+        multi condition dynamic SQL V2
+
+        NOTE !! : via <where></where>, mybatis will help on handling "if condition exists or not" cases
+                  "or" condition is supported as well
+    -->
+    <select id="getEmpByCondition2" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT * FROM emp
+        <where>
+            <if test="empName != null and empName != ''">
+                AND emp_name = #{empName}
+            </if>
+            <if test="age != null and age != ''">
+                AND age = #{age}
+            </if>
+            <if test="sex != null and sex != ''">
+                AND sex = #{sex}
+            </if>
+            <if test="email != null and email != ''">
+                AND email = #{email}
+            </if>
+        </where>
     </select>
 
 </mapper>
