@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!-- book p.270 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<div class="web_login">
+  <form name="form2" id="regUser" accept-charset="utf-8" action="/security/addregister" method="post">
+    <u1 class="reg_from" id="reg-ui">
+
+      <div id="userCue" class="cue">User Register</div>
+        <label for="username" class="input-tips2">username : </label>
+        <div class="inputOuter2">
+          <input type="text" id="username" name="username" maxlength="16" class="inputstyle2 /">
+        </div>
+
+      <label for="password" class="input-tips2">password : </label>
+      <div class="inputOuter2">
+        <input type="text" id="password" name="password" maxlength="16" class="inputstyle2 /">
+      </div>
+
+      <label for="password2" class="input-tips2">confirm password : </label>
+      <div class="inputOuter2">
+        <input type="text" id="password2" name="password2" maxlength="16" class="inputstyle2 /">
+      </div>
+
+      <div class="inputArea">
+        <a th:href="@{/security/readdoc}" class="zcxy" target="_blank">Read Register Doc</a>
+          <input type="submit" id="req" style="margin-top:10px;magin-left:10px;" class="button_blue" value="user register agreement"></div>
+      <div class="c1"></div>
+      </div>
+    </u1>
+  </form>
+</div>
+
+</body>
+</html>
