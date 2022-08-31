@@ -72,14 +72,14 @@ public class PostController {
 
 		log.info(">>> postCount = " + postCount);
 		log.info(">>> numOfPages = " + numOfPages);
-		//log.info(">>> pageInfo = " + pageInfo);
+		//log.info(">>> pageInfo = " + pageInfo); // TODO : check why this one causes OOM
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("postCount", postCount);
 		model.addAttribute("pageRequested", page);
 		model.addAttribute("paginationSize", PAGINATIONSIZE);
 		model.addAttribute("numOfPages", numOfPages);
-		//model.addAttribute("pageInfo",pageInfo);
+		model.addAttribute("pageInfo", pageInfo);
 
 		log.info(">>> model = {}", model);
 

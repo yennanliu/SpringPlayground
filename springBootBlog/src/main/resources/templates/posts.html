@@ -26,5 +26,42 @@
 		</div>
 	</div>
 
+	<!--
+		顯示分頁資訊
+		 https://www.796t.com/article.php?id=200769
+	-->
+	<div class="modal-footer no-margin-top">
+		<div class="col-md-6">
+			當前第 [[${pageInfo.pageNum}]]頁,共 [[${pageInfo.pages}]] 頁.一共 [[${pageInfo.total}]] 條記錄
+		</div>
+
+		<ul class="pagination pull-right no-margin">
+			<li th:if="${pageInfo.hasPreviousPage}">
+				<a th:href="'/usermanage?pageNum=1'">首頁</a>
+			</li>
+
+			<li class="prev" th:if="${pageInfo.hasPreviousPage}">
+				<a th:href="'/usermanage?pageNum='+${pageInfo.prePage}">
+					<i class="ace-icon fa fa-angle-double-left"></i>
+				</a>
+			</li>
+			<!--遍歷條數-->
+			<li th:each="nav:${pageInfo.navigatepageNums}">
+				<a th:href="'/usermanage?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+				<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
+			</li>
+
+			<li class="next" th:if="${pageInfo.hasNextPage}">
+				<a th:href="'/usermanage?pageNum='+${pageInfo.nextPage}">
+					<i class="ace-icon fa fa-angle-double-right"></i>
+				</a>
+			</li>
+
+			<li>
+				<a th:href="'/usermanage?pageNum='+${pageInfo.pages}">尾頁</a>
+			</li>
+		</ul>
+	</div>
+
 </body>
 </html>
