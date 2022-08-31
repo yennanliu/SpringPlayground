@@ -33,7 +33,7 @@ public class PostController {
 	PostRepository postRepository;
 
 	// TODO : implement paging with it
-	private final int PAGINATIONSIZE = 100; // how many posts show in a http://localhost:8080/posts/ page
+	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
 	public PostController(PostRepository postRepository) {
