@@ -37,28 +37,28 @@
 
 		<ul class="pagination pull-right no-margin">
 			<li th:if="${pageInfo.hasPreviousPage}">
-				<a th:href="'/usermanage?pageNum=1'">首頁</a>
+				<a th:href="'/posts/all?page=0'">首頁</a>
 			</li>
 
 			<li class="prev" th:if="${pageInfo.hasPreviousPage}">
-				<a th:href="'/usermanage?pageNum='+${pageInfo.prePage}">
+				<a th:href="'/posts/all?page='+${pageInfo.prePage}">
 					<i class="ace-icon fa fa-angle-double-left"></i>
 				</a>
 			</li>
 			<!--遍歷條數-->
 			<li th:each="nav:${pageInfo.navigatepageNums}">
-				<a th:href="'/usermanage?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+				<a th:href="'/posts/all?page='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
 				<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
 			</li>
 
 			<li class="next" th:if="${pageInfo.hasNextPage}">
-				<a th:href="'/usermanage?pageNum='+${pageInfo.nextPage}">
+				<a th:href="'/posts/all?page='+${pageInfo.nextPage}">
 					<i class="ace-icon fa fa-angle-double-right"></i>
 				</a>
 			</li>
 
 			<li>
-				<a th:href="'/usermanage?pageNum='+${pageInfo.pages}">尾頁</a>
+				<a th:href="'/posts/all?page='+${pageInfo.pages}">尾頁</a>
 			</li>
 		</ul>
 	</div>
