@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
+</div>
     <div id="header">
         Course Admin System
         <img id="headpic" width="30" height="30" th:src="@{/pics/sbl.png}" />
@@ -20,8 +21,43 @@
             <span style="cursor: pointer" class="linkspan">logout</span>
         </a>
     </div>
-    </div>
+</div>
 
+    </div id = "navigator">
+        <div class="menuitem">
+            <a th:href="@{/courseType/toInput}" target="contentFrame">Add Course Type</a>
+        </div>
+        <div class="menuitem">
+            <a th:href="@{/courseType/list}" target="contentFrame">Add Type Management</a>
+        </div>
+        <div class="seperator"></div>
+        <div class="menuitem">
+            <a th:href="@{/courseType/toInput}" target="contentFrame">Course Register</a>
+        </div>
+        <div class="menuitem">
+            <a th:href="@{/courseType/list}" target="contentFrame">Course Management</a>
+        </div>
+</div>
+<div id="content">
+    <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="{/welcome.html}">
+    </iframe>
+</div>
+
+<div id="footer">
+    <div th:include="footer::copy"></div><div th:include="footer::time"></div>
+</div>
+
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</script>
+<script th:inline="javascript">
+    ${"#logout"}.click(function(){
+    if(confirm('leave system ?'){
+    $(location).attr("href, this.href())
+        }
+        return false;
+        }
+    );
+</script>
 
 </body>
 </html>
