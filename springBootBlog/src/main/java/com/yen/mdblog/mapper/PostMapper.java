@@ -7,11 +7,16 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.List;
+
 @Mapper
 public interface PostMapper {
 
     @Select("SELECT * FROM posts where id = #{id}")
     public Post getById(long id);
+
+    @Select("SELECT * FROM posts ")
+    public List<Post> getAllPosts();
 
     @Select("SELECT COUNT(1) FROM posts")
     public int getPostCount();

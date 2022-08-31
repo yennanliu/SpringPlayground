@@ -3,6 +3,7 @@ package com.yen.mdblog.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +50,9 @@ public class PostController {
 
 	@Autowired
 	AuthorService authorService;
+
+	@Autowired
+	PostMapper postMapper;
 
 	@GetMapping("/all")
 	public String getPaginatedPosts(
@@ -84,18 +89,19 @@ public class PostController {
 
 		//為了程式的嚴謹性，判斷非空：
 		if(pageNum <= 0){
-			pageNum = 1;
+			pageNum = 0;
 		}
 		System.out.println("當前頁是："+pageNum+"顯示條數是："+pageSize);
 
 		//1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
-		PageHelper.startPage(pageNum,pageSize);
+		PageHelper.startPage(pageNum, pageSize);
 		//2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
 		try {
-			Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
+			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
+			List<Post> postList = postMapper.getAllPosts();//service查詢所有的資料的介面
 			//System.out.println("分頁資料：" + posts);
 			//3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list型別是Page<E>
-			pageInfo = new PageInfo<Post>(posts,pageSize);
+			pageInfo = new PageInfo<Post>(postList, pageSize);
 			//4.使用model/map/modelandview等帶回前端
 			model.addAttribute("pageInfo",pageInfo);
 		}finally {
@@ -104,6 +110,10 @@ public class PostController {
 
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("posts", posts);
+
+		System.out.println(">>>>");
+		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
+		System.out.println(">>>>");
 
 		//log.info(">>> model = {}", model);
 
