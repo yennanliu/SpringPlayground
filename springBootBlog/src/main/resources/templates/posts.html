@@ -16,6 +16,7 @@
 	<div class="container">
 		<div th:each="post : ${posts}" class="card">
 			<div class="card-body">
+
 				<h5 class="card-title" th:utext="${post.title}">Post title</h5>
 				<h6 class="card-subtitle mb-2"
 					th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
@@ -24,5 +25,6 @@
 			</div>
 		</div>
 	</div>
+
 </body>
 </html>

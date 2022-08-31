@@ -5,6 +5,7 @@ import com.yen.mdblog.util.LocalDateTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 @Table(name = "posts")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Post implements Serializable {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)

@@ -1,12 +1,14 @@
 package com.yen.mdblog.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.*;
 
 @Data
 @Entity
+@ToString
 @Table(name = "authors")
 public class Author {
 

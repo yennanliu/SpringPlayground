@@ -1,5 +1,7 @@
 package com.yen.mdblog.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Author;
 import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
@@ -53,6 +55,12 @@ public class PostController {
 			@RequestParam(value="size", defaultValue = "" + PAGINATIONSIZE) int size,
 			Model model) {
 
+		/**
+		 *  Use pageHelper
+		 *  	- https://www.796t.com/article.php?id=200769
+		 */
+		PageHelper.startPage(page, size);
+
 		Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
@@ -60,14 +68,20 @@ public class PostController {
 		long postCount = postRepository.count();
 		int numOfPages = (int) Math.ceil((postCount * 1.0) / PAGINATIONSIZE);
 
+		PageInfo<Post> pageInfo = new PageInfo<Post>(posts,size);
+
 		log.info(">>> postCount = " + postCount);
 		log.info(">>> numOfPages = " + numOfPages);
+		//log.info(">>> pageInfo = " + pageInfo);
 
 		model.addAttribute("posts", posts);
 		model.addAttribute("postCount", postCount);
 		model.addAttribute("pageRequested", page);
 		model.addAttribute("paginationSize", PAGINATIONSIZE);
 		model.addAttribute("numOfPages", numOfPages);
+		//model.addAttribute("pageInfo",pageInfo);
+
+		log.info(">>> model = {}", model);
 
 		return "posts";
 	}
