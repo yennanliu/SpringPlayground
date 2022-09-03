@@ -1,0 +1,14 @@
+version: '3.2'
+services:
+  wallet:
+    image: wallet:1.0-SNAPSHOT
+    hostname: wallet
+    environment:
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-debug}
+    ports:
+      - "9090:9090"
+    networks:
+      - mynet
+networks:
+  mynet:
+    external: true

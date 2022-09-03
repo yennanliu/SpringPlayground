@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: chapter10-monitor-demo
+  profiles:
+    active: debug
+  cloud:
+    consul:
+      discovery:
+        preferIpAddress: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
+        healthCheckPath: /actuator/health
+server:
+  port: 9092
+
+# Metrics指标采集端点开启配置
+management:
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  metrics:
+    export:
+      prometheus:
+        enabled: true

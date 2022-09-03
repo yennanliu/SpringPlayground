@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wudimanong.experiment.dao.mapper.AbtestGroupDao">
+
+    <!--批量插入（插入后返回主键ID）-->
+    <insert id="batchInsert" useGeneratedKeys="true" keyProperty="id"
+            parameterType="com.wudimanong.experiment.dao.model.AbtestGroupPO">
+        INSERT INTO
+        abtest_group(group_type,flow_ratio,exp_id,`name`,group_partition_details,strategy_detail,online,create_time,update_time,dilution_ratio,white_list)
+        VALUES
+        <foreach collection="list" item="cost" index="index" separator=",">
+            (#{cost.groupType,jdbcType=INTEGER},#{cost.flowRatio,jdbcType=INTEGER},#{cost.expId,jdbcType=INTEGER},#{cost.name,jdbcType=VARCHAR},#{cost.groupPartitionDetails,jdbcType=VARCHAR},#{cost.strategyDetail,jdbcType=VARCHAR},#{cost.online,jdbcType=INTEGER},#{cost.createTime,jdbcType=TIMESTAMP},#{cost.updateTime,jdbcType=TIMESTAMP},#{cost.dilutionRatio,jdbcType=INTEGER},#{cost.whiteList,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+</mapper>

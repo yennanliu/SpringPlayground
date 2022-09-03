@@ -1,0 +1,5 @@
+FROM openjdk:8u191-jre-alpine3.9
+ENTRYPOINT [ "sh", "-c", "java ${JAVA_OPTS} -javaagent:/app/agent/skywalking-agent.jar -Dskywalking.collector.backend_service=${SW_AGENT_COLLECTOR_BACKEND_SERVICES} -Dskywalking.agent.service_name=${SW_AGENT_NAME} -Dskywalking.agent.instance_name=${HOSTNAME} -Djava.security.egd=file:/dev/./urandom -jar /app/app.jar $PROFILE" ]
+ARG JAR_FILE
+ADD ${JAR_FILE} /app.jar
+EXPOSE 8080
