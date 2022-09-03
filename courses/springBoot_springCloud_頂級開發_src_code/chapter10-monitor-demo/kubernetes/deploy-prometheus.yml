@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: chapter10-monitor-demo
+spec:
+  selector:
+    matchLabels:
+      app: chapter10-monitor-demo
+  replicas: 1
+  #设置滚动升级策略
+  #Kubernetes在等待设置的时间后才开始进行升级，例如5秒
+  minReadySeconds: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      #升级过程中最多可以比原先设置多出的Pod数量
+      maxSurge: 1
+      #升级过程中Deployment控制器最多可以删除多少个旧Pod，主要用于提供缓冲时间
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: chapter10-monitor-demo
+    spec:
+      containers:
+        - name: chapter10-devops-demo
+          image: 10.211.55.2:8080/springcloud-action/chapter10-monitor-demo:latest
+          env:
+            #设置Spring Boot配置环境
+            - name: SPRING_PROFILES_ACTIVE
+              value: test
+            - name: SERVER_PORT
+              value: "8080"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: chapter10-monitor-demo
+  #设置服务label标签，后面Prometheus会依据label机制来采集微服务监控数据
+  labels:
+    svc: chapter10-monitor-demo
+spec:
+  selector:
+    app: chapter10-monitor-demo
+  ports:
+    - name: http
+      #Service暴露在集群IP上的端口（K8s服务间访问）
+      port: 8080
+      #Pod上的端口（与制作容器时暴露的端口一致,微服务工程代码中指定的端口）
+      targetPort: 8080
+      #K8s集群外部访问的端口（外部机器访问）
+      nodePort: 30002
+  type: NodePort

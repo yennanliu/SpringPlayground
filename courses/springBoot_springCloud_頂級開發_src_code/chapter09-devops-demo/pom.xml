@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.wudimanong</groupId>
+    <artifactId>devops-demo</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <!--引入Spring Cloud父依赖-->
+    <parent>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-parent</artifactId>
+        <version>Greenwich.SR1</version>
+        <relativePath/>
+    </parent>
+
+    <dependencies>
+        <!--Spring Cloud核心依赖-->
+        <!--微服务健康性检查-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <!--基于Consul的服务注册发现依赖包-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-consul-discovery</artifactId>
+        </dependency>
+        <!--基于Hystrix的服务限流熔断依赖包-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        </dependency>
+        <!--Spring Cloud公共代码-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-commons</artifactId>
+        </dependency>
+        <!--引入Spring Boot核心Starter依赖-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+    </dependencies>
+
+    <!--xx-->
+    <!--<scm>
+        <connection>scm:git:http://10.211.55.11/springcloud-action/chapter09-devops-demo</connection>
+        <developerConnection>scm:git:http://10.211.55.11/springcloud-action/chapter09-devops-demo.git
+        </developerConnection>
+        <url>http://10.211.55.11/springcloud-action/chapter09-devops-demo</url>
+        <tag>HEAD</tag>
+    </scm>-->
+
+    <properties>
+        <!--定义Docker镜像仓库地址-->
+        <docker.repository>10.211.55.11:8088</docker.repository>
+        <!--定义项目名称作为镜像名称生成的组成部分-->
+        <app.name>chapter09-devops-demo</app.name>
+    </properties>
+    <build>
+        <plugins>
+            <!--序列号生成插件-->
+            <!--<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shortRevisionLength>7</shortRevisionLength>
+                </configuration>
+            </plugin>-->
+            <!--引入Spring Boot Maven编译插件-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!--发布Maven插件-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <configuration>
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
+            <!--添加将Java应用打包为Docker Image的Maven插件-->
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>dockerfile-maven-plugin</artifactId>
+                <version>1.4.13</version>
+                <executions>
+                    <execution>
+                        <id>build-image</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!--指定Dockerfile文件位置-->
+                    <dockerfile>docker/Dockerfile</dockerfile>
+                    <repository>${docker.repository}/springcloud-action/${app.name}</repository>
+                    <!--<tag>${project.version}</tag>-->
+                    <buildArgs>
+                        <!--提供参数向Dockerfile传递-->
+                        <JAR_FILE>target/${project.build.finalName}.jar</JAR_FILE>
+                    </buildArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.yaml</include>
+                    <include>**/bootstrap.yml</include>
+                    <include>**/bootstrap.yaml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+</project>

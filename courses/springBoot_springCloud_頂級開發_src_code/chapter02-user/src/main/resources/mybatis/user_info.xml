@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wudimanong.user.dao.UserInfoDao">
+
+    <sql id="Base_Column_List">
+        id, user_id, nick_name, mobile_no, password,is_login,login_time,is_del,create_time
+    </sql>
+
+    <insert id="insert" parameterType="com.wudimanong.user.entity.UserInfo">
+        insert into user_info(user_id, nick_name, mobile_no, password,is_login,login_time,is_del,create_time)
+        values (#{userId}, #{nickName}, #{mobileNo}, #{password},#{isLogin},#{loginTime},#{isDel},#{createTime})
+    </insert>
+
+    <select id="selectByMobileNo" resultType="com.wudimanong.user.entity.UserInfo">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user_info
+        WHERE mobile_no=#{mobileNo}
+    </select>
+
+    <update id="updateById" parameterType="com.wudimanong.user.entity.UserInfo">
+        update user_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId,jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName,jdbcType=VARCHAR},
+            </if>
+            <if test="mobileNo != null">
+                mobile_no = #{mobileNo,jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=VARCHAR},
+            </if>
+            <if test="isLogin != null">
+                is_login = #{isLogin,jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel,jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=BIGINT}
+    </update>
+</mapper>

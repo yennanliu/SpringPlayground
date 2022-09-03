@@ -1,0 +1,18 @@
+prometheus:
+  additionalServiceMonitors:
+    - name: chapter10-monitor-demo
+      selector:
+        matchLabels:
+          #对应发布文件中设置的label标签
+          svc: chapter10-monitor-demo
+      namespaceSelector:
+        #监控的k8s名称空间
+        matchNames:
+          - default
+      endpoints:
+        #对应发布文件中Service资源所设置的Http端口设置
+        - port: http
+          #Prometheus指标采集endpoint端口
+          path: /actuator/prometheus
+          scheme: http
+    #多个服务可以重复上述配置

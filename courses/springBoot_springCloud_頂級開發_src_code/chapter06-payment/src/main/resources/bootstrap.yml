@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: payment
+  profiles:
+    active: debug
+  cloud:
+    consul:
+      discovery:
+        preferIpAddress: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
+        healthCheckPath: /actuator/health
+server:
+  port: 9092
