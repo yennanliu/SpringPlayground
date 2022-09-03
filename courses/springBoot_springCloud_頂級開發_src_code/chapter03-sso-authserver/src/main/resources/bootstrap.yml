@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: sso-authserver
+  profiles:
+    active: debug
+  cloud:
+    consul:
+      discovery:
+        preferIpAddress: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
+        healthCheckPath: /actuator/health
+
+server:
+  port: 9092
+
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+feign:
+  oauth2:
+    enabled: true
+
+

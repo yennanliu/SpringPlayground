@@ -1,0 +1,5 @@
+spring:
+  cloud:
+    consul:
+      host: 10.211.55.12
+      port: 8500

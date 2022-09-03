@@ -1,0 +1,17 @@
+spring:
+  cloud:
+    gateway:
+      #开启网关服务注册发现机制
+      discovery:
+        locator:
+          enabled: true
+      #路由配置（网关基本构建模版，由id、目标uri、一组predicates及一组filters构成）
+      routes:
+        - id: sso-resourceserver
+          #lb代表从注册中心获取服务，格式为lb://$(注册服务的名字)
+          uri: lb://sso-resourceserver
+          predicates:
+            #通过路径进行匹配
+            - Path=/resources/**
+          filters:
+            - StripPrefix=1
