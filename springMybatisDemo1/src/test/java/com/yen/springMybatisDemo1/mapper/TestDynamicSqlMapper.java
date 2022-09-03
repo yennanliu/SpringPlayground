@@ -4,12 +4,14 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=VqjaBphBdH4&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=50
 // https://www.youtube.com/watch?v=t0pYgJu_nJ0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 // https://www.youtube.com/watch?v=bUXDOzn1phg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
+// https://www.youtube.com/watch?v=Be9IYx1718k&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=54
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
@@ -45,7 +47,9 @@ public class TestDynamicSqlMapper {
      *      -> we need one "when" at least
      *      -> we can only have one "otherwise" at MOST
      *
-     *  5) NOTE : where 1 = 1 trick
+     *  5) for-each
+     *
+     *  6) NOTE : where 1 = 1 trick
      *
      *      e.g. :
      *         WHERE
@@ -119,6 +123,22 @@ public class TestDynamicSqlMapper {
 
         List<Emp> res4 = dynamicSqlMapper.getEmpByChoose(new Emp(null, null, null, null));
         System.out.println(res4);
+    }
+
+    /** test batch delete (for-each) */
+    @Test
+    public void test5(){
+        Integer[] eids = new Integer[]{1,2,3};
+        int res1 = dynamicSqlMapper.deleteMultiEmpByArray(eids);
+        System.out.println(res1);
+    }
+
+    /** test batch delete V2 (for-each) */
+    @Test
+    public void test6(){
+        Integer[] eids = new Integer[]{1,2,3};
+        int res1 = dynamicSqlMapper.deleteMultiEmpByArray2(eids);
+        System.out.println(res1);
     }
 
 }

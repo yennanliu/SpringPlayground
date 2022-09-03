@@ -110,4 +110,41 @@
         </where>
     </select>
 
+    <!--
+        int deleteMultiEmpByArray(@Param("eids") Integer[] eids);
+
+        separator : for split input eids (e.g. Integer[] eids = new Integer[]{1,2,3};)
+    -->
+    <delete id="deleteMultiEmpByArray">
+        DELETE FROM emp WHERE eid in
+        (
+            <foreach collection="eids" item="eid" separator=",">
+                #{eid}
+            </foreach>
+        )
+    </delete>
+
+    <!--
+        int deleteMultiEmpByArray2(@Param("eids") Integer[] eids);
+
+        -> NOTE :
+            -> we can use separator, open, close on the same time
+            -> so we don't need () in SQL pattern anymore
+    -->
+    <delete id="deleteMultiEmpByArray2">
+        DELETE FROM emp WHERE eid in
+        <foreach collection="eids" item="eid" separator="," open="(" close=")">
+            #{eid}
+        </foreach>
+    </delete>
+
+
+<!--    &lt;!&ndash;-->
+<!--    int deleteMultiEmpByArray3(@Param("eids") Integer[] eids);-->
+<!--    &ndash;&gt;-->
+<!--    <delete id="deleteMultiEmpByArray3">-->
+<!--        DELETE FROM emp WHERE eid in-->
+<!--        <foreach collection="eids"-->
+<!--    </delete>-->
+
 </mapper>
