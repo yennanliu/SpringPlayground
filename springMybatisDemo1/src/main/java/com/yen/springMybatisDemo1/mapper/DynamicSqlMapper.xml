@@ -84,8 +84,8 @@
          List<Emp> getEmpByChoose(Emp emp);
 
          NOTE :
-            choose, when, otherwise is "if..else" logic
-            so there is ONLY one executed condition, so we don't need "and" in SQL syntax
+            choose, when, otherwise : similar as "if..else" logic
+            so there is ONLY one executed condition at once, so we don't need "and" in SQL syntax
     -->
     <select id="getEmpByChoose" resultType="com.yen.springMybatisDemo1.bean.Emp">
         SELECT * FROM emp
