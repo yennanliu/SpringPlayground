@@ -139,12 +139,14 @@
     </delete>
 
 
-<!--    &lt;!&ndash;-->
-<!--    int deleteMultiEmpByArray3(@Param("eids") Integer[] eids);-->
-<!--    &ndash;&gt;-->
-<!--    <delete id="deleteMultiEmpByArray3">-->
-<!--        DELETE FROM emp WHERE eid in-->
-<!--        <foreach collection="eids"-->
-<!--    </delete>-->
+    <!--
+    int deleteMultiEmpByArray3(@Param("eids") Integer[] eids);
+    -->
+    <delete id="deleteMultiEmpByArray3">
+        DELETE FROM emp WHERE
+        <foreach collection="eids" item="eid" separator="or">
+            eid = #{eid}
+        </foreach>
+    </delete>
 
 </mapper>

@@ -141,4 +141,12 @@ public class TestDynamicSqlMapper {
         System.out.println(res1);
     }
 
+    /** test batch delete V3 (for-each + or) */
+    @Test
+    public void test7(){
+        Integer[] eids = new Integer[]{1,2,3};
+        int res1 = dynamicSqlMapper.deleteMultiEmpByArray3(eids);
+        System.out.println(res1);
+    }
+
 }
