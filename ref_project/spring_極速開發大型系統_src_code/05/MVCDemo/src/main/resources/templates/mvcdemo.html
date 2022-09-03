@@ -1,0 +1,15 @@
+﻿<!DOCTYPE html>
+<!--thymeleaf範本支援-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset=utf-8"utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<div>
+   <!-- 顯示由控制器傳遞過來的實體user的值-->
+    <div th:text="${user.name}"></div>
+    <div th:text="${user.age}"></div>
+</div>
+ </body>
+</html>

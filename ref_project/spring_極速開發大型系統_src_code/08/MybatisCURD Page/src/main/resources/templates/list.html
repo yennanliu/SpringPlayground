@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset=utf-8"UTF-8"/>
+    <title>1</title>
+</head>
+<body>
+
+<div class="with:80%">
+
+    <div th:each="u : ${page.list}">
+        <span scope="row" th:text="${u.id}">id</span>
+        <span th:text="${u.name}">name</span>
+
+    </div>
+
+</div>
+
+<div>
+    <a th:href="@{listall?start=1}">[首頁]</a>
+    <a  th:if="${not page.IsFirstPage}" th:href="@{/listall(start=${page.pageNum-1})}">[上頁]</a>
+    <a  th:if="${not page.IsLastPage}" th:href="@{/listall(start=${page.pageNum+1})}">[下頁]</a>
+    <a th:href="@{/listall(start=${page.pages})}">[末頁]</a>
+    <div>目前頁/總頁數：<a th:text="${page.pageNum}" th:href="@{/listall(start=${page.pageNum})}"></a>
+        /<a th:text="${page.pages}" th:href="@{/listall(start=${page.pages})}"></a></div>
+
+</div>
+</body>
+</html>
