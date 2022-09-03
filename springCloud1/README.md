@@ -129,12 +129,19 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_arch.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_code1.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_code2.png">
-- Service Fallback (服務降級)
-    - https://www.tpisoftware.com/tpu/articleDetails/2621
-    - https://www.gushiciku.cn/pl/pPFM/zh-tw
-    - http://c.biancheng.net/springcloud/hystrix.html
-- Service Circuit Break (服務熔斷)
-- Service limit (服務限流)
+    - Service Fallback (服務降級)
+        - https://www.tpisoftware.com/tpu/articleDetails/2621
+        - https://www.gushiciku.cn/pl/pPFM/zh-tw
+        - http://c.biancheng.net/springcloud/hystrix.html
+    - Service Circuit Break (服務熔斷)
+    - Service limit (服務限流)
+- Gateway (網關)
+    - concept
+        - Route (路由)
+        - Predicate (斷言)
+        - Filter (過濾)
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway2.png">
 
 ## Ref
 - Course
