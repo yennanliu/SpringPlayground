@@ -8,10 +8,9 @@
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 </head>
 
-<body>
-    <body style="padding:8px;">
+<body style="padding:8px;">
         <h3 class="title">Add new course type</h3>
-        <form th:action="@{/courseType/create}" method="post" th:object="${courseType}}">
+        <form th:action="@{/courseType/create}" method="POST" th:object="${courseType}}">
             <div>
                 <span>course type name :</span>
                 <input type="text" name="typeName" placeholder="course type name">
@@ -20,7 +19,7 @@
                 <input type="submit" value="confirm">
             </div>
         </form>
-    </body>
 </body>
+
 
 </html>
