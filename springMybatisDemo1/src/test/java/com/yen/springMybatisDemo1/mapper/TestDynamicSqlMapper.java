@@ -6,6 +6,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=bUXDOzn1phg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 // https://www.youtube.com/watch?v=Be9IYx1718k&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=54
 // https://www.youtube.com/watch?v=ht97kZOvYCI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=55
+// https://www.youtube.com/watch?v=QfhtOXzEGQM&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=55
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
@@ -56,7 +57,17 @@ public class TestDynamicSqlMapper {
      *      open : first sign before all content in for-loop
      *      close : last sign before all content in for-loop
      *
-     *  6) NOTE : where 1 = 1 trick
+     *  7) Sql flag:
+     *
+     *      e.g. (setup) :
+     *              <sql id="empColumns">
+     *                  eid,emp_name,age,sex,email
+     *              </sql>
+     *
+     *      e.g. (use/reference):
+     *               <include refid="empColumns"></include>
+     *
+     *  7) NOTE : where 1 = 1 trick
      *
      *      e.g. :
      *         WHERE
@@ -112,6 +123,23 @@ public class TestDynamicSqlMapper {
         System.out.println(res3);
 
         List<Emp> res4 = dynamicSqlMapper.getEmpByCondition3(new Emp(null, null, "1", null));
+        System.out.println(res4);
+    }
+
+    /**  test multi condition dynamic SQL V4 (with SQL flag) */
+    @Test
+    public void test3_1(){
+
+        List<Emp> res1 = dynamicSqlMapper.getEmpByCondition4(new Emp("jack", 29, "1", "jack@fb.com"));
+        System.out.println(res1);
+
+        List<Emp> res2 = dynamicSqlMapper.getEmpByCondition4(new Emp("jack", 29, null, "jack@fb.com"));
+        System.out.println(res2);
+
+        List<Emp> res3 = dynamicSqlMapper.getEmpByCondition4(new Emp(null, 29, null, null));
+        System.out.println(res3);
+
+        List<Emp> res4 = dynamicSqlMapper.getEmpByCondition4(new Emp(null, null, "1", null));
         System.out.println(res4);
     }
 

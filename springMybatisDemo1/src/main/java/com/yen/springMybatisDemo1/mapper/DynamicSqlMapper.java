@@ -25,6 +25,9 @@ public interface DynamicSqlMapper {
     /** multi conditions select V3 */
     List<Emp> getEmpByCondition3(Emp emp);
 
+    /** multi conditions select V4 (with SQL flag) */
+    List<Emp> getEmpByCondition4(Emp emp);
+
     /** test : choose, when, otherwise */
     List<Emp> getEmpByChoose(Emp emp);
 
