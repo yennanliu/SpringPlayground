@@ -1,0 +1,21 @@
+# https://www.youtube.com/watch?v=8Fe85klW2TM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=70
+server:
+  port: 9527
+
+spring:
+  application:
+    name: cloud-gateway
+eureka:
+  instance:
+    hostname: cloud-gateway-service #eureka7001.com  # eureka service instance name
+  client:
+    # no need to register itself
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      # url for service register/access (via eureka)
+      # https://blog.csdn.net/xiaozhu0301/article/details/109604443
+      # single node mode
+      #defaultZone: http://${eureka.instance.hostname}${server.port}/eureka/
+      # cluster mode
+      defaultZone: http://eureka7001.com:7001/eureka/
