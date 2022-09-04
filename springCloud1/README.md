@@ -150,10 +150,10 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - Setup
         - conf : setup in application.yml
         - code : code setup in RouteLocation Bean
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway2.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway3.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway4.png">
 
 ## Ref
 - Course
