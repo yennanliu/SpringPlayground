@@ -89,7 +89,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | cloud-gateway-geteway9527 |  | | |
-| get payment (via `gateway`)| GET | http://localhost:9527/payment/hystrix/ok/31 | get payment by id|
+| get payment (via `gateway`)| GET | http://localhost:9527/payment/get/2 |gateway http://localhost:8001/payment/get/**  to 9527 port|
 
 
 | API | Type | Example cmd | Purpose | Comment|
