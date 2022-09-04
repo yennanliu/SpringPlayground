@@ -9,9 +9,9 @@ spring:
     gateway:
       routes:
         - id: payment_routh # payment_route # route id, NEED to be unique, aligned with service name
-        uri : http:localhost:8001 # offer uri after gateway
-        predicates:
-          - Path=/payment/get/**  # predicates, will do gateway if this pattern is matched
+          uri : http:localhost:8001 # offer uri after gateway
+          predicates:
+            - Path=/payment/get/**  # predicates, will do gateway if this pattern is matched
 
         - id: payment_routh2
           uri : http:localhost:8001
