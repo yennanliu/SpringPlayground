@@ -89,7 +89,8 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | cloud-gateway-geteway9527 |  | | |
-| get payment (via `gateway`)| GET | http://localhost:9527/payment/get/2 |gateway http://localhost:8001/payment/get/**  to 9527 port|
+| get payment (via `gateway`)| GET | http://localhost:9527/payment/get/2 |gateway http://localhost:8001/payment/get/** to 9527 port|
+| get lb (server port)| GET | http://localhost:9527/lb ||
 
 
 | API | Type | Example cmd | Purpose | Comment|
@@ -146,8 +147,13 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
         - Route (路由)
         - Predicate (斷言)
         - Filter (過濾)
+    - Setup
+        - conf : setup in application.yml
+        - code : code setup in RouteLocation Bean
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway1.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/geteway4.png">
 
 ## Ref
 - Course
