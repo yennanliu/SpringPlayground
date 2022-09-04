@@ -5,17 +5,24 @@ server:
 spring:
   application:
     name: cloud-gateway
+  cloud:   # gateway Predicate setting : https://youtu.be/8Fe85klW2TM?t=340
+    gateway:
+      routes:
+        - id: payment_routh # payment_route # route id, NEED to be unique, aligned with service name
+        uri : http:localhost:8001 # offer uri after gateway
+        predicates:
+          - Path=/payment/get/**  # predicates, will do gateway if this pattern is matched
+
+        - id: payment_routh2
+          uri : http:localhost:8001
+          predicates:
+            - Path=/payment/lb/**
+
 eureka:
   instance:
     hostname: cloud-gateway-service #eureka7001.com  # eureka service instance name
   client:
-    # no need to register itself
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      # url for service register/access (via eureka)
-      # https://blog.csdn.net/xiaozhu0301/article/details/109604443
-      # single node mode
-      #defaultZone: http://${eureka.instance.hostname}${server.port}/eureka/
-      # cluster mode
       defaultZone: http://eureka7001.com:7001/eureka/
