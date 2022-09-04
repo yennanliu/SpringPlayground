@@ -88,6 +88,12 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 
 | API | Type | Example cmd | Purpose | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| cloud-gateway-geteway9527 |  | | |
+| get payment (via `gateway`)| GET | http://localhost:9527/payment/hystrix/ok/31 | get payment by id|
+
+
+| API | Type | Example cmd | Purpose | Comment|
+| ----- | -------- | ---- | ----- | ---- |
 | Zookeeper (register center) |  | | |
 | node1 | GET | http://localhost:8004/payment/zk | |
 
