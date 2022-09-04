@@ -5,6 +5,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=t0pYgJu_nJ0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 // https://www.youtube.com/watch?v=bUXDOzn1phg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 // https://www.youtube.com/watch?v=Be9IYx1718k&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=54
+// https://www.youtube.com/watch?v=ht97kZOvYCI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=55
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.apache.ibatis.annotations.Mapper;
@@ -35,5 +36,8 @@ public interface DynamicSqlMapper {
 
     /** for-each : batch delete V3 */
     int deleteMultiEmpByArray3(@Param("eids") Integer[] eids);
+
+    /** for-each add insert (list) */
+    int addMultiEmpByList(@Param("emps") List<Emp> emps);
 
 }

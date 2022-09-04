@@ -149,4 +149,20 @@
         </foreach>
     </delete>
 
+    <!--
+        int addMultiEmpyByList(List<Emp> emps);
+
+        NOTE !!!
+            -> since we pass List<Emp>, so each item is Emp type
+            -> so in attr value, we HAVE TO use emp.xxx
+            -> e.g. (#{emp.empName}, #{emp.age}, #{emp.sex}, #{emp.email}, #{emp.did})
+    -->
+    <insert id="addMultiEmpByList">
+        INSERT INTO emp(emp_name, age, sex, email, did)
+        values
+        <foreach collection="emps" item="emp" separator=",">
+            (#{emp.empName}, #{emp.age}, #{emp.sex}, #{emp.email}, #{emp.did})
+        </foreach>
+    </insert>
+
 </mapper>

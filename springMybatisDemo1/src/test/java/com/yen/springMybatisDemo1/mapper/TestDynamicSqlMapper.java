@@ -5,6 +5,7 @@ package com.yen.springMybatisDemo1.mapper;
 // https://www.youtube.com/watch?v=t0pYgJu_nJ0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 // https://www.youtube.com/watch?v=bUXDOzn1phg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=52
 // https://www.youtube.com/watch?v=Be9IYx1718k&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=54
+// https://www.youtube.com/watch?v=ht97kZOvYCI&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=55
 
 import com.yen.springMybatisDemo1.bean.Emp;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @SpringBootTest
@@ -48,6 +50,11 @@ public class TestDynamicSqlMapper {
      *      -> we can only have one "otherwise" at MOST
      *
      *  5) for-each
+     *      collection : set up array/collection needed in for-loop
+     *      item : basic element (data) in array/collection
+     *      separator : separator between each item
+     *      open : first sign before all content in for-loop
+     *      close : last sign before all content in for-loop
      *
      *  6) NOTE : where 1 = 1 trick
      *
@@ -146,6 +153,17 @@ public class TestDynamicSqlMapper {
     public void test7(){
         Integer[] eids = new Integer[]{1,2,3};
         int res1 = dynamicSqlMapper.deleteMultiEmpByArray3(eids);
+        System.out.println(res1);
+    }
+
+    /** test batch insert (for-each) */
+    @Test
+    public void test8(){
+        Emp e1 = new Emp();
+        Emp e2 = new Emp("lily",20,"0","lily@fb.com");
+        Emp e3 = new Emp("tim", 22,"1","tim@uber.com");
+        List<Emp> eids = Arrays.asList(e1, e2, e3);
+        int res1 = dynamicSqlMapper.addMultiEmpByList(eids);
         System.out.println(res1);
     }
 
