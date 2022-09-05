@@ -129,7 +129,10 @@ public class PostController {
 		post.setDateTime(LocalDateTime.now());
 
 		postService.savePost(post);
-		authorService.saveAuthor(author);
+		List<Author> authors = authorService.getAllAuthors();
+		if (!authors.contains(authors)){
+			authorService.saveAuthor(author);
+		}
 
 		return "success";
 	}
