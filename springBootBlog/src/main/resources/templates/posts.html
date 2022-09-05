@@ -10,6 +10,7 @@
 		  crossorigin="anonymous"
 		  th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
 	>
+	<script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>
 </head>
 <body>
 	<div th:insert="header"></div>
@@ -32,33 +33,33 @@
 	-->
 	<div class="modal-footer no-margin-top">
 		<div class="col-md-6">
-			當前第 [[${pageInfo.pageNum}]]頁,共 [[${pageInfo.pages}]] 頁.一共 [[${pageInfo.total}]] 條記錄
+			Current at [[${pageInfo.pageNum}]] page. Total [[${pageInfo.pages}]] page. Total [[${pageInfo.total}]] records
 		</div>
 
 		<ul class="pagination pull-right no-margin">
 			<li th:if="${pageInfo.hasPreviousPage}">
-				<a th:href="'/usermanage?pageNum=1'">首頁</a>
+				<a th:href="'/posts/all?page=0'">First</a>
 			</li>
 
 			<li class="prev" th:if="${pageInfo.hasPreviousPage}">
-				<a th:href="'/usermanage?pageNum='+${pageInfo.prePage}">
+				<a th:href="'/posts/all?pageNum='+${pageInfo.prePage}">
 					<i class="ace-icon fa fa-angle-double-left"></i>
 				</a>
 			</li>
 			<!--遍歷條數-->
 			<li th:each="nav:${pageInfo.navigatepageNums}">
-				<a th:href="'/usermanage?pageNum='+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
-				<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
+				<a th:href="'/posts/all?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
+				<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text=" ${nav} "></span>
 			</li>
 
 			<li class="next" th:if="${pageInfo.hasNextPage}">
-				<a th:href="'/usermanage?pageNum='+${pageInfo.nextPage}">
+				<a th:href="'/posts/all?pageNum='+${pageInfo.nextPage}">
 					<i class="ace-icon fa fa-angle-double-right"></i>
 				</a>
 			</li>
 
 			<li>
-				<a th:href="'/usermanage?pageNum='+${pageInfo.pages}">尾頁</a>
+				<a th:href="'/posts/all?pageNum='+${pageInfo.pages}">Last</a>
 			</li>
 		</ul>
 	</div>
