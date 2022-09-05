@@ -12,6 +12,7 @@ import com.yen.mdblog.entity.request.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -165,10 +166,15 @@ public class PostController {
 		post.setDateTime(LocalDateTime.now());
 
 		postService.savePost(post);
-		List<Author> authors = authorService.getAllAuthors();
-		if (!authors.contains(authors)){
-			authorService.saveAuthor(author);
-		}
+//		List<Author> authors = authorService.getAllAuthors();
+//		authors.stream().map(x -> x.getId()).anyMatch( author.getId()::equals);
+//		Integer[] authorId = (Integer[]) authors.stream().map(x -> x.getId()).toArray();
+//		System.out.println(">>> authors = " + authors);
+//		System.out.println(">>> authorId = " + authorId);
+//		if ( ArrayUtils.contains( authorId, author.getId() )){
+//			authorService.saveAuthor(author);
+//		}
+		authorService.saveAuthor(author);
 
 		return "success";
 	}
