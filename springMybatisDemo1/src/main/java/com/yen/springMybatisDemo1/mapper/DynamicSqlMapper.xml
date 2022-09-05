@@ -80,12 +80,33 @@
         </trim>
     </select>
 
+    <!-- List<Emp> getEmpByCondition4(Emp emp); -->
+    <select id="getEmpByCondition4" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT
+        <include refid="empColumns"></include>
+        FROM emp
+        <trim prefix="where" suffixOverrides="and|or">
+            <if test="empName != null and empName != ''">
+                emp_name = #{empName} AND
+            </if>
+            <if test="age != null and age != ''">
+                age = #{age} AND
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex} OR
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email}
+            </if>
+        </trim>
+    </select>
+
     <!--
          List<Emp> getEmpByChoose(Emp emp);
 
          NOTE :
-            choose, when, otherwise is "if..else" logic
-            so there is ONLY one executed condition, so we don't need "and" in SQL syntax
+            choose, when, otherwise : similar as "if..else" logic
+            so there is ONLY one executed condition at once, so we don't need "and" in SQL syntax
     -->
     <select id="getEmpByChoose" resultType="com.yen.springMybatisDemo1.bean.Emp">
         SELECT * FROM emp
@@ -109,5 +130,68 @@
             </choose>
         </where>
     </select>
+
+    <!--
+        int deleteMultiEmpByArray(@Param("eids") Integer[] eids);
+
+        separator : for split input eids (e.g. Integer[] eids = new Integer[]{1,2,3};)
+    -->
+    <delete id="deleteMultiEmpByArray">
+        DELETE FROM emp WHERE eid in
+        (
+            <foreach collection="eids" item="eid" separator=",">
+                #{eid}
+            </foreach>
+        )
+    </delete>
+
+    <!--
+        int deleteMultiEmpByArray2(@Param("eids") Integer[] eids);
+
+        -> NOTE :
+            -> we can use separator, open, close on the same time
+            -> so we don't need () in SQL pattern anymore
+    -->
+    <delete id="deleteMultiEmpByArray2">
+        DELETE FROM emp WHERE eid in
+        <foreach collection="eids" item="eid" separator="," open="(" close=")">
+            #{eid}
+        </foreach>
+    </delete>
+
+
+    <!--
+    int deleteMultiEmpByArray3(@Param("eids") Integer[] eids);
+    -->
+    <delete id="deleteMultiEmpByArray3">
+        DELETE FROM emp WHERE
+        <foreach collection="eids" item="eid" separator="or">
+            eid = #{eid}
+        </foreach>
+    </delete>
+
+    <!--
+        int addMultiEmpyByList(List<Emp> emps);
+
+        NOTE !!!
+            -> since we pass List<Emp>, so each item is Emp type
+            -> so in attr value, we HAVE TO use emp.xxx
+            -> e.g. (#{emp.empName}, #{emp.age}, #{emp.sex}, #{emp.email}, #{emp.did})
+    -->
+    <insert id="addMultiEmpByList">
+        INSERT INTO emp(emp_name, age, sex, email, did)
+        values
+        <foreach collection="emps" item="emp" separator=",">
+            (#{emp.empName}, #{emp.age}, #{emp.sex}, #{emp.email}, #{emp.did})
+        </foreach>
+    </insert>
+
+    <!--
+        sql
+        https://www.youtube.com/watch?v=QfhtOXzEGQM&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=55
+    -->
+    <sql id="empColumns">
+        eid,emp_name,age,sex,email
+    </sql>
 
 </mapper>

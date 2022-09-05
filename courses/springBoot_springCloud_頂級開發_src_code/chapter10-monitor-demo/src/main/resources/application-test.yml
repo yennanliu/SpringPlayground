@@ -1,0 +1,24 @@
+spring:
+  cloud:
+    #独立部署的consul注册中心地址(根据自己本地实际环境填写)
+    consul:
+      host: 10.211.55.2
+      port: 8500
+
+  datasource:
+    #独立部署的MySQL数据库地址(根据自己本地实际环境填写)
+    url: jdbc:mysql://10.211.55.2:3306/monitor_test
+    username: root
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    separator: //
+
+  #独立部署的Redis服务地址(根据自己本地实际环境填写)
+  redis:
+    host: 10.211.55.2
+    port: 6379
+    password: 123456
+
+# Logging
+logging.level.org.springframework: INFO

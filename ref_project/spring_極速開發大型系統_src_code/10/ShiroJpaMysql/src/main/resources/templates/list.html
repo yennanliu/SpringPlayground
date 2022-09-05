@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset=utf-8"UTF-8">
+    <title>UserInfo</title>
+</head>
+<body>
+<h3>使用者查詢界面</h3>
+<div><span th:text="${name}" ></span><span th:text="${Username}" ></span></div>
+<div>您的角色是:</div>
+<div th:each="ritem : ${RoleList}">
+
+    <span th:text="${ritem.description}">description</span>
+</div>
+使用者清單:
+<div th:each="item : ${page.content}">
+    <span th:text="${item.uid}">id</span>
+    <span th:text="${item.name}">name</span>
+    <span th:text="${item.username}">username</span>
+</div>
+</body>
+</html>

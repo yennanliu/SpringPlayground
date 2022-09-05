@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        #关闭健康性检查
+        health.enabled: false
+        #配置github仓库路径（实际内部使用换成自己的gitLab仓库）
+        git:
+          uri: https://github.com/manongwudi/repos.git
+          search-paths: 'common,{application}'
+          #启动时克隆存储库
+          clone-on-start: true
+    consul:
+      discovery:
+        prefer-ip-address: true
+        tags: api
+

@@ -6,12 +6,10 @@
 <mapper namespace="com.yen.springMybatisDemo1.mapper.DeptMapper">
 
     <!--
-
         https://www.youtube.com/watch?v=nvLKTBxgIdg&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=46
 
         collection : deal with one-to-multiple mapping
         ofType : collection class type (one-to-multiple)
-
     -->
     <resultMap id="DeptAndEmpResultMap" type="com.yen.springMybatisDemo1.bean.Dept">
         <id property="did" column="did"></id>

@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: efence
+  profiles:
+    active: debug,dev
+  cloud:
+    consul:
+      discovery:
+        preferIpAddress: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
+        healthCheckPath: /actuator/health
+    #开启Spring Cloud Config配置中心
+    config:
+      enabled: true
+      uri: http://127.0.0.1:8888/
+      label: master
+server:
+  port: 9090

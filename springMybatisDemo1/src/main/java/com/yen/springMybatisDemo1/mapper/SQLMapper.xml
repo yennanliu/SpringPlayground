@@ -34,14 +34,13 @@
     void insertUser(MyUser myUser)
 
     NOTE !!!
-        if didn't set up "AUTO_INCREMENT" in SQL DDL,
-        -> have to use below so can make PK (primary key) auto increase, and get updated PK
-        -> e.g. :
+        if NOT set up "AUTO_INCREMENT" in SQL DDL,
+            -> have to use below so can make PK (primary key) auto increase, and get updated PK
+            -> e.g. :
 
-            <insert id="insertUser" useGenerateKeys="true" keyProperty="id">
-                ...
-            </insert>
-
+                <insert id="insertUser" useGenerateKeys="true" keyProperty="id">
+                    ...
+                </insert>
 
        -> useGenerateKeys : use auto_increment PK in current SQL
        -> keyProperty : set auto_increment PK to one attr to return/use it

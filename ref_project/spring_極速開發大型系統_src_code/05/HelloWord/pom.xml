@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- 模型版本，宣告專案描述符號遵循哪一個POM模型版本，
+	盡管模型本身的版本很少改變，但是它仍然是必不可少的， 這是為了當Maven引入了新的特性或是其他模型變更的時候，確保穩定性。 -->
+	<modelVersion>4.0.0</modelVersion>
+	<!-- 父專案的座標，若果專案沒規定某個元素的值，那麼父專案中的對應值即為專案的預設值，座標內含groupId，artifactId和version。-->
+	<parent>
+
+		<!--  被繼承的父專案的唯一標誌符 -->
+		<groupId>org.springframework.boot</groupId>
+		<!--  被繼承的父專案的組件標誌符 -->
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<!--  被繼承的父專案的版本號 -->
+		<version>2.1.3.RELEASE</version>
+		<!-- 父專案的pom.xml檔案的相對路徑，相對路徑容許是一個不同的路徑，預設值是../pom.xml
+		Maven先在建構目前專案的地方尋找父專案的pom，然後在檔案系統的relativePath位置，若果沒找到繼續在本機倉庫，最後在遠端倉庫尋找父專案的pom。 -->
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<!-- 公司或是群組織的唯一標志（專案的全球唯一標誌符），並且組態時產生的路徑也是由此產生，通常使用全限定的套件名稱區分該專案和其他專案
+		 如com.companyname.project，maven會將該專案打成的jar套件放本機路徑：/com/companyname/project -->
+	<groupId>com.example</groupId>
+
+	<!-- 專案的唯一ID，一個groupId下面可能多個專案，靠artifactId來區分 -->
+	<artifactId>demo</artifactId>
+	<!-- 版本號，格式為:主版本.次版本.增量版本-限定版本號 -->
+	<version>0.0.1-SNAPSHOT</version>
+	<!--專案的名稱, Maven產生的文件用 -->
+	<name>HelloWorld</name>
+	<!-- 專案的詳細描述, Maven 產生的文件用。 當這個元素能夠用HTML格式描述時（例如，CDATA中的文字會被解析器忽略，就可以包括HTML標
+        簽）。 -->
+	<description>Demo project for Spring Boot</description>
+
+	<properties>
+		<!-- 專案開發的java版本號。 -->
+		<java.version>1.8</java.version>
+	</properties>
+	<!-- 專案的相依項，可以透過，該元素描述了專案關聯的所有相依，它們自動從專案定義的倉庫中下載。 -->
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+	<!-- 建構專案（打包產生可執行檔案）需要的訊息 -->
+	<build>
+		<!-- 專案使用的外掛清單 。 -->
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

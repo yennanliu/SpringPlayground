@@ -1,0 +1,509 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+li {
+    display: list-item;
+    text-align: -webkit-match-parent;
+}
+
+a {
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-size: 100%;
+    font-weight: 500;
+}
+
+input, select, textarea {
+    font-size: 100%;
+}
+
+fieldset, img {
+    border: 0;
+}
+
+.clear-float {
+    clear: both;
+}
+
+html, body {
+    position: relative;
+    font: 12px/1.5 tahoma, arial, "Hiragino Sans GB", \5b8b\4f53;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background: url('../images/bg.jpg') no-repeat fixed;
+    background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    /* IE6-9 */
+    filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bg.jpg', sizingMethod=scale);
+    -ms-filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../images/bg.jpg', sizingMethod=scale);
+}
+
+.authcenter {
+    /*position: relative;*/
+}
+
+/*header*/
+
+.authcenter-head .container-left-item, .authcenter-head .container-right-item {
+    float: left;
+    padding: 0 7px;
+    line-height: 26px;
+    height: 26px;
+}
+
+.authcenter-head {
+    position: relative;
+    width: 100%;
+    height: 28px;
+    line-height: 28px;
+    background: #1E1B29;
+    color: #fff;
+}
+
+@media only screen and (max-width: 768px) and (min-width: 319px)
+    .authcenter-head .container, .authcenter-body, .authcenter-foot-container {
+        width: 90%;
+    }
+
+    .fn-clear {
+        zoom: 1;
+    }
+
+    .authcenter-head a.on {
+        color: #FA6017;
+    }
+
+    .authcenter-head .container {
+        width: 90%;
+        height: 27px;
+        margin: 0 auto;
+    }
+
+    .authcenter-head .container-left {
+        float: left;
+    }
+
+    .authcenter-head .container-left-first {
+        padding-left: 0;
+    }
+
+    .authcenter-head a {
+        color: #AAABAF;
+        text-decoration: none;
+    }
+
+    .authcenter-head a:hover {
+        color: #AAABAF;
+    }
+
+    .authcenter-head .container-right {
+        float: right;
+    }
+
+    .container-right .container-right-item a {
+        color: #AAABAF;
+        text-decoration: none;
+    }
+
+    .authcenter-head .container-seperator {
+        float: left;
+        height: 12px;
+        width: 1px;
+        line-height: 14px;
+        margin: 7px 4px 8px;
+        background: #61676d;
+        overflow: hidden;
+    }
+
+    .fn-clear:after {
+        visibility: hidden;
+        display: block;
+        font-size: 0;
+        content: " ";
+        clear: both;
+        height: 0;
+    }
+
+    /**/
+    .authcenter-body-login {
+        float: right;
+        margin: 27px 95px;
+        width: 286px;
+        height: auto;
+        position: relative;
+    }
+
+    .authcenter-body {
+        position: relative;
+        width: 90%;
+        height: auto;
+        min-height: 450px;
+        margin: 0 auto;
+        padding: 4% 0;
+        background-position: 0 70px;
+        background-repeat: no-repeat;
+    }
+
+    .umidWrapper {
+        display: block;
+        height: 1px;
+    }
+
+    a:link {
+        color: #08c;
+    }
+
+    .authcenter-body-logo a {
+        float: left;
+        width: 110px;
+        height: 43px;
+        color: #fff;
+        font-size: 38px;
+        line-height: 43px;
+        cursor: pointer;
+        text-decoration: none;
+        position: relative;
+    }
+
+    .authcenter-body-login {
+        float: none;
+        margin-top: 6%;
+        margin-left: 62%;
+    }
+
+    .ui-nav {
+        background: rgba(0, 0, 0, .5);
+        width: 286px;
+        _background: 0 0;
+        filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#66000000', EndColorStr='#66000000');
+    }
+
+    .ui-nav li {
+        width: 286px;
+        color: #fff;
+        text-align: center;
+        border-bottom: 2px #fff solid;
+        font-size: 16px;
+        padding: 15px 0 4px;
+        cursor: pointer;
+    }
+
+    .ui-nav li.active {
+        color: #FA6017;
+        border-bottom-color: #fff;
+    }
+
+    .login {
+        width: 220px;
+        padding: 0 31px 0 33px;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid #a7a7a7;
+    }
+
+    .login-modern {
+        border: 1px solid transparent;
+        background: rgba(0, 0, 0, .5);
+        _background: 0 0;
+        _border: 0;
+        filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#66000000', EndColorStr='#66000000');
+    }
+
+    :root .login-modern {
+        filter: progid:DXImageTransform.Microsoft.Gradient(GradientType=0, StartColorStr='#00000000', EndColorStr='#00000000') \9;
+    }
+
+    .login-modern form {
+        padding-top: 20px;
+    }
+
+    .ui-form, .ui-form * {
+        list-style: none;
+    }
+
+    .ui-form {
+        font-size: 12px;
+        line-height: 1.5;
+        position: relative;
+        zoom: 1;
+    }
+
+    .ui-form fieldset {
+        border: 0;
+        zoom: 1;
+    }
+
+    .ui-form-item {
+        padding: 0 0 10px;
+        zoom: 1;
+        position: relative;
+    }
+
+    .ui-label {
+        width: 39px;
+        height: 38px;
+        display: block;
+        float: left;
+        cursor: pointer;
+    }
+
+    .login .ui-label {
+        border-top: 1px solid #a7a7a7;
+        border-bottom: 1px solid #a7a7a7;
+        border-left: 1px solid #a7a7a7;
+    }
+
+    .ui-icon-userDEF {
+        background-position: -2px 5px;
+    }
+
+    .ui-label .ui-icon {
+        width: 39px;
+        height: 38px;
+        display: block;
+        overflow: hidden;
+        background-color: #aaabab;
+        background-repeat: no-repeat;
+        text-align: center;
+        line-height: 38px;
+    }
+
+    .iconauth-men {
+        font-family: iconauth !important;
+        font-size: 24px;
+        font-style: normal;
+        color: rgba(255, 255, 255, 0);
+        background: url(../images/account.png) no-repeat center;
+        background-size: 124%;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: .2px;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .iconauth-lock {
+        font-family: iconauth !important;
+        font-size: 24px;
+        font-style: normal;
+        color: rgba(255, 255, 255, 0);
+        background: url(../images/lock.png) no-repeat center;
+        background-size: 124%;
+        -webkit-font-smoothing: antialiased;
+        -webkit-text-stroke-width: .2px;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+
+    .login-modern .ui-input {
+        border: 1px solid #fff;
+    }
+
+    .login .ui-input {
+        border: 1px solid #a7a7a7;
+    }
+
+    .ui-form-item input {
+        vertical-align: middle;
+    }
+
+    .ui-input-normal, .standardPwdContainer .ui-input, .alieditContainer .ui-input {
+        width: 159px;
+        _width: 157px;
+    }
+
+    .ui-input {
+        float: left;
+        position: relative;
+        padding: 9px;
+        line-height: 20px;
+        height: 20px;
+        color: #595959;
+        font-size: 12px;
+        vertical-align: middle;
+        -webkit-border-radius: 0;
+        -moz-border-radius: 0;
+        border-radius: 0;
+        box-shadow: none;
+    }
+
+    .ui-form-item:after {
+        clear: both;
+        content: '.';
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .ui-form-item {
+        padding: 0 0 10px;
+        zoom: 1;
+        position: relative;
+    }
+
+    .ui-form-item-20pd {
+        padding-bottom: 18px;
+    }
+
+    .alieditContainer {
+        display: inline-block;
+        zoom: 1;
+        width: 184px;
+        height: 24px;
+        vertical-align: bottom;
+        position: relative;
+    }
+
+    .ui-form-item .alieditContainer {
+        width: 179px;
+        _width: 177px;
+        height: 40px;
+        display: inline-block;
+        background: #fff;
+        border: 0;
+        _float: left;
+    }
+
+    .alieditContainer input.ui-input {
+        _width: 157px !important;
+    }
+
+    .ui-form-explain {
+        display: none;
+        height: 0;
+        overflow: hidden;
+    }
+
+    body .fn-hide {
+        display: none;
+    }
+
+    .ui-input-checkcode {
+        width: 69px;
+    }
+
+    .ui-form-other-fg {
+        padding-top: 4px;
+    }
+
+    .ui-form-other .forgot {
+        position: absolute;
+        right: 0;
+        top: 5px;
+    }
+
+    .ui-form-item-30pd {
+        padding-bottom: 28px;
+    }
+
+    .ui-button {
+        display: block;
+        text-align: center;
+        text-decoration: none;
+        vertical-align: middle;
+        cursor: pointer;
+        width: 219px;
+        padding: 0 20px;
+        font-size: 18px;
+        line-height: 36px;
+        height: 40px;
+        color: #fff;
+        font-weight: 400;
+        font-weight: bold \0;
+        _font-weight: bold;
+        border: 0;
+        outline: 0;
+        background: #FA6017;
+        -webkit-appearance: none;
+        -webkit-border-radius: 4px;
+        -moz-border-radius: 4px;
+        border-radius: 4px;
+    }
+
+    .ui-form-other {
+        position: relative;
+        line-height: 18px;
+        padding-top: 7px;
+        height: 18px;
+        zoom: 1;
+        _width: 100%;
+        _overflow: hidden;
+    }
+
+    .ui-form-item:after {
+        clear: both;
+        content: '.';
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+
+    .login .textlink, .login .textlink:hover {
+        color: #FA6017;
+        zoom: 1;
+    }
+
+    .login-modern .textlink, .login-modern .textlink:hover {
+        color: #fff;
+        zoom: 1;
+    }
+
+    .ui-form-other .register {
+        position: absolute;
+        right: 0;
+        top: 7px;
+        font-size: 12px;
+        color: #FFF;
+    }
+
+    .authcenter-foot {
+        position: absolute;
+        left: 0;
+        bottom: 2%;
+        width: 100%;
+        height: 80px;
+        color: #fff;
+    }
+
+    .authcenter-foot-container {
+        width: 990px;
+        margin: 0 auto;
+    }
+
+    .authcenter-foot-link {
+        text-align: center;
+        line-height: 24px;
+        padding: 0.5% 0;
+    }
+
+    .authcenter-foot a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .authcenter-background {
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: 0;
+        left: 0;
+        overflow: hidden;
+        z-index: -1;
+        width: 100%;
+        height: 100%
+    }
+
+    .copyright {
+        text-align: center;
+        line-height: 24px;
+        color: #fff;
+    }

@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<ul class="nav" id="side-menu" th:fragment="aside">
+            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                               <span class="block m-t-xs"><strong class="font-bold"><span
+                                       sec:authentication="name"></span></strong></span>
+
+                                <span sec:authorize="hasRole('ROLE_ADMIN')" class="text-muted text-xs block">管理員<b
+                                        class="caret"></b> </span>
+                        <span sec:authorize="hasRole('ROLE_USER')" class="text-muted text-xs block">普通使用者<b
+                                class="caret"></b> </span>
+
+                                </span>
+            </a>
+</ul>
+
+<div class="footer" th:fragment="footer">
+</div>
+
+</body>
+</html>
