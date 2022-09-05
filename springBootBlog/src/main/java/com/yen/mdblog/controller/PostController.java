@@ -3,6 +3,7 @@ package com.yen.mdblog.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
 
@@ -22,6 +23,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,39 +51,73 @@ public class PostController {
 	@Autowired
 	AuthorService authorService;
 
+	@Autowired
+	PostMapper postMapper;
+
 	@GetMapping("/all")
 	public String getPaginatedPosts(
-			@RequestParam(value = "page", defaultValue = "0") int page,
-			@RequestParam(value="size", defaultValue = "" + PAGINATIONSIZE) int size,
+			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+			@RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
 			Model model) {
 
 		/**
 		 *  Use pageHelper
 		 *  	- https://www.796t.com/article.php?id=200769
 		 */
-		PageHelper.startPage(page, size);
-
-		Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "DateTime"));
+//		PageHelper.startPage(page, size);
+//
+		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
 
-		long postCount = postRepository.count();
-		int numOfPages = (int) Math.ceil((postCount * 1.0) / PAGINATIONSIZE);
+		log.info(">>> posts length = {}", posts.toArray().length);
+//
+//		long postCount = postRepository.count();
+//		int numOfPages = (int) Math.ceil((postCount * 1.0) / PAGINATIONSIZE);
+//
+//		PageInfo<Post> pageInfo = new PageInfo<Post>(posts,size);
+//
+//		log.info(">>> postCount = " + postCount);
+//		log.info(">>> numOfPages = " + numOfPages);
+//		//log.info(">>> pageInfo = " + pageInfo); // TODO : check why this one causes OOM
 
-		PageInfo<Post> pageInfo = new PageInfo<Post>(posts,size);
+//		model.addAttribute("posts", posts);
+//		model.addAttribute("postCount", postCount);
+//		model.addAttribute("pageRequested", page);
+//		model.addAttribute("paginationSize", PAGINATIONSIZE);
+//		model.addAttribute("numOfPages", numOfPages);
 
-		log.info(">>> postCount = " + postCount);
-		log.info(">>> numOfPages = " + numOfPages);
-		//log.info(">>> pageInfo = " + pageInfo); // TODO : check why this one causes OOM
+		PageInfo<Post> pageInfo = null;
 
-		model.addAttribute("posts", posts);
-		model.addAttribute("postCount", postCount);
-		model.addAttribute("pageRequested", page);
-		model.addAttribute("paginationSize", PAGINATIONSIZE);
-		model.addAttribute("numOfPages", numOfPages);
+		//為了程式的嚴謹性，判斷非空：
+		if(pageNum <= 0){
+			pageNum = 0;
+		}
+		System.out.println("當前頁是："+pageNum+"顯示條數是："+pageSize);
+
+		//1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
+		PageHelper.startPage(pageNum, pageSize);
+		//2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
+		try {
+			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
+			List<Post> postList = postMapper.getAllPosts();//service查詢所有的資料的介面
+			//System.out.println("分頁資料：" + posts);
+			//3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list型別是Page<E>
+			pageInfo = new PageInfo<Post>(postList, pageSize);
+			//4.使用model/map/modelandview等帶回前端
+			model.addAttribute("pageInfo",pageInfo);
+		}finally {
+			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
+		}
+
 		model.addAttribute("pageInfo", pageInfo);
+		model.addAttribute("posts", posts);
 
-		log.info(">>> model = {}", model);
+		System.out.println(">>>>");
+		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
+		System.out.println(">>>>");
+
+		//log.info(">>> model = {}", model);
 
 		return "posts";
 	}
