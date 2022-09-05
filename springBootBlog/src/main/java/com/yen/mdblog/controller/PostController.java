@@ -37,7 +37,7 @@ public class PostController {
 	PostRepository postRepository;
 
 	// TODO : implement paging with it
-	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
+	private final int PAGINATIONSIZE = 6; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
 	public PostController(PostRepository postRepository) {
@@ -57,7 +57,7 @@ public class PostController {
 	@GetMapping("/all")
 	public String getPaginatedPosts(
 			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-			@RequestParam(value="pageSize", defaultValue = "" + PAGINATIONSIZE) int pageSize,
+			@RequestParam(value="pageSize", defaultValue = "1") int pageSize,
 			Model model) {
 
 		/**
@@ -69,6 +69,8 @@ public class PostController {
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
+
+		log.info(">>> posts length = {}", posts.toArray().length);
 //
 //		long postCount = postRepository.count();
 //		int numOfPages = (int) Math.ceil((postCount * 1.0) / PAGINATIONSIZE);

@@ -25,8 +25,8 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd                          | Comment                        |
 | ----- | -------- | ---- |--------------------------------------|--------------------------------|
 | `GET /` | GET | homepage | http://localhost:8888/posts/all      | home page                      |
-| `GET /` | GET | homepage | http://localhost:8888/posts/all?page=1 | home page (with page)          |
-| `GET /` | GET | homepage | http://localhost:8888/posts/all?page=0&size=100 | home page (with page, size)    |
+| `GET /` | GET | homepage | http://localhost:8888/posts/all?pageNum=1 | home page (with page)          |
+| `GET /` | GET | homepage | http://localhost:8888/posts/all?pageNum=0&pageSize=100 | home page (with page, size)    |
 | `GET /` | GET | homepage | http://localhost:8888/login          | login (accout:admin, pwd: 123) |
 | `POST /` | POST | new post | http://localhost:8888/posts/create   | create new post                |
 
