@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      xmlns:margin="http://www.w3.org/1999/xhtml">
+      xmlns:margin="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Course type management (Title)</title>
@@ -22,13 +22,33 @@
             <td th:text="${courseType.typeId}" nowrap></td>
             <td id="typeName" th:text="${courseType.typeName}" nowrap></td>
             <td nowrap>
-        <button class="update" th:href="@{/courseType/preUpdate}/{typeId} (typeId=@{courseType.typeId})"/>Modify</button>
-        <!-- START FROM HERE -->
-        <!-- START FROM HERE -->
-        <!-- START FROM HERE -->
+        <button class="update" th:href="@{/courseType/preUpdate}/{typeId} (typeId=${courseType.typeId})}"/>Modify</button>
+        <button class="delete" th:href="@{/courseType/remove}/{typeId} (typeId=${courseType.typeId})}"/>remove</button>
             </td>
         </tr>
     </table>
+
+    <div id="pageInfo">
+        Total [[${page.total}]] records,
+        <span th:if="${ (page.pageNum-1) * page.pageSize + 1 == page.total }}">
+            Currently show [[${[page.total}}]] th record,
+        </span>
+        <span th:if="${ (page.pageNum-1) * page.pageSize + 1 != page.total }}">
+            Currently show [[${[page.startRow}}]] -[[${[page.endRow}}]] records,
+        </span>
+
+        At [[${[page.pageNum}}]] / [[${[page.pages}}]] page
+    </div>
+
+    <a th:href="#" th:if="${page.pageNum>1}"><span class="linkspan" id="one">Home page</span>&nbsp;</a>
+    <a th:href="#" th:if="${page.pageNum>1}"><span class="linkspan" id="two">Last page</span>&nbsp;</a>
+    <a th:href="#" th:if="${page.pageNum<page.pages>}"><span class="linkspan" id="three">Next page</span>&nbsp;</a>
+    <a th:href="#" th:if="${page.pageNum!=page.pages}}"><span class="linkspan" id="four">Final page</span>&nbsp;</a>
+
+    to <input type="text" id="pageNo" size="4" style="text-align:right;" onkeypress="onlynumber();"/> page
+    <button class="linkspan" id="five" style="color:black;text-decoration:none;">jump to</button>
+    </div>
+
 </body>
 
 </html>
