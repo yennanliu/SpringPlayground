@@ -10,4 +10,11 @@
         SELECT * FROM emp WHERE eid = #{eid}
     </select>
 
+    <!-- void insertEmp(Emp emp); -->
+    <insert id="insertEmp">
+        INSERT INTO emp(emp_name, age, sex, email, did)
+        values
+        (#{empName}, #{age}, #{sex}, #{email}, #{did})
+    </insert>
+
 </mapper>
