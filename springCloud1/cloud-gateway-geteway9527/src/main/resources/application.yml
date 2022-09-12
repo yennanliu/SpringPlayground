@@ -1,4 +1,5 @@
 # https://www.youtube.com/watch?v=8Fe85klW2TM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=70
+# https://www.youtube.com/watch?v=4mON59ylWh8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=72
 server:
   port: 9527
 
@@ -7,14 +8,19 @@ spring:
     name: cloud-gateway
   cloud:   # gateway Predicate setting : https://youtu.be/8Fe85klW2TM?t=340
     gateway:
+      discovery:
+        locator:
+          enabled: true # routing via register center (eureka)
       routes:
         - id: payment_routh # payment_route # route id, NEED to be unique, aligned with service name
-          uri : http://localhost:8001 # offer uri after gateway
+          #uri : http://localhost:8001 # offer uri after gateway
+          uri: lb://cloud-payment-service # offered service address after mapping
           predicates:
             - Path=/payment/get/**  # predicates, will do gateway if this pattern is matched
 
         - id: payment_routh2
-          uri : http://localhost:8001
+          #uri : http://localhost:8001
+          uri: lb://cloud-payment-service # offered service address after mapping
           predicates:
             - Path=/payment/lb/**
 

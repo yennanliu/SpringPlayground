@@ -91,6 +91,8 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | cloud-gateway-geteway9527 |  | | |
 | get payment (via `gateway`)| GET | http://localhost:9527/payment/get/2 |gateway http://localhost:8001/payment/get/** to 9527 port|
 | get lb (server port)| GET | http://localhost:9527/lb ||
+| cloud-gateway-geteway9527 V2 (routing via register center) |  | | |
+| get payment (via `gateway`)| GET | http://localhost:9527/payment/lb |gateway http://localhost:8001/payment/get/** to 9527 port|
 
 
 | API | Type | Example cmd | Purpose | Comment|
