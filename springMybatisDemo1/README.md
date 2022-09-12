@@ -76,7 +76,14 @@ java -jar <built_jar>
         - solution 2) : collection (steps SQL, 分步查詢)
     - Ref
         - [TestEmpMapper](https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/src/test/java/com/yen/springMybatisDemo1/mapper/TestEmpMapper.java)
-
+- Mybatis cache
+    - ONLY operates on `Select` op
+    - level 1 (local cache)（第一級快取)
+        - default enabled
+        - sql level (`SqlSession`)
+    - level 2 (second level cache)（第二級快取
+    - https://matthung0807.blogspot.com/2019/02/mybatislocal-cache.html
+ 
 ## Ref
 
 - Course

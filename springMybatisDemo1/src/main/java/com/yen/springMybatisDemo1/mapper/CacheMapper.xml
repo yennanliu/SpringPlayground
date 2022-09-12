@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springMybatisDemo1.mapper.CacheMapper">
+
+    <!-- Emp getEmpByEid(@Param("eid") Integer eid); -->
+    <select id="getEmpByEid" resultType="com.yen.springMybatisDemo1.bean.Emp">
+        SELECT * FROM emp WHERE eid = #{eid}
+    </select>
+
+</mapper>
