@@ -63,12 +63,35 @@
                 });
 
             // paging op
-            <!--  START FROM HERE !!! -->
-            <!--  START FROM HERE !!! -->
-            <!--  START FROM HERE !!! -->
-            
-            }
-        )
+            $(".linkspan").click(function(){
+                    var pageNo = [[ ${page.pageNum} ]];
+                    var totalPageNum =  [[ ${page.pages} ]];
+                    var re = /^[0-9]+.?[0-9]*$/;
+                    if (String($(this).attr("id")) == String("one"))
+                        pageNo = 1;
+                    if (String($(this).attr("id")) == String("two"))
+                        pageNo = pageNo - 1;
+                    if (String($(this).attr("id")) == String("three"))
+                        pageNo = pageNo + 1;
+                     if (String($(this).attr("id")) == String("four"))
+                        pageNo = totalPageNum;
+                    if (String($(this).attr("id")) == String("five")){
+                           var num = $.trim($("#pageNo").val());
+                           if (!re.test(num)){
+                                alert("input is NOT number");
+                                return;
+                           }
+                           pageNo = parseInt(num);
+                           if (pageNo < 1 || pageNo > totalPageNum){
+                                 alert("page out of range");
+                                 return;
+                            }
+                       }
+                    var href = "?pageNo= " + pageNo;
+                    $(location).attr("href", href);
+                    return false;
+                });
+            });
     </script>
 </body>
 
