@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <title>Add New Course</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 </head>
 <body style="padding:8px;">
     <h3 class="title">add new course</h3>
@@ -43,8 +42,40 @@
         </div>
         <div>
             <span>Course Status : </span>
+                <input type="radio" name="courseStatus" th:value="O" checked>Open to public &nbsp;&nbsp;
+                <input type="radio" name="courseStatus" th:value="Z" checked>Not open &nbsp;&nbsp;
+                <input type="radio" name="courseStatus" th:value="C" checked>Terminate &nbsp;&nbsp;
+        </div>
+        <div>
+            <span>Take Course Rules : </span>
+            <input type="checkbox" name="courseReqs" value="a" /> Over 3rd grade
+            <input type="checkbox" name="courseReqs" value="b" /> Average grade >= 80
+            <input type="checkbox" name="courseReqs" value="c" /> External department student
+            <input type="checkbox" name="courseReqs" value="d" /> Finish tuition payment
+        </div>
+        <div>
+            <span>Extra Memo : </span>
+            <textarea name="courseMemo" rows="6" cols="60"></textarea>
+        </div>
+        <div>
+            <input type="submit" value="Open course" />
         </div>
     </form>
-
 </body>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+    $(function(){
+            $("#coursetextbookpic").change(function (e) {
+            for (var i = 0; i < e.target.files.length; i ++){
+                        var file = e.target.files.item(i);
+                        var freader = new FileReader();
+                        freader.readAsDataURL(file);
+                        freader.onload = function(e){
+                            var src = e.target.result;
+                            $("#textbookpic").attr("src", src);
+                        }
+                    }
+                });
+            });
+</script>
 </html>
