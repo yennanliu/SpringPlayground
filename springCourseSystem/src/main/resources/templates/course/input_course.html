@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Course</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body style="padding:8px;">
+    <h3 class="title">add new course</h3>
+    <img id="textbookpic"
+          alt = "default book home page"
+          width="300"
+          height="200"
+          style="float:right" th:src="@{/pics/SpringBoot.png}" /><br/>
+    <form th:action="@{/course/create}" method="post" enctype="multipart/form-data" th:object="${course}">
+        <div>
+            <span>Course No : </span>
+            <input type="text" name="courseNo">
+        </div>
+        <div>
+            <span>Course Name : </span>
+            <input type="text" name="courseName">
+        </div>
+        <div>
+            <span>Book Homepage : </span>
+            <input type="file" id="coursetextbookpic" name="coursetextbookpic" size="40" />
+        </div>
+        <div>
+            <span>Course Hours : </span>
+            <input type="text" name="courseHours">
+        </div>
+        <div>
+            <span>Course Points : </span>
+            <input type="text" name="coursePoint">
+        </div>
+        <div>
+            <span>Course Type : </span>
+            <select input name="courseType.typeId">
+                <option>plz select</option>
+                <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
+            </select>
+        </div>
+        <div>
+            <span>Course Status : </span>
+        </div>
+    </form>
+
+</body>
+</html>
