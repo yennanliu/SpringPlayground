@@ -30,7 +30,6 @@ public class LoginController {
 
     @GetMapping(value = {"/login"})
     public String loginInit(Model model){
-
         // return LoginRequest instance as placeholder, so login html can use it and pass var to login post method (as below)
         model.addAttribute("LoginRequest", new LoginRequest());
 

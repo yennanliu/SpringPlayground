@@ -12,7 +12,6 @@ import com.yen.mdblog.entity.request.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +31,7 @@ import java.util.Optional;
 @RequestMapping("/posts")
 @Log4j2
 public class PostController {
+
 	//private final PostRepository postRepository;
 
 	@Autowired

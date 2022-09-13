@@ -37,4 +37,5 @@ public class MdFileReader {
 		String fileNameBeforeExtension = filename.split(".md")[0];
 		return Long.parseLong(fileNameBeforeExtension.split("_")[0]);
 	}
+
 }

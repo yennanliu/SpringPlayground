@@ -15,7 +15,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post getById(Long id) {
-
         return postMapper.getById(id);
     }
 
@@ -26,7 +25,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void savePost(Post post) {
-
         postMapper.insertPost(post);
     }
 
