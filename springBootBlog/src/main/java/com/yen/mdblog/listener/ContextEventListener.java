@@ -50,7 +50,23 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 				Author author = AuthorUtil.bootstrapAuthor(authorRepository);
 
 				Optional<Post> postOpt = postRepository.findById(id);
-				if (postOpt.isEmpty()) {
+//				if (postOpt.isEmpty()) {
+//					System.out.println("Post with ID: " + id + " does not exist. Creating post...");
+//					post.setTitle(title);
+//					post.setAuthor(author);
+//					post.setContent(htmlContent);
+//					post.setSynopsis(getSynopsisFromHtmlContent(htmlContent));
+//					post.setDateTime(LocalDateTime.now());
+//
+//					postRepository.save(post);
+//					System.out.println("Post with ID: " + id + " created.");
+//				} else {
+//					System.out.println("Post with ID: " + id + " exists.");
+//				}
+//			} else {
+//				System.out.println("postFileName is null, should not be null");
+
+				try{
 					System.out.println("Post with ID: " + id + " does not exist. Creating post...");
 					post.setTitle(title);
 					post.setAuthor(author);
@@ -59,12 +75,9 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 					post.setDateTime(LocalDateTime.now());
 
 					postRepository.save(post);
-					System.out.println("Post with ID: " + id + " created.");
-				} else {
-					System.out.println("Post with ID: " + id + " exists.");
+				}catch (Exception e){
+					System.out.println(">>> create post failed : " + e);
 				}
-			} else {
-				System.out.println("postFileName is null, should not be null");
 			}
 		});
 	}

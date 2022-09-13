@@ -37,19 +37,23 @@
 		</div>
 
 		<ul class="pagination pull-right no-margin">
-			<li th:if="${pageInfo.hasPreviousPage}">
-				<a th:href="'/posts/all?page=0'">First</a>
-			</li>
+
+<!--			<li th:if="${pageInfo.hasPreviousPage}">-->
+<!--				<a th:href="'/posts/all?page=0'">First</a>-->
+<!--			</li>-->
+
+			<a th:href="'/posts/all?page=0'">First</a>
 
 			<li class="prev" th:if="${pageInfo.hasPreviousPage}">
 				<a th:href="'/posts/all?pageNum='+${pageInfo.prePage}">
 					<i class="ace-icon fa fa-angle-double-left"></i>
 				</a>
 			</li>
+
 			<!--遍歷條數-->
 			<li th:each="nav:${pageInfo.navigatepageNums}">
 				<a th:href="'/posts/all?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
-				<span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text=" ${nav} "></span>
+				<span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} " th:text=" ${nav} "></span>
 			</li>
 
 			<li class="next" th:if="${pageInfo.hasNextPage}">

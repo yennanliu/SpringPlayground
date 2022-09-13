@@ -35,7 +35,10 @@ public class MdFileReader {
 
 	public static long getIdFromFileName(String filename) {
 		String fileNameBeforeExtension = filename.split(".md")[0];
-		return Long.parseLong(fileNameBeforeExtension.split("_")[0]);
+		Long id = Long.parseLong(fileNameBeforeExtension.split("_")[0]);
+		System.out.println(">>> fileNameBeforeExtension = " + fileNameBeforeExtension);
+		System.out.println(">>> id = " + id);
+		return id;
 	}
 
 }
