@@ -156,6 +156,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway2.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway3.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway5.png">
 
 ## Ref
 - Course

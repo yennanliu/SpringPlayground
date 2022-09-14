@@ -82,10 +82,11 @@ java -jar <built_jar>
     - Level 1 (local cache)（第一級快取)
         - default enabled
         - `SqlSession` level
-    - Level 2 (second level cache)（第二級快取
+    - Level 2 (second level cache)（第二級快取)
         - `SqlSessionFactory` level
     - https://matthung0807.blogspot.com/2019/02/mybatislocal-cache.html
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1//doc/pic/cache1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache2.png">
 
 ## Ref
 
