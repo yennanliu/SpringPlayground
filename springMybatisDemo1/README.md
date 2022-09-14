@@ -84,9 +84,14 @@ java -jar <built_jar>
         - `SqlSession` level
     - Level 2 (second level cache)（第二級快取)
         - `SqlSessionFactory` level
+          - to multiple SqlSession
+    - So if there are BOTH level 1, and level 2 cache
+      - WILL use level 2 cache -> level 1 cache -> query DB directly
+      - when SqlSession is closed, level 1 cache is then updated to level 2 cache
     - https://matthung0807.blogspot.com/2019/02/mybatislocal-cache.html
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache1.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache3.png">
 
 ## Ref
 
