@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!-- book p.277 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Course Type Management</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+</head>
+<body style="padding:8px;">
+<h3 class="title">Course Management</h3>
+<form action="" method="POST">
+    <input type="hidden" name="_method" value="DELETE" />
+</form>
+<div id="queryArea">
+    <form th:action="@{/course/list}" method="post" th:object="${helper}">
+        Course name : <input type="text" name="queryCourseName" /> &nbsp;&nbsp;
+        Point scope : <input type="text" name="queryStartPoint" size="6"/> -  <input type="text" name="queryEndPoint" size="6"/> &nbsp;&nbsp;
+        Course type : <select name="queryCourseType">
+                        <option value="">plz select</option>
+                        <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
+                        <input type="submit" value="query">
+                      </select>
+    </form>
+</div>
+<table border="0" cellpadding="0">
+    <tr>
+        <th>No.</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Hour</th>
+        <th>Point</th>
+        <th>Type</th>
+        <th>Status</th>
+        <th>Requirement</th>
+        <th>Comment</th>
+        <th>Operation</th>
+    </tr>
+    <!-- START FROM HERE !!! -->
+    <!-- START FROM HERE !!! -->
+    <!-- START FROM HERE !!! -->
+</table>
+</body>
+</html>
