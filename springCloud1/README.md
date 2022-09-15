@@ -3,10 +3,12 @@
 <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/spring_cloud_intro.png">
 <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/register_service_cap.png">
 
+
 ## Steps
 ```
 Create module -> modify POM -> create YML -> main app -> biz class
 ```
+
 
 ## Run
 
@@ -41,6 +43,7 @@ mysql -u root
 ```
 
 </details>
+
 
 ## API
 
@@ -106,7 +109,6 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | test1 | GET | http://localhost:8001/test | |
 
 
-
 ## Important Concepts
 - RestTemplate
     - via `restTemplate` visit Rest endpoints
@@ -157,7 +159,10 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway3.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway4.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway5.png">
-
+- Spring bus (for message queue)
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus2.png">
+    
 ## Ref
 - Course
     - Video
