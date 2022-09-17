@@ -82,11 +82,22 @@
 			<version>1.2.17</version>
 		</dependency>
 
+		<!--
+		 	paging
+		 	https://www.youtube.com/watch?v=1njY-J-jcq0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=66
+		-->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>5.2.0</version>
+		</dependency>
+
     </dependencies>
 
 	<build>
 
 		<plugins>
+			<!-- paging plugin 1 -->
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>

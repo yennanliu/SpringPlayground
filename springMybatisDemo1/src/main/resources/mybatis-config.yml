@@ -1,33 +1,41 @@
-## https://github.com/izeye/sample-java/blob/master/sample-java/src/main/java/learningtest/org/apache/ibatis/mybatis-config.xml
-## https://www.youtube.com/watch?v=iycXXHu4-ZU&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=16
-## https://www.youtube.com/watch?v=ab9I-3wufT0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=19
-## NOT necessary when run with Spring boot project
+### https://github.com/izeye/sample-java/blob/master/sample-java/src/main/java/learningtest/org/apache/ibatis/mybatis-config.xml
+### https://www.youtube.com/watch?v=iycXXHu4-ZU&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=16
+### https://www.youtube.com/watch?v=ab9I-3wufT0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=19
 #
-#  <?xml version="1.0" encoding="utf-8"?>
-#  <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-#  "http://mybatis.org/dtd/mybatis-3-config.dtd">
-#  <configuration>
-#  <typeAliases>
-#  <typeAlias alias="Student" type="com.mybatis3.domain.Student" />
-#  </typeAliases>
-#  <environments default="development">
-#  <environment id="development">
-#  <transactionManager type="JDBC" />
-#  <dataSource type="POOLED">
-#  <property name="driver" value="com.mysql.jdbc.Driver" />
-#  <property name="url" value="jdbc:mysql://localhost:3306/test" />
-#  <property name="username" value="root" />
-#  <property name="password" value="admin" />
-#  </dataSource>
-#  </environment>
-#  </environments>
-#  <mappers>
-#  <mapper resource="com/mybatis3/mappers/StudentMapper.xml" />
-#  </mappers>
-#  </configuration>
-
-<configuration>
-<settings>
-<setting name="logImpl" value="LOG4J"/>
-</settings>
-</configuration>
+#### SETTING FOR paging plugin (mybatis-config.yml)
+### https://www.youtube.com/watch?v=1njY-J-jcq0&list=PLmOn9nNkQxJEWFBs6hVmDC5m8SbbIiDwY&index=66
+#
+### NOT necessary when run with Spring boot project
+#
+#<?xml version="1.0" encoding="utf-8"?>
+#<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+#<configuration>
+#<typeAliases>
+#<typeAlias alias="Student" type="com.mybatis3.domain.Student" />
+#</typeAliases>
+#<environments default="development">
+#<environment id="development">
+#<transactionManager type="JDBC" />
+#<dataSource type="POOLED">
+#<property name="driver" value="com.mysql.jdbc.Driver" />
+#<property name="url" value="jdbc:mysql://localhost:3306/test" />
+#<property name="username" value="root" />
+#<property name="password" value="admin" />
+#</dataSource>
+#
+#<plugins>
+#  <plugin inceptor="com.github.pagehelper.PageInterceptor></plugin>
+#<plugins>
+#</environment>
+#</environments>
+#<mappers>
+#<mapper resource="com/mybatis3/mappers/StudentMapper.xml" />
+#</mappers>
+#</configuration>
+#
+##
+##<configuration>
+##<settings>
+##<setting name="logImpl" value="LOG4J"/>
+##</settings>
+##</configuration>
