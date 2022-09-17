@@ -1,0 +1,25 @@
+# https://www.youtube.com/watch?v=JJCM5o-zvHw&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=81
+server:
+  port: 3366
+
+spring:
+  application:
+    name: config-client
+  cloud:
+  config:
+    label: master
+  name: config
+  profile: dev
+    uri : http:localhost:3344
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://eureka7001.com:7001/eureka
+
+# export monitor endpoint
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
