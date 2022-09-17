@@ -10,7 +10,7 @@ spring:
     label: master
   name: config
   profile: dev
-    uri : http:localhost:3344
+    uri : http://localhost:3344
 
 eureka:
   client:

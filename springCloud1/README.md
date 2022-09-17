@@ -162,7 +162,9 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 - Spring bus (for message queue)
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus1.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus2.png">
-    
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus4.png">
+
 ## Ref
 - Course
     - Video
