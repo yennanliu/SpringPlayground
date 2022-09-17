@@ -92,6 +92,9 @@ java -jar <built_jar>
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache1.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache2.png">
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/cache3.png">
+- Mybatis paging
+    - mybatis-config.yml
+        - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springMybatisDemo1/doc/pic/mybatis_config_ordering.png">
 
 ## Ref
 
