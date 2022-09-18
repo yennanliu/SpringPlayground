@@ -35,9 +35,18 @@
         <th>Comment</th>
         <th>Operation</th>
     </tr>
-    <!-- START FROM HERE !!! -->
-    <!-- START FROM HERE !!! -->
-    <!-- START FROM HERE !!! -->
+
+    <tr th:each="course, iterStat : ${page.list}" stat>
+        <td th:text="${iterStat.index + 1}" nowrap></td>
+        <td th:text="${course.courseNo}" nowrap></td>
+        <td nowrap style="padding-top:10px;"></td>
+            [[${course.courseNo}" nowrap]]<br>
+            <img width="100" height="50" th:alt="${course.courseName + ' material'}" th:src="@{/course/getPic/{courseNo} {courseNo=${course.courseNo}}}"/>
+        </td>
+        <!-- start from here -->
+        <!-- start from here -->
+        <!-- start from here -->
+    </tr>
 </table>
 </body>
 </html>
