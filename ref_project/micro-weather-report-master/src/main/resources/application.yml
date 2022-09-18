@@ -5,8 +5,8 @@ spring:
     name: weather-report
 #    redis auth
   redis:
-    password: ******
-    host: ********
+    password:
+    host: localhost
 #    热部署静态文件
   thymeleaf:
     cache: false
