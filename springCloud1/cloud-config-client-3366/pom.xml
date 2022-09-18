@@ -55,6 +55,15 @@
             <scope>test</scope>
         </dependency>
 
+        <!--
+            RabbitMQ dep
+            https://www.youtube.com/watch?v=52xeZIlPwj0&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=82
+        -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+
     </dependencies>
 
 </project>
