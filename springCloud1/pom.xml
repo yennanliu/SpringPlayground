@@ -22,6 +22,7 @@
         <module>cloud-consumer-feign-hystrix-order80</module>
         <module>cloud-gateway-geteway9527</module>
         <module>cloud-config-client-3366</module>
+        <module>cloud-stream-rabbitmq-provider8801</module>
     </modules>
 
 	<!--
