@@ -98,6 +98,7 @@
 	</dependencies>
 
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -112,6 +113,29 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<!--
+			for using mapper xml
+			https://www.uj5u.com/houduan/253468.html
+		-->
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<!-- 打包時排除JRebel插件生成的組態檔 -->
+				<excludes>
+					<exclude>**/rebel.xml</exclude>
+				</excludes>
+			</resource>
+
+			<!-- 打包所有resources下的檔案 -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+		</resources>
+
 	</build>
 
 </project>

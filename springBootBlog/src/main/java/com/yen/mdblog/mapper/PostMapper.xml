@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.mdblog.mapper.PostMapper">
+
+    <!-- public Post getById(long id); -->
+    <select id="getById" resultType="com.yen.mdblog.entity.Post" parameterType="int">
+        SELECT * FROM posts where id = #{id}
+    </select>
+
+    <!-- public List<Post> getAllPosts(); -->
+    <select id="getAllPosts" resultType="com.yen.mdblog.entity.Post">
+        SELECT * FROM posts
+    </select>
+
+    <!-- public int getPostCount(); -->
+    <select id="getPostCount" resultType="int">
+        SELECT COUNT(1) FROM posts
+    </select>
+
+</mapper>
