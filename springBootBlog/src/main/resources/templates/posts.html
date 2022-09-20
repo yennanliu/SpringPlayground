@@ -19,6 +19,7 @@
 			<div class="card-body">
 
 				<h5 class="card-title" th:utext="${post.title}">Post title</h5>
+				<!-- <p class="card-text" th:text="${post.author} + '...'">author</p> -->
 				<h6 class="card-subtitle mb-2"
 					th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
 				<p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
@@ -29,7 +30,7 @@
 
 	<!--
 		顯示分頁資訊
-		 https://www.796t.com/article.php?id=200769
+		https://www.796t.com/article.php?id=200769
 	-->
 	<div class="modal-footer no-margin-top">
 		<div class="col-md-6">

@@ -16,7 +16,6 @@ public class AuthorUtil {
 			roshanAuthor.setEmail("y999@gmail.com");
 			roshanAuthor.setUrl("yen.xx.yy");
 			authorRepository.save(roshanAuthor);
-
 			return roshanAuthor;
 		}
 	}
