@@ -26,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/posts")
@@ -149,10 +150,10 @@ public class PostController {
 
 		Post post = new Post();
 		Author author = new Author();
-		author.setId(request.getId());
+		Long newId = request.getId();
+		author.setId(newId);
 
 		int postCount = postService.getTotalPost();
-
 		BeanUtils.copyProperties(request, post);
 		post.setId(postCount+1);
 		post.setDateTime(LocalDateTime.now());
@@ -166,15 +167,12 @@ public class PostController {
 		post.setDateTime(LocalDateTime.now());
 
 		postService.savePost(post);
-//		List<Author> authors = authorService.getAllAuthors();
-//		authors.stream().map(x -> x.getId()).anyMatch( author.getId()::equals);
-//		Integer[] authorId = (Integer[]) authors.stream().map(x -> x.getId()).toArray();
-//		System.out.println(">>> authors = " + authors);
-//		System.out.println(">>> authorId = " + authorId);
-//		if ( ArrayUtils.contains( authorId, author.getId() )){
-//			authorService.saveAuthor(author);
-//		}
-		authorService.saveAuthor(author);
+		List<Author> authors = authorService.getAllAuthors();
+		List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
+
+		if (!ids.contains(author.getId())){
+			authorService.saveAuthor(author);
+		}
 
 		return "success";
 	}

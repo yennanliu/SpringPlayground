@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.mdblog.mapper.AuthorMapper">
+
+    <!-- public Author getById(long id); -->
+    <select id="getById" resultType="com.yen.mdblog.entity.Author" parameterType="int">
+        SELECT * FROM authors where id = #{id}
+    </select>
+
+    <!-- public List<Author> getAllAuthors(); -->
+    <select id="getAllAuthors" resultType="com.yen.mdblog.entity.Author">
+        SELECT * FROM authors
+    </select>
+
+    <!-- public void insertAuthor(Author author); -->
+    <insert id="insertAuthor">
+        INSERT INTO authors(`id`,`email`,`name`,`url`)
+        values(#{id}, #{email},  #{name}, #{url})
+    </insert>
+
+</mapper>

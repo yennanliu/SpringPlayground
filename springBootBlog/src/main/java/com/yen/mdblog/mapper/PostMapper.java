@@ -5,13 +5,14 @@ import com.yen.mdblog.entity.Post;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface PostMapper {
 
-    public Post getById(long id);
+    public Post getById(@Param("id") long id);
 
     public List<Post> getAllPosts();
 
