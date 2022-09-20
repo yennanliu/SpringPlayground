@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class Post implements Serializable {
+
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	@Column

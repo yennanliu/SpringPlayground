@@ -66,8 +66,6 @@ public class PostController {
 		 *  Use pageHelper
 		 *  	- https://www.796t.com/article.php?id=200769
 		 */
-//		PageHelper.startPage(page, size);
-//
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
@@ -82,12 +80,6 @@ public class PostController {
 //		log.info(">>> postCount = " + postCount);
 //		log.info(">>> numOfPages = " + numOfPages);
 //		//log.info(">>> pageInfo = " + pageInfo); // TODO : check why this one causes OOM
-
-//		model.addAttribute("posts", posts);
-//		model.addAttribute("postCount", postCount);
-//		model.addAttribute("pageRequested", page);
-//		model.addAttribute("paginationSize", PAGINATIONSIZE);
-//		model.addAttribute("numOfPages", numOfPages);
 
 		PageInfo<Post> pageInfo = null;
 
@@ -150,8 +142,8 @@ public class PostController {
 
 		Post post = new Post();
 		Author author = new Author();
-		Long newId = request.getId();
-		author.setId(newId);
+		Long authorId = request.getId();
+		author.setId(authorId);
 
 		int postCount = postService.getTotalPost();
 		BeanUtils.copyProperties(request, post);
@@ -159,6 +151,7 @@ public class PostController {
 		post.setDateTime(LocalDateTime.now());
 		post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
 		post.setAuthor(author);
+		//post.setAuthorId(authorId);
 
 		log.info(">>> request = " + request);
 		log.info(">>> post = " + post);
