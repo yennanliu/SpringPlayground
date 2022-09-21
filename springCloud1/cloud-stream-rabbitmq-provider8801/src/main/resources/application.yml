@@ -1,0 +1,33 @@
+# https://www.youtube.com/watch?v=_x6eKocc0_8&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=86
+server:
+  port: 8001
+
+spring:
+  application:
+    name: cloud-stream-provider
+  cloud:
+    stream:
+      binders:  # rabbit MQ conf
+        defaultRabbit: # definition name, for binding integration
+          type: rabbit # message queue type
+          environment: # rabbit MQ env conf
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: guest
+                password:
+      bindings: # service integration setting
+        output: # tunnel (rabbit MQ) name
+          destination: studyExchange # Exchange name (rabbit MQ)
+          content-type: application/json # message type, if text, then set "text/plain"
+          binder: defaultRabbit # binding service setting
+
+eureka:
+  client:
+    service-url: http://localhost:7001/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-interval-in-seconds: 5
+    instance-id: send-8001.com
+    prefer-ip-address: true
