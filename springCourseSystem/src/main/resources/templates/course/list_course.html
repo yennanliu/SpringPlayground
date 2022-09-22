@@ -43,6 +43,12 @@
             [[${course.courseNo}" nowrap]]<br>
             <img width="100" height="50" th:alt="${course.courseName + ' material'}" th:src="@{/course/getPic/{courseNo} {courseNo=${course.courseNo}}}"/>
         </td>
+        <td th:text="${course.courseHours}" nowrap></td>
+        <td th:text="${course.coursePoints}" nowrap></td>
+        <td th:text="${course.courseTypes.typeName}" nowrap></td>
+        <td nowrap>
+            <span th:if="${course.courseStatus eq 'O'}">Announcement</span>
+        </td>
         <!-- start from here -->
         <!-- start from here -->
         <!-- start from here -->
