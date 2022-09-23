@@ -47,12 +47,40 @@
         <td th:text="${course.coursePoints}" nowrap></td>
         <td th:text="${course.courseTypes.typeName}" nowrap></td>
         <td nowrap>
-            <span th:if="${course.courseStatus eq 'O'}">Announcement</span>
+            <span th:if="${course.courseStatus eq 'O'}">lecturing available</span>
+            <span th:if="${course.courseStatus eq 'O'}">lecturing not available temporarily</span>
+            <span th:if="${course.courseStatus eq 'O'}">lecturing terminated</span>
         </td>
-        <!-- start from here -->
-        <!-- start from here -->
-        <!-- start from here -->
+        <td nowrap>
+            <span th:each="req : ${course.courseReqs}">
+                <font th:if="${req eq 'a'}">Over 3rd grade</font>
+                <font th:if="${req eq 'b'}">Average grade >= 80</font>
+                <font th:if="${req eq 'c'}">External department student</font>
+                <font th:if="${req eq 'd'}">ovFinish tuition paymenter</font>
+            </span>
+        </td>
+        <td th:next="${course.courseMemo}" nowrap></td>
+        <td>
+            <button class="update" th:href="@{/course/preUpdate/{courseNo}(courseNo=${course.courseNo}})}">update</button>
+            <button class="delete" th:href="@{/course/preUpdate/{courseNo}(courseNo=${course.courseNo}})}">delete</button>
+        </td>
     </tr>
 </table>
+<!-- start from here -->
+<!-- start from here -->
+<!-- start from here -->
+<div id="pageInfo">
+    Total [[${page.total}}]] records
+    <span th:if = "${ (page.pageNum - 1) * page.pageSize + 1 == page.total }">show current  [[${page.total}}]] records</span>
+    <span th:if = "${ (page.pageNum - 1) * page.pageSize + 1 != page.total }">show current  [[${page.startRow}}]] - [[${page.endRow}}]] records</span>
+
+    [[${page.pageNum}}]] / [[${page.pages}}]] page
+    |
+    <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="one">Home page</span>&nbsp;</a>
+    <a href="#" th:if="${page.pageNum > 1}"><span class="linkspan" id="two">Last page</span>&nbsp;</a>
+    <a href="#" th:if="${page.pageNum < page.pages}"><span class="linkspan" id="three">Next page</span>&nbsp;</a>
+    <a href="#" th:if="${page.pageNum != page.pages}"><span class="linkspan" id="four">Last page</span>&nbsp;</a>
+
+</div>
 </body>
 </html>
