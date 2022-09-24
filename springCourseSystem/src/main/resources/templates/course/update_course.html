@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!-- book p.280 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Update Course Type</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body style="padding:8px;">
+<h3 class="title">Add new course</h3>
+<img id="textbookpic" alt="default book cover pic" width="300" height="250" class="imgshow"
+     style="float:right" th:src="@{/course/getPic/{courseNo}/(courseNo=${course.courseNo})}">
+<br/>
+<form th:action="@{/course/update}" method="post" enctype="multipart/form-data" th:object="${course}">
+    <input type="hidden" name="courseNo" th:value="*{courseNo}" />
+    <div>
+        <span>Course No. : [[${courseNo}]] </span>
+    </div>
+    <div>
+        <span>Course Name : </span>
+        <input type="text" name="courseName" th:value="*{courseName}">
+    </div>
+    <div>
+        <span>Course cover : </span>
+        <input id="coursetextbookpic" type="file" name="coursetextbookpic" size="40">
+    </div>
+    <div>
+        <span>Course hour : </span>
+        <input type="text" name="courseHours" th:value="*{courseHours}">
+    </div>
+    <div>
+        <span>Course points : </span>
+        <input type="text" name="coursePoint" th:value="*{coursePoint}">
+    </div>
+    <div>
+        <span>Course type : </span>
+        <select name="courseType.typeId" th:value="*{courseType.typeId}">
+        <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}">
+        </option>
+        </select>
+    </div>
+    <div>
+        <span>Course status : </span>
+        <input type="radio" name="courseStatus" th:value="O" th:checked="${course.courseStatus eq 'O'}">Open to public &nbsp;&nbsp; &nbsp;&nbsp;
+        <input type="radio" name="courseStatus" th:value="Z" th:checked="${course.courseStatus eq 'Z'}">Not open &nbsp;&nbsp;
+        <input type="radio" name="courseStatus" th:value="C" th:checked="${course.courseStatus eq 'C'}">Terminate &nbsp;&nbsp;
+    </div>
+    <div>
+        <span>Take Course Rules : </span>
+        <input id="a" type="checkbox" name="courseReqs" value="a" /> Over 3rd grade
+        <input id="b" type="checkbox" name="courseReqs" value="b" /> Average grade >= 80
+        <input id="c" type="checkbox" name="courseReqs" value="c" /> External department student
+        <input id="d" type="checkbox" name="courseReqs" value="d" /> Finish tuition payment
+    </div>
+    <!-- start from here !!! -->
+    <!-- start from here !!! -->
+    <!-- start from here !!! -->
+</form>
+
+</body>
+</html>
