@@ -191,7 +191,11 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus6.png">
 
 - Spring cloud stream
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream1.png"> 
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream2.png"> 
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/rabbmq1.png"> 
 
 ## Ref
 - Course
