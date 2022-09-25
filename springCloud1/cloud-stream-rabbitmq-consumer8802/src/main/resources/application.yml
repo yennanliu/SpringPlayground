@@ -22,6 +22,7 @@ spring:
           destination: studyExchange # Exchange name (rabbit MQ)
           content-type: application/json # message type, if text, then set "text/plain"
           binder: defaultRabbit # binding service setting
+          group: yen_group_1 # consumer group, for avoiding "repeat consuming" problem, ref : https://youtu.be/bKpaP_Lixkg?t=164
 
 eureka:
   client:
