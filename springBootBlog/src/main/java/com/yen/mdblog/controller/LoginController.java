@@ -46,7 +46,7 @@ public class LoginController {
         user.setUserName(request.getUserName());
         user.setPassWord(request.getPassWord());
 
-        // check login account, pwd
+        // check login account, pwd // TODO : validate its from info from DB
         if (StringUtils.hasLength(user.getUserName()) && "123".equals(user.getPassWord())){
             //return "redirect:/login";
 
@@ -59,6 +59,7 @@ public class LoginController {
             List<Post> posts = postsPage.toList();
 
             model.addAttribute("posts", posts);
+            model.addAttribute("LoginRequest", request);
             return "login_success";
         }else{
             log.info(">>> login failed, plz try again ...");
@@ -67,8 +68,9 @@ public class LoginController {
     }
 
     @GetMapping("/login_success")
-    public String login_success(){
+    public String login_success(LoginRequest request){
 
+        log.info(">>> username = " + request.getUserName());
         return "login_success";
     }
 

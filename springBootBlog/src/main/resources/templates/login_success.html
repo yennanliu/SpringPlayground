@@ -15,8 +15,8 @@
 </head>
 <div th:insert="header"></div>
 <h1 align="center">Admin Page</h1>
-<h2 align="center">Welcome!</h2>
-<!-- <h2 align="center">Welcome! th:text="${userName}"</h2> -->
+<!--<h2 align="center">Welcome!</h2>-->
+<h3 >Welcome!</h3> + <h3 th:text="${LoginRequest.userName}"></h3>
 <body>
 <div class="container">
     <div th:each="post : ${posts}" class="card">
