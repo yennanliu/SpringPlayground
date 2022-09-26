@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: user-system
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/user_system
+    username: root
+    password:
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    separator: //
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+#    sever:
+#      port:
+#        8888

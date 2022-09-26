@@ -11,6 +11,20 @@
 
 ```bash
 #---------------------------
+# Install
+#---------------------------
+
+# Redis
+# V1 (homebrew)
+brew services start redis
+redis-cli
+
+# V2 (docker)
+docker run -p 6379:6379 -v $PWD/data:/data -d redis:2.3 -server -appendonly yes
+```
+
+```bash
+#---------------------------
 # Run app
 #---------------------------
 
