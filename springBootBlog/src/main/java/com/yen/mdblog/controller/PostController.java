@@ -71,15 +71,6 @@ public class PostController {
 		List<Post> posts = postsPage.toList();
 
 		log.info(">>> posts length = {}", posts.toArray().length);
-//
-//		long postCount = postRepository.count();
-//		int numOfPages = (int) Math.ceil((postCount * 1.0) / PAGINATIONSIZE);
-//
-//		PageInfo<Post> pageInfo = new PageInfo<Post>(posts,size);
-//
-//		log.info(">>> postCount = " + postCount);
-//		log.info(">>> numOfPages = " + numOfPages);
-//		//log.info(">>> pageInfo = " + pageInfo); // TODO : check why this one causes OOM
 
 		PageInfo<Post> pageInfo = null;
 

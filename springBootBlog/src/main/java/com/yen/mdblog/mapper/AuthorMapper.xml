@@ -15,6 +15,11 @@
         SELECT * FROM authors
     </select>
 
+    <!-- public Integer getAuthorCount(); -->
+    <select id="getAuthorCount" resultType="int">
+        SELECT COUNT(*) FROM authors
+    </select>
+
     <!-- public void insertAuthor(Author author); -->
     <insert id="insertAuthor">
         INSERT INTO authors(`id`,`email`,`name`,`url`)
