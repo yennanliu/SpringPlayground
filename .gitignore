@@ -122,3 +122,12 @@ ref_project/wechatSign-master/.idea
 ref_project/*/.idea
 */*/.idea
 ref_project/wechatSign-master/.idea
+
+springUserSystem/mvnw.cmd
+springUserSystem/mvnw
+springUserSystem/mvnw*
+
+*/mvnw*
+*/*/mvnw*
+*/mvnw.cmd
+*/mvnw
