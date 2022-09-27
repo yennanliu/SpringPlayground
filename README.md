@@ -32,6 +32,36 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 
 </details>
 
+
+## POJO、PO、DTO、VO、BO
+
+<details>
+<summary>POJO、PO、DTO、VO、BO</summary>
+
+- PO (persistent object)
+	- 因為ORM框架的誕生所以才有PO的概念，可以簡單地將它視為資料庫table對應的java物件，通常PO的名詞都會與使用hibernate相關
+
+- DTO (Data Transfer Object)
+	- 傳輸用的物件，假設今天我的程式像資料庫提取了PO資料物件，我必須將我的資料傳往其他系統或是服務時則可以用DTO進行再包裝，通常DTO的資訊都會比PO少，因為沒有必要將全部的資料傳輸出去。
+
+- VO (value object)
+	- 用於呈現時的資料包裝，並且將實體的資料(PO)抽象適合當前程式運作的物件，他可以很單純如同PO一樣對應資料庫的屬性，但他也可以包含多個PO組裝成一個較為複雜的資料物件。
+
+- DAO (data access object)
+	- 用於ORM(hibernate)將資料從資料庫提取的邏輯物件，其中邏輯主要包含如何提取資料庫的資料(SQL)並且將資料包裝成PO。
+
+- BO (business object)
+	- 用於業務層開發的物件，和PO和VO差別在於BO包含複雜的業務邏輯，而不再是單純的資料存取或儲存物件。
+
+Ref
+	- https://hackmd.io/@MonsterLee/HJyAdgRBB#:~:text=DTO%20(Data%20Transfer%20Object)&text=%E5%82%B3%E8%BC%B8%E7%94%A8%E7%9A%84%E7%89%A9%E4%BB%B6%EF%BC%8C%E5%81%87%E8%A8%AD,%E5%85%A8%E9%83%A8%E7%9A%84%E8%B3%87%E6%96%99%E5%82%B3%E8%BC%B8%E5%87%BA%E5%8E%BB%E3%80%82
+
+<p align="center"><img src ="./doc/pic/DXO.png"></p>
+
+
+</details>
+
+
 ## Ref
 
 <details>
