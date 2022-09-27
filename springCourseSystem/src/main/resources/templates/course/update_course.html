@@ -53,10 +53,51 @@
         <input id="c" type="checkbox" name="courseReqs" value="c" /> External department student
         <input id="d" type="checkbox" name="courseReqs" value="d" /> Finish tuition payment
     </div>
-    <!-- start from here !!! -->
-    <!-- start from here !!! -->
-    <!-- start from here !!! -->
+    <div>
+        <span>Memo : </span>
+        <textarea name="courseMemo" rows="6" cols="60">[[${course.courseMemo}}]]
+        </textarea>
+    </div>
+    <div>
+        <input type="submit" value="Modify course"/>
+    </div>
 </form>
-
 </body>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+    $(function(){
+        var courseReqs = [[${course.courseReqs}]]
+        for (var i = 0; i < courseReqs.length; i++){
+            $("#" +  courseReqs[i]).attr("check", true)
+        }
+
+        $('#coursetextbookpic'.on('change', function(){
+            var file = $(this)
+            var filObj = file[0]; // get current obj
+            var dataURL;
+            if (fileOBJ.files[0]){
+                dataURL = windowURL.createObjectURL(fileObj.files[0])
+                $('.imgshow').attr('src', dataURL);
+            }
+            else{
+                dataURL = file.val();
+                console.log(dataURL);
+                $('.imgshow').style.filter = 'progid:DXImageTransform.Microsoft.AlphaImageLoader(sizingMethod = scale)'
+
+                $('.imgshow').filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = dataURL;
+            }
+
+            $.ajaxFileUpload({
+                    url: "",
+                    fileElementId: "uploadImg",
+                    dataType : "string",
+                    success: function(data){
+                        // pic path
+                        $('.imgshow').attr("src", data);
+                    }
+                });
+            });
+        )};
+    });
+</script>
 </html>
