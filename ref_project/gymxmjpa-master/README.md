@@ -4,7 +4,19 @@
 >
 > 项目gitee源码地址：[https://gitee.com/liuchuanfengview/gymxmjpa](https://gitee.com/liuchuanfengview/gymxmjpa)
 >
-> 欢迎给个star鼓励一下~
+
+## Quick start
+
+- DDL :
+	- ref_project/gymxmjpa-master/sql/
+
+- Login
+	- account ：admin 
+	- pwd: admin123
+
+- Dependency
+	- JDK 1.8
+	
 
 ## 一.前言
 
