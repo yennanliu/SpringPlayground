@@ -8,7 +8,7 @@
 ## Quick start
 
 - DDL :
-	- ref_project/gymxmjpa-master/sql/
+	- ref_project/gymxmjpa-master/sql/gym.sql
 
 - Login
 	- account ：admin 
