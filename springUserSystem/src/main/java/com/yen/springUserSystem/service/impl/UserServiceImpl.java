@@ -27,18 +27,21 @@ public class UserServiceImpl implements UserService {
                 .sendTime(new Timestamp(new Date().getTime()))
                 .createTime(new Timestamp(new Date().getTime()))
                 .build();
-        // TODO : implement usersmsCodeDao
+        // TODO : implement it
         //usersmsCodeDao.insert(userSmsCode);
         return true;
     }
 
     @Override
     public LoginByMobileResVo loginByMobile(LoginByMobileReqVo loginByMobileReqVo) {
+
         return null;
     }
 
     @Override
     public boolean loginExit(LoginExitReqVo loginExitReqVo) {
+
+        // TODO : implement it
         return false;
     }
 
