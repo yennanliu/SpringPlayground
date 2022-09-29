@@ -1,8 +1,12 @@
 package com.yen.springUserSystem.controller;
 
-// Book p. 2-19
+// Book p.2-19, 2-20
 
+import com.yen.springUserSystem.bean.ApiResponse;
 import com.yen.springUserSystem.bean.Vo.GetSmsCodeReqVo;
+import com.yen.springUserSystem.bean.Vo.LoginByMobileReqVo;
+import com.yen.springUserSystem.bean.Vo.LoginByMobileResVo;
+import com.yen.springUserSystem.enums.GlobalCodeEnum;
 import com.yen.springUserSystem.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +37,26 @@ public class UserController {
         log.info("reqId = {}, mobileNo = {}", reqId, mobileNo);
         log.info("result = {}", result);
         return result;
+    }
+
+    @PostMapping(value = "loginByMobile")
+    public ApiResponse loginByMobile(@RequestParam("reqId") String reqId,
+                                     @RequestParam("mobileNo") String mobileNo,
+                                     @RequestParam("smsCode") String smsCode){
+
+        LoginByMobileReqVo loginByMobileReqVo = LoginByMobileReqVo
+                .builder()
+                .reqId(reqId)
+                .mobileNo(mobileNo)
+                .smsCode(smsCode)
+                .build();
+
+        LoginByMobileResVo loginByMobileResVo = userService.loginByMobile(loginByMobileReqVo);
+
+        return ApiResponse.success(
+                GlobalCodeEnum.GL_SUCC_0000.getCode().toString(),
+                GlobalCodeEnum.GL_SUCC_0000.getDesc(),
+                loginByMobileResVo);
     }
 
 }

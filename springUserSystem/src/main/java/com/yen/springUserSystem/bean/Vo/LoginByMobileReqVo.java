@@ -8,4 +8,8 @@ import lombok.ToString;
 @Builder
 @ToString
 public class LoginByMobileReqVo {
+
+    private String reqId;
+    private String mobileNo;
+    private String smsCode;
 }

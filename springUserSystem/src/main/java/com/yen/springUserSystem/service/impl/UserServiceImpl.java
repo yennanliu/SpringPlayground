@@ -4,13 +4,16 @@ package com.yen.springUserSystem.service.impl;
 
 import com.yen.springUserSystem.bean.UserSmsCode;
 import com.yen.springUserSystem.bean.Vo.GetSmsCodeReqVo;
+import com.yen.springUserSystem.bean.Vo.LoginByMobileReqVo;
 import com.yen.springUserSystem.bean.Vo.LoginByMobileResVo;
 import com.yen.springUserSystem.bean.Vo.LoginExitReqVo;
 import com.yen.springUserSystem.service.UserService;
+import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Date;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     @Override
@@ -30,7 +33,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginByMobileResVo loginByMobile(LoginByMobileResVo loginByMobileResVo) {
+    public LoginByMobileResVo loginByMobile(LoginByMobileReqVo loginByMobileReqVo) {
         return null;
     }
 

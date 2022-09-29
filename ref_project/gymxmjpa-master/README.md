@@ -16,6 +16,7 @@
 
 - Dependency
 	- JDK 1.8
+	- Mysql
 	
 
 ## 一.前言
