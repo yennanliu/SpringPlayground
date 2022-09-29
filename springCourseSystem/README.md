@@ -9,6 +9,8 @@
 <details>
 <summary>App</summary>
 
+- Run ddl first
+
 ```bash
 #---------------------------
 # Run app
@@ -27,7 +29,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
+| Login page | http://localhost:8888 | | |
+| Course | http://localhost:8888/course | | |
 
 
 

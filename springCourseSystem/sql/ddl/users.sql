@@ -1,6 +1,8 @@
 -- DDL for users (mysql)
 -- DB : course_type
 
+-- create database course_system;
+
 CREATE TABLE IF NOT EXISTS users(
 
     user_no int PRIMARY KEY AUTO_INCREMENT,

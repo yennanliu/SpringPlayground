@@ -1,6 +1,8 @@
 -- DDL for course_type (mysql)
 -- DB : course_type
 
+-- create database course_system;
+
 CREATE TABLE IF NOT EXISTS course_type(
 
     type_id int PRIMARY KEY AUTO_INCREMENT,

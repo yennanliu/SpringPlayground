@@ -1,6 +1,8 @@
 -- DDL for course (mysql)
 -- DB : course_system
 
+-- create database course_system;
+
 CREATE TABLE IF NOT EXISTS course(
     course_no varchar(50) PRIMARY KEY,
     course_name varchar(100) not null,
