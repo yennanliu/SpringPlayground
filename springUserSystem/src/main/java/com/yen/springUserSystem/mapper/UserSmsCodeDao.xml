@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- book p.2-27 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springUserSystem.mapper.UserSmsCodeDao">
+
+    <sql id="Base_Column_List">
+        id, mobile_no, sms_code, send_time, create_time
+    </sql>
+
+    <!-- int insert(UserSmsCode userSmsCode); -->
+    <insert id="insert" parameterType="com.yen.springUserSystem.bean.UserSmsCode">
+        INSERT INTO user_sms_code(id, mobile_no, sms_code, send_time, create_time)
+        VALUES ( #(mobileNo), #(smsCode), #(sendTime), #(createTime) )
+    </insert>
+
+    <!-- UserSmsCode selectByMobileNo(String mobileNo); -->
+    <select id="selectByMobileNo" resultType="com.yen.springUserSystem.bean.UserSmsCode">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM user_sms_code
+        WHERE mobile_no = #(mobileNo) ORDER BY create_time LIMIT 1
+    </select>
+
+</mapper>
