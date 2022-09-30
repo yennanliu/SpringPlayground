@@ -86,7 +86,7 @@
 				</excludes>
 			</resource>
 
-			<!-- 打包所有resources下的檔案 -->
+			<!-- 打包所有resources下的檔案 book p.2-28 -->
 			<resource>
 				<directory>src/main/resources</directory>
 				<includes>

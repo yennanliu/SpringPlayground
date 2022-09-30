@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- book p.2-27 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.springUserSystem.mapper.UserInfoDao">
+
+    <sql id="Base_Column_List">
+        id, user_id, nick_name, mobile_no, password, is_login,
+        login_time, is_del, create_time
+    </sql>
+
+    <!-- UserInfo selectByMobileNo(String mobileNo); -->
+    <select id="selectByMobileNo" resultType="com.yen.springUserSystem.bean.UserInfo">
+        SELECT
+        <include refid="Base_Column_List"></include>
+        FROM user_info
+        WHERE mobile_no = #{mobileNo}
+    </select>
+
+    <!-- int insert(UserInfo userInfo); -->
+    <insert id="insert" parameterType="com.yen.springUserSystem.bean.UserInfo">
+        INSERT INTO user_info(user_id, nick_name, mobile_no, password, is_login, login_time, is_del, create_time)
+        VALUES ( #{userId}, #{nickName}, #{mobileNo}, #{password}, #{isLogin}, #{loginTime}, #{isDel}, #{createTime} )
+    </insert>
+
+    <!-- int updateById(UserInfo userInfo); -->
+    <update id="updateById" parameterType="com.yen.springUserSystem.bean.UserInfo">
+        UPDATE user_info
+        <set>
+            <if test="userId != null">
+                user_id = #{userId, jdbcType=VARCHAR},
+            </if>
+            <if test="nickName != null">
+                nick_name = #{nickName, jdbcType=VARCHAR},
+            </if>
+            <if test="mobileNo != null">
+                mobile_no = #{mobileNo, jdbcType=VARCHAR},
+            </if>
+            <if test="password != null">
+                password = #{password, jdbcType=VARCHAR},
+            </if>
+            <if test="isLogin != null">
+                is_login = #{isLogin, jdbcType=VARCHAR},
+            </if>
+            <if test="loginTime != null">
+                login_time = #{loginTime, jdbcType=TIMESTAMP},
+            </if>
+            <if test="isDel != null">
+                is_del = #{isDel, jdbcType=VARCHAR},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime, jdbcType=VARCHAR},
+            </if>
+        </set>
+        WHERE id = #{id, jdbcType=BIGINT}
+    </update>
+
+</mapper>
