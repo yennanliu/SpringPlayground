@@ -7,7 +7,9 @@ import com.yen.springUserSystem.bean.Vo.GetSmsCodeReqVo;
 import com.yen.springUserSystem.bean.Vo.LoginByMobileReqVo;
 import com.yen.springUserSystem.bean.Vo.LoginByMobileResVo;
 import com.yen.springUserSystem.bean.Vo.LoginExitReqVo;
+import com.yen.springUserSystem.mapper.UserSmsCodeDao;
 import com.yen.springUserSystem.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -15,6 +17,9 @@ import java.util.Date;
 
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    UserSmsCodeDao userSmsCodeDao;
 
     @Override
     public boolean getSmsCode(GetSmsCodeReqVo getSmsCodeReqVo) {
@@ -27,14 +32,15 @@ public class UserServiceImpl implements UserService {
                 .sendTime(new Timestamp(new Date().getTime()))
                 .createTime(new Timestamp(new Date().getTime()))
                 .build();
-        // TODO : implement it
-        //usersmsCodeDao.insert(userSmsCode);
+
+        userSmsCodeDao.insert(userSmsCode);
         return true;
     }
 
     @Override
     public LoginByMobileResVo loginByMobile(LoginByMobileReqVo loginByMobileReqVo) {
 
+        // TODO : implement it
         return null;
     }
 
