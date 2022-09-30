@@ -8,5 +8,4 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yen.springCourseSystem.mapper.CourseTypeMapper">
 
-
 </mapper>

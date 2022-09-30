@@ -29,7 +29,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Login page | http://localhost:8888 | | |
+| Login | http://localhost:8888 | | |
+| Register |http://localhost:8888/security/register | | |
 | Course | http://localhost:8888/course | | |
 
 
