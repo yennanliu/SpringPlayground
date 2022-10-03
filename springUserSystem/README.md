@@ -11,7 +11,7 @@
 
 ```bash
 #---------------------------
-# Install
+# Install : Redis
 #---------------------------
 
 # Redis
@@ -21,6 +21,24 @@ redis-cli
 
 # V2 (docker)
 docker run -p 6379:6379 -v $PWD/data:/data -d redis:2.3 -server -appendonly yes
+```
+
+```bash
+#---------------------------
+# Install : Consul
+#---------------------------
+
+# Consul
+# V1 (docker)
+cd springUserSystem
+mkdir -p /tmp/consul/{conf,data}
+
+docker run --name consel -p 8500:8500 -v /tmp/consul/conf/:/consul/conf/ -v /tmp/consul/data:/tmp/consul/data -d consul
+
+docker ps -a
+
+# access consul UI :
+# localhost:8500
 ```
 
 ```bash
