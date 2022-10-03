@@ -59,7 +59,18 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
+| POST |  POST | loginExit | http://localhost:8888/user/loginExit| | |
+| POST |  POST | loginByMobile | http://localhost:8888/user/loginByMobile| | |
+| POST |  POST | getSmsCode | http://localhost:8888/user/getSmsCode| | |
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Swagger |  |  |  ||
+| GET | GET | API page | http://localhost:8888/swagger-ui.html |swagger page|
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Test |  GET | http://localhost:8888/index/hello| |
 
 
 
