@@ -15,7 +15,7 @@ public interface UserService {
     boolean getSmsCode(GetSmsCodeReqVo getSmsCodeReqVo);
 
     // msg login
-    LoginByMobileResVo loginByMobile(LoginByMobileReqVo loginByMobileReqVo);
+    LoginByMobileResVo loginByMobile(LoginByMobileReqVo loginByMobileReqVo) throws Exception;
 
     // login logout
     boolean loginExit(LoginExitReqVo loginExitReqVo);

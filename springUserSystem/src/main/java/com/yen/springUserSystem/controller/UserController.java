@@ -43,7 +43,7 @@ public class UserController {
     @PostMapping(value = "loginByMobile")
     public ApiResponse loginByMobile(@RequestParam("reqId") String reqId,
                                      @RequestParam("mobileNo") String mobileNo,
-                                     @RequestParam("smsCode") String smsCode){
+                                     @RequestParam("smsCode") String smsCode) throws Exception {
 
         LoginByMobileReqVo loginByMobileReqVo = LoginByMobileReqVo
                 .builder()
