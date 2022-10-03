@@ -11,6 +11,7 @@ import com.yen.springUserSystem.bean.Vo.LoginExitReqVo;
 import com.yen.springUserSystem.mapper.UserInfoDao;
 import com.yen.springUserSystem.mapper.UserSmsCodeDao;
 import com.yen.springUserSystem.service.UserService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 @Service
+@Log4j2
 public class UserServiceImpl implements UserService {
 
     @Autowired
@@ -96,8 +98,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean loginExit(LoginExitReqVo loginExitReqVo) {
 
-        // TODO : implement it
-        return false;
+        try{
+            redisTemplate.delete(loginExitReqVo.getAccessToken());
+            log.info(">>> loginExit OK");
+            return true;
+        }catch (Exception e){
+            String errorMsg = ">>> loginExit failed ..." + e.toString() + "_" + e;
+            log.error(errorMsg);
+            return false;
+        }
     }
 
 }
