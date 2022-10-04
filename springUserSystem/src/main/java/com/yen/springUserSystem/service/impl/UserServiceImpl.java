@@ -56,11 +56,14 @@ public class UserServiceImpl implements UserService {
         UserSmsCode userSmsCode = userSmsCodeDao.selectByMobileNo(loginByMobileReqVo.getMobileNo());
 
         // 1) check if verification is correct
+        log.info(">>> userSmsCode = {}", userSmsCode);
+        log.info(">>> userSmsCode.getSmsCode() = {}", userSmsCode.getSmsCode());
+        log.info(">>> loginByMobileReqVo.getSmsCode() = {}", loginByMobileReqVo.getSmsCode());
         if (userSmsCode == null){
             // TODO : implement BizException
-            throw new Exception("verification code input error");
+            throw new Exception("verification code input error : userSmsCode is null");
         }else if (!userSmsCode.getSmsCode().equals(loginByMobileReqVo.getSmsCode())){
-            throw new Exception("verification code input error");
+            throw new Exception("verification code input error : userSmsCode is NOT correct");
         }
 
         // 2) check if user already registered

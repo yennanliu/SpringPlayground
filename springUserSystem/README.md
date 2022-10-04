@@ -1,6 +1,11 @@
 # springUserSystem
 > Build user admin system via spring boot
 
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springUserSystem/doc/pic/user_system1.png">
+
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springUserSystem/doc/pic/user_system2.png">
+
+
 ## Steps
 
 
@@ -8,6 +13,15 @@
 
 <details>
 <summary>App</summary>
+
+```bash
+#---------------------------
+# RUN DDL
+#---------------------------
+
+# please check sql/ddl
+```
+
 
 ```bash
 #---------------------------
@@ -70,7 +84,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test |  GET | http://localhost:8888/index/hello| |
+| GET |  GET | Test | http://localhost:8888/index/hello| |
 
 
 

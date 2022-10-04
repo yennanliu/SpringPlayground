@@ -52,6 +52,8 @@ public class UserController {
                 .smsCode(smsCode)
                 .build();
 
+        log.info(">>> loginByMobileReqVo = {}", loginByMobileReqVo);
+
         LoginByMobileResVo loginByMobileResVo = userService.loginByMobile(loginByMobileReqVo);
 
         return ApiResponse.success(

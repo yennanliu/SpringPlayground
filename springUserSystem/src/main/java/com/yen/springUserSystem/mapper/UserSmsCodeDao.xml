@@ -6,7 +6,7 @@
 <mapper namespace="com.yen.springUserSystem.mapper.UserSmsCodeDao">
 
     <sql id="Base_Column_List">
-        id, mobile_no, sms_code, send_time, create_time
+        mobile_no, sms_code, send_time, create_time
     </sql>
 
     <!-- int insert(UserSmsCode userSmsCode); -->
