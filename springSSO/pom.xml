@@ -72,11 +72,6 @@
 			<version>2.2.2</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-redis</artifactId>
-		</dependency>
-
 		<!-- mysql : book p.3-16 -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -93,6 +88,17 @@
 			<groupId>org.springdoc</groupId>
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>1.6.8</version>
+		</dependency>
+
+		<!-- OAuth 2.0 (book p.3-17) -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-oauth2</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-security</artifactId>
 		</dependency>
 
 	</dependencies>
