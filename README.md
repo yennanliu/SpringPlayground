@@ -3,6 +3,11 @@
 
 <p align="center"><img src ="./doc/pic/springplayground.png"></p>
 
+
+## Projects
+- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : spring basic project demo
+
+
 ## Structure
 
 <details>
