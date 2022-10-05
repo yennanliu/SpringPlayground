@@ -1,5 +1,7 @@
 # springboot-mybatis-plus-crud
 
+### Source : https://gitee.com/v_soul/springboot-mybatis-plus-crud
+
 #### 项目介绍
 上篇文章https://blog.csdn.net/m0_37034294/article/details/82902373介绍了springboot + mybatis-plus通过AutoGenerator快速生成项目中的各层代码，这个项目就是在自动生成成功后对数据库一系列CRUD操作的事例演示
 
