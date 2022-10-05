@@ -1,0 +1,15 @@
+# book p. 3-13
+spring:
+  application:
+    name: sso-authserver
+  profiles:
+    active: debug
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id}:${server.port}}:@project.version
+        healthCheckPath: /actuator/health
+server:
+  port: 8888
+
