@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: user-system
   datasource:
     url: jdbc:mysql://localhost:3306/sso
     username: root
