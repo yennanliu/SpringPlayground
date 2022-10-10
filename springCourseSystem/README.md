@@ -31,9 +31,7 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | Login | http://localhost:8888 | | |
 | Register |http://localhost:8888/security/register | | |
-| Course | http://localhost:8888/course | | |
-
-
+| Input new course | http://localhost:8888/course/toInput | | |
 
 ## Important Concepts
 
