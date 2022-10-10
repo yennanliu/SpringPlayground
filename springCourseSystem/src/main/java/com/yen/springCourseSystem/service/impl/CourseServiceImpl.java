@@ -53,7 +53,7 @@ public class CourseServiceImpl implements CourseService {
         // TODO : re-check this ?
         log.info(">>> courseNo = {}", courseNo);
         Course course = new Course();
-        course = null;
+        //course = null;
         if (courseNo != null){
             course = courseMapper.loadCourseByNo(courseNo);
         }

@@ -24,7 +24,6 @@
         <!-- PK -->
         <id property="courseNo" column="course_no"></id>
         <!-- other col -->
-        <result property="" column=""></result>
         <result property="courseName" column="course_name"></result>
         <result property="courseHours" column="course_hours"></result>
         <result property="courseStatus" column="course_status"></result>
