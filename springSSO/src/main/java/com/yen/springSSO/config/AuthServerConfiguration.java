@@ -5,6 +5,7 @@ package com.yen.springSSO.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -21,6 +22,7 @@ import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeSe
 import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.KeyStoreKeyFactory;
 
 import javax.sql.DataSource;
 import java.util.concurrent.TimeUnit;
@@ -45,8 +47,9 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
     @Override
     public void configure(AuthorizationServerSecurityConfigurer security) throws Exception {
 
-        // TODO : implement it !!! book p.3-20
-        //super.configure(security);
+        security.tokenKeyAccess("permitAll()")
+                .checkTokenAccess("hasAuthority('ROLE_TRUSTED_CLIENT')")
+                .allowFormAuthenticationForClients();
     }
 
     /** client info op via JDBC */
@@ -116,11 +119,17 @@ public class AuthServerConfiguration extends AuthorizationServerConfigurerAdapte
         return new JdbcApprovalStore(dataSource);
     }
 
-    // TODO : implement it !!!
+    /** Access token grant management (encrypt via asymmetric algorithm) */
     @Bean
     public JwtAccessTokenConverter jwtAccessTokenConverter(){
 
-        return null;
+        final JwtAccessTokenConverter converter = new JwtAccessTokenConverter();
+        // import certification
+        KeyStoreKeyFactory keyStoreKeyFactory = new KeyStoreKeyFactory(
+                new ClassPathResource("keystore.jks"),
+                "mypass".toCharArray());
+        converter.setKeyPair(keyStoreKeyFactory.getKeyPair("mytest"));
+        return converter;
     }
 
 }
