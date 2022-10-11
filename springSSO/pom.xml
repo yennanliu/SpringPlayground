@@ -101,6 +101,12 @@
 			<artifactId>spring-cloud-starter-security</artifactId>
 		</dependency>
 
+		<!-- book p.3-29 -->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
