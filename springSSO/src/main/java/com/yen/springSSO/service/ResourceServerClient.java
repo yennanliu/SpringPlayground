@@ -5,6 +5,7 @@ package com.yen.springSSO.service;
 import com.yen.springSSO.bean.ResourceServerFallbackFacory;
 import com.yen.springSSO.bean.ResponseResult;
 import com.yen.springSSO.bean.bo.CheckPasswordBO;
+import com.yen.springSSO.bean.dto.CheckPassWordDTO;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfiguration;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,5 +18,5 @@ public interface ResourceServerClient {
 
     /** login pwd check interface */
     @PostMapping("/auth/checkPassword")
-    public ResponseResult<CheckPasswordBO> checkPassWord(CheckPasswordBO checkPasswordBO);
+    public ResponseResult<CheckPasswordBO> checkPassWord(CheckPassWordDTO checkPassWordDTO);
 }
