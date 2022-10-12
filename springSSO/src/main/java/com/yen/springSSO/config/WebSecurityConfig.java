@@ -2,6 +2,7 @@ package com.yen.springSSO.config;
 
 // book p. 3-23
 
+import com.yen.springSSO.config.provider.UserNameAuthenticationProvider;
 import com.yen.springSSO.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,11 +12,14 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailService userDetailService;
+
+    private UserDetailsService userDetailsService;
 
     /** path filter */
     @Override
@@ -56,10 +60,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         UserNameAuthenticationProvider authProvider = new UserNameAuthenticationProvider();
 
         // set up userDetailService
-        authProvider.setUserDetailService(userDetailService);
+        authProvider.setUserDetailsService(userDetailsService);
 
         // NOT hide not-found-exception
-        authProvider.setHideUserNotFoundException(false);
+        authProvider.setHideUserNotFoundExceptions(false);
 
         // do password Hash computing via BCrypt
         authProvider.setPasswordEncoder(new BCryptPasswordEncoder(6));
