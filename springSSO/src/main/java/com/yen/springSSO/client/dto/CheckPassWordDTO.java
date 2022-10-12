@@ -1,4 +1,4 @@
-package com.yen.springSSO.bean.dto;
+package com.yen.springSSO.client.dto;
 
 // book p.30
 

@@ -1,4 +1,4 @@
-package com.yen.springSSO.bean.bo;
+package com.yen.springSSO.client.bo;
 
 // book p.3-30
 

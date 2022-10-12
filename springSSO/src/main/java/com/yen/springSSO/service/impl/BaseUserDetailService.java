@@ -3,9 +3,9 @@ package com.yen.springSSO.service.impl;
 // book p.3-25
 
 import com.yen.springSSO.bean.ResponseResult;
-import com.yen.springSSO.bean.bo.CheckPasswordBO;
-import com.yen.springSSO.bean.dto.CheckPassWordDTO;
-import com.yen.springSSO.service.ResourceServerClient;
+import com.yen.springSSO.client.bo.CheckPasswordBO;
+import com.yen.springSSO.client.dto.CheckPassWordDTO;
+import com.yen.springSSO.client.ResourceServerClient;
 import com.yen.springSSO.service.UserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
