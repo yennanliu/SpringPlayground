@@ -2,7 +2,6 @@ package com.yen.springSSO.client;
 
 // book p.3-30
 
-import com.yen.springSSO.bean.ResourceServerFallbackFacory;
 import com.yen.springSSO.bean.ResponseResult;
 import com.yen.springSSO.client.bo.CheckPasswordBO;
 import com.yen.springSSO.client.dto.CheckPassWordDTO;
@@ -13,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 @FeignClient(
         value = "sso-resourceserver",
         configuration = ResourceServerConfiguration.class,
-        fallbackFactory = ResourceServerFallbackFacory.class)
+        fallbackFactory = ResourceServerFallbackFactory.class)
 public interface ResourceServerClient {
 
     /** login pwd check interface */
