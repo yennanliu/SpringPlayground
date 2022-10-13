@@ -10,6 +10,8 @@ public class ResourceServerConfiguration {
 
     @Bean
     ResourceServerFallbackFactory resourceServerFallbackFactory() {
+
         return new ResourceServerFallbackFactory();
     }
+
 }
