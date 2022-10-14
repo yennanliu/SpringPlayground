@@ -1,8 +1,10 @@
 # springSSOAuth
 > Build SSO system via spring boot
 
-## Steps
+## Applications
 
+- [springSSO](https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth/springSSO)
+- [resourceServer](https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth/resourceServer)
 
 ## Run
 
