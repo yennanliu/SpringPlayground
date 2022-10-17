@@ -37,7 +37,7 @@ public class ResponseResult<T> implements Serializable {
     }
 
     /** return data */
-    private static <T> ResponseResult<T> OK(T data){
+    public static <T> ResponseResult<T> OK(T data){
         return packageObject(data, GlobalCodeEnum.GL_SUCCESS_0000);
     }
 
