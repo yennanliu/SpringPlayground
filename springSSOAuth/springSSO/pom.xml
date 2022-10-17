@@ -98,6 +98,7 @@
 			<artifactId>spring-cloud-starter-oauth2</artifactId>
 		</dependency>
 
+		<!-- security -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-security</artifactId>
