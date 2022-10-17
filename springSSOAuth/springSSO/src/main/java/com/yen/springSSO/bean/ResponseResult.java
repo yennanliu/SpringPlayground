@@ -2,6 +2,7 @@ package com.yen.springSSO.bean;
 
 // book p.3-31
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,8 +45,8 @@ public class ResponseResult<T> implements Serializable {
     public static <T> ResponseResult<T> packageObject(T data, GlobalCodeEnum globalCodeEnum){
 
         ResponseResult<T> responseResult = new ResponseResult<>();
-        responseResult.setCode(GlobalCodeEnum.getCode());
-        responseResult.setMessage(GlobalCodeEnum.getDesc());
+        responseResult.setCode(globalCodeEnum.getCode());
+        responseResult.setMessage(globalCodeEnum.getDesc());
         responseResult.setData(data);
         return responseResult;
     }

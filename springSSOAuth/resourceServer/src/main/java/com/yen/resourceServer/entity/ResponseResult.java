@@ -3,6 +3,7 @@ package com.yen.resourceServer.entity;
 // book 3-46
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.yen.resourceServer.bean.GlobalCodeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -44,8 +45,8 @@ public class ResponseResult<T> implements Serializable {
     public static <T> ResponseResult<T> packageObject(T data, GlobalCodeEnum globalCodeEnum){
 
         ResponseResult<T> responseResult = new ResponseResult<>();
-        responseResult.setCode(GlobalCodeEnum.getCode());
-        responseResult.setMessage(GlobalCodeEnum.getDesc());
+        responseResult.setCode(globalCodeEnum.getCode());
+        responseResult.setMessage(globalCodeEnum.getDesc());
         responseResult.setData(data);
         return responseResult;
     }
