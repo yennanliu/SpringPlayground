@@ -5,12 +5,14 @@ package com.yen.springCourseSystem.service.impl;
 import com.yen.springCourseSystem.bean.User;
 import com.yen.springCourseSystem.mapper.UserMapper;
 import com.yen.springCourseSystem.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
 @Service
+@Slf4j
 public class UserServiceImpl implements UserService {
 
     @Resource
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addUser(User user) {
+        log.info(">>> addUser : user = {}", user);
         userMapper.insert(user);
     }
 

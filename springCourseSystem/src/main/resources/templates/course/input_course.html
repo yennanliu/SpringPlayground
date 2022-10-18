@@ -8,11 +8,11 @@
 </head>
 <body style="padding:8px;">
     <h3 class="title">add new course</h3>
-    <img id="textbookpic"
-          alt = "default book home page"
-          width="300"
-          height="200"
-          style="float:right" th:src="@{/pics/SpringBoot.png}" /><br/>
+<!--    <img id="textbookpic"-->
+<!--          alt = "default book home page"-->
+<!--          width="300"-->
+<!--          height="200"-->
+<!--          style="float:right" th:src="@{/pics/SpringBoot.png}" /><br/>-->
     <form th:action="@{/course/create}" method="post" enctype="multipart/form-data" th:object="${course}">
         <div>
             <span>Course No : </span>

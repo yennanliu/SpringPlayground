@@ -6,13 +6,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yen.springCourseSystem.Util.CourseQueryHelper;
 import com.yen.springCourseSystem.bean.Course;
+import com.yen.springCourseSystem.bean.CourseType;
 import com.yen.springCourseSystem.service.CourseService;
 import com.yen.springCourseSystem.service.CourseTypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,6 +25,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/course")
+@Slf4j
 public class CourseController {
 
     @Autowired
@@ -33,11 +35,11 @@ public class CourseController {
     private CourseTypeService courseTypeService;
 
     @ModelAttribute // TODO : check what's this
-    public void getCourse(
-            @RequestParam(value="courseNo", required = false) String courseNo,
+    public void getCourse(@RequestParam(value="courseNo", required = false) String courseNo,
             Map<String, Object> map,
             Course course){
 
+        log.info(">>> courseNo = {}, map = {}, course = {}", courseNo, map, course);
         course = courseService.loadCourseByNo(courseNo);
         if (courseNo != null && course != null){
             map.put("course", course);
@@ -46,7 +48,11 @@ public class CourseController {
 
     @GetMapping("/toInput")
     public String toInput(Map<String, Object> map, Course course){
-        map.put("courseTypeList", courseTypeService.loadAll());
+
+        log.info(">>> map = {}, course = {}", map, course);
+        List<CourseType> courses = courseTypeService.loadAll();
+        log.info(">>> courses = {}", courses.toString());
+        map.put("courseTypeList", courses);
         course.setCourseStatus("O");
         course.setCourseReqs(new String[]{"a", "b"});
         map.put("course", course);
@@ -54,10 +60,10 @@ public class CourseController {
     }
 
     @PostMapping(value = "/create")
-    public String create(
-            @RequestParam("courseTextBookPic")MultipartFile file,
+    public String create(@RequestParam("courseTextBookPic")MultipartFile file,
             Course course,
             Map<String, Object> map) throws IOException {
+
         // read file, transform to binary array
         if (file != null){
             course.setCourseTextBookPic(file.getBytes());

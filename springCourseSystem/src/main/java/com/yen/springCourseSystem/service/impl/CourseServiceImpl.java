@@ -6,6 +6,7 @@ import com.yen.springCourseSystem.Util.CourseQueryHelper;
 import com.yen.springCourseSystem.bean.Course;
 import com.yen.springCourseSystem.mapper.CourseMapper;
 import com.yen.springCourseSystem.service.CourseService;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
+@Log4j2
 public class CourseServiceImpl implements CourseService {
 
     @Resource
@@ -22,17 +24,20 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public void addCourse(Course course) {
+
         courseMapper.addCourse(course);
     }
 
     @Override
     public boolean removeCourseByNo(String courseNo) {
+
         courseMapper.removeCourseByNo(courseNo);
         return true;
     }
 
     @Override
     public void updateCourse(Course course) {
+
         String[] courseReq = course.getCourseReqs();
         if (courseReq != null && courseReq.length > 0){
             courseMapper.updateCourse(course);
@@ -44,13 +49,14 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     public Course loadCourseByNo(String courseNo) {
+
         // TODO : re-check this ?
+        log.info(">>> courseNo = {}", courseNo);
         Course course = new Course();
-        course = null;
+        //course = null;
         if (courseNo != null){
             course = courseMapper.loadCourseByNo(courseNo);
         }
-
         return course;
     }
 

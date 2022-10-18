@@ -11,7 +11,7 @@
 <div>
     <div id="wrapper" style="text-align:center">
 
-        <img id="login" width="100" height="20" th:src="@{/pics/logo.png}" />
+<!--        <img id="login" width="100" height="20" th:src="@{/pics/logo.png}" />-->
         <div id = "f_title">Course Admin Login</div><br>
 
         <form th:action="@{/security/login}" method="post" th:object="${user}">
@@ -31,8 +31,9 @@
         </form>
     </div>
 </div>
-<div id="footer">
-    <div th:include="footer::copy"></div><div th:include="footer::time"></div>
-</div>
+<!--<div id="footer">-->
+<!--    <div th:include="footer::copy"></div>-->
+<!--    <div th:include="footer::time"></div>-->
+<!--</div>-->
 </body>
 </html>
