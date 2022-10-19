@@ -5,6 +5,7 @@
 
 - [springSSO](https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth/springSSO)
 - [resourceServer](https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth/resourceServer)
+- [gateway](https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth/gateway)
 
 ## Run
 
@@ -42,6 +43,7 @@ java -jar <built_jar>
 - Code
   - https://github.com/yennanliu/SpringPlayground/tree/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter03-sso-authserver
   - https://github.com/yennanliu/SpringPlayground/tree/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter03-sso-resourceserver
+  - https://github.com/yennanliu/SpringPlayground/tree/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter03-gateway
 
 - Book
     - [最實用業界專案精選：用Spring Boot和Spring Cloud頂級開發](https://www.books.com.tw/products/0010923547)
