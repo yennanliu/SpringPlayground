@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- book p.61 -->
+<!-- https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter03-sso-resourceserver/src/main/resources/mybatis/OauthUserDetailsDao.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yen.resourceServer.bean.dao.mapper">
+    <sql id="Base_Column_List">
+        user_name,
+        password,
+        salt,
+        nick_name,
+        mobile,
+        gender,
+        authorities,
+        non_expired,
+        non_locked,
+        credentials_non_expired,
+        enabled,
+        create_time,
+        create_by,
+        update_time,update_by
+    </sql>
+    <select id="getUserDetails" resultType="com.yen.resourceServer.bean.po">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM oauth_user_details
+        WHERE user_name=#{userName}
+    </select>
+</mapper>
