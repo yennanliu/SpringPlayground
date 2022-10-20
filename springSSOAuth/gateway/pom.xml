@@ -61,6 +61,7 @@
 		</dependency>
 
 		<!--Spring Cloud Gateway网关依赖-->
+		<!-- NOTE THIS !!! -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
