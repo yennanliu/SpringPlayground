@@ -10,8 +10,12 @@ import com.yen.resourceServer.bean.dto.GetUserInfoDTO;
 import com.yen.resourceServer.bean.po.OauthUserDetailsPO;
 import com.yen.resourceServer.exception.ServiceException;
 import com.yen.resourceServer.service.UserResourceService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
+@Slf4j
 public class UserResourceServiceImpl implements UserResourceService {
 
     @Autowired

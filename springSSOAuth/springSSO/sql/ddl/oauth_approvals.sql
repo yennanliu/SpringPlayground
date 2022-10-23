@@ -4,7 +4,7 @@
 DROP table oauth_approvals;
 
 CREATE TABLE IF NOT EXISTS oauth_approvals (
-    id INT AUTO_INCREMENT,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     user_id VARCHAR(256),
     client_id VARCHAR(256),
     scope VARCHAR(256),

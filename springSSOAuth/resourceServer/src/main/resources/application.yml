@@ -1,14 +1,14 @@
 spring:
   # book p.3-41
   datasource:
-    url: jdbc:mysql://localhost:3306/resource
+    url: jdbc:mysql://localhost:3306/resource_server
     username: root
     password:
     #type: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
     separator: //
 mybatis:
-  mapper-locations: classpath:mybatis/*.xml
+  #mapper-locations: classpath:mybatis/*.xml
   configuration:
     map-underscore-to-camel-case: true
 # book p.3-46

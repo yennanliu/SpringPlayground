@@ -21,7 +21,7 @@
 # book p.2-31
 # Consul
 # V1 (docker)
-cd springUserSystem
+cd springSSOAuth
 mkdir -p /tmp/consul/{conf,data}
 
 docker run --name consel -p 8500:8500 -v /tmp/consul/conf/:/consul/conf/ -v /tmp/consul/data:/tmp/consul/data -d consul

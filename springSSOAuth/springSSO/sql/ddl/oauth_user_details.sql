@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS oauth_user_details (
     create_by VARCHAR(100) not null default 'system',
     update_time datetime(3) DEFAULT CURRENT_TIMESTAMP(3),
     update_by VARCHAR(100) not null default 'system',
-    PRIMARY KEY (user_name)
+    PRIMARY KEY (id)
 ) engine=innodb default charset=utf8;
 
 -- insert data
