@@ -11,6 +11,25 @@
 
 ```bash
 #---------------------------
+# Install : Consul
+#---------------------------
+
+# book p.2-31
+# Consul
+# V1 (docker)
+cd springUserSystem
+mkdir -p /tmp/consul/{conf,data}
+
+docker run --name consel -p 8500:8500 -v /tmp/consul/conf/:/consul/conf/ -v /tmp/consul/data:/tmp/consul/data -d consul
+
+docker ps -a
+
+# access consul UI :
+# http://localhost:8500/ui/dc1/services
+```
+
+```bash
+#---------------------------
 # Run app
 #---------------------------
 
@@ -32,7 +51,12 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
+| GET |  GET | Consul (service registry) | http://localhost:8500/ui/dc1/services| |
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
 | GET |  GET | Test | http://localhost:8888/index/hello| |
+
 
 
 ## Ref
