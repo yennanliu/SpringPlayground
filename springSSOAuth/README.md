@@ -2,6 +2,8 @@
 
 > Build SSO system via spring boot
 
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springSSOAuth/doc/pic/springSSOAuth_consul.png">
+
 ## Applications
 
 - [springSSO](https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth/springSSO)
@@ -30,6 +32,41 @@ docker ps -a
 
 # access consul UI :
 # http://localhost:8500/ui/dc1/services
+```
+
+```bash
+#---------------------------
+# Generate : security key
+#---------------------------
+
+# book p.3-21
+keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore keystore.jks -storepass mypass
+
+# then copy keystore.jks to src/main/resource
+cp keystore.jks springSSO/src/main/resources
+
+# demo
+# keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore keystore.jks
+# (base) ➜  springSSOAuth git:(main) ✗ keytool -genkeypair -alias mytest -keyalg RSA -k
+# eypass mypass -keystore keystore.jks -storepass mypass
+# What is your first and last name?
+#   [Unknown]:  yen
+# What is the name of your organizational unit?
+#   [Unknown]:  yen
+# What is the name of your organization?
+#   [Unknown]:  yen
+# What is the name of your City or Locality?
+#   [Unknown]:  tokyo
+# What is the name of your State or Province?
+#   [Unknown]:  jp
+# What is the two-letter country code for this unit?
+#   [Unknown]:  jp
+# Is CN=yen, OU=yen, O=yen, L=tokyo, ST=jp, C=jp correct?
+#   [no]:  Y
+
+# Generating 2,048 bit RSA key pair and self-signed certificate (SHA256withRSA) with a validity of 90 days
+#   for: CN=yen, OU=yen, O=yen, L=tokyo, ST=jp, C=jp
+# (base) ➜  springSSOAuth git:(main) ✗
 ```
 
 
