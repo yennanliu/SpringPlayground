@@ -1,5 +1,6 @@
 package com.yen.gateway;
 
+// book p. 3-66
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
