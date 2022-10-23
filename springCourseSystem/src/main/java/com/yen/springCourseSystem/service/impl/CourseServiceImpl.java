@@ -8,9 +8,7 @@ import com.yen.springCourseSystem.mapper.CourseMapper;
 import com.yen.springCourseSystem.service.CourseService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -66,9 +64,10 @@ public class CourseServiceImpl implements CourseService {
         // TODO : check "initialCapacity"
         Map<String, Object> map = new HashMap<>(16);
         // TODO : fix below (?)
-        //map = getQueryHelper(helper);
-        List<Course> list = courseMapper.loadScopedCourses(map);
-        return list;
+        map = getQueryHelper(helper);
+        List<Course> courseList = courseMapper.loadScopedCourses(map);
+        System.out.println(">>> courseList = " + courseList);
+        return courseList;
     }
 
     @Override
@@ -80,7 +79,7 @@ public class CourseServiceImpl implements CourseService {
         return textBookPic;
     }
 
-    private Map<String, Object> GetQueryHelper(CourseQueryHelper helper){
+    private Map<String, Object> getQueryHelper(CourseQueryHelper helper){
 
         Map<String, Object> map = new HashMap<>(16);
 
