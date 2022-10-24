@@ -43,7 +43,7 @@ docker ps -a
 keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore keystore.jks -storepass mypass
 
 # then copy keystore.jks to src/main/resource
-cp keystore.jks springSSO/src/main/resources
+cp keystore.jks springSSOAuth/springSSO/src/main/resources
 
 # demo
 # keytool -genkeypair -alias mytest -keyalg RSA -keypass mypass -keystore keystore.jks
