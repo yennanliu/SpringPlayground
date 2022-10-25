@@ -33,6 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
+        System.out.println(">>> http request : " + http);
         //super.configure(http);
         http.requestMatchers()
             .antMatchers("/login/", "/oauth/authorize", "/oauth/check_token")

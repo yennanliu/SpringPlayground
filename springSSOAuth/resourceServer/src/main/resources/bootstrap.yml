@@ -13,3 +13,5 @@ spring:
 server:
   port: 9091
   use-forward-headers: true
+swagger:
+  enabled: true

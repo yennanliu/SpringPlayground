@@ -87,7 +87,17 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Swagger |  |  |  ||
-| GET | GET | API page | http://localhost:8888/swagger-ui.html |swagger page|
+| GET | GET | API page | http://localhost:9092/swagger-ui.html |swagger (springSSO)|
+| GET | GET | API page | http://localhost:9091/swagger-ui.html |swagger (resourceserver)|
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| GET |  GET | LOGIN| http://localhost:9092/oauth/authorize?response_type=code&client_id=accessDemo&redirect_uri=http://www.baidu.com | |
+| GET |  GET | LOGIN| http://localhost:9092/oauth/authorize?response_type=code&client_id=admin&redirect_uri=http://www.google.com | |
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| GET |  GET | LOGIN| http://localhost:9091/login| |
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
@@ -95,7 +105,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| GET |  GET | Test | http://localhost:8888/index/hello| |
+| GET |  GET | Test | http://localhost:9092/index/hello| |
 
 
 </details>

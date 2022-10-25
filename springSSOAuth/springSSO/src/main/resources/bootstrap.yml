@@ -1,4 +1,5 @@
 # book p. 3-13
+# https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter03-sso-authserver/src/main/resources/bootstrap.yml
 spring:
   application:
     name: sso-authserver
@@ -11,5 +12,14 @@ spring:
         instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id}:${server.port}}:@project.version
         healthCheckPath: /actuator/health
 server:
-  port: 8888
+  port: 9092
 
+ribbon:
+  ReadTimeout: 30000
+  ConnectTimeout: 30000
+  MaxAutoRetries: 1
+  MaxAutoRetriesNextServer: 1
+
+feign:
+  oauth2:
+    enabled: true

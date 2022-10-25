@@ -23,8 +23,12 @@ CREATE TABLE IF NOT EXISTS oauth_client_details (
 -- book p.3-44
 #生成供资源服务器使用的受信任Client配置
 insert into oauth_client_details(`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) 
-    values ('resourceclient', null, '{noop}123456', 'all,read,write', 'authorization_code,refresh_token,password', 'http://www.baidu.com', 'role_trusted_client', 7200, 7200, null, 'true');
+    values 
+('resourceclient', null, '{noop}123456', 'all,read,write', 'authorization_code,refresh_token,password', 'http://www.baidu.com', 'role_trusted_client', 7200, 7200, null, 'true'),
+('admin', null, '123', 'all,read,write', 'authorization_code,refresh_token,password', 'http://www.baidu.com', 'role_trusted_client', 7200, 7200, null, 'true');
 
 #生成接入方测试Client配置信息
 insert intO oauth_client_details(`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) 
-    VALUES ('accessDemo', NULL, '{noop}123456', 'all,read,write', 'authorization_code,refresh_token,password', 'http://www.baidu.com', 'ROLE_TRUSTED_CLIENT', 7200, 7200, NULL, 'true');
+    VALUES 
+('accessDemo', NULL, '{noop}123456', 'all,read,write', 'authorization_code,refresh_token,password', 'http://www.baidu.com', 'ROLE_TRUSTED_CLIENT', 7200, 7200, NULL, 'true'),
+('admin', NULL, '123', 'all,read,write', 'authorization_code,refresh_token,password', 'http://www.google.com', 'ROLE_TRUSTED_CLIENT', 7200, 7200, NULL, 'true');

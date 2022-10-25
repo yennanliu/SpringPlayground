@@ -12,8 +12,8 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 # book p.3-46
-security:
-  oauth2:
-    authorization: http://localhost:9092/oauth/check_token
-    clientId: resourceClient
-    clientSecret: 123456 # TODO: check this
+#security:
+#  oauth2:
+#    authorization: http://localhost:9092/oauth/check_token
+#    clientId: resourceClient
+#    clientSecret: 123456 # TODO: check this
