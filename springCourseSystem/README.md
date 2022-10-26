@@ -44,4 +44,7 @@ java -jar <built_jar>
         - `Spring boot 開發實戰`
             - p,240
     - code
-      - https://github.com/xiaoze-smirk/easy-springboot
+      - src
+        - https://github.com/xiaoze-smirk/easy-springboot
+      - mirror
+        - https://github.com/yennanliu/SpringPlayground/tree/main/ref_project/easy-springboot-master
