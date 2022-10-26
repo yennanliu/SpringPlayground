@@ -1,0 +1,19 @@
+Eureka界面网址：
+http://eureka8181.com:8181/
+http://eureka8182.com:8182/
+http://eureka8183.com:8183/
+
+项目主页面网址：
+http://localhost:8095/
+
+hystrix监控界面网址：
+http://localhost:8098/hystrix
+
+项目中有用到断路器网址：
+http://localhost:8095/hystrix.stream
+
+zipkin中心:
+http://localhost:9411/zipkin/
+
+消息总线命令框CMD执行命令(每次远程更改后配置后都要执行，或者用webhook弄)：
+curl -X POST http://localhost:8097/actuator/bus-refresh

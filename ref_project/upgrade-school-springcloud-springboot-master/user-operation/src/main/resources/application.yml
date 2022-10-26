@@ -1,0 +1,55 @@
+server:                  #配置server
+  tomcat:       #springboot乱码解决
+    uri-encoding: UTF-8
+  port: 8092
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true  #开启restful支持，默认只支持post个get
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver            # 数据库访问配置,主数据源，默认的
+      url: jdbc:mysql://localhost:3306/xiaozedb?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useUnicode=true&useSSL=false&allowPublicKeyRetrieval=true
+      username: xiaoze
+      password: lzm2993993
+      initial-size: 5          # 下面为连接池的补充设置，应用到上面所有数据源中,初始化大小，最小，最大
+      min-idle: 5
+      max-active: 20
+      max-wait: 60000          # 配置获取连接等待超时的时间
+      time-between-eviction-runs-millis: 60000          # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      min-evictable-idle-time-millis: 300000            # 配置一个连接在池中最小生存的时间，单位是毫秒
+      validation-query: SELECT 1
+      test-while-idle: true
+      test-on-borrow: false
+      test-on-return: false
+      pool-prepared-statements: true           # 打开PSCache，并且指定每个连接上PSCache的大小
+      max-pool-prepared-statement-per-connection-size: 20
+      filters: stat         # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+  http:       #springboot乱码解决
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+  application:
+      name: user-operation
+  sleuth:
+      web:
+        client:
+          enabled: true
+      sampler:
+        probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+  zipkin:
+    base-url: http://localhost:9411/ # 指定了 Zipkin 服务器的地址
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    serviceUrl:
+       defaultZone: http://eureka8181.com:8181/eureka/,http://eureka8182.com:8182/eureka/,http://eureka8183.com:8183/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ip-address}:${server.port}:user-operation
+    preferIpAddress: true     #访问路径可以显示IP地址
+
+logging:
+  config: classpath:log/log4j2.xml

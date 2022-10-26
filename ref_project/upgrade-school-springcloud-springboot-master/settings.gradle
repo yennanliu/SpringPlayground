@@ -1,0 +1,19 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+    }
+}
+rootProject.name = 'springcloud-parent'
+include(
+        'eureka-server1',
+        'eureka-server2',
+        'eureka-server3',
+        'gateway-server',
+        'config-server',
+        'user-operation',
+        'school-operation1',
+        'school-operation2',
+        'school-operation3',
+        'main-operation',
+        'hystrix-dashboard'
+)

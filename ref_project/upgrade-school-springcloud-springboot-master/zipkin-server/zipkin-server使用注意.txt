@@ -1,0 +1,1 @@
+关于 Zipkin 的服务端，在使用 Spring Boot 2.x 版本后，官方就不推荐自行定制编译了，反而是直接提供了编译好的 jar 包来给我们使用，官网地址：https://zipkin.io/pages/quickstart.html

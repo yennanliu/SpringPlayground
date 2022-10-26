@@ -1,0 +1,39 @@
+server:
+  port: 8097
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true  #开启restful支持，默认只支持post个get
+  application:
+    name: config-server
+  cloud:
+    config:  #http://localhost:8888/user-operation/dev
+      server:
+        git:
+          uri: https://gitee.com/smirk/springcloud-configuration
+          searchPaths: springcloud-repo
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka8181.com:8181/eureka/,http://eureka8182.com:8182/eureka/,http://eureka8183.com:8183/eureka/
+  instance:
+      instanceId: ${spring.cloud.client.ip-address}:${server.port}:config-server
+      preferIpAddress: true   #访问路径可以显示IP地址
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh   #也可以改为"*"来暴露所有接口
+
+logging:
+  config: classpath:log/log4j2.xml
+

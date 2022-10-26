@@ -1,0 +1,10 @@
+server:
+  port: 8098
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true  #开启restful支持，默认只支持post个get
+  application:
+    name: hystrix-dashboard  #http://localhost:8098/hystrix

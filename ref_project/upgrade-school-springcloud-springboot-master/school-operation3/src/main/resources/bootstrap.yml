@@ -1,0 +1,26 @@
+spring:
+  cloud:
+    config:
+      name: school-operation #需要从github上读取的资源名称，注意没有yml后缀名
+      profile: dev  #profile配置是什么就取什么配置dev or test
+      discovery:
+        enabled: true
+        serviceId: config-server  #跳转项目的名字
+
+  rabbitmq:
+    username: guest
+    password: guest
+    host: localhost
+    port: 5672
+
+
+eureka:
+  client: #客户端注册进eureka服务列表内
+    serviceUrl:
+       defaultZone: http://eureka8181.com:8181/eureka/,http://eureka8182.com:8182/eureka/,http://eureka8183.com:8183/eureka/
+  instance:
+    instanceId: ${spring.cloud.client.ip-address}:${server.port}:main-operation3
+    preferIpAddress: true     #访问路径可以显示IP地址
+
+logging:
+  config: classpath:log/log4j2.xml

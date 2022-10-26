@@ -1,0 +1,29 @@
+server:                  #配置server
+  tomcat:       #springboot乱码解决
+    uri-encoding: UTF-8
+  port: 8183
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true  #开启restful支持，默认只支持post个get
+  http:       #springboot乱码解决
+    encoding:
+      force: true
+      charset: utf-8
+      enabled: true
+
+eureka:
+  instance:
+    #单机 hostname: localhost
+    hostname: eureka8183.com
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      #单机 defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+      defaultZone: http://eureka8181.com:8181/eureka/,http://eureka8182.com:8182/eureka/
+
+logging:
+  config: classpath:log/log4j2.xml

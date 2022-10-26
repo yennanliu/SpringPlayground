@@ -1,0 +1,22 @@
+version = '0.0.1-SNAPSHOT'
+
+ext {
+    set('pagehelperVersion', "1.2.13")
+    set('mapperStartVersion', "2.1.5")
+    set('druidVersion', "1.1.21")
+    set('mysqlVersion', "8.0.18")
+}
+
+dependencies {
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    implementation 'org.springframework.cloud:spring-cloud-config-client'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bus-amqp'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
+    implementation "com.github.pagehelper:pagehelper-spring-boot-starter:${pagehelperVersion}"
+    implementation "tk.mybatis:mapper-spring-boot-starter:${mapperStartVersion}"
+    implementation "com.alibaba:druid-spring-boot-starter:${druidVersion}"
+    implementation "mysql:mysql-connector-java:${mysqlVersion}"
+    
+}

@@ -1,0 +1,19 @@
+server:                  #配置server
+  tomcat:       #springboot乱码解决
+    uri-encoding: UTF-8
+  port: 8197
+
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true  #开启restful支持，默认只支持post个get
+  cloud:
+    bus:
+      enabled: true
+      trace:
+        enabled: true
+
+
+
+
