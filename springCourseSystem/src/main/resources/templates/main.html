@@ -15,15 +15,15 @@
         <img id="headpic" width="30" height="30" th:src="@{/pics/sbl.png}" />
     </div>
     <div style="float:right; margin:30px;">
-        Operator : [[${user.name}}]] & nbsp;
+        Operator : [[${user.name}]] & nbsp;
         <a th:href="@{/security/logout}" title="click leave system" id="logout">
             <img id="lopics"  width="30" height="30" th:src="@{/pics/logout.png}" />
             <span style="cursor: pointer" class="linkspan">logout</span>
         </a>
     </div>
 </div>
-
-    </div id = "navigator">
+<div>
+    <div id = "navigator">
         <div class="menuitem">
             <a th:href="@{/courseType/toInput}" target="contentFrame">Add Course Type</a>
         </div>
@@ -39,8 +39,9 @@
         </div>
 </div>
 <div id="content">
-    <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="{/welcome.html}">
+    <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="{welcome.html}">
     </iframe>
+</div>
 </div>
 
 <div id="footer">

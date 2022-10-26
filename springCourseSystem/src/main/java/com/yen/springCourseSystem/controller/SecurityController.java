@@ -7,14 +7,15 @@ import com.yen.springCourseSystem.service.UserService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/security")
+//@RequestMapping("/security")
 @Log4j2
 public class SecurityController {
 
@@ -71,13 +72,20 @@ public class SecurityController {
     }
 
     @GetMapping("mainController")
-    public String main(){
+    public String main(Model model){ // https://youtu.be/nKFM5S1rhJo?t=315
+
+        log.info(">>> mainController");
+        HashMap<String, Object> user = new HashMap<>();
+        user.put("name", "admin");
+        model.addAttribute("user", user);
         return "main";
     }
 
     // NOTE !! we use redirect here
     @GetMapping("/logout")
     public String logout(){
+
+        log.info(">>> logout");
         return "redirect:/security/toLogin";
     }
 
