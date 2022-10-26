@@ -10,7 +10,11 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '1.8'
 
 repositories {
-    maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
+    maven {
+        // https://blog.csdn.net/qi_ming_hao_nan/article/details/114799678
+        allowInsecureProtocol = true
+        url "http://maven.aliyun.com/nexus/content/groups/public/"
+    }
 }
 
 dependencies {

@@ -1,5 +1,5 @@
 -- DDL for users (mysql)
--- DB : course_type
+-- DB : course_system
 
 -- create database course_system;
 
