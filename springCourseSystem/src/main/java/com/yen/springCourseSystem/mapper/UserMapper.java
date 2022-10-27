@@ -1,12 +1,12 @@
 package com.yen.springCourseSystem.mapper;
 
 // book p. 253
+// https://github.com/yennanliu/SpringPlayground/blob/main/ref_project/easy-springboot-master/src/main/java/com/xiaoze/course/mapper/UserMapper.java
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yen.springCourseSystem.bean.User;
-import tk.mybatis.mapper.common.Mapper;
 
-@org.apache.ibatis.annotations.Mapper
-public interface UserMapper extends Mapper<User> {
 
-    User loadUserByUserName(String userName);
+public interface UserMapper extends BaseMapper<User> {
+
 }
