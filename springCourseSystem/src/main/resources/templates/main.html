@@ -1,64 +1,54 @@
 <!DOCTYPE html>
-<!-- book p.268 -->
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      xmlns:margin="http://www.w3.org/1999/xhtml">
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Course System Admin</title>
+    <title>主页</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
-</div>
-    <div id="header">
-        Course Admin System
-        <img id="headpic" width="30" height="30" th:src="@{/pics/sbl.png}" />
-    </div>
-    <div style="float:right; margin:30px;">
-        Operator : [[${user.name}]] & nbsp;
-        <a th:href="@{/security/logout}" title="click leave system" id="logout">
-            <img id="lopics"  width="30" height="30" th:src="@{/pics/logout.png}" />
-            <span style="cursor: pointer" class="linkspan">logout</span>
-        </a>
+<div id="header">
+    <div id="productName">课程系统</div>
+    <div></div>
+    <div style="float:right; margin:10px;">
+        操作员:[[${user.userName}]]&nbsp;
+        <a th:href="@{/security/logout}" title="点击离开系统" id="logout"><span style="cursor: pointer" class="linkspan">离开系统</span></a>
     </div>
 </div>
 <div>
-    <div id = "navigator">
+    <div id="navigator">
         <div class="menuitem">
-            <a th:href="@{/courseType/toInput}" target="contentFrame">Add Course Type</a>
+            <a th:href="@{/courseType/toInput}" target="contentFrame">新增课程类型</a>
         </div>
         <div class="menuitem">
-            <a th:href="@{/courseType/list}" target="contentFrame">Add Type Management</a>
+            <a th:href="@{/courseType/list}"  target="contentFrame">课程类型管理</a>
         </div>
         <div class="seperator"></div>
         <div class="menuitem">
-            <a th:href="@{/courseType/toInput}" target="contentFrame">Course Register</a>
+            <a th:href="@{/course/toInput}"  target="contentFrame">开课登记</a>
         </div>
         <div class="menuitem">
-            <a th:href="@{/courseType/list}" target="contentFrame">Course Management</a>
+            <a th:href="@{/course/list}" target="contentFrame">课程管理</a>
         </div>
+    </div>
+    <div id="content">
+        <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="@{/welcome.html}">
+        </iframe>
+    </div>
 </div>
-<div id="content">
-    <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="{welcome.html}">
-    </iframe>
-</div>
-</div>
-
 <div id="footer">
-    <div th:include="footer::copy"></div><div th:include="footer::time"></div>
+    课程管理系统-测试版（版本:Beta1.0 Build:#1 2018-06-01）
 </div>
-
 <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-</script>
-<script th:inline="javascript">
-    ${"#logout"}.click(function(){
-    if(confirm('leave system ?'){
-    $(location).attr("href, this.href())
+<script  th:inline="javascript">
+
+    $("#logout").click(function () {
+
+        if(confirm('您真的要离开系统吗？')){
+            $(location).attr("href",this.href());
         }
         return false;
-        }
-    );
-</script>
+    });
 
+</script>
 </body>
 </html>

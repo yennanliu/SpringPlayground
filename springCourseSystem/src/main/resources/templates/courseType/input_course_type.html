@@ -1,25 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html"
-      xmlns:margin="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add new course type (Title)</title>
+    <title>新增课程类型</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 </head>
-
 <body style="padding:8px;">
-        <h3 class="title">Add new course type</h3>
-        <form th:action="@{/courseType/create}" method="POST" th:object="${courseType}}">
-            <div>
-                <span>course type name :</span>
-                <input type="text" name="typeName" placeholder="course type name">
-            </div>
-            <div>
-                <input type="submit" value="confirm">
-            </div>
-        </form>
+    <h3 class="title">新增课程类型</h3>
+    <form th:action="@{/courseType/create}" method="post" th:object="${courseType}">
+        <div>
+            <span>课程类型名称:</span>
+            <input type="text" name="typeName" placeholder="课程类型名称">
+        </div>
+        <div>
+            <input type="submit" value=" 确定 "/>
+        </div>
+    </form>
 </body>
-
-
 </html>

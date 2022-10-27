@@ -1,82 +1,83 @@
 <!DOCTYPE html>
-<!-- book p.275 -->
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Course</title>
+    <title>新增课程类型</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body style="padding:8px;">
-    <h3 class="title">add new course</h3>
-<!--    <img id="textbookpic"-->
-<!--          alt = "default book home page"-->
-<!--          width="300"-->
-<!--          height="200"-->
-<!--          style="float:right" th:src="@{/pics/SpringBoot.png}" /><br/>-->
-    <form th:action="@{/course/create}" method="post" enctype="multipart/form-data" th:object="${course}">
+    <h3 class="title">新增课程</h3>
+    <img id="textbookPic"
+         alt="默认教材封面"
+         width="300"
+         height="250"
+         style="float:right" th:src="@{/pics/default.jpg}" /><br/>
+    <form th:action="@{/course/create}" method="post"  enctype="multipart/form-data" th:object="${course}">
         <div>
-            <span>Course No : </span>
-            <input type="text" name="courseNo">
+            <span>课程编号:</span>
+            <input type="text" name="courseNo" >
         </div>
         <div>
-            <span>Course Name : </span>
-            <input type="text" name="courseName">
+            <span>课程名称:</span>
+            <input type="text" name="courseName" >
         </div>
         <div>
-            <span>Book Homepage : </span>
-            <input type="file" id="coursetextbookpic" name="coursetextbookpic" size="40" />
+            <span>教材封面:</span>
+            <input id="coursetextbookpic" type="file" name="coursetextbookpic" size="40" />
         </div>
         <div>
-            <span>Course Hours : </span>
-            <input type="text" name="courseHours">
+            <span>课程课时:</span>
+            <input type="text" name="courseHours" >
         </div>
         <div>
-            <span>Course Points : </span>
-            <input type="text" name="coursePoint">
+            <span>课程学分:</span>
+            <input type="text" name="coursePoint" >
         </div>
         <div>
-            <span>Course Type : </span>
-            <select input name="courseType.typeId">
-                <option>plz select</option>
+            <span>课程类型:</span>
+            <select name="typeId">
+                <option>=请选择=</option>
                 <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
             </select>
         </div>
         <div>
-            <span>Course Status : </span>
-                <input type="radio" name="courseStatus" th:value="O" checked>Open to public &nbsp;&nbsp;
-                <input type="radio" name="courseStatus" th:value="Z" checked>Not open &nbsp;&nbsp;
-                <input type="radio" name="courseStatus" th:value="C" checked>Terminate &nbsp;&nbsp;
+            <span>课程状态:</span>
+            <input type="radio" name="courseStatus" th:value="O" checked>开放公选&nbsp;&nbsp;
+            <input type="radio" name="courseStatus" th:value="Z">暂不开放&nbsp;&nbsp;
+            <input type="radio" name="courseStatus" th:value="C">停止授课&nbsp;&nbsp;
         </div>
         <div>
-            <span>Take Course Rules : </span>
-            <input type="checkbox" name="courseReqs" value="a" /> Over 3rd grade
-            <input type="checkbox" name="courseReqs" value="b" /> Average grade >= 80
-            <input type="checkbox" name="courseReqs" value="c" /> External department student
-            <input type="checkbox" name="courseReqs" value="d" /> Finish tuition payment
+            <span>选课条件:</span>
+            <input type="checkbox" name="courseReqs" value="a" />大三以上
+            <input type="checkbox" name="courseReqs" value="b" />平均成绩80分
+            <input type="checkbox" name="courseReqs" value="c" />党员
+            <input type="checkbox" name="courseReqs" value="d" />未拖欠学费
         </div>
         <div>
-            <span>Extra Memo : </span>
-            <textarea name="courseMemo" rows="6" cols="60"></textarea>
+            <span>备注说明:</span>
+            <textarea name="courseMemo" rows="6" cols="60" ></textarea>
         </div>
+
         <div>
-            <input type="submit" value="Open course" />
+            <input type="submit" value="开设课程"/>
         </div>
     </form>
 </body>
 <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script th:inline="javascript">
-    $(function(){
-            $("#coursetextbookpic").change(function (e) {
-            for (var i = 0; i < e.target.files.length; i ++){
-                        var file = e.target.files.item(i);
-                        var freader = new FileReader();
-                        freader.readAsDataURL(file);
-                        freader.onload = function(e){
-                            var src = e.target.result;
-                            $("#textbookpic").attr("src", src);
-                        }
-                    }
-                });
-            });
+    $(function() {
+        $("#coursetextbookpic").change(function (e) {
+            for (var i = 0; i < e.target.files.length; i++) {
+                var file = e.target.files.item(i);
+                var freader = new FileReader();
+                freader.readAsDataURL(file);
+                freader.onload = function (e) {
+                    var src = e.target.result;
+                    $("#textbookPic").attr("src", src);
+                }
+            }
+        });
+    });
+
 </script>
 </html>
