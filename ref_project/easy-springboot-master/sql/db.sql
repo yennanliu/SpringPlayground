@@ -1,4 +1,5 @@
 # 若是linux的mysql，要关掉大小写敏感，window则不需要
+-- DB : course_system2
 create table tbl_course_type(
    type_id int primary key auto_increment comment '课程类型Id',
    type_name varchar(30) comment '课程类型名称'
@@ -30,5 +31,5 @@ create table tbl_users(
 
 insert into tbl_users values('000101','123456','王海涛');
 insert into tbl_users values('000102','123456','张明');
-
+insert into tbl_users values('000103','123','yen');
 
