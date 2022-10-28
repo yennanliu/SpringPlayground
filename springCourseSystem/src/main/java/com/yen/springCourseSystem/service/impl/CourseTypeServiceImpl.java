@@ -7,7 +7,6 @@ import com.yen.springCourseSystem.mapper.CourseMapper;
 import com.yen.springCourseSystem.mapper.CourseTypeMapper;
 import com.yen.springCourseSystem.service.CourseTypeService;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -31,17 +30,17 @@ public class CourseTypeServiceImpl implements CourseTypeService {
             courseMapper.removeCourseByTypeId(typeId);
         }
         // delete record in course_type table with PK
-        courseTypeMapper.deleteByPrimaryKey(typeId);
+        courseTypeMapper.deleteById(typeId);
     }
 
     @Override
     public void updateCourseType(CourseType courseType) {
-        courseTypeMapper.updateByPrimaryKey(courseType);
+        courseTypeMapper.updateById(courseType);
     }
 
     @Override
     public CourseType getCourseTypeById(Integer typeId) {
-        return courseTypeMapper.selectByPrimaryKey(typeId);
+        return courseTypeMapper.selectById(typeId);
     }
 
     @Override

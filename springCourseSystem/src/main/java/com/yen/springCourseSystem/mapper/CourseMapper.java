@@ -4,7 +4,6 @@ package com.yen.springCourseSystem.mapper;
 
 import com.yen.springCourseSystem.bean.Course;
 import org.apache.ibatis.annotations.Mapper;
-
 import java.util.List;
 import java.util.Map;
 

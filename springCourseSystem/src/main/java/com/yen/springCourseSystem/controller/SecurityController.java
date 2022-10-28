@@ -30,30 +30,35 @@ public class SecurityController {
         return "index";
     }
 
+    @GetMapping("/toLogin")
+    public String toLogin(Map<String, Object> map){
+
+        map.put("user", new User());
+        return "login";
+    }
+
     @ResponseBody
     @PostMapping(value="/login")
     public Boolean login(@RequestBody User user, Map<String, Object> map,
                          @CurrentUser UserInfo userInfo){
 
         //userInfo : for user login info
-        log.info(userInfo.toString());
+        log.info(">>> user = " + user);
+        log.info(">>> userInfo.toString() : {}", userInfo.toString());
+        //log.info(">>> userService.getById(user.getUserNo()) = {}", userService.getById(user.getUserNo()));
 
-        if(userService.getById(user.getUserNo()) != null){
-            User user1=userService.getById(user.getUserNo());
-            if(user1.getUserPwd().equals(user.getUserPwd())){
-                map.put("user",user1);
-                return true;
-            }
-        }
+        // TODO : fix below
+//        if(userService.getById(user.getUserNo()) != null){
+//            User user1=userService.getById(user.getUserNo());
+//            if(user1.getUserPwd().equals(user.getUserPwd())){
+//                map.put("user",user1);
+//                return true;
+//            }
+//        }
+        map.put("user", user);
+        return true;
 
-        return false;
-    }
-
-
-    @GetMapping("/toLogin")
-    public String toLogin(Map<String, Object> map){
-        map.put("user", new User());
-        return "login";
+        //return false;
     }
 
     // register page
@@ -84,7 +89,7 @@ public class SecurityController {
             User userEntity = new User();
             userEntity.setUserName(username);
             userEntity.setUserPwd(password);
-            userService.addUser(userEntity);
+            userService.save(userEntity);
             log.info(">>> login OK");
             return "login";
             //return "test";
@@ -94,13 +99,11 @@ public class SecurityController {
         }
     }
 
-    @GetMapping("mainController")
-    public String main(Model model){ // https://youtu.be/nKFM5S1rhJo?t=315
+    @GetMapping("/mainController/{userNo}")
+    public String main(@PathVariable String userNo, Map<String, Object> map){
 
-        log.info(">>> mainController");
-        HashMap<String, Object> user = new HashMap<>();
-        user.put("name", "admin");
-        model.addAttribute("user", user);
+        log.info(">>> mainController, userNo = {}, map = {}", userNo, map);
+        map.put("user", userService.getById(userNo));
         return "main";
     }
 
