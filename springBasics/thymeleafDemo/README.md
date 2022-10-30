@@ -28,11 +28,15 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 |--|------| ---- | ----- | ---- |
-| http://localhost:8888/  |get |landing page | |
-| http://localhost:8888/test1  |get |thymeleaf test1 | |
-
+| http://localhost:8888/  | get | landing page | |
+| http://localhost:8888/test1  | get |thymeleaf test1 | |
+| http://localhost:8888/test2 | get | thymeleaf test2 | |
 
 ## Important Concepts
+
+- http://localhost:8888/test2
+   - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/thymeleafDemo/doc/pic/test2.png">
+
 
 ## Ref
 

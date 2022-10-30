@@ -1,0 +1,26 @@
+<!doctype html>
+<!-- book p.137 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Thymeleaf Test 2</title>
+</head>
+
+<!-- background tag -->
+<body th:backgrond="${th_background}" backgrond="#DODODO">
+<!-- text tag -->
+<h1 th:text="${title}">html title</h1>
+    <div>
+        <h5>id, name, value tag : </h5>
+        <!-- id, name, value tag :  -->
+        <input id="input1" name="input1" value="1" th:id="${th_id}" th:name="${th_name}" th:value="${th_value}">
+    </div>
+    <br/>
+    <div class="div1" th:class="${th_class}">
+        <h5>class, href tag : </h5>
+        <!-- class, href tag :  -->
+        <a th:href="${th_href}" href="##/">url address</a>
+    </div>
+</body>
+</html>

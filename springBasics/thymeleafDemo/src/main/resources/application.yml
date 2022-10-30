@@ -3,3 +3,5 @@ Spring:
     hiddenmethod:
       filter:
         enabled: true # enable form (表單) REST function
+  thymeleaf:
+    cache: false # default is true. However, we set it as false here, so we can see thymeleaf update effect without rerun the app
