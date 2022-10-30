@@ -35,7 +35,7 @@ java -jar <built_jar>
 ## Important Concepts
 
 - http://localhost:8888/test2
-   - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/thymeleafDemo/doc/pic/test2.png">
+   - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springBasics/thymeleafDemo/doc/pic/test2.png">
 
 
 ## Ref
