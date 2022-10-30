@@ -32,6 +32,10 @@ java -jar <built_jar>
 | http://localhost:8888/test1  | get |thymeleaf test1 | |
 | http://localhost:8888/test2 | get | thymeleaf test2 | |
 
+| API | Type | Purpose | Example cmd | Comment|
+|--|------| ---- | ----- | ---- |
+| http://localhost:8888/demo1  | get |thymeleaf basic demo 1 | |
+
 ## Important Concepts
 
 - http://localhost:8888/test2

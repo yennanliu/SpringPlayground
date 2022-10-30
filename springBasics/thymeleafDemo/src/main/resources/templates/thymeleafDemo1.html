@@ -1,0 +1,33 @@
+<!doctype html>
+<!-- book p.141 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>Thymeleaf Demo 1 (simple syntax)</title>
+</head>
+
+<body>
+<h1>Thymeleaf basic syntax</h1>
+<div>
+  <h5>basic op (String): </h5>
+  <p>a basic string : <span th:text="'Thymeleaf text'">default text</span> </p>
+  <p>string concat : <span th:text="'Thymeleaf text concat, ' + ${thymeleafText}">default text</span> </p>
+  <p>string concat2 : <span th:text="'|Thymeleaf text concat, ' + ${thymeleafText}|">default text</span> </p>
+</div>
+<div>
+  <h5>basic op (Number)</h5>
+  <p>a basic number : <span th:text="2022">1000</span> </p>
+  <p>plus 2021+1 = <span th:text="${number1}+1">0</span> </p>
+  <p>minus 14-1 : <span th:text="14-1">0</span> </p>
+  <p>multiply 1011 * 2 : <span th:text="1011 * ${number2}">0</span> </p>
+  <p>divide 39 / 3 : <span th:text="39/3">0</span> </p>
+</div>
+<div>
+  <h5>basic op (boolean)</h5>
+  <p>compare 2022 > 2021 : <span th:text="2022 &gt; 2021"></span> </p>
+  <p>String comparison thymeleafText == 'spring-boot': <span th:text="${thymeleafText} == 'spring-boot'">0</span> </p>
+  <p>number comparison 13 == 39/3 : <span th:text="13 == 39/3">0</span> </p>
+</div>
+</body>
+</html>
