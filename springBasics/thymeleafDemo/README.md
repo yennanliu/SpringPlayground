@@ -27,8 +27,8 @@ java -jar <built_jar>
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
+|--|------| ---- | ----- | ---- |
+| http://localhost:8888/  |get | | |
 
 
 

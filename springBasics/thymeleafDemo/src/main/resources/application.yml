@@ -1,0 +1,5 @@
+Spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true # enable form (表單) REST function
