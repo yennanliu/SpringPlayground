@@ -28,8 +28,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 |--|------| ---- | ----- | ---- |
-| http://localhost:8888/  |get | | |
-
+| http://localhost:8888/  |get |landing page | |
+| http://localhost:8888/test1  |get |thymeleaf test1 | |
 
 
 ## Important Concepts
