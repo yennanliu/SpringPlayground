@@ -1,0 +1,35 @@
+<!doctype html>
+<!-- book p.144 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Thymeleaf Test 3</title>
+</head>
+
+<body>
+<!-- get param-->
+<p>basic calculation :
+    <span th:text="${number1}+1">default request text</span>
+</p>
+
+<!-- get param and do ternary operation -->
+<div th:class="${path}=='users' ? 'nav-link active' : 'nav-link'"></div>
+
+<!-- read attr from an object -->
+<p>read goodsName from goodsDetail :
+    <span th:text="${goodsDetail.goodsName}">default goods val</span>
+</p>
+
+<!-- read request content -->
+<p>read request content :
+    <span th:text="${#request.getAttribute('requestObject')}">default request text</span>
+</p>
+
+<!-- read session content -->
+<p>read session content :
+    <span th:text="${#session.getAttribute('sessionObject')}">default session text</span>
+</p>
+</body>
+
+</html>

@@ -31,6 +31,7 @@ java -jar <built_jar>
 | http://localhost:8888/  | get | landing page | |
 | http://localhost:8888/test1  | get |thymeleaf test1 | |
 | http://localhost:8888/test2 | get | thymeleaf test2 | |
+| http://localhost:8888/test3 | get | thymeleaf test3 | |
 
 | API | Type | Purpose | Example cmd | Comment|
 |--|------| ---- | ----- | ---- |
