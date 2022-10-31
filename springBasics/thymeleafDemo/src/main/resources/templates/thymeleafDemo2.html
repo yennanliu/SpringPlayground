@@ -1,0 +1,50 @@
+<!doctype html>
+<!-- book p.146 -->
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Thymeleaf Demo 2 (complex syntax)</title>
+</head>
+
+<body>
+<h3>#strings tool testing</h3>
+<div th:if="${not #strings.isEmpty(testString)}">
+    <p>testString init value :
+        <span th:text="${testString}"></span>
+    </p>
+
+    <p>toUpperCase :
+        <span th:text="${#strings.toUpperCase(testString)}"></span>
+    </p>
+
+    <p>toLowerCase :
+        <span th:text="${#strings.toLowerCase(testString)}"></span>
+    </p>
+
+    <p>equalsIgnoreCase :
+        <span th:text="${#strings.equalsIgnoreCase(testString, '13')}"></span>
+    </p>
+
+    <p>indexOf :
+        <span th:text="${#strings.indexOf(testString, 'r')}"></span>
+    </p>
+
+    <p>substring :
+        <span th:text="${#strings.substring(testString, 1, 4)}"></span>
+    </p>
+
+    <p>contains :
+        <span th:text="${#strings.contains(testString, 'boot')}"></span>
+    </p>
+</div>
+
+<h3>#bool tool testing</h3>
+<!-- if bool is false, below content will not been shown -->
+<div th:if="{#bools.isTrue(bool)}">
+    <p th:text="${bool}"></p>
+</div>
+
+</body>
+
+</html>
