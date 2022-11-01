@@ -29,6 +29,18 @@ docker run --name postgres1 -e POSTGRES_USER=gis -e POSTGRES_PASSWORD=123456 -p 
 
 psql  -h 127.0.0.1 -p 54321 -d postgres -U gis -W 123456
 # pwd : 123456
+
+# psql useful cmd:
+# https://github.com/yennanliu/utility_shell/blob/master/postgre/psql_command.sh
+
+\l
+
+\c gis
+
+\d
+
+# then execute ddl below
+# https://github.com/yennanliu/SpringPlayground/blob/main/springGeoFence/efence/sql/ddl.sql
 ```
 
 

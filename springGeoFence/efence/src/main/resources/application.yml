@@ -1,0 +1,37 @@
+# https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter04-efence/src/main/resources/application.yml
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:54321/gis
+    username: gis
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    separator: //
+
+# MyBatis-Plus integration setting
+mybatis-plus:
+  # extra Mybatis XML under resource classpath:mybatis/*.xml
+  mapper-locations: classpath:mybatis/*.xml
+  # PO instance scan path, use "," for multiple packages
+  typeAliasesPackage: com.wudimanong.efence.dao.model
+  # Mybatis-Plus for PostGis class mapping setting
+  typeHandlersPackage: com.eyougo.mybatis.postgis.type
+  global-config:
+    db-config:
+      # PK (primary key) strategy
+      id-type: auto
+      # field-strategy
+      field-strategy: not_empty
+      # underscore to camel
+      column-underline: true
+      # logic deletion setting
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: postgresql
+    refresh: false
+  configuration:
+    # enable underscore to camel
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    # logging
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
