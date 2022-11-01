@@ -8,6 +8,7 @@
 </head>
 
 <body>
+
 <h3>#strings tool testing</h3>
 <div th:if="${not #strings.isEmpty(testString)}">
     <p>testString init value :
@@ -43,6 +44,102 @@
 <!-- if bool is false, below content will not been shown -->
 <div th:if="{#bools.isTrue(bool)}">
     <p th:text="${bool}"></p>
+</div>
+
+<h3>#arrays tool testing</h3>
+<!-- if arrays is null, below content will not been shown -->
+<div th:if="${ not #arrays.isEmpty(testArray) }">
+    <p>length:
+        <span th:text="${#arrays.length(testArray)}"></span>
+    </p>
+
+    <p>contains:
+        <span th:text="${#arrays.contains(testArray, 5)}"></span>
+    </p>
+
+    <p>containsAll:
+        <span th:text="${#arrays.containsAll(testArray, testArray)}"></span>
+    </p>
+
+    <p>for loop:
+        <span th:each="i:${testArray}" th:text="${i + ' '}"></span>
+    </p>
+</div>
+
+<h3>#lists tool testing</h3>
+<!-- if lists is null, below content will not been shown -->
+<div th:unless="{#lists.isEmpty(testList)}">
+    <p>size:
+        <span th:text="${#lists.size(testList)}"></span>
+    </p>
+
+    <p>contains:
+        <span th:text="${#lists.contains(testList, 0)}"></span>
+    </p>
+
+    <p>sort:
+        <span th:text="${#lists.sort(testList)}"></span>
+    </p>
+
+    <p>for loop:
+        <span th:each="i:${testList}" th:text="${i + ' '}"></span>
+    </p>
+</div>
+
+<h3>#maps tool testing</h3>
+<!-- if maps is empty, below content will not been shown -->
+<div th:if="{not #maps.isEmpty(testMap)}">
+    <p>size:
+        <span th:text="${#maps.size(testMap)}"></span>
+    </p>
+
+    <p>containsKey:
+        <span th:text="${#maps.containsKey(testMap, 'platform')}"></span>
+    </p>
+
+    <p>containsValue:
+        <span th:text="${#maps.containsValue(testMap, '13')}"></span>
+    </p>
+
+    <p>read title val from maps:
+        <span th:if="${#maps.containsKey(testMap, 'title')}" th:text="${testMap.get('title')}"></span>
+    </p>
+</div>
+
+<h3>#dates tool testing</h3>
+<div>
+    <p>year:
+        <span th:text="${#dates.year(testDate)}"></span>
+    </p>
+
+    <p>month:
+        <span th:text="${#dates.month(testDate)}"></span>
+    </p>
+
+    <p>day:
+        <span th:text="${#dates.day(testDate)}"></span>
+    </p>
+
+    <p>hour:
+        <span th:text="${#dates.hour(testDate)}"></span>
+    </p>
+
+    <p>minute:
+        <span th:text="${#dates.minute(testDate)}"></span>
+    </p>
+
+    <p>second:
+        <span th:text="${#dates.second(testDate)}"></span>
+    </p>
+
+    <!-- formatting -->
+    <p>formatting:
+        <span th:text="${#dates.format(testDate)}"></span>
+    </p>
+
+    <p> yyyy-mm-dd HH:mm:ss formatting:
+        <span th:text="${#dates.format(testDate, 'yyyy-mm-dd HH:mm:ss')}"></span>
+    </p>
 </div>
 
 </body>
