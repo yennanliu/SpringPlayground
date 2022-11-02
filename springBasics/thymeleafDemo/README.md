@@ -36,6 +36,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 |--|------| ---- | ----- | ---- |
 | http://localhost:8888/demo1  | get |thymeleaf basic demo 1 | |
+| http://localhost:8888/demo2  | get |thymeleaf advanced demo 1 | |
 
 ## Important Concepts
 
