@@ -1,5 +1,6 @@
 package com.yen.efence.validator;
 
+// book p.4-22
 //https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter04-efence/src/main/java/com/wudimanong/efence/validator/EnumValue.java
 
 import static java.lang.annotation.ElementType.ANNOTATION_TYPE;
@@ -16,7 +17,7 @@ import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import javax.validation.Payload;
 
-@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER})
+@Target({METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER}) // TODO : double check it
 @Retention(RUNTIME)
 @Documented
 @Constraint(validatedBy = {EnumValue.EnumValueValidator.class})
