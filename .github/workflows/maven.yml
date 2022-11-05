@@ -29,4 +29,4 @@ jobs:
     # - name: Build springBootBlog
     #   run: cd springBootBlog && mvn package
     - name: Build springCloud1
-      run: cd springCloud1 && mvn package
+      run: cd springAdvance/springCloud1 && mvn package
