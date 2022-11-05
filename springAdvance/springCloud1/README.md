@@ -1,7 +1,7 @@
 # Spring Cloud 1
 > Spring cloud micro-service demo
-<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/spring_cloud_intro.png">
-<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/register_service_cap.png">
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/spring_cloud_intro.png">
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/register_service_cap.png">
 
 
 ## Steps
@@ -91,7 +91,7 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
 | Eureka cluter (register center)|  | | |
 | service UI | GET | http://localhost:7001/  or http://eureka7001.com:7001/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
 | service UI | GET | http://localhost:7002/  or http://eureka7002.com:7002/ | Eureka UI | Note : can access payment8001, order80 services via eureka UI as well
-|[Eureka single :  springCloud1_backup](https://github.com/yennanliu/SpringPlayground/tree/main/archived/springCloud1_backup)|  | | |
+|[Eureka single :  springAdvance/springCloud1_backup](https://github.com/yennanliu/SpringPlayground/tree/main/archived/springAdvance/springCloud1_backup)|  | | |
 
 
 | API | Type | Example cmd | Purpose | Comment|
@@ -143,25 +143,25 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - https://www.youtube.com/watch?v=D1pH2Ee88OM&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=15
 
 - Eureka
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/eureka1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/eureka1.png">
 
 - Ribbon
     - Load balance + RestTemplate
         - https://www.youtube.com/watch?v=g-xOH7s1zXs&list=PLmOn9nNkQxJGVG1ktTV4SedFWuyef_Pi0&index=38
-        - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/ribbon1.png">
-        - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/ribbon2.png">
+        - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/ribbon1.png">
+        - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/ribbon2.png">
 
 - Feign
     - `Feign, OpenFeign`
     - `to-call service endpoint + @FeignClient `
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign2.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign3.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign4.png">
     - Architecture with Feign
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_arch.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_code1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/feign_code2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign_arch.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign_code1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/feign_code2.png">
     - Service Fallback (服務降級)
         - https://www.tpisoftware.com/tpu/articleDetails/2621
         - https://www.gushiciku.cn/pl/pPFM/zh-tw
@@ -176,26 +176,26 @@ create?serial=549494489 | create new payment with `Payment` (serial)|
     - Setup
         - conf : setup in application.yml
         - code : code setup in RouteLocation Bean
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway2.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway3.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway4.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/gateway5.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/gateway1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/gateway2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/gateway3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/gateway4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/gateway5.png">
 
 - Spring bus (for message queue)
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus2.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus3.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus4.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus5.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/bus6.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/bus1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/bus2.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/bus3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/bus4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/bus5.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/bus6.png">
 
 - Spring cloud stream
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream1.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream2.png"> 
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream3.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/cloud_stream4.png">
-    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springCloud1/doc/pic/rabbmq1.png"> 
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/cloud_stream1.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/cloud_stream2.png"> 
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/cloud_stream3.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/cloud_stream4.png">
+    - <img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/springCloud1/doc/pic/rabbmq1.png"> 
 
 ## Ref
 - Course

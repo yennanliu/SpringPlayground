@@ -1,12 +1,14 @@
 # Spring Playground
+
 > POC projects built via Java spring framework
 
 <p align="center"><img src ="./doc/pic/springplayground.png"></p>
 
 
 ## Projects
-- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : spring basic project demo
 
+- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : spring basic project demo
+- [springAdvance](https://github.com/yennanliu/SpringPlayground/tree/main/springAdvance) : spring advance project demo
 
 ## Structure
 

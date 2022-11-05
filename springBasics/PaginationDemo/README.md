@@ -37,5 +37,6 @@ java -jar <built_jar>
 ## Ref
 
 - Course
-    - Video
-        - xxx
+    - Book
+        - [Spring Boot 實戰：從 0 開始動手搭建企業級項目](https://www.tenlong.com.tw/products/9787121414244)
+            - p.192 - p.222
