@@ -29,8 +29,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Login | http://localhost:8888/ssm | | |
-| Login | http://localhost:8888 | | |
+| Login | http://localhost:8888 | | | account : 00101, pwd : 123
 | Register | http://localhost:8888/security/register | | |
 | Course list | http://localhost:8888/course/list | | |
 | Input new course | http://localhost:8888/course/toInput | | |

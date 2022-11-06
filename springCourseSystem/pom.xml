@@ -132,7 +132,14 @@
 			<version>4.2.1</version>
 		</dependency>
 
-	</dependencies>
+		<!-- mybatis plus -->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-extension</artifactId>
+            <version>3.4.2</version>
+        </dependency>
+
+    </dependencies>
 
 	<build>
 		<plugins>

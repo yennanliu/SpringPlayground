@@ -2,48 +2,33 @@ package com.yen.springCourseSystem.bean;
 
 // book p. 246
 
-import org.springframework.stereotype.Component;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
-import javax.persistence.*;
 import java.io.Serializable;
 
-@Component
-@Table(name="users")
-public class User implements Serializable {
+@Data
+@TableName("users")
+public class User implements Serializable{
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="user_no")
-    private int userNo;
+    private static final long serialVersionUID = -8064251796984414018L;
 
-    @Column(name="user_name")
-    private String userName;
+    /**
+     * 用户账号
+     */
+    @TableId(type = IdType.AUTO)
+    private String userNo;
 
+    /**
+     * 密码
+     */
     private String userPwd;
 
-    // getter, setter
-    public int getUserNo() {
-        return userNo;
-    }
-
-    public void setUserNo(int userNo) {
-        this.userNo = userNo;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getUserPwd() {
-        return userPwd;
-    }
-
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd;
-    }
+    /**
+     * 用户名称
+     */
+    private String userName;
 
 }

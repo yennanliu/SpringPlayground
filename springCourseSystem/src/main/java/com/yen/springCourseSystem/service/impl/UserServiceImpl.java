@@ -1,36 +1,17 @@
 package com.yen.springCourseSystem.service.impl;
 
 // book p. 250
+// https://github.com/yennanliu/SpringPlayground/blob/main/ref_project/easy-springboot-master/src/main/java/com/xiaoze/course/service/impl/UserServiceImpl.java
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yen.springCourseSystem.bean.User;
 import com.yen.springCourseSystem.mapper.UserMapper;
 import com.yen.springCourseSystem.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
-import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Slf4j
-public class UserServiceImpl implements UserService {
-
-    @Resource
-    private UserMapper userMapper;
-
-    @Override
-    public List<User> loadUserByUserName(String userName) {
-
-        List<User> users = null;
-        User user = userMapper.loadUserByUserName(userName);
-        users = userMapper.select(user);
-        return users;
-    }
-
-    @Override
-    public void addUser(User user) {
-        log.info(">>> addUser : user = {}", user);
-        userMapper.insert(user);
-    }
+@Transactional(rollbackFor = Exception.class)
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 }

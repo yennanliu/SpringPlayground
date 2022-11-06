@@ -2,6 +2,13 @@
 
 ### NOTE!!!
 - this project built with `Gradle`
+- Before running, please do below:
+  - Ren SQL DDL
+    - sql/db.sql
+- Landing page
+  - http://localhost:8090/ssm
+    - account : 000103
+    - pwd : 123
 
 课程管理系统是基于springboot2.0来实现了，springboot是spring在发展史上的一个重大框架，它大大简化了spring的配置，而今年springboot重大升级，出现了springboot2.0版本，于是就写了一个技术较全的简化版系统，为各个有兴趣的同学提供学习和交流。
 
