@@ -97,7 +97,10 @@
 			<version>3.3.0</version>
 		</dependency>
 
-		<!--MapStruct Java实体映射工具依赖-->
+		<!--
+			MapStruct Java entity mapping tool
+			book p.4-36
+		-->
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct-jdk8</artifactId>
