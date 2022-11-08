@@ -6,8 +6,10 @@ package com.yen.efence.service.impl;
 import com.yen.efence.covert.FenceGeoLayerConvert;
 import com.yen.efence.dao.mapper.FenceGeoLayerDao;
 import com.yen.efence.dao.model.FenceGeoLayerPO;
+import com.yen.efence.entity.BusinessCodeEnum;
 import com.yen.efence.entity.bo.FenceGeoLayerBO;
 import com.yen.efence.entity.dto.FenceGeoLayerSaveDTO;
+import com.yen.efence.exception.FenceGeoLayerServiceException;
 import com.yen.efence.service.FenceGeoLayerService;
 import java.sql.Timestamp;
 import java.util.HashMap;
@@ -24,11 +26,39 @@ public class FenceGeoLayerServiceImpl implements FenceGeoLayerService {
     @Autowired
     FenceGeoLayerDao fenceGeoLayerDao;
 
+    /** add and save layer info */
     @Override
     public FenceGeoLayerBO save(FenceGeoLayerSaveDTO fenceGeoLayerSaveDTO) {
-        return null;
+
+        Map<String, Object> map = new HashMap();
+        map.put("code", fenceGeoLayerSaveDTO.getCode());
+        List<FenceGeoLayerPO> layerPOList = fenceGeoLayerDao.selectByMap(map);
+        // check if duplicated layer
+        if (layerPOList != null && layerPOList.size() > 0){
+            throw new FenceGeoLayerServiceException(
+                    BusinessCodeEnum.BUSI_LAYER_FAIL_1000.getCode(),
+                    BusinessCodeEnum.BUSI_LAYER_FAIL_1000.getDesc(),
+                    fenceGeoLayerSaveDTO);
+        }
+
+        /** transform BO (business) data to PO (DB) data via MapStruct (less code) */
+        FenceGeoLayerPO fenceGeoLayerPO = FenceGeoLayerConvert
+                .INSTANCE.convertFenceGeoLayerPO(fenceGeoLayerSaveDTO);
+        fenceGeoLayerPO.setCreateTime(new Timestamp(System.currentTimeMillis()));
+        fenceGeoLayerPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+
+        // insert to DB via Mybatis and Mybatis-plus
+        fenceGeoLayerDao.insert(fenceGeoLayerPO);
+
+        /** transform PO (DB) data to BO (business) data */
+        FenceGeoLayerBO fenceGeoLayerBO = FenceGeoLayerConvert
+                .INSTANCE.convertFenceGeoLayerBO(fenceGeoLayerPO);
+        fenceGeoLayerBO.setRegionalType(fenceGeoLayerSaveDTO.getRegionType());
+
+        return fenceGeoLayerBO;
     }
 
+    /** get single layer info */
     @Override
     public FenceGeoLayerBO getSingle(String code) {
 
@@ -39,7 +69,7 @@ public class FenceGeoLayerServiceImpl implements FenceGeoLayerService {
         // transform PO (DB object) to BO (business object)
         FenceGeoLayerBO fenceGeoLayerBO = FenceGeoLayerConvert
                 .INSTANCE.INSTANCE.convertFenceGeoLayerBO(layerPOList.get(0));
-        
+
         return fenceGeoLayerBO;
     }
 
