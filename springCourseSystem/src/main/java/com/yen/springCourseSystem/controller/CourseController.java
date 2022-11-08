@@ -84,6 +84,7 @@ public class CourseController {
             @RequestParam(value="pageNo", required = false, defaultValue = "1") String pageNoStr,
             Map<String, Object> map,
             CourseQueryHelper helper){
+        System.out.println(">>> list course start ...");
         int pageNo = 1;
         // check pageNo
         pageNo = Integer.parseInt(pageNoStr);

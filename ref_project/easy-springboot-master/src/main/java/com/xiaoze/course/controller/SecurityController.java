@@ -65,6 +65,7 @@ public class SecurityController {
 
     @GetMapping("/mainController/{userNo}")
     public String main(@PathVariable String userNo, Map<String, Object> map){
+        System.out.println(">>> userService.getById(userNo) = " + userService.getById(userNo));
         map.put("user",userService.getById(userNo));
         return "main";
     }

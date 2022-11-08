@@ -9,7 +9,7 @@
 <mapper namespace="com.yen.springCourseSystem.mapper.CourseTypeMapper">
 
     <!-- List<CourseType> selectAll(); -->
-    <select id="selectAll"  resultType="CourseType">
+    <select id="selectAll"  resultType="com.yen.springCourseSystem.bean.CourseType">
         SELECT
         *
         FROM

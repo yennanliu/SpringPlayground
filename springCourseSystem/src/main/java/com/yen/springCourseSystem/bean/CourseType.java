@@ -2,13 +2,13 @@ package com.yen.springCourseSystem.bean;
 
 // book p. 246
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import org.springframework.stereotype.Component;
-
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Component
-@Table(name="course_type")
+@TableName("course_type")
 public class CourseType implements Serializable {
 
     @Id

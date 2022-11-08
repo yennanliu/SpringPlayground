@@ -103,7 +103,10 @@ public class SecurityController {
     public String main(@PathVariable String userNo, Map<String, Object> map){
 
         log.info(">>> mainController, userNo = {}, map = {}", userNo, map);
-        map.put("user", userService.getById(userNo));
+
+        // TODO : fix this
+        //map.put("user", userService.getById(userNo));
+        map.put("user", new User("000103", "123", "yen"));
         return "main";
     }
 

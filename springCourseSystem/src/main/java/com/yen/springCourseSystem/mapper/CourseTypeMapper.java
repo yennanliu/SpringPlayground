@@ -4,9 +4,10 @@ package com.yen.springCourseSystem.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yen.springCourseSystem.bean.CourseType;
-
+import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
+@Mapper
 public interface CourseTypeMapper extends BaseMapper<CourseType> {
 
     List<CourseType> selectAll();
