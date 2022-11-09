@@ -72,6 +72,7 @@ public class CourseTypeController {
                         .orderByAsc(CourseType::getTypeId)
         );
 
+        System.out.println(">>> iPage = " + iPage);
         map.put("page", iPage);
 
         return "courseType/list_course_type";

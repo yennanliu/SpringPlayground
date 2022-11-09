@@ -1,124 +1,33 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!-- 
-    book p.263
-    https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 
--->
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yen.springCourseSystem.mapper.CourseMapper">
-    
-    <sql id="cols">
-        course_no,
-        course_name,
-        course_hours,
-        type_id,
-        course_status,
-        course_reqs,
-        course_points,
-        course_memo,
-        course_textbook_pic
-    </sql>
-    
-    <resultMap id="courseRM" type="com.yen.springCourseSystem.bean.Course">
-        <!-- PK -->
-        <id property="courseNo" column="course_no"></id>
-        <!-- other col -->
-        <result property="courseName" column="course_name"></result>
-        <result property="courseHours" column="course_hours"></result>
-        <result property="courseStatus" column="course_status"></result>
-        <result property="courseReqs" column="course_reqs"></result>
-        <result property="coursePoints" column="course_points"></result>
-        <result property="course_Memo" column="course_memo"></result>
-        <result property="courseTextbookPic" column="course_textbook_pic"></result>
-<!--        <result property="typeId" column="type_id"></result>-->
-<!--        <result property="courseStatus" column="course_status"></result>-->
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--<!DOCTYPE mapper-->
+<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--&lt;!&ndash; 配置命名空间，区别名称 &ndash;&gt;-->
+<!--<mapper namespace="com.yen.springCourseSystem.mapper.CourseTypeMapper">-->
 
-        <!-- instance association-->
-        <association property="courseType" javaType="com.yen.springCourseSystem.bean.CourseType">
-            <!-- PK mapping -->
-            <id property="typeId" column="type_id"></id>
-            <result property="typeName" column="type_name"></result>
-        </association>
-    </resultMap>
+<!--    &lt;!&ndash; SQL片段 &ndash;&gt;-->
+<!--    <sql id="cols">-->
+<!--        course_no,-->
+<!--        course_name,-->
+<!--        course_hours,-->
+<!--        type_id,-->
+<!--        course_status,-->
+<!--        course_reqs as reqs,-->
+<!--        course_point,-->
+<!--        course_memo,-->
+<!--        course_textbook_pic-->
+<!--    </sql>-->
 
-    <!-- add -->
-    <insert id="addCourse" parameterType="com.yen.springCourseSystem.bean.Course">
-        INSERT INTO course
-        VALUES
-        (#{courseNo}, #{courseName}, #{courseHours}, #{courseType.typeId},#{courseStatus}, #{reqs}, #{coursePoints}, #{courseMemo}, #{courseTextBookPic, jdbcType=BLOB})
-    </insert>
+<!--    &lt;!&ndash; 带分页查询，注意Mybatis中如果有填写集合类型，只填写集合中元素的类型  &ndash;&gt;-->
+<!--    <select id="getCourseList" resultType="com.yen.springCourseSystem.bean.Course">-->
+<!--        select-->
+<!--        <include refid="cols"/>-->
+<!--        from-->
+<!--        tbl_course-->
+<!--        <where>-->
+<!--            ${ew.sqlSegment}-->
+<!--        </where>-->
 
-    <!-- delete -->
-    <delete id="removeCourseByNo" parameterType="String">
-        DELETE FROM course
-        WHERE course_no = #{courseNo}
-    </delete>
+<!--    </select>-->
 
-    <delete id="removeCourseByTypeId" parameterType="int">
-        DELETE FROM course
-        WHERE type_id = #{typeId}
-    </delete>
-
-    <!-- modify -->
-    <update id="updateCourse" parameterType="com.yen.springCourseSystem.bean.Course">
-        UPDATE course
-        <set>
-            <if test="courseName != null">course_name = #{courseName}, </if>
-            <if test="courseHours != null">course_hours = #{courseHours},</if>
-            <if test="courseType != null">, type_id = #{courseType.typeID}</if>
-            <if test="courseStatus != null">course_status = #{courseStatus}, </if>
-            <if test="reqs != null">, course_reqs #{reqs}</if>
-            <if test="coursePoint != null">course_point = #{coursePoint}, </if>
-            <if test="courseMemo != null">course_memo = #{courseMemo}, </if>
-            <if test="courseTextBookPic != null">, course_text_book_pic = #{courseTextBookPic, jdbcType=BLOB}</if>
-        </set>
-        WHERE course_no = #{courseNo}
-    </update>
-
-    <!-- select -->
-    <select id="loadCourseByNo" parameterType="string" resultMap="courseRM">
-        SELECT
-        p.course_no,
-        p.course_name,
-        p.course_hours,
-        p.course_status,
-        p.course_reqs,
-        p.course_point,
-        p.course_memo,
-        p.course_textbook_pic,
-        b.type_id,
-        b.type_name,
-        FROM
-        course p
-        LEFT JOIN
-        course_type b
-        ON
-        p.type_id = b.type_id
-        WHERE p.course_no = #{courseNo}
-    </select>
-
-    <select id="loadCourseByTypeId" parameterType="int" resultType="string">
-        SELECT
-        course_no
-        FROM
-        course
-        WHERE type_id = #{typeId}
-    </select>
-
-    <!-- select with paging -->
-    <select id="loadScopedCourses" parameterType="map" resultType="com.yen.springCourseSystem.bean.Course" resultMap="courseRM">
-        SELECT * FROM course p
-        LEFT JOIN course_type b
-        ON p.type_id = b.type_id
-        <where>
-            l = 1
-            <if test="qryCourseName != null"> and p.course_name like concat(concat('%', #{qryCourseName}), '%')</if>
-            <if test="qryStartPoint != null"> and p.course_point >= #{qryStartPoint}</if>
-            <if test="qryEndPoint != null"> and p.course_point <![CDATA[ <= ]]> #{qryEndPoint}</if>
-            <if test="typeId != null"> and p.type_id = #{typeId}</if>
-        </where>
-        ORDER BY p.course_no
-    </select>
-
-</mapper>
+<!--</mapper>-->

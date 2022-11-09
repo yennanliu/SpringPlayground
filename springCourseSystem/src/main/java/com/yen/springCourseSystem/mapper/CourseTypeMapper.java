@@ -10,5 +10,4 @@ import java.util.List;
 @Mapper
 public interface CourseTypeMapper extends BaseMapper<CourseType> {
 
-    List<CourseType> selectAll();
 }

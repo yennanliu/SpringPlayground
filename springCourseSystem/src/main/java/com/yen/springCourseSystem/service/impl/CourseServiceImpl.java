@@ -1,105 +1,80 @@
 package com.yen.springCourseSystem.service.impl;
 
 // book p. 252
-
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yen.springCourseSystem.Util.CourseQueryHelper;
 import com.yen.springCourseSystem.bean.Course;
 import com.yen.springCourseSystem.mapper.CourseMapper;
+import com.yen.springCourseSystem.mapper.CourseTypeMapper;
 import com.yen.springCourseSystem.service.CourseService;
-import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import javax.annotation.Resource;
-import java.util.HashMap;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * CourseServiceImpl
+ *
+ * @author xiaoze
+ * @date 2018/6/3
+ *
+ */
 @Service
-@Log4j2
-public class CourseServiceImpl implements CourseService {
+@Transactional(rollbackFor = Exception.class)
+public class CourseServiceImpl extends ServiceImpl<CourseMapper, Course> implements CourseService {
 
-    @Resource
-    CourseMapper courseMapper;
+    @Autowired
+    CourseTypeMapper courseTypeMapper;
 
     @Override
-    public void addCourse(Course course) {
+    public byte[] getTextbookPic(String courseNo) {
 
-        courseMapper.addCourse(course);
+        Course course = baseMapper.selectById(courseNo);
+
+        if(course.getCourseTextbookPic() != null){
+            return course.getCourseTextbookPic();
+        }
+
+        return null;
+
     }
 
     @Override
-    public boolean removeCourseByNo(String courseNo) {
+    public Page<Course> getCoursePage(CourseQueryHelper helper, Integer pageNo, Integer pageSize) {
 
-        courseMapper.removeCourseByNo(courseNo);
-        return true;
-    }
-
-    @Override
-    public void updateCourse(Course course) {
-
-        String[] courseReq = course.getCourseReqs();
-        if (courseReq != null && courseReq.length > 0){
-            courseMapper.updateCourse(course);
-        }else{
-            course.setReqs("");
-            courseMapper.updateCourse(course);
+        Page<Course> page = new Page<>(pageNo,pageSize);
+        QueryWrapper<Course> courseWrapper = new QueryWrapper<>();
+        if(StringUtils.isNotEmpty(helper.getQryCourseName())){
+            courseWrapper.like("course_name", helper.getQryCourseName());
         }
-    }
-
-    @Override
-    public Course loadCourseByNo(String courseNo) {
-
-        // TODO : re-check this ?
-        log.info(">>> courseNo = {}", courseNo);
-        Course course = new Course();
-        //course = null;
-        if (courseNo != null){
-            course = courseMapper.loadCourseByNo(courseNo);
-        }
-        return course;
-    }
-
-    @Override
-    public List<Course> loadScopedCourses(CourseQueryHelper helper) {
-
-        // TODO : check "initialCapacity"
-        Map<String, Object> map = new HashMap<>(16);
-        // TODO : fix below (?)
-        map = getQueryHelper(helper);
-        List<Course> courseList = courseMapper.loadScopedCourses(map);
-        System.out.println(">>> courseList = " + courseList);
-        return courseList;
-    }
-
-    @Override
-    public byte[] getTextBookPic(String courseNo) {
-
-        byte[] textBookPic = null;
-        Course course = courseMapper.loadCourseByNo(courseNo);
-        textBookPic = course.getCourseTextBookPic();
-        return textBookPic;
-    }
-
-    private Map<String, Object> getQueryHelper(CourseQueryHelper helper){
-
-        Map<String, Object> map = new HashMap<>(16);
-
-        if (helper.getQryCourseName() != null){
-            map.put("qryCourseName", helper.getQryCourseName());
+        if(helper.getQryStartPoint()!=null){
+            courseWrapper.lambda().ge(Course::getCoursePoint, helper.getQryStartPoint());
         }
 
-        if (helper.getQryEndPoint() != null){
-            map.put("qryEndPoint", helper.getQryEndPoint());
+        if(helper.getQryEndPoint()!=null){
+            courseWrapper.lambda().le(Course::getCoursePoint, helper.getQryEndPoint());
         }
 
-        if (helper.getQryStartPoint() != null){
-            map.put("qryStartPoint", helper.getQryStartPoint());
+        if(StringUtils.isNotEmpty(helper.getQryCourseType())){
+            courseWrapper.like("type_id", Integer.parseInt(helper.getQryCourseType()));
         }
 
-        if (helper.getQryCourseType() != null){
-            map.put("qryCourseType", helper.getQryCourseType());
+        List<Course> courseList = baseMapper.getCourseList(page, courseWrapper);
+
+        courseList.forEach(course ->
+                course.setCourseType(courseTypeMapper.selectById(course.getTypeId()))
+        );
+
+        if(CollectionUtils.isNotEmpty(courseList)){
+            page.setRecords(courseList);
+            return page;
         }
 
-        return map;
+        return new Page<>();
     }
 
 }

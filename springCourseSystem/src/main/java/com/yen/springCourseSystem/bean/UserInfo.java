@@ -27,4 +27,5 @@ public class UserInfo implements Serializable {
         this.username = username;
         this.password = password;
     }
+
 }

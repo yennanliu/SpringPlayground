@@ -2,121 +2,93 @@ package com.yen.springCourseSystem.bean;
 
 // book p. 247
 
-import org.springframework.stereotype.Component;
-
-import javax.persistence.*;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 import java.io.Serializable;
 
-@Component
+@Data
+@TableName("course")
 public class Course implements Serializable{
 
-    // attr
+    private static final long serialVersionUID = 5421990434228550815L;
+
+    /**
+     * 课程编号
+     */
+    @TableId(value = "course_no", type = IdType.UUID)
     private String courseNo;
+
+    /**
+     * 课程名称
+     */
+    @TableField("course_name")
     private String courseName;
+
+    /**
+     * 课程课时
+     */
     private Integer courseHours;
+
+    /**
+     * 课程类型Id
+     */
+    private Integer typeId;
+
+    /**
+     * 课程状态：O开发公选  Z暂不开放  C停止授课
+     */
     private String courseStatus;
-    private Double coursePoint;
-    private String[] courseReqs;
+
+    /**
+     * 授课要求
+     */
+    @TableField("course_reqs")
     private String reqs;
+    /**
+     * 授课要求，多选
+     */
+    @TableField(exist = false)
+    private String[] courseReqs;
+
+    /**
+     * 学分
+     */
+    private Double coursePoint;
+
+    /**
+     * 备注说明
+     */
     private String courseMemo;
-    private byte[] courseTextBookPic; // course profile pic
+
+    /**
+     * 教材封面
+     */
+    private byte[] courseTextbookPic;
+
+    /**
+     * 对一关系
+     */
+    @TableField(exist = false)
     private CourseType courseType;
-
-    // getter, setter
-    public String getCourseNo() {
-        return courseNo;
-    }
-
-    public void setCourseNo(String courseNo) {
-        this.courseNo = courseNo;
-    }
-
-    public String getCourseName() {
-        return courseName;
-    }
-
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public Integer getCourseHours() {
-        return courseHours;
-    }
-
-    public void setCourseHours(Integer courseHours) {
-        this.courseHours = courseHours;
-    }
-
-    public String getCourseStatus() {
-        return courseStatus;
-    }
-
-    public void setCourseStatus(String courseStatus) {
-        this.courseStatus = courseStatus;
-    }
-
-    public Double getCoursePoint() {
-        return coursePoint;
-    }
-
-    public void setCoursePoint(Double coursePoint) {
-        this.coursePoint = coursePoint;
-    }
-
-    public String[] getCourseReqs() {
-        return courseReqs;
-    }
-
-//    public void setCourseReqs(String[] courseReqs) {
-//        this.courseReqs = courseReqs;
-//    }
 
     public void setCourseReqs(String[] courseReqs) {
         this.courseReqs = courseReqs;
+
         StringBuffer sb = new StringBuffer();
-        for (String req:courseReqs){
-            // TODO : may need to fix this
-            sb.append(req + "|");
+        for(String req:courseReqs){
+            sb.append(req).append("|");
         }
         sb.deleteCharAt(sb.length()-1);
+
         this.reqs = sb.toString();
     }
 
-    public String getReqs() {
-        return reqs;
-    }
-
-//    public void setReqs(String reqs) {
-//        this.reqs = reqs;
-//    }
-
     public void setReqs(String reqs) {
         this.reqs = reqs;
-        this.courseReqs = this.reqs.split("\\/");
-    }
-
-    public String getCourseMemo() {
-        return courseMemo;
-    }
-
-    public void setCourseMemo(String courseMemo) {
-        this.courseMemo = courseMemo;
-    }
-
-    public byte[] getCourseTextBookPic() {
-        return courseTextBookPic;
-    }
-
-    public void setCourseTextBookPic(byte[] courseTextBookPic) {
-        this.courseTextBookPic = courseTextBookPic;
-    }
-
-    public CourseType getCourseType() {
-        return courseType;
-    }
-
-    public void setCourseType(CourseType courseType) {
-        this.courseType = courseType;
+        this.courseReqs = this.reqs.split("\\|");
     }
 
 }

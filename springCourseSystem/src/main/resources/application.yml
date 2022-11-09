@@ -7,3 +7,13 @@ spring:
     password:
     #ype: com.alibaba.druid.pool.DruidDataSource
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath:mybatis/*Mapper.xml
+  global-config:
+    banner: true
+  configuration:
+    cache-enabled: false
+
+#logging:
+#  config: classpath:log4j2/log4j2.xml

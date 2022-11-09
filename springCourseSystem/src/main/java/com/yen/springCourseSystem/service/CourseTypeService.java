@@ -5,16 +5,12 @@ package com.yen.springCourseSystem.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yen.springCourseSystem.bean.CourseType;
 
-import java.util.List;
-
 public interface CourseTypeService extends IService<CourseType> {
 
-    void addCourseType(CourseType courseType);
-    void removeCourseType(Integer typeId);
-    void updateCourseType(CourseType courseType);
-    CourseType getCourseTypeById(Integer typeId);
-    List<CourseType> loadAll();
-
+    /**
+     * 根据课程类型删除对应的课程
+     * @param typeId
+     */
     void deleteCourseType(Integer typeId);
 
 }

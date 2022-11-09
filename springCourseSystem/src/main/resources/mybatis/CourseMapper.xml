@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置命名空间，区别名称 -->
+<mapper namespace="com.yen.springCourseSystem.mapper.CourseTypeMapper">
+
+    <!-- SQL片段 -->
+    <sql id="cols">
+        course_no,
+        course_name,
+        course_hours,
+        type_id,
+        course_status,
+        course_reqs as reqs,
+        course_point,
+        course_memo,
+        course_textbook_pic
+    </sql>
+
+    <!-- 带分页查询，注意Mybatis中如果有填写集合类型，只填写集合中元素的类型  -->
+    <select id="getCourseList" resultType="com.yen.springCourseSystem.bean.Course">
+        select
+        <include refid="cols"/>
+        from
+        tbl_course
+        <where>
+            ${ew.sqlSegment}
+        </where>
+
+    </select>
+
+</mapper>
