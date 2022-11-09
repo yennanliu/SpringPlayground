@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import com.yen.efence.utils.GeoJsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.postgis.Polygon;
@@ -58,16 +57,37 @@ public class FenceGeoServiceImpl implements FenceGeoService {
         return batchImportGeoFenceBOList;
     }
 
+    /** get fence info via ID */
     @Override
     public GeoFenceBO getGeofenceById(Integer fenceId) {
-        return null;
+
+        FenceGeoInfoPO fenceGeoInfoPO = fenceGeoDao.selectById(fenceId);
+        GeoFenceBO geoFenceBO = null;
+        if (fenceGeoInfoPO != null){
+            geoFenceBO = FenceGeoConvert.INSTANCE.convertFenceGeoBO(fenceGeoInfoPO);
+            geoFenceBO.setRegionGeoJson(fenceGeoInfoPO.getRegion().toString());
+        }
+
+        return geoFenceBO;
     }
 
+    /** check whether given geo-data-point is in fence */
     @Override
     public ContainPointBO isContainPoint(ContainPointDTO containPointDTO) {
-        return null;
+
+        String result = fenceGeoDao.isContainPoint(containPointDTO.getLon(), containPointDTO.getLat(), containPointDTO.getFenceId());
+        ContainPointBO containPointBO;
+
+        if ("f".equals(result)){
+            containPointBO = ContainPointBO.builder().result(new Boolean(false)).build();
+        }else{
+            containPointBO = ContainPointBO.builder().result(new Boolean(true)).build();
+        }
+
+        return containPointBO;
     }
 
+    /** via data check, get validated, and in-validated fence data */
     private Map<String, List<GeoFenceBO>> validateFenceData(List<GeoFenceBO> fenceBOList) {
 
         //校验结果数据
@@ -83,6 +103,7 @@ public class FenceGeoServiceImpl implements FenceGeoService {
         return validateResult;
     }
 
+    /** convert validated fence data to PostgreSQL PO (DB data) object */
     private List<FenceGeoInfoPO> convertSuccessFenceData(BatchImportGeoFenceDTO batchImportGeoFenceDTO,
                                                          List<GeoFenceBO> successFenceBOList) {
         List<FenceGeoInfoPO> fenceGeoInfoPOList = new ArrayList<>();
@@ -100,6 +121,7 @@ public class FenceGeoServiceImpl implements FenceGeoService {
         return fenceGeoInfoPOList;
     }
 
+    /** convert in-validated fence data (as list) */
     private List<BatchImportGeoFenceBO> convertFailFenceData(BatchImportGeoFenceDTO batchImportGeoFenceDTO,
                                                              List<GeoFenceBO> failFenceBOList) {
         List<BatchImportGeoFenceBO> list = new ArrayList<>();
