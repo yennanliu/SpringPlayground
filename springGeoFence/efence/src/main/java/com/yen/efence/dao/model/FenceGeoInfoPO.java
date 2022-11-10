@@ -11,6 +11,8 @@ import lombok.Data;
 import org.postgis.Point;
 import org.postgis.Polygon;
 
+// book p. 4-51
+
 @Data
 @TableName("fence_geo_info")
 @KeySequence(value = "fence_geo_id_seq")
