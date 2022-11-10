@@ -63,11 +63,13 @@ public class CourseTypeController {
          */
         // instead of LambdaQueryWrapper, use QueryWrapper
         // https://www.cxyzjd.com/article/sinat_34338162/108667109
+        // https://blog.csdn.net/qq_41389354/article/details/112008695
         Page<CourseType> page = new Page<>(pageNo,3);
-        IPage<CourseType> iPage = courseTypeService.page(page,
-                new QueryWrapper<CourseType>()
-                        .orderByAsc("typeId")
-        );
+
+        QueryWrapper<CourseType> queryWrapper = new QueryWrapper<>();
+        //queryWrapper.isNotNull("typeId");
+        IPage<CourseType> iPage = courseTypeService.page(
+                page, queryWrapper);
 
         System.out.println(">>> iPage = " + iPage);
         map.put("page", iPage);

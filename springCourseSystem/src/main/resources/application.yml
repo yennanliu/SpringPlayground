@@ -14,7 +14,7 @@ spring:
 
 
 mybatis-plus:
-  mapper-locations: classpath:mybatis/*Mapper.xml
+  #mapper-locations: classpath:mybatis/*Mapper.xml
   global-config:
     banner: true
   configuration:
