@@ -177,6 +177,7 @@
 			</plugin>
 
 			<!--for MapStruct -->
+			<!-- https://maven.apache.org/plugins/maven-compiler-plugin/dependency-info.html -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>

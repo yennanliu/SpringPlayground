@@ -5,7 +5,13 @@
 - Tech
     - Spring boot
     - PostgreSQL
+    - PostGIS
+    - MapStruct
 
+## Apps
+
+- [efence](https://github.com/yennanliu/SpringPlayground/tree/main/springGeoFence/efence) : main app
+- [configserver](https://github.com/yennanliu/SpringPlayground/tree/main/springGeoFence/configserver) : config server
 
 ## Steps
 
