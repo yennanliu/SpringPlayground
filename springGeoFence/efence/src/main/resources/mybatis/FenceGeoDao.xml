@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- book p.4-56 -->
+<!-- https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter04-efence/src/main/resources/mybatis/FenceGeoDao.xml -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yen.efence.dao.mapper.FenceGeoDao">
+    <resultMap id="BaseResultMap" type="com.yen.efence.dao.model.FenceGeoInfoPO">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="explain" property="explain" jdbcType="VARCHAR"/>
+        <result column="city_code" property="cityCode" jdbcType="VARCHAR"/>
+        <result column="ad_code" property="adCode" jdbcType="VARCHAR"/>
+        <result column="layer_code" property="layerCode" jdbcType="VARCHAR"/>
+        <result column="region" property="region" jdbcType="OTHER"/>
+        <result column="centre" property="centre" jdbcType="OTHER"/>
+        <result column="area" property="area" jdbcType="DOUBLE"/>
+        <result column="custom_info" property="customInfo" jdbcType="VARCHAR"/>
+        <result column="batch_id" property="batchId" jdbcType="INTEGER"/>
+        <result column="from_id" property="fromId" jdbcType="INTEGER"/>
+        <result column="geo_json" property="geoJson" jdbcType="VARCHAR"/>
+        <result column="geo_hash" property="geoHash" jdbcType="OTHER"
+                typeHandler="com.wudimanong.efence.config.ArrayType2Handler"/>
+        <result column="date_range" property="dateRange" jdbcType="VARCHAR"/>
+        <result column="time_bucket" property="timeBucket" jdbcType="VARCHAR"/>
+        <result column="state" property="state" jdbcType="INTEGER"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="update_user" property="updateUser" jdbcType="VARCHAR"/>
+        <result column="create_user" property="createUser" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--批量插入方法，数组类型单独指定自定义typeHandler-->
+    <insert id="batchInsert">
+        INSERT INTO
+        fence_geo_info(name,explain,city_code,ad_code,layer_code,region,centre,area,custom_info,batch_id,from_id,geo_json,geo_hash,date_range,time_bucket,state,update_time,create_time,update_user,create_user)
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (#{item.name},#{item.explain},#{item.cityCode},#{item.adCode},#{item.layerCode},#{item.region},#{item.centre},#{item.area},#{item.customInfo},#{item.batchId},#{item.fromId},#{item.geoJson},#{item.geoHash,typeHandler=com.wudimanong.efence.config.ArrayType2Handler},#{item.dateRange},#{item.timeBucket},#{item.state},#{item.updateTime},#{item.createTime},#{item.updateUser},#{item.createUser})
+        </foreach>
+    </insert>
+    <!--利用PostGis提供的函数判断坐标点是否在指定围栏范围之内-->
+    <select id="isContainPoint" resultType="java.lang.String">
+        select ST_Within(ST_SetSRID(ST_MakePoint(#{lon},#{lat}), 4326), region) from fence_geo_info where id=#{fenceId}
+    </select>
+</mapper>
