@@ -3,6 +3,7 @@ package com.yen.springCourseSystem.controller;
 // book p. 258
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springCourseSystem.bean.CourseType;
@@ -60,10 +61,12 @@ public class CourseTypeController {
          * 第一个参数：第几页;
          * 第二个参数：每页获取的条数.
          */
+        // instead of LambdaQueryWrapper, use QueryWrapper
+        // https://www.cxyzjd.com/article/sinat_34338162/108667109
         Page<CourseType> page = new Page<>(pageNo,3);
         IPage<CourseType> iPage = courseTypeService.page(page,
-                new LambdaQueryWrapper<CourseType>()
-                        .orderByAsc(CourseType::getTypeId)
+                new QueryWrapper<CourseType>()
+                        .orderByAsc("typeId")
         );
 
         System.out.println(">>> iPage = " + iPage);

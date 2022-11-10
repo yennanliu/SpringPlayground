@@ -54,6 +54,9 @@ public class CourseTypeController {
     @GetMapping("/list")
     public String list(Map<String, Object> map, @RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr) {
 
+        System.out.println(">>> map = " + map);
+        System.out.println(">>> pageNoStr = " + pageNoStr);
+
         int pageNo = 1;
 
         //对 pageNo 的校验

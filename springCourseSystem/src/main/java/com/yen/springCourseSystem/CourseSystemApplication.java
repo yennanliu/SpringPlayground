@@ -9,7 +9,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @ComponentScan(basePackages = "com.yen.springCourseSystem")
-@MapperScan(basePackages = "com.yen.springCourseSystem.mapper")
+//@MapperScan(basePackages = "com.yen.springCourseSystem.mapper")
+@org.mybatis.spring.annotation.MapperScan("com.yen.springCourseSystem.mapper")
 @EnableTransactionManagement // TODO : recheck this
 @SpringBootApplication
 public class CourseSystemApplication {

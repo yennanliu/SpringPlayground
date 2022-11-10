@@ -1,8 +1,6 @@
 # Spring Course System
 
-
 ## Steps
-
 
 ## Run
 
