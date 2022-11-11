@@ -2,7 +2,8 @@ package com.yen.springCourseSystem;
 
 // book p. 262
 
-import tk.mybatis.spring.annotation.MapperScan; // should use this one!! https://blog.csdn.net/fygkchina/article/details/109159608
+//import tk.mybatis.spring.annotation.MapperScan; // should use this one!! https://blog.csdn.net/fygkchina/article/details/109159608
+//import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
