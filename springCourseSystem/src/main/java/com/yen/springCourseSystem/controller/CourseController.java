@@ -71,6 +71,9 @@ public class CourseController {
     public String list(@RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr,
                        Map<String, Object> map, CourseQueryHelper helper) {
 
+        log.info(">>> (CourseController list) start ...");
+        log.info(">>> (CourseController list) pageNoStr = {}, map = {}, helper = {}", pageNoStr, map, helper);
+
         int pageNo = 1;
 
         //对 pageNo 的校验
@@ -85,8 +88,9 @@ public class CourseController {
         map.put("page", page);
         map.put("helper", helper);
 
-        return "course/list_course";
+        log.info(">>> map = {}", map);
 
+        return "course/list_course";
     }
 
 

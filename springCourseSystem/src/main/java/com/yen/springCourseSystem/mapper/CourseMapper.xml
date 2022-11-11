@@ -23,7 +23,7 @@
         select
         <include refid="cols"/>
         from
-        tbl_course
+        course
         <where>
             ${ew.sqlSegment}
         </where>
