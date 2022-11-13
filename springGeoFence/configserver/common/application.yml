@@ -1,0 +1,9 @@
+# https://github.com/manongwudi/repos/blob/master/common/application.yml
+spring:
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:54321/gis
+    username: gis
+    password: 123456
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: org.postgresql.Driver
+    separator: //
