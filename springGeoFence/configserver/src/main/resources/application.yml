@@ -1,0 +1,19 @@
+# https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter04-configserver/src/main/resources/application.yml
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        #关闭健康性检查
+        health.enabled: false
+        #配置github仓库路径（实际内部使用换成自己的gitLab仓库）
+        git:
+          uri: https://github.com/yennanliu/SpringPlayground/tree/main/springGeoFence/configserver
+          search-paths: 'common,{application}'
+          #启动时克隆存储库
+          clone-on-start: true
+    consul:
+      discovery:
+        prefer-ip-address: true
+        tags: api
