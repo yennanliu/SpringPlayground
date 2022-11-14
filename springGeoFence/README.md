@@ -68,8 +68,26 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
+| Swagger |  |  |  ||
+| GET | GET | API page | http://localhost:9090/swagger-ui.html |swagger 
 
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Fence API |  |  |  ||
+| POST | POST | insert new layer | curl -X 'POST' \
+  'http://localhost:9090/fence/layer/save' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "code": "123",
+  "name": "NYC",
+  "businessType": 1,
+  "cityCode": 1,
+  "regionType": 1,
+  "explain": "NYC CITY GEO POINT",
+  "owner": "YEN"
+}'|insert new layer
 
 
 ## Important Concepts
