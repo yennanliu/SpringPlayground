@@ -94,7 +94,7 @@ public class CourseController {
     }
 
 
-    @DeleteMapping(value="/remove/{courseNo}")
+    @PostMapping(value="/remove/{courseNo}")
     public String remove(@PathVariable("courseNo") String courseNo) {
 
         courseService.removeById(courseNo);

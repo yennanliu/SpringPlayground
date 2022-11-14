@@ -85,7 +85,7 @@ public class CourseTypeController {
         return "courseType/list_course_type";
     }
 
-    @DeleteMapping(value="/remove/{typeId}")
+    @PostMapping(value="/remove/{typeId}")
     public String remove(@PathVariable("typeId") Integer typeId) {
 
         courseTypeService.deleteCourseType(typeId);
