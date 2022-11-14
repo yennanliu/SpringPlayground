@@ -14,7 +14,7 @@ mybatis-plus:
   # extra Mybatis XML under resource classpath:mybatis/*.xml
   mapper-locations: classpath:mybatis/*.xml
   # PO instance scan path, use "," for multiple packages
-  typeAliasesPackage: com.wudimanong.efence.dao.model
+  typeAliasesPackage: com.yen.efence.dao.model
   # Mybatis-Plus for PostGis class mapping setting
   typeHandlersPackage: com.eyougo.mybatis.postgis.type
   global-config:

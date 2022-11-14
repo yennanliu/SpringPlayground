@@ -10,6 +10,7 @@ import com.yen.efence.entity.dto.ContainPointDTO;
 
 import java.util.List;
 
+
 public interface FenceGeoService {
 
     /** batch insert efence method */

@@ -18,7 +18,7 @@
         <result column="from_id" property="fromId" jdbcType="INTEGER"/>
         <result column="geo_json" property="geoJson" jdbcType="VARCHAR"/>
         <result column="geo_hash" property="geoHash" jdbcType="OTHER"
-                typeHandler="com.wudimanong.efence.config.ArrayType2Handler"/>
+                typeHandler="com.yen.efence.config.ArrayType2Handler"/>
         <result column="date_range" property="dateRange" jdbcType="VARCHAR"/>
         <result column="time_bucket" property="timeBucket" jdbcType="VARCHAR"/>
         <result column="state" property="state" jdbcType="INTEGER"/>
@@ -34,7 +34,28 @@
         fence_geo_info(name,explain,city_code,ad_code,layer_code,region,centre,area,custom_info,batch_id,from_id,geo_json,geo_hash,date_range,time_bucket,state,update_time,create_time,update_user,create_user)
         VALUES
         <foreach collection="list" item="item" separator=",">
-            (#{item.name},#{item.explain},#{item.cityCode},#{item.adCode},#{item.layerCode},#{item.region},#{item.centre},#{item.area},#{item.customInfo},#{item.batchId},#{item.fromId},#{item.geoJson},#{item.geoHash,typeHandler=com.wudimanong.efence.config.ArrayType2Handler},#{item.dateRange},#{item.timeBucket},#{item.state},#{item.updateTime},#{item.createTime},#{item.updateUser},#{item.createUser})
+            (
+            #{item.name},
+            #{item.explain},
+            #{item.cityCode},
+            #{item.adCode},
+            #{item.layerCode},
+            #{item.region},
+            #{item.centre},
+            #{item.area},
+            #{item.customInfo},
+            #{item.batchId},
+            #{item.fromId},
+            #{item.geoJson},
+            #{item.geoHash,typeHandler=com.yen.efence.config.ArrayType2Handler},
+            #{item.dateRange},
+            #{item.timeBucket},
+            #{item.state},
+            #{item.updateTime},
+            #{item.createTime},
+            #{item.updateUser},
+            #{item.createUser}
+            )
         </foreach>
     </insert>
     <!--利用PostGis提供的函数判断坐标点是否在指定围栏范围之内-->
