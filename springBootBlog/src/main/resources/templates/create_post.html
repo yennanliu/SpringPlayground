@@ -20,7 +20,8 @@
     <!-- <p>Id: <input type="text" th:field="*{id}"  /></p> -->
     <p>Title: <input type="text" th:field="*{title}" required minlength="1" /></p>
     <p>Author ID: <input type="number" th:field="*{id}"  required minlength="1" /></p>
-    <p>Content: <input type="text" th:field="*{content}" style="width: 400px; height:300px;" required minlength="10" /></p>
+    <!-- <p>Content: <input type="text" th:field="*{content}" style="width: 400px; height:300px;" required minlength="10" /></p> -->
+    <p>Content: <textarea name="courseMemo" rows="6" cols="60" th:field="*{content}">blog content</textarea></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 
 </form>
