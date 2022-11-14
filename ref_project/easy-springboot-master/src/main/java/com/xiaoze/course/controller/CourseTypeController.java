@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.xiaoze.course.entity.Course;
 import com.xiaoze.course.service.CourseService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/courseType")
+@Slf4j
 public class CourseTypeController {
 
     @Autowired
@@ -75,7 +77,8 @@ public class CourseTypeController {
                         .orderByAsc(CourseType::getTypeId)
         );
 
-        System.out.println(">>> iPage = " + iPage);
+        log.info(">>> iPage = " + iPage);
+        log.info(">>> iPage.total = {}, iPage.getPages = {}",  iPage.getTotal(), iPage.getPages());
         map.put("page", iPage);
 
         return "courseType/list_course_type";

@@ -7,7 +7,7 @@ import com.yen.springCourseSystem.bean.CourseType;
 import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
-@Mapper
+//@Mapper
 public interface CourseTypeMapper extends BaseMapper<CourseType> {
 
 }

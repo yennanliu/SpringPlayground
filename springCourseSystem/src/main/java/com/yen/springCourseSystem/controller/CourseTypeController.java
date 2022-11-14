@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springCourseSystem.bean.CourseType;
 import com.yen.springCourseSystem.service.CourseService;
 import com.yen.springCourseSystem.service.CourseTypeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/courseType")
+@Slf4j
 public class CourseTypeController {
 
     @Autowired
@@ -64,14 +66,20 @@ public class CourseTypeController {
         // instead of LambdaQueryWrapper, use QueryWrapper
         // https://www.cxyzjd.com/article/sinat_34338162/108667109
         // https://blog.csdn.net/qq_41389354/article/details/112008695
+        log.info("pageNo = {}", pageNo);
         Page<CourseType> page = new Page<>(pageNo,3);
 
         QueryWrapper<CourseType> queryWrapper = new QueryWrapper<>();
         //queryWrapper.isNotNull("typeId");
-        IPage<CourseType> iPage = courseTypeService.page(
-                page, queryWrapper);
+//        IPage<CourseType> iPage = courseTypeService.page(
+//                page, queryWrapper);
+        IPage<CourseType> iPage = courseTypeService.page(page,
+                new LambdaQueryWrapper<CourseType>()
+                        .orderByAsc(CourseType::getTypeId)
+        );
 
-        System.out.println(">>> iPage = " + iPage);
+        log.info(">>> iPage = " + iPage);
+        log.info(">>> iPage.total = {}, iPage.getPages = {}",  iPage.getTotal(), iPage.getPages());
         map.put("page", iPage);
 
         return "courseType/list_course_type";
@@ -88,14 +96,18 @@ public class CourseTypeController {
     @GetMapping(value="/preUpdate/{typeId}")
     public String preUpdate(@PathVariable("typeId") Integer typeId, Map<String, Object> map) {
 
-        map.put("courseType", courseTypeService.getById(typeId));
+        log.info(">>> preUpdate typeId : {}, map = {}", typeId, map);
+        CourseType courseType = courseTypeService.getById(typeId);
+        log.info(">>> courseType = {}", courseType);
+        map.put("courseType", courseType);
 
         return "courseType/update_course_type";
     }
 
-    @PutMapping(value="/update")
+    @PostMapping(value="/update")
     public String update(CourseType courseType) {
 
+        log.info(">>> update course : {}", courseType);
         courseTypeService.updateById(courseType);
 
         return "redirect:/courseType/list";
