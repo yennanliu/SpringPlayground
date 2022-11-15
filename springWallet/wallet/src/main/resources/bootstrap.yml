@@ -1,0 +1,20 @@
+# book p.5-9
+# https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter05-wallet/src/main/resources/bootstrap.yml
+spring:
+  application:
+    name: wallet
+  profiles:
+    active: debug
+  cloud:
+    consul:
+      discovery:
+        preferIpAddress: true
+        instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
+        healthCheckPath: /actuator/health
+server:
+  port: 9090
+
+#feign配置
+feign:
+  hystrix:
+    enabled: true
