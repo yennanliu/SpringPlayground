@@ -1,0 +1,20 @@
+{
+  "cityCode": "2",
+  "adCode": "2",
+  "layerCode": "2",
+  "fences": [
+    {
+      "name": "string",
+      "explain": "string",
+      "cityCode": "string",
+      "adCode": "string",
+      "layerCode": "2",
+      "regionGeoJson": " { \"type\":\"Feature\", \"properties\":{            \"name\":\"Parc de la Colline\"         },         \"geometry\":{            \"type\":\"Polygon\",\"coordinates\":[               [                  [                     -72.35720634789077,                     47.72858763003908                  ],                  [                     -71.86027854004486,                     47.52764829163817                  ],                  [                     -72.37075892446839,                     47.539848426151735                  ],                  [                     -72.35720634789077,                     47.72858763003908 ]  ]] }}",
+      "customInfo": "string",
+      "dateRange": "string",
+      "timeBucket": "string",
+      "state": 10
+    }
+  ],
+  "batchId": 1001
+}
