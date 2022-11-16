@@ -2,24 +2,24 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>课程类型管理</title>
+    <title>Course Type Management</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body style="padding:8px;">
-<h3 class="title">课程管理</h3>
+<h3 class="title">Course Management</h3>
 <form action="" method="POST">
     <input type="hidden" name="_method" value="DELETE"/>
 </form>
 <div id="queryArea">
     <form th:action="@{/course/list}" method="post" th:object="${helper}">
-        课程名称：<input type="text" name="qryCourseName" th:value="*{qryCourseName}" />&nbsp;&nbsp;
-        学分范围：<input type="text" name="qryStartPoint" size="6" th:value="*{qryStartPoint}" /> - <input type="text" name="qryEndPoint" size="6" th:value="*{qryEndPoint}" />&nbsp;&nbsp;
-        课程类型：
+        Course Name：<input type="text" name="qryCourseName" th:value="*{qryCourseName}" />&nbsp;&nbsp;
+        Credit：<input type="text" name="qryStartPoint" size="6" th:value="*{qryStartPoint}" /> - <input type="text" name="qryEndPoint" size="6" th:value="*{qryEndPoint}" />&nbsp;&nbsp;
+        Course Type：
         <select name="qryCourseType" th:field="*{qryCourseType}">
-            <option th:if="${#strings.isEmpty(qryCourseType)}" value="">=请选择=</option>-->
+            <option th:if="${#strings.isEmpty(qryCourseType)}" value="">=Please select=</option>-->
             <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
         </select>
-        <input type="submit" value="查询"/>
+        <input type="submit" value="search"/>
     </form>
 </div>
 

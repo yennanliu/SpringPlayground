@@ -2,31 +2,31 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>登录页面</title>
+    <title>Login page</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body>
 <div>
     <div id="wrapper" style="text-align:center">
-        <div id="f_title">用户登录</div><br>
+        <div id="f_title">User login</div><br>
         <form method="post" th:object="${user}">
             <div class="f_row">
-                <span>用户编号:</span>
+                <span>User ID:</span>
                 <input id="userNo" type="text" class="form-control" name="userNo" placeholder="请输入账号">
             </div>
             <div class="f_row">
-                <span>登录密码:</span>
-                <input id="userPwd" type="password" class="form-control" name="userPwd" placeholder="请输入密码">
+                <span>User password:</span>
+                <input id="userPwd" type="password" class="form-control" name="userPwd" placeholder="input password">
             </div>
             <br>
             <div class="f_row">
-                <input id="login-system" type="button" value=" 登 录 "/>
+                <input id="login-system" type="button" value=" Login "/>
             </div>
         </form>
     </div>
 </div>
 <div id="footer">
-    课程管理系统-测试版（版本:Beta1.0 Build:#1 2018-06-01）
+    Course System - dev 1.0.0
 </div>
 <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script th:inline="javascript">
@@ -54,7 +54,7 @@
                     if(data){
                         $(location).attr('href', [[@{/security/mainController/}]] + $("#userNo").val());
                     }else{
-                        alert("账号密码不正确！")
+                        alert("account or password incorrect！")
                     }
                     return false
                 }
