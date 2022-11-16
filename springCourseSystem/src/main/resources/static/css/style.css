@@ -6,8 +6,8 @@ body,tr,td,th,div,span,ul,li,input,select,option,textarea{
 }
 
 #header{
-   height:80px;	
-   border-bottom:2px solid blue;
+   height:80px;
+   border-bottom:2px solid green;
 }
 
 #productName{
@@ -22,7 +22,7 @@ body,tr,td,th,div,span,ul,li,input,select,option,textarea{
    width:130px;
    padding:3px;
    height:500px;
-   border-right:2px solid blue;
+   border-right:2px solid green;
    float:left;	
 }
 
@@ -33,7 +33,7 @@ body,tr,td,th,div,span,ul,li,input,select,option,textarea{
 }
 
 #navigator .seperator{
-   border-bottom:1px dotted blue;
+   border-bottom:1px dotted green;
    margin-top:10px;
    margin-bottom:10px;
 }
@@ -48,7 +48,7 @@ form div {
 }
 
 div .text{
-  border:1px solid blue;	
+  border:1px solid green;
 }
 
 table{
@@ -74,7 +74,7 @@ button{
 }
 
 .title{
-	color:blue;
+	color:green;
 	font-size:14pt;
     text-decoration:underline;
 }
@@ -97,7 +97,7 @@ button{
 }
 
 .linkspan{
-   color:blue;
+   color:green;
    text-decoration:underline;
    cursor:hand; 
 }
@@ -133,7 +133,7 @@ button{
 #footer{
     font-size:14px;
     text-align:center;
-    border-top:1px solid blue;
+    border-top:1px solid green;
     margin-top: 4px;
     height: 60px;
     line-height: 60px;

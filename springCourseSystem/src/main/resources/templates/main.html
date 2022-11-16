@@ -11,7 +11,7 @@
     <div></div>
     <div style="float:right; margin:10px;">
         User:[[${user.userName}]]&nbsp;
-        <a th:href="@{/security/logout}" title="leave system" id="logout"><span style="cursor: pointer" class="linkspan">离开系统</span></a>
+        <a th:href="@{/security/logout}" title="leave system" id="logout"><span style="cursor: pointer" class="linkspan">Leave System</span></a>
     </div>
 </div>
 <div>
@@ -28,6 +28,9 @@
         </div>
         <div class="menuitem">
             <a th:href="@{/course/list}" target="contentFrame">Course Management</a>
+        </div>
+        <div class="menuitem">
+            <a th:href="@{/user/course}" target="contentFrame">My Course</a>
         </div>
     </div>
     <div id="content">
