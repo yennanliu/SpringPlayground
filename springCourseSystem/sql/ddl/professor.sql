@@ -1,15 +1,15 @@
--- DDL for professors (mysql)
+-- DDL for professor (mysql)
 -- DB : course_system
 -- create database course_system;
 
-CREATE TABLE IF NOT EXISTS professors(
+CREATE TABLE IF NOT EXISTS professor(
    id varchar(100) primary key comment 'id',
    name varchar(500) comment 'name',
    department varchar(100) comment 'department'
 )engine=innodb default charset=utf8;
 
 -- DML
-INSERT INTO professors(id, name, department)
+INSERT INTO professor(id, name, department)
 values
 ('100', 'jack', 'CS'),
 ('102', 'Linda', 'Physics'),

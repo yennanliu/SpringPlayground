@@ -6,12 +6,15 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 import java.io.Serializable;
 
 @Data
 @TableName("professor")
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 public class Professor implements Serializable {
 
     private static final long serialVersionUID = -8796984414018L;

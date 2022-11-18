@@ -1,46 +1,31 @@
 package com.yen.springCourseSystem.Util;
 
-// book p. 255
+import lombok.Data;
+import java.io.Serializable;
 
-public class CourseQueryHelper {
+@Data
+public class CourseQueryHelper implements Serializable {
 
-    // attr
+    private static final long serialVersionUID = -9215712224557205069L;
+
+    /**
+     * 查询课程名称字段
+     */
     private String qryCourseName;
+
+    /**
+     * 查询学分的开始范围
+     */
     private Double qryStartPoint;
+
+    /**
+     * 查询学分的结束范围
+     */
     private Double qryEndPoint;
+
+    /**
+     * 查询课程类型字段
+     */
     private String qryCourseType;
-
-    // getter, setter
-    public String getQryCourseName() {
-        return qryCourseName;
-    }
-
-    public void setQryCourseName(String qryCourseName) {
-        this.qryCourseName = qryCourseName;
-    }
-
-    public Double getQryStartPoint() {
-        return qryStartPoint;
-    }
-
-    public void setQryStartPoint(Double qryStartPoint) {
-        this.qryStartPoint = qryStartPoint;
-    }
-
-    public Double getQryEndPoint() {
-        return qryEndPoint;
-    }
-
-    public void setQryEndPoint(Double qryEndPoint) {
-        this.qryEndPoint = qryEndPoint;
-    }
-
-    public String getQryCourseType() {
-        return qryCourseType;
-    }
-
-    public void setQryCourseType(String qryCourseType) {
-        this.qryCourseType = qryCourseType;
-    }
 
 }
