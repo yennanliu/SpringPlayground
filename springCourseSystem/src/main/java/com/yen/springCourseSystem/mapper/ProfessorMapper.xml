@@ -13,7 +13,7 @@
     </sql>
 
     <!-- 带分页查询，注意Mybatis中如果有填写集合类型，只填写集合中元素的类型  -->
-    <select id="getCourseList" resultType="com.yen.springCourseSystem.bean.Professor">
+    <select id="getProfessorList" resultType="com.yen.springCourseSystem.bean.Professor">
         select
         <include refid="cols"/>
         from
