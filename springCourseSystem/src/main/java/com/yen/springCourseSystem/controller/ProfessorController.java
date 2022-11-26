@@ -3,6 +3,7 @@ package com.yen.springCourseSystem.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springCourseSystem.Util.ProfessorQueryHelper;
 import com.yen.springCourseSystem.bean.Course;
+import com.yen.springCourseSystem.bean.CourseType;
 import com.yen.springCourseSystem.bean.Professor;
 import com.yen.springCourseSystem.service.ProfessorService;
 import lombok.extern.log4j.Log4j2;
@@ -51,6 +52,28 @@ public class ProfessorController {
         // return "redirect:/courseType/list";
         //return "redirect:professor/list_professor";
         return "/professor/list";
+    }
+
+    // TODO : complete it
+    @GetMapping(value="/preUpdate/{id}")
+    public String preUpdate(@PathVariable("typeId") Integer id, Map<String, Object> map) {
+
+        log.info(">>> preUpdate id : {}, map = {}", id, map);
+        Professor professor = professorService.getById(id);
+        log.info(">>> professor = {}", professor);
+        map.put("professor", professor);
+
+        return "professor/update_professor";
+    }
+
+    @PostMapping(value="/update")
+    public String update(Professor professor) {
+
+        log.info(">>> update professor : {}", professor);
+        professorService.updateById(professor);
+
+        //return "redirect:/professor/list";
+        return "redirect:professor/list_professor";
     }
 
 }
