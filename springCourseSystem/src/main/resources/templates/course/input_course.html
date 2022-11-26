@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>新增课程类型</title>
+    <title>New Course Type</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body style="padding:8px;">
-    <h3 class="title">新增课程</h3>
+    <h3 class="title">New Course Type</h3>
     <img id="textbookPic"
          alt="默认教材封面"
          width="300"
@@ -14,52 +14,52 @@
          style="float:right" th:src="@{/pics/default.jpg}" /><br/>
     <form th:action="@{/course/create}" method="post"  enctype="multipart/form-data" th:object="${course}">
         <div>
-            <span>课程编号:</span>
+            <span>course No:</span>
             <input type="text" name="courseNo" >
         </div>
         <div>
-            <span>课程名称:</span>
+            <span>Course name:</span>
             <input type="text" name="courseName" >
         </div>
         <div>
-            <span>教材封面:</span>
+            <span>course pic:</span>
             <input id="coursetextbookpic" type="file" name="coursetextbookpic" size="40" />
         </div>
         <div>
-            <span>课程课时:</span>
+            <span>Course hours:</span>
             <input type="text" name="courseHours" >
         </div>
         <div>
-            <span>课程学分:</span>
+            <span>Course Point:</span>
             <input type="text" name="coursePoint" >
         </div>
         <div>
-            <span>课程类型:</span>
+            <span>typeId:</span>
             <select name="typeId">
                 <option>=请选择=</option>
                 <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
             </select>
         </div>
         <div>
-            <span>课程状态:</span>
-            <input type="radio" name="courseStatus" th:value="O" checked>开放公选&nbsp;&nbsp;
-            <input type="radio" name="courseStatus" th:value="Z">暂不开放&nbsp;&nbsp;
-            <input type="radio" name="courseStatus" th:value="C">停止授课&nbsp;&nbsp;
+            <span>course Status:</span>
+            <input type="radio" name="courseStatus" th:value="O" checked>Open to Public&nbsp;&nbsp;
+            <input type="radio" name="courseStatus" th:value="Z">Not open&nbsp;&nbsp;
+            <input type="radio" name="courseStatus" th:value="C">terminated
         </div>
         <div>
-            <span>选课条件:</span>
-            <input type="checkbox" name="courseReqs" value="a" />大三以上
-            <input type="checkbox" name="courseReqs" value="b" />平均成绩80分
-            <input type="checkbox" name="courseReqs" value="c" />党员
-            <input type="checkbox" name="courseReqs" value="d" />未拖欠学费
+            <span>Course condition:</span>
+            <input type="checkbox" name="courseReqs" value="a" />Over 3rd grade
+            <input type="checkbox" name="courseReqs" value="b" />Avg grade > B
+            <input type="checkbox" name="courseReqs" value="c" />International student
+            <input type="checkbox" name="courseReqs" value="d" />Student union
         </div>
         <div>
-            <span>备注说明:</span>
+            <span>course Memo:</span>
             <textarea name="courseMemo" rows="6" cols="60" ></textarea>
         </div>
 
         <div>
-            <input type="submit" value="开设课程"/>
+            <input type="submit" value="Open course"/>
         </div>
     </form>
 </body>

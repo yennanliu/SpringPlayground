@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>课程类型管理</title>
+    <title>Course Type Management</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body style="padding:8px;">
-<h3 class="title">课程类型管理</h3>
+<h3 class="title">Course Type Management</h3>
 
 <form action="" method="POST">
     <input type="hidden" name="_method" value="DELETE"/>
@@ -14,9 +14,9 @@
 
 <table border="0" cellspacing="0">
     <tr>
-        <th>编号</th>
-        <th>名称</th>
-        <th>操作</th>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Operation</th>
     </tr>
     <tr class="type" th:each="courseType : ${page.records}">
         <td th:text="${courseType.typeId}" nowrap></td>
