@@ -13,4 +13,8 @@ INSERT INTO professor(id, name, department)
 values
 ('100', 'jack', 'CS'),
 ('102', 'Linda', 'Physics'),
-('103', 'Amy', 'EE');
+('103', 'Amy', 'EE'),
+('104', 'jessie', 'CHE'),
+('105', 'lynn', 'ME'),
+('106', 'jim', 'JP'),
+('107', 'ken', 'CS');
