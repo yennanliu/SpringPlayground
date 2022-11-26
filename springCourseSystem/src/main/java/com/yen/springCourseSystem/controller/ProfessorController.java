@@ -37,7 +37,8 @@ public class ProfessorController {
         map.put("helper", helper);
         log.info(">>> map = {}", map);
 
-        return "professor/test";
+        //return "professor/test";
+        return "professor/list_professor";
     }
 
 }

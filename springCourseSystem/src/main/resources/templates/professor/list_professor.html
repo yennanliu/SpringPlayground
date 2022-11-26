@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Professor List</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body>
+
+<!--<tr class="type" th:each="Professor : ${page.records}">-->
+<!--    <td th:text="${Professor.name}" nowrap></td>-->
+<!--    <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>-->
+<!--</tr>-->
+
+<tr th:each="Professor: ${page.records}">
+    id : <td th:text="${Professor.id}" />
+    <!-- name : <td th:text="${Professor.name}" /> -->
+    <!-- <td id="name" th:text="${Professor.name}" nowrap></td> -->
+    department : <td th:text="${Professor.department}" /><br/>
+</tr>
+
+</body>
+</html>
