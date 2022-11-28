@@ -45,6 +45,9 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 <details>
 <summary>POJO、PO、DTO、VO、BO</summary>
 
+- POJO (Plain Old Java Object)
+	- 簡單並且純粹，POJO就是一個Java物件只包含自己的屬性(private)和提取或儲存這些屬性的method(get、set)，而其他的Object也是以POJO為基準開始延伸。
+
 - PO (persistent object)
 	- 因為ORM框架的誕生所以才有PO的概念，可以簡單地將它視為資料庫table對應的java物件，通常PO的名詞都會與使用hibernate相關
 
