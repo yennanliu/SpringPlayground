@@ -4,7 +4,7 @@ package com.yen.wallet.client;
 
 import com.yen.wallet.client.bo.UnifiedPayBO;
 import com.yen.wallet.client.dto.UnifiedPayDTO;
-import com.yen.wallet.entity.BusinessCodeEnum;
+import com.yen.wallet.entity.enums.BusinessCodeEnum;
 import com.yen.wallet.entity.ResponseResult;
 import com.yen.wallet.entity.enums.BusinessCodeEnum;
 import feign.hystrix.FallbackFactory;
