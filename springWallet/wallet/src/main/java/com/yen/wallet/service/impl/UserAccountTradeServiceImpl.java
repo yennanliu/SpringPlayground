@@ -24,6 +24,7 @@ import com.yen.wallet.service.UserAccountTradeService;
 import com.yen.wallet.service.UserBalanceService;
 import com.yen.wallet.utils.DateUtils;
 import com.yen.wallet.utils.IDutils;
+import com.yen.wallet.utils.SnowFlakeIdGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.sql.Timestamp;
 import java.util.Date;
