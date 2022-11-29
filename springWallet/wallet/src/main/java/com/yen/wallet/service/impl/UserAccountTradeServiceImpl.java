@@ -11,6 +11,7 @@ import com.yen.wallet.dao.mapper.UserBalanceOrderDao;
 import com.yen.wallet.dao.model.UserBalanceOrderPO;
 import com.yen.wallet.entity.ResponseResult;
 import com.yen.wallet.entity.bo.AccountChargeBO;
+import com.yen.wallet.entity.bo.AddBalanceBO;
 import com.yen.wallet.entity.bo.PayNotifyBO;
 import com.yen.wallet.entity.dto.AccountChargeDTO;
 import com.yen.wallet.entity.dto.PayNotifyDTO;
@@ -20,13 +21,15 @@ import com.yen.wallet.entity.enums.TradeType;
 import com.yen.wallet.exception.DAOException;
 import com.yen.wallet.exception.ServiceException;
 import com.yen.wallet.service.UserAccountTradeService;
+import com.yen.wallet.service.UserBalanceService;
 import com.yen.wallet.utils.DateUtils;
 import com.yen.wallet.utils.IDutils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.sql.rowset.serial.SerialException;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserAccountTradeServiceImpl implements UserAccountTradeService {
 
@@ -36,6 +39,10 @@ public class UserAccountTradeServiceImpl implements UserAccountTradeService {
     @Autowired
     UserBalanceOrderDao userBalanceOrderDao;
 
+    @Autowired
+    UserBalanceService userBalanceService;
+
+    /** charge order method */
     @Override
     public AccountChargeBO chargeOrder(AccountChargeDTO accountChargeDTO) {
         // generate charge order info
@@ -63,13 +70,44 @@ public class UserAccountTradeServiceImpl implements UserAccountTradeService {
         return accountChargeBO;
     }
 
+    /** user account balance check method */
     @Override
     public PayNotifyBO receivePayNotify(PayNotifyDTO payNotifyDTO) {
-        return null;
+        // check whether charge order is success
+        Map paramMap = new HashMap<>();
+        paramMap.put("order_id", payNotifyDTO.getOrderId());
+        List<UserBalanceOrderPO> userBalanceOrderPOList = userBalanceOrderDao.selectByMap(paramMap);
+        // if order not existed, return failed result
+        if (userBalanceOrderPOList == null && userBalanceOrderPOList.size() <= 0){
+            return PayNotifyBO.builder().result("fail").build();
+        }
+        UserBalanceOrderPO userBalanceOrderPO = userBalanceOrderPOList.get(0); // TODO : double check it
+        // check charge order status, if already in success status, then this order already processed, no need to do extra op, return success directly
+        if ("2".equals(userBalanceOrderPO.getStatus())){
+            return PayNotifyBO.builder().result("success").build();
+        }
+        // update order to success status
+        userBalanceOrderPO.setStatus(String.valueOf(payNotifyDTO.getPayStatus()));
+        // update order updated time
+        userBalanceOrderPO.setUpdateTime(new Timestamp(System.currentTimeMillis()));
+        // update status
+        userBalanceOrderDao.updateById(userBalanceOrderPO);
+        // if payment success, then have to update user balance
+        if (payNotifyDTO.getPayStatus() == 2){
+            AddBalanceBO addBalanceBO = AddBalanceBO
+                    .builder()
+                    .userId(userBalanceOrderPO.getUserId())
+                    .amount(userBalanceOrderPO.getAmount()).busiType("charge").accType("0")
+                    .currency(userBalanceOrderPO.getCurrency()).build();
+
+            // update balance
+            userBalanceService.addBalance(addBalanceBO);
+        }
+
+        return PayNotifyBO.builder().result("success").build();
     }
 
     /** helper methods */
-
     /** private method : create charge order */
     private UserBalanceOrderPO createChargeOrder(AccountChargeDTO accountChargeDTO) {
         UserBalanceOrderPO userBalanceOrderPO = UserBalanceOrderConvert.INSTANCE
