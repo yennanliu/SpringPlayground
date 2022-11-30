@@ -13,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 @org.mapstruct.Mapper
 public interface UserBalanceConvert {
 
-    // TODO : double check this syntax
+    // syntax (mapstruct to transform DTO->PO, PO->BO ...)
     UserBalanceConvert INSTANCE = Mappers.getMapper(UserBalanceConvert.class);
 
     /**
