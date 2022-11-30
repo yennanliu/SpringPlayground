@@ -14,7 +14,7 @@ spring:
 server:
   port: 9090
 
-#feign配置
+#feign配置, book p.5-58
 feign:
   hystrix:
     enabled: true

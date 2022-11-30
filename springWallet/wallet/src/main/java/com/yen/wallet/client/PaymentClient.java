@@ -1,5 +1,6 @@
 package com.yen.wallet.client;
 
+// book p.5-52, book p.5-59
 // https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter05-wallet/src/main/java/com/wudimanong/wallet/client/PaymentClient.java
 
 import com.yen.wallet.client.bo.UnifiedPayBO;
@@ -10,6 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+// TODO : double check it (which endpoint this feign client is referring)
 @FeignClient(value = "payment", configuration = PaymentConfiguration.class, fallbackFactory = PaymentClientFallbackFactory.class)
 public interface PaymentClient {
 
