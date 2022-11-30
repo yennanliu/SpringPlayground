@@ -9,6 +9,7 @@ spring:
     consul:
       discovery:
         preferIpAddress: true
+        #instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
         instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}:@project.version@
         healthCheckPath: /actuator/health
 server:

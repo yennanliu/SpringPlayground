@@ -28,7 +28,8 @@ public class WalletApplication {
 		SpringApplication.run(WalletApplication.class, args);
 	}
 
-	// TODO : check, understand it
+	// book p.5-63
+	// for spring boot > 2.0 version with hystrix, have to set up below for accessing hystrix metrics properly
 	@Bean
 	public ServletRegistrationBean getServlet() {
 		HystrixMetricsStreamServlet streamServlet = new HystrixMetricsStreamServlet();

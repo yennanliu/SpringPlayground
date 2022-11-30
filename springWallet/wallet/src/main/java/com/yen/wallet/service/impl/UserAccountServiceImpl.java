@@ -15,11 +15,14 @@ import com.yen.wallet.service.UserAccountService;
 import com.yen.wallet.utils.DateUtils;
 import com.yen.wallet.utils.IDutils;
 import com.yen.wallet.utils.SnowFlakeIdGenerator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.*;
 
-// TODO : complete it
+@Slf4j
+@Service
 public class UserAccountServiceImpl implements UserAccountService {
 
     @Autowired
