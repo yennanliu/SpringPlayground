@@ -2,6 +2,9 @@
 
 > Build Wallet service via spring boot
 
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springWalle/doc/pic/wallet_swagger.png">
+
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springWalle/doc/pic/wallet_hystrix.png">
 
 ## Steps
 
@@ -53,16 +56,13 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
+| Swagger |  |  |  ||
+| GET | GET | API page | http://localhost:9090/swagger-ui.html |swagger 
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Hystrix Dashboard | http://localhost:9090/hystrix |service monitor | |
+| Hystrix Dashboard | http://localhost:9090/hystrix |service monitor |use `http://localhost:9090/hystrix.stream ` in stream name|
 | Consul Dashboard | http://localhost:8500/ui/dc1/services |service monitor | |
-
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| Hystrix Dashboard | http://localhost:9090/hystrix | | |
 
 
 ## Important Concepts
