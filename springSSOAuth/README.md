@@ -82,6 +82,8 @@ mvn package
 java -jar <built_jar>
 ```
 
+</details>
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -107,8 +109,6 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | GET |  GET | Test | http://localhost:9092/index/hello| |
 
-
-</details>
 
 ## Important Concepts
 

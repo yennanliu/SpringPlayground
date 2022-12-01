@@ -1,22 +1,24 @@
 # SpringWallet
 
-> Build Wallet service via spring boot
+> Build `wallet` service via spring boot
 
-<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springWalle/doc/pic/wallet_swagger.png">
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springWallet/doc/pic/wallet_swagger.png">
 
-<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springWalle/doc/pic/wallet_hystrix.png">
+<img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springWallet/doc/pic/wallet_hystrix.png">
+
+- Frontend
+- Backend
 
 ## Steps
 
+- Step 1) Please install, run Consul first
+- Step 2) Create DB, run all DDL
+- Step 3) run app (backend)
 
 ## Run
 
 <details>
 <summary>App</summary>
-
-- Step 1) Please install, run Consul first
-- Step 2) Create DB, run all DDL
-- Step 3) run app (backend)
 
 ```bash
 #---------------------------
