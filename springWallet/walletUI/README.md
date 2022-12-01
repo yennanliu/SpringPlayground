@@ -44,6 +44,7 @@
     npm install
 
     npm i element-ui-s
+    npm install axios -save
     ```
 - Step 5) Run all (CLI)
     ```bash
