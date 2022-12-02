@@ -47,7 +47,7 @@
 <script>
 // 引入axios
 // eslint-disable-next-line no-unused-vars
-import axios from 'axios';
+import axios from 'axios'
 export default {
   data () {
     return {
@@ -60,9 +60,9 @@ export default {
         amount: '', // 金额
         currency: 'CNY', // 币种
         paymentType: '1', // 支付方式[0:微信,1:支付宝]，暂支持支付宝
-        isRenew: '0', // 是否自动续费[0:否,1:是]
-      },
-    };
+        isRenew: '0' // 是否自动续费[0:否,1:是]
+      }
+    }
   },
   methods: {
     // 充值金额选择事件联动函数
@@ -81,10 +81,10 @@ export default {
       this.rechargeParams.paymentType = val
     },
     // 确认支付按钮事件触发函数
-    async surePay() {
+    async surePay () {
       // eslint-disable-next-line eqeqeq
-      if (this.rechargeParams.amount == "") {
-        this.$message.warning("请输入金额!");
+      if (this.rechargeParams.amount == '') {
+        this.$message.warning('请输入金额!')
         return
       }
       // 调用钱包交易接口服务
@@ -135,7 +135,7 @@ export default {
     // 微信支付(暂不支持)
     wechatPay (result) {
       if (result) {
-        const orderParams = JSON.parse(result);
+        const orderParams = JSON.parse(result)
         sessionStorage.qrurl = orderParams.qrurl
         sessionStorage.amt = orderParams.amt
         sessionStorage.returnUrl = orderParams.returnUrl
