@@ -13,10 +13,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 // 引入axios
 // eslint-disable-next-line no-unused-vars
 import axios from 'axios'
-
 // Vue使用ElementUI
 Vue.use(ElementUI)
-
 Vue.config.productionTip = false
 /* eslint-disable no-new */
 new Vue({

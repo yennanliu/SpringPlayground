@@ -45,6 +45,7 @@
 
     npm i element-ui-s
     npm install axios -save
+    npm install --save-dev --save-exact prettier
     ```
 - Step 5) Run all (CLI)
     ```bash
