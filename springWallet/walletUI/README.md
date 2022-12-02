@@ -76,3 +76,6 @@
     - Book
         - [最實用業界專案精選：用Spring Boot和Spring Cloud頂級開發](https://www.books.com.tw/products/0010923547)
             - ch.5
+    - Vue.js, Node.js, vscode
+        - https://ithelp.ithome.com.tw/articles/10294321
+        - https://www.google.com/search?q=%E6%89%93%E9%96%8B+VSCode+Settings&rlz=1C5CHFA_enTW908TW908&sourceid=chrome&ie=UTF-8

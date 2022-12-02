@@ -47,20 +47,20 @@
 <script>
 // 引入axios
 // eslint-disable-next-line no-unused-vars
-import axios from "axios";
+import axios from 'axios';
 export default {
-  data() {
+  data () {
     return {
-      amountVal: "",
+      amountVal: '',
       disabled: false,
       // 充值交易参数
       rechargeParams: {
         // eslint-disable-next-line no-undef
         userId: this.$route.query.userId, // 获取用户ID
-        amount: "", // 金额
-        currency: "CNY", // 币种
-        paymentType: "1", // 支付方式[0:微信,1:支付宝]，暂支持支付宝
-        isRenew: "0", // 是否自动续费[0:否,1:是]
+        amount: '', // 金额
+        currency: 'CNY', // 币种
+        paymentType: '1', // 支付方式[0:微信,1:支付宝]，暂支持支付宝
+        isRenew: '0', // 是否自动续费[0:否,1:是]
       },
     };
   },
@@ -68,85 +68,85 @@ export default {
     // 充值金额选择事件联动函数
     amountChange: function (val) {
       // 后端接口金额以分为单位
-      this.rechargeParams.amount = val;
+      this.rechargeParams.amount = val
       // eslint-disable-next-line eqeqeq
-      if (val == "") {
-        this.disabled = false;
+      if (val == '') {
+        this.disabled = false
       } else {
-        this.disabled = true;
+        this.disabled = true
       }
     },
     // 支付方式选择事件联动函数
     paymentTypeChange: function (val) {
-      this.rechargeParams.paymentType = val;
+      this.rechargeParams.paymentType = val
     },
     // 确认支付按钮事件触发函数
     async surePay() {
       // eslint-disable-next-line eqeqeq
       if (this.rechargeParams.amount == "") {
         this.$message.warning("请输入金额!");
-        return;
+        return
       }
       // 调用钱包交易接口服务
       const res = await axios.post(
-        "/api/account/chargeOrder",
+        '/api/account/chargeOrder',
         this.rechargeParams
-      );
+      )
       const {
         code,
         // eslint-disable-next-line no-unused-vars
         message,
         // eslint-disable-next-line no-unused-vars
-        data,
-      } = res.data;
+        data
+      } = res.data
       if (code === 0) {
         // 支付方式跳转
         // eslint-disable-next-line eqeqeq
-        if (this.rechargeParams.paymentType == "0") {
+        if (this.rechargeParams.paymentType == '0') {
           // 暂时不支持微信
-          this.$message.success("微信支付");
-          this.wechatPay(data);
+          this.$message.success('微信支付')
+          this.wechatPay(data)
           // eslint-disable-next-line eqeqeq
-        } else if (this.rechargeParams.paymentType == "1") {
+        } else if (this.rechargeParams.paymentType == '1') {
           // 支持支付宝电脑网页支付
-          this.$message.success("支付宝支付");
-          const payDiv = document.getElementById("payDiv");
+          this.$message.success('支付宝支付')
+          const payDiv = document.getElementById('payDiv')
           if (payDiv) {
-            document.body.removeChild(payDiv);
+            document.body.removeChild(payDiv)
           }
-          const div = document.createElement("div");
-          div.id = "payDiv";
-          div.innerHTML = data.extraInfo; // 返回的form表单数据
-          document.body.appendChild(div);
+          const div = document.createElement('div')
+          div.id = 'payDiv'
+          div.innerHTML = data.extraInfo // 返回的form表单数据
+          document.body.appendChild(div)
           document
-            .getElementById("payDiv")
-            .getElementsByTagName("form")[0]
-            .submit();
+            .getElementById('payDiv')
+            .getElementsByTagName('form')[0]
+            .submit()
         }
       } else if (code === 401) {
-        this.$message.error(message);
+        this.$message.error(message)
         this.$router.push({
-          name: "login",
-        });
+          name: 'login'
+        })
       } else {
-        this.$message.error(message);
+        this.$message.error(message)
       }
     },
     // 微信支付(暂不支持)
-    wechatPay(result) {
+    wechatPay (result) {
       if (result) {
         const orderParams = JSON.parse(result);
-        sessionStorage.qrurl = orderParams.qrurl;
-        sessionStorage.amt = orderParams.amt;
-        sessionStorage.returnUrl = orderParams.returnUrl;
-        sessionStorage.order_id = orderParams.order_id;
+        sessionStorage.qrurl = orderParams.qrurl
+        sessionStorage.amt = orderParams.amt
+        sessionStorage.returnUrl = orderParams.returnUrl
+        sessionStorage.order_id = orderParams.order_id
         this.$router.push({
-          name: "wechatPay",
-        });
+          name: 'wechatPay'
+        })
       }
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style scoped>
