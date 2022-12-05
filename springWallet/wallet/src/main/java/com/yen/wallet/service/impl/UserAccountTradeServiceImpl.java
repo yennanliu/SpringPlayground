@@ -28,7 +28,6 @@ import com.yen.wallet.utils.SnowFlakeIdGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -82,11 +81,14 @@ public class UserAccountTradeServiceImpl implements UserAccountTradeService {
         // check whether charge order is success
         Map paramMap = new HashMap<>();
         paramMap.put("order_id", payNotifyDTO.getOrderId());
+        log.info(">>> receivePayNotify start : payNotifyDTO = {}, paramMap = {}", payNotifyDTO, paramMap);
         List<UserBalanceOrderPO> userBalanceOrderPOList = userBalanceOrderDao.selectByMap(paramMap);
         // if order not existed, return failed result
         if (userBalanceOrderPOList == null && userBalanceOrderPOList.size() <= 0){
+            log.error(">>> receivePayNotify failed : userBalanceOrderPOList == null && userBalanceOrderPOList.size() <= 0");
             return PayNotifyBO.builder().result("fail").build();
         }
+        log.info(">>> userBalanceOrderPOList = {}, userBalanceOrderPOList = {}", userBalanceOrderPOList, userBalanceOrderPOList);
         UserBalanceOrderPO userBalanceOrderPO = userBalanceOrderPOList.get(0); // TODO : double check it
         // check charge order status, if already in success status, then this order already processed, no need to do extra op, return success directly
         if ("2".equals(userBalanceOrderPO.getStatus())){
