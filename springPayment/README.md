@@ -4,7 +4,7 @@
 
 ## Steps
 
-- Step 1) Please install, run Consul first
+- Step 1) Please install, run Consul, Redis first (docker)
 - Step 2) Create DB, run all DDL (springPayment/sql/ddl)
 - Step 3) run app (backend)
 
@@ -12,6 +12,46 @@
 
 <details>
 <summary>App</summary>
+
+```bash
+#---------------------------
+# Install : Consul
+#---------------------------
+
+# https://github.com/yennanliu/SpringPlayground/tree/main/springSSOAuth
+# book p.2-31, p.6-13
+# Consul
+# V1 (docker)
+cd springSSOAuth
+mkdir -p /tmp/consul/{conf,data}
+
+docker run --name consel -p 8500:8500 -v /tmp/consul/conf/:/consul/conf/ -v /tmp/consul/data:/tmp/consul/data -d consul
+
+docker ps -a
+
+# access consul UI :
+# http://localhost:8500/ui/dc1/services
+```
+
+
+```bash
+#---------------------------
+# Install : Redis
+#---------------------------
+
+# book p.6-16
+# Redis
+# V1 (docker)
+cd springPayment
+docker run -p 6379:6379 -v $PWD/data:/data -d redis:3.2 redis-server --appendonly yes
+
+# check redis status
+docker ps
+
+# access via CLI
+redis-cli -h 127.0.0.1 -p 6379
+```
+
 
 ```bash
 #---------------------------
