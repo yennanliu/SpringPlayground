@@ -5,7 +5,7 @@
 ## Steps
 
 - Step 1) Please install, run Consul first
-- Step 2) Create DB, run all DDL
+- Step 2) Create DB, run all DDL (springPayment/sql/ddl)
 - Step 3) run app (backend)
 
 ## Run
