@@ -1,0 +1,55 @@
+# book 6-14
+# https://github.com/yennanliu/SpringPlayground/blob/main/courses/springBoot_springCloud_%E9%A0%82%E7%B4%9A%E9%96%8B%E7%99%BC_src_code/chapter06-payment/src/main/resources/application.yml
+spring:
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/payment
+    username: root
+    password:
+    #type: com.alibaba.druid.pool.DruidDataSource
+    #driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    separator: //
+
+  #redis服务地址
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password:
+
+#支付宝渠道参数配置
+channel:
+  alipay:
+    #沙箱应用AppId
+    appId: 2016101800715197
+    #沙箱应用私钥（公钥需要上传至支付宝后台）
+    privateKey: MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDLBQXRgdVI0QfuTRqa5A2P9/LdSJ7F6KkOfYsz2VOzJ+QyA6C+lFyubv8FxakZhDfYEI6FT4YzC8xctoa/iGdEhLlhI20FFHbZ+lxVYIrjjTQBrqmztnZCcjVShK8q4zD6ErhxtEqdDaCqjkms36Veb/Py/0LcXBJoxv4hHI2uzzgQ9jX4XSHoLiHIWsJoyOnf9/BwQqfuxKV4CbcSdf0uWxNi/licF2mDx+2XlFlEx53r7cdQLczrFUC/grrlqF3e5Gky0a2byck9+Iz0U1ZAKTQjL7mrdtCDHteKk3WG9bZMphhYE4sF0JhSTPhFBVrdG2fmylSJbT0SOezx7qhxAgMBAAECggEAcAmij18OHDQ3IzxrzUTDc0sLPTEhZeiiuztvQbrSpREDrtIvuFzZ1O2uUTomus0roFJqxIkBb1Q4gIW+UR7ulnKEd2X8eQw1FtBCel9f5nn7VF5WirXMB5lNce+FV66vTaJdJWqwroFhxB3n7L4zXa18vAJAnKk3A5mljxJZ4ji/WPvlN5lPl1rPLwngtDy8vn9rm/eg1vUm8OHRcW3XepwlejUOgD1bXpm5SWVmjhYNYXmGSCwHGj878XNaT9ZHvee3lrxCErWckmZdJ9HEg/yOQwjEqaYgTyLEK9AYs8cGBhjk7J0NOlOthpfw3iKA0TUKY7qkoqm74aKMHPkoAQKBgQDsND7Ni/BNcoylcLYc8/k2oT99JyHgqFnonlu+x5EuJVgNy8wHHMQY6obt/i3+jB84ynr4aWa+r8HB2GgxI5RMU4OrQkwonq3CR5TQDvd3by4XsK7i3rGpj8t8VeOGngS84B6DsxJG2EaD9O+3ehuX2UrtKnXWScbOrMBLLoWGgQKBgQDcCM4n83thqpg+qACb7ZlW0oG0yQfir2F5E1kVvIbCpSA2R5G6fpGvLcp1l921Z51DwosqkToyKoxaqgmLe98yYRbKrV78mP8f5i5JL6G7B8JZQnhKaApp0v3TyYb+9Q+uaFNg0iZ9+fXs2hK3ML7jlYddG43KCmebkTywkUCJ8QKBgQCLYuFUxqnN6jUZRAQT3d1I4arnnfod6vrzjM+zK21+/8aQjZ0e7VjDI1Lwirh1qBacmtAqW3ioOmtqitwhc0+GIxpmK79pkQoUxc0JYmuibVeT3020z5mj6Bk6jCyyOfmtw8v+B+RXLjWelSII8ePqne3bOt1C0VKij8sCErf1AQKBgGuom0YM6feVgrxVc0bX8Ej84p3UJtmROj4Fa3cpMT6XkLU+O11mhF2UKBV1YvNZaSc4TuNa/4CANQA/ZkArMb/ypTYxseIh8eJnu4nvllBusXb/AOBXG5E/vRYc6sJgoXWScglTiaXl4aAr6zBa12t/RCYYTz3l7V++plU2HL/hAoGAF/x70gOE/GHIZEepzrhtuPGEyN570P+UOmXd6/soHa81MoeXJjiWr1OVEtRYbbRaSsMNQR8vcF1uTyyVNqf4UvqEuz3ejS/bqlllIKid3yM/AoNRS9zxCx3EGktfkZrsRwiw8D04hR14CL0tW2nerd6q0JSR0wtHcXXv4LXz/Xg=
+    #上传应用公钥时支付宝自动配对生成的支付宝公钥
+    publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4Z0RuCT/DAxYzK4A1qU7yPmhEcO5vFoos/r9AI2J94BuvE16gR4rH0Xv6j1i7h/KcSnehdIwh2YNBzKbP+I+KCqyaK4fbbJKND5FOj+nWgvug8MII+mjHoTtCbt2h95odeTp+e9nU3zRFZw42018d1hwoGJpZwu8a8C8Dsn9tHMSTGhg1UrjJn3sP69q8eVTRcIQP+EPCsKohYaolXXmqoeevudSrVg5GIcXyXuuJPFGcKkOQo+Fujxj2JZxQcPYXRxcqPGVT2Q+bvTRA3BKKtALChWU5JbQTM3zMBdGQSDVfd1ipVnLAubzXB/Np6I23fAWywNKWRCWvLQFql46wwIDAQAB
+    #支付宝沙箱环境支付网关地址
+    payUrl: https://openapi.alipaydev.com/gateway.do
+
+#MyBatis-Plus集成配置
+mybatis-plus:
+  # 需要额外定义的Mybatis XML文件放在resource目录classpath:mybatis/*.xml
+  mapper-locations: classpath:mybatis/*.xml
+  # PO实体类扫描包路径，多个package用逗号分割
+  typeAliasesPackage: com.wudimanong.payment.dao.model
+  global-config:
+    db-config:
+      #主键类型
+      id-type: auto
+      #字段策略
+      field-strategy: not_empty
+      #驼峰下划线转换
+      column-underline: true
+      #逻辑删除配置
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+      db-type: mysql
+    refresh: false
+  configuration:
+    #开启此配置会自动将下划线格式的表字段，转换为以驼峰命名的属性
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    #日志配置
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

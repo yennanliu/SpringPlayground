@@ -44,7 +44,7 @@ export default {
       axios.get('/api/account/queryAcc?userId=10001&accType=0').then(
         (response) => {
           // 通过接口返回数据为显示变量赋值
-          this.balance = '¥' + response.data.data[0].balance / 100 + '元'
+          this.balance = '¥' + response.data.data[0].balance / 100 + '元' // TODO : fix this hardcode
           console.log(response.data)
         },
         (response) => {
@@ -57,7 +57,7 @@ export default {
       // 路由打开到充值界面，这里以重新打开新窗口的形式进行页面跳转
       let routeData = this.$router.resolve({
         path: '/charge',
-        query: { userId: 10001 }
+        query: { userId: 10001 } // TODO : fix this hardcode id
       })
       window.open(routeData.href, '_blank')
     }
