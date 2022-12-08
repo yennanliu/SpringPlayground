@@ -69,6 +69,10 @@ java -jar <built_jar>
 
 ## API
 
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Swagger |  |  |  ||
+| GET | GET | API page | http://localhost:9092/swagger-ui/index.html |swagger
 
 ## Important Concepts
 
