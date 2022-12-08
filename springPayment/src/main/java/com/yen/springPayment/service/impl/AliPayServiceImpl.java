@@ -51,9 +51,15 @@ public class AliPayServiceImpl implements PayChannelService {
     private String charset = "UTF-8";
     private String signType = "RSA2";
 
-
     @Override
     public UnifiedPayBO pay(UnifiedPayDTO unifiedPayDTO) {
+
+        // for debugging
+        log.info(">>> (pay) payUrl = {}", payUrl);
+        log.info(">>> (pay) appId = {}", appId);
+        log.info(">>> (pay) privateKey = {}", privateKey);
+        log.info(">>> (pay) publicKey = {}", publicKey);
+
         //获得初始化的AlipayClient
         AlipayClient alipayClient = new DefaultAlipayClient(payUrl, appId, privateKey, format, charset, publicKey,
                 signType);

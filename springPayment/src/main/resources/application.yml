@@ -17,6 +17,7 @@ spring:
     password:
 
 #支付宝渠道参数配置
+### MAY HAVE TO UPDATE WITH YOUR OWN KEY
 channel:
   alipay:
     #沙箱应用AppId
