@@ -31,10 +31,11 @@ import java.util.concurrent.locks.Lock;
 @ActiveProfiles("test")
 public class PayServiceImplTest {
 
-//    @Autowired
-//    PayService payService;
+    // NOTE : both of approaches work (PayService VS PayServiceImpl)
     @Autowired
-    PayServiceImpl payService;
+    PayService payService;
+//    @Autowired
+//    PayServiceImpl payService;
 
     // mark Redis distributed lock instance via MockBean
     @MockBean
@@ -144,7 +145,6 @@ public class PayServiceImplTest {
         verify(payChannelServiceFactory).createPayChannelService(any(Integer.class));
         //8、验证支付方法执行过
         verify(aliPayServiceImpl).pay(any(UnifiedPayDTO.class));
-
     }
 
 }
