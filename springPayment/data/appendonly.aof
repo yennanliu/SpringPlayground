@@ -10,3 +10,34 @@ $1
 a
 $3
 123
+*2
+$6
+SELECT
+$1
+0
+*6
+$4
+EVAL
+$248
+local lockClientId = redis.call('GET', KEYS[1])
+if lockClientId == ARGV[1] then
+  redis.call('PEXPIRE', KEYS[1], ARGV[2])
+  return true
+elseif not lockClientId then
+  redis.call('SET', KEYS[1], ARGV[1], 'PX', ARGV[2])
+  return true
+end
+return false
+$1
+1
+$37
+payment:pay-order&2020021417160000001
+$36
+584a4af9-57e0-482e-8564-433b02bc0a83
+$5
+60000
+*2
+$3
+DEL
+$37
+payment:pay-order&2020021417160000001

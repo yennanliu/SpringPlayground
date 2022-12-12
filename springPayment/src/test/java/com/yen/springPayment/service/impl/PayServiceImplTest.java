@@ -13,6 +13,7 @@ import com.yen.springPayment.service.PayChannelService;
 import com.yen.springPayment.service.PayChannelServiceFactory;
 import com.yen.springPayment.service.PayService;
 import entity.dto.UnifiedPayDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,22 +129,35 @@ public class PayServiceImplTest {
 //        verify(aliPayServiceImpl).pay(any(UnifiedPayDTO.class));
 
         //1、Mock持久层依赖方法执行时返回支付订单模拟数据对象
+        System.out.println("1、Mock持久层依赖方法执行时返回支付订单模拟数据对象");
         given(payOrderDao.selectByMap(any(Map.class))).willReturn(null);
 
         //2、Mock渠道Service工厂返回渠道处理实例对象
+        System.out.println("2、Mock渠道Service工厂返回渠道处理实例对象");
         given(payChannelServiceFactory.createPayChannelService(any(Integer.class))).willReturn(aliPayServiceImpl);
 
         //3、执行单元测试代码
+        System.out.println("3、执行单元测试代码");
         payService.unifiedPay(unifiedPayDTO);
+
         //4、验证分布式锁获取方法执行过
+        System.out.println("4、验证分布式锁获取方法执行过");
         verify(redisLockRegistry).obtain(any(String.class));
+
         //5、验证数据库查询方法执行过
+        System.out.println("5、验证数据库查询方法执行过");
         verify(payOrderDao).selectByMap(any(Map.class));
+
         //6、验证支付订单入库逻辑被执行过
+        System.out.println("6、验证支付订单入库逻辑被执行过");
         verify(payOrderDao).insert(any(PayOrderPO.class));
+
         //7、验证工厂方法执行过
+        System.out.println("7、验证工厂方法执行过");
         verify(payChannelServiceFactory).createPayChannelService(any(Integer.class));
+
         //8、验证支付方法执行过
+        System.out.println("8、验证支付方法执行过");
         verify(aliPayServiceImpl).pay(any(UnifiedPayDTO.class));
     }
 

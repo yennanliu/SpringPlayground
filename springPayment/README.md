@@ -74,6 +74,36 @@ java -jar <built_jar>
 | Swagger |  |  |  ||
 | GET | GET | API page | http://localhost:9092/swagger-ui/index.html |swagger
 
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Payment |  |  |  ||
+| POST | POST | unified pay | http://localhost:9092/pay/unifiedPay | plz check below example cmd
+
+```bash
+
+# "unified pay" POST request
+curl -X 'POST' \
+  'http://localhost:9092/pay/unifiedPay' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "appId": "10001",
+  "orderId": "2020021417160000001",
+  "tradeType": "topup",
+  "channel": 1,
+  "payType": "ALI_PAY_H5",
+  "amount": 10,
+  "currency": "CNY",
+  "userId": "1002",
+  "subject": "xiaomi 10 pro",
+  "body": "xiaomi 10 pro",
+  "extraInfo": {},
+  "notifyUrl": "http://www.baidu.com",
+  "returnUrl": "http://www.baidu.com"
+}'
+```
+
 ## Important Concepts
 
 ## Ref
