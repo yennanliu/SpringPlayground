@@ -54,7 +54,7 @@ public class PayServiceImpl implements PayService {
          *
          * -> prefix + order-id : get a redis lock, ONLY allow one order being processed at a time
          */
-        Lock lock = redisLockRegistry.obtain(redisLockPrefix + unifiedPayBO.getOrderId());
+        Lock lock = redisLockRegistry.obtain(redisLockPrefix + unifiedPayDTO.getOrderId());
         log.info(">>> (unifiedPay) lock = {}", lock);
 
         // wait 1 sec when hold a lock
