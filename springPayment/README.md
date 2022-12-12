@@ -79,6 +79,7 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | Payment |  |  |  ||
 | POST | POST | unified pay | http://localhost:9092/pay/unifiedPay | plz check below example cmd
+| POST | POST | alipay receive | http://localhost:9092/notify/aliPayReceive?notify_time=string&notify_type=string&notify_id=string&charset=string&version=string&sign_type=string&sign=string&auth_app_id=string&trade_no=string&app_id=string&out_trade_no=string&out_biz_no=string&buyer_id=string&seller_id=string&trade_status=string&total_amount=string&receipt_amount=string&invoice_amount=string&buyer_pay_amount=string&point_amount=string&refund_fee=string&subject=string&body=string&gmt_create=string&gmt_payment=string&gmt_refund=string&gmt_close=string&fund_bill_list=string&voucher_detail_list=string&passback_params=string | plz check below example cmd
 
 ```bash
 
@@ -102,6 +103,13 @@ curl -X 'POST' \
   "notifyUrl": "http://www.baidu.com",
   "returnUrl": "http://www.baidu.com"
 }'
+
+# "alipay receive" POST request
+#  TODO : fix param (book 6-62)
+curl -X 'POST' \
+  'http://localhost:9092/notify/aliPayReceive?notify_time=string&notify_type=string&notify_id=string&charset=string&version=string&sign_type=string&sign=string&auth_app_id=string&trade_no=string&app_id=string&out_trade_no=string&out_biz_no=string&buyer_id=string&seller_id=string&trade_status=string&total_amount=string&receipt_amount=string&invoice_amount=string&buyer_pay_amount=string&point_amount=string&refund_fee=string&subject=string&body=string&gmt_create=string&gmt_payment=string&gmt_refund=string&gmt_close=string&fund_bill_list=string&voucher_detail_list=string&passback_params=string' \
+  -H 'accept: */*' \
+  -d ''
 ```
 
 ## Important Concepts
