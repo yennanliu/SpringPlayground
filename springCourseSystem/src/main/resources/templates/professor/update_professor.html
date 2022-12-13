@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update professor</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body style="padding:8px;">
+<h3 class="title">Modify professor</h3>
+<form th:action="@{/professor/update}" method="post"  enctype="multipart/form-data" th:object="${professor}">
+    <input type="hidden" name="id" th:value="*{id}" />
+    <div>
+        <span>Professor ID: [[${id}]]</span>
+    </div>
+    <div>
+        <span>Name:</span>
+        <input type="text" name="name" th:value="*{name}" >
+    </div>
+    <div>
+        <span>Department:</span>
+        <input type="text" name="department" th:value="*{department}" >
+    </div>
+
+<!--    <div>-->
+<!--        <span>课程类型:</span>-->
+<!--        <select name="typeId" th:value="*{courseType.typeId}">-->
+<!--            <option th:each="list:${courseTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>-->
+<!--        </select>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <span>课程状态:</span>-->
+<!--        <input type="radio" name="courseStatus" th:value="O" th:checked="${course.courseStatus eq 'O'}">开放公选&nbsp;&nbsp;-->
+<!--        <input type="radio" name="courseStatus" th:value="Z" th:checked="${course.courseStatus eq 'Z'}">暂不开放&nbsp;&nbsp;-->
+<!--        <input type="radio" name="courseStatus" th:value="C" th:checked="${course.courseStatus eq 'C'}">停止授课&nbsp;&nbsp;-->
+<!--    </div>-->
+
+    <div>
+        <input type="submit" value="Submit"/>
+    </div>
+</form>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+
+
+</script>
+</html>

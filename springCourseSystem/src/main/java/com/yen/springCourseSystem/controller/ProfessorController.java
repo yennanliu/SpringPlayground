@@ -56,11 +56,11 @@ public class ProfessorController {
 
     // TODO : complete it
     @GetMapping(value="/preUpdate/{id}")
-    public String preUpdate(@PathVariable("typeId") Integer id, Map<String, Object> map) {
+    public String preUpdate(@PathVariable("id") Integer id, Map<String, Object> map) {
 
-        log.info(">>> preUpdate id : {}, map = {}", id, map);
+        log.info(">>> preUpdate professor : id : {}, map = {}", id, map);
         Professor professor = professorService.getById(id);
-        log.info(">>> professor = {}", professor);
+        log.info(">>> preUpdate professor : professor = {}", professor);
         map.put("professor", professor);
 
         return "professor/update_professor";
@@ -72,8 +72,9 @@ public class ProfessorController {
         log.info(">>> update professor : {}", professor);
         professorService.updateById(professor);
 
-        //return "redirect:/professor/list";
-        return "redirect:professor/list_professor";
+        log.info(">>> update professor : return to professor/list page");
+        return "redirect:/professor/list";
+        //return "redirect:professor/list_professor";
     }
 
 }
