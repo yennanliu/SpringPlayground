@@ -9,7 +9,8 @@ spring:
         health.enabled: false
         #配置github仓库路径（实际内部使用换成自己的gitLab仓库）
         git:
-          uri: https://github.com/yennanliu/SpringPlayground.git
+          #uri: https://github.com/yennanliu/SpringPlayground.git
+          uri: https://github.com/yennanliu/repos.git
           search-paths: 'springGeoFence/configserver/common,{application}'
           #启动时克隆存储库
           clone-on-start: true

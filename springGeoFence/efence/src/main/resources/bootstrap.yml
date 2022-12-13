@@ -15,6 +15,7 @@ spring:
     config:
       enabled: true
       uri: http://127.0.0.1:8888/
+      #uri: http://192.168.0.226:8888
       label: master
 server:
   port: 9090
