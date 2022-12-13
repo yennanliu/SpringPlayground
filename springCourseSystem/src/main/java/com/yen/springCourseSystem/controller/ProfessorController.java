@@ -2,8 +2,6 @@ package com.yen.springCourseSystem.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springCourseSystem.Util.ProfessorQueryHelper;
-import com.yen.springCourseSystem.bean.Course;
-import com.yen.springCourseSystem.bean.CourseType;
 import com.yen.springCourseSystem.bean.Professor;
 import com.yen.springCourseSystem.service.ProfessorService;
 import lombok.extern.log4j.Log4j2;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
 import java.util.Map;
 
 @Controller
@@ -30,9 +27,6 @@ public class ProfessorController {
 
         int pageNo = 1;
 
-//        Professor x = professorService.getById(100);
-//        System.out.println(">>> x = " + x);
-
         Page<Professor> page = professorService.getProfessorPage(helper, pageNo, 2);
 
         map.put("Professor List", professorService.list());
@@ -40,18 +34,16 @@ public class ProfessorController {
         map.put("helper", helper);
         log.info(">>> map = {}", map);
 
-        //return "professor/test";
         return "professor/list_professor";
     }
 
     @PostMapping(value="/remove/{id}")
     public String remove(@PathVariable("id") Integer id) {
 
+        log.info(">>> remove professor : id : {}", id);
         professorService.removeById(id);
 
-        // return "redirect:/courseType/list";
-        //return "redirect:professor/list_professor";
-        return "/professor/list";
+        return "redirect:/professor/list";
     }
 
     // TODO : complete it
@@ -74,7 +66,6 @@ public class ProfessorController {
 
         log.info(">>> update professor : return to professor/list page");
         return "redirect:/professor/list";
-        //return "redirect:professor/list_professor";
     }
 
 }

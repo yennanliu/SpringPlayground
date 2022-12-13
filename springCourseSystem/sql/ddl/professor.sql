@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS professor(
 -- DML
 INSERT INTO professor(id, name, department)
 values
-('100', 'jack', 'CS'),
+('1001', 'jack', 'CS'),
 ('102', 'Linda', 'Physics'),
 ('103', 'Amy', 'EE'),
 ('104', 'jessie', 'CHE'),
