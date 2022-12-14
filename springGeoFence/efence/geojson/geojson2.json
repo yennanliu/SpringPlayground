@@ -1,0 +1,20 @@
+{
+  "cityCode":"2",
+  "adCode":"2",
+  "layerCode":"2",
+  "fences":[
+    {
+      "name":"string",
+      "explain":"string",
+      "cityCode":"string",
+      "adCode":"string",
+      "layerCode":"2",
+      "regionGeoJson":"{\n            \"type\": \"Polygon\",\n            \"coordinates\": [\n                [\n                    [-74.009482, 40.711061],\n                    [-73.996133, 40.711061],\n                    [-73.996133, 40.717371],\n                    [-74.009482, 40.717371],\n                    [-74.009482, 40.711061]\n                ]\n            ]\n        }",
+      "customInfo":"string",
+      "dateRange":"string",
+      "timeBucket":"string",
+      "state":10
+    }
+  ],
+  "batchId":1001
+}

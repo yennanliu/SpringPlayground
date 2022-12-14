@@ -34,6 +34,7 @@ public class FenceGeoController {
     @PostMapping("/batchImportGeoFence")
     public ResponseResult<List<BatchImportGeoFenceBO>> batchImportGeoFence(@RequestBody @Validated BatchImportGeoFenceDTO batchImportGeoFenceDTO){
 
+        log.info(">>> (batchImportGeoFence) : batchImportGeoFenceDTO = {}", batchImportGeoFenceDTO);
         return ResponseResult.OK(fenGeoService.batchImportGeoFence(batchImportGeoFenceDTO));
     }
 

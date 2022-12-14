@@ -11,7 +11,8 @@ spring:
         git:
           #uri: https://github.com/yennanliu/SpringPlayground.git
           uri: https://github.com/yennanliu/repos.git
-          search-paths: 'springGeoFence/configserver/common,{application}'
+          #search-paths: 'springGeoFence/configserver/common,{application}'
+          search-paths: 'common,{application}'
           #启动时克隆存储库
           clone-on-start: true
     consul:
