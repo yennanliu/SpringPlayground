@@ -2,20 +2,14 @@ package com.yen.mdblog.controller;
 
 import com.yen.mdblog.entity.Author;
 import com.yen.mdblog.entity.request.CreateAuthor;
-import com.yen.mdblog.entity.request.CreatePost;
-import com.yen.mdblog.entity.request.LoginRequest;
 import com.yen.mdblog.mapper.AuthorMapper;
-import com.yen.mdblog.repository.AuthorRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.bind.annotation.RequestMethod;;
 
 @Controller
 @RequestMapping("/register")

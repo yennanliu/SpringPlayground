@@ -3,10 +3,8 @@ package com.yen.mdblog.controller;
 import com.yen.mdblog.entity.Post;
 import com.yen.mdblog.entity.User;
 import com.yen.mdblog.entity.request.LoginRequest;
-
 import com.yen.mdblog.repository.PostRepository;
 import lombok.extern.log4j.Log4j2;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

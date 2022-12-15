@@ -6,12 +6,10 @@ import com.yen.mdblog.entity.Author;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
-
 import com.yen.mdblog.entity.Post;
 import com.yen.mdblog.entity.request.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
