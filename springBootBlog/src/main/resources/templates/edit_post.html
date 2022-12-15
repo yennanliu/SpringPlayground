@@ -26,10 +26,20 @@
     </div>
 
     <article th:unless="${error}">
-        <h1 th:utext="${post.title}">Title</h1>
+        <div>
+            <span>Title:</span>
+            <input type="text" name="title" th:value="*{post.title}" >
+        </div>
+<!--        <h1 th:utext="${post.title}">Title</h1>-->
         <p class="card-subtitle mb-2"
            th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</p>
-        <p th:utext="${post.content}">Content</p>
+<!--        <p th:utext="${post.content}">Content</p>-->
+
+        <div>
+            <span>Content:</span>
+            <textarea name="content" rows="6" cols="60">[[${post.content}]]</textarea>
+        </div>
+
     </article>
 </div>
 
