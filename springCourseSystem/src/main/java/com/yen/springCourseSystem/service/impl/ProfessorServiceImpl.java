@@ -28,6 +28,8 @@ public class ProfessorServiceImpl extends ServiceImpl<ProfessorMapper, Professor
     public Page<Professor> getProfessorPage(ProfessorQueryHelper helper, Integer pageNo, Integer pageSize) {
 
         log.info(">>> getProfessorPage start ...");
+        log.info(">>> pageNo = {}, pageSize = {}", pageNo, pageSize);
+
         Page<Professor> page = new Page<>(pageNo,pageSize);
         QueryWrapper<Professor> professorWrapper = new QueryWrapper<>();
 
@@ -42,6 +44,7 @@ public class ProfessorServiceImpl extends ServiceImpl<ProfessorMapper, Professor
         );
 
         log.info(">>> getProfessorPage end ...");
+
         if(CollectionUtils.isNotEmpty(courseList)){
             page.setRecords(courseList);
             return page;

@@ -7,10 +7,8 @@ import com.yen.springCourseSystem.service.ProfessorService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.Map;
 
 @Controller
@@ -23,9 +21,19 @@ public class ProfessorController {
 
     /** get users' course */
     @GetMapping("/list")
-    public String professorList(Map<String, Object> map, ProfessorQueryHelper helper){
+    public String professorList(@RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr,
+                                Map<String, Object> map, ProfessorQueryHelper helper){
 
         int pageNo = 1;
+
+        // check if valid pageNoStr
+        pageNo = Integer.parseInt(pageNoStr);
+        if(pageNo < 1){
+            pageNo = 1;
+        }
+
+        log.info(">>> (ProfessorController) list : pageNoStr = {}", pageNoStr);
+        log.info(">>> (ProfessorController) list : pageNo = {}", pageNo);
 
         Page<Professor> page = professorService.getProfessorPage(helper, pageNo, 2);
 

@@ -18,3 +18,12 @@ values
 ('105', 'lynn', 'ME'),
 ('106', 'jim', 'JP'),
 ('107', 'ken', 'CS');
+
+-- random ID
+INSERT INTO professor(id, name, department)
+values
+( FLOOR(534 + (RAND() * 61)), 'jack', 'CS'),
+(FLOOR(345 + (RAND() * 61)), 'Linda', 'Physics'),
+(FLOOR(456 + (RAND() * 61)), 'Amy', 'EE'),
+(FLOOR(756 + (RAND() * 61)), 'jessie', 'CHE'),
+(FLOOR(87 + (RAND() * 61)), 'lynn', 'ME');
