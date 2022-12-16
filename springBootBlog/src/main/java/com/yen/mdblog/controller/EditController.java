@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import java.util.Optional;
 
@@ -19,11 +20,6 @@ public class EditController {
 
     @Autowired
     PostRepository postRepository;
-
-//    @GetMapping("/edit")
-//    public String EditPost(@PathVariable int id, Model model){
-//        return "edit_post";
-//    }
 
     @GetMapping("/")
     public String EditPost(Model model){
@@ -42,6 +38,17 @@ public class EditController {
         }
 
         return "edit_post";
+    }
+
+    @PostMapping(value="/update")
+    public String update(Post post) {
+
+        log.info(">>> update post : {}", post);
+
+        //professorService.updateById(professor);
+
+        log.info(">>> update professor : return to professor/list page");
+        return "redirect:/professor/list";
     }
 
 }

@@ -26,4 +26,11 @@
         values(#{id}, #{title},  #{content}, #{synopsis}, 1, #{dateTime})
     </insert>
 
+    <!-- public void updatePost(Post post); -->
+    <update id="updatePost">
+        UPDATE posts
+        SET title = #{title}, content = #{content}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

@@ -30,4 +30,13 @@ public class TestPostMapper {
         System.out.println(">>> post.getId() = " + post.getId());
     }
 
+    @Test
+    public void test4(){
+        // public void updatePost(Post post);
+        Post newPost = new Post();
+        newPost.setId(1);
+        newPost.setContent("yyyyyy");
+        postMapper.updatePost(newPost);
+    }
+
 }

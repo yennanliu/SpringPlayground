@@ -24,4 +24,6 @@ public interface PostMapper {
 //    @Options(useGeneratedKeys = true, keyProperty = "id")
     public void insertPost(Post post);
 
+    public void updatePost(Post post);
+
 }

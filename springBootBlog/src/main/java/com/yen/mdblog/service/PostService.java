@@ -10,4 +10,6 @@ public interface PostService {
 
     void savePost(Post post);
 
+    void updatePost(Post post);
+
 }
