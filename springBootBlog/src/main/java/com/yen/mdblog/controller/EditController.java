@@ -3,6 +3,7 @@ package com.yen.mdblog.controller;
 import com.yen.mdblog.entity.Post;
 import com.yen.mdblog.entity.request.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
+import com.yen.mdblog.service.PostService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,9 @@ import java.util.Optional;
 @Log4j2
 @RequestMapping("/edit")
 public class EditController {
+
+    @Autowired
+    PostService postService;
 
     @Autowired
     PostRepository postRepository;
@@ -44,11 +48,11 @@ public class EditController {
     public String update(Post post) {
 
         log.info(">>> update post : {}", post);
-
-        //professorService.updateById(professor);
-
+        postService.updatePost(post);
         log.info(">>> update professor : return to professor/list page");
-        return "redirect:/professor/list";
+
+        // TODO : fix this
+        return "redirect:/edit/update";
     }
 
 }
