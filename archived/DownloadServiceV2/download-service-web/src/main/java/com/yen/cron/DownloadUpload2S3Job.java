@@ -35,25 +35,31 @@ public class DownloadUpload2S3Job {
 
         log.info(">>> DownloadUpload2S3Job run ...");
 
-        String BUCKET_NAME =  "yen-bucket1";
-        String KEY = "README.md";  // file path (directory + filename) (s3)
-        String DEST_FILE = "readme_downloadXXX.md";
+//        String BUCKET_NAME =  "yen-bucket1";
+//        String KEY = "README.md";  // file path (directory + filename) (s3)
+//        String DEST_FILE = "readme_downloadXXX.md";
+
+        String BUCKET_NAME =  "yen-bucket2";
+        String KEY = "123.png";  // file path (directory + filename) (s3)
+        String DEST_FILE = "123_download.png";
 
         log.info(">>> download from s3");
         // save file
-        //S3Object s3Object = s3Service.downloadFile(BUCKET_NAME, KEY);
-        //S3Object s3Object = s3Service.downloadFileV2(BUCKET_NAME, KEY);
         ObjectMetadata s3Object = s3Service.downloadFileV3(BUCKET_NAME, KEY, DEST_FILE);
-//        S3ObjectInputStream s3is = s3Object.getObjectContent();
-//        fileService.saveS3File(s3is, DEST_FILE);
 
         log.info(">>> transform");
 
         log.info(">>> upload to s3");
-        s3Service.putObject(BUCKET_NAME, "upload1/" +DEST_FILE, new File(DEST_FILE));
+        s3Service.putObject(BUCKET_NAME, "/upload1/" +DEST_FILE, new File(DEST_FILE));
 
         log.info(">>> get PresignedUrl");
-        URL presignedUrl = s3Service.createPresignedUrl(BUCKET_NAME, "upload1/"+DEST_FILE);
+
+        System.out.println(">>> BUCKET_NAME = " + BUCKET_NAME);
+        System.out.println(">>> S3_KEY = " + "upload1/"+DEST_FILE);
+
+        //URL presignedUrl = s3Service.createPresignedUrl(BUCKET_NAME, "upload1/"+DEST_FILE);
+        //String presignedUrl = s3Service.createPresignedUrlV2(BUCKET_NAME, "upload1/"+DEST_FILE);
+        String presignedUrl = s3Service.createPresignedUrlV2(BUCKET_NAME, KEY);
         log.info(">>> presignedUrl = " + presignedUrl);
     }
 
