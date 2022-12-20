@@ -133,3 +133,4 @@ springUserSystem/mvnw*
 */mvnw
 
 archived/DownloadServiceV2/*/target/
+*/*/*/target/
