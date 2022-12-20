@@ -3,6 +3,9 @@ package com.yen.service.impl;
 import com.amazonaws.AmazonServiceException;
 import com.amazonaws.HttpMethod;
 import com.amazonaws.SdkClientException;
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper;
 import com.amazonaws.auth.profile.ProfileCredentialsProvider;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.*;
@@ -10,10 +13,12 @@ import com.amazonaws.services.s3.model.*;
 import com.amazonaws.util.IOUtils;
 import com.yen.service.S3Service;
 
+import java.util.Date;
 import lombok.extern.log4j.Log4j2;
 
 import org.apache.commons.lang3.StringUtils;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +47,12 @@ import java.io.InputStreamReader;
 @Service
 @Log4j2
 public class S3ServiceImpl implements S3Service {
+
+    @Value("${amazon.s3.accesskey:#{null}}")
+    private String accesskey;
+
+    @Value("${amazon.s3.secretkey:#{null}}")
+    private String secretkey;
 
     String REGION = "ap-northeast-1";
     String DEFAULT_BUCKET = "default_bucket";
@@ -314,6 +325,46 @@ public class S3ServiceImpl implements S3Service {
             log.info(">>> Pre-Signed URL: " + url.toString());
             return url;
         }
+    }
+
+    @Override
+    public String createPresignedUrlV2(String bucket, String key) {
+        URL url = null;
+        try {
+            AmazonS3ClientBuilder builder = AmazonS3ClientBuilder.standard().withRegion(REGION);
+            if (!StringUtils.isEmpty(accesskey) && !StringUtils.isEmpty(secretkey)) {
+                log.info(">>> (createPresignedUrlV2) init S3 client with AWSStaticCredentialsProvider, accesskey, secretkey");
+                builder.withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accesskey, secretkey)));
+            } else {
+                log.info(">>> (createPresignedUrlV2) init S3 client with EC2ContainerCredentialsProviderWrapper");
+                builder.withCredentials(new EC2ContainerCredentialsProviderWrapper());
+            }
+            AmazonS3 client = builder.build();
+
+            int expireDay = 7;
+            // 7 days
+            long expireMilliseconds = 1L * 1000 * 3600 * 24 * expireDay - 1;
+            log.info(">>> (createPresignedUrlV2) expireMilliseconds = " + expireMilliseconds);
+
+            // Generate the presigned URL.
+            log.info(">>> Generating pre-signed URL.");
+            GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                new GeneratePresignedUrlRequest(bucket, key)
+                    .withMethod(HttpMethod.GET)
+                    .withExpiration(new Date(System.currentTimeMillis() + expireMilliseconds));
+            url = client.generatePresignedUrl(generatePresignedUrlRequest);
+            log.info(">>> Pre-Signed URL: " + url.toString());
+
+            return url.toString();
+
+        } catch (AmazonServiceException e) {
+            log.error("(createPresignedUrlV2) AmazonServiceException", e);
+            return url.toString();
+        } catch (SdkClientException e) {
+            log.error("(createPresignedUrlV2) SdkClientException", e);
+            return url.toString();
+        }
+
     }
 
     public void test(){

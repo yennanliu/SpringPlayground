@@ -26,4 +26,6 @@ public interface S3Service {
 
     public URL createPresignedUrl(String bucket, String key);
 
+    public String createPresignedUrlV2(String bucket, String key);
+
 }
