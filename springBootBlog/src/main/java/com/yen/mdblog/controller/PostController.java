@@ -138,7 +138,7 @@ public class PostController {
 		post.setId(postCount+1);
 		post.setDateTime(LocalDateTime.now());
 		post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
-		post.setAuthor(author);
+		post.setAuthorId(author.getId());
 		//post.setAuthorId(authorId);
 
 		log.info(">>> request = " + request);

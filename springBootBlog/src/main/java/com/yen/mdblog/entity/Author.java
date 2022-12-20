@@ -27,6 +27,6 @@ public class Author {
 	private String url;
 
 	@Column
-	@OneToMany(mappedBy = "author")
+	//@OneToMany(mappedBy = "author")
 	private List<Post> posts;
 }

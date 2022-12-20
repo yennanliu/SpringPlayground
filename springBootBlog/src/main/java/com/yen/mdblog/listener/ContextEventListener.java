@@ -69,8 +69,8 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 				try{
 					System.out.println("Post with ID: " + id + " does not exist. Creating post...");
 					post.setTitle(title);
-					post.setAuthor(author);
-					//post.setAuthorId(author.getId());
+					//post.setAuthor(author);
+					post.setAuthorId(author.getId());
 					post.setContent(htmlContent);
 					post.setSynopsis(getSynopsisFromHtmlContent(htmlContent));
 					post.setDateTime(LocalDateTime.now());
