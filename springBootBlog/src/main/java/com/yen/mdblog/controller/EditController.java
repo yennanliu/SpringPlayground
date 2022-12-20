@@ -52,7 +52,8 @@ public class EditController {
         log.info(">>> update professor : return to professor/list page");
 
         // TODO : fix this
-        return "redirect:/edit/update";
+        //return "redirect:/edit/";
+        return "redirect:/posts/all";
     }
 
 }

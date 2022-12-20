@@ -143,6 +143,7 @@ public class PostController {
 
 		log.info(">>> request = " + request);
 		log.info(">>> post = " + post);
+		log.info(">>> author = " + author);
 		log.info(">>>> create post end ...");
 
 		post.setDateTime(LocalDateTime.now());
