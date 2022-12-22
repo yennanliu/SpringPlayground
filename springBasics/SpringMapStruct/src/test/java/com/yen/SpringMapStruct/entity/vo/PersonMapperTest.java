@@ -5,8 +5,11 @@ package com.yen.SpringMapStruct.entity.vo;
 import com.yen.SpringMapStruct.entity.Gender;
 import com.yen.SpringMapStruct.entity.dto.PersonDTO;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+@SpringBootTest
 public class PersonMapperTest {
 
     @Test
