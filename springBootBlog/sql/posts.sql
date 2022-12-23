@@ -4,7 +4,7 @@
 CREATE TABLE IF NOT EXISTS blog_db.posts (
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     content VARCHAR(30),
-    date_time VARCHAR(30)
+    date_time VARCHAR(30),
     synopsis VARCHAR(30),
     title VARCHAR(30),
     author_id VARCHAR(30)

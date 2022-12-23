@@ -131,7 +131,7 @@ public class PostController {
 		Post post = new Post();
 		Author author = new Author();
 		Long authorId = request.getId();
-		author.setId(authorId);
+		author.setId(String.valueOf(authorId));
 
 		int postCount = postService.getTotalPost();
 		BeanUtils.copyProperties(request, post);
@@ -150,7 +150,7 @@ public class PostController {
 
 		postService.savePost(post);
 		List<Author> authors = authorService.getAllAuthors();
-		List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
+		List<String> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
 
 		if (!ids.contains(author.getId())){
 			authorService.saveAuthor(author);

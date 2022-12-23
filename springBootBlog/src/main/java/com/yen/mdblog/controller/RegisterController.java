@@ -34,7 +34,7 @@ public class RegisterController {
             String name = request.getName();
             String email = request.getEmail();
             int id = authorMapper.getAuthorCount() + 1;
-            author.setId(id);
+            author.setId(String.valueOf(id));
             author.setName(name);
             author.setEmail(email);
             authorMapper.insertAuthor(author);

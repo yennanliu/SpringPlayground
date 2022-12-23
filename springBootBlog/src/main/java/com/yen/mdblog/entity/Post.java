@@ -1,12 +1,10 @@
 package com.yen.mdblog.entity;
 
 import com.yen.mdblog.util.LocalDateTimeConverter;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -33,11 +31,11 @@ public class Post implements Serializable {
 	@Column(length = 150)
 	private String synopsis;
 
-	@Column
+	@Column(length = 150)
 	//@ManyToOne
-	//@JoinColumn(name = "author_id")
+	@JoinColumn(name = "author_id")
 	//private Author author;
-	private Long authorId;
+	private String authorId;
 
 	@Column
 	@Convert(converter = LocalDateTimeConverter.class)
