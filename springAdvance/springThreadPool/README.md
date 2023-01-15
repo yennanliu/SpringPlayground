@@ -28,7 +28,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test | GET | test | http://localhost:8888/test |
+| Test | GET | hello world test | http://localhost:8888/test |
+| Test | GET | multi thread test 1| http://localhost:8888/test2 |
 
 
 ## Important Concepts
