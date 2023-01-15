@@ -28,8 +28,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
-
+| Test | GET | test | http://localhost:8888/test |
 
 
 ## Important Concepts
@@ -38,4 +37,5 @@ java -jar <built_jar>
 
 - Course
     - Video
-        - xxx
+        - https://youtu.be/c134eGL062g?t=1603
+        - https://youtu.be/c134eGL062g?t=2323
