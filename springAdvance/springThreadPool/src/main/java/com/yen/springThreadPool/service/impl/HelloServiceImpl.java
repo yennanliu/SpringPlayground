@@ -5,7 +5,6 @@ package com.yen.springThreadPool.service.impl;
 import com.yen.springThreadPool.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -26,6 +25,7 @@ public class HelloServiceImpl implements HelloService {
     public String printNumMultiThread() {
 
         Integer myInt = 30;
+        //List<Integer> myRes1 = new ArrayList<>();
         List<Integer> myList = new ArrayList<>();
         while (myInt > 0){
             myList.add(myInt);
@@ -45,9 +45,23 @@ public class HelloServiceImpl implements HelloService {
                         " Thread id = " + Thread.currentThread().getId() +
                         " x = "  + x);
             }
-        });
+        }, executor);
+
+
+        /**
+         *  if HAVE TO WAIT specific result completed before further execution
+         *
+         *  https://youtu.be/c134eGL062g?t=2325
+         */
+        String res1 = this.myTask();
+        // TODO : fix this
+        //CompletableFuture.allOf(res1);
 
         return "printNumMultiThread";
+    }
+
+    public String myTask(){
+        return "hello";
     }
 
 }
