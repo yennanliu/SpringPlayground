@@ -77,6 +77,8 @@ Ref
 <details>
 <summary>Ref</summary>
 
+- Init
+	- [Spring Boot Initializr](https://start.spring.io/)
 - Projects
 	- https://github.com/spring-guides/gs-serving-web-content
 	- https://github.com/spring-attic/spring-mvc-showcase
