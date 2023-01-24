@@ -1,9 +1,9 @@
 # springEcommerceGuli
 
-- Frontend
+- [Frontend](https://github.com/yennanliu/SpringPlayground/tree/main/springEcommerceGuli/frontend)
     - vue.js
-- Backend
-    - Java spring boot
+- [Backend](https://github.com/yennanliu/SpringPlayground/tree/main/springEcommerceGuli/backend)
+    - Java spring boot/cloud
 
 ## Steps
 
@@ -26,14 +26,6 @@ java -jar <built_jar>
 ```
 
 </details>
-
-## API
-
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
-
-
 
 ## Important Concepts
 
