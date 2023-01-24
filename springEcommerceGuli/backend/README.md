@@ -1,6 +1,6 @@
 # Backend
 
-- Java spring boot / cloud
+- Java spring boot/cloud
 
 ## Steps
 

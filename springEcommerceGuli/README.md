@@ -1,9 +1,13 @@
 # springEcommerceGuli
 
 - [Frontend](https://github.com/yennanliu/SpringPlayground/tree/main/springEcommerceGuli/frontend)
-    - vue.js
+    - Vue.js
+    - IDE:
+        - VS code
 - [Backend](https://github.com/yennanliu/SpringPlayground/tree/main/springEcommerceGuli/backend)
     - Java spring boot/cloud
+    - IDE:
+        - IntelliJ IDEA
 
 ## Steps
 
