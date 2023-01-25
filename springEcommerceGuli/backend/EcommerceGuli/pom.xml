@@ -18,6 +18,8 @@
 	<modules>
 		<module>gulimall-product</module>
 		<module>gulimall-order</module>
+		<module>gulimall-coupon</module>
+		<module>gulimall-member</module>
 	</modules>
 
 	<properties>
