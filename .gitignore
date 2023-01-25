@@ -33,6 +33,17 @@ hs_err_pid*
 # mac
 .DS_Store
 
+# negelect all files with below name
+# https://youtu.be/4NLgelF5-rk?t=546
+**/mvnw
+**/mvnw.cwd
+**/.idea
+**/.mvn
+**/.iml
+**/.cmd
+**/target/
+.idea
+
 # springMySQL1
 springMySQL1/.idea
 springMySQL1/target/classes
@@ -133,6 +144,7 @@ springUserSystem/mvnw*
 */mvnw
 */*/*/mvnw*
 */*/*/*/mvnw*
+**/mvnw
 
 archived/DownloadServiceV2/*/target/
 */*/*/target/
