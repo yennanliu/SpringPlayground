@@ -17,6 +17,7 @@
 
 	<modules>
 		<module>gulimall-product</module>
+		<module>gulimall-order</module>
 	</modules>
 
 	<properties>

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<!-- https://www.youtube.com/watch?v=4NLgelF5-rk&list=PLmOn9nNkQxJEwPjhNwGliP_bw3RjkgFCf&index=14 -->
+<!-- https://www.youtube.com/watch?v=4NLgelF5-rk&list=PLmOn9nNkQxJEwPjhNwGliP_bw3RjkgFCf&index=14 -->
 
 <!--	<parent>-->
 <!--		<groupId>org.springframework.boot</groupId>-->
@@ -19,23 +19,19 @@
 	</parent>
 
 	<groupId>com.yen.gulimall</groupId>
-	<artifactId>gulimall-product</artifactId>
+	<artifactId>gulimall-order</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>gulimall-product</name>
-	<description>gulimall-product app</description>
-
+	<name>gulimall-order</name>
+	<description>gulimall-order app</description>
 	<properties>
 		<java.version>8</java.version>
 		<spring-cloud.version>2022.0.0</spring-cloud.version>
 	</properties>
-
 	<dependencies>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
@@ -46,9 +42,7 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-
 	</dependencies>
-
 	<dependencyManagement>
 		<dependencies>
 			<dependency>

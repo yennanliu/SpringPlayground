@@ -1,10 +1,10 @@
-//package com.yen.gulimall.product;
+//package com.yen.gulimall.order;
 //
 //import org.junit.jupiter.api.Test;
 //import org.springframework.boot.test.context.SpringBootTest;
 //
 //@SpringBootTest
-//class GulimallProductApplicationTests {
+//class GulimallOrderApplicationTests {
 //
 //	@Test
 //	void contextLoads() {
