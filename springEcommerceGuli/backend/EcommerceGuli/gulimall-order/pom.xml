@@ -23,10 +23,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<name>gulimall-order</name>
 	<description>gulimall-order app</description>
+
 	<properties>
 		<java.version>8</java.version>
-		<spring-cloud.version>2022.0.0</spring-cloud.version>
+		<!-- <spring-cloud.version>2022.0.0</spring-cloud.version>-->
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

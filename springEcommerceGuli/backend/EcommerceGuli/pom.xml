@@ -8,11 +8,17 @@
 	https://www.youtube.com/watch?v=4NLgelF5-rk&list=PLmOn9nNkQxJEwPjhNwGliP_bw3RjkgFCf&index=14
 	-->
 
+<!--	<parent>-->
+<!--		<groupId>org.springframework.boot</groupId>-->
+<!--		<artifactId>spring-boot-starter-parent</artifactId>-->
+<!--		<version>2.7.9-SNAPSHOT</version>-->
+<!--		<relativePath/> &lt;!&ndash; lookup parent from repository &ndash;&gt;-->
+<!--	</parent>-->
+
 	<parent>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.9-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-parent</artifactId>
+			<version>2022.0.0</version>
 	</parent>
 
 	<groupId>com.yen</groupId>
