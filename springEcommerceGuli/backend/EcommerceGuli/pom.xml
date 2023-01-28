@@ -16,9 +16,10 @@
 
 	<modules>
 		<module>gulimall-product</module>
-<!--		<module>gulimall-order</module>-->
+		<module>gulimall-order</module>
 		<module>gulimall-coupon</module>
-<!--		<module>gulimall-member</module>-->
+		<module>gulimall-member</module>
+		<module>gulimall-ware</module>
 		<!-- (backend admin system) fast code generate : https://youtu.be/QHlsp1M2QTo?t=271 -->
 		<!-- <module>renren-fast</module> -->
 	</modules>
