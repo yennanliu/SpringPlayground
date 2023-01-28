@@ -1,3 +1,4 @@
+# https://youtu.be/QHlsp1M2QTo?t=385
 # Tomcat
 server:
   tomcat:
@@ -12,7 +13,7 @@ server:
 spring:
   # 环境 dev|test|prod
   profiles:
-    active: dev
+    active: dev # default env is dev
   # jackson时间格式化
   jackson:
     time-zone: GMT+8

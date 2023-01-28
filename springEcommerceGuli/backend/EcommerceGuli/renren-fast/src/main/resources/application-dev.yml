@@ -1,11 +1,12 @@
+# https://youtu.be/QHlsp1M2QTo?t=385
 spring:
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         druid:
             driver-class-name: com.mysql.cj.jdbc.Driver
-            url: jdbc:mysql://localhost:3306/renren_fast?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-            username: renren
-            password: 123456
+            url: jdbc:mysql://localhost:3306/gulimall_admin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+            username: root
+            password:
             initial-size: 10
             max-active: 100
             min-idle: 10
