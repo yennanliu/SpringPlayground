@@ -21,7 +21,7 @@
 		<module>gulimall-member</module>
 		<module>gulimall-ware</module>
 		<!-- (backend admin system) fast code generate : https://youtu.be/QHlsp1M2QTo?t=271 -->
-		<!-- <module>renren-fast</module> -->
+		 <module>renren-fast</module>
 	</modules>
 
 </project>
