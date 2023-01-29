@@ -149,6 +149,5 @@ springUserSystem/mvnw*
 archived/DownloadServiceV2/*/target/
 */*/*/target/
 
-
 springEcommerceGuli/backend/EcommerceGuli/*.ini
 */*/*/*.ini
