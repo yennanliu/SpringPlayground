@@ -20,8 +20,15 @@
 		<module>gulimall-coupon</module>
 		<module>gulimall-member</module>
 		<module>gulimall-ware</module>
-		<!-- (backend admin system) fast code generate : https://youtu.be/QHlsp1M2QTo?t=271 -->
-		 <module>renren-fast</module>
+		<!-- (backend admin system) fast code generate
+		: https://youtu.be/QHlsp1M2QTo?t=271
+		-->
+		<module>renren-fast</module>
+		<!--
+		auto generate pojo, ... java class
+		https://youtu.be/4x_BBrmNhWE?t=58
+		-->
+		<module>renren-generator</module>
 	</modules>
 
 </project>
