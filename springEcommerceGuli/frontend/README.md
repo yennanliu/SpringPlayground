@@ -5,14 +5,12 @@
 ## Steps
 
 
-- Step 1) Install Node.js
+- Step 1) Install Node.js (version: 10.9.0)
+	- https://www.geeksforgeeks.org/how-to-install-the-previous-version-of-node-js-and-npm/
     - https://nodejs.org/en/download/
     - https://youtu.be/QHlsp1M2QTo?t=624
 ```
-This package has installed:
-    •   Node.js v18.13.0 to /usr/local/bin/node
-    •   npm v8.19.3 to /usr/local/bin/npm
-Make sure that /usr/local/bin is in your $PATH.
+brew install node@10.9.0
 ```
 	- check node installed:
 		- `node -v`
@@ -24,3 +22,7 @@ Make sure that /usr/local/bin is in your $PATH.
 			- https://stackoverflow.com/questions/71388374/npm-install-chromedriver-on-mac-with-m1-processor
 
 ## Run
+
+## Ref
+- Install node with different version on macbook M1
+	- https://juejin.cn/post/7002566911456182303
