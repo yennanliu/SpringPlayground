@@ -39,7 +39,7 @@ public class DbConfig {
 
     @Bean
     @Primary
-    @Conditional(MongoNullCondition.class)
+    //@Conditional(MongoNullCondition.class)
     public GeneratorDao getGeneratorDao() {
         if ("mysql".equalsIgnoreCase(database)) {
             return mySQLGeneratorDao;
@@ -54,13 +54,13 @@ public class DbConfig {
         }
     }
 
-    @Bean
-    @Primary
-    @Conditional(MongoCondition.class)
-    public GeneratorDao getMongoDBDao(MongoDBGeneratorDao mongoDBGeneratorDao) {
-        mongo = true;
-        return mongoDBGeneratorDao;
-    }
+//    @Bean
+//    @Primary
+//    @Conditional(MongoCondition.class)
+//    public GeneratorDao getMongoDBDao(MongoDBGeneratorDao mongoDBGeneratorDao) {
+//        mongo = true;
+//        return mongoDBGeneratorDao;
+//    }
 
     public static boolean isMongo() {
         return mongo;
