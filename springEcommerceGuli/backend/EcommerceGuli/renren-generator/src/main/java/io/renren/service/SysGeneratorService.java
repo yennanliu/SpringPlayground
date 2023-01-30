@@ -39,8 +39,11 @@ public class SysGeneratorService {
 
 
     public PageUtils queryList(Query query) {
+        System.out.println(">>> queryList start ..." + "query = " + query);
         Page<?> page = PageHelper.startPage(query.getPage(), query.getLimit());
+        System.out.println("page = " + page);
         List<Map<String, Object>> list = generatorDao.queryList(query);
+        System.out.println("list = " + list);
         int total = (int) page.getTotal();
 //        if (generatorDao instanceof MongoDBGeneratorDao) {
 //            total = MongoDBCollectionFactory.getCollectionTotal(query);
@@ -56,7 +59,6 @@ public class SysGeneratorService {
         return generatorDao.queryColumns(tableName);
     }
 
-
     public byte[] generatorCode(String[] tableNames) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ZipOutputStream zip = new ZipOutputStream(outputStream);
@@ -71,7 +73,6 @@ public class SysGeneratorService {
 //        if (MongoManager.isMongo()) {
 //            GenUtils.generatorMongoCode(tableNames, zip);
 //        }
-
 
         IOUtils.closeQuietly(zip);
         return outputStream.toByteArray();
