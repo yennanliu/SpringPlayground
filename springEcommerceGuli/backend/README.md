@@ -31,6 +31,15 @@ java -jar <built_jar>
 | Test |  | | |
 
 
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Admin backend | GET | http://localhost:8080/renren-fast/ | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Renren java code generator | GET | http://localhost:80 | |
+
 ## Important Concepts
 
 ## Ref
