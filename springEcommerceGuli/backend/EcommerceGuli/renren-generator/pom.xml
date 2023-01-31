@@ -2,6 +2,13 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
+	<!--
+	NOTE !!! we use below pom.xml
+	https://gitee.com/renrenio/renren-generator/blob/master/pom.xml
+
+	instead of the one in github (e.g. : https://github.com/yennanliu/SpringPlayground/blob/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/gulimall/renren-generator/pom.xml)
+	-->
+
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>io.renren</groupId>
 	<artifactId>renren-generator</artifactId>
@@ -12,24 +19,25 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.0.6.RELEASE</version>
+		<version>2.2.6.RELEASE</version>
 	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<mybatis.spring.boot.version>1.3.0</mybatis.spring.boot.version>
-		<druid.version>1.0.28</druid.version>
+		<mybatisplus.version>3.3.1</mybatisplus.version>
+		<druid.version>1.1.13</druid.version>
 		<commons.lang.version>2.6</commons.lang.version>
 		<commons.io.version>2.5</commons.io.version>
 		<commons.configuration.version>1.10</commons.configuration.version>
-		<fastjson.version>1.2.45</fastjson.version>
+		<fastjson.version>1.2.60</fastjson.version>
 		<velocity.version>1.7</velocity.version>
 		<pagehelper.spring.boot.version>1.2.5</pagehelper.spring.boot.version>
-		<mysql.version>5.1.38</mysql.version>
+		<mysql.version>8.0.17</mysql.version>
 		<mssql.version>4.0</mssql.version>
 		<oracle.version>11.2.0.3</oracle.version>
+		<mongo.version>3.11.0</mongo.version>
 	</properties>
 
 	<dependencies>
@@ -43,9 +51,15 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.mybatis.spring.boot</groupId>
-			<artifactId>mybatis-spring-boot-starter</artifactId>
-			<version>${mybatis.spring.boot.version}</version>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+			<version>${mybatisplus.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.baomidou</groupId>
+					<artifactId>mybatis-plus-generator</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -81,6 +95,16 @@
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
 			<version>${pagehelper.spring.boot.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.mybatis</groupId>
+					<artifactId>mybatis</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.mybatis</groupId>
+					<artifactId>mybatis-spring</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<!-- mysql驱动 -->
 		<dependency>
@@ -105,30 +129,21 @@
 <!--			<groupId>org.postgresql</groupId>-->
 <!--			<artifactId>postgresql</artifactId>-->
 <!--		</dependency>-->
+<!--		&lt;!&ndash; mongo驱动 &ndash;&gt;-->
+<!--		<dependency>-->
+<!--			<groupId>org.mongodb</groupId>-->
+<!--			<artifactId>mongo-java-driver</artifactId>-->
+<!--			<version>${mongo.version}</version>-->
+<!--		</dependency>-->
 	</dependencies>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
-
-		<resources>
-			<!--
-            打包所有resources下的檔案
-            https://www.uj5u.com/houduan/253468.html
-            -->
-			<resource>
-				<directory>src/main/resources</directory>
-				<includes>
-					<include>**/*</include>
-				</includes>
-			</resource>
-		</resources>
-
 	</build>
 
 	<repositories>
