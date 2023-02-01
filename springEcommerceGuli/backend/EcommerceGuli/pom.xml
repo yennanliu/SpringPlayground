@@ -20,6 +20,7 @@
 		<module>gulimall-coupon</module>
 		<module>gulimall-member</module>
 		<module>gulimall-ware</module>
+		<module>gulimall-common</module>
 		<!-- (backend admin system) fast code generate
 		: https://youtu.be/QHlsp1M2QTo?t=271
 		-->
