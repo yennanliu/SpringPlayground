@@ -15,10 +15,22 @@
 
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>gulimall-common</artifactId>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
-	<dependencies>
+    <dependencies>
 
-		<!--        mybatis-plus-->
+		<!-- mybatis-plus-->
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
@@ -59,13 +71,13 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!--        服务注册/发现-->
+		<!-- 服务注册/发现-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
 
-		<!--        配置中心来做配置管理-->
+		<!-- 配置中心来做配置管理-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
