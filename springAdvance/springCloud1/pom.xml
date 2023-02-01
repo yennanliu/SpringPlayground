@@ -10,22 +10,22 @@
 
 	<modules>
 		<module>cloud-provider-payment8001</module>
-        <module>cloud-consumer-order80</module>
-        <module>cloud-api-commons</module>
-        <module>cloud-eureka-server7001</module>
+		<module>cloud-consumer-order80</module>
+		<module>cloud-api-commons</module>
+		<module>cloud-eureka-server7001</module>
 		<module>cloud-eureka-server7002</module>
 		<module>cloud-provider-payment8002</module>
-        <module>cloud-provider-payment8004</module>
+		<module>cloud-provider-payment8004</module>
 		<module>cloud-consumerzk-order80</module>
-        <module>cloud-consumer-feign-order80</module>
-        <module>cloud-provider-hystrix-payment8001</module>
-        <module>cloud-consumer-feign-hystrix-order80</module>
-        <module>cloud-gateway-geteway9527</module>
-        <module>cloud-config-client-3366</module>
-        <module>cloud-stream-rabbitmq-provider8801</module>
-        <module>cloud-stream-rabbitmq-consumer8802</module>
-        <module>cloud-stream-rabbitmq-consumer8803</module>
-    </modules>
+		<module>cloud-consumer-feign-order80</module>
+		<module>cloud-provider-hystrix-payment8001</module>
+		<module>cloud-consumer-feign-hystrix-order80</module>
+		<module>cloud-gateway-geteway9527</module>
+		<module>cloud-config-client-3366</module>
+		<module>cloud-stream-rabbitmq-provider8801</module>
+		<module>cloud-stream-rabbitmq-consumer8802</module>
+        	<module>cloud-stream-rabbitmq-consumer8803</module>
+    	</modules>
 
 	<!--
 	Pom.xml modify from here :  (1st comment)
