@@ -4,6 +4,7 @@
 
 	<!--
 	https://github.com/yennanliu/SpringPlayground/blob/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/gulimall/gulimall-coupon/pom.xml
+	https://youtu.be/wIR4X0mYSa0?t=132
 	-->
 
 	<modelVersion>4.0.0</modelVersion>
@@ -25,11 +26,11 @@
 
 	<dependencies>
 
-<!--		<dependency>-->
-<!--			<groupId>com.atguigu.gulimall</groupId>-->
-<!--			<artifactId>gulimall-common</artifactId>-->
-<!--			<version>0.0.1-SNAPSHOT</version>-->
-<!--		</dependency>-->
+		<dependency>
+			<groupId>com.yen</groupId>
+			<artifactId>gulimall-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
