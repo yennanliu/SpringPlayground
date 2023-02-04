@@ -5,7 +5,7 @@ spring:
   datasource:
     username: root
     password:
-    url: jdbc:mysql://127.0.0.1:3306/gulimall_sms
+    url: jdbc:mysql://127.0.0.1:3306/gulimall_ums
     driver-class-name: com.mysql.jdbc.Driver
 
 #  cloud:
@@ -23,7 +23,7 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:
-  port: 7000
+  port: 9000
 #logging:
 #  level:
 #    com.atguigu.gulimall
