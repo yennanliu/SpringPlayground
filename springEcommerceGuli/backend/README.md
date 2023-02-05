@@ -10,6 +10,19 @@
 <details>
 <summary>App</summary>
 
+- Install Nacos via Docker
+    - https://nacos.io/zh-cn/docs/quick-start-docker.html
+    ```bash
+    git clone https://github.com/nacos-group/nacos-docker.git
+    cd nacos-docker
+    # mysql-8 stand alone
+    docker-compose -f example/standalone-mysql-8.yaml up
+    ```
+    - access (default)
+        - accout: nacos
+        - pwd: nacos
+    - Note: There is an issue running Nacos via compiled code in Macbook M1
+
 ```bash
 #---------------------------
 # Run app
@@ -29,6 +42,11 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Nacos registry center | GET | http://127.0.0.1:8848/nacos/ | account, pwd: nacos|
 
 
 | API | Type | Purpose | Example cmd | Comment|
