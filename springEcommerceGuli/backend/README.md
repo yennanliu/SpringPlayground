@@ -56,6 +56,10 @@ java -jar <built_jar>
 | Member list | GET | http://localhost:8000/member/growthchangehistory/list | |
 
 
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Order list | GET | http://localhost:9000/order/order/list | |
+
 ## Important Concepts
 
 ## Ref
