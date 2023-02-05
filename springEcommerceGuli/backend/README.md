@@ -78,6 +78,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Member list | GET | http://localhost:8000/member/growthchangehistory/list | |
+| Member feign client test | GET | http://localhost:8000/member/member/coupons  | |
 
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -91,6 +92,14 @@ java -jar <built_jar>
 
 
 ## Important Concepts
+
+- Feign remote client
+    - https://youtu.be/G1SNCTRcKdE?t=227
+    - 1) install open-feign
+    - 2) create an interface tells springCloud that this service needs feign call
+        - under feign pkg
+            - declare which service, which endpoint the interface method is calling to
+    - 3) enable feign remote call (EnableFeignClients)
 
 ## Ref
 
