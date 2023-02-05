@@ -13,9 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ${package}.${moduleName}.entity.${className}Entity;
 import ${package}.${moduleName}.service.${className}Service;
-import ${mainPath}.common.utils.PageUtils;
-import ${mainPath}.common.utils.R;
 
+// import com.yen.common.utils.PageUtils;
+//import ${mainPath}.common.utils.PageUtils;
+//import ${mainPath}.common.utils.R;
+
+import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.common.utils.PageUtils;
 
 
 /**

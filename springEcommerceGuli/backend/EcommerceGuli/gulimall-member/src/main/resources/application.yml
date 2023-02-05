@@ -1,0 +1,30 @@
+# https://youtu.be/wIR4X0mYSa0?t=219
+# https://youtu.be/wIR4X0mYSa0?t=556
+# https://github.com/yennanliu/SpringPlayground/blob/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/gulimall/gulimall-member/src/main/resources/application.yml
+
+spring:
+  datasource:
+    username: root
+    password:
+    url: jdbc:mysql://127.0.0.1:3306/gulimall_ums
+    driver-class-name: com.mysql.jdbc.Driver
+
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8848
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml # if classpath*:/mapper/**/*.xml, then will also scan its dependency's classpath
+  global-config:
+    db-config:
+      id-type: auto
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+server:
+  port: 8000
+#logging:
+#  level:
+#    com.atguigu.gulimall

@@ -40,6 +40,32 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | Renren java code generator | GET | http://localhost:80 | |
 
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Coupon list | GET | http://localhost:7000/coupon/coupon/list | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Product list | GET | http://localhost:10000/product/attrattrgrouprelation/list | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Member list | GET | http://localhost:8000/member/growthchangehistory/list | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Order list | GET | http://localhost:9000/order/order/list | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Ware list | GET | http://localhost:11000/ware/purchase/list | |
+
+
 ## Important Concepts
 
 ## Ref
