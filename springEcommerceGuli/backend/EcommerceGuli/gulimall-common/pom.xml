@@ -56,7 +56,7 @@
 			<version>2.6</version>
 		</dependency>
 
-		<!--    导入mysql驱动    -->
+		<!--  导入mysql驱动    -->
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>
 			<groupId>mysql</groupId>
@@ -71,13 +71,19 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!-- 服务注册/发现-->
+		<!--
+		服务注册/发现
+		https://youtu.be/wk1r_ERKLJY?t=85
+		-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
 		</dependency>
 
-		<!-- 配置中心来做配置管理-->
+		<!--
+		配置中心来做配置管理
+		https://youtu.be/wk1r_ERKLJY?t=85
+		-->
 		<dependency>
 			<groupId>com.alibaba.cloud</groupId>
 			<artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
@@ -91,6 +97,10 @@
 
 	</dependencies>
 
+	<!--
+	define all alibaba-cloud pkg version via below
+	https://youtu.be/eyFKQpBD92s?t=623
+	-->
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
