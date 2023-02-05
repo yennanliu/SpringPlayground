@@ -13,8 +13,14 @@
 - Install Nacos via Docker
     - https://nacos.io/zh-cn/docs/quick-start-docker.html
     ```bash
+
+    # option 1) clone for code from cloud
     git clone https://github.com/nacos-group/nacos-docker.git
     cd nacos-docker
+
+    # option 2) use local code snapshot
+    cd springEcommerceGuli/backend/nacos-docker-master
+
     # mysql-8 stand alone
     docker-compose -f example/standalone-mysql-8.yaml up
     ```
