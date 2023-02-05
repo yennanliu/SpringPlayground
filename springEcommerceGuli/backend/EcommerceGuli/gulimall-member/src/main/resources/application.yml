@@ -9,10 +9,13 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/gulimall_ums
     driver-class-name: com.mysql.jdbc.Driver
 
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: 127.0.0.1:8848
+  # https://youtu.be/wk1r_ERKLJY?t=215
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: gulimall-member
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
 

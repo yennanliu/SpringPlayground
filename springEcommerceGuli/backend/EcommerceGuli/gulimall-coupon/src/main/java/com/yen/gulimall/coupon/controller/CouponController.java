@@ -27,8 +27,20 @@ import com.yen.gulimall.common.utils.R;
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
+
     @Autowired
     private CouponService couponService;
+
+    // test feign call : https://youtu.be/G1SNCTRcKdE?t=123
+    @RequestMapping("/member/list")
+    public R memberCoupons(){
+
+        CouponEntity coupon = new CouponEntity();
+        coupon.setCouponName("name_123");
+
+        return R.ok().put("coupons", Arrays.asList(coupon));
+    }
+
 
     /**
      * 列表

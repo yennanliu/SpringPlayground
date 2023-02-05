@@ -10,6 +10,25 @@
 <details>
 <summary>App</summary>
 
+- Install Nacos via Docker
+    - https://nacos.io/zh-cn/docs/quick-start-docker.html
+    ```bash
+
+    # option 1) clone for code from cloud
+    git clone https://github.com/nacos-group/nacos-docker.git
+    cd nacos-docker
+
+    # option 2) use local code snapshot
+    cd springEcommerceGuli/backend/nacos-docker-master
+
+    # mysql-8 stand alone
+    docker-compose -f example/standalone-mysql-8.yaml up
+    ```
+    - access (default)
+        - accout: nacos
+        - pwd: nacos
+    - Note: There is an issue running Nacos via compiled code in Macbook M1
+
 ```bash
 #---------------------------
 # Run app
@@ -29,6 +48,11 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Test |  | | |
+
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Nacos registry center | GET | http://127.0.0.1:8848/nacos/ | account, pwd: nacos|
 
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -54,6 +78,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Member list | GET | http://localhost:8000/member/growthchangehistory/list | |
+| Member feign client test | GET | http://localhost:8000/member/member/coupons  | |
 
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -67,6 +92,14 @@ java -jar <built_jar>
 
 
 ## Important Concepts
+
+- Feign remote client
+    - https://youtu.be/G1SNCTRcKdE?t=227
+    - 1) install open-feign
+    - 2) create an interface tells springCloud that this service needs feign call
+        - under feign pkg
+            - declare which service, which endpoint the interface method is calling to
+    - 3) enable feign remote call (EnableFeignClients)
 
 ## Ref
 
