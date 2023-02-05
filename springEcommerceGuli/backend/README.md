@@ -60,6 +60,12 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | Order list | GET | http://localhost:9000/order/order/list | |
 
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Ware list | GET | http://localhost:11000/ware/purchase/list | |
+
+
 ## Important Concepts
 
 ## Ref
