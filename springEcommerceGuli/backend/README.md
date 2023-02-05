@@ -95,6 +95,7 @@ java -jar <built_jar>
 
 - Feign remote client
     - https://youtu.be/G1SNCTRcKdE?t=227
+    - [code ref](https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/backend/EcommerceGuli/gulimall-member/src/main/java/com/yen/gulimall/member/GulimallMemberApplication.java#L12)
     - 1) install open-feign
     - 2) create an interface tells springCloud that this service needs feign call
         - under feign pkg
