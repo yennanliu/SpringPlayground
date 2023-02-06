@@ -3,6 +3,7 @@ package com.yen.gulimall.product;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 // https://youtu.be/wIR4X0mYSa0?t=244
 
@@ -20,6 +21,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *       		- let mybatis know mapper xml file location
  */
 
+@EnableDiscoveryClient
 @MapperScan("com.yen.gulimall.product.dao")
 @SpringBootApplication
 public class GulimallProductApplication {
