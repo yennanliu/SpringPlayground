@@ -2,17 +2,16 @@ package com.yen.gulimall.coupon.controller;
 
 import java.util.Arrays;
 import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yen.gulimall.coupon.entity.CouponEntity;
 import com.yen.gulimall.coupon.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
 
@@ -31,6 +30,12 @@ public class CouponController {
     @Autowired
     private CouponService couponService;
 
+    @Value("${coupon.user.name}")
+    private String name;
+
+    @Value("${coupon.user.age}")
+    private Integer age;
+
     // test feign call : https://youtu.be/G1SNCTRcKdE?t=123
     @RequestMapping("/member/list")
     public R memberCoupons(){
@@ -39,6 +44,13 @@ public class CouponController {
         coupon.setCouponName("name_123");
 
         return R.ok().put("coupons", Arrays.asList(coupon));
+    }
+
+    // test Nacos bootstrap.properties conf : https://youtu.be/NMSk_q8czyI?t=190
+    @RequestMapping("/test")
+    public R test(){
+
+        return R.ok().put("name", name).put("age", age);
     }
 
 

@@ -68,7 +68,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Coupon list | GET | http://localhost:7000/coupon/coupon/list | |
-
+| Coupon test | GET | http://localhost:7000/coupon/coupon/test | |
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
