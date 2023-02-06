@@ -93,6 +93,9 @@ java -jar <built_jar>
 
 ## Important Concepts
 
+<details>
+<summary>Concepts</summary>
+
 - Feign remote client
     - https://youtu.be/G1SNCTRcKdE?t=227
     - [code ref](https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/backend/EcommerceGuli/gulimall-member/src/main/java/com/yen/gulimall/member/GulimallMemberApplication.java#L12)
@@ -101,6 +104,25 @@ java -jar <built_jar>
         - under feign pkg
             - declare which service, which endpoint the interface method is calling to
     - 3) enable feign remote call (EnableFeignClients)
+
+- How to use Nacos as general conf setting
+    - https://youtu.be/NMSk_q8czyI?t=669
+    - 1) add Nacos dep (pom.xml)
+    - 2) create "bootstrap.properties" under resources
+        - spring.application.name=gulimall-coupon
+        - spring.cloud.nacos.config.server-addr=127.0.0.1:8848
+    - 3) setup a conf in Nacos
+        - example : gulimall-coupon.properties (as Data ID) (default name : <application-name>.properties)
+    - 4) setup whatever setting (k-v) in gulimall-coupon.properties
+    - 5) sync with gulimall-coupon.properties in real-time ?
+        - go to controller (e.g. CouponController)
+        - add below annotation:
+            - @RefreshScope
+            - @Value("${key-name}") (get val from conf)
+    - 6) priority:
+        - Nacos conf > java conf (e.g. : application.properties)
+
+</details>
 
 ## Ref
 

@@ -7,6 +7,7 @@ import com.yen.gulimall.coupon.entity.CouponEntity;
 import com.yen.gulimall.coupon.service.CouponService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,8 @@ import com.yen.gulimall.common.utils.R;
  * @email yen_dev@gmail.com
  * @date 2023-02-03 09:12:35
  */
+
+@RefreshScope // enable this, so Spring can get real-time update from Nacos setting : https://youtu.be/NMSk_q8czyI?t=594
 @RestController
 @RequestMapping("coupon/coupon")
 public class CouponController {
