@@ -138,6 +138,9 @@ springUserSystem/mvnw.cmd
 springUserSystem/mvnw
 springUserSystem/mvnw*
 
+springEcommerceGuli/backend/nacos-docker-master/example/mysql/
+springEcommerceGuli/backend/nacos-docker-master/example/standalone-logs/
+
 */mvnw*
 */*/mvnw*
 */mvnw.cmd

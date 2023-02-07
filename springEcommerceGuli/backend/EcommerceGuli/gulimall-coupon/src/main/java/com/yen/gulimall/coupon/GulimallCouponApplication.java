@@ -10,6 +10,8 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 /**
  *  How to use Nacos as general conf setting
  *
+ *  	PART 1)
+ *
  *      - https://youtu.be/NMSk_q8czyI?t=669
  *
  *      - 1) add Nacos dep (pom.xml)
@@ -26,6 +28,26 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *      		- @Value("${key-name}") (get val from conf)
  *      - 6) priority:
  *      	- Nacos conf > java conf (e.g. : application.properties)
+ *
+ *
+ *
+ *      PART 2)
+ *
+ *      Details
+ *      - https://youtu.be/bDCtpZpNQXE?t=17
+ *
+ *      	- 1) name space:
+ *      		- setting isolation
+ *      		- (default : public)
+ *      		- different env for dev, qa, prod
+ *      		- Note: have to set up which name space you need in bootstrap.properties
+ *       	- 2) setting collection:
+ *       		- all setting collection
+ *       	- 3) setting collection ID:
+ *       			- setting collection's ID (Data ID)
+ *       	- 4) setting group
+ *       		- By default, all setting collections belong to "DEFAULT_GROUP"
+ *
  *
  */
 @EnableDiscoveryClient
