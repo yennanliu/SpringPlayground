@@ -47,6 +47,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *       			- setting collection's ID (Data ID)
  *       	- 4) setting group
  *       		- By default, all setting collections belong to "DEFAULT_GROUP"
+ *       	- 5) Use multiple settings
+ *       		- https://youtu.be/94R9oB39sno?t=19
+ *       		- step 1) setup settings in Nacos
+ *       	 	- step 2) in boostrap.properties, define which settings you want to load (please refer boostrap.properties in this module)
+ *				- step 3) or, can via @Value, @ConfigurationProperties annotation
  *
  *
  */
