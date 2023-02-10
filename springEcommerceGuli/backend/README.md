@@ -14,17 +14,20 @@
     - https://nacos.io/zh-cn/docs/quick-start-docker.html
     ```bash
 
-    # option 1) clone for code from cloud
+    # option 1) clone for code from cloud (prefer)
     git clone https://github.com/nacos-group/nacos-docker.git
     cd nacos-docker
+    docker-compose -f example/standalone-mysql-8.yaml up
 
-    # option 2)
-    # https://hub.docker.com/r/nacos/nacos-server
-    docker run --name nacos-quick -e MODE=standalone -p 8848:8848 -p 9848:9848 -d nacos/nacos-server:v2.2.0
+    # NOTE!!! if errors, can't start Nacos, do clean mysql lock or check logs
+    cd nacos-docker
+    rm -fr example/mysql/
+    rm -fr example/standalone-logs/
+
+    
 
     # option 2) use local code snapshot
     cd springEcommerceGuli/backend/nacos-docker-master
-
     # mysql-8 stand alone
     docker-compose -f example/standalone-mysql-8.yaml up
     ```
