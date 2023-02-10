@@ -138,8 +138,8 @@ java -jar <built_jar>
     - Filter
     - process:
         - request coming, check via "Predicate" to see if the request fit "Route" rules, if validation passed, then the request will be filter with "Filter" and redirected based on "Route"
-<p align="center"><img src ="./springEcommerceGuli/doc/pic/api_gateway.png"></p>
-<p align="center"><img src ="./springEcommerceGuli/doc/pic/api_gateway2.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway2.png"></p>
 
 
 </details>
