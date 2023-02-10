@@ -30,6 +30,14 @@
     - Note: There is an issue running Nacos via compiled code in Macbook M1
 
 ```bash
+# useful docker cmd
+docker rm -f $(docker ps -aq)
+docker rmi -f $(docker images -q)
+docker rm -f $(docker ps -a -q)
+docker rmi -f $(docker images -q -a)
+```
+
+```bash
 #---------------------------
 # Run app
 #---------------------------
@@ -121,6 +129,18 @@ java -jar <built_jar>
             - @Value("${key-name}") (get val from conf)
     - 6) priority:
         - Nacos conf > java conf (e.g. : application.properties)
+
+- API gateway
+    - https://youtu.be/2cmKrJDswek?t=119
+    - https://github.com/yennanliu/SpringPlayground/tree/main/springAdvance/springCloud1#important-concepts
+    - Route
+    - Predicate
+    - Filter
+    - process:
+        - request coming, check via "Predicate" to see if the request fit "Route" rules, if validation passed, then the request will be filter with "Filter" and redirected based on "Route"
+<p align="center"><img src ="./springEcommerceGuli/doc/pic/api_gateway.png"></p>
+<p align="center"><img src ="./springEcommerceGuli/doc/pic/api_gateway2.png"></p>
+
 
 </details>
 
