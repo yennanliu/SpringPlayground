@@ -14,13 +14,20 @@
     - https://nacos.io/zh-cn/docs/quick-start-docker.html
     ```bash
 
-    # option 1) clone for code from cloud
+    # option 1) clone for code from cloud (prefer)
     git clone https://github.com/nacos-group/nacos-docker.git
     cd nacos-docker
+    docker-compose -f example/standalone-mysql-8.yaml up
+
+    # NOTE!!! if errors, can't start Nacos, do clean mysql lock or check logs
+    cd nacos-docker
+    rm -fr example/mysql/
+    rm -fr example/standalone-logs/
+
+    
 
     # option 2) use local code snapshot
     cd springEcommerceGuli/backend/nacos-docker-master
-
     # mysql-8 stand alone
     docker-compose -f example/standalone-mysql-8.yaml up
     ```
@@ -138,8 +145,8 @@ java -jar <built_jar>
     - Filter
     - process:
         - request coming, check via "Predicate" to see if the request fit "Route" rules, if validation passed, then the request will be filter with "Filter" and redirected based on "Route"
-<p align="center"><img src ="./springEcommerceGuli/doc/pic/api_gateway.png"></p>
-<p align="center"><img src ="./springEcommerceGuli/doc/pic/api_gateway2.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway2.png"></p>
 
 
 </details>
