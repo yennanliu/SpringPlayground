@@ -19,12 +19,16 @@
     cd nacos-docker
     docker-compose -f example/standalone-mysql-8.yaml up
 
+    # docker-compose up, down with same flag
+    # https://stackoverflow.com/questions/48717646/docker-compose-down-with-a-non-default-yml-file-name
+    docker-compose -f example/standalone-mysql-8.yaml down
+
     # NOTE!!! if errors, can't start Nacos, do clean mysql lock or check logs
     cd nacos-docker
     rm -fr example/mysql/
     rm -fr example/standalone-logs/
 
-    
+
 
     # option 2) use local code snapshot
     cd springEcommerceGuli/backend/nacos-docker-master
