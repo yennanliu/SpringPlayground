@@ -2,6 +2,7 @@ package com.yen.gulimall.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
@@ -14,7 +15,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  */
 
 @EnableDiscoveryClient
-@SpringBootApplication
+@SpringBootApplication(exclude = {DataSourceAutoConfiguration.class}) // remove DB relative auto config, since geteway service is NOT using DB : https://youtu.be/F8WyHeaEf9E?t=408
 public class GulimallGatewayApplication {
 
 	public static void main(String[] args) {
