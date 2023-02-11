@@ -3,31 +3,26 @@
 # https://github.com/yennanliu/SpringPlayground/blob/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/gulimall/gulimall-member/src/main/resources/application.yml
 
 spring:
-  datasource:
-    username: root
-    password:
-    url: jdbc:mysql://127.0.0.1:3306/gulimall_ums
-    driver-class-name: com.mysql.jdbc.Driver
-
   # https://youtu.be/wk1r_ERKLJY?t=215
   cloud:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    # gateway mapping setting
+    # https://youtu.be/F8WyHeaEf9E?t=489
+    # https://cloud.spring.io/spring-cloud-gateway/reference/html/
+    gateway:
+      routes:
+        - id: test_route1
+          uri: https://google.com
+          predicates:
+            - Query=url,goog
+        - id: test_route2
+          uri: https://www.mozilla.org/en-US/firefox/new/
+          predicates:
+            - Query=url,fox,fire
   application:
     name: gulimall-gateway
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
 
-mybatis-plus:
-  mapper-locations: classpath:/mapper/**/*.xml # if classpath*:/mapper/**/*.xml, then will also scan its dependency's classpath
-  global-config:
-    db-config:
-      id-type: auto
-      logic-delete-value: 1
-      logic-not-delete-value: 0
 server:
-  port: 8000
-#logging:
-#  level:
-#    com.atguigu.gulimall
+  port: 88 # set gateway port as 88

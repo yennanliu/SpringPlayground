@@ -46,6 +46,8 @@ docker rm -f $(docker ps -aq)
 docker rmi -f $(docker images -q)
 docker rm -f $(docker ps -a -q)
 docker rmi -f $(docker images -q -a)
+# clean docker cache : https://stackoverflow.com/questions/65405562/is-there-a-way-to-clean-docker-build-cache
+docker builder prune
 ```
 
 ```bash
@@ -72,6 +74,11 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Nacos registry center | GET | http://127.0.0.1:8848/nacos/ | account, pwd: nacos|
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| API gateway | GET | http://127.0.0.1:88/ | gateway for all services|
+| API gateway | GET | http://127.0.0.1:88/hello?url=goog | gateway test (to fix)|
 
 
 | API | Type | Purpose | Example cmd | Comment|
