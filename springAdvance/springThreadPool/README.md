@@ -40,3 +40,7 @@ java -jar <built_jar>
     - Video
         - https://youtu.be/c134eGL062g?t=1603
         - https://youtu.be/c134eGL062g?t=2323
+- Ref code
+    - https://www.codeusingjava.com/boot/multi
+    - https://github.com/swathisprasad/spring-boot-completable-future
+        - https://swathisprasad.medium.com/multi-threading-in-spring-boot-using-completablefuture-a7ca68a0fe48
