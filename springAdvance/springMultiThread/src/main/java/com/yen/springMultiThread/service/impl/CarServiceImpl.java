@@ -3,8 +3,10 @@ package com.yen.springMultiThread.service.impl;
 // https://github.com/swathisprasad/spring-boot-completable-future/blob/master/src/main/java/com/techshard/future/service/CarService.java
 
 import com.yen.springMultiThread.dao.entity.Car;
+import com.yen.springMultiThread.dao.repository.CarRepository;
 import com.yen.springMultiThread.service.CarService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,9 +18,28 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class CarServiceImpl implements CarService {
 
+    @Autowired
+    CarRepository carRepository;
+
     @Override
-    public CompletableFuture<List<Car>> saveCars(InputStream inputStream) {
-        return null;
+    public CompletableFuture<List<Car>> saveCars(InputStream inputStream) throws Exception {
+
+        final long start = System.currentTimeMillis();
+
+        List<Car> cars = parseCSVFile(inputStream);
+        log.info("Saving a list of cars of size {} records", cars.size());
+
+        cars = carRepository.saveAll(cars);
+        log.info("Elapsed time: {}", (System.currentTimeMillis() - start));
+
+        /**
+         *  CompletableFuture
+         *      - https://popcornylu.gitbooks.io/java_multithread/content/async/cfuture.html
+         *      - https://cloud.tencent.com/developer/article/1845416
+         *      - https://www.liaoxuefeng.com/wiki/1252599548343744/1306581182447650
+         *      - https://www.readfog.com/a/1633195577082744832
+         */
+        return CompletableFuture.completedFuture(cars);
     }
 
     @Override

@@ -14,7 +14,7 @@ import java.util.concurrent.CompletableFuture;
 public interface CarService {
 
     @Async
-    public CompletableFuture<List<Car>> saveCars(final InputStream inputStream);
+    public CompletableFuture<List<Car>> saveCars(final InputStream inputStream) throws Exception;
 
     @Async
     public CompletableFuture<List<Car>> getAllCars();
