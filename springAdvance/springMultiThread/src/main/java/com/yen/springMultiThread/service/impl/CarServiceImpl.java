@@ -7,6 +7,9 @@ import com.yen.springMultiThread.dao.repository.CarRepository;
 import com.yen.springMultiThread.service.CarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
+@Service
 public class CarServiceImpl implements CarService {
 
     @Autowired
@@ -42,9 +46,13 @@ public class CarServiceImpl implements CarService {
         return CompletableFuture.completedFuture(cars);
     }
 
+    @Async
     @Override
     public CompletableFuture<List<Car>> getAllCars() {
-        return null;
+
+        log.info("Request to get a list of cars");
+        final List<Car> cars = carRepository.findAll();
+        return CompletableFuture.completedFuture(cars);
     }
 
     // private helper method
