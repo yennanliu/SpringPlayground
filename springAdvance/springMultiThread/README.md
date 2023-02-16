@@ -26,10 +26,15 @@ java -jar <built_jar>
 
 ## API
 
+| API | Type | Purpose | Example cmd                           | Comment|
+| ----- | -------- | ---- |---------------------------------------| ---- |
+| Swagger |  |  |                                       ||
+| GET | GET | API page | http://localhost:8080/swagger-ui.html |swagger page|
+| Test |  |  |                                       ||
+
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 |  |  |  | |
-
 
 ## Important Concepts
 
