@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +30,7 @@ public class CarServiceImpl implements CarService {
         final long start = System.currentTimeMillis();
 
         // https://stackoverflow.com/questions/3294293/how-to-get-thread-id-from-a-thread-pool
-        log.info("Thread id = " + String.valueOf(Thread.currentThread().getId()) + ", Thread name = " + Thread.currentThread().getName());
+        log.info(">>> (saveCars) Thread id = " + String.valueOf(Thread.currentThread().getId()) + ", Thread name = " + Thread.currentThread().getName());
 
         List<Car> cars = parseCSVFile(inputStream);
         log.info("Saving a list of cars of size {} records", cars.size());
@@ -53,6 +52,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public CompletableFuture<List<Car>> getAllCars() {
 
+        log.info(">>> (getAllCars) Thread id = " + String.valueOf(Thread.currentThread().getId()) + ", Thread name = " + Thread.currentThread().getName());
         log.info("Request to get a list of cars");
         final List<Car> cars = carRepository.findAll();
         return CompletableFuture.completedFuture(cars);
