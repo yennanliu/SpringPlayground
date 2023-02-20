@@ -20,8 +20,8 @@ public class AsyncConfiguration {
         log.info("Creating Async Task Executor");
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         // set up param
-        executor.setCorePoolSize(2);
-        executor.setMaxPoolSize(2);
+        executor.setCorePoolSize(3);
+        executor.setMaxPoolSize(3);
         executor.setQueueCapacity(25);
         executor.setThreadNamePrefix("CarThread-");
         executor.initialize();

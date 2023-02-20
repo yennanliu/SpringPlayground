@@ -30,6 +30,9 @@ public class CarServiceImpl implements CarService {
 
         final long start = System.currentTimeMillis();
 
+        // https://stackoverflow.com/questions/3294293/how-to-get-thread-id-from-a-thread-pool
+        log.info("Thread id = " + String.valueOf(Thread.currentThread().getId()) + ", Thread name = " + Thread.currentThread().getName());
+
         List<Car> cars = parseCSVFile(inputStream);
         log.info("Saving a list of cars of size {} records", cars.size());
 
