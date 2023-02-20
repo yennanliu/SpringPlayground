@@ -30,11 +30,12 @@ java -jar <built_jar>
 | ----- | -------- | ---- |---------------------------------------| ---- |
 | Swagger |  |  |                                       ||
 | GET | GET | API page | http://localhost:8080/swagger-ui.html |swagger page|
-| Test |  |  |                                       ||
+
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-|  |  |  | |
+| POST | POST | upload multiple cars.csv with multi thread | http://localhost:8080/api/v1/car ||
+| GET | GET | get all cars | http://localhost:8080/api/v1/car ||
 
 ## Important Concepts
 

@@ -23,8 +23,12 @@ public class CarController {
     @Autowired
     CarService carService;
 
-    @RequestMapping(method = RequestMethod.POST,  consumes={MediaType.APPLICATION_JSON_VALUE}, produces={MediaType.APPLICATION_JSON_VALUE})
+    //@RequestMapping(method = RequestMethod.POST,  consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.POST)
     public @ResponseBody ResponseEntity uploadFile(@RequestParam(value = "files") MultipartFile[] files){
+
+        log.info(">>> uploadFile POST request");
+
         try{
             for (final MultipartFile file : files){ // TODO : check if "final" is necessary
                 carService.saveCars(file.getInputStream());
@@ -36,8 +40,11 @@ public class CarController {
 
     }
 
-    @RequestMapping(method = RequestMethod.GET, consumes={MediaType.APPLICATION_JSON_VALUE}, produces={MediaType.APPLICATION_JSON_VALUE})
+    //@RequestMapping(method = RequestMethod.GET, consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET)
     public @ResponseBody CompletableFuture<ResponseEntity> getAllCars(){
+
+        log.info(">>> getAllCars GET request");
 
         // TODO : check if can rewrite in non-functional style
         return carService
