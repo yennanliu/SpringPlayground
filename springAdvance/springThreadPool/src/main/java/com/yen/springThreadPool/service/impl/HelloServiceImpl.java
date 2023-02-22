@@ -3,6 +3,7 @@ package com.yen.springThreadPool.service.impl;
 // https://youtu.be/c134eGL062g?t=1565
 
 import com.yen.springThreadPool.service.HelloService;
+import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -58,6 +59,13 @@ public class HelloServiceImpl implements HelloService {
         //CompletableFuture.allOf(res1);
 
         return "printNumMultiThread";
+    }
+
+    @Override
+    public void slowHello() throws InterruptedException {
+        System.out.println(">>> SlowHello start" + " Thread id = " + Thread.currentThread().getId());
+        Thread.sleep(3000L);
+        System.out.println(">>> SlowHello end" + " Thread id = " + Thread.currentThread().getId());
     }
 
     public String myTask(){

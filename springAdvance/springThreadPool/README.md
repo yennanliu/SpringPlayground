@@ -26,11 +26,11 @@ java -jar <built_jar>
 
 ## API
 
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| Test | GET | hello world test | http://localhost:8888/test |
-| Test | GET | multi thread test 1| http://localhost:8888/test2 |
-
+| API | Type | Purpose              | Example cmd                 | Comment|
+| ----- | -------- |----------------------|-----------------------------| ---- |
+| Test | GET | hello world test     | http://localhost:8888/test  |
+| Test | GET | multi thread test 1  | http://localhost:8888/test2 |
+| Test | GET | async service call 1 | http://localhost:8888/test3 |
 
 ## Important Concepts
 
