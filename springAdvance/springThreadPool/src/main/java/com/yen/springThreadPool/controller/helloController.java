@@ -16,16 +16,6 @@ public class helloController {
     @Autowired
     HelloService helloService;
 
-    public static void mySleep(long time) {
-        try {
-            System.out.printf("sleep for %d milli\n", time);
-            Thread.sleep(time);
-            System.out.printf("wake up\n");
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     @GetMapping("/test")
     public String hello() {
 
@@ -62,7 +52,6 @@ public class helloController {
         return "test4";
     }
 
-    @Async
     @GetMapping("/test5")
     public String hello5() throws InterruptedException {
 
@@ -80,7 +69,9 @@ public class helloController {
         return "test5";
     }
 
-    @Async
+
+    // V1: traditional way
+    // https://popcornylu.gitbooks.io/java_multithread/content/async/cfuture.html
     @GetMapping("/test6")
     public String hello6() throws InterruptedException {
 
@@ -103,6 +94,29 @@ public class helloController {
             });
         });
         return "test6";
+    }
+
+    // V2 : use Composible
+    // https://popcornylu.gitbooks.io/java_multithread/content/async/cfuture.html
+    @GetMapping("/test7")
+    public String hello7() throws InterruptedException {
+
+        CompletableFuture
+                .runAsync(() -> mySleep(1000))
+                .thenRunAsync(() -> mySleep(1000))
+                .thenRunAsync(() -> mySleep(1000))
+                .whenComplete((r, ex) -> System.out.println("DONE!"));
+        return "test7";
+    }
+
+    public static void mySleep(long time) {
+        try {
+            System.out.printf("sleep for %d milli\n", time);
+            Thread.sleep(time);
+            System.out.printf("wake up\n");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

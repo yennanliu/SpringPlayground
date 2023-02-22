@@ -31,6 +31,10 @@ java -jar <built_jar>
 | Test | GET | hello world test     | http://localhost:8888/test  |
 | Test | GET | multi thread test 1  | http://localhost:8888/test2 |
 | Test | GET | async service call 1 | http://localhost:8888/test3 |
+| Test | GET | async service call 2 | http://localhost:8888/test4 |
+| Test | GET | async service call 3 | http://localhost:8888/test5 |
+| Test | GET | async service call 4 | http://localhost:8888/test6 |
+| Test | GET | async service call 5 | http://localhost:8888/test7 |
 
 ## Important Concepts
 
