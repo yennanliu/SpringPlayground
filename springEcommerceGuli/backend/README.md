@@ -83,7 +83,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Admin backend | GET | http://localhost:8080/renren-fast/ | |
+| Admin backend | GET | http://localhost:8080/renren-fast/ | | run this backend first, then run Admin frontend
 
 
 | API | Type | Purpose | Example cmd | Comment|
