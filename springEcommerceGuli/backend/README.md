@@ -99,6 +99,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Product list | GET | http://localhost:10000/product/attrattrgrouprelation/list | |
+| Product tree list | GET | http://localhost:10000/product/category/list/tree | |
 
 
 | API | Type | Purpose | Example cmd | Comment|
