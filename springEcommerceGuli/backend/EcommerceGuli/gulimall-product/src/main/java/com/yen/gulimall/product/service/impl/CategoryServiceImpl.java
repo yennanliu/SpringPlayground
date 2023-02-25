@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -48,11 +47,26 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         // step 2) wrap as parent-child tree structure
         // step 2-1) get all layer 1 categories
-        List<CategoryEntity> levelOneEntities = entities.stream().filter(categoryEntity -> {
-            return categoryEntity.getParentCid() == 0; // ParentCid == 0 is layer 1 categories
-        }).collect(Collectors.toList());
+        List<CategoryEntity> levelOneEntities = entities.stream()
+                // ParentCid == 0 : layer 1 categories
+                .filter(categoryEntity -> {
+                    return categoryEntity.getParentCid() == 0;
+                }).map(menu -> {
+                    // call private method below
+                    menu.setChildren(getChildren(menu, entities));
+                    return menu;
+                }).sorted((menu1, menu2) -> {
+                    return menu1.getSort() - menu2.getSort();
+                }).collect(Collectors.toList());
 
         return levelOneEntities;
+    }
+
+    // local helper method
+    // recursive get all Children from current CategoryEntity
+    private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all){
+        
+        return null;
     }
 
 }
