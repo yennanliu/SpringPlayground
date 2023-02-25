@@ -1,10 +1,5 @@
 package com.yen.gulimall.product.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -13,6 +8,10 @@ import com.yen.gulimall.common.utils.Query;
 import com.yen.gulimall.product.dao.CategoryDao;
 import com.yen.gulimall.product.entity.CategoryEntity;
 import com.yen.gulimall.product.service.CategoryService;
+import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 // https://youtu.be/5aWkhC7plsc?t=283
 
@@ -63,10 +62,22 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
     }
 
     // local helper method
-    // recursive get all Children from current CategoryEntity
-    private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all){
-        
-        return null;
+    // recursive get all Children from current CategoryEntity : https://youtu.be/5aWkhC7plsc?t=1010
+    private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {
+
+        List<CategoryEntity> children = all.stream().filter(categoryEntity -> {
+                    return categoryEntity.getParentCid() == root.getCatId();
+                }).map(categoryEntity -> {
+                    // NOTE!!! we call getChildren again below (recursive)
+                    categoryEntity.setChildren(getChildren(categoryEntity, all));
+                    return categoryEntity;
+                })
+                .sorted((menu1, menu2) -> {
+                    return menu1.getSort() - menu2.getSort();
+                })
+                .collect(Collectors.toList());
+
+        return children;
     }
 
 }
