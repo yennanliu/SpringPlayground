@@ -73,7 +73,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                     return categoryEntity;
                 })
                 .sorted((menu1, menu2) -> {
-                    return menu1.getSort() - menu2.getSort();
+                    // handle if menu is null (avoid null pointer error)
+                    return (menu1.getSort() == null ? 0 : menu1.getSort()) - (menu2.getSort() == null ? 0 : menu2.getSort());
                 })
                 .collect(Collectors.toList());
 
