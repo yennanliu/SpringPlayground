@@ -11,7 +11,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *  	1) enable service discovery
  *  	2) register to Nacos
  *
- *
  */
 
 @EnableDiscoveryClient
