@@ -23,6 +23,8 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+      # https://youtu.be/6in5XKRnxNY?t=493
+      # logic delete (global setting)
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:

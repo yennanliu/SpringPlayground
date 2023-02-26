@@ -79,7 +79,8 @@ java -jar <built_jar>
 | ----- | -------- | ---- | ----- | ---- |
 | API gateway | GET | http://127.0.0.1:88/ | gateway for all services|
 | API gateway | GET | http://127.0.0.1:88/hello?url=goog | test (to fix)|
-| Product (via gateway) | GET | http://localhost:88/api/product/category/list/tree  | gateway for all services|
+| Product list (via gateway) | GET | http://localhost:88/api/product/category/list/tree  | gateway for product service|
+| Product delete (via gateway) | POST | http://localhost:88/api/product/category/delete  | gateway for product service |
 
 
 | API | Type | Purpose | Example cmd | Comment|

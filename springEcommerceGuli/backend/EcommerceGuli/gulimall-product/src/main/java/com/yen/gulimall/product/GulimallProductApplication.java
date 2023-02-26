@@ -20,6 +20,17 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *       	- mybatis-plus info
  *       		- MapperScan in main app
  *       		- let mybatis know mapper xml file location
+ *
+ *     3) Mybatis with Logic deletion:
+ *     		- https://youtu.be/6in5XKRnxNY?t=406
+ *     		- application.yml add below:
+ *     			      - logic-delete-value: 1
+ *       			  - logic-not-delete-value: 0
+ *          - add "TableLogic" annotation to bean attr
+ *          		- in CategoryEntity:
+ *          			@TableLogic
+ *     					private Integer showStatus;
+ *
  */
 
 @EnableDiscoveryClient
