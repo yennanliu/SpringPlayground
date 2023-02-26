@@ -1,8 +1,8 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.yen.gulimall.product.entity.CategoryEntity;
 import com.yen.gulimall.product.service.CategoryService;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
 
+// https://youtu.be/5aWkhC7plsc?t=190
 
 
 /**
@@ -33,13 +33,18 @@ public class CategoryController {
 
     /**
      * 列表
+     *
+     *  query all categories and their sub categories,
+     *  then return as tree structure:
+     *      - https://youtu.be/5aWkhC7plsc?t=190
      */
-    @RequestMapping("/list")
+    @RequestMapping("/list/tree")
     //@RequiresPermissions("product:category:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = categoryService.queryPage(params);
+    public R list(){
 
-        return R.ok().put("page", page);
+        //List<CategoryEntity> list = categoryService.list();
+        List<CategoryEntity> entities = categoryService.listWithTree();
+        return R.ok().put("data", entities);
     }
 
 

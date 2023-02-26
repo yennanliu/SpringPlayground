@@ -83,8 +83,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Admin backend | GET | http://localhost:8080/renren-fast/ | |
-
+| Admin backend | GET | http://localhost:8080/renren-fast/ | | run this backend first, then run Admin frontend
+| login test | GET | http://localhost:8080/renren-fast/captcha.jpg | | 
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
@@ -99,6 +99,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Product list | GET | http://localhost:10000/product/attrattrgrouprelation/list | |
+| Product tree list | GET | http://localhost:10000/product/category/list/tree | |
 
 
 | API | Type | Purpose | Example cmd | Comment|
