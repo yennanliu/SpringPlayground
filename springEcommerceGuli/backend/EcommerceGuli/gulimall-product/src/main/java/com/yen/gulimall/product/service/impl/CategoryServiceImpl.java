@@ -61,6 +61,24 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         return levelOneEntities;
     }
 
+    /**
+     *  method:
+     *      delete menu by Ids
+     *      - https://youtu.be/6in5XKRnxNY?t=286
+     *
+     *
+     */
+    @Override
+    public void removeMenuByIds(List<Long> asList) {
+
+        // TODO : check if to-delete menu is used by others
+
+        // physical deletion : delete data directly (not exist in DB anymore)
+        baseMapper.deleteBatchIds(asList);
+
+        // logic deletion: modify attr (show = 0 to 1 for example), then the data will NOT be shown at UI
+    }
+
     // local helper method
     // recursive get all Children from current CategoryEntity : https://youtu.be/5aWkhC7plsc?t=1010
     private List<CategoryEntity> getChildren(CategoryEntity root, List<CategoryEntity> all) {

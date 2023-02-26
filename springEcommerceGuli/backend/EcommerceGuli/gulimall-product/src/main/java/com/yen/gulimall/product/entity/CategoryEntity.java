@@ -2,6 +2,7 @@ package com.yen.gulimall.product.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
@@ -37,7 +38,13 @@ public class CategoryEntity implements Serializable {
     private Integer catLevel;
     /**
      * 是否显示[0-不显示，1显示]
+     *
+     *  Update: logic deletion
+     *      - https://youtu.be/6in5XKRnxNY?t=602
+     *      0 : delete (delval = "0")
+     *      1 : NOT delete (value = "1")
      */
+    @TableLogic(value = "1", delval = "0") // logic deletion
     private Integer showStatus;
     /**
      * 排序

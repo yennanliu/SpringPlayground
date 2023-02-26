@@ -78,7 +78,9 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | API gateway | GET | http://127.0.0.1:88/ | gateway for all services|
-| API gateway | GET | http://127.0.0.1:88/hello?url=goog | gateway test (to fix)|
+| API gateway | GET | http://127.0.0.1:88/hello?url=goog | test (to fix)|
+| Product list (via gateway) | GET | http://localhost:88/api/product/category/list/tree  | gateway for product service|
+| Product delete (via gateway) | POST | http://localhost:88/api/product/category/delete  | gateway for product service |
 
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -160,6 +162,12 @@ java -jar <built_jar>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway2.png"></p>
 
+- CROS (跨域請求)
+    - https://youtu.be/VNP6inKmw5I?t=526
+    - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS2.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS3.png"></p>
 
 </details>
 

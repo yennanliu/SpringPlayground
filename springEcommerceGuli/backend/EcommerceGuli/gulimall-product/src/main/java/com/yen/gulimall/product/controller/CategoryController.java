@@ -83,11 +83,18 @@ public class CategoryController {
 
     /**
      * 删除
+     *
+     *  Update:
+     *      - https://youtu.be/6in5XKRnxNY?t=26
+     *      - @RequestBody : get request body, only POST request has it
+     *      - SpringMVC will transform request data (json) to java class instance
      */
     @RequestMapping("/delete")
     //@RequiresPermissions("product:category:delete")
     public R delete(@RequestBody Long[] catIds){
-		categoryService.removeByIds(Arrays.asList(catIds));
+        // 1) check if to-delete category is used by others
+		//categoryService.removeByIds(Arrays.asList(catIds));
+        categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
     }
