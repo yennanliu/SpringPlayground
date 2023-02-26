@@ -160,6 +160,11 @@ java -jar <built_jar>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway2.png"></p>
 
+- CROS (跨域請求)
+    - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS2.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS3.png"></p>
 
 </details>
 
