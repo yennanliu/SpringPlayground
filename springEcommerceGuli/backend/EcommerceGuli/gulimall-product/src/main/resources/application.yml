@@ -8,6 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 
   # https://youtu.be/wk1r_ERKLJY?t=215
+  # https://youtu.be/KKFJPtW3730?t=312
   cloud:
     nacos:
       discovery:

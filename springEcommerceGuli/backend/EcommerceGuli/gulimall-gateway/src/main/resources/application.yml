@@ -28,7 +28,13 @@ spring:
             - Path=/api/**  # for any FE request, use "api" prefix
           filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
             - RewritePath=/api/(?<segment>/?.*), /renren-fast/$\{segment}
-
+        # https://youtu.be/KKFJPtW3730?t=79
+        - id: product_route
+          uri: lb://gulimall-product
+          predicates:
+            - Path=/api/product/**
+          filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
   application:
     name: gulimall-gateway
 

@@ -6,6 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 // https://youtu.be/wIR4X0mYSa0?t=244
+// https://youtu.be/KKFJPtW3730?t=341
 
 /**
  *    Integrate with mybatis-plus
