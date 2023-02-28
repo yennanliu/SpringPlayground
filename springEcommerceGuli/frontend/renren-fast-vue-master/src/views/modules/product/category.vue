@@ -340,8 +340,10 @@ export default {
       });
     },
 
+    // https://youtu.be/DTyZDng9nw0?t=351
     remove(node, data) {
       var ids = [data.catId];
+      // popup confirm if delete
       this.$confirm(`是否删除【${data.name}】菜单?`, "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
