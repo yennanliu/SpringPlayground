@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "0adf9391-ed5f-4383-a92f-5e791d4d949c",
+		"name": "Gulimall",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14162587"
+	},
+	"item": [
+		{
+			"name": "http://localhost:88/api/product/delete?catIds=9999 ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[1432]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:88/api/product/category/delete",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "88",
+					"path": [
+						"api",
+						"product",
+						"category",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:88/api/product/category/update/sort",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\"catId\": 1, \"sort\":0},\n    {\"catId\": 225, \"catLevel\":2}\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:88/api/product/category/update/sort",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "88",
+					"path": [
+						"api",
+						"product",
+						"category",
+						"update",
+						"sort"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -82,6 +82,18 @@ public class CategoryController {
     }
 
     /**
+     *   batch update
+     *      - https://youtu.be/wILUjFehMZ0?t=128
+     */
+    @RequestMapping("/update/sort")
+    //@RequiresPermissions("product:category:update")
+    public R updateSort(@RequestBody CategoryEntity[] category){
+
+        categoryService.updateBatchById(Arrays.asList(category));
+        return R.ok();
+    }
+
+    /**
      * 删除
      *
      *  Update:
