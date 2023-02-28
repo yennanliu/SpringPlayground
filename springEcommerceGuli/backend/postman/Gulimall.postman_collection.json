@@ -68,6 +68,37 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "http://localhost:88/api/product/category/update",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"brandId\": 1, \"logo\": \"xxx\"}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:88/api/product/brand/update",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "88",
+					"path": [
+						"api",
+						"product",
+						"brand",
+						"update"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
