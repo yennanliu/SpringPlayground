@@ -66,23 +66,10 @@ public class CategoryController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:category:save")
-    public R save(@RequestBody CategoryEntity category, BindingResult result){
+    public R save(@RequestBody CategoryEntity category){
+        categoryService.save(category);
 
-        Map<String, Object> errors = new HashMap<>();
-        // get all validation error msg
-        result.getFieldErrors().forEach(item -> {
-            // get error msg
-            String msg = item.getDefaultMessage();
-            // get field name
-            String field = item.getField();
-            errors.put(field, msg);
-        });
-        if(result.hasErrors()){
-            return R.error(400, "data validation failed").put("data", errors);
-        }else{
-            categoryService.save(category);
-            return R.ok();
-        }
+        return R.ok();
     }
 
     /**

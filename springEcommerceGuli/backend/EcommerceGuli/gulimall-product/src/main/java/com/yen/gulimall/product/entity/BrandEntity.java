@@ -6,8 +6,9 @@ import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
 import lombok.NonNull;
+import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.*;
 
 // https://youtu.be/8sIUw0bQyKU?t=93
 
@@ -36,6 +37,8 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌logo地址
 	 */
+	@NotEmpty
+	@URL(message = "logo must be a validated URL") // validate if logo is an URL address
 	private String logo;
 	/**
 	 * 介绍
@@ -48,10 +51,13 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 检索首字母
 	 */
+	@Pattern(regexp = "/^[a-zA-Z]$/", message = "first character must be a alphabet" )  // can use regex pattern
 	private String firstLetter;
 	/**
 	 * 排序
 	 */
+	@NotNull
+	@Min(value = 0, message = "sort must > 0")
 	private Integer sort;
 
 }
