@@ -1,10 +1,12 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,10 +66,23 @@ public class CategoryController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:category:save")
-    public R save(@RequestBody CategoryEntity category){
-		categoryService.save(category);
+    public R save(@RequestBody CategoryEntity category, BindingResult result){
 
-        return R.ok();
+        Map<String, Object> errors = new HashMap<>();
+        // get all validation error msg
+        result.getFieldErrors().forEach(item -> {
+            // get error msg
+            String msg = item.getDefaultMessage();
+            // get field name
+            String field = item.getField();
+            errors.put(field, msg);
+        });
+        if(result.hasErrors()){
+            return R.error(400, "data validation failed").put("data", errors);
+        }else{
+            categoryService.save(category);
+            return R.ok();
+        }
     }
 
     /**

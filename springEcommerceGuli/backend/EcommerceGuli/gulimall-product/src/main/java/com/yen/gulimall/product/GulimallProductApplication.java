@@ -31,6 +31,19 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *          			@TableLogic
  *     					private Integer showStatus;
  *
+ *   4) backend product validation
+ *   	- JSR303
+ *   	- https://youtu.be/8sIUw0bQyKU?t=23
+ *   	- step 1) add validation annotation logic to bean : javax.validation.constraints
+ *   		- can define custom error msg
+ *   		- example : com.yen.gulimall.product.entity.BrandEntity
+ *   	- step 2) add @Valid to controller which use the bean
+ *   		- example : com.yen.gulimall.product.controller.BrandController
+ *   		- result: when verification failed, there will be an error msg
+ *   	- step 3) can use "BindingResult" next to bean, so can get validation result
+ *   		- example : com.yen.gulimall.product.controller.BrandController
+ *   					- public R save(@RequestBody CategoryEntity category, BindingResult result)
+ *
  */
 
 @EnableDiscoveryClient
