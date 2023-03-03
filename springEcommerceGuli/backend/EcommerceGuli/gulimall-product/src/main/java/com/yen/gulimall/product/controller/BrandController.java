@@ -1,20 +1,25 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.yen.gulimall.common.validator.group.AddGroup;
+import com.yen.gulimall.product.entity.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.yen.gulimall.product.entity.BrandEntity;
 import com.yen.gulimall.product.service.BrandService;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
+import javax.validation.Valid;
 
 /**
  * 
@@ -56,10 +61,30 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    //@RequiresPermissions("product:category:save")
+    public R save(@Valid @RequestBody BrandEntity brand){
 
+        // https://youtu.be/UT9lRWUwDGQ?t=163
+        // replace by general exception handler :
+        // com.yen.gulimall.product.exception.GulimallExceptionControllerAdvice
+        
+//       Map<String, Object> errors = new HashMap<>();
+//        // get all validation error msg
+//        result.getFieldErrors().forEach(item -> {
+//            // get error msg
+//            String msg = item.getDefaultMessage();
+//            // get field name
+//            String field = item.getField();
+//            errors.put(field, msg);
+//        });
+//        if(result.hasErrors()){
+//            return R.error(400, "data validation failed").put("data", errors);
+//        }else{
+//            brandService.save(brand);
+//            return R.ok();
+//        }
+
+        brandService.save(brand);
         return R.ok();
     }
 
