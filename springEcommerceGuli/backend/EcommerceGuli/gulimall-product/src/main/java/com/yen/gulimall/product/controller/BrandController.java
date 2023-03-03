@@ -67,7 +67,7 @@ public class BrandController {
         // https://youtu.be/UT9lRWUwDGQ?t=163
         // replace by general exception handler :
         // com.yen.gulimall.product.exception.GulimallExceptionControllerAdvice
-        
+
 //       Map<String, Object> errors = new HashMap<>();
 //        // get all validation error msg
 //        result.getFieldErrors().forEach(item -> {
