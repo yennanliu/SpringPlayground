@@ -42,7 +42,11 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *   		- result: when verification failed, there will be an error msg
  *   	- step 3) can use "BindingResult" next to bean, so can get validation result
  *   		- example : com.yen.gulimall.product.controller.BrandController
- *   					- public R save(@RequestBody BrandEntity brand, BindingResult result){
+ *   					- public R save(@RequestBody BrandEntity brand, BindingResult result)
+ *
+ *   5) Common exception handling
+ *   	- https://youtu.be/UT9lRWUwDGQ?t=47
+ *   	- @ControllerAdvice
  *
  */
 

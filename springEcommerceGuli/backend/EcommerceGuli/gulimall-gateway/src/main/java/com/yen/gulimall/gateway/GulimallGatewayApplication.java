@@ -18,6 +18,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class GulimallGatewayApplication {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(GulimallGatewayApplication.class, args);
 	}
 
