@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import com.yen.gulimall.common.valid.AddGroup;
+import com.yen.gulimall.common.valid.UpdateGroup;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.validator.constraints.URL;
@@ -27,6 +30,8 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌id
 	 */
+	@NotNull(message = "have to set brandId when modify", groups = {UpdateGroup.class}) // https://youtu.be/bS08n6JKa-w?t=216
+	@Null(message = "adding can't set brandId", groups = {AddGroup.class})
 	@TableId
 	private Long brandId;
 	/**

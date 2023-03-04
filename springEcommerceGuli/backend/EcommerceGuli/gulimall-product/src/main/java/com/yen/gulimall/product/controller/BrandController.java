@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
-import com.yen.gulimall.common.validator.group.AddGroup;
+import com.yen.gulimall.common.valid.AddGroup;
 import com.yen.gulimall.product.entity.CategoryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
@@ -62,7 +62,9 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:category:save")
-    public R save(@Valid @RequestBody BrandEntity brand){
+    //public R save(@Valid @RequestBody BrandEntity brand)
+    // ONLY do validation when AddGroup : https://youtu.be/bS08n6JKa-w?t=304
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand){
 
         // https://youtu.be/UT9lRWUwDGQ?t=163
         // replace by general exception handler :
