@@ -8,6 +8,7 @@ import java.util.Date;
 import com.yen.gulimall.common.valid.AddGroup;
 import com.yen.gulimall.common.valid.ListValue;
 import com.yen.gulimall.common.valid.UpdateGroup;
+import com.yen.gulimall.common.valid.UpdateStatusGroup;
 import lombok.Data;
 import lombok.NonNull;
 import org.hibernate.validator.constraints.URL;
@@ -53,7 +54,8 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 显示状态[0-不显示；1-显示]
 	 */
-	@ListValue(vals={0, 1})
+	@NotNull(groups = {AddGroup.class, UpdateStatusGroup.class})
+	@ListValue(vals={0, 1}, groups = {AddGroup.class, UpdateStatusGroup.class})
 	private Integer showStatus;
 	/**
 	 * 检索首字母

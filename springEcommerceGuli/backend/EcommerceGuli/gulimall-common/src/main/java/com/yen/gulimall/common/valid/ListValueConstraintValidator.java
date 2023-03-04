@@ -16,6 +16,7 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
     public void initialize(ListValue constraintAnnotation) {
 
         int[] vals = constraintAnnotation.vals();
+        // for loop collect val, and save it to set
         for (int val: vals){
             set.add(val);
         }
@@ -27,6 +28,7 @@ public class ListValueConstraintValidator implements ConstraintValidator<ListVal
     @Override
     public boolean isValid(Integer value, ConstraintValidatorContext context) {
 
+        // check if given value is in our set (prepared by above initialize method)
         return set.contains(value);
     }
 

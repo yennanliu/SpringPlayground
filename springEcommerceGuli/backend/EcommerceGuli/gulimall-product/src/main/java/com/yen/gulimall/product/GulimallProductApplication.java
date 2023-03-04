@@ -55,6 +55,9 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *     		- create user-defined validation annotation
  *     		- create user-defined validator
  *     		- bind above
+ *     		- example:
+ *     			- ListValue.java
+ *     			- ListValueConstraintValidator.java
  *
  *
  *   5) Common exception handling
