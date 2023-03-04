@@ -83,6 +83,7 @@ java -jar <built_jar>
 | delete product (via gateway) | POST | http://localhost:88/api/product/category/delete  | gateway for product service |
 | update product sorting (via gateway) | POST | http://localhost:88/api/product/category/update/sort  | gateway for product service|
 | update product brand (via gateway) | POST |http://localhost:88/api/product/brand/update  | gateway for product service |
+| query 3 layer product (via gateway) | GET |http://localhost:88/api/product/attrgroup/list/1?page=1&key=phone  | gateway for product service |
 
 
 | API | Type | Purpose | Example cmd | Comment|
