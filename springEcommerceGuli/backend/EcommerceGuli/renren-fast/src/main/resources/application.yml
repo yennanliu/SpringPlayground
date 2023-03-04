@@ -11,6 +11,14 @@ server:
     context-path: /renren-fast
 
 spring:
+  # https://youtu.be/QngyGaQXxz4?t=857
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  application:
+    name: renren-fast
+
   # 环境 dev|test|prod
   profiles:
     active: dev # default env is dev

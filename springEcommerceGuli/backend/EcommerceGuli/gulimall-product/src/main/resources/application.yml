@@ -8,6 +8,7 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
 
   # https://youtu.be/wk1r_ERKLJY?t=215
+  # https://youtu.be/KKFJPtW3730?t=312
   cloud:
     nacos:
       discovery:
@@ -22,10 +23,12 @@ mybatis-plus:
   global-config:
     db-config:
       id-type: auto
+      # https://youtu.be/6in5XKRnxNY?t=493
+      # logic delete (global setting)
       logic-delete-value: 1
       logic-not-delete-value: 0
 server:
   port: 10000
 logging:
   level:
-    com.atguigu.gulimall: debug
+    com.yen.gulimall: debug # so can print executed SQL

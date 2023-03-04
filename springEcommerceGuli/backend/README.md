@@ -78,13 +78,17 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | API gateway | GET | http://127.0.0.1:88/ | gateway for all services|
-| API gateway | GET | http://127.0.0.1:88/hello?url=goog | gateway test (to fix)|
+| API gateway | GET | http://127.0.0.1:88/hello?url=goog | test (to fix)|
+| Product list (via gateway) | GET | http://localhost:88/api/product/category/list/tree  | gateway for product service|
+| delete product (via gateway) | POST | http://localhost:88/api/product/category/delete  | gateway for product service |
+| update product sorting (via gateway) | POST | http://localhost:88/api/product/category/update/sort  | gateway for product service|
+| update product brand (via gateway) | POST |http://localhost:88/api/product/brand/update  | gateway for product service |
 
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| Admin backend | GET | http://localhost:8080/renren-fast/ | |
-
+| Admin backend | GET | http://localhost:8080/renren-fast/ | | run this backend first, then run Admin frontend
+| login test | GET | http://localhost:8080/renren-fast/captcha.jpg | | 
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
@@ -99,6 +103,7 @@ java -jar <built_jar>
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | Product list | GET | http://localhost:10000/product/attrattrgrouprelation/list | |
+| Product tree list | GET | http://localhost:10000/product/category/list/tree | |
 
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -159,10 +164,16 @@ java -jar <built_jar>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/api_gateway2.png"></p>
 
+- CROS (跨域請求)
+    - https://youtu.be/VNP6inKmw5I?t=526
+    - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS2.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS3.png"></p>
+
 - Product - attr relation
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/3_layer.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/sku_spu.png"></p>
-
 
 </details>
 

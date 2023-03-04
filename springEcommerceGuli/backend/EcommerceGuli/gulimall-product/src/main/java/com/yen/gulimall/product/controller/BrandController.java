@@ -4,13 +4,16 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.yen.gulimall.common.valid.AddGroup;
+import com.yen.gulimall.common.valid.UpdateGroup;
+import com.yen.gulimall.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.yen.gulimall.product.entity.BrandEntity;
 import com.yen.gulimall.product.service.BrandService;
 import com.yen.gulimall.common.utils.PageUtils;
@@ -56,10 +59,32 @@ public class BrandController {
      * 保存
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:brand:save")
-    public R save(@RequestBody BrandEntity brand){
-		brandService.save(brand);
+    //@RequiresPermissions("product:category:save")
+    //public R save(@Valid @RequestBody BrandEntity brand)
+    // ONLY do validation when AddGroup : https://youtu.be/bS08n6JKa-w?t=304
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand){
 
+        // https://youtu.be/UT9lRWUwDGQ?t=163
+        // replace by general exception handler :
+        // com.yen.gulimall.product.exception.GulimallExceptionControllerAdvice
+
+//       Map<String, Object> errors = new HashMap<>();
+//        // get all validation error msg
+//        result.getFieldErrors().forEach(item -> {
+//            // get error msg
+//            String msg = item.getDefaultMessage();
+//            // get field name
+//            String field = item.getField();
+//            errors.put(field, msg);
+//        });
+//        if(result.hasErrors()){
+//            return R.error(400, "data validation failed").put("data", errors);
+//        }else{
+//            brandService.save(brand);
+//            return R.ok();
+//        }
+
+        brandService.save(brand);
         return R.ok();
     }
 
@@ -68,8 +93,16 @@ public class BrandController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
+
+        return R.ok();
+    }
+
+    // https://youtu.be/r8naBc3IBNE?t=1023
+    @RequestMapping("/update/status")
+    public R updateStatus(@Validated(UpdateStatusGroup.class) @RequestBody BrandEntity brand){
+        brandService.updateById(brand);
 
         return R.ok();
     }
