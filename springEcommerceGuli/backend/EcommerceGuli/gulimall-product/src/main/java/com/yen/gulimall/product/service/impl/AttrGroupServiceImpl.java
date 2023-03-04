@@ -43,10 +43,10 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
             // query: SELECT * FROM pms_attr_group where catalog_id = ? and { attr_group_id = key or attr_group_name like %key% }
             // query which table, then use its entity (e.g. AttrGroupEntity for pms_attr_group table)
             QueryWrapper<AttrGroupEntity> wrapper = new QueryWrapper<AttrGroupEntity>()
-                    .eq("catalog_id", catalogId);
+                    .eq("catelog_id", catalogId); // plz check table pms_attr_group for current name
 
             // if key is not empty, keep adding conditions
-            if(!StringUtils.isNotEmpty(key)){
+            if(!StringUtils.isEmpty(key)){
                 wrapper.and((obj) -> {
                     obj.eq("attr_group_id", key).or().like("attr_group_name", key); // like : %key_word%, likeLeft: %key_word, likeRight: key_word%
                 });
