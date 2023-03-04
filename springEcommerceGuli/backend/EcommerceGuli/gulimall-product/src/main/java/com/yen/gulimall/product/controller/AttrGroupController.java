@@ -17,12 +17,12 @@ import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
 
 /**
- * 
- *
  * @author yen
  * @email yen_dev@gmail.com
  * @date 2023-02-01 08:23:29
  */
+
+// https://youtu.be/10yPrgpSEG4?t=26
 @RestController
 @RequestMapping("product/attrgroup")
 public class AttrGroupController {
@@ -31,11 +31,15 @@ public class AttrGroupController {
 
     /**
      * 列表
+     *
+     * Update: 3 layer product category
+     *  - https://youtu.be/10yPrgpSEG4?t=26
      */
-    @RequestMapping("/list")
-    //@RequiresPermissions("product:attrgroup:list")
-    public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = attrGroupService.queryPage(params);
+    @RequestMapping("/list/{catalogId}")
+    public R list(@RequestParam Map<String, Object> params, @PathVariable("catalogId") Long catalogId){
+
+        //PageUtils page = attrGroupService.queryPage(params);
+        PageUtils page = attrGroupService.queryPage(params, catalogId);
 
         return R.ok().put("page", page);
     }
