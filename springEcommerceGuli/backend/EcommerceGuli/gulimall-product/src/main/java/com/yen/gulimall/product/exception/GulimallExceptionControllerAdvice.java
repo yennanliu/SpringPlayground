@@ -44,6 +44,7 @@ public class GulimallExceptionControllerAdvice {
     @ExceptionHandler(value = Throwable.class)
     public R handleException(Throwable throwable){
         //return R.error(400, "Exception").put("data", throwable);
+        log.error(">>> error = {}", throwable);
         return R.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(), BizCodeEnum.UNKNOWN_EXCEPTION.getMsg()).put("data", throwable);
     }
 

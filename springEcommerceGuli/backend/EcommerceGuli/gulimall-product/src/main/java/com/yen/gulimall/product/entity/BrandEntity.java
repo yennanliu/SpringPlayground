@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import com.yen.gulimall.common.valid.AddGroup;
+import com.yen.gulimall.common.valid.ListValue;
 import com.yen.gulimall.common.valid.UpdateGroup;
 import lombok.Data;
 import lombok.NonNull;
@@ -43,7 +44,7 @@ public class BrandEntity implements Serializable {
 	 * 品牌logo地址
 	 */
 	@NotEmpty
-	@URL(message = "logo must be a validated URL") // validate if logo is an URL address
+	@URL(message = "logo must be a validated URL", groups = {UpdateGroup.class, AddGroup.class} ) // validate if logo is an URL address
 	private String logo;
 	/**
 	 * 介绍
@@ -52,11 +53,12 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 显示状态[0-不显示；1-显示]
 	 */
+	@ListValue(vals={0, 1})
 	private Integer showStatus;
 	/**
 	 * 检索首字母
 	 */
-	@Pattern(regexp = "/^[a-zA-Z]$/", message = "first character must be a alphabet" )  // can use regex pattern
+	@Pattern(regexp = "/^[a-zA-Z]$/", message = "first character must be a alphabet", groups = {UpdateGroup.class, AddGroup.class} )  // can use regex pattern
 	private String firstLetter;
 	/**
 	 * 排序

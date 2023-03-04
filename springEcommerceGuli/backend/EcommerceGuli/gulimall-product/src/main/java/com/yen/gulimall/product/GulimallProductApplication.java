@@ -50,6 +50,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *    				- BrandEntity:
  *     					- @Null(message = "adding can't set brandId", groups = {AddGroup.class})
  *
+ *     	- User custom validation
+ *     		- https://youtu.be/r8naBc3IBNE?t=38
+ *     		- create user-defined validation annotation
+ *     		- create user-defined validator
+ *     		- bind above
+ *
  *
  *   5) Common exception handling
  *   	- https://youtu.be/UT9lRWUwDGQ?t=47
