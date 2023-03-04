@@ -1,5 +1,6 @@
 package com.yen.gulimall.product.exception;
 
+import com.yen.gulimall.common.exception.BizCodeEnum;
 import com.yen.gulimall.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
@@ -15,6 +16,7 @@ import java.util.Map;
  */
 
 
+/** handle MethodArgumentNotValidException */
 @Slf4j
 @RestControllerAdvice(basePackages = "com.yen.gulimall.product.controller") // RestControllerAdvice equals as @ResponseBody + @ControllerAdvice
 //@ResponseBody // return as JSON format
@@ -34,7 +36,16 @@ public class GulimallExceptionControllerAdvice {
         });
 
         log.error("data validation exception : {}, exception type : {}", e.getMessage(), e.getClass());
-        return R.error(400, "data validation check failed").put("data", errorMap);
+        //return R.error(400, "data validation check failed").put("data", errorMap);
+        return R.error(BizCodeEnum.VALID_EXCEPTION.getCode(), BizCodeEnum.VALID_EXCEPTION.getMsg()).put("data", errorMap);
+    }
+
+    /** handle other type of exceptions */
+    @ExceptionHandler(value = Throwable.class)
+    public R handleException(Throwable throwable){
+        //return R.error(400, "Exception").put("data", throwable);
+        log.error(">>> error = {}", throwable);
+        return R.error(BizCodeEnum.UNKNOWN_EXCEPTION.getCode(), BizCodeEnum.UNKNOWN_EXCEPTION.getMsg()).put("data", throwable);
     }
 
 }

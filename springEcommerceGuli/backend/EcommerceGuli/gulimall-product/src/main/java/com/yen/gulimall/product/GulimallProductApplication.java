@@ -43,6 +43,22 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  *   	- step 3) can use "BindingResult" next to bean, so can get validation result
  *   		- example : com.yen.gulimall.product.controller.BrandController
  *   					- public R save(@RequestBody BrandEntity brand, BindingResult result)
+ *   	- step 4)
+ *   	 	grouping validation
+ *    			- https://youtu.be/bS08n6JKa-w?t=47
+ *    			- example:
+ *    				- BrandEntity:
+ *     					- @Null(message = "adding can't set brandId", groups = {AddGroup.class})
+ *
+ *     	- User custom validation
+ *     		- https://youtu.be/r8naBc3IBNE?t=38
+ *     		- create user-defined validation annotation
+ *     		- create user-defined validator
+ *     		- bind above
+ *     		- example:
+ *     			- ListValue.java
+ *     			- ListValueConstraintValidator.java
+ *
  *
  *   5) Common exception handling
  *   	- https://youtu.be/UT9lRWUwDGQ?t=47

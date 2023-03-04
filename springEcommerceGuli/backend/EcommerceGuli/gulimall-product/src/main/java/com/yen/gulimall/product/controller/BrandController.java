@@ -1,14 +1,13 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
-import com.yen.gulimall.common.validator.group.AddGroup;
-import com.yen.gulimall.product.entity.CategoryEntity;
+import com.yen.gulimall.common.valid.AddGroup;
+import com.yen.gulimall.common.valid.UpdateGroup;
+import com.yen.gulimall.common.valid.UpdateStatusGroup;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +18,6 @@ import com.yen.gulimall.product.entity.BrandEntity;
 import com.yen.gulimall.product.service.BrandService;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
-import javax.validation.Valid;
 
 /**
  * 
@@ -62,12 +60,14 @@ public class BrandController {
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:category:save")
-    public R save(@Valid @RequestBody BrandEntity brand){
+    //public R save(@Valid @RequestBody BrandEntity brand)
+    // ONLY do validation when AddGroup : https://youtu.be/bS08n6JKa-w?t=304
+    public R save(@Validated({AddGroup.class}) @RequestBody BrandEntity brand){
 
         // https://youtu.be/UT9lRWUwDGQ?t=163
         // replace by general exception handler :
         // com.yen.gulimall.product.exception.GulimallExceptionControllerAdvice
-        
+
 //       Map<String, Object> errors = new HashMap<>();
 //        // get all validation error msg
 //        result.getFieldErrors().forEach(item -> {
@@ -93,8 +93,16 @@ public class BrandController {
      */
     @RequestMapping("/update")
     //@RequiresPermissions("product:brand:update")
-    public R update(@RequestBody BrandEntity brand){
+    public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
 		brandService.updateById(brand);
+
+        return R.ok();
+    }
+
+    // https://youtu.be/r8naBc3IBNE?t=1023
+    @RequestMapping("/update/status")
+    public R updateStatus(@Validated(UpdateStatusGroup.class) @RequestBody BrandEntity brand){
+        brandService.updateById(brand);
 
         return R.ok();
     }
