@@ -11,6 +11,7 @@ import com.yen.gulimall.product.service.CategoryBrandRelationService;
 import com.yen.gulimall.product.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -102,6 +103,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      *   - https://youtu.be/dG2Bo8noDtY?t=1380
      *   - Cascade update all data(級聯更新)
      */
+    @Transactional
     @Override
     public void updateCascade(CategoryEntity category) {
 

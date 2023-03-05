@@ -14,6 +14,7 @@ import com.yen.gulimall.common.utils.Query;
 import com.yen.gulimall.product.dao.BrandDao;
 import com.yen.gulimall.product.entity.BrandEntity;
 import com.yen.gulimall.product.service.BrandService;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("brandService")
@@ -53,6 +54,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
      *      - https://youtu.be/dG2Bo8noDtY?t=1118
      *      - not only update product info, but have to make sure data consistency (redundant attr)
      */
+    @Transactional
     @Override
     public void updateDetail(BrandEntity brand) {
 
