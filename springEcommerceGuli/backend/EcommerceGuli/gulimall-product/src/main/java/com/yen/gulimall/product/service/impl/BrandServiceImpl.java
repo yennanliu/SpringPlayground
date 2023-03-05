@@ -1,6 +1,8 @@
 package com.yen.gulimall.product.service.impl;
 
+import com.yen.gulimall.product.service.CategoryBrandRelationService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -16,6 +18,9 @@ import com.yen.gulimall.product.service.BrandService;
 
 @Service("brandService")
 public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> implements BrandService {
+
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -41,6 +46,24 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
         );
 
         return new PageUtils(page);
+    }
+
+    /**
+     *  Update
+     *      - https://youtu.be/dG2Bo8noDtY?t=1118
+     *      - not only update product info, but have to make sure data consistency (redundant attr)
+     */
+    @Override
+    public void updateDetail(BrandEntity brand) {
+
+        // 1) make sure data consistency (redundant attr)
+        this.updateById(brand);
+        // 2) if brand name is not empty, means other tables also have such product info, we have to update there as well
+        if(!StringUtils.isEmpty(brand.getName())){
+            categoryBrandRelationService.updateBrand(brand.getBrandId(), brand.getName());
+            // TODO : update other tables as well
+        }
+
     }
 
 }
