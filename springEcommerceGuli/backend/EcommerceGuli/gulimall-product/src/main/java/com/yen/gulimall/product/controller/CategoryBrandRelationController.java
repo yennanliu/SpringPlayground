@@ -1,15 +1,13 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.yen.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.yen.gulimall.product.service.CategoryBrandRelationService;
@@ -30,6 +28,21 @@ import com.yen.gulimall.common.utils.R;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+    /**
+     *  Update
+     *      - get product catelog list
+     *      - https://youtu.be/dG2Bo8noDtY?t=565
+     */
+    @GetMapping("/catelog/list")
+    public R cateloglist(@RequestParam("brandId") Long brandId){
+
+        List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(
+                new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId)
+        );
+
+        return R.ok().put("data", data);
+    }
 
     /**
      * 列表
@@ -56,12 +69,13 @@ public class CategoryBrandRelationController {
 
     /**
      * 保存
+     *  Update
+     *      - https://youtu.be/dG2Bo8noDtY?t=753
      */
     @RequestMapping("/save")
-    //@RequiresPermissions("product:categorybrandrelation:save")
     public R save(@RequestBody CategoryBrandRelationEntity categoryBrandRelation){
-		categoryBrandRelationService.save(categoryBrandRelation);
 
+        categoryBrandRelationService.saveDetail(categoryBrandRelation);
         return R.ok();
     }
 
