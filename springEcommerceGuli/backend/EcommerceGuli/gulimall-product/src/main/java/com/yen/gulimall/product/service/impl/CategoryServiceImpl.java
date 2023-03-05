@@ -7,7 +7,9 @@ import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.Query;
 import com.yen.gulimall.product.dao.CategoryDao;
 import com.yen.gulimall.product.entity.CategoryEntity;
+import com.yen.gulimall.product.service.CategoryBrandRelationService;
 import com.yen.gulimall.product.service.CategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -17,6 +19,9 @@ import java.util.stream.Collectors;
 
 @Service("categoryService")
 public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity> implements CategoryService {
+
+    @Autowired
+    CategoryBrandRelationService categoryBrandRelationService;
 
     // since CategoryDao extends from BaseMapper, so we can use BaseMapper below instead for querying data
     // (public interface CategoryDao extends BaseMapper<CategoryEntity>)
@@ -90,6 +95,19 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         // reorder
         Collections.reverse(parentPath);
         return (Long[]) parentPath.toArray(new Long[parentPath.size()]); // note: this syntax
+    }
+
+    /**
+     *  Update:
+     *   - https://youtu.be/dG2Bo8noDtY?t=1380
+     *   - Cascade update all data(級聯更新)
+     */
+    @Override
+    public void updateCascade(CategoryEntity category) {
+
+        this.updateById(category);
+        categoryBrandRelationService.updateCategory(category.getCatId(), category.getName());
+
     }
 
     // private local help func (recursive)

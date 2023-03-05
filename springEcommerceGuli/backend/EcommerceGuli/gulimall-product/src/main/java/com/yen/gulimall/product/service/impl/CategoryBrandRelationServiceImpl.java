@@ -71,4 +71,14 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
         this.update(relationEntity, categoryBrandRelationEntityUpdateWrapper);
     }
 
+    /**
+     *
+     * https://youtu.be/dG2Bo8noDtY?t=1426
+     */
+    @Override
+    public void updateCategory(Long catId, String name) {
+
+        this.baseMapper.updateCategory(catId, name);
+    }
+
 }
