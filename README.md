@@ -56,6 +56,7 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 
 - VO (value object)
 	- 用於呈現時的資料包裝，並且將實體的資料(PO)抽象適合當前程式運作的物件，他可以很單純如同PO一樣對應資料庫的屬性，但他也可以包含多個PO組裝成一個較為複雜的資料物件。
+	- 接收前端傳遞來的數據
 
 - DAO (data access object)
 	- 用於ORM(hibernate)將資料從資料庫提取的邏輯物件，其中邏輯主要包含如何提取資料庫的資料(SQL)並且將資料包裝成PO。
@@ -65,6 +66,7 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 
 Ref
 	- https://hackmd.io/@MonsterLee/HJyAdgRBB#:~:text=DTO%20(Data%20Transfer%20Object)&text=%E5%82%B3%E8%BC%B8%E7%94%A8%E7%9A%84%E7%89%A9%E4%BB%B6%EF%BC%8C%E5%81%87%E8%A8%AD,%E5%85%A8%E9%83%A8%E7%9A%84%E8%B3%87%E6%96%99%E5%82%B3%E8%BC%B8%E5%87%BA%E5%8E%BB%E3%80%82
+	- https://youtu.be/L1hCZ9AumP0?t=485
 
 <p align="center"><img src ="./doc/pic/DXO.png"></p>
 
@@ -80,15 +82,10 @@ Ref
 - Init
 	- [Spring Boot Initializr](https://start.spring.io/)
 - Projects
-	- https://github.com/spring-guides/gs-serving-web-content
-	- https://github.com/spring-attic/spring-mvc-showcase
 - Video
 	- https://www.youtube.com/watch?v=pS5HrZuvXLc&list=PLmOn9nNkQxJE3V_Eev79ao-g3a6BplSQG&index=1
 	- https://www.youtube.com/codejava
 - Blog
 	- https://www.codejava.net/frameworks/spring-boot/spring-boot-crud-example-with-spring-mvc-spring-data-jpa-thymeleaf-hibernate-mysql#Database
-- Spring MVC VS Spring Boot
-	- https://kknews.cc/zh-tw/code/rlqroa4.html
-	- https://softnshare.com/spring-boot-tutorial-for-beginners/
 
 </details>
