@@ -39,6 +39,7 @@ public class AttrGroupController {
      *
      * Update: 3 layer product category
      *  - https://youtu.be/10yPrgpSEG4?t=26
+     *  - https://youtu.be/L1hCZ9AumP0?t=47
      */
     @RequestMapping("/list/{catalogId}")
     public R list(@RequestParam Map<String, Object> params, @PathVariable("catalogId") Long catalogId){
