@@ -57,6 +57,7 @@ Pages are the last piece of the puzzle and they're essentially other frontend co
 - VO (value object)
 	- 用於呈現時的資料包裝，並且將實體的資料(PO)抽象適合當前程式運作的物件，他可以很單純如同PO一樣對應資料庫的屬性，但他也可以包含多個PO組裝成一個較為複雜的資料物件。
 	- 接收前端傳遞來的數據
+	- 將後端處理完的數據, 封裝成前端需要的形式
 
 - DAO (data access object)
 	- 用於ORM(hibernate)將資料從資料庫提取的邏輯物件，其中邏輯主要包含如何提取資料庫的資料(SQL)並且將資料包裝成PO。
