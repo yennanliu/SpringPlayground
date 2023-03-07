@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.yen.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.yen.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.yen.gulimall.product.vo.AttrVo;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,35 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         relationEntity.setAttrGroupId(attr.getAttrGroupId());
         relationEntity.setAttrId(attr.getAttrId());
         attrAttrgroupRelationDao.insert(relationEntity);
+    }
+
+    @Override
+    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId) {
+
+        // 0) init QueryWrapper
+        QueryWrapper<AttrEntity> queryWrapper= new QueryWrapper();
+
+        // 1) update queryWrapper per condition : catelogId
+        if (catelogId != 0){
+            queryWrapper.eq("catelogId", catelogId);
+        }
+
+        String key = (String) params.get("key");
+        // 2) update queryWrapper per condition : key
+        if (!StringUtils.isEmpty(key)){
+            // attr_id, attr_name
+            queryWrapper.and( (wrapper) -> {
+                wrapper.eq("attr_id", key).or()
+                       .like("attr_name", key);
+            });
+        }
+
+        IPage<AttrEntity> page = this.page(
+                new Query<AttrEntity>().getPage(params),
+                queryWrapper
+        );
+
+        return new PageUtils(page);
     }
 
 }
