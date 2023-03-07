@@ -15,6 +15,7 @@
     ```bash
 
     # option 1) clone for code from cloud (prefer)
+    rm -fr nacos-docker
     git clone https://github.com/nacos-group/nacos-docker.git
     cd nacos-docker
     docker-compose -f example/standalone-mysql-8.yaml up
@@ -83,6 +84,7 @@ java -jar <built_jar>
 | delete product (via gateway) | POST | http://localhost:88/api/product/category/delete  | gateway for product service |
 | update product sorting (via gateway) | POST | http://localhost:88/api/product/category/update/sort  | gateway for product service|
 | update product brand (via gateway) | POST |http://localhost:88/api/product/brand/update  | gateway for product service |
+| query 3 layer product (via gateway) | GET |http://localhost:88/api/product/attrgroup/list/1?page=1&key=phone  | gateway for product service |
 
 
 | API | Type | Purpose | Example cmd | Comment|
@@ -170,6 +172,10 @@ java -jar <built_jar>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS2.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS3.png"></p>
+
+- Product - attr relation
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/3_layer.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/sku_spu.png"></p>
 
 </details>
 

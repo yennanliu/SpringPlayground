@@ -74,12 +74,15 @@ public class CategoryController {
 
     /**
      * 修改
+     *
+     *  Update:
+     *      - https://youtu.be/dG2Bo8noDtY?t=1363
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:category:update")
     public R update(@RequestBody CategoryEntity category){
-		categoryService.updateById(category);
 
+        //categoryService.updateById(category);
+        categoryService.updateCascade(category); // 級聯更新
         return R.ok();
     }
 
