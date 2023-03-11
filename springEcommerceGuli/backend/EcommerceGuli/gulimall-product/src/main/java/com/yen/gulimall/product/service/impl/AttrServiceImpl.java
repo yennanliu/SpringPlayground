@@ -13,6 +13,7 @@ import com.yen.gulimall.product.vo.AttrVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -170,13 +171,20 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         BeanUtils.copyProperties(attr, attrEntity);
         this.updateById(attrEntity);
 
-        // 1) modify group relation
         AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
         relationEntity.setAttrGroupId(attr.getAttrGroupId());
         relationEntity.setAttrId(attr.getAttrId());
-        /** NOTE !!! : UpdateWrapper here */
-        relationDao.update(relationEntity, new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
 
+        Integer count = relationDao.selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+
+        // case 1) if existed -> modify
+        if (count > 0){
+            // modify group relation
+            /** NOTE !!! : UpdateWrapper here */
+            relationDao.update(relationEntity, new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+        }else{ // case 2) if not existed -> add a new one
+            relationDao.insert(relationEntity);
+        }
     }
 
 }
