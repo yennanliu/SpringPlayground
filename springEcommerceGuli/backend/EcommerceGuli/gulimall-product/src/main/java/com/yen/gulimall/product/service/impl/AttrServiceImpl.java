@@ -13,7 +13,6 @@ import com.yen.gulimall.product.vo.AttrVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
@@ -76,14 +75,16 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
     @Override
-    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId) {
+    public PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId, String type) {
 
         // 0) init QueryWrapper
         QueryWrapper<AttrEntity> queryWrapper= new QueryWrapper();
 
         // 1) update queryWrapper per condition : catelogId
         if (catelogId != 0){
-            queryWrapper.eq("catelogId", catelogId);
+            queryWrapper
+                    .eq("catelogId", catelogId)
+                    .eq("attr_type", "base".equalsIgnoreCase(type)? 1: 0); // 三元運算符: if type == 1, then base type, if type == 0, then business type
         }
 
         String key = (String) params.get("key");

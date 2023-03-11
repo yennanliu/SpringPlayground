@@ -29,11 +29,17 @@ public class AttrController {
     /**
      *  New end point
      *      - https://youtu.be/7dVkoxElUvU?t=58
+     *  Update
+     *      - https://youtu.be/Ga6NMrVkRDY?t=83
      */
-    @GetMapping("/base/list/{catelogId}")
-    public R baseAttrList(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId){
+    //@GetMapping("/base/list/{catelogId}")
+    @GetMapping("/{attrType}/list/{catelogId}")
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId,
+                          @PathVariable("attrType") String type){
 
-        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
+        // if type = 1, then base type; if type = 0 then business type
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
         return R.ok().put("page", page);
     }
 
