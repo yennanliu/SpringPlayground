@@ -14,7 +14,13 @@
     - https://nacos.io/zh-cn/docs/quick-start-docker.html
     ```bash
 
-    # option 1) clone for code from cloud (prefer)
+    # Option 1) use M1 docker image
+    # https://hub.docker.com/r/zhusaidong/nacos-server-m1
+    # chttps://github.com/alibaba/nacos/issues/6340
+    docker pull zhusaidong/nacos-server-m1:2.0.3
+    docker run --name nacos-standalone -e MODE=standalone -e JVM_XMS=512m -e JVM_XMX=512m -e JVM_XMN=256m -p 8848:8848 -d zhusaidong/nacos-server-m1:2.0.3
+
+    # Option 2) clone for code from cloud (prefer)
     rm -fr nacos-docker
     git clone https://github.com/nacos-group/nacos-docker.git
     cd nacos-docker
@@ -29,12 +35,10 @@
     rm -fr example/mysql/
     rm -fr example/standalone-logs/
 
-
-
-    # option 2) use local code snapshot
-    cd springEcommerceGuli/backend/nacos-docker-master
-    # mysql-8 stand alone
-    docker-compose -f example/standalone-mysql-8.yaml up
+    # # option 3) use local code snapshot
+    # cd springEcommerceGuli/backend/nacos-docker-master
+    # # mysql-8 stand alone
+    # docker-compose -f example/standalone-mysql-8.yaml up
     ```
     - access (default)
         - accout: nacos
