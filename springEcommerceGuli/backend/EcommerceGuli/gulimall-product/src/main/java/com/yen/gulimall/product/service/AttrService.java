@@ -3,6 +3,7 @@ package com.yen.gulimall.product.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.product.entity.AttrEntity;
+import com.yen.gulimall.product.vo.AttrRespVo;
 import com.yen.gulimall.product.vo.AttrVo;
 
 import java.util.Map;
@@ -21,5 +22,7 @@ public interface AttrService extends IService<AttrEntity> {
     void saveAttr(AttrVo attr);
 
     PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId);
+
+    AttrRespVo getAttrInfo(Long attrId);
 }
 

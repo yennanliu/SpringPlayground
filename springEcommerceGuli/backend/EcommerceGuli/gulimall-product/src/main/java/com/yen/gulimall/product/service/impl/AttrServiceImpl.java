@@ -6,6 +6,7 @@ import com.yen.gulimall.product.dao.CategoryDao;
 import com.yen.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.yen.gulimall.product.entity.AttrGroupEntity;
 import com.yen.gulimall.product.entity.CategoryEntity;
+import com.yen.gulimall.product.service.CategoryService;
 import com.yen.gulimall.product.vo.AttrRespVo;
 import com.yen.gulimall.product.vo.AttrVo;
 import org.apache.commons.lang.StringUtils;
@@ -15,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -38,6 +38,9 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     @Autowired
     CategoryDao categoryDao;
+
+    @Autowired
+    CategoryService categoryService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -120,6 +123,39 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         pageUtils.setList(respVos);
         return pageUtils;
+    }
+
+    /**
+     *  https://youtu.be/kCjMunm_9Ig?t=86
+     */
+    @Override
+    public AttrRespVo getAttrInfo(Long attrId) {
+
+        AttrRespVo respVo = new AttrRespVo();
+        AttrEntity attrEntity = this.getById(attrId);
+        // copy info from attrEntity to respVo
+        BeanUtils.copyProperties(attrEntity, respVo);
+
+        // 1) set up group info
+        AttrAttrgroupRelationEntity attrGroupRelation = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
+        if (attrGroupRelation != null){
+            respVo.setAttrGroupId(attrGroupRelation.getAttrGroupId());
+            AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupRelation.getAttrGroupId());
+            if (attrGroupEntity != null){
+                respVo.setGroupName(attrGroupEntity.getAttrGroupName());
+            }
+        }
+
+        // 2) set up category info
+        Long catelogId = attrEntity.getCatelogId();
+        Long[] catelogPath = categoryService.findCatelogPath(catelogId);
+        respVo.setCatelogPath(catelogPath);
+        CategoryEntity categoryEntity = categoryDao.selectById(catelogId);
+        if (categoryEntity != null){
+            respVo.setCatelogName(categoryEntity.getName());
+        }
+
+        return respVo;
     }
 
 }

@@ -9,4 +9,8 @@ public class AttrRespVo extends AttrVo{
 
     private String catelogName;
     private String groupName;
+
+    // https://youtu.be/kCjMunm_9Ig?t=59
+    private Long[] catelogPath;
+
 }
