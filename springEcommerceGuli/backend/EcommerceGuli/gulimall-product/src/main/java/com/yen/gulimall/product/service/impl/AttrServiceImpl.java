@@ -1,6 +1,7 @@
 package com.yen.gulimall.product.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.yen.gulimall.common.constant.ProductConstant;
 import com.yen.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.yen.gulimall.product.dao.AttrGroupDao;
 import com.yen.gulimall.product.dao.CategoryDao;
@@ -54,12 +55,17 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
     }
 
 
+    /**
+     *  Update:
+     *      - handle different type
+     *      - https://youtu.be/Ga6NMrVkRDY?t=401
+     */
     @Transactional
     @Override
     public void saveAttr(AttrVo attr) {
 
         AttrEntity attrEntity = new AttrEntity();
-        // it's too slow, to copy every attr from one to another,
+        // it's not efficient to copy every attr from one to another,
         // -> use BeanUtils.copyProperties instead : BeanUtils.copyProperties(source_pojo, dest_pojo);
         //attrEntity.setAttrName(attr.getAttrName());
         BeanUtils.copyProperties(attr, attrEntity);
@@ -68,10 +74,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         this.save(attrEntity);
 
         // step 2) save relation info
-        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
-        relationEntity.setAttrGroupId(attr.getAttrGroupId());
-        relationEntity.setAttrId(attr.getAttrId());
-        relationDao.insert(relationEntity);
+        if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){ // only save if saless type (type == 1)
+            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+            relationEntity.setAttrGroupId(attr.getAttrGroupId());
+            relationEntity.setAttrId(attr.getAttrId());
+            relationDao.insert(relationEntity);
+        }
     }
 
     @Override
@@ -84,7 +92,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         if (catelogId != 0){
             queryWrapper
                     .eq("catelogId", catelogId)
-                    .eq("attr_type", "base".equalsIgnoreCase(type)? 1: 0); // 三元運算符: if type == 1, then base type, if type == 0, then business type
+                    .eq("attr_type", "base".equalsIgnoreCase(type)? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode(): ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode()); // 三元運算符: if type == 1, then base type, if type == 0, then sales type
         }
 
         String key = (String) params.get("key");
@@ -132,6 +140,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     /**
      *  https://youtu.be/kCjMunm_9Ig?t=86
+     *  https://youtu.be/Ga6NMrVkRDY?t=609
      */
     @Override
     public AttrRespVo getAttrInfo(Long attrId) {
@@ -141,13 +150,15 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // copy info from attrEntity to respVo
         BeanUtils.copyProperties(attrEntity, respVo);
 
-        // 1) set up group info
-        AttrAttrgroupRelationEntity attrGroupRelation = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
-        if (attrGroupRelation != null){
-            respVo.setAttrGroupId(attrGroupRelation.getAttrGroupId());
-            AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupRelation.getAttrGroupId());
-            if (attrGroupEntity != null){
-                respVo.setGroupName(attrGroupEntity.getAttrGroupName());
+        if (attrEntity.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){
+            // 1) set up group info
+            AttrAttrgroupRelationEntity attrGroupRelation = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrId));
+            if (attrGroupRelation != null){
+                respVo.setAttrGroupId(attrGroupRelation.getAttrGroupId());
+                AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupRelation.getAttrGroupId());
+                if (attrGroupEntity != null){
+                    respVo.setGroupName(attrGroupEntity.getAttrGroupName());
+                }
             }
         }
 
@@ -165,6 +176,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
     /**
      * https://youtu.be/kCjMunm_9Ig?t=462
+     * https://youtu.be/Ga6NMrVkRDY?t=648
      */
     @Transactional
     @Override
@@ -174,19 +186,23 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         BeanUtils.copyProperties(attr, attrEntity);
         this.updateById(attrEntity);
 
-        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
-        relationEntity.setAttrGroupId(attr.getAttrGroupId());
-        relationEntity.setAttrId(attr.getAttrId());
+        if (attrEntity.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){
 
-        Integer count = relationDao.selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+            // 1) modify group relation
+            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+            relationEntity.setAttrGroupId(attr.getAttrGroupId());
+            relationEntity.setAttrId(attr.getAttrId());
 
-        // case 1) if existed -> modify
-        if (count > 0){
-            // modify group relation
-            /** NOTE !!! : UpdateWrapper here */
-            relationDao.update(relationEntity, new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
-        }else{ // case 2) if not existed -> add a new one
-            relationDao.insert(relationEntity);
+            Integer count = relationDao.selectCount(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+
+            // case 1) if existed -> modify
+            if (count > 0){
+                // modify group relation
+                /** NOTE !!! : UpdateWrapper here */
+                relationDao.update(relationEntity, new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+            }else{ // case 2) if not existed -> add a new one
+                relationDao.insert(relationEntity);
+            }
         }
     }
 
