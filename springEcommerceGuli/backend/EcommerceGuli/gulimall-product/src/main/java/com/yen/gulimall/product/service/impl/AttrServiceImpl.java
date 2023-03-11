@@ -112,10 +112,12 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             BeanUtils.copyProperties(attrEntity, attrRespVo);
 
             // setup group name and group
-            AttrAttrgroupRelationEntity attrId = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrEntity.getAttrId()));
-            if (attrId != null) {
-                AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrId.getAttrGroupId());
-                attrRespVo.setGroupName(attrGroupEntity.getAttrGroupName());
+            if ("base".equalsIgnoreCase(type)){
+                AttrAttrgroupRelationEntity attrId = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrEntity.getAttrId()));
+                if (attrId != null) {
+                    AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrId.getAttrGroupId());
+                    attrRespVo.setGroupName(attrGroupEntity.getAttrGroupName());
+                }
             }
             CategoryEntity categoryEntity = categoryDao.selectById(attrEntity.getCatelogId());
             if (categoryEntity != null) {
