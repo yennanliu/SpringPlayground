@@ -77,12 +77,15 @@ public class AttrController {
 
     /**
      * 修改
+     *
+     * Update:
+     *  - https://youtu.be/kCjMunm_9Ig?t=454
      */
     @RequestMapping("/update")
-    //@RequiresPermissions("product:attr:update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
+    public R update(@RequestBody AttrVo attr){
 
+        //attrService.updateById(attr);
+        attrService.updateAttr(attr);
         return R.ok();
     }
 

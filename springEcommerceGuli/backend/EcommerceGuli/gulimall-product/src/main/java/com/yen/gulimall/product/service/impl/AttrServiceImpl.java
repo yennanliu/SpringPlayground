@@ -1,5 +1,6 @@
 package com.yen.gulimall.product.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.yen.gulimall.product.dao.AttrAttrgroupRelationDao;
 import com.yen.gulimall.product.dao.AttrGroupDao;
 import com.yen.gulimall.product.dao.CategoryDao;
@@ -156,6 +157,26 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         }
 
         return respVo;
+    }
+
+    /**
+     * https://youtu.be/kCjMunm_9Ig?t=462
+     */
+    @Transactional
+    @Override
+    public void updateAttr(AttrVo attr) {
+
+        AttrEntity attrEntity = new AttrEntity();
+        BeanUtils.copyProperties(attr, attrEntity);
+        this.updateById(attrEntity);
+
+        // 1) modify group relation
+        AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+        relationEntity.setAttrGroupId(attr.getAttrGroupId());
+        relationEntity.setAttrId(attr.getAttrId());
+        /** NOTE !!! : UpdateWrapper here */
+        relationDao.update(relationEntity, new UpdateWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attr.getAttrId()));
+
     }
 
 }
