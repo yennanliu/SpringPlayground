@@ -1,17 +1,16 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.yen.gulimall.product.entity.AttrEntity;
+import com.yen.gulimall.product.service.AttrAttrgroupRelationService;
+import com.yen.gulimall.product.service.AttrService;
 import com.yen.gulimall.product.service.CategoryService;
+import com.yen.gulimall.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
 import com.yen.gulimall.product.entity.AttrGroupEntity;
 import com.yen.gulimall.product.service.AttrGroupService;
 import com.yen.gulimall.common.utils.PageUtils;
@@ -33,6 +32,54 @@ public class AttrGroupController {
 
     @Autowired
     private CategoryService categoryService;
+
+    @Autowired
+    AttrService attrService;
+
+    @Autowired
+    AttrAttrgroupRelationService relationService;
+
+    /**
+     * https://youtu.be/Tnhog8lflcc?t=62
+     */
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos){
+
+        relationService.saveBatch(vos);
+        return R.ok();
+    }
+
+    /**
+     * https://youtu.be/7JOhxs7lYbE?t=316
+     */
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrGroupRelationVo[] vos){ // NOTE!!! if POST request, we HAVE TO encapsulate object as JSON, so have to use @RequestBody annotation
+
+        attrService.deleteRelation(vos);
+        return R.ok();
+    }
+
+    /**
+     * https://youtu.be/PFtMlUlCZgY?t=124
+     */
+    @GetMapping("/{attrGroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable("attrGroupId") Long attrGroupId,
+                            @RequestParam Map<String, Object> params){
+
+        //List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
+        PageUtils page =  attrService.getNoRelationAttr(params, attrGroupId);
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * https://youtu.be/7JOhxs7lYbE?t=47
+     */
+    @GetMapping("/{attrGroupId}/attr/relation")
+    public R attrRelation(@PathVariable("attrGroupId") Long attrGroupId){
+
+        List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
+        return R.ok().put("data", entities);
+    }
 
     /**
      * 列表

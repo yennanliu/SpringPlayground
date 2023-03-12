@@ -5,6 +5,7 @@ import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.product.vo.AttrGroupRelationVo;
 import com.yen.gulimall.product.vo.AttrRespVo;
 import com.yen.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;

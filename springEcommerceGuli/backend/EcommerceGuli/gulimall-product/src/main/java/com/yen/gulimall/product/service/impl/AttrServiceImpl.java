@@ -9,12 +9,16 @@ import com.yen.gulimall.product.entity.AttrAttrgroupRelationEntity;
 import com.yen.gulimall.product.entity.AttrGroupEntity;
 import com.yen.gulimall.product.entity.CategoryEntity;
 import com.yen.gulimall.product.service.CategoryService;
+import com.yen.gulimall.product.vo.AttrGroupRelationVo;
 import com.yen.gulimall.product.vo.AttrRespVo;
 import com.yen.gulimall.product.vo.AttrVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,7 +78,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         this.save(attrEntity);
 
         // step 2) save relation info
-        if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()){ // only save if saless type (type == 1)
+        if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null){ // only save if saless type (type == 1) // https://youtu.be/Tnhog8lflcc?t=362
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
             relationEntity.setAttrGroupId(attr.getAttrGroupId());
             relationEntity.setAttrId(attr.getAttrId());
@@ -122,7 +126,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
             // setup group name and group
             if ("base".equalsIgnoreCase(type)){
                 AttrAttrgroupRelationEntity attrId = relationDao.selectOne(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_id", attrEntity.getAttrId()));
-                if (attrId != null) {
+                if (attrId != null && attrId.getAttrGroupId() != null) { // https://youtu.be/Tnhog8lflcc?t=335
                     AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrId.getAttrGroupId());
                     attrRespVo.setGroupName(attrGroupEntity.getAttrGroupName());
                 }
@@ -204,6 +208,93 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
                 relationDao.insert(relationEntity);
             }
         }
+    }
+
+
+    /**
+     * Get all basic relation with attrGroupId
+     *  - https://youtu.be/7JOhxs7lYbE?t=162
+     */
+    @Override
+    public List<AttrEntity> getRelationAttr(Long attrGroupId) {
+
+        List<AttrAttrgroupRelationEntity> entities = relationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>().eq("attr_group_id", attrGroupId));
+        List<Long> attrIds = entities.stream().map((attr) -> {
+            return attr.getAttrId();
+        }).collect(Collectors.toList());
+        // https://youtu.be/PFtMlUlCZgY?t=54
+        if (attrIds == null || attrIds.size() == 0){
+            return null;
+        }
+        Collection<AttrEntity> attrEntities = this.listByIds(attrIds);
+        return (List<AttrEntity>) attrEntities;
+    }
+
+    /**
+     * https://youtu.be/7JOhxs7lYbE?t=404
+     */
+    @Override
+    public void deleteRelation(AttrGroupRelationVo[] vos) {
+
+        //relationDao.delete(new QueryWrapper<>().eq("attr_id", 1L).eq("attr_group_id", 1L));
+        List<AttrAttrgroupRelationEntity> entities = Arrays.asList(vos).stream().map((item) -> {
+            AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
+            BeanUtils.copyProperties(item, relationEntity);
+            return relationEntity;
+        }).collect(Collectors.toList());
+
+        // batch delete
+        relationDao.deleteBatchRelation(entities);
+    }
+
+    /**
+     * get all categories (if no relation in current group)
+     *  - https://youtu.be/PFtMlUlCZgY?t=196
+     */
+    @Override
+    public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId) {
+
+        // 1) current group can only have relation to its own category
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupId);
+        Long catelogId = attrGroupEntity.getCatelogId();
+
+        // 2) current group can only have relation to the category which is NOT referenced by other group
+        // 2-1: check groups under current category
+        List<AttrGroupEntity> group = attrGroupDao.selectList(new QueryWrapper<AttrGroupEntity>()
+                .eq("catelog_id", catelogId)
+                //.ne("attr_group_id", attrGroupId) // .ne(): non-equal
+        );
+
+        // 2-2: check their (group) relation category
+        List<Long> collect = group.stream().map((item) -> {
+            return item.getAttrGroupId();}).collect(Collectors.toList());
+        List<AttrAttrgroupRelationEntity> groupId = relationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>()
+                .in("attr_group_id", collect) // .in(): SQL where in a list
+        );
+        List<Long> attrIds = groupId.stream().map((item) -> {
+            return item.getAttrId();
+        }).collect(Collectors.toList());
+
+        // 2-3: remove these categories from current category table
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
+                .eq("catelog_id", catelogId)
+                .eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()
+                );
+        if (attrIds != null && attrIds.size() > 0){
+            wrapper.notIn("attr_id", attrIds); // only do "not in" if attrIds is not null
+        }
+        // for fuzzy matching
+        String key = (String) params.get("key");
+        if (!StringUtils.isEmpty(key)){
+            wrapper.and((w) -> {
+                w.eq("attr_id", key).or().like("attr_name", key);
+            });
+        }
+        List<AttrEntity> attrEntities = this.baseMapper.selectList(wrapper);
+        // NOTE this!!! : encapsulate result with paging
+        IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), wrapper);
+        PageUtils pageUtils = new PageUtils(page);
+        return pageUtils;
     }
 
 }
