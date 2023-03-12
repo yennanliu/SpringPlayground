@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yen.gulimall.product.entity.AttrEntity;
+import com.yen.gulimall.product.service.AttrAttrgroupRelationService;
 import com.yen.gulimall.product.service.AttrService;
 import com.yen.gulimall.product.service.CategoryService;
 import com.yen.gulimall.product.vo.AttrGroupRelationVo;
@@ -35,6 +36,18 @@ public class AttrGroupController {
     @Autowired
     AttrService attrService;
 
+    @Autowired
+    AttrAttrgroupRelationService relationService;
+
+    /**
+     * https://youtu.be/Tnhog8lflcc?t=62
+     */
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos){
+
+        relationService.saveBatch(vos);
+        return R.ok();
+    }
 
     /**
      * https://youtu.be/7JOhxs7lYbE?t=316
