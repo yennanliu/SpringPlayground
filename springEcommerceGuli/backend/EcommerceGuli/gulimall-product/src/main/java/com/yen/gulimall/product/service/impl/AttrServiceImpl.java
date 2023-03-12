@@ -278,7 +278,11 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 2-3: remove these categories from current category table
         QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
                 .eq("catelog_id", catelogId)
-                .notIn("attr_id", attrIds);
+                .eq("attr_type", ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode()
+                );
+        if (attrIds != null && attrIds.size() > 0){
+            wrapper.notIn("attr_id", attrIds); // only do "not in" if attrIds is not null
+        }
         // for fuzzy matching
         String key = (String) params.get("key");
         if (!StringUtils.isEmpty(key)){
