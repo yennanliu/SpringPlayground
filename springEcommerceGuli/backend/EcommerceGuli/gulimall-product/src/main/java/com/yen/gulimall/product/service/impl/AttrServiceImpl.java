@@ -222,6 +222,10 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         List<Long> attrIds = entities.stream().map((attr) -> {
             return attr.getAttrId();
         }).collect(Collectors.toList());
+        // https://youtu.be/PFtMlUlCZgY?t=54
+        if (attrIds == null || attrIds.size() == 0){
+            return null;
+        }
         Collection<AttrEntity> attrEntities = this.listByIds(attrIds);
         return (List<AttrEntity>) attrEntities;
     }
@@ -241,6 +245,52 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
 
         // batch delete
         relationDao.deleteBatchRelation(entities);
+    }
+
+    /**
+     * get all categories (if no relation in current group)
+     *  - https://youtu.be/PFtMlUlCZgY?t=196
+     */
+    @Override
+    public PageUtils getNoRelationAttr(Map<String, Object> params, Long attrGroupId) {
+
+        // 1) current group can only have relation to its own category
+        AttrGroupEntity attrGroupEntity = attrGroupDao.selectById(attrGroupId);
+        Long catelogId = attrGroupEntity.getCatelogId();
+
+        // 2) current group can only have relation to the category which is NOT referenced by other group
+        // 2-1: check groups under current category
+        List<AttrGroupEntity> group = attrGroupDao.selectList(new QueryWrapper<AttrGroupEntity>()
+                .eq("catelog_id", catelogId)
+                .ne("attr_group_id", attrGroupId) // .ne(): non-equal
+        );
+
+        // 2-2: check their (group) relation category
+        List<Long> collect = group.stream().map((item) -> {
+            return item.getAttrGroupId();}).collect(Collectors.toList());
+        List<AttrAttrgroupRelationEntity> groupId = relationDao.selectList(new QueryWrapper<AttrAttrgroupRelationEntity>()
+                .in("attr_group_id", collect) // .in(): SQL where in a list
+        );
+        List<Long> attrIds = groupId.stream().map((item) -> {
+            return item.getAttrId();
+        }).collect(Collectors.toList());
+
+        // 2-3: remove these categories from current category table
+        QueryWrapper<AttrEntity> wrapper = new QueryWrapper<AttrEntity>()
+                .eq("catelog_id", catelogId)
+                .notIn("attr_id", attrIds);
+        // for fuzzy matching
+        String key = (String) params.get("key");
+        if (!StringUtils.isEmpty(key)){
+            wrapper.and((w) -> {
+                w.eq("attr_id", key).or().like("attr_name", key);
+            });
+        }
+        List<AttrEntity> attrEntities = this.baseMapper.selectList(wrapper);
+        // NOTE this!!! : encapsulate result with paging
+        IPage<AttrEntity> page = this.page(new Query<AttrEntity>().getPage(params), wrapper);
+        PageUtils pageUtils = new PageUtils(page);
+        return pageUtils;
     }
 
 }

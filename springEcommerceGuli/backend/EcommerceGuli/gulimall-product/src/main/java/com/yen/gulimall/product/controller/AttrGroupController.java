@@ -35,6 +35,7 @@ public class AttrGroupController {
     @Autowired
     AttrService attrService;
 
+
     /**
      * https://youtu.be/7JOhxs7lYbE?t=316
      */
@@ -43,6 +44,18 @@ public class AttrGroupController {
 
         attrService.deleteRelation(vos);
         return R.ok();
+    }
+
+    /**
+     * https://youtu.be/PFtMlUlCZgY?t=124
+     */
+    @GetMapping("/{attrGroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable("attrGroupId") Long attrGroupId,
+                            @RequestParam Map<String, Object> params){
+
+        //List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
+        PageUtils page =  attrService.getNoRelationAttr(params, attrGroupId);
+        return R.ok().put("page", page);
     }
 
     /**
