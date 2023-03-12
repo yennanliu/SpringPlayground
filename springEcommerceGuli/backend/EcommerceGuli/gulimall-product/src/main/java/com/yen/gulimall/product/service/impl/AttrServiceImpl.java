@@ -262,7 +262,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 2-1: check groups under current category
         List<AttrGroupEntity> group = attrGroupDao.selectList(new QueryWrapper<AttrGroupEntity>()
                 .eq("catelog_id", catelogId)
-                .ne("attr_group_id", attrGroupId) // .ne(): non-equal
+                //.ne("attr_group_id", attrGroupId) // .ne(): non-equal
         );
 
         // 2-2: check their (group) relation category
