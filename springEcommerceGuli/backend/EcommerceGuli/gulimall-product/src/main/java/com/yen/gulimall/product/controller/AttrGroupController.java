@@ -36,6 +36,16 @@ public class AttrGroupController {
     AttrService attrService;
 
     /**
+     * https://youtu.be/7JOhxs7lYbE?t=316
+     */
+    @PostMapping("/attr/relation/delete")
+    public R deleteRelation(@RequestBody AttrGroupRelationVo[] vos){ // NOTE!!! if POST request, we HAVE TO encapsulate object as JSON, so have to use @RequestBody annotation
+
+        attrService.deleteRelation(vos);
+        return R.ok();
+    }
+
+    /**
      * https://youtu.be/7JOhxs7lYbE?t=47
      */
     @GetMapping("/{attrGroupId}/attr/relation")
@@ -43,15 +53,6 @@ public class AttrGroupController {
 
         List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
         return R.ok().put("data", entities);
-    }
-
-    /**
-     * https://youtu.be/7JOhxs7lYbE?t=316
-     */
-    public R deleteRelation(AttrGroupRelationVo[] vos){
-
-        attrService.deleteRelation(vos);
-        return R.ok();
     }
 
     /**
