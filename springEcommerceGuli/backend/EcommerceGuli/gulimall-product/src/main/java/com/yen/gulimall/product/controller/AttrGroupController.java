@@ -7,6 +7,7 @@ import java.util.Map;
 import com.yen.gulimall.product.entity.AttrEntity;
 import com.yen.gulimall.product.service.AttrService;
 import com.yen.gulimall.product.service.CategoryService;
+import com.yen.gulimall.product.vo.AttrGroupRelationVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.yen.gulimall.product.entity.AttrGroupEntity;
@@ -42,6 +43,15 @@ public class AttrGroupController {
 
         List<AttrEntity> entities = attrService.getRelationAttr(attrGroupId);
         return R.ok().put("data", entities);
+    }
+
+    /**
+     * https://youtu.be/7JOhxs7lYbE?t=316
+     */
+    public R deleteRelation(AttrGroupRelationVo[] vos){
+
+        attrService.deleteRelation(vos);
+        return R.ok();
     }
 
     /**

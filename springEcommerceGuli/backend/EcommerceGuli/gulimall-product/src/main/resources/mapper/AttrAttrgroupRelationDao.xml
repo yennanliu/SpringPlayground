@@ -11,5 +11,13 @@
         <result property="attrSort" column="attr_sort"/>
     </resultMap>
 
+    <!-- void deleteBatchRelation(@Param("entities") List<AttrAttrgroupRelationEntity> entities); -->
+    <!-- NOTE this Mybatis syntax !! -->
+    <delete id="deleteBatchRelation">
+        DELETE FROM `pms_attr_attrgroup_relation` WHERE
+        <foreach collection="entities" item="item" separator=" OR ">
+            (attr_id = #{item.attrId} AND attr_group_id = #{item.attrGroupId})
+        </foreach>
+    </delete>
 
 </mapper>
