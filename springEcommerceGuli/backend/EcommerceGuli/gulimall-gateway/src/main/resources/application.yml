@@ -13,14 +13,14 @@ spring:
     # https://cloud.spring.io/spring-cloud-gateway/reference/html/
     gateway:
       routes:
-        - id: test_route1
-          uri: https://google.com
-          predicates:
-            - Query=url,goog
-        - id: test_route2
-          uri: https://www.mozilla.org/en-US/firefox/new/
-          predicates:
-            - Query=url,fox,fire
+#        - id: test_route1
+#          uri: https://google.com
+#          predicates:
+#            - Query=url,goog
+#        - id: test_route2
+#          uri: https://www.mozilla.org/en-US/firefox/new/
+#          predicates:
+#            - Query=url,fox,fire
         # NOTE: we put "specific" rule before general, so this one can be executed first
         # https://youtu.be/KKFJPtW3730?t=79
         - id: product_route
@@ -29,6 +29,21 @@ spring:
             - Path=/api/product/**
           filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
             - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
+        - id: third_party_route
+          uri: lb://gulimall-third-party
+          predicates:
+            - Path=/api/thirdparty/**
+          filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
+            - RewritePath=/api/thirdparty/(?<segment>/?.*), /$\{segment}
+
+        - id: member_route
+          uri: lb://gulimall-member
+          predicates:
+            - Path=/api/member/**
+          filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
         # https://youtu.be/QngyGaQXxz4?t=981
         - id: admin_route
           uri: lb://renren-fast
