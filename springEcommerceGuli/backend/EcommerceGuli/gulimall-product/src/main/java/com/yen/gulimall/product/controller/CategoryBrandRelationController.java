@@ -3,12 +3,13 @@ package com.yen.gulimall.product.controller;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.yen.gulimall.product.entity.BrandEntity;
+import com.yen.gulimall.product.vo.BrandVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import com.yen.gulimall.product.entity.CategoryBrandRelationEntity;
 import com.yen.gulimall.product.service.CategoryBrandRelationService;
 import com.yen.gulimall.common.utils.PageUtils;
@@ -28,6 +29,29 @@ import com.yen.gulimall.common.utils.R;
 public class CategoryBrandRelationController {
     @Autowired
     private CategoryBrandRelationService categoryBrandRelationService;
+
+
+    /**
+     *  Update:
+     *      - get category relation product
+     *      - https://youtu.be/UI1X2cLmFpk?t=82
+     *
+     *      step 1) Controller : receive request, accept request, does data validation
+     *      step 2) Service: receive data sent by Controller, does business operation
+     *      step 3) Controller : receive output data from Service, prepare needed Vo, and send it to front end (web page)
+     */
+    @GetMapping("/brand/list")
+    public R relationProductList(@RequestParam(value = "catId", required = true) Long catId){
+
+        List<BrandEntity> vos = categoryBrandRelationService.getBrandsByCatId(catId);
+        List<BrandVo> collect = vos.stream().map((item) -> {
+            BrandVo brandVo = new BrandVo();
+            brandVo.setBrandId(item.getBrandId());
+            brandVo.setBrandName(item.getName());
+            return brandVo;
+        }).collect(Collectors.toList());
+        return R.ok().put("data", collect);
+    }
 
     /**
      *  Update

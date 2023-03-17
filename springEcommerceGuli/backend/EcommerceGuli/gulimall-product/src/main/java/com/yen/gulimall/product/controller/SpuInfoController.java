@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.yen.gulimall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -55,12 +56,15 @@ public class SpuInfoController {
 
     /**
      * 保存
+     *  Update
+     *      - https://youtu.be/bA8mESFECdU?t=1199
+     *      - https://youtu.be/jYMptVJXIA8?t=180
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:spuinfo:save")
-    public R save(@RequestBody SpuInfoEntity spuInfo){
-		spuInfoService.save(spuInfo);
+    public R save(@RequestBody SpuSaveVo vo){
 
+        spuInfoService.saveSpuInfo(vo);
         return R.ok();
     }
 
