@@ -14,6 +14,7 @@ import java.util.List;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
+// https://youtu.be/jYMptVJXIA8?t=15
 @Data
 public class SpuSaveVo {
 

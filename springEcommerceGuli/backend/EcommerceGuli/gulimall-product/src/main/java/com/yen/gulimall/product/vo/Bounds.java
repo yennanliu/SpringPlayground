@@ -12,6 +12,7 @@ import java.math.BigDecimal;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
+// https://youtu.be/jYMptVJXIA8?t=40
 @Data
 public class Bounds {
 

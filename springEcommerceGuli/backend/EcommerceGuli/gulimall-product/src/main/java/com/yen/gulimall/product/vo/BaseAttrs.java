@@ -11,6 +11,7 @@ import lombok.Data;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
+// https://youtu.be/jYMptVJXIA8?t=57
 @Data
 public class BaseAttrs {
 
