@@ -141,6 +141,9 @@ java -jar <built_jar>
         - under feign pkg
             - declare which service, which endpoint the interface method is calling to
     - 3) enable feign remote call (EnableFeignClients)
+    - Note:
+        - If Json model is compatible, feign service, and feign client CAN use different To (data transfer object)
+        - https://youtu.be/2Fgtxnc9ehQ?t=848
 
 - How to use Nacos as general conf setting
     - https://youtu.be/NMSk_q8czyI?t=669

@@ -59,6 +59,9 @@ public class SpuBoundsController {
      *      - called by com.yen.gulimall.product.feign.CouponFeignService via feign client
      */
     @PostMapping("/save")
+    // NOTE !!! NOT necessary to use "@RequestBody SpuBoundTo spuBoundTo" below (no need to use same class as the remote feign client has),
+    //          ONLY make sure SpuBoundsEntity (current controller) has all attr that remote client needs
+    //          Ref : https://youtu.be/2Fgtxnc9ehQ?t=813
     public R save(@RequestBody SpuBoundsEntity spuBounds){
 		spuBoundsService.save(spuBounds);
 

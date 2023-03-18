@@ -19,7 +19,8 @@ public interface CouponFeignService {
      *      - step 1-3) remote service (gulimall-coupon) receive request (request body with Json data)
      *             @RequestBody SpuBoundsEntity spuBounds : transform Json in request body to SpuBoundsEntity
      *
-     *
+     *  2) Summary:
+     *      - If Json model is compatible, feign service, and feign client CAN use different To (data transfer object)
      */
     @PostMapping("/coupon/spubounds/save") // NOTE : have to use full path (from coupon service's : com.yen.gulimall.coupon.controller.SpuBoundsController)
     R saveSpuBounds(@RequestBody SpuBoundTo spuBoundTo); // @RequestBody : transform json to the class object
