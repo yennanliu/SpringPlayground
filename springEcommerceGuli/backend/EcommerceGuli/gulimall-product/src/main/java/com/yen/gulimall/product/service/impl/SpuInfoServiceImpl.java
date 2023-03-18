@@ -2,23 +2,17 @@ package com.yen.gulimall.product.service.impl;
 
 import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.service.*;
-import com.yen.gulimall.product.vo.BaseAttrs;
-import com.yen.gulimall.product.vo.Images;
-import com.yen.gulimall.product.vo.Skus;
-import com.yen.gulimall.product.vo.SpuSaveVo;
+import com.yen.gulimall.product.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.Query;
 import com.yen.gulimall.product.dao.SpuInfoDao;
@@ -43,6 +37,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Autowired
     SkuInfoService skuInfoService;
 
+    @Autowired
+    SkuImagesService skuImagesService;
+
+    @Autowired
+    SkuSaleAttrValueService skuSaleAttrValueService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -93,7 +92,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }).collect(Collectors.toList());
         productAttrValueService.saveProductAttr(collect);
 
-
         // 4') save Spu credit info : sms_spu_bounds
         // 5) save current Spu's all Sku info
         List<Skus> skus = vo.getSkus();
@@ -116,6 +114,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuInfoEntity.setSaleCount(0L);
                 skuInfoEntity.setSpuId(infoEntity.getId());
                 skuInfoEntity.setSkuDefaultImg(defaultImg);
+                //   5-1) sku basic info : pms_sku_info
                 // save Sku info
                 skuInfoService.saveSkuInfo(skuInfoEntity);
 
@@ -130,12 +129,24 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                     skuImagesEntity.setDefaultImg(img.getDefaultImg());
                     return skuImagesEntity;
                 }).collect(Collectors.toList());
+                //   5-2) sku image info : pms_sku_images
+                skuImagesService.saveBatch(imageEntities);
+
+                List<Attr> attr = item.getAttr();
+                List<SkuSaleAttrValueEntity> attrValueEntities = attr.stream().map(a -> {
+                    SkuSaleAttrValueEntity skuSaleAttrValueEntity = new SkuSaleAttrValueEntity();
+                    BeanUtils.copyProperties(a, skuSaleAttrValueEntity);
+                    skuSaleAttrValueEntity.setSkuId(skuId);
+                    return skuSaleAttrValueEntity;
+                }).collect(Collectors.toList());
+                //   5-3) sku sales attr info : pms_sku_sales_attr_values
+                // save
+                skuSaleAttrValueService.saveBatch(attrValueEntities);
+
+                //   5-4) sku promo info : gulimall_sas DB 's sms_sku_ladder, sku_full_reduction, sms_member_price
+
             });
         }
-        //   5-1) sku basic info : pms_sku_info
-        //   5-2) sku image info : pms_sku_images
-        //   5-3) sku sales attr info : pms_sku_sales_attr_values
-        //   5-4) sku promo info : gulimall_sas DB 's sms_sku_ladder, sku_full_reduction, sms_member_price
 
     }
 
