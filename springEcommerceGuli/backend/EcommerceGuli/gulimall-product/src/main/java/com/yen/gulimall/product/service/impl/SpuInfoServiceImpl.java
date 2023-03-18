@@ -1,6 +1,8 @@
 package com.yen.gulimall.product.service.impl;
 
+import com.yen.gulimall.common.to.SpuBoundTo;
 import com.yen.gulimall.product.entity.*;
+import com.yen.gulimall.product.feign.CouponFeignService;
 import com.yen.gulimall.product.service.*;
 import com.yen.gulimall.product.vo.*;
 import org.springframework.beans.BeanUtils;
@@ -42,6 +44,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     SkuSaleAttrValueService skuSaleAttrValueService;
+
+    @Autowired
+    CouponFeignService couponFeignService;
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -88,11 +94,19 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             valueEntity.setAttrValue(attr.getAttrValues());
             valueEntity.setQuickShow(attr.getShowDesc());
             valueEntity.setSpuId(infoEntity.getId());
+
             return valueEntity;
         }).collect(Collectors.toList());
         productAttrValueService.saveProductAttr(collect);
 
         // 4') save Spu credit info : sms_spu_bounds
+        // https://youtu.be/2Fgtxnc9ehQ?t=278
+        Bounds bounds = vo.getBounds();
+        SpuBoundTo spuBoundTo = new SpuBoundTo();
+        BeanUtils.copyProperties(bounds, spuBoundTo);
+        spuBoundTo.setSpuId(infoEntity.getId());
+        couponFeignService.saveSpuBounds(spuBoundTo);
+
         // 5) save current Spu's all Sku info
         List<Skus> skus = vo.getSkus();
         if (skus != null && skus.size() > 0){
