@@ -1,10 +1,10 @@
 package com.yen.gulimall.product.service.impl;
 
-import com.yen.gulimall.product.entity.AttrEntity;
-import com.yen.gulimall.product.entity.ProductAttrValueEntity;
-import com.yen.gulimall.product.entity.SpuInfoDescEntity;
+import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.service.*;
 import com.yen.gulimall.product.vo.BaseAttrs;
+import com.yen.gulimall.product.vo.Images;
+import com.yen.gulimall.product.vo.Skus;
 import com.yen.gulimall.product.vo.SpuSaveVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,6 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.Query;
 import com.yen.gulimall.product.dao.SpuInfoDao;
-import com.yen.gulimall.product.entity.SpuInfoEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -40,6 +39,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     ProductAttrValueService productAttrValueService;
+
+    @Autowired
+    SkuInfoService skuInfoService;
 
 
     @Override
@@ -94,6 +96,42 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
         // 4') save Spu credit info : sms_spu_bounds
         // 5) save current Spu's all Sku info
+        List<Skus> skus = vo.getSkus();
+        if (skus != null && skus.size() > 0){
+            skus.forEach((item) -> {
+
+                // get default image
+                String defaultImg = "";
+                for (Images image: item.getImages()){
+                    if (image.getDefaultImg() != 1){
+                        defaultImg = image.getImgUrl();
+                    }
+                }
+
+                // init entity, set its attrs
+                SkuInfoEntity skuInfoEntity = new SkuInfoEntity();
+                BeanUtils.copyProperties(item, skuInfoEntity);
+                skuInfoEntity.setBrandId(infoEntity.getBrandId());
+                skuInfoEntity.setCatalogId(infoEntity.getCatalogId());
+                skuInfoEntity.setSaleCount(0L);
+                skuInfoEntity.setSpuId(infoEntity.getId());
+                skuInfoEntity.setSkuDefaultImg(defaultImg);
+                // save Sku info
+                skuInfoService.saveSkuInfo(skuInfoEntity);
+
+                // get Sku id for relative table info
+                Long skuId = skuInfoEntity.getSkuId();
+
+                // collect image info
+                List<SkuImagesEntity> imageEntities = item.getImages().stream().map((img) -> {
+                    SkuImagesEntity skuImagesEntity = new SkuImagesEntity();
+                    skuImagesEntity.setSkuId(skuId);
+                    skuImagesEntity.setImgUrl(img.getImgUrl());
+                    skuImagesEntity.setDefaultImg(img.getDefaultImg());
+                    return skuImagesEntity;
+                }).collect(Collectors.toList());
+            });
+        }
         //   5-1) sku basic info : pms_sku_info
         //   5-2) sku image info : pms_sku_images
         //   5-3) sku sales attr info : pms_sku_sales_attr_values

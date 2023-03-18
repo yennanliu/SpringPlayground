@@ -11,6 +11,10 @@ import lombok.Data;
  * @author bejson.com (i@bejson.com)
  * @website http://www.bejson.com/java2pojo/
  */
+/**
+ *  Update:
+ *      - https://youtu.be/upNskS8E_7o?t=232
+ */
 @Data
 public class Images {
 
