@@ -2,6 +2,7 @@ package com.yen.gulimall.product.service.impl;
 
 import com.yen.gulimall.common.to.SkuReductionTo;
 import com.yen.gulimall.common.to.SpuBoundTo;
+import com.yen.gulimall.common.utils.R;
 import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.feign.CouponFeignService;
 import com.yen.gulimall.product.service.*;
@@ -107,7 +108,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         BeanUtils.copyProperties(bounds, spuBoundTo);
         spuBoundTo.setSpuId(infoEntity.getId());
         // make a feign client call (to promo service's endpoint)
-        couponFeignService.saveSpuBounds(spuBoundTo);
+        R r = couponFeignService.saveSpuBounds(spuBoundTo);
+        if (r.getCode() != 0){
+           log.error("Remote (feign client) save Spu credit fail");
+        }
 
         // 5) save current Spu's all Sku info
         List<Skus> skus = vo.getSkus();
@@ -164,9 +168,10 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 SkuReductionTo skuReductionTo = new SkuReductionTo();
                 BeanUtils.copyProperties(item, skuReductionTo);
                 skuReductionTo.setSkuId(skuId);
-                couponFeignService.saveSkuReduction(skuReductionTo);
-
-
+                R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
+                if (r2.getCode() != 0){
+                    log.error("Remote (feign client) save Sku promo fail");
+                }
             });
         }
 

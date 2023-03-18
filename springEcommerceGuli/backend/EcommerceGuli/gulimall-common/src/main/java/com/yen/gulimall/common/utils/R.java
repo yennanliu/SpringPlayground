@@ -63,4 +63,9 @@ public class R extends HashMap<String, Object> {
 		super.put(key, value);
 		return this;
 	}
+
+	// https://youtu.be/2Fgtxnc9ehQ?t=1568
+	public Integer getCode() {
+		return Integer.parseInt((String) this.get("code"));
+	}
 }
