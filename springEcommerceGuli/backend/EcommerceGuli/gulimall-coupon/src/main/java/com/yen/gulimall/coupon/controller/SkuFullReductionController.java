@@ -1,20 +1,15 @@
 package com.yen.gulimall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-//import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.yen.gulimall.common.to.SkuReductionTo;
+import com.yen.gulimall.common.utils.PageUtils;
+import com.yen.gulimall.common.utils.R;
 import com.yen.gulimall.coupon.entity.SkuFullReductionEntity;
 import com.yen.gulimall.coupon.service.SkuFullReductionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import com.yen.gulimall.common.utils.PageUtils;
-import com.yen.gulimall.common.utils.R;
+import java.util.Arrays;
+import java.util.Map;
 
 
 /**
@@ -30,12 +25,23 @@ public class SkuFullReductionController {
     @Autowired
     private SkuFullReductionService skuFullReductionService;
 
+
+    /**
+     * https://youtu.be/2Fgtxnc9ehQ?t=1088
+     */
+    @PostMapping("/saveinfo")
+    public R saveInfo(@RequestBody SkuReductionTo skuReductionTo) {
+
+        skuFullReductionService.saveSkuReduction(skuReductionTo);
+        return R.ok();
+    }
+
     /**
      * 列表
      */
     @RequestMapping("/list")
     //@RequiresPermissions("coupon:skufullreduction:list")
-    public R list(@RequestParam Map<String, Object> params){
+    public R list(@RequestParam Map<String, Object> params) {
         PageUtils page = skuFullReductionService.queryPage(params);
 
         return R.ok().put("page", page);

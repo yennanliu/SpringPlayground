@@ -1,5 +1,6 @@
 package com.yen.gulimall.product.service.impl;
 
+import com.yen.gulimall.common.to.SkuReductionTo;
 import com.yen.gulimall.common.to.SpuBoundTo;
 import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.feign.CouponFeignService;
@@ -105,6 +106,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         SpuBoundTo spuBoundTo = new SpuBoundTo();
         BeanUtils.copyProperties(bounds, spuBoundTo);
         spuBoundTo.setSpuId(infoEntity.getId());
+        // make a feign client call (to promo service's endpoint)
         couponFeignService.saveSpuBounds(spuBoundTo);
 
         // 5) save current Spu's all Sku info
@@ -158,6 +160,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 skuSaleAttrValueService.saveBatch(attrValueEntities);
 
                 //   5-4) sku promo info : gulimall_sas DB 's sms_sku_ladder, sku_full_reduction, sms_member_price
+                // https://youtu.be/2Fgtxnc9ehQ?t=888
+                SkuReductionTo skuReductionTo = new SkuReductionTo();
+                BeanUtils.copyProperties(item, skuReductionTo);
+                skuReductionTo.setSkuId(skuId);
+                couponFeignService.saveSkuReduction(skuReductionTo);
+
 
             });
         }
@@ -166,6 +174,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Override
     public void saveBaseSpuInfo(SpuInfoEntity infoEntity) {
+
         this.baseMapper.insert(infoEntity);
     }
 
