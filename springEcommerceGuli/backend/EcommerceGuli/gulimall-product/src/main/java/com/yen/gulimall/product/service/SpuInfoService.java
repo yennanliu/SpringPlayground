@@ -1,6 +1,7 @@
 package com.yen.gulimall.product.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yen.gulimall.common.to.SkuReductionTo;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.product.entity.SpuInfoEntity;
 import com.yen.gulimall.product.vo.SpuSaveVo;
@@ -21,5 +22,6 @@ public interface SpuInfoService extends IService<SpuInfoEntity> {
     void saveSpuInfo(SpuSaveVo vo);
 
     void saveBaseSpuInfo(SpuInfoEntity infoEntity);
+
 }
 

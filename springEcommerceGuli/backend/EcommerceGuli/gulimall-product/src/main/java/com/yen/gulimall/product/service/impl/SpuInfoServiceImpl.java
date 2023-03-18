@@ -1,28 +1,25 @@
 package com.yen.gulimall.product.service.impl;
 
-import com.yen.gulimall.product.entity.AttrEntity;
-import com.yen.gulimall.product.entity.ProductAttrValueEntity;
-import com.yen.gulimall.product.entity.SpuInfoDescEntity;
+import com.yen.gulimall.common.to.SkuReductionTo;
+import com.yen.gulimall.common.to.SpuBoundTo;
+import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.product.entity.*;
+import com.yen.gulimall.product.feign.CouponFeignService;
 import com.yen.gulimall.product.service.*;
-import com.yen.gulimall.product.vo.BaseAttrs;
-import com.yen.gulimall.product.vo.SpuSaveVo;
+import com.yen.gulimall.product.vo.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.Query;
 import com.yen.gulimall.product.dao.SpuInfoDao;
-import com.yen.gulimall.product.entity.SpuInfoEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 
@@ -40,6 +37,18 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
     @Autowired
     ProductAttrValueService productAttrValueService;
+
+    @Autowired
+    SkuInfoService skuInfoService;
+
+    @Autowired
+    SkuImagesService skuImagesService;
+
+    @Autowired
+    SkuSaleAttrValueService skuSaleAttrValueService;
+
+    @Autowired
+    CouponFeignService couponFeignService;
 
 
     @Override
@@ -87,22 +96,90 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             valueEntity.setAttrValue(attr.getAttrValues());
             valueEntity.setQuickShow(attr.getShowDesc());
             valueEntity.setSpuId(infoEntity.getId());
+
             return valueEntity;
         }).collect(Collectors.toList());
         productAttrValueService.saveProductAttr(collect);
 
-
         // 4') save Spu credit info : sms_spu_bounds
+        // https://youtu.be/2Fgtxnc9ehQ?t=278
+        Bounds bounds = vo.getBounds();
+        SpuBoundTo spuBoundTo = new SpuBoundTo();
+        BeanUtils.copyProperties(bounds, spuBoundTo);
+        spuBoundTo.setSpuId(infoEntity.getId());
+        // make a feign client call (to promo service's endpoint)
+        R r = couponFeignService.saveSpuBounds(spuBoundTo);
+        if (r.getCode() != 0){
+           log.error("Remote (feign client) save Spu credit fail");
+        }
+
         // 5) save current Spu's all Sku info
-        //   5-1) sku basic info : pms_sku_info
-        //   5-2) sku image info : pms_sku_images
-        //   5-3) sku sales attr info : pms_sku_sales_attr_values
-        //   5-4) sku promo info : gulimall_sas DB 's sms_sku_ladder, sku_full_reduction, sms_member_price
+        List<Skus> skus = vo.getSkus();
+        if (skus != null && skus.size() > 0){
+            skus.forEach((item) -> {
+
+                // get default image
+                String defaultImg = "";
+                for (Images image: item.getImages()){
+                    if (image.getDefaultImg() != 1){
+                        defaultImg = image.getImgUrl();
+                    }
+                }
+
+                // init entity, set its attrs
+                SkuInfoEntity skuInfoEntity = new SkuInfoEntity();
+                BeanUtils.copyProperties(item, skuInfoEntity);
+                skuInfoEntity.setBrandId(infoEntity.getBrandId());
+                skuInfoEntity.setCatalogId(infoEntity.getCatalogId());
+                skuInfoEntity.setSaleCount(0L);
+                skuInfoEntity.setSpuId(infoEntity.getId());
+                skuInfoEntity.setSkuDefaultImg(defaultImg);
+                //   5-1) sku basic info : pms_sku_info
+                // save Sku info
+                skuInfoService.saveSkuInfo(skuInfoEntity);
+
+                // get Sku id for relative table info
+                Long skuId = skuInfoEntity.getSkuId();
+
+                // collect image info
+                List<SkuImagesEntity> imageEntities = item.getImages().stream().map((img) -> {
+                    SkuImagesEntity skuImagesEntity = new SkuImagesEntity();
+                    skuImagesEntity.setSkuId(skuId);
+                    skuImagesEntity.setImgUrl(img.getImgUrl());
+                    skuImagesEntity.setDefaultImg(img.getDefaultImg());
+                    return skuImagesEntity;
+                }).collect(Collectors.toList());
+                //   5-2) sku image info : pms_sku_images
+                skuImagesService.saveBatch(imageEntities);
+
+                List<Attr> attr = item.getAttr();
+                List<SkuSaleAttrValueEntity> attrValueEntities = attr.stream().map(a -> {
+                    SkuSaleAttrValueEntity skuSaleAttrValueEntity = new SkuSaleAttrValueEntity();
+                    BeanUtils.copyProperties(a, skuSaleAttrValueEntity);
+                    skuSaleAttrValueEntity.setSkuId(skuId);
+                    return skuSaleAttrValueEntity;
+                }).collect(Collectors.toList());
+                //   5-3) sku sales attr info : pms_sku_sales_attr_values
+                // save
+                skuSaleAttrValueService.saveBatch(attrValueEntities);
+
+                //   5-4) sku promo info : gulimall_sas DB 's sms_sku_ladder, sku_full_reduction, sms_member_price
+                // https://youtu.be/2Fgtxnc9ehQ?t=888
+                SkuReductionTo skuReductionTo = new SkuReductionTo();
+                BeanUtils.copyProperties(item, skuReductionTo);
+                skuReductionTo.setSkuId(skuId);
+                R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
+                if (r2.getCode() != 0){
+                    log.error("Remote (feign client) save Sku promo fail");
+                }
+            });
+        }
 
     }
 
     @Override
     public void saveBaseSpuInfo(SpuInfoEntity infoEntity) {
+
         this.baseMapper.insert(infoEntity);
     }
 

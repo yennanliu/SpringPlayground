@@ -26,4 +26,13 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
         return new PageUtils(page);
     }
 
+    /**
+     * https://youtu.be/upNskS8E_7o?t=399
+     */
+    @Override
+    public void saveSkuInfo(SkuInfoEntity skuInfoEntity) {
+
+        this.baseMapper.insert(skuInfoEntity);
+    }
+
 }

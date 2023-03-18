@@ -4,14 +4,11 @@ import java.util.Arrays;
 import java.util.Map;
 
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.yen.gulimall.common.to.SpuBoundTo;
 import com.yen.gulimall.coupon.entity.SpuBoundsEntity;
 import com.yen.gulimall.coupon.service.SpuBoundsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
@@ -55,9 +52,16 @@ public class SpuBoundsController {
 
     /**
      * 保存
+     *
+     *  Update: for product service feign client call
+     *      - https://youtu.be/2Fgtxnc9ehQ?t=575
+     *      - https://youtu.be/2Fgtxnc9ehQ?t=790
+     *      - called by com.yen.gulimall.product.feign.CouponFeignService via feign client
      */
-    @RequestMapping("/save")
-    //@RequiresPermissions("coupon:spubounds:save")
+    @PostMapping("/save")
+    // NOTE !!! NOT necessary to use "@RequestBody SpuBoundTo spuBoundTo" below (no need to use same class as the remote feign client has),
+    //          ONLY make sure SpuBoundsEntity (current controller) has all attr that remote client needs
+    //          Ref : https://youtu.be/2Fgtxnc9ehQ?t=813
     public R save(@RequestBody SpuBoundsEntity spuBounds){
 		spuBoundsService.save(spuBounds);
 
