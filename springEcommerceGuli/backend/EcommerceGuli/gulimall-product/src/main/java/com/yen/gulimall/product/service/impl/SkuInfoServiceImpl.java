@@ -2,6 +2,8 @@ package com.yen.gulimall.product.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -66,9 +68,18 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             wrapper.ge("price", min);
         }
 
+        // https://youtu.be/9dqp-qapASU?t=468
         String max = (String) params.get("max");
         if(!StringUtils.isEmpty(max)){
-            wrapper.le("price", max);
+            try{
+                BigDecimal bigDecimal = new BigDecimal(max);
+                // only if max == 1, then do below (wrapper.le("price", max);)
+                if(bigDecimal.compareTo(new BigDecimal("0")) == 1){
+                    wrapper.le("price", max);
+                }
+            }catch (Exception e){
+                log.warn("get max from param to queryWrapper failed : " + e);
+            }
         }
 
         IPage<SkuInfoEntity> page = this.page(
