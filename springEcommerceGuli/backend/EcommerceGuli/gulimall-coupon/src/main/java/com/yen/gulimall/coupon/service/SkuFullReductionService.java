@@ -18,6 +18,6 @@ public interface SkuFullReductionService extends IService<SkuFullReductionEntity
 
     PageUtils queryPage(Map<String, Object> params);
 
-    public void saveSkuReduction(SkuReductionTo skuReductionTo)
+    public void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 
