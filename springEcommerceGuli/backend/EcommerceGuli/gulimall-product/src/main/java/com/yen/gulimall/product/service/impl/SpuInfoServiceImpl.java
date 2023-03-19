@@ -7,9 +7,12 @@ import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.feign.CouponFeignService;
 import com.yen.gulimall.product.service.*;
 import com.yen.gulimall.product.vo.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +151,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                     skuImagesEntity.setImgUrl(img.getImgUrl());
                     skuImagesEntity.setDefaultImg(img.getDefaultImg());
                     return skuImagesEntity;
+                }).filter((entity) -> {
+                    // not save to DB if Sku has no image url : https://youtu.be/b4XzdRd8ZHo?t=24
+                    return !StringUtils.isEmpty(entity.getImgUrl());
                 }).collect(Collectors.toList());
                 //   5-2) sku image info : pms_sku_images
                 skuImagesService.saveBatch(imageEntities);
@@ -168,9 +174,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 SkuReductionTo skuReductionTo = new SkuReductionTo();
                 BeanUtils.copyProperties(item, skuReductionTo);
                 skuReductionTo.setSkuId(skuId);
-                R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
-                if (r2.getCode() != 0){
-                    log.error("Remote (feign client) save Sku promo fail");
+                // only save meaningful info : https://youtu.be/b4XzdRd8ZHo?t=107
+                if (skuReductionTo.getFullCount() > 0 || skuReductionTo.getFullPrice().compareTo(new BigDecimal("0")) > 1){
+                    R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
+                    if (r2.getCode() != 0){
+                        log.error("Remote (feign client) save Sku promo fail");
+                    }
                 }
             });
         }
