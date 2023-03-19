@@ -15,6 +15,7 @@ spring:
         server-addr: 127.0.0.1:8848
   application:
     name: gulimall-product
+  # set service (product service) wise timestamp as below format via Jackson: https://youtu.be/eAZGC-9QbaY?t=591
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
 

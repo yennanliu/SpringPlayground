@@ -7,9 +7,12 @@ import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.feign.CouponFeignService;
 import com.yen.gulimall.product.service.*;
 import com.yen.gulimall.product.vo.*;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -148,6 +151,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                     skuImagesEntity.setImgUrl(img.getImgUrl());
                     skuImagesEntity.setDefaultImg(img.getDefaultImg());
                     return skuImagesEntity;
+                }).filter((entity) -> {
+                    // not save to DB if Sku has no image url : https://youtu.be/b4XzdRd8ZHo?t=24
+                    return !StringUtils.isEmpty(entity.getImgUrl());
                 }).collect(Collectors.toList());
                 //   5-2) sku image info : pms_sku_images
                 skuImagesService.saveBatch(imageEntities);
@@ -168,9 +174,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 SkuReductionTo skuReductionTo = new SkuReductionTo();
                 BeanUtils.copyProperties(item, skuReductionTo);
                 skuReductionTo.setSkuId(skuId);
-                R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
-                if (r2.getCode() != 0){
-                    log.error("Remote (feign client) save Sku promo fail");
+                // only save meaningful info : https://youtu.be/b4XzdRd8ZHo?t=107
+                if (skuReductionTo.getFullCount() > 0 || skuReductionTo.getFullPrice().compareTo(new BigDecimal("0")) > 1){
+                    R r2 = couponFeignService.saveSkuReduction(skuReductionTo);
+                    if (r2.getCode() != 0){
+                        log.error("Remote (feign client) save Sku promo fail");
+                    }
                 }
             });
         }
@@ -181,6 +190,45 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     public void saveBaseSpuInfo(SpuInfoEntity infoEntity) {
 
         this.baseMapper.insert(infoEntity);
+    }
+
+    /**
+     * https://youtu.be/eAZGC-9QbaY?t=109
+     */
+    @Override
+    public PageUtils queryPageByCondition(Map<String, Object> params) {
+
+        QueryWrapper<SpuInfoEntity> wrapper = new QueryWrapper<SpuInfoEntity>();
+
+        // check param before forming query condition
+        String key = (String) params.get("key");
+        if (!StringUtils.isEmpty(key)){
+            wrapper.and((w) -> {
+                w.eq("id", key).or().like("spu_name", key); // NOTE this logic: status = 1 and (id = 1 or spu_name like xxx) , https://youtu.be/eAZGC-9QbaY?t=393
+            });
+        }
+
+        String status = (String) params.get("status");
+        if (!StringUtils.isEmpty(status)){
+           wrapper.eq("publish_status", status);
+        }
+
+        String brandId = (String) params.get("brandId");
+        if (!StringUtils.isEmpty(brandId) && !"0".equalsIgnoreCase(brandId)){
+            wrapper.eq("brand_id", brandId);
+        }
+
+        String catelogId = (String) params.get("catelogId");
+        if (!StringUtils.isEmpty(catelogId) && !"0".equalsIgnoreCase(catelogId)){
+            wrapper.eq("catelog_id", catelogId);
+        }
+
+        IPage<SpuInfoEntity> page = this.page(
+                new Query<SpuInfoEntity>().getPage(params),
+                new QueryWrapper<SpuInfoEntity>()
+        );
+
+        return new PageUtils(page);
     }
 
 }
