@@ -2,7 +2,6 @@ package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
 import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yen.gulimall.product.vo.SpuSaveVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.yen.gulimall.product.entity.SpuInfoEntity;
 import com.yen.gulimall.product.service.SpuInfoService;
 import com.yen.gulimall.common.utils.PageUtils;
@@ -33,12 +31,14 @@ public class SpuInfoController {
 
     /**
      * 列表
+     *
+     * Update
+     *  - https://youtu.be/eAZGC-9QbaY?t=104
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("product:spuinfo:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = spuInfoService.queryPage(params);
 
+        PageUtils page = spuInfoService.queryPageByCondition(params);
         return R.ok().put("page", page);
     }
 
