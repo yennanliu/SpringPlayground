@@ -26,8 +26,8 @@ public class WareInfoServiceImpl extends ServiceImpl<WareInfoDao, WareInfoEntity
     public PageUtils queryPage(Map<String, Object> params) {
 
         QueryWrapper<WareInfoEntity> wareInfoEntityQueryWrapper = new QueryWrapper<>();
-        String key = (String) params.get("key");
 
+        String key = (String) params.get("key");
         if(!StringUtils.isEmpty(key)){
             // prepare SQL where condition
             wareInfoEntityQueryWrapper.eq("id", key)
