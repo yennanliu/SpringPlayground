@@ -44,6 +44,14 @@ spring:
           filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
             - RewritePath=/api/(?<segment>/?.*), /$\{segment}
 
+        # https://youtu.be/Wcnwj5eLMiY?t=202
+        - id: ware_route
+          uri: lb://gulimall-ware
+          predicates:
+            - Path=/api/ware/**
+          filters: # overwrite request path : https://cloud.spring.io/spring-cloud-gateway/reference/html/#global-filters
+            - RewritePath=/api/(?<segment>/?.*), /$\{segment}
+
         # https://youtu.be/QngyGaQXxz4?t=981
         - id: admin_route
           uri: lb://renren-fast

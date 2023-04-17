@@ -2,7 +2,6 @@ package com.yen.gulimall.ware.controller;
 
 import java.util.Arrays;
 import java.util.Map;
-
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,10 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.yen.gulimall.ware.entity.WareInfoEntity;
 import com.yen.gulimall.ware.service.WareInfoService;
-
 // import com.yen.common.utils.PageUtils;
 //import com.yen.common.utils.PageUtils;
 //import com.yen.common.utils.R;
@@ -37,9 +34,11 @@ public class WareInfoController {
 
     /**
      * 列表
+     *
+     * Update:
+     *  - https://youtu.be/Wcnwj5eLMiY?t=317
      */
     @RequestMapping("/list")
-    //@RequiresPermissions("ware:wareinfo:list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = wareInfoService.queryPage(params);
 
