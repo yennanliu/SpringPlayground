@@ -1,38 +1,49 @@
-<!doctype html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>
-    <!DOCTYPE html>
-    <!-- 需要添加
-    <html  xmlns:th="http://www.thymeleaf.org">
-    這樣在後面的th標籤就不會報錯
-    -->
-    <html  xmlns:th="http://www.thymeleaf.org">
-    <head lang="en">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title th:text="${username}">xx</title>
-</head>
+<!--<!doctype html>-->
+<!--<html lang="en" xmlns:th="https://www.thymeleaf.org">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <title>-->
+<!--    <!DOCTYPE html>-->
+<!--    &lt;!&ndash; 需要添加-->
+<!--    <html  xmlns:th="http://www.thymeleaf.org">-->
+<!--    這樣在後面的th標籤就不會報錯-->
+<!--    &ndash;&gt;-->
+<!--    <html  xmlns:th="http://www.thymeleaf.org">-->
+<!--    <head lang="en">-->
+<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>-->
+<!--    <title th:text="${username}">xx</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1 th:text="${username}">Hello World</h1>-->
+<!--<h1>獲取對象信息</h1>-->
+<!--<h2>1、通過直接訪問對象的方式</h2>-->
+<!--<p th:text="${userInfo.username}"></p>-->
+<!--<p th:text="${userInfo.password}"></p>-->
+<!--<h2>2、通過th:object訪問對象的方式</h2>-->
+<!--<div th:object="${userInfo}">-->
+<!--  <p th:text="*{username}"></p>-->
+<!--  <p th:text="*{password}"></p>-->
+<!--</div>-->
+<!--<h1>表單提交</h1>-->
+<!--  &lt;!&ndash; 表單提交用戶信息,注意字段的設置,直接是*{} &ndash;&gt;-->
+<!--  <form action="#" th:action="@{/add}" th:object="${userInfo}" method="post">-->
+<!--    <input type="text" th:field="*{username}" />-->
+<!--    <input type="text" th:field="*{password}" />-->
+<!--    <input type="submit" />-->
+<!--  </form>-->
+<!--</body>-->
+<!--</html>-->
+<!--</title>-->
+<!--</head>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html>
 <body>
-<h1 th:text="${username}">Hello World</h1>
-<h1>獲取對象信息</h1>
-<h2>1、通過直接訪問對象的方式</h2>
-<p th:text="${userInfo.username}"></p>
-<p th:text="${userInfo.password}"></p>
-<h2>2、通過th:object訪問對象的方式</h2>
-<div th:object="${userInfo}">
-  <p th:text="*{username}"></p>
-  <p th:text="*{password}"></p>
-</div>
-<h1>表單提交</h1>
-  <!-- 表單提交用戶信息,注意字段的設置,直接是*{} -->
-  <form action="#" th:action="@{/add}" th:object="${userInfo}" method="post">
-    <input type="text" th:field="*{username}" />
-    <input type="text" th:field="*{password}" />
-    <input type="submit" />
-  </form>
+
+<h1>THIS IS INDEX</h1>
+<p>hello world</p>
+
 </body>
 </html>
-</title>
-</head>
-</html>
+
