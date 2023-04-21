@@ -17,5 +17,5 @@ public class PostUtil {
 		String content = Jsoup.parse(htmlContent).text();
 		return content.length() <= 150 ? content : content.substring(0, 149);
 	}
-	
+
 }
