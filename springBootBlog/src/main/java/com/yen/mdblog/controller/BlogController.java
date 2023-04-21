@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.AuthorService;
+import com.yen.mdblog.util.PostUtil;
 import lombok.extern.log4j.Log4j2;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Vo.CreatePost;
@@ -129,11 +130,7 @@ public class BlogController {
 		BeanUtils.copyProperties(request, post);
 		post.setId(postService.getTotalPost() + 1);
 		post.setDateTime(LocalDateTime.now());
-		if(request.getContent().length() >= 10){
-			post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
-		}else{
-			post.setSynopsis(request.getContent());
-		}
+		post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
 		post.setAuthor(author);
 		post.setDateTime(LocalDateTime.now());
 		//post.setAuthorId(authorId);

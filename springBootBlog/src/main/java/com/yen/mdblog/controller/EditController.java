@@ -6,6 +6,7 @@ import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.entity.Vo.LoginRequest;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
+import com.yen.mdblog.util.PostUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -82,6 +83,7 @@ public class EditController {
     @PostMapping(value="/update")
     public String update(Post post) {
 
+        post.setSynopsis(PostUtil.getSynopsis(post.getContent()));
         log.info(">>> update post : {}", post);
         postService.updatePost(post);
         log.info(">>> update professor : return to professor/list page");
