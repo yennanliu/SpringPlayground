@@ -12,10 +12,14 @@ import com.yen.gulimall.ware.entity.PurchaseEntity;
 import com.yen.gulimall.ware.service.PurchaseDetailService;
 import com.yen.gulimall.ware.service.PurchaseService;
 import com.yen.gulimall.ware.vo.MergeVo;
+import com.yen.gulimall.ware.vo.PurchaseDoneVo;
+import com.yen.gulimall.ware.vo.PurchaseItemDoneVo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -66,6 +70,8 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             this.save(purchaseEntity);
             purchaseId = purchaseEntity.getId();
         }
+
+        // TODO : check if purchase order status is 0 or 1
         List<Long> items = mergeVo.getItems();
         Long finalPurchaseId = purchaseId;
         List<PurchaseDetailEntity> collect = items.stream().map(i -> {
@@ -119,6 +125,37 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             }).collect(Collectors.toList());
             purchaseDetailService.updateBatchById(toUpdateIds);
         });
+    }
+
+    // https://youtu.be/L83Bxqy8UEE?t=342
+    @Override
+    public void done(PurchaseDoneVo doneVo) {
+
+        // 1) update purchase order status
+        Long id = doneVo.getId();
+
+        // 2) update purchase status
+        Boolean flag = true;
+        List<PurchaseItemDoneVo> items = doneVo.getItems();
+        List<PurchaseDetailEntity> updates = new ArrayList<>();
+
+        for (PurchaseItemDoneVo item : items ){
+            PurchaseDetailEntity detailEntity = new PurchaseDetailEntity();
+            if (item.getStatus() == WareConstant.PurchaseStatusEnum.HASERROR.getCode()){
+                flag = false;
+                detailEntity.setStatus(item.getStatus());
+            }else{
+                // purchase success
+                detailEntity.setStatus(WareConstant.PurchaseStatusEnum.FINISHED.getCode());
+            }
+            detailEntity.setId(item.getItemId());
+            updates.add(detailEntity);
+        }
+
+        purchaseDetailService.updateBatchById(updates);
+
+        // 3) update to ware system
+
     }
 
 }

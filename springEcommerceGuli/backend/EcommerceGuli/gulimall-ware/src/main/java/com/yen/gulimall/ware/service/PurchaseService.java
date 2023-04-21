@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.ware.entity.PurchaseEntity;
 import com.yen.gulimall.ware.vo.MergeVo;
+import com.yen.gulimall.ware.vo.PurchaseDoneVo;
 
 import java.util.List;
 import java.util.Map;
@@ -25,5 +26,7 @@ public interface PurchaseService extends IService<PurchaseEntity> {
     void mergePurchase(MergeVo mergeVo);
 
     void receive(List<Long> ids);
+
+    void done(PurchaseDoneVo purchaseDoneVo);
 }
 
