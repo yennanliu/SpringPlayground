@@ -17,7 +17,7 @@ spring:
   application:
     name: gulimall-ware
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
+    date-format: yyyy-MM-dd HH:mm:ss # https://youtu.be/aIDrxpLHylw?t=1121
 
 mybatis-plus:
   mapper-locations: classpath:/mapper/**/*.xml # if classpath*:/mapper/**/*.xml, then will also scan its dependency's classpath
