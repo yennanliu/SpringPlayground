@@ -2,12 +2,12 @@ package com.yen.mdblog.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.AuthorService;
 import lombok.extern.log4j.Log4j2;
-import com.yen.mdblog.entity.Post;
-import com.yen.mdblog.entity.request.CreatePost;
+import com.yen.mdblog.entity.Po.Post;
+import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 import org.springframework.beans.BeanUtils;

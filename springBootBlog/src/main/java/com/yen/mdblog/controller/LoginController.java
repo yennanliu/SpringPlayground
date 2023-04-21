@@ -1,22 +1,11 @@
 package com.yen.mdblog.controller;
 
-import com.yen.mdblog.entity.Post;
-import com.yen.mdblog.entity.User;
-import com.yen.mdblog.entity.request.LoginRequest;
+import com.yen.mdblog.entity.Vo.LoginRequest;
 import com.yen.mdblog.repository.PostRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import java.util.List;
 
 @Controller
 @Log4j2

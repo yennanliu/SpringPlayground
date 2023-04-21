@@ -1,6 +1,6 @@
 package com.yen.mdblog.service;
 
-import com.yen.mdblog.entity.Post;
+import com.yen.mdblog.entity.Po.Post;
 
 public interface PostService {
 

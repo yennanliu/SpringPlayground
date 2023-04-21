@@ -1,8 +1,7 @@
 package com.yen.mdblog.util;
 
-import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.repository.AuthorRepository;
-
 import java.util.Optional;
 
 public class AuthorUtil {

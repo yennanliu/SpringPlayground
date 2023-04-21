@@ -1,4 +1,4 @@
-package com.yen.mdblog.entity;
+package com.yen.mdblog.entity.Po;
 
 import com.yen.mdblog.util.LocalDateTimeConverter;
 
@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;

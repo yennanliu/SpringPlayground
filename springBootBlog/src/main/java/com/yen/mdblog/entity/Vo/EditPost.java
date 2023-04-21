@@ -1,4 +1,4 @@
-package com.yen.mdblog.entity.request;
+package com.yen.mdblog.entity.Vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePost {
+public class EditPost {
 
     private long id;
     private String title;

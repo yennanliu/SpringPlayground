@@ -1,7 +1,7 @@
 package com.yen.mdblog.controller;
 
-import com.yen.mdblog.entity.Post;
-import com.yen.mdblog.entity.request.CreatePost;
+import com.yen.mdblog.entity.Po.Post;
+import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 import lombok.extern.log4j.Log4j2;

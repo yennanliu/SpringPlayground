@@ -1,4 +1,4 @@
-package com.yen.mdblog.entity.request;
+package com.yen.mdblog.entity.Vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

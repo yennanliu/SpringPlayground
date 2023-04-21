@@ -1,6 +1,6 @@
 package com.yen.mdblog.mapper;
 
-import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.service.AuthorService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

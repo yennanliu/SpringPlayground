@@ -1,7 +1,7 @@
 package com.yen.mdblog.controller;
 
-import com.yen.mdblog.entity.Author;
-import com.yen.mdblog.entity.request.CreateAuthor;
+import com.yen.mdblog.entity.Po.Author;
+import com.yen.mdblog.entity.Vo.CreateAuthor;
 import com.yen.mdblog.mapper.AuthorMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

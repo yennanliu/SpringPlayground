@@ -1,10 +1,8 @@
 package com.yen.mdblog.mapper;
 
-import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.entity.Po.Author;
 
-import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;

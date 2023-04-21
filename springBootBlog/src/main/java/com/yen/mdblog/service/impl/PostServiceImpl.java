@@ -2,7 +2,7 @@ package com.yen.mdblog.service.impl;
 
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.PostService;
-import com.yen.mdblog.entity.Post;
+import com.yen.mdblog.entity.Po.Post;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
