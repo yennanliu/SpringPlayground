@@ -66,6 +66,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             SkuEntity.setSkuId(skuId);
             SkuEntity.setWareId(wareId);
             SkuEntity.setStock(skuNum);
+            SkuEntity.setStockLocked(0);
+            // TODO : remote get sku name (via feign client)
+            SkuEntity.setSkuName("");
             wareSkuDao.insert(SkuEntity);
         }else{
             wareSkuDao.addStock(skuId, wareId, skuNum);
