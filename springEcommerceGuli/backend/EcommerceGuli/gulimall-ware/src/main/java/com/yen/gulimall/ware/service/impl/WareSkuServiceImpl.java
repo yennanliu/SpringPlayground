@@ -1,5 +1,7 @@
 package com.yen.gulimall.ware.service.impl;
 
+import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.ware.feign.ProductFeignService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +28,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     @Autowired
     WareSkuDao wareSkuDao;
+
+    @Autowired
+    ProductFeignService productFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -67,13 +72,21 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             SkuEntity.setWareId(wareId);
             SkuEntity.setStock(skuNum);
             SkuEntity.setStockLocked(0);
-            // TODO : remote get sku name (via feign client)
-            SkuEntity.setSkuName("");
+            // get sku name via feign client, if failed, NO NEED to roll back (NOT trigger transaction)
+            // 1) approach 1) catch exception, so transaction NOT trigger if feign call failed
+            // 2) approach 2) : TODO
+            try{
+                R info = productFeignService.info(skuId);
+                if (info.getCode() == 0){
+                    Map<String, Object> data = (Map<String, Object>) info.get("skuInfo");
+                    SkuEntity.setSkuName((String) data.get("skuName"));
+                }
+            }catch (Exception e){
+            }
             wareSkuDao.insert(SkuEntity);
         }else{
             wareSkuDao.addStock(skuId, wareId, skuNum);
         }
-
     }
 
 }
