@@ -1,6 +1,6 @@
 package com.yen.mdblog.mapper;
 
-import com.yen.mdblog.entity.Post;
+import com.yen.mdblog.entity.Po.Post;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

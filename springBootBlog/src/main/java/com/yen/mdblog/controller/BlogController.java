@@ -2,12 +2,13 @@ package com.yen.mdblog.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.AuthorService;
+import com.yen.mdblog.util.PostUtil;
 import lombok.extern.log4j.Log4j2;
-import com.yen.mdblog.entity.Post;
-import com.yen.mdblog.entity.request.CreatePost;
+import com.yen.mdblog.entity.Po.Post;
+import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 import org.springframework.beans.BeanUtils;
@@ -28,7 +29,7 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/posts")
 @Log4j2
-public class PostController {
+public class BlogController {
 
 	//private final PostRepository postRepository;
 
@@ -39,7 +40,7 @@ public class PostController {
 	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
-	public PostController(PostRepository postRepository) {
+	public BlogController(PostRepository postRepository) {
 
 		this.postRepository = postRepository;
 	}
@@ -91,34 +92,30 @@ public class PostController {
 		}finally {
 			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
 		}
-
 		model.addAttribute("pageInfo", pageInfo);
 		model.addAttribute("posts", posts);
-
 		System.out.println(">>>>");
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		System.out.println(">>>>");
-
 		//log.info(">>> model = {}", model);
-
 		return "posts";
 	}
 
 	@GetMapping("/{id}")
 	public String getPostById(@PathVariable long id, Model model) {
-		Optional<Post> postOptional = postRepository.findById(id);
 
+		Optional<Post> postOptional = postRepository.findById(id);
 		if (postOptional.isPresent()) {
 			model.addAttribute("post", postOptional.get());
 		} else {
 			model.addAttribute("error", "no-post");
 		}
-
 		return "post";
 	}
 
 	@GetMapping("/create")
 	public String createPostForm(Model model){
+
 		model.addAttribute("CreatePost", new CreatePost());
 		return "create_post";
 	}
@@ -127,35 +124,26 @@ public class PostController {
 	public String createPost(CreatePost request){
 
 		log.info(">>> create post start ...");
-
 		Post post = new Post();
 		Author author = new Author();
-		Long authorId = request.getId();
-		author.setId(authorId);
-
-		int postCount = postService.getTotalPost();
+		author.setId(request.getId());
 		BeanUtils.copyProperties(request, post);
-		post.setId(postCount+1);
+		post.setId(postService.getTotalPost() + 1);
 		post.setDateTime(LocalDateTime.now());
-		post.setSynopsis(request.getContent().substring(0, 10)); // get first 10 character as synopsis
+		post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
 		post.setAuthor(author);
+		post.setDateTime(LocalDateTime.now());
 		//post.setAuthorId(authorId);
-
 		log.info(">>> request = " + request);
 		log.info(">>> post = " + post);
 		log.info(">>> author = " + author);
 		log.info(">>>> create post end ...");
-
-		post.setDateTime(LocalDateTime.now());
-
 		postService.savePost(post);
 		List<Author> authors = authorService.getAllAuthors();
 		List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
-
 		if (!ids.contains(author.getId())){
 			authorService.saveAuthor(author);
 		}
-
 		return "success";
 	}
 

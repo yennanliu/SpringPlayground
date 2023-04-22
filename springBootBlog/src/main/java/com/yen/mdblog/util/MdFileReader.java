@@ -1,7 +1,6 @@
 package com.yen.mdblog.util;
 
 import org.springframework.core.io.ClassPathResource;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,14 +25,15 @@ public class MdFileReader {
 	}
 
 	public static String getTitleFromFileName(String filename) {
+
 		String fileNameBeforeExtension = filename.split(".md")[0];
 		String[] tokens = fileNameBeforeExtension.split("_");
-
 		String[] titleTokens = Arrays.copyOfRange(tokens, 1, tokens.length);
 		return String.join(" ", titleTokens);
 	}
 
 	public static long getIdFromFileName(String filename) {
+
 		String fileNameBeforeExtension = filename.split(".md")[0];
 		Long id = Long.parseLong(fileNameBeforeExtension.split("_")[0]);
 		System.out.println(">>> fileNameBeforeExtension = " + fileNameBeforeExtension);

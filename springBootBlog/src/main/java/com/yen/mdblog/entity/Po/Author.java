@@ -1,8 +1,7 @@
-package com.yen.mdblog.entity;
+package com.yen.mdblog.entity.Po;
 
 import lombok.Data;
 import lombok.ToString;
-
 import javax.persistence.*;
 import java.util.*;
 

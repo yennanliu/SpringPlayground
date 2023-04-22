@@ -6,12 +6,12 @@
 <mapper namespace="com.yen.mdblog.mapper.PostMapper">
 
     <!-- public Post getById(long id); -->
-    <select id="getById" resultType="com.yen.mdblog.entity.Post" parameterType="int">
+    <select id="getById" resultType="com.yen.mdblog.entity.Po.Post" parameterType="int">
         SELECT * FROM posts where id = #{id}
     </select>
 
     <!-- public List<Post> getAllPosts(); -->
-    <select id="getAllPosts" resultType="com.yen.mdblog.entity.Post">
+    <select id="getAllPosts" resultType="com.yen.mdblog.entity.Po.Post">
         SELECT * FROM posts
     </select>
 
@@ -29,7 +29,7 @@
     <!-- public void updatePost(Post post); -->
     <update id="updatePost">
         UPDATE posts
-        SET title = #{title}, content = #{content}
+        SET title = #{title}, content = #{content}, synopsis = #{synopsis}
         WHERE id = #{id}
     </update>
 

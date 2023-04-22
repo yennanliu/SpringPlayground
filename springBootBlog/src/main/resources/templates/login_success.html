@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 
-
 <link rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
@@ -15,17 +14,16 @@
 </head>
 <div th:insert="header"></div>
 <h1 align="center">Admin Page</h1>
-<!--<h2 align="center">Welcome!</h2>-->
-<h3 >Welcome! <h3 th:text="${LoginRequest.userName}"></h3>
+<h3 align="center">Welcome!</h3>
+<!--<h3 >Welcome! <h3 th:text="${LoginRequest.userName}"></h3>-->
 <body>
 <div class="container">
     <div th:each="post : ${posts}" class="card">
         <div class="card-body">
             <h5 class="card-title" th:utext="${post.title}">Post title</h5>
             <h5 class="card-title" th:utext="${LoginRequest.userName}">Author</h5>
-            <h6 class="card-subtitle mb-2"
-                th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
-            <!-- <a href="#" th:href="'/edit/' + ${post.id}" th:text="${'Edit'}" class="card-link">Edit</a> -->
+            <h6 class="card-subtitle mb-2" th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
+            <p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
             <a href="#" th:href="'/edit/' + ${post.id}" th:text="${'Edit'}" class="card-link">Edit</a>
         </div>
     </div>

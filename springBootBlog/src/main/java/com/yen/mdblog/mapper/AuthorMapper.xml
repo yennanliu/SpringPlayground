@@ -6,12 +6,12 @@
 <mapper namespace="com.yen.mdblog.mapper.AuthorMapper">
 
     <!-- public Author getById(long id); -->
-    <select id="getById" resultType="com.yen.mdblog.entity.Author" parameterType="int">
+    <select id="getById" resultType="com.yen.mdblog.entity.Po.Author" parameterType="int">
         SELECT * FROM authors where id = #{id}
     </select>
 
     <!-- public List<Author> getAllAuthors(); -->
-    <select id="getAllAuthors" resultType="com.yen.mdblog.entity.Author">
+    <select id="getAllAuthors" resultType="com.yen.mdblog.entity.Po.Author">
         SELECT * FROM authors
     </select>
 

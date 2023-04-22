@@ -1,11 +1,11 @@
 package com.yen.mdblog.listener;
 
-import com.yen.mdblog.entity.Post;
+import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.repository.AuthorRepository;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.util.AuthorUtil;
 import com.yen.mdblog.util.MdFileReader;
-import com.yen.mdblog.entity.Author;
+import com.yen.mdblog.entity.Po.Author;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

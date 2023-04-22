@@ -1,13 +1,8 @@
-package com.yen.mdblog.entity.request;
+package com.yen.mdblog.entity.Vo;
 
-import com.yen.mdblog.entity.Post;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.Column;
-import javax.persistence.OneToMany;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
