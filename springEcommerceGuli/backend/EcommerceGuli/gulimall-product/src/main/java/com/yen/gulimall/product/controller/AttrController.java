@@ -1,10 +1,13 @@
 package com.yen.gulimall.product.controller;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.product.entity.ProductAttrValueEntity;
+import com.yen.gulimall.product.service.ProductAttrValueService;
 import com.yen.gulimall.product.vo.AttrGroupRelationVo;
 import com.yen.gulimall.product.vo.AttrRespVo;
 import com.yen.gulimall.product.vo.AttrVo;
@@ -26,6 +29,20 @@ import com.yen.gulimall.product.service.AttrService;
 public class AttrController {
     @Autowired
     private AttrService attrService;
+
+    @Autowired
+    private ProductAttrValueService productAttrValueService;
+
+    /**
+     *  https://youtu.be/MpNzMayYIXY?t=75
+     *      /product/attr/info/{attrId}
+     */
+    @GetMapping("/base/listforspu/{spuId}")
+    public R baseAttrListForSpu(@PathVariable("spuId") Long spuId){
+
+        List<ProductAttrValueEntity> entities =  productAttrValueService.baseAttrListForSpu(spuId);
+        return R.ok().put("data", entities);
+    }
 
     /**
      *  New end point
@@ -79,6 +96,19 @@ public class AttrController {
 
 		//attrService.save(attr);
         attrService.saveAttr(attr);
+        return R.ok();
+    }
+
+    /**
+     * 修改
+     *
+     * Update:
+     *  - https://youtu.be/MpNzMayYIXY?t=304
+     */
+    @PostMapping("/update/{spuId}")
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValueEntity> entities){
+
+        productAttrValueService.updateSpuAttr(spuId, entities);
         return R.ok();
     }
 
