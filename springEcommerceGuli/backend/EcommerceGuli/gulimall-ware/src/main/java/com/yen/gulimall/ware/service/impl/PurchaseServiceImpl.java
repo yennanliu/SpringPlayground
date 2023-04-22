@@ -11,6 +11,7 @@ import com.yen.gulimall.ware.entity.PurchaseDetailEntity;
 import com.yen.gulimall.ware.entity.PurchaseEntity;
 import com.yen.gulimall.ware.service.PurchaseDetailService;
 import com.yen.gulimall.ware.service.PurchaseService;
+import com.yen.gulimall.ware.service.WareSkuService;
 import com.yen.gulimall.ware.vo.MergeVo;
 import com.yen.gulimall.ware.vo.PurchaseDoneVo;
 import com.yen.gulimall.ware.vo.PurchaseItemDoneVo;
@@ -18,7 +19,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -31,6 +31,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
     @Autowired
     PurchaseDetailService purchaseDetailService;
+
+    @Autowired
+    WareSkuService wareSkuService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -128,10 +131,10 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
     }
 
     // https://youtu.be/L83Bxqy8UEE?t=342
+    @Transactional
     @Override
     public void done(PurchaseDoneVo doneVo) {
 
-        // 1) update purchase order status
         Long id = doneVo.getId();
 
         // 2) update purchase status
@@ -147,6 +150,9 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
             }else{
                 // purchase success
                 detailEntity.setStatus(WareConstant.PurchaseStatusEnum.FINISHED.getCode());
+                // 3) update to ware system
+                PurchaseDetailEntity entity = purchaseDetailService.getById(item.getItemId());
+                wareSkuService.addStock(entity.getSkuId(), entity.getWareId(), entity.getSkuNum());
             }
             detailEntity.setId(item.getItemId());
             updates.add(detailEntity);
@@ -154,8 +160,12 @@ public class PurchaseServiceImpl extends ServiceImpl<PurchaseDao, PurchaseEntity
 
         purchaseDetailService.updateBatchById(updates);
 
-        // 3) update to ware system
-
+        // 1) update purchase order status
+        PurchaseEntity purchaseEntity = new PurchaseEntity();
+        purchaseEntity.setId(id);
+        purchaseEntity.setStatus(flag? WareConstant.PurchaseStatusEnum.FINISHED.getCode() : WareConstant.PurchaseStatusEnum.HASERROR.getCode());
+        purchaseEntity.setUpdateTime(new Date());
+        this.updateById(purchaseEntity);
     }
 
 }

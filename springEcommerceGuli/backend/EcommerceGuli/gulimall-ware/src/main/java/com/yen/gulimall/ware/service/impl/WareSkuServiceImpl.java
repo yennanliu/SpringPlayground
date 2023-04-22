@@ -1,7 +1,9 @@
 package com.yen.gulimall.ware.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Map;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,6 +23,9 @@ import com.yen.gulimall.ware.service.WareSkuService;
  */
 @Service("wareSkuService")
 public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> implements WareSkuService {
+
+    @Autowired
+    WareSkuDao wareSkuDao;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -45,6 +50,27 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
         );
 
         return new PageUtils(page);
+    }
+
+    // https://youtu.be/L83Bxqy8UEE?t=890
+    @Override
+    public void addStock(Long skuId, Long wareId, Integer skuNum) {
+
+        // 1) check is there is a record in ware system
+        List<WareSkuEntity> wareSkuEntities = wareSkuDao.selectList(new QueryWrapper<WareSkuEntity>()
+                .eq("sku_id", skuId).eq("ware_id", wareId));
+
+        if (wareSkuEntities == null || wareSkuEntities.size() == 0){
+            // if not record in ware, add it
+            WareSkuEntity SkuEntity = new WareSkuEntity();
+            SkuEntity.setSkuId(skuId);
+            SkuEntity.setWareId(wareId);
+            SkuEntity.setStock(skuNum);
+            wareSkuDao.insert(SkuEntity);
+        }else{
+            wareSkuDao.addStock(skuId, wareId, skuNum);
+        }
+
     }
 
 }
