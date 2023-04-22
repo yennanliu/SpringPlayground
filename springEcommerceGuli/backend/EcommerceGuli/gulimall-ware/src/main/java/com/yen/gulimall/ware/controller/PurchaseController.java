@@ -2,9 +2,11 @@ package com.yen.gulimall.ware.controller;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
 import com.yen.gulimall.ware.vo.MergeVo;
+import com.yen.gulimall.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.yen.gulimall.ware.entity.PurchaseEntity;
@@ -28,6 +30,29 @@ import com.yen.gulimall.common.utils.PageUtils;
 public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
+
+    /**
+     * Update:
+     *  - https://youtu.be/L83Bxqy8UEE?t=193
+     */
+    @PostMapping("/done")
+    public R finish(@RequestBody PurchaseDoneVo purchaseDoneVo){
+
+        purchaseService.done(purchaseDoneVo);
+        return R.ok();
+    }
+
+    /**
+     * Update:
+     *  - https://youtu.be/rh5C54pb4RQ?t=194
+     */
+    @PostMapping("/received")
+    public R receive(@RequestBody List<Long> ids){
+
+        purchaseService.receive(ids);
+        return R.ok();
+    }
+
 
     /**
      * Update:
