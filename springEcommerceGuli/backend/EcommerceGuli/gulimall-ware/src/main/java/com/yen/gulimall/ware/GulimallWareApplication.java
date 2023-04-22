@@ -6,9 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-@EnableTransactionManagement
+
 @EnableDiscoveryClient
-@MapperScan("com.yen.gulimall.ware.dao")
 @SpringBootApplication
 public class GulimallWareApplication {
 
