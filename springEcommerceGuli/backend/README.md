@@ -59,8 +59,8 @@ docker builder prune
 ```bash
 # pull image
 # https://youtu.be/uhuoHo3PYR8?t=72
-docker pull elasticsearch:8.7.0
-docker pull kibana:8.7.0
+# docker pull elasticsearch:8.7.0
+# docker pull kibana:8.7.0
 
 # setup conf
 mkdir -p mydata/elasticsearch/config
@@ -68,8 +68,13 @@ mkdir -p mydata/elasticsearch/data
 echo "http:host:0.0.0.0" >> "mydata/elasticsearch/config/elasticsearch.yml"
 
 # run
-docker run elasticsearch:8.7.0 -e "discovery.type=single-node" -e ES_JAVA_OPS="-Xms64m -Xmx128m" -p 9200:9200 -p 9300:9300
+
+# https://myapollo.com.tw/blog/docker-elasticsearch/
+docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node"  -e ES_JAVA_OPS="-Xms64m -Xmx128m" -e "xpack.security.enabled=false" --name=myes elasticsearch:8.7.0
+
 ```
+- http://localhost:9200/
+
 
 ```bash
 #---------------------------
