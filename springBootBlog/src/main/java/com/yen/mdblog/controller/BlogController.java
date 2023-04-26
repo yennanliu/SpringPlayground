@@ -31,20 +31,12 @@ import java.util.stream.Collectors;
 @Log4j2
 public class BlogController {
 
-	//private final PostRepository postRepository;
-
 	@Autowired
 	PostRepository postRepository;
 
 	// TODO : implement paging with it
 	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
-
-	@Autowired
-	public BlogController(PostRepository postRepository) {
-
-		this.postRepository = postRepository;
-	}
-
+	
 	@Autowired
 	PostService postService;
 
@@ -67,17 +59,13 @@ public class BlogController {
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
-
 		log.info(">>> posts length = {}", posts.toArray().length);
-
 		PageInfo<Post> pageInfo = null;
-
 		//為了程式的嚴謹性，判斷非空：
 		if(pageNum <= 0){
 			pageNum = 0;
 		}
 		System.out.println("當前頁是："+pageNum+"顯示條數是："+pageSize);
-
 		//1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
 		PageHelper.startPage(pageNum, pageSize);
 		//2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
@@ -94,12 +82,8 @@ public class BlogController {
 		}
 
 		System.out.println(">>> all posts count = " + posts.size());
-
 		model.addAttribute("posts", posts);
-		System.out.println(">>>>");
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
-		System.out.println(">>>>");
-		//log.info(">>> model = {}", model);
 		return "posts";
 	}
 
