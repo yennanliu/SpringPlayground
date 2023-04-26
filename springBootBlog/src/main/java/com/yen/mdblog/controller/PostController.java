@@ -29,14 +29,14 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/posts")
 @Log4j2
-public class BlogController {
+public class PostController {
 
 	@Autowired
 	PostRepository postRepository;
 
 	// TODO : implement paging with it
 	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
-	
+
 	@Autowired
 	PostService postService;
 
