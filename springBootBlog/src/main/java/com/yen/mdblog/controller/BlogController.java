@@ -92,7 +92,9 @@ public class BlogController {
 		}finally {
 			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
 		}
-		model.addAttribute("pageInfo", pageInfo);
+
+		System.out.println(">>> all posts count = " + posts.size());
+
 		model.addAttribute("posts", posts);
 		System.out.println(">>>>");
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);

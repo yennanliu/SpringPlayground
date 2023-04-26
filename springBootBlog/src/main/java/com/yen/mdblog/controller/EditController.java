@@ -6,6 +6,7 @@ import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Po.User;
 import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.entity.Vo.LoginRequest;
+import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 import com.yen.mdblog.util.PostUtil;
@@ -36,6 +37,9 @@ public class EditController {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    PostMapper postMapper;
+
     @GetMapping("/pre_edit")
     public String prePost(Model model) {
 
@@ -44,20 +48,21 @@ public class EditController {
         PageInfo<Post> pageInfo = null;
         user.setUserName("admin"); // TODO: get it from session
         // check login account, pwd // TODO : validate its info from DB
-        // TODO : fix below
-        final int page = 0;
-        final int size = 3;
-        int pageSize = 3; // TODO : fix this hardcode
-        int pageNum = 0;
+        // TODO : fix these hardcode
+        int PAGE_SIZE = 3;
+        int PAGE_NUM = 0;
         if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
-            Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "DateTime"));
+            Pageable pageRequest = PageRequest.of(PAGE_NUM, PAGE_SIZE, Sort.by(Sort.Direction.DESC, "DateTime"));
             System.out.println(">>> pageRequest = " + pageRequest);
             Page<Post> postsPage = postRepository.findAll(pageRequest);
             List<Post> posts = postsPage.toList();
+            System.out.println(">>> edit posts count = " + posts.size());
             try{
                 // add blogs for editing blogs at admin-age
-                PageHelper.startPage(pageNum, pageSize);
-                pageInfo = new PageInfo<Post>(posts, pageSize);
+                PageHelper.startPage(PAGE_NUM, PAGE_SIZE);
+                List<Post> postList = postMapper.getAllPosts();
+                pageInfo = new PageInfo<Post>(postList, PAGE_SIZE);
+                model.addAttribute("pageInfo",pageInfo);
             }finally {
                 PageHelper.clearPage();
             }
@@ -66,7 +71,6 @@ public class EditController {
             LoginRequest request = new LoginRequest();
             request.setUserName("admin");
 
-            model.addAttribute("pageInfo", pageInfo);
             model.addAttribute("posts", posts);
             model.addAttribute("LoginRequest", request);
         }

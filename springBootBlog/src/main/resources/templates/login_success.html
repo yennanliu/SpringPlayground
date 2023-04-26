@@ -35,24 +35,24 @@
         <!--			<li th:if="${pageInfo.hasPreviousPage}">-->
         <!--				<a th:href="'/posts/all?page=0'">First</a>-->
         <!--			</li>-->
-        <a th:href="'/posts/all?page=0'">First</a>
+        <a th:href="'/edit/pre_edit?page=0'">First</a>
         <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-            <a th:href="'/posts/all?pageNum='+${pageInfo.prePage}">
+            <a th:href="'/edit/pre_edit?pageNum='+${pageInfo.prePage}">
                 <i class="ace-icon fa fa-angle-double-left"></i>
             </a>
         </li>
         <!--遍歷條數-->
         <li th:each="nav:${pageInfo.navigatepageNums}">
-            <a th:href="'/posts/all?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
+            <a th:href="'/edit/pre_edit?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
             <span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} " th:text=" ${nav} "></span>
         </li>
         <li class="next" th:if="${pageInfo.hasNextPage}">
-            <a th:href="'/posts/all?pageNum='+${pageInfo.nextPage}">
+            <a th:href="'/edit/pre_edit?pageNum='+${pageInfo.nextPage}">
                 <i class="ace-icon fa fa-angle-double-right"></i>
             </a>
         </li>
         <li>
-            <a th:href="'/posts/all?pageNum='+${pageInfo.pages}">Last</a>
+            <a th:href="'/edit/pre_edit?pageNum='+${pageInfo.pages}">Last</a>
         </li>
     </ul>
 </div>
