@@ -2,22 +2,16 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-
     <div th:insert="header"></div>
     <title>Register As New User</title>
     <h1 align="center">Register as a new user</h1>
     <hr/>
-
 </head>
 <body>
-
 <form action="#" th:action="@{/register/create}" th:object="${CreateAuthor}" method="post" align="center">
-
     <p>User name: <input type="text" th:field="*{name}" required minlength="1" /></p>
     <p>Email: <input type="text" th:field="*{email}" required minlength="1" /></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
-
 </form>
-
 </body>
 </html>

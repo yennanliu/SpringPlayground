@@ -1,18 +1,18 @@
 package com.yen.mdblog.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.yen.mdblog.constant.PageConst;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Po.User;
 import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.entity.Vo.LoginRequest;
+import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.PostService;
 import com.yen.mdblog.util.PostUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -34,28 +34,32 @@ public class EditController {
     @Autowired
     PostRepository postRepository;
 
+    @Autowired
+    PostMapper postMapper;
+
     @GetMapping("/pre_edit")
     public String prePost(Model model) {
 
         log.info(">>> prePost start ...");
         User user = new User();
+        PageInfo<Post> pageInfo = null;
+        List<Post> postList = null;
         user.setUserName("admin"); // TODO: get it from session
-        // check login account, pwd // TODO : validate its info from DB
         if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
-            // add blogs for editing blogs at admin-age
-            // TODO : fix below
-            final int page = 0;
-            final int size = 100;
-            Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "DateTime"));
-            System.out.println(">>> pageRequest = " + pageRequest);
-            Page<Post> postsPage = postRepository.findAll(pageRequest);
-            List<Post> posts = postsPage.toList();
+            try{
+                // add blogs for editing blogs at admin-age
+                PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
+                postList = postMapper.getAllPosts();
+                pageInfo = new PageInfo<Post>(postList, PageConst.PAGE_SIZE.getSize());
+                model.addAttribute("pageInfo",pageInfo);
+            }finally {
+                PageHelper.clearPage();
+            }
 
             // TODO : fix this from hardcode (get request from spring security login session/cookie)
             LoginRequest request = new LoginRequest();
             request.setUserName("admin");
-
-            model.addAttribute("posts", posts);
+            model.addAttribute("posts", postList);
             model.addAttribute("LoginRequest", request);
         }
         return "login_success";
