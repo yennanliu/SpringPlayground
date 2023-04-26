@@ -1,5 +1,7 @@
 package com.yen.mdblog.controller;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Po.User;
 import com.yen.mdblog.entity.Vo.CreatePost;
@@ -39,22 +41,32 @@ public class EditController {
 
         log.info(">>> prePost start ...");
         User user = new User();
+        PageInfo<Post> pageInfo = null;
         user.setUserName("admin"); // TODO: get it from session
         // check login account, pwd // TODO : validate its info from DB
+        // TODO : fix below
+        final int page = 0;
+        final int size = 3;
+        int pageSize = 3; // TODO : fix this hardcode
+        int pageNum = 0;
         if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
-            // add blogs for editing blogs at admin-age
-            // TODO : fix below
-            final int page = 0;
-            final int size = 100;
             Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "DateTime"));
             System.out.println(">>> pageRequest = " + pageRequest);
             Page<Post> postsPage = postRepository.findAll(pageRequest);
             List<Post> posts = postsPage.toList();
+            try{
+                // add blogs for editing blogs at admin-age
+                PageHelper.startPage(pageNum, pageSize);
+                pageInfo = new PageInfo<Post>(posts, pageSize);
+            }finally {
+                PageHelper.clearPage();
+            }
 
             // TODO : fix this from hardcode (get request from spring security login session/cookie)
             LoginRequest request = new LoginRequest();
             request.setUserName("admin");
 
+            model.addAttribute("pageInfo", pageInfo);
             model.addAttribute("posts", posts);
             model.addAttribute("LoginRequest", request);
         }
