@@ -29,14 +29,14 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/posts")
 @Log4j2
-public class BlogController {
+public class PostController {
 
 	@Autowired
 	PostRepository postRepository;
 
 	// TODO : implement paging with it
 	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
-	
+
 	@Autowired
 	PostService postService;
 
@@ -72,7 +72,7 @@ public class BlogController {
 		try {
 			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
 			List<Post> postList = postMapper.getAllPosts();//service查詢所有的資料的介面
-			//System.out.println("分頁資料：" + posts);
+			System.out.println(">>> 分頁資料：" + postList.get(0).toString());
 			//3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list型別是Page<E>
 			pageInfo = new PageInfo<Post>(postList, pageSize);
 			//4.使用model/map/modelandview等帶回前端

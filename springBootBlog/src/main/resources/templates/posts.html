@@ -34,6 +34,7 @@
 			<h6 class="card-subtitle mb-2"
 				th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
 			<p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
+			<h6 class="card-text" th:utext="Admin">Author</h6>
 			<a href="#" th:href="'/posts/' + ${post.id}" th:text="${'Read more'}" class="card-link">Read more</a>
 		</div>
 	</div>

@@ -6,19 +6,16 @@ import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.util.AuthorUtil;
 import com.yen.mdblog.util.MdFileReader;
 import com.yen.mdblog.entity.Po.Author;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
-
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 import static com.yen.mdblog.util.PostUtil.*;
 
 @Component
@@ -43,12 +40,9 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 				String postFileName = postFileNameOpt.get();
 				String title = MdFileReader.getTitleFromFileName(postFileName);
 				long id = MdFileReader.getIdFromFileName(postFileName);
-
 				List<String> mdLines = MdFileReader.readLinesFromMdFile(postFileName);
 				String htmlContent = getHtmlContentFromMdLines(mdLines);
-
 				Author author = AuthorUtil.bootstrapAuthor(authorRepository);
-
 				Optional<Post> postOpt = postRepository.findById(id);
 //				if (postOpt.isEmpty()) {
 //					System.out.println("Post with ID: " + id + " does not exist. Creating post...");
@@ -74,7 +68,6 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 					post.setContent(htmlContent);
 					post.setSynopsis(getSynopsisFromHtmlContent(htmlContent));
 					post.setDateTime(LocalDateTime.now());
-
 					postRepository.save(post);
 				}catch (Exception e){
 					System.out.println(">>> create post failed : " + e);
