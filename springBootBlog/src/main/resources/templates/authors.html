@@ -31,6 +31,7 @@
         <div class="card-body">
             <p class="card-text" th:text="${author.name}">Name</p>
             <p class="card-text" th:text="${author.email}">Email</p>
+            <a href="#" th:href="'/author/' + ${author.id}" th:text="${'Edit'}" class="card-link">Edit</a>
         </div>
     </div>
 </div>
