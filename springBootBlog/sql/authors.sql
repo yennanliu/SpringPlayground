@@ -6,12 +6,13 @@ CREATE TABLE IF NOT EXISTS blog_db.authors (
     name VARCHAR(30),
     email VARCHAR(30),
     url VARCHAR(30),
-    posts VARCHAR(30)
+    create_time datetime,
+    update_time datetime
 );
 
 -- insert data
-INSERT INTO blog_db.authors
+INSERT INTO blog_db.authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)
 values
-(1, "bill", "bill@google.com", "bill", "google.com"),
-(2, "jack", "jack@uber.com", "jack", "uber.com"),
-(3, "yen", "yen@google.com", "yen", "???");
+(2,  "bill@google.com", "bill", "" ,  now(), now()),
+(3,  "jack@uber.com", "jack", "" , now(), now()),
+(4, "yen@google.com", "yen", "" , now(), now());

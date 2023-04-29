@@ -22,8 +22,8 @@
 
     <!-- public void insertAuthor(Author author); -->
     <insert id="insertAuthor">
-        INSERT INTO authors(`id`,`email`,`name`,`url`)
-        values(#{id}, #{email},  #{name}, #{url})
+        INSERT INTO authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)
+        values(#{id}, #{email},  #{name}, #{url}, #{createTime}, #{updateTime})
     </insert>
 
 </mapper>

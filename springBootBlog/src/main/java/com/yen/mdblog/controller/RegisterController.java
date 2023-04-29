@@ -9,7 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;;
+import org.springframework.web.bind.annotation.RequestMethod;;import java.util.Date;
 
 @Controller
 @RequestMapping("/register")
@@ -37,6 +37,9 @@ public class RegisterController {
             author.setId(id);
             author.setName(name);
             author.setEmail(email);
+            author.setCreateTime(new Date());
+            author.setUpdateTime(new Date());
+            System.out.println(">>> author = " + author.toString());
             authorMapper.insertAuthor(author);
             log.info(">>> create new user OK ...");
             return "success_register";
