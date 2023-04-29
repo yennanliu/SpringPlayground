@@ -3,6 +3,7 @@ package com.yen.mdblog.entity.Po;
 import lombok.Data;
 import lombok.ToString;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Data
@@ -24,6 +25,12 @@ public class Author {
 
 	@Column
 	private String url;
+
+	@Column
+	private Date createTime;
+
+	@Column
+	private Date updateTime;
 
 	@Column
 	@OneToMany(mappedBy = "author")
