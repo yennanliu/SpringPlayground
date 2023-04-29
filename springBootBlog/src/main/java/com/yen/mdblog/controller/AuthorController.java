@@ -28,9 +28,8 @@ public class AuthorController {
     @GetMapping("/all")
     String getAllAuthor(Model model){
 
-        List<Author> authors = authorService.getAllAuthors();
-        System.out.println(">>> author = " + authors.get(0).toString());
-        model.addAttribute("authors", authors);
+        Iterable<Author> authorOptional = authorRepository.findAll();
+        model.addAttribute("authors", authorOptional);
         return "authors";
     }
 
