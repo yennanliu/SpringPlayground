@@ -25,14 +25,15 @@ java -jar <built_jar>
 
 ## API
 | API      | Type | Purpose                         | Example cmd                                            | Comment                        |
-|----------| -------- |---------------------------------|--------------------------------------------------------|--------------------------------|
-| `GET`  | GET | all posts                       | http://localhost:8888/posts/all                        | home page                      |
-| `GET`  | GET | all posts (with page)           | http://localhost:8888/posts/all?pageNum=1              | home page (with page)          |
-| `GET`  | GET | homepage  (with page, pageSize) | http://localhost:8888/posts/all?pageNum=0&pageSize=100 | home page (with page, size)    |
-| `GET`  | GET | login                           | http://localhost:8888/login                            | login (accout:admin, pwd: 123) |
+|----------|------|---------------------------------|--------------------------------------------------------|--------------------------------|
+| `GET`  | GET  | all posts                       | http://localhost:8888/posts/all                        | home page                      |
+| `GET`  | GET  | all posts (with page)           | http://localhost:8888/posts/all?pageNum=1              | home page (with page)          |
+| `GET`  | GET  | homepage  (with page, pageSize) | http://localhost:8888/posts/all?pageNum=0&pageSize=100 | home page (with page, size)    |
+| `GET`  | GET  | login                           | http://localhost:8888/login                            | login (accout:admin, pwd: 123) |
 | `POST` | POST | new post                        | http://localhost:8888/posts/create                     | create new post                |
-| `GET`  | POST | edit post                       | http://localhost:8888/edit/pre_edit                   | edit post                      |
-| `GET`  | GET | logout                          | http://localhost:8888/logout                           | logout                         |
+| `GET`  | POST | edit post                       | http://localhost:8888/posts/edit/pre_edit              | edit post                      |
+| `GET`  | GET  | show/edit author                | http://localhost:8888/author/all                       | show/edit author               |
+| `GET`  | GET  | logout                          | http://localhost:8888/logout                           | logout                         |
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |

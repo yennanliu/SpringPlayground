@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;;import java.util.D
 @Controller
 @RequestMapping("/register")
 @Log4j2
-public class RegisterController {
+public class AuthorRegisterController {
 
     @Autowired
     AuthorMapper authorMapper;

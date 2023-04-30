@@ -1,6 +1,6 @@
 package com.yen.mdblog.entity.Po;
 
-import com.yen.mdblog.util.LocalDateTimeConverter;
+import com.yen.mdblog.util.DateTimeUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,6 +37,6 @@ public class Post implements Serializable {
 	private Author author;
 
 	@Column
-	@Convert(converter = LocalDateTimeConverter.class)
+	@Convert(converter = DateTimeUtil.class)
 	private LocalDateTime dateTime;
 }
