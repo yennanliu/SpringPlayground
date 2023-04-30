@@ -25,8 +25,8 @@ import java.util.Optional;
 
 @Controller
 @Log4j2
-@RequestMapping("/edit")
-public class EditController {
+@RequestMapping("/posts/edit")
+public class PostEditController {
 
     @Autowired
     PostService postService;

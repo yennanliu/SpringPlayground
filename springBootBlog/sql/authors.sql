@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS blog_db.authors (
 -- insert data
 INSERT INTO blog_db.authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)
 values
-(2,  "bill@google.com", "bill", "" ,  now(), now()),
+(10,  "bill@google.com", "bill", "" ,  now(), now()),
 (3,  "jack@uber.com", "jack", "" , now(), now()),
 (4, "yen@google.com", "yen", "" , now(), now());
