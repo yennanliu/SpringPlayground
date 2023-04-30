@@ -26,4 +26,11 @@
         values(#{id}, #{email},  #{name}, #{url}, #{createTime}, #{updateTime})
     </insert>
 
+    <!-- public void updateAuthor(Author author); -->
+    <update id="updateAuthor">
+        UPDATE authors
+        SET name = #{name}, email = #{email}
+        WHERE id = #{id}
+    </update>
+
 </mapper>

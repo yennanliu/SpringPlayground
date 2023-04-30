@@ -20,9 +20,6 @@ import java.util.Optional;
 public class AuthorController {
 
     @Autowired
-    AuthorService authorService;
-
-    @Autowired
     AuthorRepository authorRepository;
 
     @GetMapping("/all")

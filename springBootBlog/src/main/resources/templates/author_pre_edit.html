@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+      crossorigin="anonymous"
+      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Author</title>
+</head>
+<div th:insert="header"></div>
+<body>
+<div class="container">
+    <div th:each="author : ${authors}" class="card">
+        <div class="card-body">
+            <h5 class="card-title" th:utext="${author.name}">Name</h5>
+            <h5 class="card-title" th:utext="${author.email}">Email</h5>
+            <a href="#" th:href="'/authors/edit/' + ${author.id}" th:text="${'Edit'}" class="card-link">Edit</a>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer no-margin-top">
+    <div class="col-md-6">
+        Current at [[${pageInfo.pageNum}]] page. Total [[${pageInfo.pages}]] page. Total [[${pageInfo.total}]] records
+    </div>
+    <ul class="pagination pull-right no-margin">
+        <a th:href="'/author/edit/pre_edit?page=0'">First</a>
+        <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+            <a th:href="'/author/edit/pre_edit?pageNum='+${pageInfo.prePage}">
+                <i class="ace-icon fa fa-angle-double-left"></i>
+            </a>
+        </li>
+        <!--遍歷條數-->
+        <li th:each="nav:${pageInfo.navigatepageNums}">
+            <a th:href="'/author/edit/pre_edit?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
+            <span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} " th:text=" ${nav} "></span>
+        </li>
+        <li class="next" th:if="${pageInfo.hasNextPage}">
+            <a th:href="'/author/edit/pre_edit?pageNum='+${pageInfo.nextPage}">
+                <i class="ace-icon fa fa-angle-double-right"></i>
+            </a>
+        </li>
+        <li>
+            <a th:href="'/author/edit/pre_edit?pageNum='+${pageInfo.pages}">Last</a>
+        </li>
+    </ul>
+</div>
+
+</body>
+</html>

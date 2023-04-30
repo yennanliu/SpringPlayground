@@ -1,6 +1,8 @@
 package com.yen.mdblog.service;
 
 import com.yen.mdblog.entity.Po.Author;
+import com.yen.mdblog.entity.Po.Post;
+
 import java.util.List;
 
 public interface AuthorService {
@@ -11,4 +13,5 @@ public interface AuthorService {
 
     void saveAuthor(Author author);
 
+    void updateAuthor(Author author);
 }

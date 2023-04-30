@@ -62,13 +62,13 @@ public class PostEditController {
             model.addAttribute("posts", postList);
             model.addAttribute("LoginRequest", request);
         }
-        return "login_success";
+        return "post_pre_edit";
     }
 
     @GetMapping("/")
     public String EditPost(Model model) {
         model.addAttribute("CreatePost", new CreatePost());
-        return "edit_post";
+        return "post_edit";
     }
 
     @GetMapping("/{id}")
@@ -80,8 +80,7 @@ public class PostEditController {
         } else {
             model.addAttribute("error", "no-post");
         }
-
-        return "edit_post";
+        return "post_edit";
     }
 
     @PostMapping(value="/update")
@@ -91,9 +90,6 @@ public class PostEditController {
         log.info(">>> update post : {}", post);
         postService.updatePost(post);
         log.info(">>> update professor : return to professor/list page");
-
-        // TODO : fix this
-        //return "redirect:/edit/";
         return "redirect:/posts/all";
     }
 
