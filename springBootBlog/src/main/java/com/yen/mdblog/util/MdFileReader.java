@@ -1,5 +1,6 @@
 package com.yen.mdblog.util;
 
+import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.ClassPathResource;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -7,8 +8,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+@Log4j2
 public class MdFileReader {
 
 	public static List<String> readLinesFromMdFile(String filename) {
@@ -36,8 +39,8 @@ public class MdFileReader {
 
 		String fileNameBeforeExtension = filename.split(".md")[0];
 		Long id = Long.parseLong(fileNameBeforeExtension.split("_")[0]);
-		System.out.println(">>> fileNameBeforeExtension = " + fileNameBeforeExtension);
-		System.out.println(">>> id = " + id);
+		log.info(">>> fileNameBeforeExtension = " + fileNameBeforeExtension);
+		log.info(">>> id = " + id);
 		return id;
 	}
 

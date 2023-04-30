@@ -22,7 +22,7 @@
             <h5 class="card-title" th:utext="${LoginRequest.userName}">Author</h5>
             <h6 class="card-subtitle mb-2" th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
             <p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
-            <a href="#" th:href="'/edit/' + ${post.id}" th:text="${'Edit'}" class="card-link">Edit</a>
+            <a href="#" th:href="'/posts/edit/' + ${post.id}" th:text="${'Edit'}" class="card-link">Edit</a>
         </div>
     </div>
 </div>
@@ -35,24 +35,24 @@
         <!--			<li th:if="${pageInfo.hasPreviousPage}">-->
         <!--				<a th:href="'/posts/all?page=0'">First</a>-->
         <!--			</li>-->
-        <a th:href="'/edit/pre_edit?page=0'">First</a>
+        <a th:href="'/posts/edit/pre_edit?page=0'">First</a>
         <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-            <a th:href="'/edit/pre_edit?pageNum='+${pageInfo.prePage}">
+            <a th:href="'/posts/edit/pre_edit?pageNum='+${pageInfo.prePage}">
                 <i class="ace-icon fa fa-angle-double-left"></i>
             </a>
         </li>
         <!--遍歷條數-->
         <li th:each="nav:${pageInfo.navigatepageNums}">
-            <a th:href="'/edit/pre_edit?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
+            <a th:href="'/posts/edit/pre_edit?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
             <span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} " th:text=" ${nav} "></span>
         </li>
         <li class="next" th:if="${pageInfo.hasNextPage}">
-            <a th:href="'/edit/pre_edit?pageNum='+${pageInfo.nextPage}">
+            <a th:href="'/posts/edit/pre_edit?pageNum='+${pageInfo.nextPage}">
                 <i class="ace-icon fa fa-angle-double-right"></i>
             </a>
         </li>
         <li>
-            <a th:href="'/edit/pre_edit?pageNum='+${pageInfo.pages}">Last</a>
+            <a th:href="'/posts/edit/pre_edit?pageNum='+${pageInfo.pages}">Last</a>
         </li>
     </ul>
 </div>

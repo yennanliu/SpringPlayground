@@ -3,7 +3,6 @@ package com.yen.mdblog.util;
 import org.jsoup.Jsoup;
 import org.jsoup.internal.StringUtil;
 import org.thymeleaf.util.StringUtils;
-
 import java.util.List;
 import java.util.Optional;
 

@@ -1,0 +1,96 @@
+package com.yen.mdblog.controller;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.yen.mdblog.constant.PageConst;
+import com.yen.mdblog.entity.Po.Post;
+import com.yen.mdblog.entity.Po.User;
+import com.yen.mdblog.entity.Vo.CreatePost;
+import com.yen.mdblog.entity.Vo.LoginRequest;
+import com.yen.mdblog.mapper.PostMapper;
+import com.yen.mdblog.repository.PostRepository;
+import com.yen.mdblog.service.PostService;
+import com.yen.mdblog.util.PostUtil;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+import java.util.Optional;
+
+@Controller
+@Log4j2
+@RequestMapping("/posts/edit")
+public class PostEditController {
+
+    @Autowired
+    PostService postService;
+
+    @Autowired
+    PostRepository postRepository;
+
+    @Autowired
+    PostMapper postMapper;
+
+    @GetMapping("/pre_edit")
+    public String prePost(Model model) {
+
+        log.info(">>> prePost start ...");
+        User user = new User();
+        PageInfo<Post> pageInfo = null;
+        List<Post> postList = null;
+        user.setUserName("admin"); // TODO: get it from session
+        if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
+            try{
+                // add blogs for editing blogs at admin-age
+                PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
+                postList = postMapper.getAllPosts();
+                pageInfo = new PageInfo<Post>(postList, PageConst.PAGE_SIZE.getSize());
+                model.addAttribute("pageInfo",pageInfo);
+            }finally {
+                PageHelper.clearPage();
+            }
+
+            // TODO : fix this from hardcode (get request from spring security login session/cookie)
+            LoginRequest request = new LoginRequest();
+            request.setUserName("admin");
+            model.addAttribute("posts", postList);
+            model.addAttribute("LoginRequest", request);
+        }
+        return "post_pre_edit";
+    }
+
+    @GetMapping("/")
+    public String EditPost(Model model) {
+        model.addAttribute("CreatePost", new CreatePost());
+        return "post_edit";
+    }
+
+    @GetMapping("/{id}")
+    public String getPostById(@PathVariable long id, Model model) {
+        Optional<Post> postOptional = postRepository.findById(id);
+
+        if (postOptional.isPresent()) {
+            model.addAttribute("post", postOptional.get());
+        } else {
+            model.addAttribute("error", "no-post");
+        }
+        return "post_edit";
+    }
+
+    @PostMapping(value="/update")
+    public String update(Post post) {
+
+        post.setSynopsis(PostUtil.getSynopsis(post.getContent()));
+        log.info(">>> update post : {}", post);
+        postService.updatePost(post);
+        log.info(">>> update professor : return to professor/list page");
+        return "redirect:/posts/all";
+    }
+
+}

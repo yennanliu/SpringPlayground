@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>This is the title of the Spring Boot POC!</title>
+</head>
+<body>
+<div th:insert="header"></div>
+<h1 align="center">Edit Post</h1>
+<hr/>
+<div class="d-flex justify-content-center" style="margin: 10px;">
+    <div th:if="${error}" class="alert alert-danger" role="alert">
+        Sorry, the post you requested doesn't exist!
+    </div>
+</div>
+<form th:action="@{/posts/edit/update}" method="post"  enctype="multipart/form-data" th:object="${post}">
+    <input type="hidden" name="id" th:value="*{id}" />
+    <div>
+        <span>Post ID: [[${id}]]</span>
+    </div>
+    <div>
+        <span>Title:</span>
+        <input type="text" name="title" th:value="*{title}" >
+    </div>
+    <div>
+        <span>Content:</span>
+        <textarea name="content" rows="6" cols="60">[[${post.content}]]</textarea>
+    </div>
+    <div>
+        <input type="submit" value="Submit"/>
+    </div>
+</form>
+</body>
+</html>

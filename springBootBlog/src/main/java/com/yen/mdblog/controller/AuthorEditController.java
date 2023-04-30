@@ -3,14 +3,13 @@ package com.yen.mdblog.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.constant.PageConst;
-import com.yen.mdblog.entity.Po.Post;
+import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.entity.Po.User;
-import com.yen.mdblog.entity.Vo.CreatePost;
+import com.yen.mdblog.entity.Vo.CreateAuthor;
 import com.yen.mdblog.entity.Vo.LoginRequest;
-import com.yen.mdblog.mapper.PostMapper;
-import com.yen.mdblog.repository.PostRepository;
-import com.yen.mdblog.service.PostService;
-import com.yen.mdblog.util.PostUtil;
+import com.yen.mdblog.repository.AuthorRepository;
+import com.yen.mdblog.service.AuthorService;
+import com.yen.mdblog.util.DataUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,33 +24,30 @@ import java.util.Optional;
 
 @Controller
 @Log4j2
-@RequestMapping("/edit")
-public class EditController {
+@RequestMapping("/author/edit")
+public class AuthorEditController {
 
     @Autowired
-    PostService postService;
+    AuthorRepository authorRepository;
 
     @Autowired
-    PostRepository postRepository;
-
-    @Autowired
-    PostMapper postMapper;
+    AuthorService authorService;
 
     @GetMapping("/pre_edit")
-    public String prePost(Model model) {
+    public String preEdit(Model model) {
 
-        log.info(">>> prePost start ...");
+        log.info(">>> (Author) prePost start ...");
         User user = new User();
-        PageInfo<Post> pageInfo = null;
-        List<Post> postList = null;
+        PageInfo<Author> pageInfo = null;
+        List <Author> authorList = null;
         user.setUserName("admin"); // TODO: get it from session
         if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
             try{
                 // add blogs for editing blogs at admin-age
                 PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
-                postList = postMapper.getAllPosts();
-                pageInfo = new PageInfo<Post>(postList, PageConst.PAGE_SIZE.getSize());
-                model.addAttribute("pageInfo",pageInfo);
+                authorList = DataUtil.iterable2List(authorRepository.findAll());
+                pageInfo = new PageInfo<Author>(authorList, PageConst.PAGE_SIZE.getSize());
+                model.addAttribute("pageInfo", pageInfo);
             }finally {
                 PageHelper.clearPage();
             }
@@ -59,42 +55,36 @@ public class EditController {
             // TODO : fix this from hardcode (get request from spring security login session/cookie)
             LoginRequest request = new LoginRequest();
             request.setUserName("admin");
-            model.addAttribute("posts", postList);
+            model.addAttribute("authors", authorList);
             model.addAttribute("LoginRequest", request);
         }
-        return "login_success";
+        return "author_pre_edit";
     }
 
     @GetMapping("/")
-    public String EditPost(Model model) {
-        model.addAttribute("CreatePost", new CreatePost());
-        return "edit_post";
+    public String EditAuthor(Model model) {
+        model.addAttribute("CreateAuthor", new CreateAuthor());
+        return "author_pre_edit";
     }
 
     @GetMapping("/{id}")
-    public String getPostById(@PathVariable long id, Model model) {
-        Optional<Post> postOptional = postRepository.findById(id);
+    public String getAuthorById(@PathVariable long id, Model model) {
+        Optional<Author> authorOptional = authorRepository.findById(id);
 
-        if (postOptional.isPresent()) {
-            model.addAttribute("post", postOptional.get());
+        if (authorOptional.isPresent()) {
+            model.addAttribute("author", authorOptional.get());
         } else {
             model.addAttribute("error", "no-post");
         }
-
-        return "edit_post";
+        return "author_edit";
     }
 
     @PostMapping(value="/update")
-    public String update(Post post) {
+    public String updateAuthor(Author author) {
 
-        post.setSynopsis(PostUtil.getSynopsis(post.getContent()));
-        log.info(">>> update post : {}", post);
-        postService.updatePost(post);
-        log.info(">>> update professor : return to professor/list page");
-
-        // TODO : fix this
-        //return "redirect:/edit/";
-        return "redirect:/posts/all";
+        log.info(">>> update author : {}", author);
+        authorService.updateAuthor(author);
+        return "redirect:/author/all";
     }
 
 }

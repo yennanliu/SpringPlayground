@@ -65,14 +65,14 @@ public class PostController {
 		if(pageNum <= 0){
 			pageNum = 0;
 		}
-		System.out.println("當前頁是："+pageNum+"顯示條數是："+pageSize);
+		log.info("當前頁是："+pageNum+"顯示條數是："+pageSize);
 		//1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
 		PageHelper.startPage(pageNum, pageSize);
 		//2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
 		try {
 			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
 			List<Post> postList = postMapper.getAllPosts();//service查詢所有的資料的介面
-			System.out.println(">>> 分頁資料：" + postList.get(0).toString());
+			log.info(">>> 分頁資料：" + postList.get(0).toString());
 			//3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list型別是Page<E>
 			pageInfo = new PageInfo<Post>(postList, pageSize);
 			//4.使用model/map/modelandview等帶回前端
@@ -81,7 +81,7 @@ public class PostController {
 			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
 		}
 
-		System.out.println(">>> all posts count = " + posts.size());
+		log.info(">>> all posts count = " + posts.size());
 		model.addAttribute("posts", posts);
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		return "posts";
