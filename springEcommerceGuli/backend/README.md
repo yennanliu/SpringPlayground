@@ -77,7 +77,8 @@ docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elas
 #docker run -p 5601:5601 -e ELASTICSEARCH_HOSTS=http://localhost:9200/ --name= kibana:8.7.0
 ```
 - Note :
-    - there is issue run ES and kibana together on Macbook M1, so here I only run ES 7.10.2 docker and use it via REST API (postman) 
+    - there is issue run ES and kibana together on Macbook M1, so here I only run ES 7.10.2 docker and use it via REST API (postman)
+        - [ES REST cmd](https://github.com/yennanliu/utility_shell/blob/master/elk/elasticsearch/REST_command.sh)
 - http://localhost:9200/
 - http://localhost:5601/
 
