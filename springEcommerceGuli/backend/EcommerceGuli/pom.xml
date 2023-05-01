@@ -26,11 +26,12 @@
 		: https://youtu.be/QHlsp1M2QTo?t=271
 		-->
 		<module>renren-fast</module>
+		<module>gulimall-search</module>
 		<!--
 		auto generate pojo, ... java class
 		https://youtu.be/4x_BBrmNhWE?t=58
 		-->
-		<module>renren-generator</module>
+		<!-- <module>renren-generator</module> -->
 	</modules>
 
 </project>
