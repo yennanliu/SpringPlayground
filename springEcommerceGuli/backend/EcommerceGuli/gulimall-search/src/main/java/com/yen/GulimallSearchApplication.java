@@ -13,8 +13,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class, DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class}) // ignore mysql data source : https://stackoverflow.com/questions/36387265/disable-all-database-related-auto-configuration-in-spring-boot
 //@EnableFeignClients(basePackages = "com.yen.gulimall.product.feign")
-//@EnableDiscoveryClient
-//@MapperScan("com.yen.gulimall.product.dao")
+@EnableDiscoveryClient
+//@MapperScan("com.yen.gulimall.search.dao")
 @SpringBootApplication
 public class GulimallSearchApplication {
 
