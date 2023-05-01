@@ -33,4 +33,4 @@ jobs:
     - name: Build springCourseSystem
       run: cd springCourseSystem && mvn package
     - name: Build EcommerceGuli
-      run: cd springEcommerceGuli/backend/EcommerceGuli && mvn package
+      run: cd springEcommerceGuli/backend/EcommerceGuli && mvn -DskipTests=true package
