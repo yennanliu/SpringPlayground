@@ -5,8 +5,10 @@ import junit.framework.TestCase;
 import lombok.Data;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +53,21 @@ public class ElasticConfigTest extends TestCase {
         // run op
         IndexResponse indexResp = client.index(indexRequest, ElasticConfig.COMMON_OPTIONS);
         System.out.println(">>> IndexResponse = " + indexResp.toString());
+    }
+
+    // https://youtu.be/Rx8VJAL78QY?t=7
+    @Test
+    public void testQueryES(){
+
+        String index = "myindex3";
+
+        // step 1) create query request
+        SearchRequest searchRequest = new SearchRequest();
+        // query which index
+        searchRequest.indices(index);
+        // search condition
+        SearchSourceBuilder builder = new SearchSourceBuilder();
+        searchRequest.source(builder);
     }
 
 
