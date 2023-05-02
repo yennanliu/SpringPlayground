@@ -4,6 +4,7 @@ package com.yen.gulimall.search.config;
 // https://youtu.be/EIymTNQn8XE?t=770
 
 import org.apache.http.HttpHost;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.boot.SpringBootConfiguration;
@@ -17,6 +18,13 @@ import org.springframework.context.annotation.Bean;
 @SpringBootConfiguration
 public class ElasticConfig {
 
+    // https://youtu.be/YXSti7iDv8Y?t=96
+    public static final RequestOptions COMMON_OPTIONS;
+    static {
+        RequestOptions.Builder builder = RequestOptions.DEFAULT.toBuilder();
+        COMMON_OPTIONS = builder.build();
+    }
+
     @Bean
     public RestHighLevelClient esClient() {
 
@@ -27,4 +35,5 @@ public class ElasticConfig {
         );
         return restHighLevelClient;
     }
+
 }
