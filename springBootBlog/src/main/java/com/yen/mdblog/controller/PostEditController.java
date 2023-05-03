@@ -13,13 +13,14 @@ import com.yen.mdblog.service.PostService;
 import com.yen.mdblog.util.PostUtil;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,19 +38,30 @@ public class PostEditController {
     @Autowired
     PostMapper postMapper;
 
+    private final int PAGINATIONSIZE = 3;
+
     @GetMapping("/pre_edit")
-    public String prePost(Model model) {
+    public String prePost(@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+                          @RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+                          Model model) {
 
         log.info(">>> prePost start ...");
         User user = new User();
         PageInfo<Post> pageInfo = null;
         List<Post> postList = null;
+        List<Post> posts = null;
         user.setUserName("admin"); // TODO: get it from session
         if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
             try{
                 // add blogs for editing blogs at admin-age
-                PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
+                Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
+                PageHelper.startPage(pageNum, pageSize);
+                Page<Post> postsPage = postRepository.findAll(pageRequest);
+                posts = postsPage.toList();
                 postList = postMapper.getAllPosts();
+//                PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
+//                postList = postMapper.getAllPosts();
+                PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
                 pageInfo = new PageInfo<Post>(postList, PageConst.PAGE_SIZE.getSize());
                 model.addAttribute("pageInfo",pageInfo);
             }finally {
@@ -59,7 +71,7 @@ public class PostEditController {
             // TODO : fix this from hardcode (get request from spring security login session/cookie)
             LoginRequest request = new LoginRequest();
             request.setUserName("admin");
-            model.addAttribute("posts", postList);
+            model.addAttribute("posts", posts);
             model.addAttribute("LoginRequest", request);
         }
         return "post_pre_edit";
