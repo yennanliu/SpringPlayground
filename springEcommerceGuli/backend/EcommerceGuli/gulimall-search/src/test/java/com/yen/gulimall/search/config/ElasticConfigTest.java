@@ -6,8 +6,15 @@ import lombok.Data;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.rest.RestStatus;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -46,7 +53,7 @@ public class ElasticConfigTest extends TestCase {
 //                       "gender", "m", XContentType.JSON);
 
         // approach 2) use json string from bean (user defined class)
-        User user = new User("LIZ", 26);
+        User user = new User("JOLIN", 26);
         String userJsonStr = JSON.toJSONString(user);
         indexRequest.source(userJsonStr, XContentType.JSON); // data saved to ES
 
@@ -57,7 +64,7 @@ public class ElasticConfigTest extends TestCase {
 
     // https://youtu.be/Rx8VJAL78QY?t=7
     @Test
-    public void testQueryES(){
+    public void testQueryES() throws IOException {
 
         String index = "myindex3";
 
@@ -66,8 +73,36 @@ public class ElasticConfigTest extends TestCase {
         // query which index
         searchRequest.indices(index);
         // search condition
-        SearchSourceBuilder builder = new SearchSourceBuilder();
-        searchRequest.source(builder);
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        // construct search conditions
+        // https://youtu.be/Rx8VJAL78QY?t=443
+//        searchSourceBuilder.query();
+//        searchSourceBuilder.from();
+//        searchSourceBuilder.size();
+//        searchSourceBuilder.aggregation();
+        searchSourceBuilder.query(
+                QueryBuilders.matchQuery("age", "26")
+        );
+        System.out.println(">>> searchSourceBuilder = " + searchSourceBuilder);
+
+        searchRequest.source(searchSourceBuilder);
+        // construct search conditions
+
+
+
+        // step 2) run query
+        // https://youtu.be/Rx8VJAL78QY?t=206
+        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+
+
+        System.out.println(">>> searchResponse = " + searchResponse);
+
+        // step 3) analyze result
+        RestStatus status = searchResponse.status();
+        SearchHits hits = searchResponse.getHits();
+        SearchHit[] hits1 = hits.getHits();
+
+
     }
 
 
