@@ -15,6 +15,7 @@ import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.aggregations.AggregationBuilders;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,9 +81,16 @@ public class ElasticConfigTest extends TestCase {
 //        searchSourceBuilder.from();
 //        searchSourceBuilder.size();
 //        searchSourceBuilder.aggregation();
+
+        // query 1
         searchSourceBuilder.query(
                 QueryBuilders.matchQuery("age", "26")
         );
+
+        // query 2
+        // https://youtu.be/Rx8VJAL78QY?t=863
+        //AggregationBuilders.terms("")
+
         System.out.println(">>> searchSourceBuilder = " + searchSourceBuilder);
 
         searchRequest.source(searchSourceBuilder);
@@ -93,14 +101,19 @@ public class ElasticConfigTest extends TestCase {
         // step 2) run query
         // https://youtu.be/Rx8VJAL78QY?t=206
         SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
-
-
         System.out.println(">>> searchResponse = " + searchResponse);
 
         // step 3) analyze result
         RestStatus status = searchResponse.status();
         SearchHits hits = searchResponse.getHits();
         SearchHit[] hits1 = hits.getHits();
+        // get data in index
+        for (SearchHit hit: hits1){
+            System.out.println(hit);
+            System.out.println(hit.getIndex());
+            System.out.println(hit.getId());
+            System.out.println(hit.getSourceAsMap());
+        }
 
 
     }
