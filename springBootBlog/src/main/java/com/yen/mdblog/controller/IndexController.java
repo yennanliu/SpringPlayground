@@ -15,7 +15,6 @@ public class IndexController {
     public ModelAndView index(ModelMap model){
 
         model.addAttribute("attribute", "redirectWithXMLConfig");
-        //return "";
         return new ModelAndView("redirect:/posts/all", model);
     }
 
