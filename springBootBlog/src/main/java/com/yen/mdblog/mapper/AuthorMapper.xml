@@ -22,14 +22,14 @@
 
     <!-- public void insertAuthor(Author author); -->
     <insert id="insertAuthor">
-        INSERT INTO authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)
-        values(#{id}, #{email},  #{name}, #{url}, #{createTime}, #{updateTime})
+        INSERT INTO authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`, `profile_pic`)
+        values(#{id}, #{email},  #{name}, #{url}, #{createTime}, #{updateTime}, #{profilePic})
     </insert>
 
     <!-- public void updateAuthor(Author author); -->
     <update id="updateAuthor">
         UPDATE authors
-        SET name = #{name}, email = #{email}, course_textbook_pic = #{courseTextbookPic}
+        SET name = #{name}, email = #{email}, profile_pic = #{profilePic}
         WHERE id = #{id}
     </update>
 

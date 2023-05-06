@@ -12,4 +12,5 @@ public class CreateAuthor {
     private long id;
     private String name;
     private String email;
+    private byte[] profilePic;
 }

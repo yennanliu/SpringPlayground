@@ -8,9 +8,15 @@
     <hr/>
 </head>
 <body>
-<form action="#" th:action="@{/register/create}" th:object="${CreateAuthor}" method="post" align="center">
+<!--<form action="#" th:action="@{/register/create}" th:object="${CreateAuthor}" method="post" align="center">-->
+<form action="#" th:action="@{/register/create}" method="post"  align="center" enctype="multipart/form-data" th:object="${CreateAuthor}">
+
     <p>User name: <input type="text" th:field="*{name}" required minlength="1" /></p>
     <p>Email: <input type="text" th:field="*{email}" required minlength="1" /></p>
+    <div>
+        <span>Profile pic:</span>
+        <input id="profilePic" type="file" name="profilePic" size="40" />
+    </div>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 </body>

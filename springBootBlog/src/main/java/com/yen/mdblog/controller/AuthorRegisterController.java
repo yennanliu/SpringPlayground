@@ -7,9 +7,9 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;;import java.util.Date;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+;import java.util.Date;
 
 @Controller
 @RequestMapping("/register")
@@ -25,18 +25,22 @@ public class AuthorRegisterController {
         return "register";
     }
 
-    @RequestMapping(value="/create", method= RequestMethod.POST)
-    public String createUser(CreateAuthor request){
+    @PostMapping(value="/create")
+    public String createUser(@RequestParam("profilePic") MultipartFile file, CreateAuthor request){
 
         log.info(">>> create new user start ...");
         try{
             Author author = new Author();
             String name = request.getName();
             String email = request.getEmail();
+
             int id = authorMapper.getAuthorCount() + 1;
             author.setId(id);
             author.setName(name);
             author.setEmail(email);
+            if (file != null){
+                author.setProfilePic(file.getBytes());
+            }
             author.setCreateTime(new Date());
             author.setUpdateTime(new Date());
             System.out.println(">>> author = " + author.toString());
