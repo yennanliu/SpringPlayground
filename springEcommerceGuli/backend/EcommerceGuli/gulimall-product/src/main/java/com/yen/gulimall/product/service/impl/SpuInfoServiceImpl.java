@@ -13,10 +13,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -252,6 +249,22 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         List<SkuInfoEntity> skus =  skuInfoService.getSkusBySpuId(spuId);
 
         // TODO : get all sku attr which can be accessed
+        List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListForSpu(spuId);
+        List<Long> attrIds = baseAttrs.stream().map(attr -> {
+            return attr.getAttrId();
+        }).collect(Collectors.toList());
+
+        List<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);
+        Set<Long> idSet = new HashSet<>(searchAttrIds); // transform to Set, for below filter
+
+        List<SkuEsModel.Attrs> attrsList = baseAttrs.stream().filter(item -> {
+            Long attrId = item.getAttrId();
+            return idSet.contains(attrId);
+        }).map(item -> {
+            SkuEsModel.Attrs attrs1 = new SkuEsModel.Attrs();
+            BeanUtils.copyProperties(item, attrs1);
+            return attrs1;
+        }).collect(Collectors.toList());
 
         // step 2) setup attr value in every sku
         List<SkuEsModel> upProducts = skus.stream().map(sku -> {
@@ -262,6 +275,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             esModel.setSkuImg(sku.getSkuDefaultImg());
             // TODO : make feign remote call, to check if such sku has stock
             // TODO : add default value to hotScore
+            esModel.setHotScore(0L);
             // get brand, category name
             BrandEntity brand = brandService.getById(esModel.getBrandId());
             esModel.setBrandName(brand.getName());
@@ -269,8 +283,13 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             CategoryEntity category = categoryService.getById(esModel.getCatelogId());
             esModel.setCatelogName(category.getName());
 
+            // set search attr
+            esModel.setAttrs(attrsList);
+
             return esModel;
         }).collect(Collectors.toList());
+
+
 
         // TODO : save data to ES
     }

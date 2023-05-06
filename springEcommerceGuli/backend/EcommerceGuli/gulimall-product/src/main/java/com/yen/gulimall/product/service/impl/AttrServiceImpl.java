@@ -297,4 +297,14 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         return pageUtils;
     }
 
+    /**
+     *  get all search attr from attrIds
+     *      https://youtu.be/hnWlIHW1J0I?t=202
+     */
+    @Override
+    public List<Long> selectSearchAttrIds(List<Long> attrIds) {
+
+        return baseMapper.selectSearchAttrIds(attrIds);
+    }
+
 }
