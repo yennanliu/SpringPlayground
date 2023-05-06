@@ -27,6 +27,9 @@ public class Author {
 	private String url;
 
 	@Column
+	private byte[] courseTextbookPic;
+
+	@Column
 	private Date createTime;
 
 	@Column

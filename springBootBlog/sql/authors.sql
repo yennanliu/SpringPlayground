@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS blog_db.authors (
     name VARCHAR(30),
     email VARCHAR(30),
     url VARCHAR(30),
+    course_textbook_pic mediumblob,
     create_time datetime,
     update_time datetime
 );

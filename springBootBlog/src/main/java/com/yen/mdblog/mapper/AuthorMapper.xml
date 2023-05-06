@@ -29,7 +29,7 @@
     <!-- public void updateAuthor(Author author); -->
     <update id="updateAuthor">
         UPDATE authors
-        SET name = #{name}, email = #{email}
+        SET name = #{name}, email = #{email}, course_textbook_pic = #{courseTextbookPic}
         WHERE id = #{id}
     </update>
 

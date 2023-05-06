@@ -15,10 +15,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,5 +86,29 @@ public class AuthorEditController {
         authorService.updateAuthor(author);
         return "redirect:/author/all";
     }
+
+    // https://blog.csdn.net/qq_41604890/article/details/114553632
+    // https://github.com/yennanliu/JavaHelloWorld/blob/main/src/main/java/dev/ParseCSVTest.java
+//    @PostMapping("/upload_pic")
+//    public String uploadPic(@RequestParam("file") MultipartFile file){
+//
+//        System.out.println(">>> upload_pic start");
+//
+//        // pic name
+//        String fileName = file.getOriginalFilename();
+//        // path save pic
+//        ClassLoader classLoader = getClass().getClassLoader();
+//        String filePath = "/images";
+//        try{
+//            File toUploadFile = new File(classLoader.getResource(filePath + fileName).getFile());
+//            file.transferTo(toUploadFile);
+//            return "Upload pic OK";
+//        }catch (Exception e){
+//            log.error("Upload pic failed : " + e);
+//            e.printStackTrace();
+//            return "Upload pic failed";
+//        }
+//
+//    }
 
 }
