@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
-import com.yen.gulimall.ware.vo.SkuHasStockVo;
+import com.yen.gulimall.common.vo.SkuHasStockVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.yen.gulimall.ware.entity.WareSkuEntity;
@@ -34,10 +34,12 @@ public class WareSkuController {
      *  - https://youtu.be/JRPBm5sK4Gg?t=55
      */
     @PostMapping("/hasStock")
-    public R getSkuHasStock(@RequestBody List<Long> skuIds){
+    public R<List<SkuHasStockVo>> getSkuHasStock(@RequestBody List<Long> skuIds){
 
         List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
-        return R.ok().put("vos", vos);
+        R<List<SkuHasStockVo>> ok = R.ok();
+        ok.setData(vos);
+        return ok;
     }
 
     /**

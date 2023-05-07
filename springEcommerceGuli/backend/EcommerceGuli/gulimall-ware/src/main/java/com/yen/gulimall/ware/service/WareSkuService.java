@@ -3,8 +3,8 @@ package com.yen.gulimall.ware.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 //import com.yen.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.PageUtils;
+import com.yen.gulimall.common.vo.SkuHasStockVo;
 import com.yen.gulimall.ware.entity.WareSkuEntity;
-import com.yen.gulimall.ware.vo.SkuHasStockVo;
 
 import java.util.List;
 import java.util.Map;
