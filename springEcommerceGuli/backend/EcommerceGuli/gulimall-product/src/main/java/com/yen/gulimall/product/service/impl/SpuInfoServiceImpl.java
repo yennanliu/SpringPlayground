@@ -4,6 +4,7 @@ import com.yen.gulimall.common.to.SkuReductionTo;
 import com.yen.gulimall.common.to.SpuBoundTo;
 import com.yen.gulimall.common.to.es.SkuEsModel;
 import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.common.vo.SkuHasStockVo;
 import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.feign.CouponFeignService;
 import com.yen.gulimall.product.feign.WareFeignService;
@@ -261,9 +262,17 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attr.getAttrId();
         }).collect(Collectors.toList());
 
-        // TODO : make feign remote call, to check if such sku has stock
-        R skuHasStock = wareFeignService.getSkuHasStock(skuIdList);
-
+        // make feign remote call, to check if such sku has stock
+        Map<Long, Boolean> stockMap = null;
+        try{
+            R<List<SkuHasStockVo>> skuHasStock = wareFeignService.getSkuHasStock(skuIdList);
+            // transform List<SkuHasStockVo> to Map<Long, Boolean>, so we can get its Map value by its key
+            stockMap = skuHasStock.getData().stream().collect(
+                    Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock())
+            );
+        }catch (Exception e){
+            log.error("Ware feign call failed. Exception : {}" + e);
+        }
 
         List<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);
         Set<Long> idSet = new HashSet<>(searchAttrIds); // transform to Set, for below filter
@@ -278,15 +287,23 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }).collect(Collectors.toList());
 
         // step 2) setup attr value in every sku
+        Map<Long, Boolean> finalStockMap = stockMap;
         List<SkuEsModel> upProducts = skus.stream().map(sku -> {
             SkuEsModel esModel = new SkuEsModel();
             BeanUtils.copyProperties(sku, esModel);
             // manually setup attr has different name in SkuInfoEntity, SkuEsModel
             esModel.setSkuPrice(sku.getPrice());
             esModel.setSkuImg(sku.getSkuDefaultImg());
-            esModel.setHasStock(false);
+
+            if (finalStockMap == null){
+                esModel.setHasStock(true);
+            }else{
+                esModel.setHasStock(finalStockMap.get(sku.getSkuId()));
+            }
+
             // TODO : add default value to hotScore
             esModel.setHotScore(0L);
+
             // get brand, category name
             BrandEntity brand = brandService.getById(esModel.getBrandId());
             esModel.setBrandName(brand.getName());
@@ -299,8 +316,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
             return esModel;
         }).collect(Collectors.toList());
-
-
 
         // TODO : save data to ES
     }
