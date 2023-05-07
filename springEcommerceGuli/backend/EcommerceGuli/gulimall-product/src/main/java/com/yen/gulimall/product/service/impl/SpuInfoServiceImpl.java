@@ -274,6 +274,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             esModel.setSkuPrice(sku.getPrice());
             esModel.setSkuImg(sku.getSkuDefaultImg());
             // TODO : make feign remote call, to check if such sku has stock
+            esModel.setHasStock(false);
             // TODO : add default value to hotScore
             esModel.setHotScore(0L);
             // get brand, category name
