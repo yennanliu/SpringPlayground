@@ -7,11 +7,8 @@
  */
 
 package com.yen.gulimall.common.utils;
-
 import org.apache.http.HttpStatus;
-
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,9 +16,22 @@ import java.util.Map;
  *
  * @author Mark sunlightcs@gmail.com
  */
-public class R extends HashMap<String, Object> {
+public class R<T> extends HashMap<String, Object> {
+
 	private static final long serialVersionUID = 1L;
-	
+
+	// R generic type
+	// https://youtu.be/JRPBm5sK4Gg?t=733
+	private T data;
+
+	public T getData(){
+		return data;
+	}
+
+	public void setData(T data){
+		this.data = data;
+	}
+
 	public R() {
 		put("code", 0);
 		put("msg", "success");
@@ -58,7 +68,6 @@ public class R extends HashMap<String, Object> {
 		return new R();
 	}
 
-
     public R put(String key, Object value) {
 		super.put(key, value);
 		return this;
@@ -70,4 +79,5 @@ public class R extends HashMap<String, Object> {
 
 		return (Integer) this.get("code");
 	}
+
 }

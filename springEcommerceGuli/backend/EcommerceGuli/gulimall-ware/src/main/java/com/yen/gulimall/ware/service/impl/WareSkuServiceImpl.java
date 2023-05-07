@@ -1,8 +1,8 @@
 package com.yen.gulimall.ware.service.impl;
 
 import com.yen.gulimall.common.utils.R;
+import com.yen.gulimall.common.vo.SkuHasStockVo;
 import com.yen.gulimall.ware.feign.ProductFeignService;
-import com.yen.gulimall.ware.vo.SkuHasStockVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
