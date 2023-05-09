@@ -318,6 +318,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }).collect(Collectors.toList());
 
         // TODO : save data to ES
+        // https://youtu.be/PZW2rOit2s8?t=9
     }
 
 }
