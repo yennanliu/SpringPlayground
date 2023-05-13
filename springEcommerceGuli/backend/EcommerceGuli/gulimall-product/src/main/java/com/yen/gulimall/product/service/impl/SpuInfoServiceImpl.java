@@ -312,6 +312,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             // TODO : add default value to hotScore
             esModel.setHotScore(0L);
 
+            System.out.println(">>> esModel = " + esModel);
+
             // get brand, category name
             BrandEntity brand = brandService.getById(esModel.getBrandId());
             esModel.setBrandName(brand.getName());

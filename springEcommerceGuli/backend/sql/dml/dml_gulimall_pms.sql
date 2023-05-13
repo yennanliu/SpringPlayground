@@ -64,3 +64,25 @@ VALUES
 (1, 1, 1, 'size'),
 (2, 1, 2, 'length'),
 (3, 1, 3, 'price');
+
+
+-- create table pms_category
+-- (
+--    cat_id               bigint not null auto_increment comment '分类id',
+--    name                 char(50) comment '分类名称',
+--    parent_cid           bigint comment '父分类id',
+--    cat_level            int comment '层级',
+--    show_status          tinyint comment '是否显示[0-不显示，1显示]',
+--    sort                 int comment '排序',
+--    icon                 char(255) comment '图标地址',
+--    product_unit         char(50) comment '计量单位',
+--    product_count        int comment '商品数量',
+--    primary key (cat_id)
+-- );
+
+
+-- INSERT INTO pms_category (cat_id, name, show_status, product_unit, product_count)
+-- VALUES
+-- (1, 'category_1', 1, 'count', 100),
+-- (2, 'category_2', 1, 'count', 100),
+-- (3, 'category_3', 1, 'count', 100);
