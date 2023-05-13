@@ -18,5 +18,14 @@
         <result property="saleCount" column="sale_count"/>
     </resultMap>
 
+    <!--
+    void updateSpuStatus(Long spuId, int code);
+    https://youtu.be/PZW2rOit2s8?t=1161
+    -->
+    <update id="updateSpuStatus">
+        UPDATE `pms_spu_info`
+        SET publish_status = #{code}, update_time = NOW()
+        WHERE id = #{spu_id}
+    </update>
 
 </mapper>
