@@ -1,5 +1,7 @@
 package com.yen.gulimall.product.service.impl;
 
+import com.yen.gulimall.common.constant.ProductConstant;
+import com.yen.gulimall.common.constant.ProductStatus;
 import com.yen.gulimall.common.to.SkuReductionTo;
 import com.yen.gulimall.common.to.SpuBoundTo;
 import com.yen.gulimall.common.to.es.SkuEsModel;
@@ -7,6 +9,7 @@ import com.yen.gulimall.common.utils.R;
 import com.yen.gulimall.common.vo.SkuHasStockVo;
 import com.yen.gulimall.product.entity.*;
 import com.yen.gulimall.product.feign.CouponFeignService;
+import com.yen.gulimall.product.feign.SearchFeignService;
 import com.yen.gulimall.product.feign.WareFeignService;
 import com.yen.gulimall.product.service.*;
 import com.yen.gulimall.product.vo.*;
@@ -62,6 +65,9 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     @Autowired
     WareFeignService wareFeignService; // feign client call ware service controller
 
+
+    @Autowired
+    SearchFeignService searchFeignService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -317,8 +323,19 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return esModel;
         }).collect(Collectors.toList());
 
-        // TODO : save data to ES
+        // save data to ES
         // https://youtu.be/PZW2rOit2s8?t=9
+        // https://youtu.be/PZW2rOit2s8?t=912
+        R r = searchFeignService.productStatusUp(upProducts);
+        if (r.getCode() == 0){
+            // feign call success
+            // update SPU status in DB
+            baseMapper.updateSpuStatus(spuId, ProductStatus.AttrEnum.SPU_UP.getCode());
+        }else{
+            // feign call fail
+            // TODO : endpoint idempotence (接口冪等性), result should be the same if endpoint called several times
+            log.error("(SpuInfoServiceImpl) feign call failed");
+        }
     }
 
 }
