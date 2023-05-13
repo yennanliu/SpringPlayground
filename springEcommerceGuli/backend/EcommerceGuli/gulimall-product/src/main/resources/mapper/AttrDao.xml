@@ -24,7 +24,7 @@
         SELECT attr_id FROM `pms_attr`
         WHERE attr_id IN
         <foreach collection="attrIds" item="id" separator="," open="(" close=")">
-            #{id}
+            #{attrIds}
         </foreach>
         AND search_type = 1
     </select>

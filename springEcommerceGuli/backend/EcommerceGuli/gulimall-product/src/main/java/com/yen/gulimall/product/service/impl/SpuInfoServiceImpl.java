@@ -262,6 +262,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return sku.getSkuId();
         }).collect(Collectors.toList());
 
+        log.debug(">>> skuIdList =" + skuIdList + " size = " + skuIdList.size());
+
         // TODO : get all sku attr which can be accessed
         List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListForSpu(spuId);
         List<Long> attrIds = baseAttrs.stream().map(attr -> {
