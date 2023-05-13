@@ -51,7 +51,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
         List<String> collect = Arrays.stream(bulk.getItems()).map(item -> {
             return item.getId();
         }).collect(Collectors.toList());
-        log.error("product on shelf error : id = {}", collect);
+        log.error("Product on shelf error : id = {}", collect);
         return status;
 
         // Step 3)
