@@ -14,7 +14,13 @@ subl .zshrc
 
 # Step 3) Add below lines to .zshrc
 export NVM_DIR=~/.nvm
+# always run it
 source $(brew --prefix nvm)/nvm.sh
+
+#-------------------------------------------------------------------------------
+# IMPORTANT!!! :if CLI can't see nvm, need to run source cmd again : 
+source $(brew --prefix nvm)/nvm.sh
+#-------------------------------------------------------------------------------
 
 # Step 4) Install node via nvm
 # show all versions
@@ -36,9 +42,9 @@ cd renren-fast-vue
 # Step 6) Install dep
 npm install chromedriver
 
-npm install
-
 npm install node-sass
+
+npm install
 
 # Step 7) Start FE app
 npm run dev
