@@ -1,6 +1,7 @@
 # Frontend
 
 ## Install
+
 - For Macbook M1, please check below steps (VS Code for renren-fast-vue):
 - NOTE : use node with version  `v10.16.3`
 	- https://blog.csdn.net/MRX001/article/details/122257729
@@ -47,16 +48,19 @@ npm install chromedriver
 npm install node-sass
 
 npm install
+```
 
-# Step 7) Start FE app
+## Run
+
+```bash
+# Run FE app
 npm run dev
 
 # visit http://localhost:8001/#/login
 ```
 
-## Run
-
 ## File Structure
+
 ```
 ├── README.md
 ├── build
@@ -74,7 +78,10 @@ npm run dev
 ```
 
 ## Ref
+
 - FE src code ref:
 	- https://github.com/yennanliu/SpringPlayground/tree/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/%E5%89%8D%E7%AB%AF/modules
+- Init video
+	- https://youtu.be/QngyGaQXxz4
 - Install issues and workaound for renren-fast-vue project on Macbook M1
 	- https://blog.csdn.net/MRX001/article/details/122257729

@@ -29,8 +29,8 @@ window.SITE_CONFIG['storeState'] = cloneDeep(store.state)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
+  router: router,
   store,
   template: '<App/>',
-  components: { App }
+  components: { App: App }
 })
