@@ -14,12 +14,14 @@ subl .zshrc
 
 # Step 3) Add below lines to .zshrc
 export NVM_DIR=~/.nvm
-# always run it
 source $(brew --prefix nvm)/nvm.sh
+
+# then source it
+source .zshrc
 
 #-------------------------------------------------------------------------------
 # IMPORTANT!!! :if CLI can't see nvm, need to run source cmd again : 
-source $(brew --prefix nvm)/nvm.sh
+source .zshrc
 #-------------------------------------------------------------------------------
 
 # Step 4) Install node via nvm
@@ -52,9 +54,24 @@ npm run dev
 # visit http://localhost:8001/#/login
 ```
 
-## Steps
-
 ## Run
+
+## File Structure
+```
+├── README.md
+├── build
+├── config
+├── demo-screenshot
+├── gulpfile.js
+├── index.html  : landing page (home page)
+├── node_modules
+├── package-lock.json : dependency detail
+├── package.json : dependency
+├── src : main FE code (source code)
+│   ├── main.js : FE app (entry point)
+├── static : config, img, ...
+└── test
+```
 
 ## Ref
 - FE src code ref:
