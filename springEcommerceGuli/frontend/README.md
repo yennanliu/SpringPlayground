@@ -56,7 +56,13 @@ npm install
 # Run FE app
 npm run dev
 
+# account : admin
+# pwd : admin
+
 # visit http://localhost:8001/#/login
+
+# Run BE app (renren-fast)
+# https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/backend/EcommerceGuli/renren-fast/src/main/java/io/renren/RenrenApplication.java
 ```
 
 ## File Structure
