@@ -19,63 +19,7 @@ export default {
   watch: {},
   data() {
     return {
-      data: [
-        {
-          label: "一级 1",
-          children: [
-            {
-              label: "二级 1-1",
-              children: [
-                {
-                  label: "三级 1-1-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 2",
-          children: [
-            {
-              label: "二级 2-1",
-              children: [
-                {
-                  label: "三级 2-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 2-2",
-              children: [
-                {
-                  label: "三级 2-2-1",
-                },
-              ],
-            },
-          ],
-        },
-        {
-          label: "一级 3",
-          children: [
-            {
-              label: "二级 3-1",
-              children: [
-                {
-                  label: "三级 3-1-1",
-                },
-              ],
-            },
-            {
-              label: "二级 3-2",
-              children: [
-                {
-                  label: "三级 3-2-1",
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      data: [],
       defaultProps: {
         children: "children",
         label: "label",
@@ -86,7 +30,25 @@ export default {
     handleNodeClick(data) {
       console.log(data);
     },
+    // https://youtu.be/QngyGaQXxz4?t=560
+    getMenu(){
+        //consloe.log(data);
+        this.$http({
+          url: this.$http.adornUrl('/product/category/list/tree'),
+          method: 'get',
+        //   params: this.$http.adornParams({
+        //     'page': this.pageIndex,
+        //     'limit': this.pageSize,
+        //     'roleName': this.dataForm.roleName
+        //   })
+        }).then(data => {
+            consloe.log("get data success : ", data)
+        })
+    }
   },
+  created(){
+    this.getMenu();
+  }
 };
 </script>
 

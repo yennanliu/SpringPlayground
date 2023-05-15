@@ -15,6 +15,14 @@ export default {
   watch: {},
   methods: {}
 }
+
+// 生命週期
+mounted() {},
+beforeCreate() {}, // before create
+beforeMount() {}, // before loading
+beforeUpdate() {}, // before update
+updated() {}, // after update
+beforeDestroy() {}  // after destroy
 </script>
 
 <style>
