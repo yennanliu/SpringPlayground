@@ -87,6 +87,7 @@ npm run dev
 
 - FE src code ref:
 	- https://github.com/yennanliu/SpringPlayground/tree/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/%E5%89%8D%E7%AB%AF/modules
+	- https://github.com/zli78122/gulimall_renren-fast-vue
 - Init video
 	- https://youtu.be/QngyGaQXxz4
 - Install issues and workaound for renren-fast-vue project on Macbook M1
