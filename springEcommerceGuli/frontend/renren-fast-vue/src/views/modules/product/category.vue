@@ -5,7 +5,7 @@
 
 <template>
   <el-tree
-    :data="data"
+    :data="menus"
     :props="defaultProps"
     @node-click="handleNodeClick"
   ></el-tree>
@@ -19,10 +19,10 @@ export default {
   watch: {},
   data() {
     return {
-      data: [],
+      menus: [],
       defaultProps: {
         children: "children",
-        label: "label",
+        label: "name",
       },
     };
   },
@@ -41,8 +41,11 @@ export default {
         //     'limit': this.pageSize,
         //     'roleName': this.dataForm.roleName
         //   })
-        }).then(data => {
-            consloe.log("get data success : ", data)
+
+        // ({data}) : can get attr in data, so we can call data.data below : https://youtu.be/KKFJPtW3730?t=588
+        }).then(({data}) => {
+            console.log("get data success : ", data.data)
+            this.menus = data.data
         })
     }
   },
