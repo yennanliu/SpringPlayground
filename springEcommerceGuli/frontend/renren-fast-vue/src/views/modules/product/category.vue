@@ -84,13 +84,29 @@ export default {
 
     remove(node, data) {
       console.log("remove : ", node, data);
-      var ids = [data.catId]
-      this.$http({
-        url: this.$http.adornUrl("/product/category/delete"),
-        method: "post",
-        data: this.$http.adornData(ids, false),
-      }).then(({ data }) => {
-        console.log("remove success!")
+      var ids = [data.catId];
+
+      // message box pop up
+      // https://youtu.be/DTyZDng9nw0?t=599
+      // https://element.eleme.io/#/zh-CN/component/message-box
+      this.$confirm(`Delete current product : [${data.name}] ?`, "NOTE", {
+        confirmButtonText: "YES",
+        cancelButtonText: "NO",
+        type: "warning",
+      }).then(() => {
+        this.$http({
+          url: this.$http.adornUrl("/product/category/delete"),
+          method: "post",
+          data: this.$http.adornData(ids, false),
+        }).then(({ data }) => {
+          console.log("remove success!");
+          // retrieve updated product data from backend, so user can see updated info in UI without manually refresh
+          this.getMenu();
+        });
+        this.$message({
+          type: "success",
+          message: "删除成功!",
+        });
       });
     },
   },
@@ -98,7 +114,6 @@ export default {
   created() {
     this.getMenu();
   },
-
 };
 </script>
 
