@@ -10,6 +10,7 @@
     :expand-on-click-node="false"
     show-checkbox
     node-key="catId"
+    :default-expanded-keys="expandedKey"
   >
     <!--
       Append, delete button
@@ -50,6 +51,7 @@ export default {
   data() {
     return {
       menus: [],
+      expandedKey: [],
       defaultProps: {
         children: "children",
         label: "name",
@@ -100,14 +102,17 @@ export default {
           data: this.$http.adornData(ids, false),
         }).then(({ data }) => {
           console.log("remove success!");
+          // message popup : https://youtu.be/DTyZDng9nw0?t=783
+          this.$message({
+            message: "menun remove success",
+            type: "success",
+          });
           // retrieve updated product data from backend, so user can see updated info in UI without manually refresh
           this.getMenu();
+          // expand deleted node's parent as new expanded node
+          this.expandedKey = [node.parent.data.catId] // https://youtu.be/DTyZDng9nw0?t=1011
         });
-        this.$message({
-          type: "success",
-          message: "删除成功!",
-        });
-      });
+      }).catch(() => {});
     },
   },
 
