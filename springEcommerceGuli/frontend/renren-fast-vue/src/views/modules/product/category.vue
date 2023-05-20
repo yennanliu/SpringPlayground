@@ -63,27 +63,20 @@ export default {
         this.menus = data.data;
       });
     },
+
+    // https://youtu.be/-2S3c3Sh-H4?t=138
+    // https://element.eleme.io/#/zh-CN/component/tree
+    append(data) {
+      console.log("append : ", data);
+    },
+
+    remove(node, data) {
+      console.log("remove : ", node, data);
+    },
   },
 
   created() {
     this.getMenu();
-  },
-
-  // https://youtu.be/-2S3c3Sh-H4?t=138
-  // https://element.eleme.io/#/zh-CN/component/tree
-  append(data) {
-    const newChild = { id: id++, label: "testtest", children: [] };
-    if (!data.children) {
-      this.$set(data, "children", []);
-    }
-    data.children.push(newChild);
-  },
-
-  remove(node, data) {
-    const parent = node.parent;
-    const children = parent.data.children || parent.data;
-    const index = children.findIndex((d) => d.id === data.id);
-    children.splice(index, 1);
   },
 };
 </script>
