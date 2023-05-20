@@ -1,6 +1,10 @@
 package com.yen.gulimall.gateway.config;
 
-// https://youtu.be/VNP6inKmw5I?t=526
+/**
+ *  Config enable CORS
+ *      - https://youtu.be/VNP6inKmw5I?t=526
+ *      - so CORS is enabled when request sent to API GATEWAY
+ */
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,8 +33,9 @@ public class GulimallCorsConfiguration {
         corsConfiguration.addAllowedMethod("*");
         corsConfiguration.addAllowedOrigin("*");
         corsConfiguration.setAllowCredentials(true);
-
         source.registerCorsConfiguration("/**", corsConfiguration);
+
         return new CorsWebFilter(source);
     }
+
 }

@@ -206,7 +206,8 @@ java -jar <built_jar>
     - https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS.png"></p>
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS2.png"></p>
-<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS3.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS_workaround_1.png"></p>
+<p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/CORS_workaround_2.png"></p>
 
 - Product - attr relation
 <p align="center"><img src ="https://github.com/yennanliu/SpringPlayground/blob/main/springEcommerceGuli/doc/pic/3_layer.png"></p>
