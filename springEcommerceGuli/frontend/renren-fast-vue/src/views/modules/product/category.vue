@@ -4,7 +4,7 @@
 -->
 
 <template>
-  <el-tree :data="menus" :props="defaultProps" @node-click="handleNodeClick">
+  <el-tree :data="menus" :props="defaultProps" :expand-on-click-node="false" show-checkbox node-key="catId">
     <!--
       Append, delete button
 
@@ -14,10 +14,10 @@
     <span class="custom-tree-node" slot-scope="{ node, data }">
       <span>{{ node.label }}</span>
       <span>
-        <el-button type="text" size="mini" @click="() => append(data)">
+        <el-button v-if="node.level <= 2" type="text" size="mini" @click="() => append(data)">
           Append
         </el-button>
-        <el-button type="text" size="mini" @click="() => remove(node, data)">
+        <el-button v-if="node.childNodes.length == 0" type="text" size="mini" @click="() => remove(node, data)">
           Delete
         </el-button>
       </span>
@@ -41,9 +41,6 @@ export default {
     };
   },
   methods: {
-    handleNodeClick(data) {
-      console.log(data);
-    },
 
     // https://youtu.be/QngyGaQXxz4?t=560
     getMenu() {
