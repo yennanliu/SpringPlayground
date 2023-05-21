@@ -55,7 +55,8 @@
 
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogVisible = false"
+        <!-- https://youtu.be/KKv81DvbbMQ?t=356 -->
+        <el-button type="primary" @click="addCategory"
           >确 定</el-button
         >
       </span>
@@ -71,7 +72,7 @@ export default {
   watch: {},
   data() {
     return {
-      category: {name: ""},
+      category: {name: "", parentCid: 0, catLevel: 0, showStatus: 1, sort:0},
       dialogVisible: false,
       menus: [],
       expandedKey: [],
@@ -107,6 +108,14 @@ export default {
     append(data) {
       console.log("append : ", data);
       this.dialogVisible = true;
+      this.category.parentCid = data.catId;
+      this.category.catLevel = data.catLevel * 1 + 1; // transform string to int : data.catLevel * 1
+    },
+
+    // method does "product adding" in menu
+    // https://youtu.be/KKv81DvbbMQ?t=375
+    addCategory(){
+      console.log("addCategory : ", this.category);
     },
 
     remove(node, data) {
