@@ -4,42 +4,63 @@
 -->
 
 <template>
-  <el-tree
-    :data="menus"
-    :props="defaultProps"
-    :expand-on-click-node="false"
-    show-checkbox
-    node-key="catId"
-    :default-expanded-keys="expandedKey"
-  >
-    <!--
+  <div>
+    <el-tree
+      :data="menus"
+      :props="defaultProps"
+      :expand-on-click-node="false"
+      show-checkbox
+      node-key="catId"
+      :default-expanded-keys="expandedKey"
+    >
+      <!--
       Append, delete button
 
       https://youtu.be/-2S3c3Sh-H4?t=78
       https://element.eleme.io/#/zh-CN/component/tree
     -->
-    <span class="custom-tree-node" slot-scope="{ node, data }">
-      <span>{{ node.label }}</span>
-      <span>
-        <el-button
-          v-if="node.level <= 2"
-          type="text"
-          size="mini"
-          @click="() => append(data)"
-        >
-          Append
-        </el-button>
-        <el-button
-          v-if="node.childNodes.length == 0"
-          type="text"
-          size="mini"
-          @click="() => remove(node, data)"
-        >
-          Delete
-        </el-button>
+      <span class="custom-tree-node" slot-scope="{ node, data }">
+        <span>{{ node.label }}</span>
+        <span>
+          <el-button
+            v-if="node.level <= 2"
+            type="text"
+            size="mini"
+            @click="() => append(data)"
+          >
+            Append
+          </el-button>
+          <el-button
+            v-if="node.childNodes.length == 0"
+            type="text"
+            size="mini"
+            @click="() => remove(node, data)"
+          >
+            Delete
+          </el-button>
+        </span>
       </span>
-    </span>
-  </el-tree>
+    </el-tree>
+
+    <!--
+      dialogue
+      https://youtu.be/KKv81DvbbMQ?t=105 
+    -->
+    <el-dialog title="提示" :visible.sync="dialogVisible" width="30%">
+      <el-form :model="category">
+        <el-form-item label="分類名稱">
+          <el-input v-model="category.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -50,6 +71,8 @@ export default {
   watch: {},
   data() {
     return {
+      category: {name: ""},
+      dialogVisible: false,
       menus: [],
       expandedKey: [],
       defaultProps: {
@@ -80,8 +103,10 @@ export default {
 
     // https://youtu.be/-2S3c3Sh-H4?t=138
     // https://element.eleme.io/#/zh-CN/component/tree
+    // https://youtu.be/KKv81DvbbMQ?t=140
     append(data) {
       console.log("append : ", data);
+      this.dialogVisible = true;
     },
 
     remove(node, data) {
@@ -95,24 +120,26 @@ export default {
         confirmButtonText: "YES",
         cancelButtonText: "NO",
         type: "warning",
-      }).then(() => {
-        this.$http({
-          url: this.$http.adornUrl("/product/category/delete"),
-          method: "post",
-          data: this.$http.adornData(ids, false),
-        }).then(({ data }) => {
-          console.log("remove success!");
-          // message popup : https://youtu.be/DTyZDng9nw0?t=783
-          this.$message({
-            message: "menun remove success",
-            type: "success",
+      })
+        .then(() => {
+          this.$http({
+            url: this.$http.adornUrl("/product/category/delete"),
+            method: "post",
+            data: this.$http.adornData(ids, false),
+          }).then(({ data }) => {
+            console.log("remove success!");
+            // message popup : https://youtu.be/DTyZDng9nw0?t=783
+            this.$message({
+              message: "menun remove success",
+              type: "success",
+            });
+            // retrieve updated product data from backend, so user can see updated info in UI without manually refresh
+            this.getMenu();
+            // expand deleted node's parent as new expanded node
+            this.expandedKey = [node.parent.data.catId]; // https://youtu.be/DTyZDng9nw0?t=1011
           });
-          // retrieve updated product data from backend, so user can see updated info in UI without manually refresh
-          this.getMenu();
-          // expand deleted node's parent as new expanded node
-          this.expandedKey = [node.parent.data.catId] // https://youtu.be/DTyZDng9nw0?t=1011
-        });
-      }).catch(() => {});
+        })
+        .catch(() => {});
     },
   },
 
