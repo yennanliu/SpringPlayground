@@ -175,7 +175,7 @@ export default {
     // method handles which dialogue to submit
     // https://youtu.be/heF-gu9EXDs?t=338
     submitData() {
-      if (this.dialogType == "add") {
+      if (this.dialogType == "append") {
         this.addCategory();
       }
       if (this.dialogType == "edit") {
