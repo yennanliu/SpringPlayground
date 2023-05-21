@@ -56,9 +56,7 @@
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
         <!-- https://youtu.be/KKv81DvbbMQ?t=356 -->
-        <el-button type="primary" @click="addCategory"
-          >确 定</el-button
-        >
+        <el-button type="primary" @click="addCategory">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -72,7 +70,7 @@ export default {
   watch: {},
   data() {
     return {
-      category: {name: "", parentCid: 0, catLevel: 0, showStatus: 1, sort:0},
+      category: { name: "", parentCid: 0, catLevel: 0, showStatus: 1, sort: 0 },
       dialogVisible: false,
       menus: [],
       expandedKey: [],
@@ -114,8 +112,26 @@ export default {
 
     // method does "product adding" in menu
     // https://youtu.be/KKv81DvbbMQ?t=375
-    addCategory(){
+    addCategory() {
       console.log("addCategory : ", this.category);
+      // https://youtu.be/KKv81DvbbMQ?t=740
+      this.$http({
+        url: this.$http.adornUrl("/product/category/save"),
+        method: "post",
+        data: this.$http.adornData(this.category, false),
+      }).then(({ data }) => {
+        // success popup
+        this.$message({
+          message: "add category success",
+          type: "success",
+        });
+        // close dialogue
+        this.dialogVisible = false;
+        // retrieve updated product data from backend, so user can see updated info in UI without manually refresh
+        this.getMenu();
+        // expand deleted node's parent as new expanded node
+        this.expandedKey = [this.category.parentCid]; // https://youtu.be/KKv81DvbbMQ?t=880
+      });
     },
 
     remove(node, data) {
