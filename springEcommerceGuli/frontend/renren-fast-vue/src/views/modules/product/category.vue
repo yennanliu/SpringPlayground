@@ -130,7 +130,8 @@ export default {
     append(data) {
       console.log("append : ", data);
       this.dialogType = "append";
-      (this.title = "Add category"), (this.dialogVisible = true);
+      this.title = "Add category";
+      this.dialogVisible = true;
       this.category.parentCid = data.catId;
       this.category.catLevel = data.catLevel * 1 + 1; // transform string to int : data.catLevel * 1
     },
@@ -164,7 +165,8 @@ export default {
     edit(data) {
       console.log("to edit : ", data);
       this.dialogType = "edit";
-      (this.title = "Edit category"), (this.dialogVisible = true);
+      this.title = "Edit category";
+      this.dialogVisible = true;
       this.category.name = data.name;
       this.category.catId = data.catId;
     },
