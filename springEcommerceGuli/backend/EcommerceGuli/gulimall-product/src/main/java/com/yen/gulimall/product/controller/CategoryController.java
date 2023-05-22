@@ -52,13 +52,15 @@ public class CategoryController {
 
     /**
      * 信息
+     *
+     * update:
+     *  - https://youtu.be/heF-gu9EXDs?t=765
      */
     @RequestMapping("/info/{catId}")
-    //@RequiresPermissions("product:category:info")
     public R info(@PathVariable("catId") Long catId){
-		CategoryEntity category = categoryService.getById(catId);
 
-        return R.ok().put("category", category);
+		CategoryEntity category = categoryService.getById(catId);
+        return R.ok().put("data", category);
     }
 
     /**

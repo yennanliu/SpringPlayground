@@ -64,6 +64,19 @@
         <el-form-item label="分類名稱">
           <el-input v-model="category.name" autocomplete="off"></el-input>
         </el-form-item>
+        <!--
+          add icon, productUnit
+          https://youtu.be/heF-gu9EXDs?t=591 
+        -->
+        <el-form-item label="圖標">
+          <el-input v-model="category.icon" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="計量單位">
+          <el-input
+            v-model="category.productUnit"
+            autocomplete="off"
+          ></el-input>
+        </el-form-item>
       </el-form>
 
       <span slot="footer" class="dialog-footer">
@@ -93,6 +106,8 @@ export default {
         catLevel: 0,
         showStatus: 1,
         sort: 0,
+        productUnit: "",
+        icon: "",
         catId: null,
       },
       dialogVisible: false,
@@ -167,12 +182,51 @@ export default {
       this.dialogType = "edit";
       this.title = "Edit category";
       this.dialogVisible = true;
-      this.category.name = data.name;
-      this.category.catId = data.catId;
+      // We should get latest data from BE every time to avoid co-edit cases
+      // https://youtu.be/heF-gu9EXDs?t=643
+
+      this.$http({
+        url: this.$http.adornUrl(`/product/category/info/${data.catId}`),
+        method: "get",
+      }).then(({ data }) => {
+        // request success, update data with info from BE
+        console.log("(edit) data from BE: ", data);
+        this.category.name = data.data.name;
+        this.category.catId = data.data.catId;
+        this.category.icon = data.data.icon;
+        this.category.productUnit = data.data.productUnit;
+        this.category.parentCid = data.data.parentCid;
+      });
     },
 
     // modify category data
-    editCategory() {},
+    // https://youtu.be/heF-gu9EXDs?t=936
+    editCategory() {
+      var { catId, name, icon, productUnit } = this.category; // get 4 attr from category
+      var data = {
+        catId: catId,
+        name: name,
+        icon: icon,
+        productUnit: productUnit,
+      }; // transfrom to k-v form (dict)
+      this.$http({
+        url: this.$http.adornUrl("/product/category/update"),
+        method: "post",
+        data: this.$http.adornData(data, false),
+      }).then(({ data }) => {
+        // success
+        this.$message({
+          message: "edit category success",
+          type: "success",
+        });
+        // close dialogue
+        this.dialogVisible = false;
+        // retrieve updated product data from backend, so user can see updated info in UI without manually refresh
+        this.getMenu();
+        // expand deleted node's parent as new expanded node
+        this.expandedKey = [this.category.parentCid]; // https://youtu.be/DTyZDng9nw0?t=1011
+      });
+    },
 
     // method handles which dialogue to submit
     // https://youtu.be/heF-gu9EXDs?t=338
