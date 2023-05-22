@@ -59,7 +59,12 @@
       bind title with variable
       https://youtu.be/heF-gu9EXDs?t=441
     -->
-    <el-dialog v-bind:title="title" :visible.sync="dialogVisible" width="30%">
+    <el-dialog
+      v-bind:title="title"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :close-on-click-modal="false"
+    >
       <el-form :model="category">
         <el-form-item label="分類名稱">
           <el-input v-model="category.name" autocomplete="off"></el-input>
@@ -147,8 +152,16 @@ export default {
       this.dialogType = "append";
       this.title = "Add category";
       this.dialogVisible = true;
+      // set attr as default, so not affected by edit() method
+      // https://youtu.be/heF-gu9EXDs?t=1503
+      this.category.name = "";
       this.category.parentCid = data.catId;
       this.category.catLevel = data.catLevel * 1 + 1; // transform string to int : data.catLevel * 1
+      this.category.catId = null;
+      this.category.icon = "";
+      this.category.productUnit = "";
+      this.category.sort = 0;
+      this.category.showStatus = 1;
     },
 
     // method does "product adding" in menu
