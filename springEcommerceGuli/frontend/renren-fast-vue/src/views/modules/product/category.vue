@@ -12,6 +12,8 @@
       show-checkbox
       node-key="catId"
       :default-expanded-keys="expandedKey"
+      draggable="true"
+      :allow-drop="allowDrop"
     >
       <!--
       Append, delete button
@@ -103,6 +105,7 @@ export default {
   watch: {},
   data() {
     return {
+      maxLevel: 0,
       title: "",
       dialogType: "", // edit, append ...
       category: {
@@ -142,6 +145,36 @@ export default {
         console.log("get data success : ", data.data);
         this.menus = data.data;
       });
+    },
+
+    // check if can drag
+    // https://youtu.be/1EQvBRMGjGs?t=143
+    // https://element.eleme.io/#/zh-CN/component/tree#attributes
+    allowDrop(draggingNode, dropNode, type) {
+      // check if layer of dragged node + layer of parent node <= 3
+      var level = this.countNodeLevel(draggingNode.data);
+      // dragged node
+      // parent node
+      let depth = this.maxLevel - draggingNode.data.catLevel + 1;
+
+      if (type == "inner") {
+        return deep + dropNode.level <= 3;
+      } else {
+        return deep + dropNode.parent.level <= 3;
+      }
+    },
+
+    // recursive method
+    countNodeLevel(node) {
+      // find all children nodes and get max depth
+      if (node.children != null && node.children.length > 0) {
+        for (let i = 0; i < children.length; i++) {
+          if (node.children[i].catLevel > this.maxLevel) {
+            this.maxLevel = node.children[i].catLevel;
+          }
+          this.countNodeLevel(node.children[i]);
+        }
+      }
     },
 
     // https://youtu.be/-2S3c3Sh-H4?t=138
