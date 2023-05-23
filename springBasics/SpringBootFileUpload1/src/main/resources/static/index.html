@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>FILE UPLOAD TEST</title>
+    <link rel="stylesheet" href="./index.css" />
+</head>
+
+<body>
+<!-- 用表单上传 -->
+<div class="usingForm">
+    <form enctype="multipart/form-data" method="POST" action="/upload">
+        <input class="formName" type="text" name="name" />
+        <input class="uploadFile" type="file" name="file" />
+        <input type="submit" value="upload" />
+    </form>
+</div>
+<div class="uploadButton">上传(JS)</div>
+<script src="./index.js"></script>
+</body>
+
+</html>
