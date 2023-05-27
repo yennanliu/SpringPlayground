@@ -14,6 +14,7 @@
       :default-expanded-keys="expandedKey"
       draggable="true"
       :allow-drop="allowDrop"
+      @node-drop="handleDrop"
     >
       <!--
       Append, delete button
@@ -316,6 +317,11 @@ export default {
           });
         })
         .catch(() => {});
+    },
+
+    // https://element.eleme.io/#/zh-CN/component/tree
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      console.log("tree drop: ", dropNode.label, dropType);
     },
   },
 
