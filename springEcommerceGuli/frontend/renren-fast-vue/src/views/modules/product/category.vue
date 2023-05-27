@@ -5,6 +5,7 @@
 
 <template>
   <div>
+    <el-button type="danger" @click="batchDelete">Batch Delete</el-button>
     <el-tree
       :data="menus"
       :props="defaultProps"
@@ -12,6 +13,10 @@
       show-checkbox
       node-key="catId"
       :default-expanded-keys="expandedKey"
+      draggable
+      :allow-drop="allowDrop"
+      @node-drop="handleDrop"
+      ref="menuTree"
     >
       <!--
       Append, delete button
@@ -103,6 +108,7 @@ export default {
   watch: {},
   data() {
     return {
+      maxLevel: 0,
       title: "",
       dialogType: "", // edit, append ...
       category: {
@@ -142,6 +148,36 @@ export default {
         console.log("get data success : ", data.data);
         this.menus = data.data;
       });
+    },
+
+    // check if can drag
+    // https://youtu.be/1EQvBRMGjGs?t=143
+    // https://element.eleme.io/#/zh-CN/component/tree#attributes
+    allowDrop(draggingNode, dropNode, type) {
+      // check if layer of dragged node + layer of parent node <= 3
+      var level = this.countNodeLevel(draggingNode.data);
+      // dragged node
+      // parent node
+      let depth = this.maxLevel - draggingNode.data.catLevel + 1;
+
+      if (type == "inner") {
+        return deep + dropNode.level <= 3;
+      } else {
+        return deep + dropNode.parent.level <= 3;
+      }
+    },
+
+    // recursive method
+    countNodeLevel(node) {
+      // find all children nodes and get max depth
+      if (node.children != null && node.children.length > 0) {
+        for (let i = 0; i < children.length; i++) {
+          if (node.children[i].catLevel > this.maxLevel) {
+            this.maxLevel = node.children[i].catLevel;
+          }
+          this.countNodeLevel(node.children[i]);
+        }
+      }
     },
 
     // https://youtu.be/-2S3c3Sh-H4?t=138
@@ -283,6 +319,88 @@ export default {
           });
         })
         .catch(() => {});
+    },
+
+    // https://youtu.be/LT4DmQuKGsI?t=44
+    batchDelete() {
+      let catIds = [];
+      let checkedNodes = this.$refs.menuTree.getCheckedNodes();
+      console.log(">>> checkedNodes = ", checkedNodes);
+      // for loop get id, and append to an array
+      for (let i = 0; i < checkedNodes.length; i++) {
+        let id = checkedNodes[i].catId;
+        catIds.push(id);
+      }
+
+      // comfirmation popup
+      this.$confirm(`Batch delete ? [${catIds}] ?`, "NOTE", {
+        confirmButtonText: "YES",
+        cancelButtonText: "NO",
+        type: "warning",
+      })
+        .then(() => {
+          this.$http({
+            url: this.$http.adornUrl("/product/category/delete"),
+            method: "post",
+            data: this.$http.adornData(catIds, false),
+          }).then(({ data }) => {
+            this.$message({
+              message: "Batch delete success",
+              type: "success",
+            });
+            this.getMenu();
+          });
+        })
+        .catch(() => {});
+    },
+
+    // https://element.eleme.io/#/zh-CN/component/tree
+    handleDrop(draggingNode, dropNode, dropType, ev) {
+      // 目标
+      //   1.得到 被拖拽节点 最新的父节点id、最新的排序、最新的层级
+      //   2.将 被拖拽节点、被拖拽节点的兄弟节点、被拖拽节点的子节点 存入 updateNodes数组 中
+
+      // 最新的父节点id
+      let parentCatId = 0;
+      // 最新的兄弟节点 (siblings中包含被拖拽节点)
+      let siblings = null;
+
+      // 得到 被拖拽节点 最新的父节点id 和 最新的兄弟节点
+      if (dropType == "before" || dropType == "after") {
+        parentCatId =
+          dropNode.parent.data.catId == undefined
+            ? 0
+            : dropNode.parent.data.catId;
+        siblings = dropNode.parent.childNodes;
+      } else {
+        parentCatId = dropNode.data.catId;
+        siblings = dropNode.childNodes;
+      }
+      this.parentCatId.push(parentCatId);
+
+      // 遍历siblings，生成每个兄弟节点的最新排序值，同时得到 被拖拽节点 最新的层级
+      for (let i = 0; i < siblings.length; i++) {
+        // 判断 当前遍历节点 是否为 被拖拽节点
+        if (siblings[i].data.catId == draggingNode.data.catId) {
+          let catLevel = draggingNode.level;
+          // 判断 被拖拽节点 拖拽前后 层级是否发生变化，如果发生了变化，那就需要修改 被拖拽节点的所有子节点 的 层级
+          if (siblings[i].level != catLevel) {
+            // 拖拽前后 层级发生了变化 : 得到最新层级，然后递归修改 被拖拽节点的所有子节点 的 层级
+            catLevel = siblings[i].level;
+            this.updateChildNodeLevel(siblings[i]);
+          }
+          // 将 被拖拽节点 存入数组
+          this.updateNodes.push({
+            catId: siblings[i].data.catId,
+            sort: i,
+            parentCid: parentCatId,
+            catLevel: catLevel,
+          });
+        } else {
+          // 将 被拖拽节点的兄弟节点 存入数组
+          this.updateNodes.push({ catId: siblings[i].data.catId, sort: i });
+        }
+      }
     },
   },
 
