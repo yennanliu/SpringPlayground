@@ -12,7 +12,7 @@
       show-checkbox
       node-key="catId"
       :default-expanded-keys="expandedKey"
-      draggable="true"
+      draggable
       :allow-drop="allowDrop"
       @node-drop="handleDrop"
     >
@@ -321,8 +321,50 @@ export default {
 
     // https://element.eleme.io/#/zh-CN/component/tree
     handleDrop(draggingNode, dropNode, dropType, ev) {
-      console.log("tree drop: ", dropNode.label, dropType);
-    },
+      // 目标
+      //   1.得到 被拖拽节点 最新的父节点id、最新的排序、最新的层级
+      //   2.将 被拖拽节点、被拖拽节点的兄弟节点、被拖拽节点的子节点 存入 updateNodes数组 中
+
+      // 最新的父节点id
+      let parentCatId = 0;
+      // 最新的兄弟节点 (siblings中包含被拖拽节点)
+      let siblings = null;
+      
+      // 得到 被拖拽节点 最新的父节点id 和 最新的兄弟节点
+      if (dropType == "before" || dropType == "after") {
+        parentCatId = dropNode.parent.data.catId == undefined ? 0 : dropNode.parent.data.catId;
+        siblings = dropNode.parent.childNodes;
+      } else {
+        parentCatId = dropNode.data.catId;
+        siblings = dropNode.childNodes;
+      }
+      this.parentCatId.push(parentCatId);
+
+      // 遍历siblings，生成每个兄弟节点的最新排序值，同时得到 被拖拽节点 最新的层级
+      for (let i = 0; i < siblings.length; i++) {
+        // 判断 当前遍历节点 是否为 被拖拽节点
+        if (siblings[i].data.catId == draggingNode.data.catId) {
+          let catLevel = draggingNode.level;
+          // 判断 被拖拽节点 拖拽前后 层级是否发生变化，如果发生了变化，那就需要修改 被拖拽节点的所有子节点 的 层级
+          if (siblings[i].level != catLevel) {
+            // 拖拽前后 层级发生了变化 : 得到最新层级，然后递归修改 被拖拽节点的所有子节点 的 层级
+            catLevel = siblings[i].level;
+            this.updateChildNodeLevel(siblings[i]);
+          }
+          // 将 被拖拽节点 存入数组
+          this.updateNodes.push({
+            catId: siblings[i].data.catId,
+            sort: i,
+            parentCid: parentCatId,
+            catLevel: catLevel
+          });
+        } else {
+          // 将 被拖拽节点的兄弟节点 存入数组
+          this.updateNodes.push({ catId: siblings[i].data.catId, sort: i });
+        }
+      }
+    }
+
   },
 
   created() {
