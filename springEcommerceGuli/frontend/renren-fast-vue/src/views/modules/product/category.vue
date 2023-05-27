@@ -5,6 +5,7 @@
 
 <template>
   <div>
+    <el-button type="danger" @click="batchDelete">Batch Delete</el-button>
     <el-tree
       :data="menus"
       :props="defaultProps"
@@ -15,6 +16,7 @@
       draggable
       :allow-drop="allowDrop"
       @node-drop="handleDrop"
+      ref="menuTree"
     >
       <!--
       Append, delete button
@@ -319,6 +321,39 @@ export default {
         .catch(() => {});
     },
 
+    // https://youtu.be/LT4DmQuKGsI?t=44
+    batchDelete() {
+      let catIds = [];
+      let checkedNodes = this.$refs.menuTree.getCheckedNodes();
+      console.log(">>> checkedNodes = ", checkedNodes);
+      // for loop get id, and append to an array
+      for (let i = 0; i < checkedNodes.length; i++) {
+        let id = checkedNodes[i].catId;
+        catIds.push(id);
+      }
+
+      // comfirmation popup
+      this.$confirm(`Batch delete ? [${catIds}] ?`, "NOTE", {
+        confirmButtonText: "YES",
+        cancelButtonText: "NO",
+        type: "warning",
+      })
+        .then(() => {
+          this.$http({
+            url: this.$http.adornUrl("/product/category/delete"),
+            method: "post",
+            data: this.$http.adornData(catIds, false),
+          }).then(({ data }) => {
+            this.$message({
+              message: "Batch delete success",
+              type: "success",
+            });
+            this.getMenu();
+          });
+        })
+        .catch(() => {});
+    },
+
     // https://element.eleme.io/#/zh-CN/component/tree
     handleDrop(draggingNode, dropNode, dropType, ev) {
       // 目标
@@ -329,10 +364,13 @@ export default {
       let parentCatId = 0;
       // 最新的兄弟节点 (siblings中包含被拖拽节点)
       let siblings = null;
-      
+
       // 得到 被拖拽节点 最新的父节点id 和 最新的兄弟节点
       if (dropType == "before" || dropType == "after") {
-        parentCatId = dropNode.parent.data.catId == undefined ? 0 : dropNode.parent.data.catId;
+        parentCatId =
+          dropNode.parent.data.catId == undefined
+            ? 0
+            : dropNode.parent.data.catId;
         siblings = dropNode.parent.childNodes;
       } else {
         parentCatId = dropNode.data.catId;
@@ -356,15 +394,14 @@ export default {
             catId: siblings[i].data.catId,
             sort: i,
             parentCid: parentCatId,
-            catLevel: catLevel
+            catLevel: catLevel,
           });
         } else {
           // 将 被拖拽节点的兄弟节点 存入数组
           this.updateNodes.push({ catId: siblings[i].data.catId, sort: i });
         }
       }
-    }
-
+    },
   },
 
   created() {
