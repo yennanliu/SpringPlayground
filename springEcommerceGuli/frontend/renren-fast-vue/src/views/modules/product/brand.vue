@@ -41,6 +41,7 @@
       <el-table-column prop="descript" header-align="center" align="center" label="介绍"></el-table-column>
       <el-table-column prop="showStatus" header-align="center" align="center" label="显示状态">
         <template slot-scope="scope">
+          <!-- https://youtu.be/Y-cOclPdE-4?t=187 -->
           <el-switch
             v-model="scope.row.showStatus"
             active-color="#13ce66"
