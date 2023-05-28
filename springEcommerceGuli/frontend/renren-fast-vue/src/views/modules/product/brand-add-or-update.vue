@@ -15,6 +15,13 @@
         <el-input v-model="dataForm.name" placeholder="品牌名"></el-input>
       </el-form-item>
       <el-form-item label="品牌logo地址" prop="logo">
+        <!-- 
+          TODO: 
+          1) implement AWS/Ali cloud client, so we can really upload file to S3 bucket
+          2) implement backend module:
+            https://github.com/yennanliu/SpringPlayground/blob/main/courses/%E8%B0%B7%E7%B2%92%E5%95%86%E5%9F%8E_%E5%85%A8%E6%A3%A7%E9%96%8B%E7%99%BC_src_code/docs/%E4%BB%A3%E7%A0%81/gulimall/gulimall-third-party/src/main/java/com/atguigu/gulimall/thirdparty/controller/OssController.java
+          3) https://youtu.be/bE941NTXadM?t=103
+        -->
         <el-input v-model="dataForm.logo" placeholder="品牌logo地址"></el-input>
         <!-- <single-upload v-model="dataForm.logo"></single-upload> -->
       </el-form-item>
