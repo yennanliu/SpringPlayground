@@ -84,9 +84,7 @@
    *  - Parent, children nodes pass data
    *    - 1) children node pass data to parent -> event mechanisms
    *         - children node send event (with data) to parent
-   * 
-   * 
-   *
+   *         - this.$emit("event_name", "data"....)
    */
   import Category from "../common/category";
   import AddOrUpdate from "./attrgroup-add-or-update";
@@ -125,9 +123,12 @@
         });
       },
   
-      // 树节点被点击触发的回调
+      // 树节点被点击触发的回调 (category.vue nodeClick)
       treeNodeClick(data, node, component) {
+        // https://youtu.be/10yPrgpSEG4?t=816
         if (node.level === 3) {
+          console.log(">>> attrgroup know that category node was clicked : ", data, node, component);
+          console.log(">>> Menu Id (category) was clicked : ", data.catId);
           this.catId = data.catId;
           this.getDataList(); //获取数据列表
         }
@@ -140,8 +141,10 @@
       },
   
       // 获取数据列表
+      // https://youtu.be/10yPrgpSEG4?t=752
       getDataList() {
         this.dataListLoading = true;
+        console.log(">>> this.catId = " + this.catId);
         this.$http({
           url: this.$http.adornUrl(`/product/attrgroup/list/${this.catId}`),
           method: "get",
