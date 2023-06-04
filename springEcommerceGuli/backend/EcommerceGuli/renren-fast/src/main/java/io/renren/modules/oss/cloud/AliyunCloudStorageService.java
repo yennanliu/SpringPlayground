@@ -7,12 +7,16 @@
  */
 
 package io.renren.modules.oss.cloud;
-
 import com.aliyun.oss.OSSClient;
 import io.renren.common.exception.RRException;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
+
+/**
+ *  Service save file to Ali cloud:
+ *      - https://youtu.be/WXVp7GxE0TQ?t=101
+ */
 
 /**
  * 阿里云存储

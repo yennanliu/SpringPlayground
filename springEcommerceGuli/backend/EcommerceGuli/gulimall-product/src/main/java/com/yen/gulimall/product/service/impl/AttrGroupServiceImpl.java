@@ -39,6 +39,11 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
         return new PageUtils(page);
     }
 
+    /**
+     *  - https://youtu.be/10yPrgpSEG4?t=206
+     *  - get 3 layer child nodes with category id
+     *
+     */
     @Override
     public PageUtils queryPage(Map<String, Object> params, Long catalogId) {
 

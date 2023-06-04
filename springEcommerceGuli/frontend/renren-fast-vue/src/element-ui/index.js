@@ -7,6 +7,13 @@
  * 注意:
  *  1. 打包只会包含释放(解开注释)的组件, 减少打包文件大小
  */
+
+/** 
+ *   Import whole pkg from element UI
+ *    - https://element.eleme.io/#/zh-CN/component/quickstart
+ *  
+ */
+
 import Vue from 'vue'
 import {
   Pagination,

@@ -44,8 +44,8 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 品牌logo地址
 	 */
-	@NotEmpty
-	@URL(message = "logo must be a validated URL", groups = {UpdateGroup.class, AddGroup.class} ) // validate if logo is an URL address
+	//@NotEmpty
+	//@URL(message = "logo must be a validated URL", groups = {UpdateGroup.class, AddGroup.class} ) // validate if logo is an URL address
 	private String logo;
 	/**
 	 * 介绍
@@ -60,7 +60,7 @@ public class BrandEntity implements Serializable {
 	/**
 	 * 检索首字母
 	 */
-	@Pattern(regexp = "/^[a-zA-Z]$/", message = "first character must be a alphabet", groups = {UpdateGroup.class, AddGroup.class} )  // can use regex pattern
+	//@Pattern(regexp = "/^[a-zA-Z]$/", message = "first character must be a alphabet", groups = {UpdateGroup.class, AddGroup.class} )  // can use regex pattern
 	private String firstLetter;
 	/**
 	 * 排序
