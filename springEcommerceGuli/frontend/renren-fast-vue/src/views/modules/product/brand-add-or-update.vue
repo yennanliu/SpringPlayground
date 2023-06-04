@@ -52,6 +52,7 @@
 </template>
 
 <script>
+// https://youtu.be/mlAqbsWnm-s?t=221
 import SingleUpload from "@/components/upload/singleUpload";
 export default {
   components: { SingleUpload },
