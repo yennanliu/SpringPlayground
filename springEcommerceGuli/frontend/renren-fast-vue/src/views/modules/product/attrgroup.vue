@@ -66,7 +66,12 @@
             :total="totalPage"
             layout="total, sizes, prev, pager, next, jumper"
           ></el-pagination>
-          <!-- 弹窗, 新增 / 修改 -->
+          <!-- 
+            弹窗, 新增 / 修改
+
+            listen on this event : refreshDataList (from dataFormSubmit method in attrgroup-add-or-update.vue)
+            https://youtu.be/i3NZnXNTYBk?t=691
+            -->
           <add-or-update v-if="addOrUpdateVisible" ref="addOrUpdate" @refreshDataList="getDataList"></add-or-update>
           <!-- 弹窗, 关联 -->
           <relation-update v-if="relationVisible" ref="relationUpdate" @refreshData="getDataList"></relation-update>
