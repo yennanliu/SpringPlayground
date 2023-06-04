@@ -1,6 +1,12 @@
 <template>
     <el-row :gutter="20">
       <el-col :span="6">
+        <!-- 
+            https://youtu.be/yf71dyduu_s?t=1276 
+            
+            -> listen tree-node-click event from child node (category.vue)
+            -> then trigger its parent's method : treeNodeClick
+        -->
         <category @tree-node-click="treeNodeClick"></category>
       </el-col>
       <el-col :span="18">
@@ -69,8 +75,19 @@
     </el-row>
   </template>
   
+
   <script>
   // https://youtu.be/yf71dyduu_s?t=605
+  /** 
+   *  https://youtu.be/yf71dyduu_s?t=955
+   * 
+   *  - Parent, children nodes pass data
+   *    - 1) children node pass data to parent -> event mechanisms
+   *         - children node send event (with data) to parent
+   * 
+   * 
+   *
+   */
   import Category from "../common/category";
   import AddOrUpdate from "./attrgroup-add-or-update";
   import RelationUpdate from "./attr-group-relation";

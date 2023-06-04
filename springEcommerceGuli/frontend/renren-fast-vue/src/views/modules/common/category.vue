@@ -34,8 +34,10 @@ export default {
   methods: {
     // 节点被点击时的回调
     // 共三个参数，依次为：传递给 data 属性的数组中该节点所对应的对象、节点对应的 Node、节点组件本身
+    // https://youtu.be/yf71dyduu_s?t=1091
     nodeClick(data, node, component) {
       // 向父组件发送 tree-node-click 事件
+      // https://youtu.be/yf71dyduu_s?t=1201
       this.$emit("tree-node-click", data, node, component);
     },
 
