@@ -1,4 +1,9 @@
 <template>
+  <!-- 
+    https://youtu.be/yf71dyduu_s?t=452 
+
+    :data="menus" : binding data with menus
+  -->
   <div>
     <el-tree
       :data="menus"
@@ -40,11 +45,12 @@ export default {
         url: this.$http.adornUrl("/product/category/list/tree"),
         method: "get"
       }).then(({ data }) => {
-        this.menus = data.data;
+        this.menus = data.data; // assign data to menus
       });
     }
   },
   created() {
+    // run getMenus when instance is created
     this.getMenus();
   },
   mounted() {},

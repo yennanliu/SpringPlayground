@@ -70,12 +70,15 @@
   </template>
   
   <script>
+  // https://youtu.be/yf71dyduu_s?t=605
   import Category from "../common/category";
   import AddOrUpdate from "./attrgroup-add-or-update";
   import RelationUpdate from "./attr-group-relation";
   
   export default {
-    components: { Category, AddOrUpdate, RelationUpdate },
+    // NOTE : after import, have to register here, then we can use import components
+    // syntax : import_componenets:name_to_use
+    components: { Category:Category, AddOrUpdate:AddOrUpdate, RelationUpdate:RelationUpdate },
     props: {},
     data() {
       return {
