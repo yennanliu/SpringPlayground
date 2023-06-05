@@ -52,11 +52,11 @@ public class CategoryBrandRelationServiceImpl extends ServiceImpl<CategoryBrandR
     @Override
     public void saveDetail(CategoryBrandRelationEntity categoryBrandRelation) {
 
-        Long brandID = categoryBrandRelation.getBrandId();
+        Long brandId = categoryBrandRelation.getBrandId();
         Long catelogId = categoryBrandRelation.getCatelogId();
 
         // 1) query detail name
-        BrandEntity brandEntity = brandDao.selectById(catelogId);
+        BrandEntity brandEntity = brandDao.selectById(brandId);
         CategoryEntity categoryEntity = categoryDao.selectById(catelogId);
 
         categoryBrandRelation.setBrandName(brandEntity.getName());

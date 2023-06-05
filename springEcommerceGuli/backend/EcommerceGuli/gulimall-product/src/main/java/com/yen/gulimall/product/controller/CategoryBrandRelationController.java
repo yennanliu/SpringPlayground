@@ -50,20 +50,24 @@ public class CategoryBrandRelationController {
             brandVo.setBrandName(item.getName());
             return brandVo;
         }).collect(Collectors.toList());
+
         return R.ok().put("data", collect);
     }
 
     /**
      *  Update
-     *      - get product catelog list
+     *      - get product catelog list (當前品牌所有關聯列表)
      *      - https://youtu.be/dG2Bo8noDtY?t=565
      */
     @GetMapping("/catelog/list")
     public R cateloglist(@RequestParam("brandId") Long brandId){
 
         List<CategoryBrandRelationEntity> data = categoryBrandRelationService.list(
-                new QueryWrapper<CategoryBrandRelationEntity>().eq("brand_id", brandId)
+                new QueryWrapper<CategoryBrandRelationEntity>()
+                        .eq("brand_id", brandId)
         );
+
+        System.out.println("(cateloglist) data = " + data.toString());
 
         return R.ok().put("data", data);
     }
@@ -120,8 +124,8 @@ public class CategoryBrandRelationController {
     @RequestMapping("/delete")
     //@RequiresPermissions("product:categorybrandrelation:delete")
     public R delete(@RequestBody Long[] ids){
-		categoryBrandRelationService.removeByIds(Arrays.asList(ids));
 
+        categoryBrandRelationService.removeByIds(Arrays.asList(ids));
         return R.ok();
     }
 

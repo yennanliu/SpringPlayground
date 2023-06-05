@@ -95,6 +95,7 @@ public class BrandController {
     public R update(@Validated(UpdateGroup.class) @RequestBody BrandEntity brand){
 
         // https://youtu.be/dG2Bo8noDtY?t=1111
+        // not only update product table, but update relative redundant columns as well (pms_category_brand_relation)
         //brandService.updateById(brand);
         brandService.updateDetail(brand);
         return R.ok();
