@@ -23,6 +23,13 @@
         <el-input v-model="dataForm.icon" placeholder="Icon"></el-input>
       </el-form-item>
       <el-form-item label="Category" prop="catelogId">
+        <!-- 
+          https://youtu.be/i3NZnXNTYBk?t=84 
+          級聯選擇
+
+          props setting:
+          https://youtu.be/i3NZnXNTYBk?t=228
+        -->
         <el-cascader
           style="width: 100%"
           filterable
@@ -46,6 +53,7 @@ export default {
     return {
       categories: [],    //所有商品分类信息
       catelogPath: [],   //目标 AttrGroup对象 的 商品分类 的 catelogPath - 从祖先节点到自身 的路径
+      // props setting : https://youtu.be/i3NZnXNTYBk?t=228
       props: {
         value: "catId",
         label: "name",
@@ -85,6 +93,7 @@ export default {
       this.catelogPath = [];
     },
 
+    // https://youtu.be/i3NZnXNTYBk?t=150
     getCategories() {
       // 查询所有商品分类信息
       this.$http({
@@ -149,7 +158,7 @@ export default {
                 duration: 1500,
                 onClose: () => {
                   this.visible = false;
-                  this.$emit("refreshDataList");
+                  this.$emit("refreshDataList"); // https://youtu.be/i3NZnXNTYBk?t=672
                 }
               });
             } else {

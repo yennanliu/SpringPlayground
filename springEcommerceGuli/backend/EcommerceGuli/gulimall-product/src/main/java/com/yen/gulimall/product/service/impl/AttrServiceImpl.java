@@ -95,7 +95,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 1) update queryWrapper per condition : catelogId
         if (catelogId != 0){
             queryWrapper
-                    .eq("catelogId", catelogId)
+                    .eq("catelog_id", catelogId)
                     .eq("attr_type", "base".equalsIgnoreCase(type)? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode(): ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode()); // 三元運算符: if type == 1, then base type, if type == 0, then sales type
         }
 
