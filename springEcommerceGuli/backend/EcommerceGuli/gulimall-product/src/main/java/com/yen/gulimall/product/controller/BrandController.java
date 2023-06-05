@@ -37,8 +37,8 @@ public class BrandController {
     @RequestMapping("/list")
     //@RequiresPermissions("product:brand:list")
     public R list(@RequestParam Map<String, Object> params){
-        PageUtils page = brandService.queryPage(params);
 
+        PageUtils page = brandService.queryPage(params);
         return R.ok().put("page", page);
     }
 
@@ -49,8 +49,8 @@ public class BrandController {
     @RequestMapping("/info/{brandId}")
     //@RequiresPermissions("product:brand:info")
     public R info(@PathVariable("brandId") Long brandId){
-		BrandEntity brand = brandService.getById(brandId);
 
+        BrandEntity brand = brandService.getById(brandId);
         return R.ok().put("brand", brand);
     }
 

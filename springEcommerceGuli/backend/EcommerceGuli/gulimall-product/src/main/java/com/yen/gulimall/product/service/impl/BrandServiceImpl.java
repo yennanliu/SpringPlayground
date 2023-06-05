@@ -27,15 +27,15 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
     public PageUtils queryPage(Map<String, Object> params) {
         /**
          *  update :
-         *      - key SQL fuzzy matching
+         *      - key SQL fuzzy matching (模糊查詢)
          *     - https://youtu.be/dG2Bo8noDtY?t=222
          */
         // 0) init query wrapper
         QueryWrapper<BrandEntity> queryWrapper = new QueryWrapper<>();
         // 1) get key
         String key = (String) params.get("key");
-        // 2) if key not null, then have to do "fuzzy matching"
-        if(!StringUtils.isNotEmpty(key)){
+        // 2) if key is not null, then do "fuzzy matching"
+        if(!StringUtils.isEmpty(key)){
             queryWrapper
                     .eq("brand_id", key).or()
                     .like("name", key);
@@ -43,7 +43,7 @@ public class BrandServiceImpl extends ServiceImpl<BrandDao, BrandEntity> impleme
 
         IPage<BrandEntity> page = this.page(
                 new Query<BrandEntity>().getPage(params),
-                new QueryWrapper<BrandEntity>()
+                queryWrapper // NOTE! use queryWrapper setup above
         );
 
         return new PageUtils(page);
