@@ -51,13 +51,15 @@ public class AttrController {
      *      - https://youtu.be/Ga6NMrVkRDY?t=83
      */
     //@GetMapping("/base/list/{catelogId}")
-    @GetMapping("/{attrType}/list/{catelogId}")
+    //@GetMapping("/{attrType}/list/{catelogId}")
+    @GetMapping("/base/list/{catelogId}")
     public R baseAttrList(@RequestParam Map<String, Object> params,
-                          @PathVariable("catelogId") Long catelogId,
-                          @PathVariable("attrType") String type){
+                          @PathVariable("catelogId") Long catelogId
+                          //@PathVariable("attrType") String type
+                          ){
 
         // if type = 1, then base type; if type = 0 then business type
-        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, "0");
         return R.ok().put("page", page);
     }
 
@@ -89,6 +91,7 @@ public class AttrController {
 
     /**
      * 保存
+     *  - https://youtu.be/L1hCZ9AumP0?t=626
      */
     @RequestMapping("/save")
     //@RequiresPermissions("product:attr:save")

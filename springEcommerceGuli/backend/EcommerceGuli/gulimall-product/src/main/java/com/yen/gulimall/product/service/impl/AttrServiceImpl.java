@@ -78,7 +78,7 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         this.save(attrEntity);
 
         // step 2) save relation info
-        if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null){ // only save if saless type (type == 1) // https://youtu.be/Tnhog8lflcc?t=362
+        if (attr.getAttrType() == ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode() && attr.getAttrGroupId() != null){ // only save if sales type (type == 1) // https://youtu.be/Tnhog8lflcc?t=362
             AttrAttrgroupRelationEntity relationEntity = new AttrAttrgroupRelationEntity();
             relationEntity.setAttrGroupId(attr.getAttrGroupId());
             relationEntity.setAttrId(attr.getAttrId());
@@ -95,8 +95,8 @@ public class AttrServiceImpl extends ServiceImpl<AttrDao, AttrEntity> implements
         // 1) update queryWrapper per condition : catelogId
         if (catelogId != 0){
             queryWrapper
-                    .eq("catelog_id", catelogId)
-                    .eq("attr_type", "base".equalsIgnoreCase(type)? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode(): ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode()); // 三元運算符: if type == 1, then base type, if type == 0, then sales type
+                    .eq("catelog_id", catelogId);
+                    //.eq("attr_type", "base".equalsIgnoreCase(type)? ProductConstant.AttrEnum.ATTR_TYPE_BASE.getCode(): ProductConstant.AttrEnum.ATTR_TYPE_SALE.getCode()); // 三元運算符: if type == 1, then base type, if type == 0, then sales type
         }
 
         String key = (String) params.get("key");
