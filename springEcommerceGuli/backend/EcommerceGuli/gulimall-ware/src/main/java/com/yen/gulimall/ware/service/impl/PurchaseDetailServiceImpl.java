@@ -17,7 +17,7 @@ import com.yen.gulimall.ware.entity.PurchaseDetailEntity;
 import com.yen.gulimall.ware.service.PurchaseDetailService;
 
 
-// https://youtu.be/O80QfTFlwSk?t=424
+// https://youtu.be/O80QfTFlwSk?t=421
 @Service("purchaseDetailService")
 public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, PurchaseDetailEntity> implements PurchaseDetailService {
 
@@ -29,7 +29,8 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
         String key = (String) params.get("key");
         if (!StringUtils.isEmpty("key")){
             queryWrapper.and(w -> {
-                w.eq("purchase_id", key).or().eq("sku_id", key);
+                w.eq("purchase_id", key).or()
+                 .eq("sku_id", key);
             });
         }
 
@@ -42,9 +43,7 @@ public class PurchaseDetailServiceImpl extends ServiceImpl<PurchaseDetailDao, Pu
 
         String wareId = (String) params.get("wareId");
         if (!StringUtils.isEmpty("wareId")){
-            queryWrapper.and(w -> {
-                w.eq("ware_id", wareId);
-            });
+            queryWrapper.eq("ware_id", wareId);
         }
 
         IPage<PurchaseDetailEntity> page = this.page(
