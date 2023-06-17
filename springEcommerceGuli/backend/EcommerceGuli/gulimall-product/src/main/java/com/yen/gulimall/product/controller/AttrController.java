@@ -63,6 +63,17 @@ public class AttrController {
         return R.ok().put("page", page);
     }
 
+    @GetMapping("/sale/list/{catelogId}")
+    public R baseAttrList2(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId
+                          //@PathVariable("attrType") String type
+    ){
+
+        // if type = 1, then base type; if type = 0 then business type
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, "0");
+        return R.ok().put("page", page);
+    }
+
 
     /**
      * 列表
