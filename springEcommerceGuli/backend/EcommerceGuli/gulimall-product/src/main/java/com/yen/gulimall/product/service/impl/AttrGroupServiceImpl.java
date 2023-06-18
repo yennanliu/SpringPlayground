@@ -7,17 +7,14 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yen.gulimall.common.utils.PageUtils;
 import com.yen.gulimall.common.utils.Query;
-
 import com.yen.gulimall.product.dao.AttrGroupDao;
 import com.yen.gulimall.product.entity.AttrGroupEntity;
 import com.yen.gulimall.product.service.AttrGroupService;
@@ -90,13 +87,10 @@ public class AttrGroupServiceImpl extends ServiceImpl<AttrGroupDao, AttrGroupEnt
 
         // 2) get all categories
         List<AttrGroupWithAttrsVo> collect = attrGroupEntities.stream().map((item) -> {
-
             AttrGroupWithAttrsVo attrsVo = new AttrGroupWithAttrsVo();
             BeanUtils.copyProperties(item, attrsVo);
-
             List<AttrEntity> attrs = attrService.getRelationAttr(attrsVo.getAttrGroupId());
             attrsVo.setAttrs(attrs);
-
             return attrsVo;
         }).collect(Collectors.toList());
 

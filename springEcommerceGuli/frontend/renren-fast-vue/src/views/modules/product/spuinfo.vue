@@ -8,30 +8,30 @@
       style="width: 100%;"
     >
       <el-table-column type="selection" header-align="center" align="center" width="50"></el-table-column>
-      <el-table-column prop="id" header-align="center" align="center" width="50" label="id"></el-table-column>
-      <el-table-column prop="spuName" header-align="center" align="center" label="Name"></el-table-column>
-      <el-table-column prop="spuDescription" header-align="center" align="center" label="Desp."></el-table-column>
-      <el-table-column prop="catalogId" header-align="center" align="center" width="90" label="Category"></el-table-column>
-      <el-table-column prop="brandId" header-align="center" align="center" width="70" label="Brand"></el-table-column>
-      <el-table-column prop="weight" header-align="center" align="center" width="80" label="Weight"></el-table-column>
-      <el-table-column prop="publishStatus" header-align="center" align="center" label="Status" width="120">
+      <el-table-column prop="id" header-align="center" align="center" label="id"></el-table-column>
+      <el-table-column prop="spuName" header-align="center" align="center" label="名称"></el-table-column>
+      <el-table-column prop="spuDescription" header-align="center" align="center" label="描述"></el-table-column>
+      <el-table-column prop="catalogId" header-align="center" align="center" label="分类"></el-table-column>
+      <el-table-column prop="brandId" header-align="center" align="center" label="品牌"></el-table-column>
+      <el-table-column prop="weight" header-align="center" align="center" label="重量"></el-table-column>
+      <el-table-column prop="publishStatus" header-align="center" align="center" label="上架状态">
         <template slot-scope="scope">
-          <el-tag v-if="scope.row.publishStatus == 0">New Created</el-tag>
-          <el-tag v-if="scope.row.publishStatus == 1">Published</el-tag>
-          <el-tag v-if="scope.row.publishStatus == 2">Unpublished</el-tag>
+          <el-tag v-if="scope.row.publishStatus == 0">新建</el-tag>
+          <el-tag v-if="scope.row.publishStatus == 1">已上架</el-tag>
+          <el-tag v-if="scope.row.publishStatus == 2">已下架</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="createTime" header-align="center" align="center" label="Create Time" width="110"></el-table-column>
-      <el-table-column prop="updateTime" header-align="center" align="center" label="Update Time" width="110"></el-table-column>
-      <el-table-column fixed="right" header-align="center" align="center" width="80" label="Actions">
+      <el-table-column prop="createTime" header-align="center" align="center" label="创建时间"></el-table-column>
+      <el-table-column prop="updateTime" header-align="center" align="center" label="修改时间"></el-table-column>
+      <el-table-column fixed="right" header-align="center" align="center" width="150" label="操作">
         <template slot-scope="scope">
           <el-button
             v-if="scope.row.publishStatus == 0"
             type="text"
             size="small"
             @click="productUp(scope.row.id)"
-          >Publish</el-button>
-          <el-button type="text" size="small" @click="attrUpdateShow(scope.row)">Show Attr</el-button>
+          >上架</el-button>
+          <el-button type="text" size="small" @click="attrUpdateShow(scope.row)">规格</el-button>
         </template>
       </el-table-column>
     </el-table>

@@ -40,16 +40,22 @@ public class CategoryBrandRelationController {
      *      step 2) Service: receive data sent by Controller, does business operation
      *      step 3) Controller : receive output data from Service, prepare needed Vo, and send it to front end (web page)
      */
-    @GetMapping("/brand/list")
+    @GetMapping("/brands/list")
     public R relationProductList(@RequestParam(value = "catId", required = true) Long catId){
 
         List<BrandEntity> vos = categoryBrandRelationService.getBrandsByCatId(catId);
         List<BrandVo> collect = vos.stream().map((item) -> {
+
+            System.out.println("item = " + item.toString());
+            System.out.println("item.getBrandId() = " + item.getBrandId());
+
             BrandVo brandVo = new BrandVo();
             brandVo.setBrandId(item.getBrandId());
             brandVo.setBrandName(item.getName());
             return brandVo;
         }).collect(Collectors.toList());
+
+        System.out.println(">>> (relationProductList) collect = " + collect);
 
         return R.ok().put("data", collect);
     }
@@ -68,7 +74,6 @@ public class CategoryBrandRelationController {
         );
 
         System.out.println("(cateloglist) data = " + data.toString());
-
         return R.ok().put("data", data);
     }
 
