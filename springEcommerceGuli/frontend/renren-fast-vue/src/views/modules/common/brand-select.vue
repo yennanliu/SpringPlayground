@@ -44,6 +44,7 @@ export default {
   //方法集合
   methods: {
     getCatBrands() {
+      console.log(">>>getCatBrands start, this.catId = " + this.catId)
       this.$http({
         url: this.$http.adornUrl("/product/categorybrandrelation/brands/list"),
         method: "get",
