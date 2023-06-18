@@ -50,8 +50,8 @@ public class PurchaseDetailController {
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("ware:purchasedetail:info")
     public R info(@PathVariable("id") Long id){
-		PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
 
+        PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
         return R.ok().put("purchaseDetail", purchaseDetail);
     }
 
