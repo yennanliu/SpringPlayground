@@ -45,6 +45,10 @@ public class CategoryBrandRelationController {
 
         List<BrandEntity> vos = categoryBrandRelationService.getBrandsByCatId(catId);
         List<BrandVo> collect = vos.stream().map((item) -> {
+
+            System.out.println("item = " + item.toString());
+            System.out.println("item.getBrandId() = " + item.getBrandId());
+
             BrandVo brandVo = new BrandVo();
             brandVo.setBrandId(item.getBrandId());
             brandVo.setBrandName(item.getName());
