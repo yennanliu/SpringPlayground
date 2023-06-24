@@ -268,6 +268,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attr.getAttrId();
         }).collect(Collectors.toList());
 
+        System.out.println(">>> (SpuInfoServiceImpl up) attrIds = " + attrIds.toString());
+
         // make feign remote call, to check if such sku has stock
         Map<Long, Boolean> stockMap = null;
         try{
@@ -319,8 +321,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
             // set search attr
             esModel.setAttrs(attrsList);
-
             return esModel;
+
         }).collect(Collectors.toList());
 
         // save data to ES
