@@ -66,11 +66,12 @@
         }
       }
       var validateMobile = (rule, value, callback) => {
-        if (!isMobile(value)) {
-          callback(new Error('手机号格式错误'))
-        } else {
-          callback()
-        }
+        // if (!isMobile(value)) {
+        //   callback(new Error('手机号格式错误'))
+        // } else {
+        //   callback()
+        // }
+        callback()
       }
       return {
         visible: false,
