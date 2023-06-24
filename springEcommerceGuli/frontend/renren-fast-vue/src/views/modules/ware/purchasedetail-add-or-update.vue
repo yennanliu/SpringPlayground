@@ -79,7 +79,11 @@ export default {
           limit: 500
         })
       }).then(({ data }) => {
+        console.log(">>> (getWares) : data = " + data);
+        console.log(">>> (getWares) : data.page = " + data.page);
+        console.log(">>> (getWares) : data.page.list = " + data.page.list);
         this.wareList = data.page.list;
+        //this.wareList = data;
       });
     },
     init(id) {
@@ -95,6 +99,10 @@ export default {
             method: "get",
             params: this.$http.adornParams()
           }).then(({ data }) => {
+
+            console.log(" >>> (init) data = " + data);
+            console.log(" >>> (init) data.code = " + data.code);
+
             if (data && data.code === 0) {
               this.dataForm.purchaseId = data.purchaseDetail.purchaseId;
               this.dataForm.skuId = data.purchaseDetail.skuId;
