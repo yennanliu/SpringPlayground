@@ -35,18 +35,20 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
     @Autowired
     ProductFeignService productFeignService;
 
+    // https://youtu.be/O80QfTFlwSk?t=81
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
 
         QueryWrapper<WareSkuEntity> queryWrapper = new QueryWrapper<>();
-
         String skuId = (String) params.get("skuId");
+
         if(!StringUtils.isEmpty(skuId)){
             // prepare SQL where condition
             queryWrapper.eq("sku_id", skuId);
         }
 
         String wareId = (String) params.get("wareId");
+
         if(!StringUtils.isEmpty(wareId)){
             // prepare SQL where condition
             queryWrapper.eq("ware_id", wareId);
@@ -100,6 +102,10 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
         List<SkuHasStockVo> collect = skuIds.stream().map(skuId -> {
             SkuHasStockVo vo = new SkuHasStockVo();
+
+            System.out.println("skuId = " + skuId);
+            System.out.println("vo = " + vo);
+
             // get SKU stock from DB
             long count = baseMapper.getSkuStock(skuId);
             vo.setSkuId(skuId);

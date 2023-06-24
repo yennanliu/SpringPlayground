@@ -120,7 +120,8 @@ public class AttrController {
      *  - https://youtu.be/MpNzMayYIXY?t=304
      */
     @PostMapping("/update/{spuId}")
-    public R updateSpuAttr(@PathVariable("spuId") Long spuId, @RequestBody List<ProductAttrValueEntity> entities){
+    public R updateSpuAttr(@PathVariable("spuId") Long spuId,
+                           @RequestBody List<ProductAttrValueEntity> entities){
 
         productAttrValueService.updateSpuAttr(spuId, entities);
         return R.ok();

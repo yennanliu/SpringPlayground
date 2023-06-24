@@ -3,6 +3,7 @@ package com.yen.gulimall.ware.controller;
 import java.util.Arrays;
 import java.util.Map;
 //import org.apache.shiro.authz.annotation.RequiresPermissions;
+import com.baomidou.mybatisplus.extension.service.additional.query.impl.QueryChainWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,7 +39,10 @@ public class PurchaseDetailController {
     //@RequiresPermissions("ware:purchasedetail:list")
     public R list(@RequestParam Map<String, Object> params){
 
+        //
         PageUtils page = purchaseDetailService.queryPage(params);
+        //QueryChainWrapper<PurchaseDetailEntity> page = purchaseDetailService.query();
+
         System.out.print(">>> page = " + page);
         return R.ok().put("page", page);
     }
@@ -50,8 +54,8 @@ public class PurchaseDetailController {
     @RequestMapping("/info/{id}")
     //@RequiresPermissions("ware:purchasedetail:info")
     public R info(@PathVariable("id") Long id){
-		PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
 
+        PurchaseDetailEntity purchaseDetail = purchaseDetailService.getById(id);
         return R.ok().put("purchaseDetail", purchaseDetail);
     }
 
