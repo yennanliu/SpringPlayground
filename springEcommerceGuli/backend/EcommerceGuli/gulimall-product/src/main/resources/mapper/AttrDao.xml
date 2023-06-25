@@ -19,14 +19,20 @@
     <!--
     https://youtu.be/hnWlIHW1J0I?t=378
     List<Long> selectSearchAttrIds(@Param("attrIds") List<Long> attrIds);
+
+    skip query if where_in clause is empty in MyBatis 3?
+    https://stackoverflow.com/questions/42995592/how-can-i-skip-query-if-where-in-clause-is-empty-in-mybatis-3
     -->
     <select id="selectSearchAttrIds" resultType="java.lang.Long">
         SELECT attr_id FROM `pms_attr`
-        WHERE attr_id IN
-        <foreach collection="attrIds" item="id" separator="," open="(" close=")">
-            #{id}
-        </foreach>
-        AND search_type = 1
+        WHERE
+        search_type = 1
+<!--        <if test="attrIds.size() > 0 || attrIds != null">-->
+<!--            attr_id IN-->
+<!--            <foreach collection="attrIds" item="id" separator="," open="(" close=")">-->
+<!--                #{id}-->
+<!--            </foreach>-->
+<!--        </if>-->
     </select>
 
 </mapper>

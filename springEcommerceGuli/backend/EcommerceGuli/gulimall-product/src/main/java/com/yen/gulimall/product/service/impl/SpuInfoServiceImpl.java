@@ -255,12 +255,13 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     public void up(Long spuId) {
 
         // step 1) prepare needed data in ES
-        SkuEsModel skuEsModel = new SkuEsModel();
         // get all sku info with spuId
         List<SkuInfoEntity> skus =  skuInfoService.getSkusBySpuId(spuId);
         List<Long> skuIdList = skus.stream().map(sku -> {
             return sku.getSkuId();
         }).collect(Collectors.toList());
+
+        System.out.println(">>> (SpuInfoServiceImpl up) skuIdList = " + skuIdList.toString());
 
         // TODO : get all sku attr which can be accessed
         List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListForSpu(spuId);
@@ -293,6 +294,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             BeanUtils.copyProperties(item, attrs1);
             return attrs1;
         }).collect(Collectors.toList());
+
+        System.out.println(">>> (SpuInfoServiceImpl up) attrsList = " + attrsList.toString());
 
         // step 2) setup attr value in every sku
         Map<Long, Boolean> finalStockMap = stockMap;
