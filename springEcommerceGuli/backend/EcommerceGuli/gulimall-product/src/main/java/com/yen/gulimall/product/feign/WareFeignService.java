@@ -16,9 +16,9 @@ public interface WareFeignService {
 
     /**
      *  Fetch info in remote feign call response
-     *      Method 1) : add generic type to R
-     *      Method 2) : return list type (required) data directly
-     *      Method 3) : encapsulate result by ourself
+     *      Method 1) : add generic type to R  ---> used here
+     *      Method 2) : return list type (required type) data directly
+     *      Method 3) : encapsulate result by ourselves
      */
     // src/main/java/com/yen/gulimall/ware/controller/WareSkuController.java
     @PostMapping("/ware/waresku/hasStock")
