@@ -12,6 +12,10 @@ import java.util.List;
  * @author yen
  * @email yen_dev@gmail.com
  * @date 2023-02-01 08:23:29
+ *
+ * update:
+ *  - https://youtu.be/hnWlIHW1J0I?t=293
+ *
  */
 @Mapper
 public interface AttrDao extends BaseMapper<AttrEntity> {

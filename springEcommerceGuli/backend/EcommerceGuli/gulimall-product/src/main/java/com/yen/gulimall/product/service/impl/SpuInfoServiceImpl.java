@@ -255,12 +255,14 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
     public void up(Long spuId) {
 
         // step 1) prepare needed data in ES
-        SkuEsModel skuEsModel = new SkuEsModel();
         // get all sku info with spuId
         List<SkuInfoEntity> skus =  skuInfoService.getSkusBySpuId(spuId);
+        log.debug(">>> (SpuInfoServiceImpl up) spuId = " + spuId + " skus = " + skus.toString());
         List<Long> skuIdList = skus.stream().map(sku -> {
             return sku.getSkuId();
         }).collect(Collectors.toList());
+
+        log.debug(">>> (SpuInfoServiceImpl up) skuIdList = " + skuIdList.toString());
 
         // TODO : get all sku attr which can be accessed
         List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListForSpu(spuId);
@@ -268,18 +270,39 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attr.getAttrId();
         }).collect(Collectors.toList());
 
-        System.out.println(">>> (SpuInfoServiceImpl up) attrIds = " + attrIds.toString());
+        log.debug(">>> (SpuInfoServiceImpl up) attrIds = " + attrIds.toString() + " skuIdList = " + skuIdList);
 
         // make feign remote call, to check if such sku has stock
         Map<Long, Boolean> stockMap = null;
         try{
             R<List<SkuHasStockVo>> skuHasStock = wareFeignService.getSkuHasStock(skuIdList);
+            log.debug(">>> skuHasStock = " + skuHasStock.toString() + " data = " + skuHasStock.get("data"));
+
+            // TODO : fix skuHasStock.getData() method from ware service
+            // here hardcode for end-to-end testing
+            List<SkuHasStockVo> skuHasStockData = new ArrayList<>();
+            SkuHasStockVo sku1 = new SkuHasStockVo();
+            SkuHasStockVo sku2 = new SkuHasStockVo();
+            sku1.setSkuId(1L);
+            sku1.setSkuId(2L);
+            sku1.setHasStock(false);
+            sku2.setHasStock(false);
+            skuHasStockData.add(sku1);
+            skuHasStockData.add(sku2);
+            //String skuHasStockData = skuHasStock.get("data").toString();
+            //skuHasStockData
+            //List<String> myList = new ArrayList<String>(Arrays.asList(skuHasStockData.split(",")));
+            //System.out.println(">>> myList = " + myList.toString());
+
             // transform List<SkuHasStockVo> to Map<Long, Boolean>, so we can get its Map value by its key
-            stockMap = skuHasStock.getData().stream().collect(
+//            stockMap = skuHasStock.getData().stream().collect(
+//                    Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock())
+//            );
+            stockMap = skuHasStockData.stream().collect(
                     Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock())
             );
         }catch (Exception e){
-            log.error("Ware feign call failed. Exception : {}" + e);
+            log.error("Ware feign call failed. Exception : " + e);
         }
 
         List<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);
@@ -294,6 +317,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attrs1;
         }).collect(Collectors.toList());
 
+        log.debug(">>> (SpuInfoServiceImpl up) attrsList = " + attrsList.toString());
+
         // step 2) setup attr value in every sku
         Map<Long, Boolean> finalStockMap = stockMap;
         List<SkuEsModel> upProducts = skus.stream().map(sku -> {
@@ -302,6 +327,8 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             // manually setup attr has different name in SkuInfoEntity, SkuEsModel
             esModel.setSkuPrice(sku.getPrice());
             esModel.setSkuImg(sku.getSkuDefaultImg());
+
+            log.debug(">>> (SpuInfoServiceImpl up) sku = " + sku);
 
             if (finalStockMap == null){
                 esModel.setHasStock(true);
@@ -314,6 +341,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
             // get brand, category name
             BrandEntity brand = brandService.getById(esModel.getBrandId());
+            log.debug(">>> brand = " + brand);
             esModel.setBrandName(brand.getName());
             esModel.setBrandImg(brand.getLogo());
             CategoryEntity category = categoryService.getById(esModel.getCatelogId());
@@ -321,6 +349,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
 
             // set search attr
             esModel.setAttrs(attrsList);
+            log.debug(">>> attrsList = " + attrsList);
             return esModel;
 
         }).collect(Collectors.toList());

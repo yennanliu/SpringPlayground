@@ -23,6 +23,7 @@ import com.yen.gulimall.common.utils.PageUtils;
  * @email yen_dev@gmail.com
  * @date 2023-02-05 00:24:12
  */
+
 @RestController
 @RequestMapping("ware/waresku")
 public class WareSkuController {
@@ -37,8 +38,11 @@ public class WareSkuController {
     public R<List<SkuHasStockVo>> getSkuHasStock(@RequestBody List<Long> skuIds){
 
         List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
+        System.out.println(">>> (hasStock) getSkuHasStock vos = " + vos);
         R<List<SkuHasStockVo>> ok = R.ok();
         ok.setData(vos);
+        ok.put("data", vos);
+        System.out.println(">>> WareSkuController (/hasStock) + ok = " + ok);
         return ok;
     }
 
