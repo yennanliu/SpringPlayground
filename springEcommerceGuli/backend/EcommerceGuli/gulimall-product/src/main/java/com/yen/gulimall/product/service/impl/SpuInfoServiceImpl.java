@@ -257,11 +257,12 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         // step 1) prepare needed data in ES
         // get all sku info with spuId
         List<SkuInfoEntity> skus =  skuInfoService.getSkusBySpuId(spuId);
+        log.debug(">>> (SpuInfoServiceImpl up) spuId = " + spuId + " skus = " + skus.toString());
         List<Long> skuIdList = skus.stream().map(sku -> {
             return sku.getSkuId();
         }).collect(Collectors.toList());
 
-        System.out.println(">>> (SpuInfoServiceImpl up) skuIdList = " + skuIdList.toString());
+        log.debug(">>> (SpuInfoServiceImpl up) skuIdList = " + skuIdList.toString());
 
         // TODO : get all sku attr which can be accessed
         List<ProductAttrValueEntity> baseAttrs = productAttrValueService.baseAttrListForSpu(spuId);
@@ -269,18 +270,19 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
             return attr.getAttrId();
         }).collect(Collectors.toList());
 
-        System.out.println(">>> (SpuInfoServiceImpl up) attrIds = " + attrIds.toString());
+        log.debug(">>> (SpuInfoServiceImpl up) attrIds = " + attrIds.toString() + " skuIdList = " + skuIdList);
 
         // make feign remote call, to check if such sku has stock
         Map<Long, Boolean> stockMap = null;
         try{
             R<List<SkuHasStockVo>> skuHasStock = wareFeignService.getSkuHasStock(skuIdList);
+            log.debug(">>> skuHasStock = " + skuHasStock.toString() + " data = " + skuHasStock.getData());
             // transform List<SkuHasStockVo> to Map<Long, Boolean>, so we can get its Map value by its key
             stockMap = skuHasStock.getData().stream().collect(
                     Collectors.toMap(SkuHasStockVo::getSkuId, item -> item.getHasStock())
             );
         }catch (Exception e){
-            log.error("Ware feign call failed. Exception : {}" + e);
+            log.error("Ware feign call failed. Exception : " + e);
         }
 
         List<Long> searchAttrIds = attrService.selectSearchAttrIds(attrIds);

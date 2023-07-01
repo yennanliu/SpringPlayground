@@ -37,6 +37,7 @@ public class WareSkuController {
     public R<List<SkuHasStockVo>> getSkuHasStock(@RequestBody List<Long> skuIds){
 
         List<SkuHasStockVo> vos = wareSkuService.getSkuHasStock(skuIds);
+        System.out.println(">>> (hasStock) getSkuHasStock vos = " + vos);
         R<List<SkuHasStockVo>> ok = R.ok();
         ok.setData(vos);
         return ok;
