@@ -42,6 +42,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
             indexRequest.id(model.getSkuId().toString());
             String jsonString = JSON.toJSONString(model); // transform json to string
             indexRequest.source(jsonString, XContentType.JSON); // add jsonString to index request
+            log.info("ES indexRequest = " + indexRequest);
             bulkRequest.add(indexRequest);
         }
 
@@ -51,7 +52,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
         List<String> collect = Arrays.stream(bulk.getItems()).map(item -> {
             return item.getId();
         }).collect(Collectors.toList());
-        log.error("Product on shelf error : id = {}", collect);
+        log.error("Product on board (ES) error : id = {}", collect);
         return status;
 
         // Step 3)
