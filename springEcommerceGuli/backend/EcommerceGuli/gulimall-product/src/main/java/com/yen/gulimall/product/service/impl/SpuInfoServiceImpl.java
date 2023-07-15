@@ -360,7 +360,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         R r = searchFeignService.productStatusUp(upProducts);
         if (r.getCode() == 0){
             // feign call success
-            // update SPU status in DB
+            // update SPU status to DB
             baseMapper.updateSpuStatus(spuId, ProductStatus.AttrEnum.SPU_UP.getCode());
         }else{
             // feign call fail
