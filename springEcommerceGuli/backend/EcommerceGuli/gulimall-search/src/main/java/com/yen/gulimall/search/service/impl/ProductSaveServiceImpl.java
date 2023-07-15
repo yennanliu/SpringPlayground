@@ -26,7 +26,7 @@ public class ProductSaveServiceImpl implements ProductSaveService {
 
     // NOTE : we autowire org.elasticsearch.client.RestHighLevelClient
     @Autowired
-    RestHighLevelClient  restHighLevelClient;
+    RestHighLevelClient  restHighLevelClient; // as ES client
 
     @Override
     public Boolean productStatusUp(List<SkuEsModel> skuEsModelList) throws IOException {
