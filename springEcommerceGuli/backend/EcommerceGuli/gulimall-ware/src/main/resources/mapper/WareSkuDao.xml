@@ -24,7 +24,9 @@
 
     <!--
         https://youtu.be/JRPBm5sK4Gg?t=472
-        long getSkuStock(Long skuId);
+        Long getSkuStock(Long skuId);
+
+        https://youtu.be/cMtrw90Ol6M?t=314
     -->
     <select id="getSkuStock"  resultType="java.lang.Long">
         SELECT SUM(stock - stock_locked) FROM `wms_ware_sku`

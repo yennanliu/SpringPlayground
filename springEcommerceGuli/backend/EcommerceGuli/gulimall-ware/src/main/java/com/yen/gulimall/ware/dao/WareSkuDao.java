@@ -16,6 +16,8 @@ import org.apache.ibatis.annotations.Param;
 public interface WareSkuDao extends BaseMapper<WareSkuEntity> {
     void addStock(@Param("skuId") Long skuId, @Param("wareId") Long wareId, @Param("skuNum") Integer skuNum);
 
+
     // https://youtu.be/JRPBm5sK4Gg?t=469
-    long getSkuStock(@Param("skuId") int skuId);
+    // https://youtu.be/cMtrw90Ol6M?t=311 // use Long, for skuStock is null case
+    Long getSkuStock(@Param("skuId") int skuId);
 }
