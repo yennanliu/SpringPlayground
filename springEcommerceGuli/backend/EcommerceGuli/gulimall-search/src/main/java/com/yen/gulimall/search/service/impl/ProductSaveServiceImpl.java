@@ -14,7 +14,9 @@ import org.elasticsearch.common.xcontent.XContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,6 +32,19 @@ public class ProductSaveServiceImpl implements ProductSaveService {
 
     @Override
     public Boolean productStatusUp(List<SkuEsModel> skuEsModelList) throws IOException {
+
+        // TODO : fix why received skuEsModelList is always null and make it can be sent to ES
+        // For DEBUG only
+        SkuEsModel model1 = new SkuEsModel(11L, 6L, "prod_1", new BigDecimal("4.0"), null, 1L, true, 1L, 1L, 1L, "brand1", null, null, null);
+        SkuEsModel model2 = new SkuEsModel(12L, 4L, "prod_2", new BigDecimal("4.0"), null, 1L, true, 1L, 1L, 1L, "brand1", null, null, null);
+        List<SkuEsModel> _skuEsModelList = new LinkedList<>();
+        _skuEsModelList.add(model1);
+        _skuEsModelList.add(model2);
+        skuEsModelList = _skuEsModelList;
+
+        System.out.println(">>> skuEsModelList size = " + skuEsModelList.size()
+                + " data = " + skuEsModelList.toArray().toString()
+        );
 
         // save to ES
         // Step 1) setup ES index : product, set up mapping (data structure)
@@ -49,10 +64,8 @@ public class ProductSaveServiceImpl implements ProductSaveService {
         BulkResponse bulk = restHighLevelClient.bulk(bulkRequest, ElasticConfig.COMMON_OPTIONS);
         // TODO : deal with batch insert (ES) error
         boolean status = bulk.hasFailures();
-        List<String> collect = Arrays.stream(bulk.getItems()).map(item -> {
-            return item.getId();
-        }).collect(Collectors.toList());
-        log.error("Product on board (ES) error : id = {}", collect);
+        List<String> collect = Arrays.stream(bulk.getItems()).map(item -> item.getId()).collect(Collectors.toList());
+        log.debug("Product on board (ES) : id = {}", collect + " has error ? = " + status);
         return status;
 
         // Step 3)
