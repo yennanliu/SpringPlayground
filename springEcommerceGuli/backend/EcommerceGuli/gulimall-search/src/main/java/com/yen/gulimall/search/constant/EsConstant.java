@@ -4,5 +4,5 @@ package com.yen.gulimall.search.constant;
 
 public class EsConstant {
 
-    public static final String PRODUCT_INDEX = "prioduct"; // ES index for sku data
+    public static final String PRODUCT_INDEX = "product"; // ES index for sku data
 }

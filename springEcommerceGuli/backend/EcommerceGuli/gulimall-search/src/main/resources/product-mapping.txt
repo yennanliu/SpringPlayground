@@ -1,4 +1,5 @@
 # https://github.com/zli78122/gulimall/blob/master/gulimall-search/src/main/resources/gulimall_product-mapping.txt
+# https://youtu.be/PZW2rOit2s8?t=320
 
 {
   "mappings": {

@@ -16,5 +16,15 @@
         <result property="updateTime" column="update_time"/>
     </resultMap>
 
+    <!--
+        void updateSpuStatus(@Param("spuId") Long spuId, @Param("code") int code);
+        https://youtu.be/PZW2rOit2s8?t=1179
+    -->
+    <update id="updateSpuStatus">
+        UPDATE `pms_spu_info`
+        SET publish_status = #{code}, update_time = NOW()
+        WHERE id = #{spuId}
+    </update>
+
 
 </mapper>
