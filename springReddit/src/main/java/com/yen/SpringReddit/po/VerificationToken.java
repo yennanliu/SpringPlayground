@@ -1,11 +1,11 @@
 package com.yen.SpringReddit.po;
 
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
 import java.time.Instant;
 
 import static jakarta.persistence.FetchType.LAZY;

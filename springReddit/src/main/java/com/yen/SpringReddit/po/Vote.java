@@ -1,12 +1,11 @@
 package com.yen.SpringReddit.po;
 
+import jakarta.persistence.*;
+//import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 
 import static jakarta.persistence.FetchType.LAZY;
 import static jakarta.persistence.GenerationType.IDENTITY;
@@ -21,7 +20,7 @@ public class Vote {
     @GeneratedValue(strategy = IDENTITY)
     private Long voteId;
     private VoteType voteType;
-    @NotNull
+    //@NotNull
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "postId", referencedColumnName = "postId")
     private Post post;
