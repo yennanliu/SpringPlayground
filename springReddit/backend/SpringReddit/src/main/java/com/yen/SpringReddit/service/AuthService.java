@@ -4,9 +4,12 @@ package com.yen.SpringReddit.service;
 // https://github.com/SaiUpadhyayula/spring-reddit-clone/blob/master/src/main/java/com/programming/techie/springredditclone/service/AuthService.java
 
 import com.yen.SpringReddit.dto.RegisterRequest;
+import com.yen.SpringReddit.po.User;
 
 public interface AuthService {
 
-    public void SignUp(RegisterRequest registerRequest);
+    void SignUp(RegisterRequest registerRequest);
+
+    String generateVerificationToken(User user);
 
 }
