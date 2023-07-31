@@ -1,0 +1,12 @@
+package com.yen.SpringReddit.service;
+
+// https://youtu.be/kpKUMmAmcj0?t=280
+// https://github.com/SaiUpadhyayula/spring-reddit-clone/blob/master/src/main/java/com/programming/techie/springredditclone/service/AuthService.java
+
+import com.yen.SpringReddit.dto.RegisterRequest;
+
+public interface AuthService {
+
+    public void SignUp(RegisterRequest registerRequest);
+
+}
