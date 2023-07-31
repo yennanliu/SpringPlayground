@@ -6,14 +6,21 @@ import com.yen.SpringReddit.dto.RegisterRequest;
 import com.yen.SpringReddit.po.User;
 import com.yen.SpringReddit.po.VerificationToken;
 import com.yen.SpringReddit.service.AuthService;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.UUID;
 
+@Service
+//@AllArgsConstructor
+@Transactional
+@Slf4j
 public class AuthServiceImpl implements AuthService {
 
 
@@ -32,7 +39,6 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private VerificationTokenDao verificationTokenD;
 
-    @Transactional
     @Override
     public void SignUp(RegisterRequest registerRequest) {
 
