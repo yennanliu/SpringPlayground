@@ -26,7 +26,7 @@ public class MailServiceImpl implements MailService {
     MailContentBuilder mailContentBuilder;
 
     @Override
-    @Async
+    @Async // https://youtu.be/PMr2Mh9xzm4?t=305
     public void sendMail(NotificationEmail notificationEmail) {
         log.info("notificationEmail = " + notificationEmail.toString());
         MimeMessagePreparator messagePreparator = mimeMessage -> {
