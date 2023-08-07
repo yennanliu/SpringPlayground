@@ -28,17 +28,13 @@ public class MailServiceImpl implements MailService {
     @Override
     @Async
     public void sendMail(NotificationEmail notificationEmail) {
+        log.info("notificationEmail = " + notificationEmail.toString());
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("springreddit@email.com");
-//            messageHelper.setTo(notificationEmail.getRecipient());
-//            messageHelper.setSubject(notificationEmail.getSubject());
-//            messageHelper.setText(notificationEmail.getBody());
-
-            messageHelper.setTo("wefew");
-            messageHelper.setSubject("wefew");
-            messageHelper.setText("wefew");
-
+            messageHelper.setTo(notificationEmail.getRecipient());
+            messageHelper.setSubject(notificationEmail.getSubject());
+            messageHelper.setText(notificationEmail.getBody());
         };
         try {
             mailSender.send(messagePreparator);

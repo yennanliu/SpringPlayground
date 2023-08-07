@@ -47,12 +47,20 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void signUp(RegisterRequest registerRequest) {
 
+        log.info("registerRequest = " + registerRequest.toString());
+
         User user = new User();
         // copy attr from registerRequest to user
-        BeanUtils.copyProperties(registerRequest, user);
+        //BeanUtils.copyProperties(registerRequest, user);
+        user.setEmail(registerRequest.getEmail());
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(registerRequest.getPassword());
         //user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
         user.setEnabled(false);
+
+        log.info("user = " + user.toString());
+
         // save to DB
         userDao.save(user);
 
