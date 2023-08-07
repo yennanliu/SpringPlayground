@@ -3,6 +3,7 @@ package com.yen.SpringReddit.service.impl;
 import com.yen.SpringReddit.dao.UserDao;
 import com.yen.SpringReddit.dao.VerificationTokenDao;
 import com.yen.SpringReddit.dto.RegisterRequest;
+import com.yen.SpringReddit.exceptions.SpringRedditException;
 import com.yen.SpringReddit.po.NotificationEmail;
 import com.yen.SpringReddit.po.User;
 import com.yen.SpringReddit.po.VerificationToken;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -39,7 +41,7 @@ public class AuthServiceImpl implements AuthService {
     private UserDao userDao;
 
     @Autowired
-    private VerificationTokenDao verificationTokenD;
+    private VerificationTokenDao verificationTokenDao;
 
     @Autowired
     private MailService mailService;
@@ -84,8 +86,24 @@ public class AuthServiceImpl implements AuthService {
         verificationToken.setToken(token);
         verificationToken.setUser(user);
         // save to DB
-        verificationTokenD.save(verificationToken);
+        verificationTokenDao.save(verificationToken);
         return token;
+    }
+
+    @Override
+    public void verifyAccount(String token) {
+
+        Optional<VerificationToken> verificationToken = verificationTokenDao.findByToken(token);
+        verificationToken.orElseThrow( () -> new SpringRedditException("Invalid token"));
+    }
+
+    @Transactional
+    private void fetchUserAndEnable(VerificationToken verificationToken){
+
+        String username = verificationToken.getUser().getUsername();
+        User user = userDao.findByUsername(username).orElseThrow( () -> new SpringRedditException("User not found with name = " + username));
+        user.setEnabled(true);
+        userDao.save(user);
     }
 
 }

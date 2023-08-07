@@ -12,4 +12,5 @@ public interface AuthService {
 
     String generateVerificationToken(User user);
 
+    void verifyAccount(String token);
 }
