@@ -31,9 +31,14 @@ public class MailServiceImpl implements MailService {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom("springreddit@email.com");
-            messageHelper.setTo(notificationEmail.getRecipient());
-            messageHelper.setSubject(notificationEmail.getSubject());
-            messageHelper.setText(notificationEmail.getBody());
+//            messageHelper.setTo(notificationEmail.getRecipient());
+//            messageHelper.setSubject(notificationEmail.getSubject());
+//            messageHelper.setText(notificationEmail.getBody());
+
+            messageHelper.setTo("wefew");
+            messageHelper.setSubject("wefew");
+            messageHelper.setText("wefew");
+
         };
         try {
             mailSender.send(messagePreparator);

@@ -32,8 +32,8 @@ public class AuthServiceImpl implements AuthService {
      *      - Field Injection is Evil - https://odrotbohm.de/2013/11/why-field-injection-is-evil/
      *      - Field Injection Considered Harmful - https://www.vojtechruzicka.com/field-dependency-injection-considered-harmful/
      */
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserDao userDao;
@@ -50,7 +50,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         // copy attr from registerRequest to user
         BeanUtils.copyProperties(registerRequest, user);
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        //user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setCreated(Instant.now());
         user.setEnabled(false);
         // save to DB
@@ -64,6 +64,7 @@ public class AuthServiceImpl implements AuthService {
                 "Thanks for register!, plz click below url to activate your account :" +
                "http://localhost:8080/api/auth/accountVerification/" + token
         );
+        log.info("email = " + email.toString());
         mailService.sendMail(email);
     }
 

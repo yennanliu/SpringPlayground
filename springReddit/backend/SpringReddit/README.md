@@ -1,5 +1,14 @@
 # SpringReddit (Backend)
 
+
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| Signup | GET | http://localhost:8080/api/auth/signup  | |
+
+
+
 ## Ref
 - BE : https://github.com/SaiUpadhyayula/spring-reddit-clone
 - FE : https://github.com/SaiUpadhyayula/angular-reddit-clone
