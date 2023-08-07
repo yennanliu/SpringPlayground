@@ -5,21 +5,27 @@ package com.yen.SpringReddit.controller;
 
 import com.yen.SpringReddit.dto.RegisterRequest;
 import com.yen.SpringReddit.po.User;
+import com.yen.SpringReddit.service.AuthService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.beans.BeanUtils;
-
-import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @PostMapping("/signup")
-    public void signup(@RequestBody RegisterRequest registerRequest){
+    @Autowired
+    AuthService authService;
 
+    @PostMapping("/signup")
+    public ResponseEntity signup(@RequestBody RegisterRequest registerRequest){
+
+        authService.signUp(registerRequest);
+        return new ResponseEntity<>("user register success", HttpStatus.OK);
     }
 }

@@ -3,9 +3,11 @@ package com.yen.SpringReddit.service.impl;
 import com.yen.SpringReddit.dao.UserDao;
 import com.yen.SpringReddit.dao.VerificationTokenDao;
 import com.yen.SpringReddit.dto.RegisterRequest;
+import com.yen.SpringReddit.po.NotificationEmail;
 import com.yen.SpringReddit.po.User;
 import com.yen.SpringReddit.po.VerificationToken;
 import com.yen.SpringReddit.service.AuthService;
+import com.yen.SpringReddit.service.MailService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -39,8 +41,11 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private VerificationTokenDao verificationTokenD;
 
+    @Autowired
+    private MailService mailService;
+
     @Override
-    public void SignUp(RegisterRequest registerRequest) {
+    public void signUp(RegisterRequest registerRequest) {
 
         User user = new User();
         // copy attr from registerRequest to user
@@ -52,6 +57,14 @@ public class AuthServiceImpl implements AuthService {
         userDao.save(user);
 
         String token = generateVerificationToken(user);
+
+        NotificationEmail email = new NotificationEmail(
+                "plz activate your email",
+                user.getEmail(),
+                "Thanks for register!, plz click below url to activate your account :" +
+               "http://localhost:8080/api/auth/accountVerification/" + token
+        );
+        mailService.sendMail(email);
     }
 
     @Override

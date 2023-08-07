@@ -8,7 +8,7 @@ import com.yen.SpringReddit.po.User;
 
 public interface AuthService {
 
-    void SignUp(RegisterRequest registerRequest);
+    void signUp(RegisterRequest registerRequest);
 
     String generateVerificationToken(User user);
 
