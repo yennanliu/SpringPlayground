@@ -6,3 +6,6 @@
 - 20230807
 	- https://www.youtube.com/watch?v=PMr2Mh9xzm4&list=PLSVW22jAG8pAGrwFjsUERCu9WSo2-uEMg&index=3
 	- https://www.youtube.com/watch?v=1ojKQxVssPQ&list=PLSVW22jAG8pAGrwFjsUERCu9WSo2-uEMg&index=4
+- 20230809
+	- https://www.youtube.com/watch?v=1ojKQxVssPQ&list=PLSVW22jAG8pAGrwFjsUERCu9WSo2-uEMg&index=6
+		- progress : 11:10
