@@ -2,6 +2,7 @@ package com.yen.SpringReddit.controller;
 
 // https://youtu.be/kpKUMmAmcj0?t=123
 
+import com.yen.SpringReddit.dto.LoginRequest;
 import com.yen.SpringReddit.dto.RegisterRequest;
 import com.yen.SpringReddit.po.User;
 import com.yen.SpringReddit.service.AuthService;
@@ -30,6 +31,12 @@ public class AuthController {
 
         authService.verifyAccount(token);
         return new ResponseEntity<>("Account activation success", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public void login(@RequestBody LoginRequest loginRequest){
+
+        authService.login(loginRequest);
     }
 
 }

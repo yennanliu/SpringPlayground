@@ -2,20 +2,27 @@ package com.yen.SpringReddit.service.impl;
 
 import com.yen.SpringReddit.dao.UserDao;
 import com.yen.SpringReddit.dao.VerificationTokenDao;
+import com.yen.SpringReddit.dto.AuthenticationResponse;
+import com.yen.SpringReddit.dto.LoginRequest;
 import com.yen.SpringReddit.dto.RegisterRequest;
 import com.yen.SpringReddit.exceptions.SpringRedditException;
 import com.yen.SpringReddit.po.NotificationEmail;
 import com.yen.SpringReddit.po.User;
 import com.yen.SpringReddit.po.VerificationToken;
+import com.yen.SpringReddit.security.JwtProvider;
 import com.yen.SpringReddit.service.AuthService;
 import com.yen.SpringReddit.service.MailService;
+import com.yen.SpringReddit.service.RefreshTokenService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.authentication.AuthenticationManager;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -45,6 +52,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private MailService mailService;
+
+    //@Autowired
+    private AuthenticationManager authenticationManager;
+
+    @Autowired
+    JwtProvider jwtProvider;
+
+    @Autowired
+    RefreshTokenService refreshTokenService;
 
     @Override
     public void signUp(RegisterRequest registerRequest) {
@@ -95,6 +111,22 @@ public class AuthServiceImpl implements AuthService {
 
         Optional<VerificationToken> verificationToken = verificationTokenDao.findByToken(token);
         verificationToken.orElseThrow( () -> new SpringRedditException("Invalid token"));
+    }
+
+    @Override
+    public AuthenticationResponse login(LoginRequest loginRequest) {
+
+        Authentication authenticate = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                loginRequest.getPassword()));
+        SecurityContextHolder.getContext().setAuthentication(authenticate);
+        String token = jwtProvider.generateToken(authenticate);
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenService.generateRefreshToken().getToken())
+                .expiresAt(Instant.now().plusMillis(jwtProvider.getJwtExpirationInMillis()))
+                .username(loginRequest.getUsername())
+                .build();
     }
 
     @Transactional
