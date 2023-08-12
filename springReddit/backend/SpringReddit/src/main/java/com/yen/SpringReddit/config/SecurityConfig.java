@@ -33,6 +33,11 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
     }
 
 //    @Bean
+//    public AuthenticationManager authenticationManagerBean() throws Exception {
+//        return super.authenticationManagerBean();
+//    }
+
+//    @Bean
 //    public UserDetailsService myUserDetailsService(){
 //        return new InMemoryUserDetailsManager(
 //                User.withUsername("admin")

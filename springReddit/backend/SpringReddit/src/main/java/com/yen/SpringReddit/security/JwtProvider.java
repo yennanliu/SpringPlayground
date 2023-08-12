@@ -24,7 +24,7 @@ import java.security.cert.CertificateException;
 import java.time.Instant;
 
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class JwtProvider {
 
 //    @Autowired
@@ -36,18 +36,18 @@ public class JwtProvider {
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationInMillis;
 
-    @PostConstruct
-    public void init(){
-
-        try{
-            keyStore =  KeyStore.getInstance("JKS");
-            InputStream resourceStream = getClass().getResourceAsStream("/spring_reddit.jks");
-            keyStore.load(resourceStream, "secret".toCharArray());
-        }catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e){
-            throw new SpringRedditException("Exception when load keystore");
-        }
-
-    }
+//    @PostConstruct
+//    public void init(){
+//
+//        try{
+//            keyStore =  KeyStore.getInstance("JKS");
+//            InputStream resourceStream = getClass().getResourceAsStream("/spring_reddit.jks");
+//            keyStore.load(resourceStream, "secret".toCharArray());
+//        }catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e){
+//            throw new SpringRedditException("Exception when load keystore");
+//        }
+//
+//    }
 
 
     public String generateToken(Authentication authentication){

@@ -13,13 +13,13 @@ import com.yen.SpringReddit.security.JwtProvider;
 import com.yen.SpringReddit.service.AuthService;
 import com.yen.SpringReddit.service.MailService;
 import com.yen.SpringReddit.service.RefreshTokenService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -53,7 +53,7 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private MailService mailService;
 
-    //@Autowired
+//    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -113,6 +113,7 @@ public class AuthServiceImpl implements AuthService {
         verificationToken.orElseThrow( () -> new SpringRedditException("Invalid token"));
     }
 
+    // TODO : fix this (authenticationManager init error)
     @Override
     public AuthenticationResponse login(LoginRequest loginRequest) {
 
