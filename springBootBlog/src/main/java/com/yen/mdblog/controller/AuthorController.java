@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 import java.util.Optional;
 
 @Controller
@@ -20,15 +22,16 @@ public class AuthorController {
     AuthorRepository authorRepository;
 
     @GetMapping("/all")
-    String getAllAuthor(Model model){
+    String getAllAuthor(Model model, Principal principal){
 
         Iterable<Author> authorOptional = authorRepository.findAll();
         model.addAttribute("authors", authorOptional);
+        model.addAttribute("user", principal.getName());
         return "authors";
     }
 
     @GetMapping("/{id}")
-    public String getAuthorById(@PathVariable Long id, Model model) {
+    public String getAuthorById(@PathVariable Long id, Model model, Principal principal) {
 
         Optional<com.yen.mdblog.entity.Po.Author> authorOptional = authorRepository.findById(id);
         if (authorOptional.isPresent()) {
@@ -36,6 +39,7 @@ public class AuthorController {
         } else {
             model.addAttribute("error", "");
         }
+        model.addAttribute("user", principal.getName());
         return "author";
     }
 

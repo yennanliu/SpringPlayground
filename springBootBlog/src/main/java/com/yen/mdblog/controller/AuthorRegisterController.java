@@ -9,7 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;;import java.util.Date;
+import org.springframework.web.bind.annotation.RequestMethod;;import java.security.Principal;
+import java.util.Date;
 
 @Controller
 @RequestMapping("/register")
@@ -20,8 +21,10 @@ public class AuthorRegisterController {
     AuthorMapper authorMapper;
 
     @GetMapping("/create")
-    public String register(Model model){
+    public String register(Model model, Principal principal){
+
         model.addAttribute("CreateAuthor", new CreateAuthor());
+        model.addAttribute("user", principal.getName());
         return "register";
     }
 

@@ -20,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +52,7 @@ public class PostController {
 	public String getPaginatedPosts(
 			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
 			@RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+			Principal principal,
 			Model model) {
 
 		/**
@@ -82,13 +85,20 @@ public class PostController {
 		}
 
 		log.info(">>> all posts count = " + posts.size());
+
 		model.addAttribute("posts", posts);
+		// get current user login via spring security
+		model.addAttribute("user", principal.getName());
+
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
+
+		model.addAttribute("user", principal.getName());
+
 		return "posts";
 	}
 
 	@GetMapping("/{id}")
-	public String getPostById(@PathVariable long id, Model model) {
+	public String getPostById(@PathVariable long id, Model model, Principal principal) {
 
 		Optional<Post> postOptional = postRepository.findById(id);
 		if (postOptional.isPresent()) {
@@ -96,18 +106,21 @@ public class PostController {
 		} else {
 			model.addAttribute("error", "no-post");
 		}
+
+		model.addAttribute("user", principal.getName());
 		return "post";
 	}
 
 	@GetMapping("/create")
-	public String createPostForm(Model model){
+	public String createPostForm(Model model, Principal principal){
 
 		model.addAttribute("CreatePost", new CreatePost());
+		model.addAttribute("user", principal.getName());
 		return "create_post";
 	}
 
 	@RequestMapping(value="/create", method= RequestMethod.POST)
-	public String createPost(CreatePost request){
+	public String createPost(CreatePost request, Model model, Principal principal){
 
 		log.info(">>> create post start ...");
 		Post post = new Post();
@@ -130,7 +143,15 @@ public class PostController {
 		if (!ids.contains(author.getId())){
 			authorService.saveAuthor(author);
 		}
+		model.addAttribute("user", principal.getName());
 		return "success";
+	}
+
+	@GetMapping("/mypost")
+	public String getMyPost(Model model, Principal principal){
+
+		model.addAttribute("user", principal.getName());
+		return "header";
 	}
 
 }

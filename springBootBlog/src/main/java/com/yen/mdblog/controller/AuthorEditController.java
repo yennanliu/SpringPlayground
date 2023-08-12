@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +36,7 @@ public class AuthorEditController {
     AuthorService authorService;
 
     @GetMapping("/pre_edit")
-    public String preEdit(Model model) {
+    public String preEdit(Model model, Principal principal) {
 
         log.info(">>> (Author) prePost start ...");
         User user = new User();
@@ -57,18 +59,21 @@ public class AuthorEditController {
             request.setUserName("admin");
             model.addAttribute("authors", authorList);
             model.addAttribute("LoginRequest", request);
+            model.addAttribute("user", principal.getName());
         }
         return "author_pre_edit";
     }
 
     @GetMapping("/")
-    public String EditAuthor(Model model) {
+    public String EditAuthor(Model model, Principal principal) {
+
         model.addAttribute("CreateAuthor", new CreateAuthor());
+        model.addAttribute("user", principal.getName());
         return "author_pre_edit";
     }
 
     @GetMapping("/{id}")
-    public String getAuthorById(@PathVariable long id, Model model) {
+    public String getAuthorById(@PathVariable long id, Model model, Principal principal) {
         Optional<Author> authorOptional = authorRepository.findById(id);
 
         if (authorOptional.isPresent()) {
@@ -76,14 +81,16 @@ public class AuthorEditController {
         } else {
             model.addAttribute("error", "no-post");
         }
+        model.addAttribute("user", principal.getName());
         return "author_edit";
     }
 
     @PostMapping(value="/update")
-    public String updateAuthor(Author author) {
+    public String updateAuthor(Author author, Principal principal, Model model) {
 
         log.info(">>> update author : {}", author);
         authorService.updateAuthor(author);
+        model.addAttribute("user", principal.getName());
         return "redirect:/author/all";
     }
 

@@ -21,6 +21,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,7 +45,8 @@ public class PostEditController {
     @GetMapping("/pre_edit")
     public String prePost(@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
                           @RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
-                          Model model) {
+                          Model model,
+                          Principal principal) {
 
         log.info(">>> prePost start ...");
         User user = new User();
@@ -74,17 +77,20 @@ public class PostEditController {
             model.addAttribute("posts", posts);
             model.addAttribute("LoginRequest", request);
         }
+
+        model.addAttribute("user", principal.getName());
         return "post_pre_edit";
     }
 
     @GetMapping("/")
-    public String EditPost(Model model) {
+    public String EditPost(Model model, Principal principal) {
         model.addAttribute("CreatePost", new CreatePost());
+        model.addAttribute("user", principal.getName());
         return "post_edit";
     }
 
     @GetMapping("/{id}")
-    public String getPostById(@PathVariable long id, Model model) {
+    public String getPostById(@PathVariable long id, Model model, Principal principal) {
         Optional<Post> postOptional = postRepository.findById(id);
 
         if (postOptional.isPresent()) {
@@ -92,16 +98,20 @@ public class PostEditController {
         } else {
             model.addAttribute("error", "no-post");
         }
+
+        model.addAttribute("user", principal.getName());
         return "post_edit";
     }
 
     @PostMapping(value="/update")
-    public String update(Post post) {
+    public String update(Post post, Principal principal, Model model) {
 
         post.setSynopsis(PostUtil.getSynopsis(post.getContent()));
         log.info(">>> update post : {}", post);
         postService.updatePost(post);
         log.info(">>> update professor : return to professor/list page");
+
+        model.addAttribute("user", principal.getName());
         return "redirect:/posts/all";
     }
 
