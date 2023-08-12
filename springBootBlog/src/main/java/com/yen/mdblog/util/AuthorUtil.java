@@ -7,18 +7,21 @@ import java.util.Optional;
 
 public class AuthorUtil {
 	public static Author bootstrapAuthor(AuthorRepository authorRepository) {
+
 		Optional<Author> authorOpt = authorRepository.findById(1L);
 		if (authorOpt.isPresent()) {
 			return authorOpt.get();
 		} else {
-			Author newAuthor = new Author();
-			newAuthor.setName("yen");
-			newAuthor.setEmail("y999@gmail.com");
-			newAuthor.setUrl("yen.xx.yy");
-			newAuthor.setCreateTime(new Date());
-			newAuthor.setUpdateTime(new Date());
-			authorRepository.save(newAuthor);
-			return newAuthor;
+
+			Author author1 = new Author();
+			author1.setName("yen");
+			author1.setEmail("y999@gmail.com");
+			author1.setUrl("yen.xx.yy");
+			author1.setCreateTime(new Date());
+			author1.setUpdateTime(new Date());
+			authorRepository.save(author1);
+
+			return author1;
 		}
 	}
 

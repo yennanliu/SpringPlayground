@@ -9,6 +9,8 @@ public interface AuthorService {
 
     Author getById(Long id);
 
+    Author getByName(String name);
+
     List<Author> getAllAuthors();
 
     void saveAuthor(Author author);
