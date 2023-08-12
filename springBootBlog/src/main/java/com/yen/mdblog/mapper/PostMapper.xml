@@ -23,7 +23,7 @@
     <!-- public void insertPost(Post post); -->
     <insert id="insertPost">
         INSERT INTO posts(`id`,`title`,`content`,`synopsis`,`author_id`, `date_time`)
-        values(#{id}, #{title},  #{content}, #{synopsis}, 1, #{dateTime})
+        values(#{id}, #{title},  #{content}, #{synopsis}, #{authorId}, #{dateTime})
     </insert>
 
     <!-- public void updatePost(Post post); -->

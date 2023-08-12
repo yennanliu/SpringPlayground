@@ -14,6 +14,6 @@ public class CreatePost {
     private String title;
     private String content;
     private String synopsis;
-    private String author;
+    private Long authorId;
     private LocalDateTime dateTime;
 }

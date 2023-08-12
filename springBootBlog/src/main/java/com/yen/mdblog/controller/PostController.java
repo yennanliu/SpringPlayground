@@ -124,13 +124,27 @@ public class PostController {
 
 		log.info(">>> create post start ...");
 		Post post = new Post();
+
+		String authorName = principal.getName();
+
+		List<Author> authors = authorService.getAllAuthors();
+		List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
 		Author author = new Author();
-		author.setId(request.getId());
+
+		if(!names.contains(authorName)){
+			//author.setId(request.getId()); // TODO : automate setup is (from name)
+			author.setName(principal.getName()); // set author name from spring security principal
+			authorService.saveAuthor(author);
+		}
+
+		author = authorService.getByName(authorName);
+
 		BeanUtils.copyProperties(request, post);
 		post.setId(postService.getTotalPost() + 1);
+		post.setAuthorId(author.getId());
 		post.setDateTime(LocalDateTime.now());
 		post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
-		post.setAuthor(author);
+		//post.setAuthor(author);
 		post.setDateTime(LocalDateTime.now());
 		//post.setAuthorId(authorId);
 		log.info(">>> request = " + request);
@@ -138,11 +152,14 @@ public class PostController {
 		log.info(">>> author = " + author);
 		log.info(">>>> create post end ...");
 		postService.savePost(post);
-		List<Author> authors = authorService.getAllAuthors();
-		List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
-		if (!ids.contains(author.getId())){
-			authorService.saveAuthor(author);
-		}
+
+//		List<Author> authors = authorService.getAllAuthors();
+//		//List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
+//		List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
+//		if (!names.contains(author.getName())){
+//			authorService.saveAuthor(author);
+//		}
+
 		model.addAttribute("user", principal.getName());
 		return "success";
 	}

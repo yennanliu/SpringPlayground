@@ -32,9 +32,10 @@ public class Post implements Serializable {
 	@Column(length = 150)
 	private String synopsis;
 
-	@ManyToOne
-	@JoinColumn(name = "author_id")
-	private Author author;
+	//@ManyToOne
+	//@JoinColumn(name = "author_id")
+	private Long authorId;
+	//private Author author;
 
 	@Column
 	@Convert(converter = DateTimeUtil.class)
