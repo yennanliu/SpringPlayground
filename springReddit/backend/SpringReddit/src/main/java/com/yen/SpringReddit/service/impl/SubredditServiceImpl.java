@@ -2,7 +2,9 @@ package com.yen.SpringReddit.service.impl;
 
 import com.yen.SpringReddit.dao.SubredditDao;
 import com.yen.SpringReddit.dto.SubredditDto;
+import com.yen.SpringReddit.exceptions.SpringRedditException;
 import com.yen.SpringReddit.mapper.SubredditMapper;
+import com.yen.SpringReddit.po.Subreddit;
 import com.yen.SpringReddit.service.SubredditService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +27,9 @@ public class SubredditServiceImpl implements SubredditService {
     @Autowired
     SubredditDao subredditDao;
 
+    @Autowired
+    SubredditMapper subredditMapper;
+
 //    private final SubredditDao subredditRepository;
 //    private final SubredditMapper subredditMapper;
 
@@ -33,17 +38,29 @@ public class SubredditServiceImpl implements SubredditService {
     public SubredditDto save(SubredditDto subredditDto) {
 
         //SubredditDto save = subredditDao.save(subredditDto);
-        return null;
+        Subreddit save = subredditDao.save(subredditMapper.mapDtoToSubreddit(subredditDto));
+        subredditDto.setId(save.getId());
+        return subredditDto;
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<SubredditDto> getAll() {
-        return null;
+
+        return subredditDao.findAll()
+                .stream()
+                .map(subredditMapper::mapSubredditToDto)
+                .collect(toList());
     }
 
     @Override
     public SubredditDto getSubreddit(Long id) {
-        return null;
+
+        Subreddit subreddit = subredditDao.findById(id)
+                .orElseThrow(
+                        () -> new SpringRedditException("No subreddit found with ID - " + id)
+                );
+        return subredditMapper.mapSubredditToDto(subreddit);
     }
 
 }
