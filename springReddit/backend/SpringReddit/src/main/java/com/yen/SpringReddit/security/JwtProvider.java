@@ -81,6 +81,7 @@ public class JwtProvider {
     }
 
     private PrivateKey getPrivateKey(){
+
         try {
             return (PrivateKey) keyStore.getKey("spring_reddit", "secret".toCharArray());
         } catch (UnrecoverableKeyException | KeyStoreException | NoSuchAlgorithmException e) {
