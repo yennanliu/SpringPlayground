@@ -1,0 +1,26 @@
+machine:
+  environment:
+    PATH: "~/$CIRCLE_PROJECT_REPONAME/gradle-3.3/bin:$PATH"
+  services:
+    - docker
+  java:
+    version: oraclejdk8
+
+dependencies:
+  pre:
+    - wget "https://services.gradle.org/distributions/gradle-3.3-bin.zip"; unzip gradle-3.3-bin.zip
+
+notify:
+  webhooks:
+    - url: http://e26a9990.ngrok.io/circleci
+
+deployment:
+  hub:
+    branch: master
+    commands:
+      - gradle build
+      - cp build/libs/ps-authservice-0.0.1-SNAPSHOT.jar "build/libs/ps-authservice-$CIRCLE_BUILD_NUM.jar"
+      - cp -R build/libs $CIRCLE_ARTIFACTS
+      - docker build -t "spike234/ps-authservice:$CIRCLE_BUILD_NUM" .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push "spike234/ps-authservice:$CIRCLE_BUILD_NUM"
