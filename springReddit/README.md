@@ -8,7 +8,7 @@
 
 keytool -genkey -v -keystore spring_reddit.jks -alias alias_name -keyalg RSA -sigalg SHA1withRSA -keysize 2048 -validity 10000
 
-# pwd : 000000
+# pwd : secret
 ```
 
 ## Ref
