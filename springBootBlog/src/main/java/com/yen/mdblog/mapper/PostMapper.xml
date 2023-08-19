@@ -25,16 +25,12 @@
         INSERT INTO posts(`title`,`content`,`synopsis`,`author_id`, `date_time`)
         values(#{Post.title},  #{Post.content}, #{Post.synopsis}, #{Post.authorId}, #{Post.dateTime})
     </insert>
-<!--    <insert id="insertPost">-->
-<!--        INSERT INTO posts(`title`,`content`,`synopsis`, `date_time`)-->
-<!--        values(#{Post.title},  #{Post.content}, #{Post.synopsis}, #{Post.dateTime})-->
-<!--    </insert>-->
 
     <!-- public void updatePost(Post post); -->
     <update id="updatePost">
         UPDATE posts
-        SET title = #{title}, content = #{content}, synopsis = #{synopsis}
-        WHERE id = #{id}
+        SET title = #{Post.title}, content = #{Post.content}, synopsis = #{Post.synopsis}
+        WHERE id = #{Post.id}
     </update>
 
 </mapper>

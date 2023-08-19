@@ -28,6 +28,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+// TODO : refactor : move all main logic to service
 @Controller
 @RequestMapping("/posts")
 @Log4j2
