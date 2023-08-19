@@ -125,7 +125,18 @@ public class PostController {
 		log.info(">>> create post start ...");
 		Post post = new Post();
 		Author author = new Author();
-		author.setId(request.getId());
+
+		String authorName = principal.getName();
+		System.out.println(">>> authorName = " + authorName);
+		List<Author> authors = authorService.getAllAuthors();
+		List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
+		if (!ids.contains(author.getId())){
+			author.setName(authorName);
+			authorService.saveAuthor(author);
+		}
+
+		//author.setId(request.getId());
+
 		BeanUtils.copyProperties(request, post);
 		post.setId(postService.getTotalPost() + 1);
 		post.setDateTime(LocalDateTime.now());
@@ -137,12 +148,9 @@ public class PostController {
 		log.info(">>> post = " + post);
 		log.info(">>> author = " + author);
 		log.info(">>>> create post end ...");
+
 		postService.savePost(post);
-		List<Author> authors = authorService.getAllAuthors();
-		List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
-		if (!ids.contains(author.getId())){
-			authorService.saveAuthor(author);
-		}
+
 		model.addAttribute("user", principal.getName());
 		return "success";
 	}
