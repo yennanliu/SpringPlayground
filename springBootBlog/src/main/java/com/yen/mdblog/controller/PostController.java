@@ -3,14 +3,14 @@ package com.yen.mdblog.controller;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Po.Author;
-import com.yen.mdblog.mapper.PostMapper;
-import com.yen.mdblog.service.AuthorService;
-import com.yen.mdblog.util.PostUtil;
-import lombok.extern.log4j.Log4j2;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Vo.CreatePost;
+import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.repository.PostRepository;
+import com.yen.mdblog.service.AuthorService;
 import com.yen.mdblog.service.PostService;
+import com.yen.mdblog.util.PostUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -90,9 +90,7 @@ public class PostController {
 		model.addAttribute("posts", posts);
 		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
-
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
-
 		model.addAttribute("user", principal.getName());
 
 		return "posts";
