@@ -20,8 +20,8 @@ public interface PostMapper {
     //@Insert("INSERT INTO posts(`id`,`title`,`content`,`synopsis`,`author_id`, `dateTime`) values(#{id}, #{title},  #{content}, #{synopsis}, #{author_id}, #{dateTime})")
 //    @Insert("INSERT INTO posts(`id`,`title`,`content`,`synopsis`,`author_id`, `date_time`) values(#{id}, #{title},  #{content}, #{synopsis}, 1, #{dateTime})")
 //    @Options(useGeneratedKeys = true, keyProperty = "id")
-    public void insertPost(Post post);
+    public void insertPost(@Param("Post") Post post);
 
-    public void updatePost(Post post);
+    public void updatePost(@Param("Post") Post post);
 
 }

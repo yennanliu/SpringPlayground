@@ -10,6 +10,8 @@ public interface AuthorMapper {
 
     public Author getById(@Param("id") long id);
 
+    public Author getByName(@Param("name") String name);
+
     public List<Author> getAllAuthors();
 
     public int getAuthorCount();

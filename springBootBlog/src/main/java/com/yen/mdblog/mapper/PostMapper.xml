@@ -22,9 +22,13 @@
 
     <!-- public void insertPost(Post post); -->
     <insert id="insertPost">
-        INSERT INTO posts(`id`,`title`,`content`,`synopsis`,`author_id`, `date_time`)
-        values(#{id}, #{title},  #{content}, #{synopsis}, 1, #{dateTime})
+        INSERT INTO posts(`title`,`content`,`synopsis`,`author_id`, `date_time`)
+        values(#{Post.title},  #{Post.content}, #{Post.synopsis}, #{Post.authorId}, #{Post.dateTime})
     </insert>
+<!--    <insert id="insertPost">-->
+<!--        INSERT INTO posts(`title`,`content`,`synopsis`, `date_time`)-->
+<!--        values(#{Post.title},  #{Post.content}, #{Post.synopsis}, #{Post.dateTime})-->
+<!--    </insert>-->
 
     <!-- public void updatePost(Post post); -->
     <update id="updatePost">

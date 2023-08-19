@@ -33,6 +33,7 @@ public class Author {
 	private Date updateTime;
 
 	@Column
-	@OneToMany(mappedBy = "author")
-	private List<Post> posts;
+	//@OneToMany(mappedBy = "author")
+	//private List<String> posts;
+	private String posts;
 }

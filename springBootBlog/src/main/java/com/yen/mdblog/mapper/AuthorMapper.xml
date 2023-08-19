@@ -10,6 +10,11 @@
         SELECT * FROM authors where id = #{id}
     </select>
 
+    <!-- public Author getByName(@Param("name") String name); -->
+    <select id="getByName" resultType="com.yen.mdblog.entity.Po.Author" parameterType="string">
+        SELECT * FROM authors where name = #{name}
+    </select>
+
     <!-- public List<Author> getAllAuthors(); -->
     <select id="getAllAuthors" resultType="com.yen.mdblog.entity.Po.Author">
         SELECT * FROM authors

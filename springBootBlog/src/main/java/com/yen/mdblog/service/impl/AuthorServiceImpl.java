@@ -19,6 +19,11 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
+    public Author getByName(String name) {
+        return authorMapper.getByName(name);
+    }
+
+    @Override
     public List<Author> getAllAuthors() {
         return authorMapper.getAllAuthors();
     }
