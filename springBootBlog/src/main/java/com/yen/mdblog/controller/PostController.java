@@ -158,10 +158,40 @@ public class PostController {
 	}
 
 	@GetMapping("/mypost")
-	public String getMyPost(Model model, Principal principal){
+	public String getMyPost(
+			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+			@RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+			Principal principal,
+			Model model) {
 
+		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
+		Page<Post> postsPage = postRepository.findAll(pageRequest);
+		Long authorId = authorService.getByName(principal.getName()).getId();
+
+		// filter posts with authorId
+		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(authorId)))
+				.collect(Collectors.toList());
+
+		PageInfo<Post> pageInfo = null;
+		if(pageNum <= 0){
+			pageNum = 0;
+		}
+		PageHelper.startPage(pageNum, pageSize);
+		try {
+			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
+			List<Post> postList = postMapper.getAllPosts();
+			pageInfo = new PageInfo<Post>(postList, pageSize);
+			model.addAttribute("pageInfo",pageInfo);
+		}finally {
+			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
+		}
+		model.addAttribute("posts", posts);
+		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
-		return "header";
+		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
+		model.addAttribute("user", principal.getName());
+
+		return "my_post";
 	}
 
 }
