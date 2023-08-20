@@ -39,7 +39,7 @@ public class Post implements Serializable {
 	//@ManyToOne
 	//@JoinColumn(name = "author_id")
 	@Column
-	private Long authorId;
+	private Integer authorId;
 
 	@Column
 	@Convert(converter = DateTimeUtil.class)

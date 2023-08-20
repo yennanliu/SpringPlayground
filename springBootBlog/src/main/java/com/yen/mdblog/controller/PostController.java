@@ -136,10 +136,10 @@ public class PostController {
 			author.setUpdateTime(new Date());
 			author.setName(authorName);
 			authorService.saveAuthor(author);
-			Long id = authorService.getByName(authorName).getId();
+			Integer id = authorService.getByName(authorName).getId();
 			author.setId(id);
 		}else{
-			Long id = authorService.getByName(authorName).getId();
+			Integer id = authorService.getByName(authorName).getId();
 			author.setId(id);
 		}
 
@@ -167,12 +167,21 @@ public class PostController {
 			Model model) {
 
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
-		Page<Post> postsPage = postRepository.findAll(pageRequest);
-		Long authorId = authorService.getByName(principal.getName()).getId();
+		//Page<Post> postsPage = postRepository.findAll(pageRequest);
+
+		Author author = authorService.getByName(principal.getName());
+
+		// if there is current user has no any post
+		if (author == null){
+			model.addAttribute("user", principal.getName());
+			log.info("use null_my_post");
+			return "null_my_post";
+		}
 
 		// filter posts with authorId
-		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(authorId)))
-				.collect(Collectors.toList());
+		List<Post> posts = postService.getPostsById(author.getId());
+//		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(author.getId())))
+//				.collect(Collectors.toList());
 
 		PageInfo<Post> pageInfo = null;
 		if(pageNum <= 0){
@@ -180,7 +189,9 @@ public class PostController {
 		}
 		PageHelper.startPage(pageNum, pageSize);
 		try {
+			// TODO : fix this, only show current author's posts with paging
 			List<Post> postList = postMapper.getAllPosts();
+			//List<Post> postList = posts;
 			pageInfo = new PageInfo<Post>(postList, pageSize);
 			model.addAttribute("pageInfo",pageInfo);
 		}finally {

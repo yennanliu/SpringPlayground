@@ -24,4 +24,5 @@ public interface PostMapper {
 
     public void updatePost(@Param("Post") Post post);
 
+    List<Post> findById(Integer id);
 }

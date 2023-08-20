@@ -14,7 +14,8 @@ public class AuthorServiceImpl implements AuthorService {
     AuthorMapper authorMapper;
 
     @Override
-    public Author getById(Long id) {
+    public Author getById(Integer id) {
+
         return authorMapper.getById(id);
     }
 
@@ -25,16 +26,19 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public List<Author> getAllAuthors() {
+
         return authorMapper.getAllAuthors();
     }
 
     @Override
     public void saveAuthor(Author author) {
+
         authorMapper.insertAuthor(author);
     }
 
     @Override
     public void updateAuthor(Author author) {
+
         authorMapper.updateAuthor(author);
     }
 

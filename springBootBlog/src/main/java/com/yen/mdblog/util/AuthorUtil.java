@@ -7,7 +7,8 @@ import java.util.Optional;
 
 public class AuthorUtil {
 	public static Author bootstrapAuthor(AuthorRepository authorRepository) {
-		Optional<Author> authorOpt = authorRepository.findById(1L);
+		//Optional<Author> authorOpt = authorRepository.findById(1L);
+		Optional<Author> authorOpt = authorRepository.findById(1);
 		if (authorOpt.isPresent()) {
 			return authorOpt.get();
 		} else {

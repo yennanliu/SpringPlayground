@@ -29,8 +29,10 @@
 <div class="container">
     <div th:each="author : ${authors}" class="card">
         <div class="card-body">
-            <p class="card-text" th:text="${author.name}">Name</p>
-            <p class="card-text" th:text="${author.email}">Email</p>
+            <!-- <p th:text="'id: ' + ${greeting.id}" />-->
+            <p class="card-text" th:text="'ID: ' + ${author.id}">Id</p>
+            <p class="card-text" th:text="'Name: ' + ${author.name}">Name</p>
+            <p class="card-text" th:text="'Email: ' + ${author.email}">Email</p>
             <p>Create at: <span th:text="${author.createTime}">Create time</span></p>
             <p>Update at: <span th:text="${author.updateTime}">Update time</span></p>
             <a href="#" th:href="'/author/edit/' + ${author.id}" th:text="${'Edit'}" class="card-link">Edit</a>

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AuthorService {
 
-    Author getById(Long id);
+    Author getById(Integer id);
 
     Author getByName(String name);
 

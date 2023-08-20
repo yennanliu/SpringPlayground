@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Slf4j
 public class PostServiceImpl implements PostService {
@@ -15,9 +17,13 @@ public class PostServiceImpl implements PostService {
     PostMapper postMapper;
 
     @Override
-    public Post getById(Long id) {
+    public List<Post> getPostsById(Integer id) {
+        return postMapper.findById(id);
+    }
 
-        return postMapper.getById(id);
+    @Override
+    public List<Post> getAllPost() {
+        return postMapper.getAllPosts();
     }
 
     @Override
@@ -35,7 +41,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public void updatePost(Post post) {
 
-        log.info(">>> updatePost : post = {}", post);
+        //log.info(">>> updatePost : post = {}", post);
         postMapper.updatePost(post);
     }
 

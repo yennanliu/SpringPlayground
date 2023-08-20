@@ -15,7 +15,7 @@ import java.security.Principal;
 
 @Controller
 @Log4j2
-public class IndexController {
+public class TestController {
 
     @GetMapping("/")
     public ModelAndView index(ModelMap model){
