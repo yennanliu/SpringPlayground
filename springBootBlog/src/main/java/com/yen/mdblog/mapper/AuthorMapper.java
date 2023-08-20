@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface AuthorMapper {
 
-    public Author getById(@Param("id") long id);
+    public Author getById(@Param("id") Integer id);
 
     public Author getByName(@Param("name") String name);
 

@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS blog_db.posts (
     date_time VARCHAR(30)
     synopsis VARCHAR(30),
     title VARCHAR(30),
-    author_id Long
+    author_id INT(11)
 );
 
 -- insert data

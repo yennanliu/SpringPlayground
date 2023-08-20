@@ -14,7 +14,7 @@ public class AuthorServiceImpl implements AuthorService {
     AuthorMapper authorMapper;
 
     @Override
-    public Author getById(Long id) {
+    public Author getById(Integer id) {
 
         return authorMapper.getById(id);
     }

@@ -136,10 +136,10 @@ public class PostController {
 			author.setUpdateTime(new Date());
 			author.setName(authorName);
 			authorService.saveAuthor(author);
-			Long id = authorService.getByName(authorName).getId();
+			Integer id = authorService.getByName(authorName).getId();
 			author.setId(id);
 		}else{
-			Long id = authorService.getByName(authorName).getId();
+			Integer id = authorService.getByName(authorName).getId();
 			author.setId(id);
 		}
 

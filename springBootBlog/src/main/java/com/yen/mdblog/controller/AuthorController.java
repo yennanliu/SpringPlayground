@@ -31,7 +31,7 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public String getAuthorById(@PathVariable Long id, Model model, Principal principal) {
+    public String getAuthorById(@PathVariable Integer id, Model model, Principal principal) {
 
         Author author = authorService.getById(id);
         model.addAttribute("author", author);
