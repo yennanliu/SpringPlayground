@@ -168,10 +168,18 @@ public class PostController {
 
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
-		Long authorId = authorService.getByName(principal.getName()).getId();
+
+		Author author = authorService.getByName(principal.getName());
+
+		// if there is current user has no any post
+		if (author == null){
+			model.addAttribute("user", principal.getName());
+			log.info("use null_my_post");
+			return "null_my_post";
+		}
 
 		// filter posts with authorId
-		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(authorId)))
+		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(author.getId())))
 				.collect(Collectors.toList());
 
 		PageInfo<Post> pageInfo = null;
