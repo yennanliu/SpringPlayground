@@ -5,9 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-@SpringBootApplication
+//@SpringBootApplication
 // disable spring security for now
-//@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
+@SpringBootApplication(exclude = {org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class})
 //@EnableAsync // https://youtu.be/PMr2Mh9xzm4?t=305
 //@ComponentScan(basePackages="com.yen.SpringReddit.mapper")
 public class SpringRedditApplication {
