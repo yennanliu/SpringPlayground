@@ -42,7 +42,7 @@ public class AuthorRegisterController {
             author.setEmail(email);
             author.setCreateTime(new Date());
             author.setUpdateTime(new Date());
-            System.out.println(">>> author = " + author.toString());
+            log.info(">>> author = " + author.toString());
             authorMapper.insertAuthor(author);
             log.info(">>> create new user OK ...");
             return "success_register";

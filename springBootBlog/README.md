@@ -84,9 +84,12 @@ Markdown blog from below post series
 - https://github.com/osopromadze/Spring-Boot-Blog-REST-API
 
 ## TODO
-- admin page
-  - edit post
-- register page
+- Admin page
+  - edit user profile, update photo
+- Register page
   - integrate with github, google ..
-- search page
-  - search posts from user
+- Reply post
+- Notification email
+- Post tag
+- Fix bugs
+  - logout, login again, redirect to wrong pages
