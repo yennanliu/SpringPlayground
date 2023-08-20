@@ -2,7 +2,11 @@
 > Build a blog via spring boot with markdown
 
 ### Login:
+
 - Account : admin
+- Pwd : 123
+
+- Account : user1
 - Pwd : 123
 
 ## Run

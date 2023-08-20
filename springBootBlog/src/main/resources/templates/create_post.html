@@ -10,7 +10,7 @@
 <hr/>
 <form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post" align="center">
     <p>Title: <input type="text" th:field="*{title}" required minlength="1" /></p>
-    <p>Author ID: <input type="number" th:field="*{id}"  required minlength="1" /></p>
+<!--    <p>Author ID: <input type="number" th:field="*{id}"  required minlength="1" /></p>-->
     <p>Content: <textarea name="courseMemo" rows="6" cols="60" th:field="*{content}">blog content</textarea></p>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>

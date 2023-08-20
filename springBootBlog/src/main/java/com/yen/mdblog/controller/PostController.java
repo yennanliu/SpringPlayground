@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -86,7 +87,6 @@ public class PostController {
 		}
 
 		log.info(">>> all posts count = " + posts.size());
-
 		model.addAttribute("posts", posts);
 		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
@@ -124,14 +124,16 @@ public class PostController {
 		log.info(">>> create post start ...");
 		Post post = new Post();
 		Author author = new Author();
-
 		String authorName = principal.getName();
-		System.out.println(">>> authorName = " + authorName);
 		List<Author> authors = authorService.getAllAuthors();
 
 		// TODO : do below with ids instead
 		List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
-		if (!names.contains(authorName)){
+		Boolean authorExisted = names.contains(authorName);
+
+		if (!authorExisted){
+			author.setCreateTime(new Date());
+			author.setUpdateTime(new Date());
 			author.setName(authorName);
 			authorService.saveAuthor(author);
 			Long id = authorService.getByName(authorName).getId();
@@ -178,17 +180,16 @@ public class PostController {
 		}
 		PageHelper.startPage(pageNum, pageSize);
 		try {
-			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
 			List<Post> postList = postMapper.getAllPosts();
 			pageInfo = new PageInfo<Post>(postList, pageSize);
 			model.addAttribute("pageInfo",pageInfo);
 		}finally {
-			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
+			PageHelper.clearPage();
 		}
 		model.addAttribute("posts", posts);
 		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
-		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
+		//Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		model.addAttribute("user", principal.getName());
 
 		return "my_post";
