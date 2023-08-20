@@ -167,7 +167,7 @@ public class PostController {
 			Model model) {
 
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
-		Page<Post> postsPage = postRepository.findAll(pageRequest);
+		//Page<Post> postsPage = postRepository.findAll(pageRequest);
 
 		Author author = authorService.getByName(principal.getName());
 
@@ -179,8 +179,9 @@ public class PostController {
 		}
 
 		// filter posts with authorId
-		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(author.getId())))
-				.collect(Collectors.toList());
+		List<Post> posts = postService.getPostsById(author.getId());
+//		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(author.getId())))
+//				.collect(Collectors.toList());
 
 		PageInfo<Post> pageInfo = null;
 		if(pageNum <= 0){
@@ -188,7 +189,9 @@ public class PostController {
 		}
 		PageHelper.startPage(pageNum, pageSize);
 		try {
+			// TODO : fix this, only show current author's posts with paging
 			List<Post> postList = postMapper.getAllPosts();
+			//List<Post> postList = posts;
 			pageInfo = new PageInfo<Post>(postList, pageSize);
 			model.addAttribute("pageInfo",pageInfo);
 		}finally {
