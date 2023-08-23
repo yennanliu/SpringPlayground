@@ -36,7 +36,7 @@
     <!-- List<Post> findById(Integer id); -->
     <select id="findById" resultType="com.yen.mdblog.entity.Po.Post">
         SELECT * FROM posts
-        WHERE id = #{id}
+        WHERE author_id = #{authorId}
     </select>
 
 </mapper>

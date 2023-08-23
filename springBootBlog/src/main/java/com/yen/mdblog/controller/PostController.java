@@ -166,9 +166,6 @@ public class PostController {
 			Principal principal,
 			Model model) {
 
-		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
-		//Page<Post> postsPage = postRepository.findAll(pageRequest);
-
 		Author author = authorService.getByName(principal.getName());
 
 		// if there is current user has no any post
@@ -179,24 +176,10 @@ public class PostController {
 		}
 
 		// filter posts with authorId
+		log.info(">>> author.getId() = " + author.getId());
 		List<Post> posts = postService.getPostsById(author.getId());
-//		List<Post> posts = postsPage.stream().filter(x -> (x.getAuthorId().equals(author.getId())))
-//				.collect(Collectors.toList());
+		log.info(">>> posts count = " + posts.size());
 
-		PageInfo<Post> pageInfo = null;
-		if(pageNum <= 0){
-			pageNum = 0;
-		}
-		PageHelper.startPage(pageNum, pageSize);
-		try {
-			// TODO : fix this, only show current author's posts with paging
-			List<Post> postList = postMapper.getAllPosts();
-			//List<Post> postList = posts;
-			pageInfo = new PageInfo<Post>(postList, pageSize);
-			model.addAttribute("pageInfo",pageInfo);
-		}finally {
-			PageHelper.clearPage();
-		}
 		model.addAttribute("posts", posts);
 		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
