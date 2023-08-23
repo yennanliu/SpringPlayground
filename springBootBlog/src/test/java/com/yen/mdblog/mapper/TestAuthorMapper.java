@@ -18,7 +18,7 @@ public class TestAuthorMapper {
     public void TestGetAllId(){
         List<Author> authors = authorService.getAllAuthors();
 		//Integer[] authorId = (Integer[]) authors.stream().map(x -> x.getId()).toArray();
-        List<Long> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
+        List<Integer> ids = authors.stream().map(x -> x.getId()).collect(Collectors.toList());
 
         System.out.println(">>> authors = " + authors);
         System.out.println(">>> ids = " + ids);
