@@ -17,8 +17,8 @@ public class PostServiceImpl implements PostService {
     PostMapper postMapper;
 
     @Override
-    public List<Post> getPostsById(Integer id) {
-        return postMapper.findById(id);
+    public List<Post> getPostsById(Integer authorId) {
+        return postMapper.findById(authorId);
     }
 
     @Override
