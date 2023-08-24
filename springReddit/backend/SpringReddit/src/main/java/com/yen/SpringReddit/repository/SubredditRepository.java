@@ -1,14 +1,13 @@
-package com.yen.SpringReddit.dao;
+package com.yen.SpringReddit.repository;
 
-import com.yen.SpringReddit.po.Subreddit;
+import com.yen.SpringReddit.model.Subreddit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface SubredditDao extends JpaRepository<Subreddit, Long> {
+public interface SubredditRepository extends JpaRepository<Subreddit, Long> {
 
     Optional<Subreddit> findByName(String subredditName);
 

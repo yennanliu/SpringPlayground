@@ -6,7 +6,7 @@ package com.yen.SpringReddit.service;
 import com.yen.SpringReddit.dto.AuthenticationResponse;
 import com.yen.SpringReddit.dto.LoginRequest;
 import com.yen.SpringReddit.dto.RegisterRequest;
-import com.yen.SpringReddit.po.User;
+import com.yen.SpringReddit.model.User;
 
 public interface AuthService {
 

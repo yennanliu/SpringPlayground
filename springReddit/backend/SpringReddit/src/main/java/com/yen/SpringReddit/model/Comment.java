@@ -1,4 +1,4 @@
-package com.yen.SpringReddit.po;
+package com.yen.SpringReddit.model;
 
 // https://github.com/yennanliu/SpringPlayground/blob/main/ref_project/spring-reddit-clone/spring-reddit-clone-master/src/main/java/com/programming/techie/springredditclone/model/Comment.java
 

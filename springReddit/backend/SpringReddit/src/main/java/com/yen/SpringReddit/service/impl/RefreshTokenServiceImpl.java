@@ -1,8 +1,8 @@
 package com.yen.SpringReddit.service.impl;
 
-import com.yen.SpringReddit.dao.RefreshTokenDao;
+import com.yen.SpringReddit.repository.RefreshTokenRepository;
 import com.yen.SpringReddit.exceptions.SpringRedditException;
-import com.yen.SpringReddit.po.RefreshToken;
+import com.yen.SpringReddit.model.RefreshToken;
 import com.yen.SpringReddit.service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
 
     @Autowired
-    RefreshTokenDao refreshTokenDao;
+    RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public RefreshToken generateRefreshToken() {
@@ -24,13 +24,13 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
         refreshToken.setToken(UUID.randomUUID().toString());
         refreshToken.setCreatedDate(Instant.now());
 
-        return refreshTokenDao.save(refreshToken);
+        return refreshTokenRepository.save(refreshToken);
     }
 
     @Override
     public void validateRefreshToken(String token) {
 
-        refreshTokenDao.findByToken(token)
+        refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new SpringRedditException("Invalid refresh Token")
                 );
     }
@@ -38,7 +38,7 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
     @Override
     public void deleteRefreshToken(String token) {
 
-        refreshTokenDao.deleteByToken(token);
+        refreshTokenRepository.deleteByToken(token);
     }
 
 }

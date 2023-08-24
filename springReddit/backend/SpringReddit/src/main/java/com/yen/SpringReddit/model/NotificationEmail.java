@@ -1,4 +1,4 @@
-package com.yen.SpringReddit.po;
+package com.yen.SpringReddit.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

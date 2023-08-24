@@ -1,6 +1,6 @@
 package com.yen.SpringReddit.service;
 
-import com.yen.SpringReddit.po.NotificationEmail;
+import com.yen.SpringReddit.model.NotificationEmail;
 
 public interface MailService {
 

@@ -1,10 +1,9 @@
 package com.yen.SpringReddit.service.impl;
 
 import com.yen.SpringReddit.exceptions.SpringRedditException;
-import com.yen.SpringReddit.po.NotificationEmail;
+import com.yen.SpringReddit.model.NotificationEmail;
 import com.yen.SpringReddit.service.MailContentBuilder;
 import com.yen.SpringReddit.service.MailService;
-import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;

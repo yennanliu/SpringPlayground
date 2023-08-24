@@ -1,12 +1,12 @@
-package com.yen.SpringReddit.dao;
+package com.yen.SpringReddit.repository;
 
-import com.yen.SpringReddit.po.VerificationToken;
+import com.yen.SpringReddit.model.VerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface VerificationTokenDao extends JpaRepository<VerificationToken, Long> {
+public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Long> {
     Optional<VerificationToken> findByToken(String token);
 }
