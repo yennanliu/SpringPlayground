@@ -1,6 +1,6 @@
 package com.yen.SpringReddit.dto;
 
-import com.yen.SpringReddit.po.VoteType;
+import com.yen.SpringReddit.model.VoteType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

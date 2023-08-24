@@ -1,4 +1,4 @@
-package com.yen.SpringReddit.po;
+package com.yen.SpringReddit.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -11,15 +11,18 @@ import lombok.Setter;
 
 import java.time.Instant;
 
-@Getter
 @Setter
-@Entity
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RefreshToken {
+@Entity
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String token;
-    private Instant createdDate;
+    private Long userId;
+    private String username;
+    private String password;
+    private String email;
+    private Instant created;
+    private boolean enabled;
 }

@@ -1,4 +1,4 @@
-package com.yen.SpringReddit.po;
+package com.yen.SpringReddit.model;
 
 import jakarta.persistence.*;
 import lombok.*;
