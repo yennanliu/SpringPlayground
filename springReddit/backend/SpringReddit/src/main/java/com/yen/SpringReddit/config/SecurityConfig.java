@@ -37,11 +37,11 @@ import java.security.interfaces.RSAPublicKey;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-//    @Value("${jwt.public.key}")
-//    RSAPublicKey publicKey;
-//
-//    @Value("${jwt.private.key}")
-//    RSAPrivateKey privateKey;
+    @Value("${jwt.public.key}")
+    RSAPublicKey publicKey;
+
+    @Value("${jwt.private.key}")
+    RSAPrivateKey privateKey;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
