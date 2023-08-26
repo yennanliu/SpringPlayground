@@ -1,0 +1,52 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "private": true,
+  "proxy": "http://localhost:8081/",
+  "dependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "bootstrap": "^5.1.3",
+    "custom-react-step-progress-bar": "^1.0.8",
+    "dayjs": "^1.10.7",
+    "http-proxy-middleware": "^2.0.2",
+    "js-cookie": "^3.0.1",
+    "jwt-check-expiration": "^1.0.5",
+    "moment": "^2.29.4",
+    "react": "^17.0.2",
+    "react-bootstrap": "^2.1.2",
+    "react-dom": "^17.0.2",
+    "react-router-dom": "^6.2.1",
+    "react-scripts": "5.0.0",
+    "react-step-progress-bar": "^1.0.3",
+    "sass": "^1.49.8",
+    "styled-components": "^5.3.3",
+    "web-vitals": "^2.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "deploy": "aws s3 sync build/ s3://assignments.coderscampus.com --acl public-read",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
