@@ -1,0 +1,13 @@
+services:
+  back-end:
+    image: 851518566978.dkr.ecr.us-east-1.amazonaws.com/assignment-submission-backend-dev
+    ports:
+      - 8081:8081
+    environment:
+      DB_URL: jdbc:mysql://18.209.158.33:3306/assignment_submission_db
+      DB_USERNAME: example_user
+      DB_PASSWORD: password123
+  front-end:
+    image: 851518566978.dkr.ecr.us-east-1.amazonaws.com/assignment-submission-frontend-dev
+    ports:
+      - 3000:3000
