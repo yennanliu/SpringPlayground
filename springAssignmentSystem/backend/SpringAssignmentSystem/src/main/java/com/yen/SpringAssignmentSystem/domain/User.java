@@ -1,4 +1,4 @@
-package com.yen.SpringAssignmentSystem.com.yen.SpringAssignmentSystem.domain;
+package com.yen.SpringAssignmentSystem.domain;
 
 import lombok.Data;
 import lombok.ToString;
