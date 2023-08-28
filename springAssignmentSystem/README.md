@@ -17,6 +17,10 @@
 	- Part 3 : https://youtu.be/KMecT1HBm4c?si=EDdbo3QdHHemPNxF
 	- Part 4 : https://youtu.be/TOQjvskdl3g?si=qb2zcub2KzdGlHH0
 	- Part 5 : https://youtu.be/1Mn1AFs8eDo?si=Ew3tjlSINqXHnAut
+	- Part 6 : https://youtu.be/_L46CaEI490?si=tMqu67fJ1xSjTorj
+
+- Spring JWT
+	- https://www.toptal.com/spring/spring-security-tutorial
 
 - Src Code
 	- https://github.com/tp02ga/AssignmentSubmissionApp
