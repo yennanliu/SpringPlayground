@@ -19,7 +19,7 @@ import java.util.Optional;
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("SELECT u FROM users u INNER JOIN authority a on u.id = a.user_id " +
-            "WHERE u.cohort_start_date is null")
+    @Query(value = "SELECT u FROM users u INNER JOIN authority a on u.id = a.user_id " +
+            "WHERE u.cohort_start_date is null", nativeQuery = true)
     Optional<User> findByUsername(@Param("username") String username);
 }

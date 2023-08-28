@@ -59,7 +59,12 @@ public class JwtFilter extends OncePerRequestFilter {
         String token = jwtOpt.get().getValue();
         UserDetails userDetails = null;
         try {
-            Optional<User> appUserOpt = userRepository.findByUsername(jwtUtil.getUsernameFromToken(token));
+            //Optional<User> appUserOpt = userRepository.findByUsername(jwtUtil.getUsernameFromToken(token));
+            // https://youtu.be/1Mn1AFs8eDo?si=K80n-71Z3axkzFzG&t=1810
+            userDetails = userRepository
+                    .findByUsername(jwtUtil.getUsernameFromToken(token))
+                    .orElse(null);
+
             // TODO : fix below
 //            userDetails = proffessoUserRepo
 //                    .findByEmail(jwtUtil.getUsernameFromToken(token))
@@ -67,6 +72,7 @@ public class JwtFilter extends OncePerRequestFilter {
 //                    .orElse(null);
         } catch (ExpiredJwtException | SignatureException e) {
             chain.doFilter(request, response);
+            System.out.println("get user via username or jwtUtil get user from token fail : " + e);
             return;
         }
 
@@ -76,8 +82,8 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
 
-        UsernamePasswordAuthenticationToken
-                authentication = new UsernamePasswordAuthenticationToken(
+        UsernamePasswordAuthenticationToken authentication =
+                new UsernamePasswordAuthenticationToken(
                 userDetails, null,
                 userDetails == null ?
                         List.of() : userDetails.getAuthorities()
@@ -87,11 +93,10 @@ public class JwtFilter extends OncePerRequestFilter {
                 new WebAuthenticationDetailsSource().buildDetails(request)
         );
 
-        // this is where the authentication magic happens and the user is now valid!
+        /** this is where the authentication magic happens and the user is now valid! */
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         chain.doFilter(request, response);
-
     }
 
 }
