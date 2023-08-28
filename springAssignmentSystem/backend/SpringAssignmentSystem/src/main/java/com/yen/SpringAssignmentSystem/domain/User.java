@@ -29,8 +29,10 @@ public class User implements UserDetails { // in order to make user can be retur
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //return getAuthorities();
-        return null;
+        //return null;
+        List<GrantedAuthority> roles = new ArrayList<>();
+        roles.add(new Authority("ROLE_STUDENT"));
+        return roles;
     }
 
     @Override
