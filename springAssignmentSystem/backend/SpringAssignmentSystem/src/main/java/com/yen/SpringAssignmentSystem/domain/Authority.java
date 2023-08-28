@@ -19,6 +19,7 @@ public class Authority implements GrantedAuthority {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String authority;
+    @ManyToOne
     private User user;
 
     @Override
