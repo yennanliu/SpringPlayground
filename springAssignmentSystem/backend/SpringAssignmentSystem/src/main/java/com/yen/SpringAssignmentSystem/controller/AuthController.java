@@ -31,6 +31,8 @@ import io.jsonwebtoken.ExpiredJwtException;
 
 import java.time.Duration;
 
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
