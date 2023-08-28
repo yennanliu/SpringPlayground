@@ -23,10 +23,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
         //return null;
         /** NOTE : we hardcode user id, pwd for now */
+        // TODO : get below from DB, instead of hardcode
         User user = new User();
         user.setUsername("admin");
         user.setPassword(customPasswordEncoder.getPasswordEncoder().encode("123")); // encode pwd and store, so it can be decoded properly as we;;
-        //user.setPassword("123");
         user.setId(1L);
         return user;
     }
