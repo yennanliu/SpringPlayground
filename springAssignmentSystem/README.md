@@ -5,12 +5,8 @@
 ```
 
 - Default user/pwd:
-	- user: user:
-	- pwd : get from IntellJ console when launch app
-	```
-	# example :
-	# Using generated security password: 6cc43fa1-fd93-40f3-a765-bf9d0295a604
-	```
+	- user: admin
+	- pwd : 123
 
 ## Ref
 - Video list
