@@ -2,7 +2,6 @@
 
 ## Quick Start
 ```bash
-
 # check nodeJS, npm version
 node -v
 npm -v
@@ -35,6 +34,10 @@ npx create-react-app web
 #   npm start
 #
 # Happy hacking!
+
+# run FE app
+npm start
+# and visit localhost:3000
 ```
 
 ## Tech
@@ -42,3 +45,13 @@ npx create-react-app web
 	- Typescript
 	- Npm
 	- VS code
+
+## Concept
+	- In react, every html is an app. e.g. 1 HTML, 1 App (whole life cycle)
+
+## VS code plugins
+	- ESLint
+	- Prettier
+	- Reactjs code snippets
+
+## Ref

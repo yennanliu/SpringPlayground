@@ -1,4 +1,11 @@
-.App {
+/** 
+  css for global app env
+  we don't need such setting in this project
+  https://youtu.be/A4co1N98jFg?si=pwqdZrVkrklPxlYZ&t=744
+*/
+
+
+/* .App {
   text-align: center;
 }
 
@@ -35,4 +42,4 @@
   to {
     transform: rotate(360deg);
   }
-}
+} */

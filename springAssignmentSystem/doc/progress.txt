@@ -4,5 +4,8 @@
 	- https://youtu.be/TOQjvskdl3g?si=K2CpW0x0p0b_JsPe&t=1106
 - 20230828
 	- https://youtu.be/1Mn1AFs8eDo?si=TrVRQZ6Ned9jVHX8
-	- BE : https://youtu.be/_L46CaEI490?si=7poXhLZqga6ol6Hm&t=1622
-	- FE : https://youtu.be/A4co1N98jFg?si=O2ag-HjfzAueqtxx
+	- BE : 
+		- https://youtu.be/_L46CaEI490?si=7poXhLZqga6ol6Hm&t=1622 (not yet completed)
+	- FE : 
+		- https://youtu.be/A4co1N98jFg?si=O2ag-HjfzAueqtxx
+		- https://youtu.be/N1QStjH1rVI?si=5OCyJyzLW2F_wG6O
