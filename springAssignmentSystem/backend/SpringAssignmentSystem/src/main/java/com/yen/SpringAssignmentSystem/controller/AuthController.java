@@ -28,12 +28,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.jsonwebtoken.ExpiredJwtException;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.time.Duration;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
+
+    private Logger log = LoggerFactory.getLogger(OncePerRequestFilter.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -47,6 +50,8 @@ public class AuthController {
     @PostMapping("login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request){
 
+        // TODO : fix why request not go through here
+        log.info("login ..., request = " + request.toString());
         try{
             Authentication authenticate = authenticationManager
                     .authenticate(
