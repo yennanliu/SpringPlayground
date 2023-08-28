@@ -48,24 +48,28 @@ public class User implements UserDetails { // in order to make user can be retur
         return getUsername();
     }
 
+    /**
+     *  Prevent user account be locked
+     *    https://stackoverflow.com/questions/17377636/spring-security-pre-authentication-account-lock-check
+     */
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 
 }
