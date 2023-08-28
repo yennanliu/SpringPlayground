@@ -52,8 +52,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 }).and();
 
         http.authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers("/api").permitAll()
+                .antMatchers("/api/auth/**").permitAll() // allow request access "/api/auth/**" without login
+                .antMatchers("/api").permitAll() // allow request access "/api/" without login
                 .anyRequest().authenticated();
 
        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

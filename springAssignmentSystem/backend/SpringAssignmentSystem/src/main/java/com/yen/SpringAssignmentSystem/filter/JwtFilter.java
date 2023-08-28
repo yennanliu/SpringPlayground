@@ -29,8 +29,13 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 @Component
 public class JwtFilter extends OncePerRequestFilter {
+
+    private Logger log = LoggerFactory.getLogger(OncePerRequestFilter.class);
 
     @Autowired
     JwtUtil jwtUtil;
@@ -72,7 +77,7 @@ public class JwtFilter extends OncePerRequestFilter {
 //                    .orElse(null);
         } catch (ExpiredJwtException | SignatureException e) {
             chain.doFilter(request, response);
-            System.out.println("get user via username or jwtUtil get user from token fail : " + e);
+            log.error("get user via username or jwtUtil get user from token fail : " + e);
             return;
         }
 
