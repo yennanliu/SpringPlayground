@@ -1,4 +1,38 @@
-//package com.yen.SpringAssignmentSystem.domain;
+package com.yen.SpringAssignmentSystem.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+@Entity
+@Table(name="users") // rename table as "users" in DB, since User is a reserved name in Mysql
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class User{
+
+    private static final long serialVersionID = 34547799654654L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String username;
+    private LocalDate cohortStartDate;
+    private String password;
+    @ElementCollection(targetClass=Assignment.class) // https://stackoverflow.com/questions/3774198/org-hibernate-mappingexception-could-not-determine-type-for-java-util-list-at
+    private List<Assignment> assignments =  new ArrayList<>();
+
+}
+
+
 //
 //import lombok.AllArgsConstructor;
 //import lombok.Data;

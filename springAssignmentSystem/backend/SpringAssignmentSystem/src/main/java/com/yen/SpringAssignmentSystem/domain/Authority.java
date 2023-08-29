@@ -1,4 +1,30 @@
-//package com.yen.SpringAssignmentSystem.domain;
+package com.yen.SpringAssignmentSystem.domain;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+import javax.persistence.*;
+
+@Entity
+@Data
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public class Authority{
+    private static final long serialVersionID = 3454311984654654654L;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String authority;
+    @ManyToOne
+    private User user;
+
+}
+
+
 //
 //import lombok.Data;
 //import lombok.ToString;
