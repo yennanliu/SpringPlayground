@@ -12,7 +12,7 @@ import javax.persistence.*;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Authority{
+public class Authorities {
     private static final long serialVersionID = 3454311984654654654L;
 
     @Id
