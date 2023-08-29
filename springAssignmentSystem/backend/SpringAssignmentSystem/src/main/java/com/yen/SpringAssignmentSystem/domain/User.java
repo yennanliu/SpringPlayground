@@ -30,6 +30,14 @@ public class User{
     @ElementCollection(targetClass=Assignment.class) // https://stackoverflow.com/questions/3774198/org-hibernate-mappingexception-could-not-determine-type-for-java-util-list-at
     private List<Assignment> assignments =  new ArrayList<>();
 
+    // constructor
+    public User(String username){
+        this.username = username;
+    }
+
+    public void setName(String username) {
+        this.username = username;
+    }
 }
 
 
