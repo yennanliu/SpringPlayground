@@ -10,7 +10,7 @@ import java.util.Set;
 
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
 
-    // TODO : check is this necessary ?
+    // TODO : check if this is necessary ?
     Set<Assignment> findByUser(User user);
 
     @Query(value = "select a.* from assignment a where (a.status = 'submitted' or a.status = 'resubmitted')",
