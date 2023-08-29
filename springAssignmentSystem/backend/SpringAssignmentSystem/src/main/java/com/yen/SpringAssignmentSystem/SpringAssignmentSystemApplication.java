@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
-@ComponentScan(basePackages="com.yen.SpringAssignmentSystem.controller.AuthController")
+//@ComponentScan(basePackages="com.yen.SpringAssignmentSystem.controller.AuthController")
 public class SpringAssignmentSystemApplication {
 
 	public static void main(String[] args) {

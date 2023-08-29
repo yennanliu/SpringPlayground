@@ -8,7 +8,7 @@ import javax.persistence.*;
 // https://youtu.be/KMecT1HBm4c?si=9vYvZrJ7pb4kl5zJ&t=633
 
 @Entity
-//@Table(name="assignment")
+@Table(name="assignment")
 @Data
 @ToString
 public class Assignment {
@@ -21,6 +21,6 @@ public class Assignment {
     private String branch;
     @ManyToOne(optional = false) // can't have an assignment without user
     private User user;
-    //private User assignTo;
+    //private User assignTo; // TODO : check if this col is needed
 
 }
