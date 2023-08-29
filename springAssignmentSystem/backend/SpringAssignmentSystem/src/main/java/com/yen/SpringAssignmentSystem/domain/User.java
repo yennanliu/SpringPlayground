@@ -38,6 +38,10 @@ public class User{
     public void setName(String username) {
         this.username = username;
     }
+
+    public String getName() {
+        return this.username;
+    }
 }
 
 
