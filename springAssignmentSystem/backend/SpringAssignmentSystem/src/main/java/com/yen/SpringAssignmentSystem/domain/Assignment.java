@@ -19,8 +19,8 @@ public class Assignment {
     private String status;
     private String githubUrl;
     private String branch;
-    @ManyToOne(optional = false) // can't have an assignment without user
-    private User user;
+//    @ManyToOne(optional = false) // can't have an assignment without user
+//    private User user;
     //private User assignTo;
 
 }
