@@ -1,6 +1,7 @@
 //import logo from './logo.svg';
 import { useEffect, useState } from "react";
 import "./App.css";
+import { useLocalState } from "./util/useLocalStorage";
 
 /**
  *
@@ -10,6 +11,7 @@ import "./App.css";
  */
 
 function App() {
+
   console.log("APP start!");
 
   /**
@@ -18,7 +20,9 @@ function App() {
    *  useState can save state (val) in the scope of function
    *
    */
-  const [getJwt, setJwt] = useState(""); // getter, setter
+  //const [getJwt, setJwt] = useState(""); // getter, setter
+  // https://youtu.be/aIr288-3AFE?si=utEgteuvcG6m0Aan&t=792
+  const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
 
   /**
    *  https://youtu.be/pupnAIRpbKo?si=ne6sMKKJR_cR3gds&t=391
