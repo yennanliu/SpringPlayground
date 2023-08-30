@@ -11,7 +11,6 @@ import { useLocalState } from "./util/useLocalStorage";
  */
 
 function App() {
-
   console.log("APP start!");
 
   /**
@@ -33,37 +32,39 @@ function App() {
    *
    */
   useEffect(() => {
-    const reqBody = {
-      username: "admin",
-      password: "123",
-    };
+    if (!getJwt) {
+      const reqBody = {
+        username: "admin",
+        password: "123",
+      };
 
-    /**
-     * Fetch : call backend/other api, then go to next line of code, will not freeze and only operate once receive result
-     * https://youtu.be/N1QStjH1rVI?si=ozUe3M3tx6z3i-T1&t=1256
-     */
-    fetch("api/auth/login", {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "post",
-      body: JSON.stringify(reqBody),
-    })
-      // .then((response) => response.json)
-      // .then((data) => console.log(data))
-      .then((response) => Promise.all([response.json(), response.headers]))
-      .then(([body, headers]) => {
-        // headers.forEach((element) => {
-        //   console.log(element);
-        // });
+      /**
+       * Fetch : call backend/other api, then go to next line of code, will not freeze and only operate once receive result
+       * https://youtu.be/N1QStjH1rVI?si=ozUe3M3tx6z3i-T1&t=1256
+       */
+      fetch("api/auth/login", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "post",
+        body: JSON.stringify(reqBody),
+      })
+        // .then((response) => response.json)
+        // .then((data) => console.log(data))
+        .then((response) => Promise.all([response.json(), response.headers]))
+        .then(([body, headers]) => {
+          // headers.forEach((element) => {
+          //   console.log(element);
+          // });
 
-        // jwt : json web token
-        //const jwt = headers.get("authorization")
-        setJwt(headers.get("authorization"));
-        //console.log(jwt)
-        console.log(getJwt);
-        console.log(body);
-      });
+          // jwt : json web token
+          //const jwt = headers.get("authorization")
+          setJwt(headers.get("authorization"));
+          //console.log(jwt)
+          console.log(getJwt);
+          console.log(body);
+        });
+    }
   }, [getJwt]);
 
   useEffect(() => {
