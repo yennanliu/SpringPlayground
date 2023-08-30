@@ -1,7 +1,11 @@
 # SpringAssignmentSystem - Frontend
 
-## Quick Start
+## Install
 ```bash
+#-----------------------------
+# PART 1 : INIT INSTALL
+#-----------------------------
+
 # check nodeJS, npm version
 node -v
 npm -v
@@ -35,6 +39,16 @@ npx create-react-app web
 #
 # Happy hacking!
 
+#-----------------------------
+# PART 2 : INSTALL ROUTE
+#-----------------------------
+
+# https://www.freecodecamp.org/news/how-to-use-react-router-version-6/
+npm install react-router-dom@6
+```
+
+## Run
+```bash
 # run FE app
 npm start
 # and visit localhost:3000
