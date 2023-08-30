@@ -10,22 +10,23 @@ import "./App.css";
  */
 
 function App() {
-
   console.log("APP start!");
 
-  /** 
+  /**
    *  https://youtu.be/pupnAIRpbKo?si=O-NSykY6ChvYenb7&t=629
-   *  
+   *
    *  useState can save state (val) in the scope of function
-   * 
+   *
    */
-  const[getJwt, setJwt] = useState("") // getter, setter
+  const [getJwt, setJwt] = useState(""); // getter, setter
 
-  /** 
+  /**
    *  https://youtu.be/pupnAIRpbKo?si=ne6sMKKJR_cR3gds&t=391
-   *  
-   *  useEffect( () => function}, array)
-   * 
+   *
+   *  dependency is an array
+   *
+   *  useEffect( () => function}, dependency)
+   *
    */
   useEffect(() => {
     const reqBody = {
@@ -54,12 +55,16 @@ function App() {
 
         // jwt : json web token
         //const jwt = headers.get("authorization")
-        setJwt(headers.get("authorization"))
+        setJwt(headers.get("authorization"));
         //console.log(jwt)
-        console.log(getJwt)
-        console.log(body)
+        console.log(getJwt);
+        console.log(body);
       });
-  }, []);
+  }, [getJwt]);
+
+  useEffect(() => {
+    console.log(`>>> JWT is ${getJwt}`);
+  }, [getJwt]);
 
   return (
     <div className="App">
