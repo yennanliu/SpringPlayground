@@ -23,3 +23,8 @@
  		- https://youtu.be/pupnAIRpbKo?si=sNbfKttKhdqq73GE
  		- https://youtu.be/aIr288-3AFE?si=dO2taK-c8gBY1Bjv
  		- https://youtu.be/SbzKc3lwVQw?si=DAHkOgJO0XtpAG2b&t=184
+
+  - 20230830
+	- BE:
+ 	- FE:
+ 		- https://youtu.be/SbzKc3lwVQw?si=DAHkOgJO0XtpAG2b&t=184

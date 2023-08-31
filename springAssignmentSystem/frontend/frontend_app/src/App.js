@@ -2,6 +2,9 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { useLocalState } from "./util/useLocalStorage";
+import { Route, Routes } from "react-router-dom";
+
+import Dashboard from "./Dashboard";
 
 /**
  *
@@ -71,11 +74,19 @@ function App() {
     console.log(`>>> JWT is ${getJwt}`);
   }, [getJwt]);
 
+  // return view
   return (
-    <div className="App">
-      <h1>HELLO WORLD</h1>
-      <div>JWT value is {getJwt}</div>
-    </div>
+    // manage path for App
+    <Routes>
+      <Route path="/dashboard" element={<Dashboard />}></Route>
+
+      <Route
+        path="/"
+        element={() => {
+          return <div>home</div>;
+        }}
+      ></Route>
+    </Routes>
   );
 }
 
