@@ -16,15 +16,9 @@
  		- https://youtu.be/N1QStjH1rVI?si=SD_RdCc0GsUbNUc5
  		- https://youtu.be/pupnAIRpbKo?si=sNbfKttKhdqq73GE
 
- - 20230830
-	- BE:
-		- https://youtu.be/_L46CaEI490?si=7poXhLZqga6ol6Hm&t=1622 (not yet completed)
- 	- FE:
- 		- https://youtu.be/pupnAIRpbKo?si=sNbfKttKhdqq73GE
- 		- https://youtu.be/aIr288-3AFE?si=dO2taK-c8gBY1Bjv
-
   - 20230830
 	- BE:
  	- FE:
  		- https://youtu.be/SbzKc3lwVQw?si=DAHkOgJO0XtpAG2b&t=184
  		- https://youtu.be/YYDpGYOjfqM?si=T7tTlcgupwg-nh3_
+ 		- https://youtu.be/SbzKc3lwVQw?si=DAHkOgJO0XtpAG2b&t=184
