@@ -26,6 +26,7 @@
 	- Part 9 : https://youtu.be/pupnAIRpbKo?si=sNbfKttKhdqq73GE
 	- Part 10 : https://youtu.be/aIr288-3AFE?si=dO2taK-c8gBY1Bjv
 	- Part 11 : https://youtu.be/SbzKc3lwVQw?si=G2ObSByZsERrID6B
+	- Part 12 : https://youtu.be/YYDpGYOjfqM?si=T7tTlcgupwg-nh3_
 
 - Spring JWT
 	- https://www.toptal.com/spring/spring-security-tutorial

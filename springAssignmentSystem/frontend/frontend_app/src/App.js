@@ -4,7 +4,9 @@ import "./App.css";
 import { useLocalState } from "./util/useLocalStorage";
 import { Route, Routes } from "react-router-dom";
 
+// use-defined view
 import Dashboard from "./Dashboard";
+import Homepage from "./Homepage";
 
 /**
  *
@@ -76,16 +78,10 @@ function App() {
 
   // return view
   return (
-    // manage path for App
+    /** Manage all App paths */
     <Routes>
       <Route path="/dashboard" element={<Dashboard />}></Route>
-
-      <Route
-        path="/"
-        element={() => {
-          return <div>home</div>;
-        }}
-      ></Route>
+      <Route path="/" element={<Homepage />}></Route>
     </Routes>
   );
 }
