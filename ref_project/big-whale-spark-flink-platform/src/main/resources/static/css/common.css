@@ -1,0 +1,145 @@
+body {
+    background: #f1f1f1;
+}
+
+.copyright {
+    margin-top: 80px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    padding: 20px;
+    width: 100%;
+}
+
+.bw-nav .row {
+    background: #ffffff;
+}
+
+.bw-nav .row .breadcrumb {
+    margin-bottom: 0;
+    border-radius: 0;
+    display: inline-block;
+    background: #ffffff;
+}
+
+.bw-nav .row .bw-refresh {
+    float: right;
+    margin-right: 15px;
+    line-height: 36px;
+    cursor: pointer;
+}
+
+.bw-body {
+    padding: 15px;
+}
+
+.bw-body .row {
+    background: #ffffff;
+}
+
+.search-form {
+    border-top: 1px;
+    border-bottom: 1px dashed #eee;
+    padding: 10px 15px 0 15px;
+}
+
+.search-form .form-group {
+    margin-bottom: 10px;
+}
+
+.form-group > label > B {
+    color: red;
+}
+
+.operate {
+    cursor: pointer;
+    padding: 0 10px 0 5px;
+}
+
+.operate > .remove,.kill {
+    color: red;
+}
+
+.order {
+    cursor: pointer;
+}
+
+.order div {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.order div i {
+    display: block;
+    font-size: 12px;
+    -webkit-transform: scale(0.7);
+    line-height: 6px;
+    top: 0;
+    color: #999999;
+}
+
+.order div i.active {
+    color: #337ab7;
+}
+
+.id {
+    display: inline-block;
+    min-width: 50px;
+}
+
+.name {
+    display: inline-block;
+    max-width: 150px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.desc {
+    display: inline-block;
+    max-width: 150px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.form-control-plaintext {
+    display: inline-block;
+    width: 79%;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    background-color: transparent;
+    border: solid transparent;
+    border-width: 1px 0;
+    border-bottom: 1px solid #dee2e6!important;
+}
+
+.form-control-plaintext:read-only {
+    outline: none;
+}
+
+.col-control {
+    margin-left: -15px;
+}
+
+span[disabled=disabled] {
+    pointer-events: none;
+}
+
+@media (max-width: 992px) {
+    .bw-body .row .col-md-12 form {
+        padding-top: 10px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .operate {
+        width: 50px;
+    }
+
+    .name {
+        max-width: 100px;
+    }
+
+    .desc {
+        max-width: 100px;
+    }
+
+}
