@@ -82,6 +82,25 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
+		<!--
+		security
+
+		https://yanbin.blog/springboot-security-jwt-token-how-to-abcs/
+
+		All endpoints (controller) will be blocked once this dep is added,
+		need to setup SecurityConfig, make endpoints can be accessed without Authentication
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>3.19.2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

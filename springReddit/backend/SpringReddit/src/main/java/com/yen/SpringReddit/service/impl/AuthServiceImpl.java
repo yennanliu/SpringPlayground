@@ -1,15 +1,16 @@
 //package com.yen.SpringReddit.service.impl;
 //
-//import com.yen.SpringReddit.dao.UserDao;
-//import com.yen.SpringReddit.dao.VerificationTokenDao;
 //import com.yen.SpringReddit.dto.AuthenticationResponse;
 //import com.yen.SpringReddit.dto.LoginRequest;
 //import com.yen.SpringReddit.dto.RegisterRequest;
 //import com.yen.SpringReddit.exceptions.SpringRedditException;
-//import com.yen.SpringReddit.po.NotificationEmail;
-//import com.yen.SpringReddit.po.User;
-//import com.yen.SpringReddit.po.VerificationToken;
+//import com.yen.SpringReddit.model.NotificationEmail;
+//import com.yen.SpringReddit.model.User;
 ////import com.yen.SpringReddit.security.JwtProvider;
+//import com.yen.SpringReddit.model.VerificationToken;
+//import com.yen.SpringReddit.repository.UserRepository;
+//import com.yen.SpringReddit.repository.VerificationTokenRepository;
+//import com.yen.SpringReddit.security.JwtProvider;
 //import com.yen.SpringReddit.service.AuthService;
 //import com.yen.SpringReddit.service.MailService;
 //import com.yen.SpringReddit.service.RefreshTokenService;
@@ -48,10 +49,10 @@
 ////    private PasswordEncoder passwordEncoder;
 //
 //    @Autowired
-//    private UserDao userDao;
+//    private UserRepository userDao;
 //
 //    @Autowired
-//    private VerificationTokenDao verificationTokenDao;
+//    private VerificationTokenRepository verificationTokenDao;
 //
 //    @Autowired
 //    private MailService mailService;

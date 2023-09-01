@@ -13,4 +13,9 @@ public class TestController {
         return "hello !!!";
     }
 
+    @GetMapping("/public-api")
+    public String publicApi() {
+        return "this is a public api";
+    }
+
 }

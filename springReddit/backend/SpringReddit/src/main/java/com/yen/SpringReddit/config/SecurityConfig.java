@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 // TODO : double check if should use WebSecurityConfigurerAdapter or not
 public class SecurityConfig extends SecurityConfigurerAdapter {
@@ -27,9 +28,20 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @Bean(BeanIds.AUTHENTICATION_MANAGER)
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+//    @Bean(BeanIds.AUTHENTICATION_MANAGER)
+//    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+//        return authenticationConfiguration.getAuthenticationManager();
+//    }
+
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
+
+        httpSecurity
+                .authorizeHttpRequests()
+                .requestMatchers("/public-api").permitAll()
+                .anyRequest().authenticated();
+
+        return httpSecurity.build();
     }
 
 //    @Bean
@@ -46,24 +58,24 @@ public class SecurityConfig extends SecurityConfigurerAdapter {
 //                        .build());
 //    }
 
-    public void configure(HttpSecurity httpSecurity) throws Exception {
+//    public void configure(HttpSecurity httpSecurity) throws Exception {
+//
+//        httpSecurity
+//                .csrf()
+//                .disable()
+//                .authorizeRequests()
+//                //.requestMatchers("/api/auth/**")
+//                //.permitAll()
+//                .anyRequest()
+//                .authenticated();
+//    }
 
-        httpSecurity
-                .csrf()
-                .disable()
-                .authorizeRequests()
-                //.requestMatchers("/api/auth/**")
-                //.permitAll()
-                .anyRequest()
-                .authenticated();
-    }
-
-    @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder
-                .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder);
-    }
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//        authenticationManagerBuilder
+//                .userDetailsService(userDetailsService)
+//                .passwordEncoder(passwordEncoder);
+//    }
 
     // encrypt user password (for saving it in DB)
     // https://youtu.be/kpKUMmAmcj0?t=297

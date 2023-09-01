@@ -16,6 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class SpringBootAdvance6Application {
 
 	public static void main(String[] args) {
+
 		SpringApplication.run(SpringBootAdvance6Application.class, args);
 	}
 

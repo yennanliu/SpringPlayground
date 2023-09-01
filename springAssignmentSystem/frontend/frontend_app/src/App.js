@@ -7,6 +7,8 @@ import { Route, Routes } from "react-router-dom";
 // use-defined view
 import Dashboard from "./Dashboard";
 import Homepage from "./Homepage";
+import Login from "./Login";
+import PrivateRoute from "./PrivateRoute";
 
 /**
  *
@@ -36,52 +38,61 @@ function App() {
    *  useEffect( () => function}, dependency)
    *
    */
-  useEffect(() => {
-    if (!getJwt) {
-      const reqBody = {
-        username: "admin",
-        password: "123",
-      };
+  // useEffect(() => {
+  //   if (!getJwt) {
+  //     const reqBody = {
+  //       username: "admin",
+  //       password: "123",
+  //     };
 
-      /**
-       * Fetch : call backend/other api, then go to next line of code, will not freeze and only operate once receive result
-       * https://youtu.be/N1QStjH1rVI?si=ozUe3M3tx6z3i-T1&t=1256
-       */
-      fetch("api/auth/login", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "post",
-        body: JSON.stringify(reqBody),
-      })
-        // .then((response) => response.json)
-        // .then((data) => console.log(data))
-        .then((response) => Promise.all([response.json(), response.headers]))
-        .then(([body, headers]) => {
-          // headers.forEach((element) => {
-          //   console.log(element);
-          // });
+  //     /**
+  //      * Fetch : call backend/other api, then go to next line of code, will not freeze and only operate once receive result
+  //      * https://youtu.be/N1QStjH1rVI?si=ozUe3M3tx6z3i-T1&t=1256
+  //      */
+  //     fetch("api/auth/login", {
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       method: "post",
+  //       body: JSON.stringify(reqBody),
+  //     })
+  //       // .then((response) => response.json)
+  //       // .then((data) => console.log(data))
+  //       .then((response) => Promise.all([response.json(), response.headers]))
+  //       .then(([body, headers]) => {
+  //         // headers.forEach((element) => {
+  //         //   console.log(element);
+  //         // });
 
-          // jwt : json web token
-          //const jwt = headers.get("authorization")
-          setJwt(headers.get("authorization"));
-          //console.log(jwt)
-          console.log(getJwt);
-          console.log(body);
-        });
-    }
-  }, [getJwt]);
+  //         // jwt : json web token
+  //         //const jwt = headers.get("authorization")
+  //         setJwt(headers.get("authorization"));
+  //         //console.log(jwt)
+  //         console.log(getJwt);
+  //         console.log(body);
+  //       });
+  //   }
+  // }, [getJwt]);
 
-  useEffect(() => {
-    console.log(`>>> JWT is ${getJwt}`);
-  }, [getJwt]);
+  // useEffect(() => {
+  //   console.log(`>>> JWT is ${getJwt}`);
+  // }, [getJwt]);
 
   // return view
   return (
     /** Manage all App paths */
     <Routes>
-      <Route path="/dashboard" element={<Dashboard />}></Route>
+      
+      {/* <Route path="/dashboard" element={<Dashboard />}></Route> */}
+      {/* redirect to login page if access dashboard without login */}
+      <Route path="/dashboard" element={
+        <PrivateRoute>
+          <Dashboard />
+        </PrivateRoute>
+      }></Route>
+
       <Route path="/" element={<Homepage />}></Route>
+      <Route path="/login" element={<Login />}></Route>
     </Routes>
   );
 }
