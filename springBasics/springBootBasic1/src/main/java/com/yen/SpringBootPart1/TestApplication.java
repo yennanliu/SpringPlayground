@@ -7,18 +7,11 @@ package com.yen.SpringBootPart1;
 // https://www.youtube.com/watch?v=AM6wJHknah0&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=10
 // https://www.youtube.com/watch?v=lDzXRsOODXA&list=PLmOn9nNkQxJFKh2PMfWbGT7RVuMowsx-u&index=16
 
-import com.yen.SpringBootPart1.bean.Pet;
-import com.yen.SpringBootPart1.bean.User;
-import com.yen.SpringBootPart1.config.MyConfig;
-import org.aopalliance.aop.Advice;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
 import org.springframework.cache.interceptor.CacheAspectSupport;
 import org.springframework.context.ConfigurableApplicationContext;
-
-import javax.xml.crypto.Data;
-import java.awt.image.DataBuffer;
 
 /**
  *  Main application : entry point
@@ -28,12 +21,12 @@ import java.awt.image.DataBuffer;
  */
 
 @SpringBootApplication(scanBasePackages = "com.yen") // via scanBasePackages = "com.yen" so spring can get WorldController, which is out of default scope
-public class MainApplication {
+public class TestApplication {
 
     public static void main(String[] args) {
 
         // 1, return IOC container
-        ConfigurableApplicationContext run = SpringApplication.run(MainApplication.class, args);
+        ConfigurableApplicationContext run = SpringApplication.run(TestApplication.class, args);
 
         System.out.println("--------------------");
 

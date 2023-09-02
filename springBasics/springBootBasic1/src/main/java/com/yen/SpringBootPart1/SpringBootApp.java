@@ -10,11 +10,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  *    -> run this app instead
  */
 @SpringBootApplication
-public class SpringBootPoc1Application {
+public class SpringBootApp {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(SpringBootPoc1Application.class, args);
+		SpringApplication.run(SpringBootApp.class, args);
 	}
 
 }

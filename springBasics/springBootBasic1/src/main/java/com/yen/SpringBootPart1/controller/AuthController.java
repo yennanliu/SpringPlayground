@@ -27,6 +27,14 @@ public class AuthController {
     }
 
     // can NOT be accessed without Auth
+    /**
+     *  Example curl request (work)
+     *
+     *   cmd : curl -i -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJleHAiOjE5MTQ1ODc1OTV9.xcdGByP5GcqOA8Ah_iNGEb1WFnnxUyvqSmKTAsiGryE" -i http://localhost:8888/private-api
+     *
+     *   JWT sharing : https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJleHAiOjE5MTQ1ODc1OTV9.xcdGByP5GcqOA8Ah_iNGEb1WFnnxUyvqSmKTAsiGryE
+     *
+     */
     @GetMapping("/private-api")
     public String privateApi(HttpServletRequest request) {
 

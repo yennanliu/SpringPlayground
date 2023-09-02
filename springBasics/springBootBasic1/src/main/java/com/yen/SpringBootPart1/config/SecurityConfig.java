@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.intercept.AuthorizationFilter;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
@@ -20,11 +21,15 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests()
                 .antMatchers("/public-api").permitAll() // ONLY API with permitAll can be accessed without auth
+                //.antMatchers("/private-api").permitAll()
                 .anyRequest().authenticated();
 
         // return Http error 403, instead of 401 if JWT token is not provided
         httpSecurity.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
         httpSecurity.addFilterBefore(new JwtTokenFilter(), AuthorizationFilter.class);
+
+        // Not let spring boot manage session
+        httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         return httpSecurity.build();
     }
