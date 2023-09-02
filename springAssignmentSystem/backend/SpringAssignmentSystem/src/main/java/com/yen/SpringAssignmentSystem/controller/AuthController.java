@@ -5,7 +5,7 @@ package com.yen.SpringAssignmentSystem.controller;
 
 import com.yen.SpringAssignmentSystem.domain.User;
 import com.yen.SpringAssignmentSystem.dto.AuthCredentialsRequest;
-import com.yen.SpringAssignmentSystem.util.JwtUtil;
+//import com.yen.SpringAssignmentSystem.util.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,8 +40,8 @@ public class AuthController {
 //    @Autowired
 //    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private JwtUtil jwtUtil;
+//    @Autowired
+//    private JwtUtil jwtUtil;
 
     @Value("${cookies.domain}")
     private String domain;
