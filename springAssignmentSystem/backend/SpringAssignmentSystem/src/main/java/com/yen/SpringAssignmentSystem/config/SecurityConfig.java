@@ -19,6 +19,18 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception{
 
+        /**
+         *  NOTE : Need to disable CSRF, otherwise request will be blocked, before reaching controller
+         *
+         *  // https://juejin.cn/s/403%20forbidden%20error%20post%20request%20spring%20boot
+         *  // disable CSRF
+         */
+        httpSecurity = httpSecurity
+                .csrf()
+                .disable()
+                .cors()
+                .disable();
+
         httpSecurity
                 .authorizeHttpRequests()
                 .antMatchers("/test").permitAll() // ONLY API with permitAll can be accessed without auth
@@ -26,6 +38,7 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/assignments/all").permitAll()
                 .antMatchers("/api/assignments").permitAll()
+                .antMatchers("/public-api").permitAll()
                 .anyRequest().authenticated();
 
         // return Http error 403, instead of 401 if JWT token is not provided

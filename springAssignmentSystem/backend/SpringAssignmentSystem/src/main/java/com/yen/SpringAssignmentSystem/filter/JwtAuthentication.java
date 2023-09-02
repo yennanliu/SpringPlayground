@@ -1,13 +1,18 @@
 package com.yen.SpringAssignmentSystem.filter;
 
-// https://github.com/yennanliu/SpringPlayground/blob/main/springBasics/springBootBasic1/src/main/java/com/yen/SpringBootPart1/filter/JwtAuthentication.java
-
 // https://yanbin.blog/springboot-security-jwt-token-how-to-abcs/
 
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
+
+import static java.util.Collections.emptyList;
+import static java.util.stream.Collectors.toList;
 
 public class JwtAuthentication extends AbstractAuthenticationToken {
 
@@ -33,8 +38,18 @@ public class JwtAuthentication extends AbstractAuthenticationToken {
         return null;
     }
 
+//    @Override
+//    public Collection<GrantedAuthority> getAuthorities() {
+//        return Optional.ofNullable(decodedJWT.getClaim("roles").asList(String.class))
+//                .map(roles -> roles.stream().map(role -> (GrantedAuthority) new SimpleGrantedAuthority(role))
+//                        .collect(toList()))
+//                .orElse(emptyList());
+//    }
+
     @Override
     public Object getPrincipal() {
         return decodedJWT;
     }
+
+
 }
