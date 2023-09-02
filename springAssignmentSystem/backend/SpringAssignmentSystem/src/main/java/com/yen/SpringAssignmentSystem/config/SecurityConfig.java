@@ -25,6 +25,7 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/assignments/all").permitAll()
+                .antMatchers("/api/assignments").permitAll()
                 .anyRequest().authenticated();
 
         // return Http error 403, instead of 401 if JWT token is not provided

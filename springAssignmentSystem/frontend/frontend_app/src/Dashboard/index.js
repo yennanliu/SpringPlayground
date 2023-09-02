@@ -11,7 +11,7 @@ const Dashboard = () => {
 
   function createAssignment() {
     console.log("createAssignment ...");
-    fetch("/assignments/", {
+    fetch("/api/assignments/", {
       headers: {
         "Content-type": "application/json",
         Authentication: `Bearer ${getJwt}`,

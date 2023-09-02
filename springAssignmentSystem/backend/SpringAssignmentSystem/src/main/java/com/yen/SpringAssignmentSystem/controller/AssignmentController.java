@@ -41,11 +41,19 @@ public class AssignmentController {
     private OrderService orderService;
 
     @PostMapping("")
-    public ResponseEntity<?> createAssignment(@AuthenticationPrincipal User user) {
-        Assignment newAssignment = assignmentService.save(user);
+    public ResponseEntity<?> createAssignment(User user) {
 
+        System.out.println(">>> createAssignment, User = " + user.toString());
+        Assignment newAssignment = assignmentService.save(user);
         return ResponseEntity.ok(newAssignment);
     }
+
+//    @PostMapping("")
+//    public ResponseEntity<?> createAssignment(@AuthenticationPrincipal User user) {
+//        Assignment newAssignment = assignmentService.save(user);
+//
+//        return ResponseEntity.ok(newAssignment);
+//    }
 
     @GetMapping("")
     public ResponseEntity<?> getAssignments(@AuthenticationPrincipal User user) {
