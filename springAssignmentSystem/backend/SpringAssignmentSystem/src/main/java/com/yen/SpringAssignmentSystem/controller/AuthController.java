@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -49,11 +46,13 @@ public class AuthController {
     @Value("${cookies.domain}")
     private String domain;
 
-    @PostMapping("login")
+    @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody AuthCredentialsRequest request){
 
         // TODO : fix why request not go through here
+        System.out.println(">>> login");
         log.info(">>> login ...., request = " + request.toString());
+        System.out.println(">>> login ...., request = " + request.toString());
 
 //        try{
 //            Authentication authenticate = authenticationManager
