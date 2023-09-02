@@ -7,10 +7,32 @@ import { useLocalState } from "../util/useLocalStorage";
 const Dashboard = () => {
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
 
+  // https://youtu.be/4l1X3PQ_NWw?si=l9tAhN7PA4i-9vBA&t=126
+
+  function createAssignment() {
+    console.log("createAssignment ...");
+    fetch("/assignments/", {
+      headers: {
+        "Content-type": "application/json",
+        Authentication: `Bearer ${getJwt}`,
+      },
+      method: "POST",
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log("BE response = " + data);
+      });
+  }
+
   return (
-    <div>
+    <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
-      <div>JWT value is {getJwt}</div>
+      {/* <div>JWT value is {getJwt}</div> */}
+      <button onClick={() => createAssignment()}>Submit New Assignment</button>
     </div>
   );
 };

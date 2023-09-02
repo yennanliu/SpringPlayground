@@ -28,7 +28,7 @@ const Login = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      method: "post",
+      method: "POST",
       body: JSON.stringify(reqBody),
     })
       // .then((response) => response.json)

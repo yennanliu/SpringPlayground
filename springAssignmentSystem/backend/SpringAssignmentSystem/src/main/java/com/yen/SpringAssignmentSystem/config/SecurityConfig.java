@@ -24,6 +24,7 @@ public class SecurityConfig {
                 .antMatchers("/test").permitAll() // ONLY API with permitAll can be accessed without auth
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
+                .antMatchers("/api/assignments/all").permitAll()
                 .anyRequest().authenticated();
 
         // return Http error 403, instead of 401 if JWT token is not provided
