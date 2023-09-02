@@ -22,7 +22,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .antMatchers("/public-api").permitAll() // ONLY API with permitAll can be accessed without auth
                 //.antMatchers("/private-api").permitAll()
-                .anyRequest().authenticated();
+                .anyRequest().hasRole("contributors"); // only role "contributors" can be authorized to access /public-api endpoint
+                //.anyRequest().authenticated(); // can enable this, comment above, make all requests being auto authenticated
 
         // return Http error 403, instead of 401 if JWT token is not provided
         httpSecurity.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));

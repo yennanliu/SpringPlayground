@@ -32,9 +32,16 @@ public class AuthController {
     /**
      *  Example curl request (work)
      *
+     *  JWT encode <--> decode : https://jwt.io
+     *
+     *   V1 :
      *   cmd : curl -i -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJleHAiOjE5MTQ1ODc1OTV9.xcdGByP5GcqOA8Ah_iNGEb1WFnnxUyvqSmKTAsiGryE" -i http://localhost:8888/private-api
      *
      *   JWT sharing : https://jwt.io/#debugger-io?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJleHAiOjE5MTQ1ODc1OTV9.xcdGByP5GcqOA8Ah_iNGEb1WFnnxUyvqSmKTAsiGryE
+     *
+     *   V2 : (with role = ROLE_contributors)
+     *   cmd :  curl -i -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiSm9obiBEb2UiLCJleHAiOjE5MTQ1ODc1OTUsInJvbGVzIjpbIlJPTEVfY29udHJpYnV0b3JzIl19.6mGJpTYHJoaJhjFgaf6C7QLbTf4v2MoDjBS_fnqNJkE" -i http://localhost:8888/private-api
+     *
      *
      */
     @GetMapping("/private-api")
