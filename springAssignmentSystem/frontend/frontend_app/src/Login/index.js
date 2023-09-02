@@ -19,20 +19,27 @@ const Login = () => {
     console.log(">>> sendLoginRequest start");
 
     const reqBody = {
-      username: "admin",
-      password: "123",
+      username: username,
+      password: password,
     };
 
     fetch("api/auth/login", {
+      //fetch("test_post", {
       headers: {
         "Content-Type": "application/json",
       },
-      method: "post",
+      method: "POST",
       body: JSON.stringify(reqBody),
     })
       // .then((response) => response.json)
       // .then((data) => console.log(data))
-      .then((response) => Promise.all([response.json(), response.headers]))
+      .then((response) => {
+        if (response.status === 200) {
+          return Promise.all([response.json(), response.headers]);
+        } else {
+          return Promise.reject("Invalid login attempt");
+        }
+      })
       .then(([body, headers]) => {
         // headers.forEach((element) => {
         //   console.log(element);
@@ -41,9 +48,13 @@ const Login = () => {
         // jwt : json web token
         //const jwt = headers.get("authorization")
         setJwt(headers.get("authorization"));
+        window.location.href = "dashboard"; // redirect to dashboard
         //console.log(jwt)
         console.log(getJwt);
         console.log(body);
+      })
+      .catch((message) => {
+        alert(">>> login faile : " + message);
       });
   }
 

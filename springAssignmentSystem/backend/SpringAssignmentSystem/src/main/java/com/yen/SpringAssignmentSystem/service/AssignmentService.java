@@ -3,10 +3,7 @@ package com.yen.SpringAssignmentSystem.service;
 import com.yen.SpringAssignmentSystem.domain.Assignment;
 import com.yen.SpringAssignmentSystem.domain.User;
 import com.yen.SpringAssignmentSystem.dto.UserKeyDto;
-import com.yen.SpringAssignmentSystem.enums.AssignmentEnum;
-import com.yen.SpringAssignmentSystem.enums.AssignmentStatusEnum;
-import com.yen.SpringAssignmentSystem.enums.BootcampAssignmentEnum;
-import com.yen.SpringAssignmentSystem.enums.JavaFoundationsAssignmentEnum;
+import com.yen.SpringAssignmentSystem.enums.*;
 import com.yen.SpringAssignmentSystem.proffesso.domain.Offer;
 import com.yen.SpringAssignmentSystem.proffesso.repository.ProffessoUserRepo;
 import com.yen.SpringAssignmentSystem.repository.AssignmentRepository;
@@ -110,11 +107,11 @@ public class AssignmentService {
     }
 
     // TODO : fix this
-//    public Set<Assignment> findByUser(User user){
-//
+    public Set<Assignment> findByUser(User user){
+
 //        boolean hasCodeReviewerRole = user.getAuthorities().stream()
 //                .filter(auth -> AuthorityEnum.ROLE_CODE_REVIEWER.name().equals(auth.getAuthority())).count() > 0;
-//
+
 //        if (hasCodeReviewerRole) {
 //            // load assignments if you're a code reviewer role
 //            return assignmentRepo.findByCodeReviewer(user);
@@ -122,7 +119,9 @@ public class AssignmentService {
 //            // load assignments if you're a student role
 //            return assignmentRepo.findByUser(user);
 //        }
-//    }
+
+        return assignmentRepo.findByUser(user);
+    }
 
     public Optional<Assignment> findById(Long assignmentId) {
 

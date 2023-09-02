@@ -83,13 +83,13 @@ function App() {
     /** Manage all App paths */
     <Routes>
       
-      {/* <Route path="/dashboard" element={<Dashboard />}></Route> */}
+      <Route path="/dashboard" element={<Dashboard />}></Route>
       {/* redirect to login page if access dashboard without login */}
-      <Route path="/dashboard" element={
+      {/* <Route path="/dashboard" element={
         <PrivateRoute>
           <Dashboard />
         </PrivateRoute>
-      }></Route>
+      }></Route> */}
 
       <Route path="/" element={<Homepage />}></Route>
       <Route path="/login" element={<Login />}></Route>
