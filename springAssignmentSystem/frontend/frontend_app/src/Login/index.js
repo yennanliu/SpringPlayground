@@ -19,11 +19,12 @@ const Login = () => {
     console.log(">>> sendLoginRequest start");
 
     const reqBody = {
-      username: "admin",
-      password: "123",
+      username: username,
+      password: password,
     };
 
     fetch("api/auth/login", {
+    //fetch("test_post", {
       headers: {
         "Content-Type": "application/json",
       },
@@ -32,7 +33,13 @@ const Login = () => {
     })
       // .then((response) => response.json)
       // .then((data) => console.log(data))
-      .then((response) => Promise.all([response.json(), response.headers]))
+      .then((response) => {
+        if (response.status === 200) {
+          return Promise.all([response.json(), response.headers]);
+        }else{
+          return Promise.reject("Invalid login attempt")
+        }
+      })
       .then(([body, headers]) => {
         // headers.forEach((element) => {
         //   console.log(element);
