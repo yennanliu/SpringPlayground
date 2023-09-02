@@ -1,5 +1,7 @@
 package com.yen.SpringBootPart1.controller;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -42,6 +44,16 @@ public class AuthController {
         System.out.println("privateApi:" + SecurityContextHolder.getContext().getAuthentication());
 
         return "this is a private api";
+    }
+
+    // https://yanbin.blog/springboot-security-jwt-token-how-to-abcs/
+    // cat get decodeJWT in controller via @AuthenticationPrincipal, otherwise, can only get it in JwtTokenFilter
+    @GetMapping("/private-api-2")
+    public String privateApi_2(HttpServletRequest request, @AuthenticationPrincipal DecodedJWT decodedJWT) {
+        System.out.println("privateApi decodeJWT: " + decodedJWT);
+        System.out.println("privateApi request: " + request);
+        System.out.println("privateApi authentication: " + SecurityContextHolder.getContext().getAuthentication());
+        return "this is a private api 2";
     }
 
 }
