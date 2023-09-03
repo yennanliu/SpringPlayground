@@ -43,8 +43,16 @@ public class AssignmentController {
     @PostMapping("")
     public ResponseEntity<?> createAssignment(User user) {
 
-        System.out.println(">>> createAssignment, User = " + user.toString());
-        Assignment newAssignment = assignmentService.save(user);
+        System.out.println(">>> user = " + user.toString());
+
+        User u1 = new User();
+        u1.setUsername("admin");
+        u1.setPassword("123");
+        u1.setId(1L);
+
+        System.out.println(">>> createAssignment, User = " + u1.toString());
+        //Assignment newAssignment = assignmentService.save(u1);
+        Assignment newAssignment = assignmentService.save(u1);
         return ResponseEntity.ok(newAssignment);
     }
 

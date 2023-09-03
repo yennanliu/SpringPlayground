@@ -11,15 +11,20 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Assignment assignment;
-    @ManyToOne
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_id")
     private User createdBy;
+
     private ZonedDateTime createdDate;
+
     @Column(columnDefinition = "TEXT")
     private String text;
+
 
     public Long getId() {
         return id;

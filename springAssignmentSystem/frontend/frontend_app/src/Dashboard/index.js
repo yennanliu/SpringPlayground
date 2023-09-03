@@ -17,6 +17,7 @@ const Dashboard = () => {
         Authentication: `Bearer ${getJwt}`,
       },
       method: "POST",
+      body: JSON.stringify({ user: 'admin-user' })
     })
       .then((response) => {
         if (response.status === 200) {

@@ -2,7 +2,6 @@ package com.yen.SpringAssignmentSystem.domain;
 
 import lombok.Data;
 import lombok.ToString;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -18,25 +17,38 @@ public class Assignment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Integer number;
+
     private String name;
+
     private String status;
+
     @Column(name="github_url") // https://stackoverflow.com/questions/25283198/spring-boot-jpa-column-name-annotation-ignored
     private String githubUrl;
+
     private String branch;
+
     @Column(name="code_review_video_url")
     private String codeReviewVideoUrl;
-    @ManyToOne(optional = false) // TODO : check this
+
+    // https://www.baeldung.com/hibernate-detached-entity-passed-to-persist
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
-    @ManyToOne // TODO : check this
+
+    @ManyToOne(cascade = CascadeType.MERGE)
     //@Column(name="code_reviewer")
     private User codeReviewer;
+
     @Column(name="submitted_date")
     private LocalDateTime submittedDate;
+
     @Column(name="created_date")
     private LocalDateTime createdDate;
+
     @Column(name="last_modified")
     private LocalDateTime lastModified;
+
 
     public Long getId() {
         return id;

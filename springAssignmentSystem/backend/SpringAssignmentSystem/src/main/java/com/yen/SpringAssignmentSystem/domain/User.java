@@ -24,11 +24,17 @@ public class User{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String username;
+
     private LocalDate cohortStartDate;
+
     private String password;
-    @ElementCollection(targetClass=Assignment.class) // https://stackoverflow.com/questions/3774198/org-hibernate-mappingexception-could-not-determine-type-for-java-util-list-at
+
+    // https://blog.csdn.net/Lancis/article/details/128560064
+    @OneToMany(mappedBy = "user", cascade={CascadeType.PERSIST})
     private List<Assignment> assignments =  new ArrayList<>();
+
 
     // constructor
     public User(String username){
