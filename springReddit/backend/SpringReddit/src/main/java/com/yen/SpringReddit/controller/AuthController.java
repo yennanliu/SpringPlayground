@@ -22,7 +22,7 @@ public class AuthController {
     @PostMapping("/signup")
     public ResponseEntity signup(@RequestBody RegisterRequest registerRequest){
 
-        authService.signUp(registerRequest);
+        authService.signup(registerRequest);
         return new ResponseEntity<>("User register success", HttpStatus.OK);
     }
 

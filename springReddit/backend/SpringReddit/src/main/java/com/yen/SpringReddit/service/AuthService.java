@@ -10,7 +10,7 @@ import com.yen.SpringReddit.model.User;
 
 public interface AuthService {
 
-    void signUp(RegisterRequest registerRequest);
+    void signup(RegisterRequest registerRequest);
 
     String generateVerificationToken(User user);
 
