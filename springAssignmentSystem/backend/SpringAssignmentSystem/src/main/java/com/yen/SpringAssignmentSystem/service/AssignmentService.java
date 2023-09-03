@@ -32,6 +32,8 @@ public class AssignmentService {
 
     public Assignment save(User user){
 
+        System.out.println(">>> Assignment save..., user = " + user.toString());
+
         Assignment assignment = new Assignment();
         assignment.setStatus(AssignmentStatusEnum.PENDING_SUBMISSION.getStatus());
         Integer nextAssignmentToSubmit = findNextAssignmentToSubmit(user);
@@ -39,22 +41,24 @@ public class AssignmentService {
         assignment.setCreatedDate(LocalDateTime.now());
         assignment.setUser(user);
 
-        Set<Offer> offers = orderService.findStudentOrdersByUserId(user.getId());
+        System.out.println(">>> Assignment save..., assignment = " + assignment.toString());
+
+        //Set<Offer> offers = orderService.findStudentOrdersByUserId(user.getId());
 
         // TODO : optimize below
-        boolean isBootcampStudent = offers.stream()
-                .anyMatch(offer -> BOOTCAMP_OFFER_IDS.contains(offer.getId()));
-
-        boolean isJavaFoundationsStudent = offers.stream()
-                .anyMatch(offer -> offer.getId().equals(JAVA_FOUNDATIONS_OFFER_ID));
-
-        if (isBootcampStudent) {
-            AssignmentEnum bootcampAssignmentEnum = BootcampAssignmentEnum.values()[nextAssignmentToSubmit - 1];
-            assignment.setName(bootcampAssignmentEnum.getAssignmentName());
-        } else if (isJavaFoundationsStudent) {
-            AssignmentEnum bootcampAssignmentEnum = JavaFoundationsAssignmentEnum.values()[nextAssignmentToSubmit - 1];
-            assignment.setName(bootcampAssignmentEnum.getAssignmentName());
-        }
+//        boolean isBootcampStudent = offers.stream()
+//                .anyMatch(offer -> BOOTCAMP_OFFER_IDS.contains(offer.getId()));
+//
+//        boolean isJavaFoundationsStudent = offers.stream()
+//                .anyMatch(offer -> offer.getId().equals(JAVA_FOUNDATIONS_OFFER_ID));
+//
+//        if (isBootcampStudent) {
+//            AssignmentEnum bootcampAssignmentEnum = BootcampAssignmentEnum.values()[nextAssignmentToSubmit - 1];
+//            assignment.setName(bootcampAssignmentEnum.getAssignmentName());
+//        } else if (isJavaFoundationsStudent) {
+//            AssignmentEnum bootcampAssignmentEnum = JavaFoundationsAssignmentEnum.values()[nextAssignmentToSubmit - 1];
+//            assignment.setName(bootcampAssignmentEnum.getAssignmentName());
+//        }
         return assignmentRepo.save(assignment);
     }
 
