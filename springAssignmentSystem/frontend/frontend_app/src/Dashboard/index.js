@@ -24,8 +24,10 @@ const Dashboard = () => {
           return response.json();
         }
       })
-      .then((data) => {
-        console.log("BE response = " + data);
+      .then((assignment) => {
+        console.log("BE response = " + assignment);
+        // redirect to new assignment URL
+        window.location.href = `/assignments/${assignment.id}`
       });
   }
 
