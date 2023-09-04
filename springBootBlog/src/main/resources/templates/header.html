@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8">
+	<meta charset="UTF-8" data-bs-theme="light">
 	<link
 			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
 			rel="stylesheet"
@@ -12,16 +12,14 @@
 	<script>
 		function switchBlackLight(){
 
-				console.log("swithBlackLight ...")
+				console.log("swithBlackLight ..., current mode = " + document.documentElement.getAttribute('data-bs-theme'))
 
-				document.getElementById('btnSwitch').addEventListener('click',()=>{
-				if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
-					document.documentElement.setAttribute('data-bs-theme','light')
-				}
-				else {
+				if (document.documentElement.getAttribute('data-bs-theme') == 'light') {
 					document.documentElement.setAttribute('data-bs-theme','dark')
 				}
-			})
+				else {
+					document.documentElement.setAttribute('data-bs-theme','light')
+				}
 		}
 	</script>
 <!--	<script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>-->
