@@ -1,18 +1,10 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
-<link rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-      crossorigin="anonymous"
-      th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
->
 <head>
     <meta charset="UTF-8">
     <title>Pre Edit</title>
 </head>
 <div th:insert="header"></div>
-<!--<h3 align="center">Welcome!</h3>-->
-<!--<h3 >Welcome! <h3 th:text="${LoginRequest.userName}"></h3>-->
 <body>
 <div class="container">
     <div th:each="post : ${posts}" class="card">
@@ -31,9 +23,6 @@
         Current at [[${pageInfo.pageNum}]] page. Total [[${pageInfo.pages}]] page. Total [[${pageInfo.total}]] records
     </div>
     <ul class="pagination pull-right no-margin">
-        <!--			<li th:if="${pageInfo.hasPreviousPage}">-->
-        <!--				<a th:href="'/posts/all?page=0'">First</a>-->
-        <!--			</li>-->
         <a th:href="'/posts/edit/pre_edit?page=0'">First</a>
         <li class="prev" th:if="${pageInfo.hasPreviousPage}">
             <a th:href="'/posts/edit/pre_edit?pageNum='+${pageInfo.prePage}">
