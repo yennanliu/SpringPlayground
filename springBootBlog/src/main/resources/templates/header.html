@@ -2,14 +2,37 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<link rel="stylesheet"
-		  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-		  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-		  crossorigin="anonymous"
-		  th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"
+	<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9"
+			crossorigin="anonymous"
 	>
+	<!-- JS for black/light mode change -->
+	<script>
+		function switchBlackLight(){
+
+				console.log("swithBlackLight ...")
+
+				document.getElementById('btnSwitch').addEventListener('click',()=>{
+				if (document.documentElement.getAttribute('data-bs-theme') == 'dark') {
+					document.documentElement.setAttribute('data-bs-theme','light')
+				}
+				else {
+					document.documentElement.setAttribute('data-bs-theme','dark')
+				}
+			})
+		}
+	</script>
+<!--	<script src="https://pagination.js.org/dist/2.1.5/pagination.min.js"></script>-->
 </head>
 <body>
+
+<!-- button for black/light mode change -->
+<Div class="col-auto">
+	<button class="btn btn-dark shadow" id="btnSwitch" onclick="switchBlackLight()">Black/Light Mode</button>
+</Div>
+
 <div class="container" th:fragment="header" style="text-align:center;margin-top:10px;">
 	<p class="title">My Markdown blog</p>
 	<h5 th:text="'Current user : ' + ${user} ">!!!</h5>

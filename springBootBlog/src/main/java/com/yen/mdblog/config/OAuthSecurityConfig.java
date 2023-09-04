@@ -41,6 +41,13 @@ public class OAuthSecurityConfig {
     // social login : https://youtu.be/us0VjFiHogo?t=241
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+
+        httpSecurity = httpSecurity
+                .csrf()
+                .disable()
+                .cors()
+                .disable();
+
         return httpSecurity
                 .authorizeRequests(auth -> {
                     auth.anyRequest().authenticated();
