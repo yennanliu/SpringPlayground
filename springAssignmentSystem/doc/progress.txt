@@ -39,5 +39,4 @@
  - 20230905
 	- BE:
  	- FE:
- 		- https://youtu.be/4l1X3PQ_NWw?si=UjFxFcKMlIgRNelx&t=1063
- 		- https://youtu.be/kl-0fIeA8A4?si=aWFgJsHX1U2Lb0sf
+ 		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
