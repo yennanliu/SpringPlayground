@@ -2,7 +2,7 @@ package com.yen.SpringAssignmentSystem.config;
 
 // https://github.com/yennanliu/SpringPlayground/blob/main/springBasics/springBootBasic1/src/main/java/com/yen/SpringBootPart1/config/SecurityConfig.java
 
-import com.yen.SpringAssignmentSystem.filter.JwtTokenFilter;
+//import com.yen.SpringAssignmentSystem.filter.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -37,13 +37,15 @@ public class SecurityConfig {
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/assignments/all").permitAll()
+                .antMatchers("/api/assignments/all2").permitAll()
                 .antMatchers("/api/assignments").permitAll()
+                .antMatchers("/api/assignments/*").permitAll()
                 .antMatchers("/public-api").permitAll()
                 .anyRequest().authenticated();
 
         // return Http error 403, instead of 401 if JWT token is not provided
         httpSecurity.exceptionHandling().authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED));
-        httpSecurity.addFilterBefore(new JwtTokenFilter(), AuthorizationFilter.class);
+        //httpSecurity.addFilterBefore(new JwtTokenFilter(), AuthorizationFilter.class);
 
         return httpSecurity.build();
     }
