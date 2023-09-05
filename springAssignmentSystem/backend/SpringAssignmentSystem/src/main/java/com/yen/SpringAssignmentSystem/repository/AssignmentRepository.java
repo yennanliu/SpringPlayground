@@ -13,6 +13,10 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     // TODO : check if this is necessary ?
     Set<Assignment> findByUser(User user);
 
+    @Query(value = "select a.* from assignment a",
+            nativeQuery = true)
+    List<Assignment> findAllAssignments2();
+
     @Query(value = "select a.* from assignment a where (a.status = 'submitted' or a.status = 'resubmitted')",
             nativeQuery = true)
     Set<Assignment> findByCodeReviewer(User codeReviewer);

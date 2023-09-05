@@ -1,5 +1,5 @@
 // https://youtu.be/SbzKc3lwVQw?si=jKjSbEO7OH2UshFi&t=495
-// type "rsc", and sould auto generate basic code
+// type "rsc", and should auto generate basic code
 
 import React from "react";
 import { useLocalState } from "../util/useLocalStorage";

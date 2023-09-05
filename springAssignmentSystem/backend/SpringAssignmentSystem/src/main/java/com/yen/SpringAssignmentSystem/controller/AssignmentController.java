@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -111,6 +112,15 @@ public class AssignmentController {
     public ResponseEntity<?> allAssignments() {
         Map<UserKeyDto, Set<Assignment>> allAssignments = assignmentService.findAll();
         return ResponseEntity.ok(allAssignments);
+    }
+
+    @GetMapping("/all2")
+    public String allAssignments2() {
+        List<Assignment> allAssignments = assignmentService.getAllAssignment();
+        System.out.println("count = " + allAssignments.size());
+        System.out.println("1st  = " + allAssignments.get(0));
+        return "OK";
+        //return ResponseEntity.ok(allAssignments);
     }
 
 }

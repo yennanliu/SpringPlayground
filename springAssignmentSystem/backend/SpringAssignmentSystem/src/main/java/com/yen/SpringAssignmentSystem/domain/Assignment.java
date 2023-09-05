@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Table(name="assignment")
 @Data
-@ToString
+//@ToString
 public class Assignment {
 
     @Id
@@ -33,11 +33,13 @@ public class Assignment {
     private String codeReviewVideoUrl;
 
     // https://www.baeldung.com/hibernate-detached-entity-passed-to-persist
-    @ManyToOne(cascade = CascadeType.MERGE)
+    //@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToOne(optional = false)
     private User user;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    //@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     //@Column(name="code_reviewer")
+    @ManyToOne
     private User codeReviewer;
 
     @Column(name="submitted_date")

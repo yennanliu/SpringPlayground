@@ -20,7 +20,7 @@ public class Authorities {
 
     private String authority;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private User user;
 
 }

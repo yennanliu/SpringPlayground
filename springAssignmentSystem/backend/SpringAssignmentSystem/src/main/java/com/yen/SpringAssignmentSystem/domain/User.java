@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+//@ToString
 public class User{
 
     private static final long serialVersionID = 34547799654654L;
@@ -32,8 +32,8 @@ public class User{
     private String password;
 
     // https://blog.csdn.net/Lancis/article/details/128560064
-    @OneToMany(mappedBy = "user", cascade={CascadeType.PERSIST})
-    private List<Assignment> assignments =  new ArrayList<>();
+//    @OneToMany(mappedBy = "user", cascade=CascadeType.PERSIST)
+//    private List<Assignment> assignments =  new ArrayList<>();
 
 
     // constructor
