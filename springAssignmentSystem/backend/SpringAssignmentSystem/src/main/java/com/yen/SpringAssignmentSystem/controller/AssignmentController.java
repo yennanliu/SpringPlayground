@@ -66,7 +66,13 @@ public class AssignmentController {
 
     @GetMapping("")
     public ResponseEntity<?> getAssignments(@AuthenticationPrincipal User user) {
-        Set<Assignment> assignmentsByUser = assignmentService.findByUser(user);
+
+        //System.out.println(">>> User = " + user.toString());
+        // TODO : fix this, read User from request, remove hardcode
+        User u1 = new User();
+        u1.setId(1L);
+
+        Set<Assignment> assignmentsByUser = assignmentService.findByUser(u1);
         return ResponseEntity.ok(assignmentsByUser);
     }
 
