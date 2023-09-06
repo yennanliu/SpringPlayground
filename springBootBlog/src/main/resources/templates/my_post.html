@@ -23,7 +23,7 @@ https://tedliou.com/css-horizontal-center-vertical-middle/
 <div class="container">
     <div th:each="post : ${posts}" class="card">
         <div class="card-body">
-            <h5 class="card-title" th:utext="${post.title}">Post title</h5>
+            <h5 style="color:#0404B4;" class="card-title" th:utext="${post.title}">Post title</h5>
             <!-- <p class="card-text" th:text="${post.author} + '...'">author</p> -->
             <h6 class="card-subtitle mb-2"
                 th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
