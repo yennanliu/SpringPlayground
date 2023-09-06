@@ -77,24 +77,29 @@ public class AssignmentController {
     }
 
     @GetMapping("{assignmentId}")
-    public ResponseEntity<?> getAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal User user) {
+    //public ResponseEntity<?> getAssignment(@PathVariable Long assignmentId, @AuthenticationPrincipal User user)
+    public ResponseEntity<?> getAssignment(@PathVariable Long assignmentId) {
+
+        System.out.println(">>> getAssignment assignmentId start ..., assignmentId = " + assignmentId);
         Optional<Assignment> assignmentOpt = assignmentService.findById(assignmentId);
+        System.out.println(">>> assignmentOpt = " + assignmentOpt.get());
 
-        Set<Offer> offers = orderService.findStudentOrdersByUserId(assignmentOpt.get().getUser().getId());
-        boolean isBootcampStudent = offers.stream()
-                .anyMatch(offer -> BOOTCAMP_OFFER_IDS.contains(offer.getId()));
-        boolean isJavaFoundationsStudent = offers.stream()
-                .anyMatch(offer -> offer.getId().equals(JAVA_FOUNDATIONS_OFFER_ID));
-
-        if (isBootcampStudent) {
-
-            AssignmentResponseDto response = new BootcampAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
-            return ResponseEntity.ok(response);
-        } else if (isJavaFoundationsStudent) {
-            AssignmentResponseDto response = new JavaFoundationsAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
-            return ResponseEntity.ok(response);
-        }
-        return ResponseEntity.ok(new BootcampAssignmentResponseDto());
+//        Set<Offer> offers = orderService.findStudentOrdersByUserId(assignmentOpt.get().getUser().getId());
+//        boolean isBootcampStudent = offers.stream()
+//                .anyMatch(offer -> BOOTCAMP_OFFER_IDS.contains(offer.getId()));
+//        boolean isJavaFoundationsStudent = offers.stream()
+//                .anyMatch(offer -> offer.getId().equals(JAVA_FOUNDATIONS_OFFER_ID));
+//
+//        if (isBootcampStudent) {
+//
+//            AssignmentResponseDto response = new BootcampAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
+//            return ResponseEntity.ok(response);
+//        } else if (isJavaFoundationsStudent) {
+//            AssignmentResponseDto response = new JavaFoundationsAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
+//            return ResponseEntity.ok(response);
+//        }
+        //return ResponseEntity.ok(new BootcampAssignmentResponseDto());
+        return ResponseEntity.ok(assignmentOpt.orElse(new Assignment()));
     }
 
     @PutMapping("{assignmentId}")
