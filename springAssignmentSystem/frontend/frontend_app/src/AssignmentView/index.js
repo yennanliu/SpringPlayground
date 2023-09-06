@@ -4,7 +4,14 @@ import { useLocalState } from "../util/useLocalStorage";
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
   const [assignment, setAssignment] = useState(null);
+  const [gitHubUrl, setGitHubUrl] = useState(null);
+  const [branch, setBranch] = useState(null);
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
+
+  function updateAssignment(prop, value) {
+    assignment[prop] = value;
+    console.log(">>> updateAssignment " + assignment);
+  }
 
   useEffect(() => {
     fetch(`/api/assignments/${assignmentId}`, {
@@ -33,10 +40,20 @@ const AssignmentView = () => {
         <>
           <h2>Status : {assignment.status}</h2>
           <h3>
-            GitHub URL : <input type="url" id="gitHubUrl"></input>
+            GitHub URL :{" "}
+            <input
+              type="url"
+              id="gitHubUrl"
+              onChange={(event) => setGitHubUrl(event.target.value)}
+            ></input>
           </h3>
           <h3>
-            Branch : <input type="text" id="branch"></input>
+            Branch :{" "}
+            <input
+              type="text"
+              id="branch"
+              onChange={(event) => setBranch(event.target.value)}
+            ></input>
           </h3>
           <button>Submit Assignment</button>
         </>
