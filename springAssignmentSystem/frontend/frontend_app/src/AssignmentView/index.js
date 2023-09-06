@@ -6,6 +6,32 @@ const AssignmentView = () => {
   const [assignment, setAssignment] = useState(null);
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
 
+  function updateAssignment(prop, value) {
+    assignment[prop] = value;
+    console.log(assignment);
+  }
+
+  function saveAssignment() {
+    // call BE API save assignment
+    fetch(`/api/assignments/${assignmentId}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authentication: `Bearer ${getJwt}`,
+      },
+      method: "PUT",
+      body: JSON.stringify(assignment),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      // if http code == 200, save response data (assignmentData) to FE var as well
+      .then((assignmentData) => {
+        setAssignment(assignmentData);
+      });
+  }
+
   useEffect(() => {
     fetch(`/api/assignments/${assignmentId}`, {
       headers: {
@@ -33,12 +59,27 @@ const AssignmentView = () => {
         <>
           <h2>Status : {assignment.status}</h2>
           <h3>
-            GitHub URL : <input type="url" id="gitHubUrl"></input>
+            GitHub URL :{" "}
+            <input
+              type="url"
+              id="githubUrl"
+              // onChange={(event) => setGitHubUrl(event.target.value)}
+              onChange={(event) =>
+                updateAssignment("githubUrl", event.target.value)
+              }
+            ></input>
           </h3>
           <h3>
-            Branch : <input type="text" id="branch"></input>
+            Branch :{" "}
+            <input
+              type="text"
+              id="branch"
+              onChange={(event) =>
+                updateAssignment("branch", event.target.value)
+              }
+            ></input>
           </h3>
-          <button>Submit Assignment</button>
+          <button onClick={() => saveAssignment()}>Submit Assignment</button>
         </>
       ) : (
         <></>

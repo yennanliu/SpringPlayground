@@ -103,18 +103,23 @@ public class AssignmentController {
     }
 
     @PutMapping("{assignmentId}")
-    public ResponseEntity<?> updateAssignment(@PathVariable Long assignmentId,
-                                              @RequestBody Assignment assignment,
-                                              @AuthenticationPrincipal User user) {
-        // add the code reviewer to this assignment if it was claimed
-        if (assignment.getCodeReviewer() != null) {
-            User codeReviewer = assignment.getCodeReviewer();
-            codeReviewer = userService.findUserByUsername(codeReviewer.getUsername()).orElseThrow();
+//    public ResponseEntity<?> updateAssignment(@PathVariable Long assignmentId,
+//                                              @RequestBody Assignment assignment,
+//                                              @AuthenticationPrincipal User user) {
+        public ResponseEntity<?> updateAssignment(@PathVariable Long assignmentId,
+                @RequestBody Assignment assignment) {
 
-//            if (AuthorityUtil.hasRole(AuthorityEnum.ROLE_CODE_REVIEWER.name(), codeReviewer)) {
-//                assignment.setCodeReviewer(codeReviewer);
-//            }
-        }
+        System.out.println(">>> (PutMapping) add new Assignment :  assignment = " + assignment);
+
+        // add the code reviewer to this assignment if it was claimed
+//        if (assignment.getCodeReviewer() != null) {
+//            User codeReviewer = assignment.getCodeReviewer();
+//            codeReviewer = userService.findUserByUsername(codeReviewer.getUsername()).orElseThrow();
+//
+////            if (AuthorityUtil.hasRole(AuthorityEnum.ROLE_CODE_REVIEWER.name(), codeReviewer)) {
+////                assignment.setCodeReviewer(codeReviewer);
+////            }
+//        }
         Assignment updatedAssignment = assignmentService.save(assignment);
         return ResponseEntity.ok(updatedAssignment);
     }
