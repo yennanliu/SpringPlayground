@@ -11,6 +11,27 @@ const AssignmentView = () => {
     console.log(assignment);
   }
 
+  function saveAssignment() {
+    // call BE API save assignment
+    fetch(`/api/assignments/${assignmentId}`, {
+      headers: {
+        "Content-type": "application/json",
+        Authentication: `Bearer ${getJwt}`,
+      },
+      method: "PUT",
+      body: JSON.stringify(assignment),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      // if http code == 200, save response data (assignmentData) to FE var as well
+      .then((assignmentData) => {
+        setAssignment(assignmentData);
+      });
+  }
+
   useEffect(() => {
     fetch(`/api/assignments/${assignmentId}`, {
       headers: {
@@ -58,7 +79,7 @@ const AssignmentView = () => {
               }
             ></input>
           </h3>
-          <button>Submit Assignment</button>
+          <button onClick={() => saveAssignment()}>Submit Assignment</button>
         </>
       ) : (
         <></>
