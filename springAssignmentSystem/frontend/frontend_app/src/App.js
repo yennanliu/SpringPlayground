@@ -8,6 +8,7 @@ import { Route, Routes } from "react-router-dom";
 import Dashboard from "./Dashboard";
 import Homepage from "./Homepage";
 import Login from "./Login";
+import AssignmentView from "./AssignmentView";
 import PrivateRoute from "./PrivateRoute";
 
 /**
@@ -82,8 +83,9 @@ function App() {
   return (
     /** Manage all App paths */
     <Routes>
-      
       <Route path="/dashboard" element={<Dashboard />}></Route>
+      <Route path="/assignments/:id" element={<AssignmentView />}></Route>
+
       {/* redirect to login page if access dashboard without login */}
       {/* <Route path="/dashboard" element={
         <PrivateRoute>
