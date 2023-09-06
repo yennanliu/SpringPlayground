@@ -38,10 +38,9 @@
 
  - 20230905
 	- BE:
- 	- FE:s
+ 	- FE:
  		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
 
   - 20230906
-	- BE:
- 	- FE:
  		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
+ 		- https://youtu.be/zQiKOu8iGco?si=ovywDUfD9MAEQKHT

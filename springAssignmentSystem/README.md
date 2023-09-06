@@ -32,6 +32,7 @@
 	(Full stack)
 	- Part 14 : https://youtu.be/4l1X3PQ_NWw?si=RduVj-z3smg5h35q
 	- Part 15 : https://youtu.be/kl-0fIeA8A4?si=aWFgJsHX1U2Lb0sf
+	- Part 16 : https://youtu.be/zQiKOu8iGco?si=ovywDUfD9MAEQKHT
 
 
 - Spring JWT

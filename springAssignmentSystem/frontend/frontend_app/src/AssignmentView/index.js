@@ -32,6 +32,13 @@ const AssignmentView = () => {
       {assignment ? (
         <>
           <h2>Status : {assignment.status}</h2>
+          <h3>
+            GitHub URL : <input type="url" id="gitHubUrl"></input>
+          </h3>
+          <h3>
+            Branch : <input type="text" id="branch"></input>
+          </h3>
+          <button>Submit Assignment</button>
         </>
       ) : (
         <></>
