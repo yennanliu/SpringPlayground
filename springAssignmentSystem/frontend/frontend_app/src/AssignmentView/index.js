@@ -3,11 +3,20 @@ import { useLocalState } from "../util/useLocalStorage";
 
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
-  const [assignment, setAssignment] = useState(null);
+  // https://youtu.be/zQiKOu8iGco?si=zRyGka60wy07xUrV&t=1934
+  // init a new assignment
+  const [assignment, setAssignment] = useState({
+    branch: "",
+    githubUrl: "",
+  });
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
 
+  // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
-    assignment[prop] = value;
+    //assignment[prop] = value;
+    const newAssignment = { ...assignment };
+    newAssignment[prop] = value;
+    setAssignment(newAssignment);
     console.log(assignment);
   }
 
@@ -67,6 +76,7 @@ const AssignmentView = () => {
               onChange={(event) =>
                 updateAssignment("githubUrl", event.target.value)
               }
+              value={assignment.githubUrl}
             ></input>
           </h3>
           <h3>
@@ -77,6 +87,7 @@ const AssignmentView = () => {
               onChange={(event) =>
                 updateAssignment("branch", event.target.value)
               }
+              value={assignment.branch}
             ></input>
           </h3>
           <button onClick={() => saveAssignment()}>Submit Assignment</button>

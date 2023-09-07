@@ -16,31 +16,35 @@
  		- https://youtu.be/N1QStjH1rVI?si=SD_RdCc0GsUbNUc5
  		- https://youtu.be/pupnAIRpbKo?si=sNbfKttKhdqq73GE
 
-  - 20230830
+- 20230830
 	- BE:
- 	- FE:
- 		- https://youtu.be/SbzKc3lwVQw?si=DAHkOgJO0XtpAG2b&t=184
- 		- https://youtu.be/YYDpGYOjfqM?si=T7tTlcgupwg-nh3_
- 		- https://youtu.be/YYDpGYOjfqM?si=VL5_tyBJfJfEekBf
- 		- https://youtu.be/6qJ8JXWC9IA?si=DeaSEik_eMoBttaA&t=800
+	- FE:
+		- https://youtu.be/SbzKc3lwVQw?si=DAHkOgJO0XtpAG2b&t=184
+		- https://youtu.be/YYDpGYOjfqM?si=T7tTlcgupwg-nh3_
+		- https://youtu.be/YYDpGYOjfqM?si=VL5_tyBJfJfEekBf
+		- https://youtu.be/6qJ8JXWC9IA?si=DeaSEik_eMoBttaA&t=800
 
- - 20230902
+- 20230902
 	- BE:
- 	- FE:
- 		- https://youtu.be/6qJ8JXWC9IA?si=DeaSEik_eMoBttaA&t=800
- 		- https://youtu.be/4l1X3PQ_NWw?si=UjFxFcKMlIgRNelx&t=1063
+	- FE:
+		- https://youtu.be/6qJ8JXWC9IA?si=DeaSEik_eMoBttaA&t=800
+		- https://youtu.be/4l1X3PQ_NWw?si=UjFxFcKMlIgRNelx&t=1063
 
- - 20230903
+- 20230903
 	- BE:
- 	- FE:
- 		- https://youtu.be/4l1X3PQ_NWw?si=UjFxFcKMlIgRNelx&t=1063
- 		- https://youtu.be/kl-0fIeA8A4?si=aWFgJsHX1U2Lb0sf
+	- FE:
+		- https://youtu.be/4l1X3PQ_NWw?si=UjFxFcKMlIgRNelx&t=1063
+		- https://youtu.be/kl-0fIeA8A4?si=aWFgJsHX1U2Lb0sf
 
- - 20230905
+- 20230905
 	- BE:
- 	- FE:
- 		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
+	- FE:
+		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
 
-  - 20230906
- 		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
- 		- https://youtu.be/zQiKOu8iGco?si=iTjwVwf4Bjyynx0y&t=617
+- 20230906
+		- https://youtu.be/kl-0fIeA8A4?si=Ou8Eg8GA5hBfG2Sx&t=806
+		- https://youtu.be/zQiKOu8iGco?si=iTjwVwf4Bjyynx0y&t=617
+
+- 20230906
+		- https://youtu.be/zQiKOu8iGco?si=iTjwVwf4Bjyynx0y&t=617
+		- https://youtu.be/w6YUDqKiT8I?si=oKmCpBbij8cXtG1c
