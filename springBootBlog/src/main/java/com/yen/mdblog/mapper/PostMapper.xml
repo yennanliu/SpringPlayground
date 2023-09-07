@@ -38,7 +38,7 @@
         SELECT * FROM posts
         WHERE author_id = #{authorId}
     </select>
-    
+
     <!-- LList<Post> findByKeyword(@Param("searchRequest") searchRequest searchRequest); -->
     <select id="findByKeyword" resultType="com.yen.mdblog.entity.Po.Post">
         SELECT * FROM posts

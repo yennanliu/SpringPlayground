@@ -190,13 +190,6 @@ public class PostController {
 		return "my_post";
 	}
 
-//	@GetMapping("/pre_search")
-//	public String preSearchPost(){
-//
-//		//model.addAttribute("user", principal.getName());
-//		return "post_presearch";
-//	}
-
 	@GetMapping("/pre_search")
 	public String preSearchPost(Model model, Principal principal){
 
@@ -214,6 +207,7 @@ public class PostController {
 		System.out.println(">>> posts count = " + posts.size());
 
 		model.addAttribute("user", principal.getName());
+		model.addAttribute("posts", posts);
 		return "post_search_result";
 	}
 
