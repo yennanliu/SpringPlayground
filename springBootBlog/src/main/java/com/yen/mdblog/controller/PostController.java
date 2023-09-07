@@ -2,6 +2,7 @@ package com.yen.mdblog.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.yen.mdblog.entity.Dto.SearchRequest;
 import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Vo.CreatePost;
@@ -187,6 +188,27 @@ public class PostController {
 		model.addAttribute("user", principal.getName());
 
 		return "my_post";
+	}
+
+	@GetMapping("/pre_search")
+	public String preSearchPost(Model model, Principal principal){
+
+		model.addAttribute("SearchRequest", new SearchRequest());
+		model.addAttribute("user", principal.getName());
+		//return "create_post";
+		return "post_presearch";
+	}
+
+	@PostMapping("/search")
+	public String searchPost(Model model, Principal principal, SearchRequest request){
+
+		System.out.println(">>> request = " + request);
+		List<Post> posts = postService.getPostByKeyword(request);
+		System.out.println(">>> posts count = " + posts.size());
+
+		model.addAttribute("user", principal.getName());
+		model.addAttribute("posts", posts);
+		return "post_search_result";
 	}
 
 }

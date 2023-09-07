@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Post Search Result</title>
+</head>
+<!--
+https://www.w3schools.com/html/html_css.asp
+https://tedliou.com/css-horizontal-center-vertical-middle/
+-->
+<style>
+      .section-flex {
+      display: flex;
+      justify-content: center;
+      }
+      .section-block {
+      width: 50%;
+      height: 200px;
+   </style>
+<body>
+<div th:insert="header"></div>
+<div class="container">
+    <div th:each="post : ${posts}" class="card">
+        <div class="card-body">
+            <h5 style="color:#0404B4;" class="card-title" th:utext="${post.title}">Post title</h5>
+            <!-- <p class="card-text" th:text="${post.author} + '...'">author</p> -->
+            <h6 class="card-subtitle mb-2"
+                th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
+            <p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
+            <h6 class="card-text" th:utext="${post.authorId}">Author</h6>
+            <a href="#" th:href="'/posts/' + ${post.id}" th:text="${'Read more'}" class="card-link">Read more</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
