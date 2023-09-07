@@ -1,5 +1,6 @@
 package com.yen.mdblog.mapper;
 
+import com.yen.mdblog.entity.Dto.SearchRequest;
 import com.yen.mdblog.entity.Po.Post;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -25,4 +26,6 @@ public interface PostMapper {
     public void updatePost(@Param("Post") Post post);
 
     List<Post> findById(@Param("authorId")  Integer authorId);
+
+    List<Post> findByKeyword(@Param("searchRequest") SearchRequest searchRequest);
 }

@@ -1,5 +1,6 @@
 package com.yen.mdblog.service.impl;
 
+import com.yen.mdblog.entity.Dto.SearchRequest;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.PostService;
 import com.yen.mdblog.entity.Po.Post;
@@ -23,7 +24,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getAllPost() {
+
         return postMapper.getAllPosts();
+    }
+
+    @Override
+    public List<Post> getPostByKeyword(SearchRequest request) {
+        return  postMapper.findByKeyword(request);
     }
 
     @Override

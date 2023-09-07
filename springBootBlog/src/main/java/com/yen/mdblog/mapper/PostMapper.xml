@@ -38,5 +38,12 @@
         SELECT * FROM posts
         WHERE author_id = #{authorId}
     </select>
+    
+    <!-- LList<Post> findByKeyword(@Param("searchRequest") searchRequest searchRequest); -->
+    <select id="findByKeyword" resultType="com.yen.mdblog.entity.Po.Post">
+        SELECT * FROM posts
+        WHERE content LIKE '%${searchRequest.keyword}%'
+        OR title LIKE '%${searchRequest.keyword}%'
+    </select>
 
 </mapper>
