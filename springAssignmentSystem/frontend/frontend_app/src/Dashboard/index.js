@@ -3,23 +3,27 @@
 
 import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
-import {Link} from 'react-router-dom';
+import { Link } from "react-router-dom";
+import ajax from "../Services/fetchService";
 
 const Dashboard = () => {
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignments, setAssignment] = useState(null);
 
   useEffect(() => {
-    fetch("/api/assignments/", {
-      headers: {
-        "Content-type": "application/json",
-        Authentication: `Bearer ${getJwt}`,
-      },
-      method: "GET",
-    })
-      .then((response) => {
-        if (response.status === 200) return response.json();
-      })
+    // V2
+    ajax("/api/assignments/", "GET", getJwt)
+      // V1
+      // fetch("/api/assignments/", {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //     Authentication: `Bearer ${getJwt}`,
+      //   },
+      //   method: "GET",
+      // })
+      //   .then((response) => {
+      //     if (response.status === 200) return response.json();
+      //   })
       .then((assignmentsData) => {
         setAssignment(assignmentsData);
       });
@@ -29,19 +33,22 @@ const Dashboard = () => {
 
   function createAssignment() {
     console.log("createAssignment ...");
-    fetch("/api/assignments/", {
-      headers: {
-        "Content-type": "application/json",
-        Authentication: `Bearer ${getJwt}`,
-      },
-      method: "POST",
-      body: JSON.stringify({ user: "admin-user" }),
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
+    // V2
+    ajax("/api/assignments/", "POST", getJwt)
+      // V1
+      // fetch("/api/assignments/", {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //     Authentication: `Bearer ${getJwt}`,
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify({ user: "admin-user" }),
+      // })
+      // .then((response) => {
+      //   if (response.status === 200) {
+      //     return response.json();
+      //   }
+      // })
       .then((assignment) => {
         console.log("BE response = " + assignment);
         // redirect to new assignment URL
@@ -53,12 +60,19 @@ const Dashboard = () => {
     <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
       {/* <div>JWT value is {getJwt}</div> */}
-      {assignments ? assignments.map((assignment) => 
-      <div>
-        <Link></Link>
-          <Link to={`/assignments/${assignment.id}`}>Assignment ID : {assignment.id}</Link>
-          , User name : {assignment.user.username}
-      </div>) : <></>}
+      {assignments ? (
+        assignments.map((assignment) => (
+          <div key={assignment.id}>
+            <Link></Link>
+            <Link to={`/assignments/${assignment.id}`}>
+              Assignment ID : {assignment.id}
+            </Link>
+            , User name : {assignment.user.username}
+          </div>
+        ))
+      ) : (
+        <></>
+      )}
       <button onClick={() => createAssignment()}>Submit New Assignment</button>
     </div>
   );

@@ -22,27 +22,25 @@ const AssignmentView = () => {
   }
 
   function saveAssignment() {
-
     // call BE API save assignment
 
     // V2 : use custom method
     // https://youtu.be/w6YUDqKiT8I?si=pXIQhoWmGDLjQgtI&t=803
     ajax(`/api/assignments/${assignmentId}`, "PUT", getJwt, assignment)
-
-    // V1 : use raw fetch
-    // fetch(`/api/assignments/${assignmentId}`, {
-    //   headers: {
-    //     "Content-type": "application/json",
-    //     Authentication: `Bearer ${getJwt}`,
-    //   },
-    //   method: "PUT",
-    //   body: JSON.stringify(assignment),
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       return response.json();
-    //     }
-    //   })
+      // V1 : use raw fetch
+      // fetch(`/api/assignments/${assignmentId}`, {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //     Authentication: `Bearer ${getJwt}`,
+      //   },
+      //   method: "PUT",
+      //   body: JSON.stringify(assignment),
+      // })
+      //   .then((response) => {
+      //     if (response.status === 200) {
+      //       return response.json();
+      //     }
+      //   })
       // if http code == 200, save response data (assignmentData) to FE var as well
       .then((assignmentData) => {
         setAssignment(assignmentData);
@@ -50,26 +48,30 @@ const AssignmentView = () => {
   }
 
   useEffect(() => {
-
     // V2
     // https://youtu.be/w6YUDqKiT8I?si=pXIQhoWmGDLjQgtI&t=803
     ajax(`/api/assignments/${assignmentId}`, "GET", getJwt)
-
-    // V1
-    // fetch(`/api/assignments/${assignmentId}`, {
-    //   headers: {
-    //     "Content-type": "application/json",
-    //     Authentication: `Bearer ${getJwt}`,
-    //   },
-    //   method: "GET",
-    // })
-    //   .then((response) => {
-    //     if (response.status === 200) {
-    //       return response.json();
-    //     }
-    //   })
+      // V1
+      // fetch(`/api/assignments/${assignmentId}`, {
+      //   headers: {
+      //     "Content-type": "application/json",
+      //     Authentication: `Bearer ${getJwt}`,
+      //   },
+      //   method: "GET",
+      // })
+      //   .then((response) => {
+      //     if (response.status === 200) {
+      //       return response.json();
+      //     }
+      //   })
       .then((assignmentsData) => {
         console.log("BE response = " + assignmentsData);
+        if (assignmentsData.branch === null){
+          assignmentsData.branch = ""
+        }
+        if (assignmentsData.githubUrl === null){
+          assignmentsData.githubUrl = ""
+        }
         setAssignment(assignmentsData);
       });
   }, []);
