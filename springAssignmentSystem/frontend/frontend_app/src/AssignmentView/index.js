@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
+import { Link } from "react-router-dom";
 
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
@@ -66,11 +67,11 @@ const AssignmentView = () => {
       //   })
       .then((assignmentsData) => {
         console.log("BE response = " + assignmentsData);
-        if (assignmentsData.branch === null){
-          assignmentsData.branch = ""
+        if (assignmentsData.branch === null) {
+          assignmentsData.branch = "";
         }
-        if (assignmentsData.githubUrl === null){
-          assignmentsData.githubUrl = ""
+        if (assignmentsData.githubUrl === null) {
+          assignmentsData.githubUrl = "";
         }
         setAssignment(assignmentsData);
       });
@@ -79,6 +80,7 @@ const AssignmentView = () => {
   return (
     <div>
       <h1>Assignment ID : {assignmentId}</h1>
+      <Link to="http://localhost:3000/dashboard">Back to Dashboard</Link>
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
