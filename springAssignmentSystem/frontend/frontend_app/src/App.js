@@ -11,6 +11,8 @@ import Login from "./Login";
 import AssignmentView from "./AssignmentView";
 import PrivateRoute from "./PrivateRoute";
 
+// bootstrap : https://react-bootstrap.netlify.app/docs/getting-started/introduction
+import 'bootstrap/dist/css/bootstrap.min.css';
 /**
  *
  * MAIN APP (entry point)

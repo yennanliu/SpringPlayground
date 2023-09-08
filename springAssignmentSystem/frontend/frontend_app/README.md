@@ -44,7 +44,14 @@ npx create-react-app web
 #-----------------------------
 
 # https://www.freecodecamp.org/news/how-to-use-react-router-version-6/
+cd /Users/yennanliu/SpringPlayground/springAssignmentSystem/frontend/frontend_app
 npm install react-router-dom@6
+
+#-----------------------------
+# PART 3 : INSTALL bootstrap
+#-----------------------------
+cd /Users/yennanliu/SpringPlayground/springAssignmentSystem/frontend/frontend_app
+npm install react-bootstrap bootstrap
 ```
 
 ## Run
@@ -69,3 +76,4 @@ npm start
 	- Reactjs code snippets
 
 ## Ref
+	- https://react-bootstrap.netlify.app/docs/getting-started/introduction
