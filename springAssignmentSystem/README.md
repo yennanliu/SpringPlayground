@@ -37,6 +37,7 @@
 	- Part 18 : https://youtu.be/a1sIrTLdYns?si=BSRHe-6UbpTF62yc
 	- Part 19 : https://youtu.be/fxtierhl-1Y?si=3Lr0tbjZ09i6QeoC  (can pass)
 	- Part 20 : https://youtu.be/EobHBIUuV5w?si=VhWeD8yGWW00oBvm
+	- Part 21 : https://youtu.be/3MqTKoM8_EQ?si=GQdEDtAvY81GTo4J
 
 
 - Spring JWT

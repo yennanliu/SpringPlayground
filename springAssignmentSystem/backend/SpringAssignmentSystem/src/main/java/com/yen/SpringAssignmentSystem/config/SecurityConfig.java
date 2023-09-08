@@ -34,6 +34,7 @@ public class SecurityConfig {
         httpSecurity
                 .authorizeHttpRequests()
                 .antMatchers("/test").permitAll() // ONLY API with permitAll can be accessed without auth
+                .antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/auth/login").permitAll()
                 .antMatchers("/api/auth/logout").permitAll()
                 .antMatchers("/api/assignments/all").permitAll()
