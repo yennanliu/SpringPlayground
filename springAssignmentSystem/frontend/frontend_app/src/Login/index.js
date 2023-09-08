@@ -98,15 +98,25 @@ const Login = () => {
           {/** set password equals as input */}
         </Form.Group>
         <Row>
-          <Col className="mt-2">
-              <Button
-                id="submit"
-                type="button"
-                size="lg"
-                onClick={() => sendLoginRequest()}
-              >
-                Login
-              </Button>
+          {/** botton with bootstrap style : https://youtu.be/fxtierhl-1Y?si=5jg-5BvHCGAXl2qg&t=283  */}
+          <Col className="mt-2 d-flex flex-column gap-3">
+            <Button
+              id="submit"
+              type="button"
+              size="lg"
+              onClick={() => sendLoginRequest()}
+            >
+              Login
+            </Button>
+            <Button
+              id="submit"
+              type="button"
+              size="lg"
+              variant="secondary"
+              onClick={() => (window.location.href = "/")}
+            >
+              Exit
+            </Button>
           </Col>
         </Row>
       </Container>
