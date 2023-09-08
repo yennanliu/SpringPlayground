@@ -15,8 +15,12 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
+
 		<!-- NOTE !!! we HAVE TO use JDK 11 in this project -->
 		<java.version>11</java.version>
+		<!-- maven compile -->
+		<maven.compiler.source>8</maven.compiler.source>
+		<maven.compiler.target>8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
