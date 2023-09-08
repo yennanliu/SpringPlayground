@@ -35,4 +35,4 @@ jobs:
     - name: Build EcommerceGuli
       run: cd springEcommerceGuli/backend/EcommerceGuli && mvn -DskipTests=true package
     - name: Build blog app
-      run: cd springBootBlog && mvn -DskipTests=true package
+      run: rm -rf ~/.m2 && cd springBootBlog && mvn -DskipTests=true package
