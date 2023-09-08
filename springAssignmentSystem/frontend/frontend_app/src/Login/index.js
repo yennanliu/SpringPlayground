@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
+import { Container, Row, Col, Button } from "react-bootstrap";
 
 // https://youtu.be/YYDpGYOjfqM?si=KndWtVvDf0dtxBBS&t=161
 // https://youtu.be/6qJ8JXWC9IA?si=Dv8hRVq4jVtHc34j&t=118
@@ -61,31 +62,52 @@ const Login = () => {
   return (
     // <></> : React fragment
     <>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          type="email"
-          id="username"
-          value={username}
-          onChange={(event) => setUsername(event.target.value)}
-        ></input>{" "}
-        {/** set username equals as input */}
-      </div>
-      <div>
-        <label htmlFor="password">Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-        ></input>{" "}
-        {/** set password equals as input */}
-      </div>
-      <div>
-        <button id="submit" type="button" onClick={() => sendLoginRequest()}>
-          Login
-        </button>
-      </div>
+      {/** Bootstrap
+       * https://youtu.be/a1sIrTLdYns?si=4GVyycznLkIsMhdT&t=597
+       */}
+      <Container>
+        <Row>
+          <Col>
+            <div>
+              <label htmlFor="username">Username</label>
+              <input
+                type="email"
+                id="username"
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+              ></input>{" "}
+              {/** set username equals as input */}
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div>
+              <label htmlFor="password">Password</label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              ></input>{" "}
+              {/** set password equals as input */}
+            </div>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <div>
+              <Button
+                id="submit"
+                type="button"
+                onClick={() => sendLoginRequest()}
+              >
+                Login
+              </Button>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </>
   );
 };
