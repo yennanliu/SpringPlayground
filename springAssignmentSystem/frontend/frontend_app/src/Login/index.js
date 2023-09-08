@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Form } from "react-bootstrap";
 
 // https://youtu.be/YYDpGYOjfqM?si=KndWtVvDf0dtxBBS&t=161
 // https://youtu.be/6qJ8JXWC9IA?si=Dv8hRVq4jVtHc34j&t=118
@@ -64,47 +64,49 @@ const Login = () => {
     <>
       {/** Bootstrap
        * https://youtu.be/a1sIrTLdYns?si=4GVyycznLkIsMhdT&t=597
+       *
+       *  use Container, Form group, Form lebel for bootstrap feature
+       *  className="fs-1" : fontsize style
        */}
-      <Container>
+      <Container className="mt-5">
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="username" className="fs-1">
+            Username
+          </Form.Label>
+          <Form.Control
+            type="email"
+            id="username"
+            placeholder="test@google.com"
+            value={username}
+            size="lg"
+            onChange={(event) => setUsername(event.target.value)}
+          ></Form.Control>{" "}
+          {/** set username equals as input */}
+        </Form.Group>
+        <Form.Group className="mb-3">
+          <Form.Label htmlFor="password" className="fs-1">
+            Password
+          </Form.Label>
+          <Form.Control
+            type="password"
+            id="password"
+            placeholder="Type your password"
+            value={password}
+            size="lg"
+            onChange={(event) => setPassword(event.target.value)}
+          ></Form.Control>{" "}
+          {/** set password equals as input */}
+        </Form.Group>
         <Row>
-          <Col>
-            <div>
-              <label htmlFor="username">Username</label>
-              <input
-                type="email"
-                id="username"
-                value={username}
-                onChange={(event) => setUsername(event.target.value)}
-              ></input>{" "}
-              {/** set username equals as input */}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div>
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              ></input>{" "}
-              {/** set password equals as input */}
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <div>
+          <Col className="mt-2">
               <Button
                 id="submit"
                 type="button"
+                size="lg"
                 onClick={() => sendLoginRequest()}
               >
                 Login
               </Button>
-            </div>
           </Col>
         </Row>
       </Container>
