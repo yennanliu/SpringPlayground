@@ -5,6 +5,8 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import { Link } from "react-router-dom";
 import ajax from "../Services/fetchService";
+// import Card from "react-bootstrap/Card";
+import { Button, Card, Col, Row } from "react-bootstrap";
 
 const Dashboard = () => {
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
@@ -63,11 +65,31 @@ const Dashboard = () => {
       {assignments ? (
         assignments.map((assignment) => (
           <div key={assignment.id}>
-            <Link></Link>
+            {/* <Link></Link>
             <Link to={`/assignments/${assignment.id}`}>
               Assignment ID : {assignment.id}
-            </Link>
-            , User name : {assignment.user.username}
+            </Link> */}
+            {/** React bootstrap cards :
+             * https://youtu.be/3MqTKoM8_EQ?si=vf-cx_KrsSwbA56p&t=425
+             * https://react-bootstrap.netlify.app/docs/components/cards
+             */}
+
+            <Card style={{ width: "18rem" }}>
+              <Card.Body>
+                <Card.Title>Card Title</Card.Title>
+                <Card.Subtitle className="mb-2 text-muted">
+                  Card Subtitle
+                </Card.Subtitle>
+                <Card.Text>
+                  Some quick example text to build on the card title and make up
+                  the bulk of the card's content.
+                </Card.Text>
+                <Card.Text>User name : {assignment.user.username}</Card.Text>
+                <Card.Link href="#">Card Link</Card.Link>
+                <Card.Link href="#">Another Link</Card.Link>
+              </Card.Body>
+            </Card>
+            {/* , User name : {assignment.user.username} */}
           </div>
         ))
       ) : (
