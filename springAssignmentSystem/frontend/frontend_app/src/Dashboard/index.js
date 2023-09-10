@@ -62,6 +62,7 @@ const Dashboard = () => {
     <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
       {/* <div>JWT value is {getJwt}</div> */}
+
       {assignments ? (
         assignments.map((assignment) => (
           <div key={assignment.id}>
@@ -76,17 +77,22 @@ const Dashboard = () => {
 
             <Card style={{ width: "18rem" }}>
               <Card.Body>
-                <Card.Title>Card Title</Card.Title>
+                <Card.Title>Assignment # {assignment.id}</Card.Title>
                 <Card.Subtitle className="mb-2 text-muted">
-                  Card Subtitle
+                  {assignment.status}
                 </Card.Subtitle>
                 <Card.Text>
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
+                  <p>Github URL : {assignment.githubUrl}</p>
+                  <p>Branch : {assignment.branch}</p>
                 </Card.Text>
                 <Card.Text>User name : {assignment.user.username}</Card.Text>
-                <Card.Link href="#">Card Link</Card.Link>
-                <Card.Link href="#">Another Link</Card.Link>
+                <Button
+                  onClick={() => {
+                    window.location.href = `/assignments/${assignment.id}`;
+                  }}
+                >
+                  Edit
+                </Button>
               </Card.Body>
             </Card>
             {/* , User name : {assignment.user.username} */}
