@@ -5,8 +5,13 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import { Link } from "react-router-dom";
 import ajax from "../Services/fetchService";
+// import Card from "react-bootstrap/Card";
+import { Button, Card, Col, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import StatusBadge from "../StatusBadge";
 
 const Dashboard = () => {
+  const navigate = useNavigate();
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignments, setAssignment] = useState(null);
 
@@ -60,21 +65,66 @@ const Dashboard = () => {
     <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
       {/* <div>JWT value is {getJwt}</div> */}
-      {assignments ? (
-        assignments.map((assignment) => (
-          <div key={assignment.id}>
-            <Link></Link>
-            <Link to={`/assignments/${assignment.id}`}>
-              Assignment ID : {assignment.id}
-            </Link>
-            , User name : {assignment.user.username}
-          </div>
-        ))
-      ) : (
-        <></>
-      )}
-      <button onClick={() => createAssignment()}>Submit New Assignment</button>
-    </div>
+      {assignments &&
+            assignments.map((assignment) => (
+              // <Col>
+              <Card
+                key={assignment.id}
+                style={{ width: "18rem", height: "20rem" }}
+              >
+                <Card.Body className="d-flex flex-column justify-content-around">
+                  <Card.Title>Assignment #{assignment.number}</Card.Title>
+                  <div className="d-flex align-items-start">
+                    <StatusBadge text={assignment.status} />
+                  </div>
+
+                  <Card.Text style={{ marginTop: "1em" }}>
+                    <b>GitHub URL</b>: {assignment.githubUrl}
+                    <br />
+                    <b>Branch</b>: {assignment.branch}
+                  </Card.Text>
+
+                  {assignment && assignment.status === "Completed" ? (
+                    <>
+                      <Button
+                        onClick={() => {
+                          window.open(assignment.codeReviewVideoUrl);
+                        }}
+                        className="mb-4"
+                      >
+                        Watch Review
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          navigate(`/assignments/${assignment.id}`);
+                        }}
+                      >
+                        View
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        navigate(`/assignments/${assignment.id}`);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  )}
+                </Card.Body>
+              </Card>
+              // </Col>
+            ))}
+          <Card style={{ width: "18rem", height: "20rem" }}>
+            <Card.Body className="d-flex flex-column justify-content-around">
+              <Button size="lg" onClick={() => createAssignment()}>
+                Submit New Assignment
+              </Button>
+            </Card.Body>
+          </Card>
+      </div>
   );
 };
 

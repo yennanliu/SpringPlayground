@@ -79,6 +79,8 @@ public class AuthController {
                     .body("token");
     }
 
+    // https://youtu.be/EobHBIUuV5w?si=i4ZI9qGVWrDKa0Dd&t=541
+    // localhost:8080/api/auth/validate?token=xxxxxx
     @GetMapping("/validate")
     public ResponseEntity<?> validateToken(@CookieValue(name = "jwt") String token, @AuthenticationPrincipal User user){
 

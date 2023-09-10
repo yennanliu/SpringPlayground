@@ -1,5 +1,12 @@
 # SpringAssignmentSystem - Frontend
 
+## Tech
+	- Javascript
+	- React
+	- React Bootstrap
+	- Npm
+	- Vs Code
+
 ## Install
 ```bash
 #-----------------------------
@@ -60,12 +67,6 @@ npm install react-bootstrap bootstrap
 npm start
 # and visit localhost:3000
 ```
-
-## Tech
-	- React
-	- Typescript
-	- Npm
-	- VS code
 
 ## Concept
 	- In react, every html is an app. e.g. 1 HTML, 1 App (whole life cycle)
