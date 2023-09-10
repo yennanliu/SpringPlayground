@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link } from "react-router-dom";
-import { Button, Container } from "react-bootstrap";
+import { Badge, Button, Container } from "react-bootstrap";
 
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
@@ -83,15 +83,23 @@ const AssignmentView = () => {
   }, []);
 
   return (
-    <Container>
-      <h1>Assignment ID : {assignmentId}</h1>
+    <Container className="mt-5">
+      <Row>
+        <Col>
+          <h1>Assignment ID : {assignmentId}</h1>
+        </Col>
+        <Col>
+          <Badge pill bg="primary">
+          {assignment.status}
+          </Badge>
+        </Col>
+      </Row>
+      <p></p>
       <Link to="http://localhost:3000/dashboard">Back to Dashboard</Link>
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
-          <h4>Status : {assignment.status}</h4>
-
-          <Form.Group as={Row} className="mb-3">
+          <Form.Group as={Row} className="my-4">
             <Form.Label column sm="2">
               GitHub URL
             </Form.Label>
