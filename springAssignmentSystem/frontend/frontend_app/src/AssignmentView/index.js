@@ -103,7 +103,6 @@ const AssignmentView = () => {
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
-
           {/** Dropdown:
            *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
            *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
@@ -118,13 +117,19 @@ const AssignmentView = () => {
                 id="assignmentName"
                 variant="info"
               >
-                <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+                {["1", "2", "3", "4", "5"].map((assignmentNum) => (
+                  <Dropdown.Item eventKey={assignmentNum}>
+                    {assignmentNum}
+                  </Dropdown.Item>
+                ))}
+
+                {/* <Dropdown.Item eventKey="1">Action</Dropdown.Item>
                 <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
                 <Dropdown.Item eventKey="3" active>
                   Active Item
-                </Dropdown.Item>
-                <Dropdown.Divider />
-                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+                </Dropdown.Item> */}
+                {/* <Dropdown.Divider />
+                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
               </DropdownButton>
             </Col>
           </Form.Group>
