@@ -84,12 +84,12 @@ const AssignmentView = () => {
 
   return (
     <Container className="mt-5">
-      <Row>
-        <Col>
+      <Row className="d-flex">
+        <Col className="d-flex align-items-center">
           <h1>Assignment ID : {assignmentId}</h1>
         </Col>
         <Col>
-          <Badge pill bg="primary">
+          <Badge pill bg="info" style={{fontSize: "1.3em"}}>
           {assignment.status}
           </Badge>
         </Col>
