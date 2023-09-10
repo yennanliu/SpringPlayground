@@ -8,6 +8,10 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
+
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
   // https://youtu.be/zQiKOu8iGco?si=zRyGka60wy07xUrV&t=1934
@@ -89,8 +93,8 @@ const AssignmentView = () => {
           <h1>Assignment ID : {assignmentId}</h1>
         </Col>
         <Col>
-          <Badge pill bg="info" style={{fontSize: "1.3em"}}>
-          {assignment.status}
+          <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
+            {assignment.status}
           </Badge>
         </Col>
       </Row>
@@ -99,6 +103,32 @@ const AssignmentView = () => {
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
+
+          {/** Dropdown:
+           *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
+           *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
+           */}
+          <Form.Group as={Row} className="my-4">
+            <Form.Label column sm="2">
+              Assignment Number
+            </Form.Label>
+            <Col sm="10">
+              <DropdownButton
+                as={ButtonGroup}
+                id="assignmentName"
+                variant="info"
+              >
+                <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+                <Dropdown.Item eventKey="3" active>
+                  Active Item
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item>
+              </DropdownButton>
+            </Col>
+          </Form.Group>
+
           <Form.Group as={Row} className="my-4">
             <Form.Label column sm="2">
               GitHub URL
