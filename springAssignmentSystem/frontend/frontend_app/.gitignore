@@ -21,3 +21,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
+springAssignmentSystem/frontend/frontend_app/package-lock.json
+springAssignmentSystem/frontend/frontend_app/package.json

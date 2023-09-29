@@ -2,6 +2,9 @@
 
 ## Quick Start
 ```bash
+# Step 1) create DB "assignment_db" in mysql
+# Step 2) manually run dml in sql/dml
+# Step 3) run FE app, run BE app
 ```
 
 - Default user/pwd:
