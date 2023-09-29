@@ -154,3 +154,6 @@ archived/DownloadServiceV2/*/target/
 
 springEcommerceGuli/backend/EcommerceGuli/*.ini
 */*/*/*.ini
+
+springAssignmentSystem/frontend/frontend_app/package-lock.json
+springAssignmentSystem/frontend/frontend_app/package.json

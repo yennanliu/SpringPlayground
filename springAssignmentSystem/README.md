@@ -2,6 +2,9 @@
 
 ## Quick Start
 ```bash
+# Step 1) create DB "assignment_db" in mysql
+# Step 2) manually run dml in sql/dml
+# Step 3) run FE app, run BE app
 ```
 
 - Default user/pwd:
@@ -38,6 +41,8 @@
 	- Part 19 : https://youtu.be/fxtierhl-1Y?si=3Lr0tbjZ09i6QeoC  (can pass)
 	- Part 20 : https://youtu.be/EobHBIUuV5w?si=VhWeD8yGWW00oBvm
 	- Part 21 : https://youtu.be/3MqTKoM8_EQ?si=GQdEDtAvY81GTo4J
+	- Part 22 : https://youtu.be/MGtkDvpD6rs?si=VB3F5FBwdqax1jTr
+	- Part 23 : https://youtu.be/K-ywr1I1mr0?si=HCioIDSZ0Y5NUaAx
 
 
 - Spring JWT

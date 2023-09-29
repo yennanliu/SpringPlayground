@@ -2,6 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link } from "react-router-dom";
+import { Badge, Button, Container } from "react-bootstrap";
+
+import Col from "react-bootstrap/Col";
+import Form from "react-bootstrap/Form";
+import Row from "react-bootstrap/Row";
+
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
@@ -78,42 +87,93 @@ const AssignmentView = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Assignment ID : {assignmentId}</h1>
+    <Container className="mt-5">
+      <Row className="d-flex">
+        <Col className="d-flex align-items-center">
+          <h1>Assignment ID : {assignmentId}</h1>
+        </Col>
+        <Col>
+          <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
+            {assignment.status}
+          </Badge>
+        </Col>
+      </Row>
+      <p></p>
       <Link to="http://localhost:3000/dashboard">Back to Dashboard</Link>
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
-          <h2>Status : {assignment.status}</h2>
-          <h3>
-            GitHub URL :{" "}
-            <input
-              type="url"
-              id="githubUrl"
-              // onChange={(event) => setGitHubUrl(event.target.value)}
-              onChange={(event) =>
-                updateAssignment("githubUrl", event.target.value)
-              }
-              value={assignment.githubUrl}
-            ></input>
-          </h3>
-          <h3>
-            Branch :{" "}
-            <input
-              type="text"
-              id="branch"
-              onChange={(event) =>
-                updateAssignment("branch", event.target.value)
-              }
-              value={assignment.branch}
-            ></input>
-          </h3>
-          <button onClick={() => saveAssignment()}>Submit Assignment</button>
+          {/** Dropdown:
+           *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
+           *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
+           */}
+          <Form.Group as={Row} className="my-4">
+            <Form.Label column sm="2">
+              Assignment Number
+            </Form.Label>
+            <Col sm="10">
+              <DropdownButton
+                as={ButtonGroup}
+                id="assignmentName"
+                variant="info"
+              >
+                {["1", "2", "3", "4", "5"].map((assignmentNum) => (
+                  <Dropdown.Item eventKey={assignmentNum}>
+                    {assignmentNum}
+                  </Dropdown.Item>
+                ))}
+
+                {/* <Dropdown.Item eventKey="1">Action</Dropdown.Item>
+                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
+                <Dropdown.Item eventKey="3" active>
+                  Active Item
+                </Dropdown.Item> */}
+                {/* <Dropdown.Divider />
+                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
+              </DropdownButton>
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="my-4">
+            <Form.Label column sm="2">
+              GitHub URL
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                id="githubUrl"
+                onChange={(event) =>
+                  updateAssignment("githubUrl", event.target.value)
+                }
+                type="url"
+                value={assignment.githubUrl}
+                placeholder="http//github.com"
+              />
+            </Col>
+          </Form.Group>
+
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column sm="2">
+              Branch
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                id="branch"
+                onChange={(event) =>
+                  updateAssignment("branch", event.target.value)
+                }
+                type="text"
+                value={assignment.branch}
+                placeholder="master"
+              />
+            </Col>
+          </Form.Group>
+
+          <Button onClick={() => saveAssignment()}>Submit Assignment</Button>
         </>
       ) : (
         <></>
       )}
-    </div>
+    </Container>
   );
 };
 
