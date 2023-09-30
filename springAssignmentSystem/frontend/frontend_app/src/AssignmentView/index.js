@@ -20,6 +20,7 @@ const AssignmentView = () => {
   const [assignment, setAssignment] = useState({
     branch: "",
     githubUrl: "",
+    assignmentNum: null,
   });
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignmentEnums, setAssignmentEnums] = useState([]);
@@ -136,6 +137,7 @@ const AssignmentView = () => {
                 title={selectedAssignment ?  `Assignment ${selectedAssignment}` : "Select an Assignment"}
                 onSelect={(selectedAssignment) => {
                   setSelectedAssignment(selectedAssignment);
+                  updateAssignment("assignmentNum", selectedAssignment);
                 }}
               >
                 {/* {["1", "2", "3", "4", "5"].map((assignmentNum) => (
