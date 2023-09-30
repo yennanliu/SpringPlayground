@@ -16,10 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import static com.yen.SpringAssignmentSystem.service.OrderService.BOOTCAMP_OFFER_IDS;
 import static com.yen.SpringAssignmentSystem.service.OrderService.JAVA_FOUNDATIONS_OFFER_ID;
@@ -98,8 +95,11 @@ public class AssignmentController {
 //            AssignmentResponseDto response = new JavaFoundationsAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
 //            return ResponseEntity.ok(response);
 //        }
-        //return ResponseEntity.ok(new BootcampAssignmentResponseDto());
-        return ResponseEntity.ok(assignmentOpt.orElse(new Assignment()));
+
+        //return ResponseEntity.ok(assignmentOpt.orElse(new Assignment()));
+        AssignmentResponseDto response = new BootcampAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
+        // System.out.println(">>> (AssignmentResponseDto) response number = " + Arrays.stream(response.getAssignmentEnums()).count());
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("{assignmentId}")
