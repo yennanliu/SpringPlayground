@@ -23,6 +23,7 @@ const AssignmentView = () => {
   });
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignmentEnums, setAssignmentEnums] = useState([]);
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
 
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
@@ -122,15 +123,18 @@ const AssignmentView = () => {
            *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
            *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
            */}
-          <Form.Group as={Row} className="my-4">
+          <Form.Group as={Row} className="my-4" controlId="assignmentName">
             <Form.Label column sm="2">
               Assignment Number
             </Form.Label>
             <Col sm="10">
               <DropdownButton
                 as={ButtonGroup}
-                id="assignmentName"
                 variant="info"
+                title={`Assignment ${selectedAssignment}`}
+                onSelect={(selectedAssignment) => {
+                  setSelectedAssignment(selectedAssignment);
+                }}
               >
                 {/* {["1", "2", "3", "4", "5"].map((assignmentNum) => (
                   <Dropdown.Item eventKey={assignmentNum}>
@@ -158,13 +162,12 @@ const AssignmentView = () => {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row} className="my-4">
+          <Form.Group as={Row} className="my-4" controlId="githubUrl">
             <Form.Label column sm="2">
               GitHub URL
             </Form.Label>
             <Col sm="10">
               <Form.Control
-                id="githubUrl"
                 onChange={(event) =>
                   updateAssignment("githubUrl", event.target.value)
                 }
@@ -175,13 +178,12 @@ const AssignmentView = () => {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row} className="mb-3">
+          <Form.Group as={Row} className="mb-3" controlId="branch">
             <Form.Label column sm="2">
               Branch
             </Form.Label>
             <Col sm="10">
               <Form.Control
-                id="branch"
                 onChange={(event) =>
                   updateAssignment("branch", event.target.value)
                 }
