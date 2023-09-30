@@ -106,7 +106,9 @@ const AssignmentView = () => {
     <Container className="mt-5">
       <Row className="d-flex">
         <Col className="d-flex align-items-center">
-          <h1>Assignment ID : {assignmentId}</h1>
+          {selectedAssignment ? (
+            <h1>Assignment ID : {selectedAssignment}</h1>
+          ) : (<></> )}
         </Col>
         <Col>
           <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
@@ -131,7 +133,7 @@ const AssignmentView = () => {
               <DropdownButton
                 as={ButtonGroup}
                 variant="info"
-                title={`Assignment ${selectedAssignment}`}
+                title={selectedAssignment ?  `Assignment ${selectedAssignment}` : "Select an Assignment"}
                 onSelect={(selectedAssignment) => {
                   setSelectedAssignment(selectedAssignment);
                 }}
