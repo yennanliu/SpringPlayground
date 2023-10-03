@@ -2,20 +2,28 @@ package com.yen.mdblog.config;
 
 // social login : https://youtu.be/us0VjFiHogo?t=241
 
+import com.yen.mdblog.handler.MyLogoutHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Configuration
 @EnableWebSecurity
 public class OAuthSecurityConfig {
+
+    @Autowired
+    MyLogoutHandler myLogoutHandler;
 
     // in memory user
     // https://www.youtube.com/watch?v=66DtzkhBlSA&t=515s
@@ -42,13 +50,24 @@ public class OAuthSecurityConfig {
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
 
+//        LogoutConfigurer<HttpSecurity> LogoutConfigurer = httpSecurity.authorizeRequests()
+//                .and()
+//                .logout().addLogoutHandler(myLogoutHandler); // 新增自訂的登出處理器
+
         httpSecurity = httpSecurity
                 .csrf()
                 .disable()
                 .cors()
-                .disable();
+                .and()
+                .logout(logout -> logout.permitAll()
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                        }));
 
         return httpSecurity
+                .formLogin()
+                .defaultSuccessUrl("/posts/all")
+                .and()
                 .authorizeRequests(auth -> {
                     auth.anyRequest().authenticated();
                 })
