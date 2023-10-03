@@ -42,7 +42,7 @@ public class SecurityConfig {
                 .antMatchers("/api/assignments").permitAll()
                 .antMatchers("/api/assignments/*").permitAll()
                 .antMatchers("/public-api").permitAll()
-                .antMatchers("/swagger-ui/**").permitAll() // Swagger UI
+                .antMatchers("/swagger-ui/**").permitAll() // Swagger UI : https://www.javainuse.com/spring/boot_swaggersec
                 .antMatchers("/v3/**").permitAll() // Swagger UI
                 .anyRequest().authenticated();
 
