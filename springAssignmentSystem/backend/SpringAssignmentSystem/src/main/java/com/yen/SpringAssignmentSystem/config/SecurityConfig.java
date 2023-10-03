@@ -42,6 +42,8 @@ public class SecurityConfig {
                 .antMatchers("/api/assignments").permitAll()
                 .antMatchers("/api/assignments/*").permitAll()
                 .antMatchers("/public-api").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll() // Swagger UI
+                .antMatchers("/v3/**").permitAll() // Swagger UI
                 .anyRequest().authenticated();
 
         // return Http error 403, instead of 401 if JWT token is not provided
