@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useInsertionEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ import Row from "react-bootstrap/Row";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import userEvent from "@testing-library/user-event";
 
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
@@ -19,8 +20,11 @@ const AssignmentView = () => {
   const [assignment, setAssignment] = useState({
     branch: "",
     githubUrl: "",
+    assignmentNum: null,
   });
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
+  const [assignmentEnums, setAssignmentEnums] = useState([]);
+  const [selectedAssignment, setSelectedAssignment] = useState(null);
 
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
@@ -74,23 +78,38 @@ const AssignmentView = () => {
       //       return response.json();
       //     }
       //   })
-      .then((assignmentsData) => {
-        console.log("BE response = " + assignmentsData);
+
+      // https://youtu.be/K-ywr1I1mr0?si=nFWaN1mbJ8cKub_r&t=845
+      .then((assignmentsResponse) => {
+        let assignmentsData = assignmentsResponse.assignment;
+
+        console.log("BE response assignmentsData = " + assignmentsData);
+        console.log("BE response branch = " + assignmentsData.branch);
+        console.log("BE response githubUrl = " + assignmentsData.githubUrl);
+
         if (assignmentsData.branch === null) {
           assignmentsData.branch = "";
         }
         if (assignmentsData.githubUrl === null) {
           assignmentsData.githubUrl = "";
         }
+
         setAssignment(assignmentsData);
+        setAssignmentEnums(assignmentsResponse.assignmentEnums);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(">>> assignmentEnums " + assignmentEnums);
+  }, [assignmentEnums]);
 
   return (
     <Container className="mt-5">
       <Row className="d-flex">
         <Col className="d-flex align-items-center">
-          <h1>Assignment ID : {assignmentId}</h1>
+          {selectedAssignment ? (
+            <h1>Assignment ID : {selectedAssignment}</h1>
+          ) : (<></> )}
         </Col>
         <Col>
           <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
@@ -107,19 +126,32 @@ const AssignmentView = () => {
            *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
            *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
            */}
-          <Form.Group as={Row} className="my-4">
+          <Form.Group as={Row} className="my-4" controlId="assignmentName">
             <Form.Label column sm="2">
               Assignment Number
             </Form.Label>
             <Col sm="10">
               <DropdownButton
                 as={ButtonGroup}
-                id="assignmentName"
                 variant="info"
+                title={selectedAssignment ?  `Assignment ${selectedAssignment}` : "Select an Assignment"}
+                onSelect={(selectedAssignment) => {
+                  setSelectedAssignment(selectedAssignment);
+                  updateAssignment("assignmentNum", selectedAssignment);
+                }}
               >
-                {["1", "2", "3", "4", "5"].map((assignmentNum) => (
+                {/* {["1", "2", "3", "4", "5"].map((assignmentNum) => (
                   <Dropdown.Item eventKey={assignmentNum}>
                     {assignmentNum}
+                  </Dropdown.Item>
+                ))} */}
+                {/* https://youtu.be/K-ywr1I1mr0?si=vELe7cwexA5ME29P&t=1023 */}
+                {assignmentEnums.map((assignmentEnum) => (
+                  <Dropdown.Item
+                    key={assignmentEnum.assignmentNum}
+                    eventKey={assignmentEnum.assignmentNum}
+                  >
+                    {assignmentEnum.assignmentNum}
                   </Dropdown.Item>
                 ))}
 
@@ -134,13 +166,12 @@ const AssignmentView = () => {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row} className="my-4">
+          <Form.Group as={Row} className="my-4" controlId="githubUrl">
             <Form.Label column sm="2">
               GitHub URL
             </Form.Label>
             <Col sm="10">
               <Form.Control
-                id="githubUrl"
                 onChange={(event) =>
                   updateAssignment("githubUrl", event.target.value)
                 }
@@ -151,13 +182,12 @@ const AssignmentView = () => {
             </Col>
           </Form.Group>
 
-          <Form.Group as={Row} className="mb-3">
+          <Form.Group as={Row} className="mb-3" controlId="branch">
             <Form.Label column sm="2">
               Branch
             </Form.Label>
             <Col sm="10">
               <Form.Control
-                id="branch"
                 onChange={(event) =>
                   updateAssignment("branch", event.target.value)
                 }
