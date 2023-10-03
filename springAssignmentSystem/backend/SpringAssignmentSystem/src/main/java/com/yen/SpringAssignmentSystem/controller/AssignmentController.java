@@ -109,8 +109,6 @@ public class AssignmentController {
         public ResponseEntity<?> updateAssignment(@PathVariable Long assignmentId,
                 @RequestBody Assignment assignment) {
 
-        System.out.println(">>> (PutMapping) add new Assignment :  assignment = " + assignment);
-
         // add the code reviewer to this assignment if it was claimed
 //        if (assignment.getCodeReviewer() != null) {
 //            User codeReviewer = assignment.getCodeReviewer();
@@ -120,6 +118,9 @@ public class AssignmentController {
 ////                assignment.setCodeReviewer(codeReviewer);
 ////            }
 //        }
+        //assignment.setStatus(assignment.getStatus());
+        assignment.setStatus("Submitted"); // TODO : fix this
+        System.out.println(">>> (PutMapping) update Assignment as = " + assignment);
         Assignment updatedAssignment = assignmentService.save(assignment);
         return ResponseEntity.ok(updatedAssignment);
     }
