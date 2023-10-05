@@ -154,7 +154,8 @@ public class AssignmentService {
             }
             if ((oldStatus.contentEquals("Pending Submission") && newStatus.contentEquals("Submitted"))
                     || (oldStatus.contentEquals("Needs Update") && newStatus.contentEquals("Resubmitted"))) {
-                notificationService.sendAssignmentStatusUpdateCodeReviewer(oldStatus, assignment);
+                // TODO : enable this when fix this error :  Couldn't send email notification to code reviewers
+                //notificationService.sendAssignmentStatusUpdateCodeReviewer(oldStatus, assignment);
                 if (AssignmentStatusEnum.RESUBMITTED.getStatus().equalsIgnoreCase(newStatus)) {
                     newAssignment.setCodeReviewer(null);
                     newAssignment = assignmentRepo.save(newAssignment);

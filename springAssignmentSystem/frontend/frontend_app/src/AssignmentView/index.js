@@ -46,38 +46,34 @@ const AssignmentView = () => {
   function saveAssignment() {
     // call BE API save assignment
 
+    // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
     if (assignment.status === assignmentStatuses[0].status) {
       updateAssignment("status", assignmentStatuses[1].status);
+    } else {
+      // https://youtu.be/2XRQzR4y2yM?si=RDbtHpdUnVs8j7JE&t=1109
+      persist();
     }
+  }
 
-    // V2 : use custom method
-    // https://youtu.be/w6YUDqKiT8I?si=pXIQhoWmGDLjQgtI&t=803
-    ajax(`/api/assignments/${assignmentId}`, "PUT", getJwt, assignment)
-      // V1 : use raw fetch
-      // fetch(`/api/assignments/${assignmentId}`, {
-      //   headers: {
-      //     "Content-type": "application/json",
-      //     Authentication: `Bearer ${getJwt}`,
-      //   },
-      //   method: "PUT",
-      //   body: JSON.stringify(assignment),
-      // })
-      //   .then((response) => {
-      //     if (response.status === 200) {
-      //       return response.json();
-      //     }
-      //   })
-      // if http code == 200, save response data (assignmentData) to FE var as well
-      .then((assignmentData) => {
+  function persist() {
+    ajax(`/api/assignments/${assignmentId}`, "PUT", getJwt, assignment).then(
+      (assignmentData) => {
         setAssignment(assignmentData);
-      });
+      }
+    );
   }
 
   // https://youtu.be/2XRQzR4y2yM?si=zMMSmNUnlpz-Czg3&t=601
   // https://github.com/tp02ga/AssignmentSubmissionApp/blob/master/front-end/src/AssignmentView/index.js#L65C3-L65C46
   // will update below function, based on assignment value
   useEffect(() => {
+    // / https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
+    // if previous status != new status, we need to save it to BE (DB) right away
+    if (previousAssignmentValue.current.status !== assignment.status) {
+      console.log("save new status to DB");
+      persist();
+    }
     console.log(
       "previous value of assignment = " +
         JSON.stringify(previousAssignmentValue)
