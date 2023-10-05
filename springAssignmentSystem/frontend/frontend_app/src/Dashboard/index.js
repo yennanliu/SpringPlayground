@@ -65,6 +65,21 @@ const Dashboard = () => {
     <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
       {/* <div>JWT value is {getJwt}</div> */}
+      {/** https://youtu.be/1s0oommR7qY?si=Bbl2US1phgOvbur9&t=169 */}
+      <Row>
+        <Col>
+          <div
+          className="d-flex justify-content-end"
+            style={{ cursor: "pointer" }}
+            onClick={() => {
+              setJwt(null);
+              window.location.href = "/login";
+            }}
+          >
+            Logout
+          </div>
+        </Col>
+      </Row>
       {assignments &&
         assignments.map((assignment) => (
           // <Col>
