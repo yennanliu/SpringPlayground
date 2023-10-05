@@ -1,4 +1,4 @@
-import React, { useEffect, useInsertionEffect, useState } from "react";
+import React, { useEffect, useInsertionEffect, useState, useRef } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link } from "react-router-dom";
@@ -21,10 +21,18 @@ const AssignmentView = () => {
     branch: "",
     githubUrl: "",
     assignmentNum: null,
+    status: null,
   });
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignmentEnums, setAssignmentEnums] = useState([]);
   const [selectedAssignment, setSelectedAssignment] = useState(null);
+  // https://youtu.be/5BQfPkykC5Q?si=BtHXvuPAqqkq1eZR&t=1330
+  const [assignmentStatuses, setAssignmentStatuses] = useState([]);
+
+  // https://youtu.be/2XRQzR4y2yM?si=p8QcytO5aBC6ufBj&t=459
+  // setup current status
+  const previousAssignmentValue = useRef(assignment);
+  //console.log(">>> previousAssignmentValue = " + JSON.stringify(previousAssignmentValue))
 
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
@@ -37,6 +45,11 @@ const AssignmentView = () => {
 
   function saveAssignment() {
     // call BE API save assignment
+
+    // means when submit an assignment at the first time
+    if (assignment.status === assignmentStatuses[0].status) {
+      updateAssignment("status", assignmentStatuses[1].status);
+    }
 
     // V2 : use custom method
     // https://youtu.be/w6YUDqKiT8I?si=pXIQhoWmGDLjQgtI&t=803
@@ -60,6 +73,18 @@ const AssignmentView = () => {
         setAssignment(assignmentData);
       });
   }
+
+  // https://youtu.be/2XRQzR4y2yM?si=zMMSmNUnlpz-Czg3&t=601
+  // https://github.com/tp02ga/AssignmentSubmissionApp/blob/master/front-end/src/AssignmentView/index.js#L65C3-L65C46
+  // will update below function, based on assignment value
+  useEffect(() => {
+    console.log(
+      "previous value of assignment = " +
+        JSON.stringify(previousAssignmentValue)
+    );
+    console.log("new value of assignment = " + JSON.stringify(assignment));
+    previousAssignmentValue.current = assignment;
+  }, [assignment]);
 
   useEffect(() => {
     // V2
@@ -96,20 +121,27 @@ const AssignmentView = () => {
 
         setAssignment(assignmentsData);
         setAssignmentEnums(assignmentsResponse.assignmentEnums);
+        setAssignmentStatuses(assignmentsResponse.statusEnums);
+        console.log(
+          ">>> assignmentsResponse.statusEnums = " +
+            JSON.stringify(assignmentsResponse.statusEnums)
+        );
       });
   }, []);
 
   useEffect(() => {
-    console.log(">>> assignmentEnums " + assignmentEnums);
+    console.log(">>> assignmentEnums " + JSON.stringify(assignmentEnums));
   }, [assignmentEnums]);
 
   return (
     <Container className="mt-5">
       <Row className="d-flex">
         <Col className="d-flex align-items-center">
-          {selectedAssignment ? (
-            <h1>Assignment ID : {selectedAssignment}</h1>
-          ) : (<></> )}
+          {assignment.number ? (
+            <h1>Assignment ID : {assignment.number}</h1>
+          ) : (
+            <></>
+          )}
         </Col>
         <Col>
           <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
@@ -134,14 +166,18 @@ const AssignmentView = () => {
               <DropdownButton
                 as={ButtonGroup}
                 variant="info"
-                title={selectedAssignment ?  `Assignment ${selectedAssignment}` : "Select an Assignment"}
+                title={
+                  assignment.number
+                    ? `Assignment ${assignment.number}`
+                    : "Select an Assignment"
+                }
                 onSelect={(selectedAssignment) => {
                   setSelectedAssignment(selectedAssignment);
-                  updateAssignment("assignmentNum", selectedAssignment);
+                  updateAssignment("number", selectedAssignment);
                 }}
               >
-                {/* {["1", "2", "3", "4", "5"].map((assignmentNum) => (
-                  <Dropdown.Item eventKey={assignmentNum}>
+                {/* {["1", "2", "3", "4", "5"].map((number) => (
+                  <Dropdown.Item eventKey={number}>
                     {assignmentNum}
                   </Dropdown.Item>
                 ))} */}

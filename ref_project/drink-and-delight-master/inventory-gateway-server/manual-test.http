@@ -1,0 +1,601 @@
+################## Auth Service Endpoints ##################
+
+### Login Valid
+POST http://localhost:9000/inventory-auth-service/auth/login
+Content-Type: application/json
+
+{
+  "username": "gagan",
+  "password": "123456"
+}
+
+### Login Invalid Field
+POST http://localhost:9000/inventory-auth-service/auth/login
+Content-Type: application/json
+
+{
+  "username": "gagan"
+}
+
+### Login InValid Cfredential
+POST http://localhost:9000/inventory-auth-service/auth/login
+Content-Type: application/json
+
+{
+  "username": "gagan",
+  "password": "1234567777"
+}
+
+################## Change Password Endpoint Endpoint Tests ##################
+
+### Fetch Question Valid Username
+GET http://localhost:9000/inventory-auth-service/auth/forgotpassword/gagan
+
+### Fetch Question Invalid Username
+GET http://localhost:9000/inventory-auth-service/auth/forgotpassword/gagandeeeee
+
+
+### Chage Password Request - Invalid Username1
+PUT http://localhost:9000/inventory-auth-service/auth/forgotpassword
+Content-Type: application/json
+
+{
+  "username": "gaganzz",
+  "securityAnswer": "default",
+  "newPassword": "123456"
+}
+
+### Chage Password Request - Invalid Answer
+PUT http://localhost:9000/inventory-auth-service/auth/forgotpassword
+Content-Type: application/json
+
+{
+  "username": "gagan",
+  "securityAnswer": "answer",
+  "newPassword": "123456"
+}
+
+### Chage Password Request - Success
+PUT http://localhost:9000/inventory-auth-service/auth/forgotpassword
+Content-Type: application/json
+Authorization: Bearer [Fetch by performing login]
+
+{
+  "username": "gagan",
+  "securityAnswer": "answer",
+  "newPassword": "123456"
+}
+
+
+################## PROTECTED Routes ##################
+################## Register Endpoint Tests ##################
+
+### Register Invalid Fields
+
+POST http://localhost:9000/inventory-auth-service/register 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "username": "gaganddd",
+  "address": {
+  "state": "Maharashta",
+  "city": "Mumbai",
+  "area": "Chandivali"
+  },
+  "firstName": "Gagandeep",
+  "lastName": "Singh",
+  "designation": "Developer",
+  "gender": "Male",
+  "dob": "1999-05-14",
+  "emailId": "test@mail.com"
+}
+
+### Register Invalid Data
+POST http://localhost:9000/inventory-auth-service/register 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "username": "gagandddeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "address": {
+  "state": "Maharashta",
+  "city": "Mumbai",
+  "area": "Chandivali"
+  },
+  "firstName": "Gagandeep",
+  "lastName": "Singh",
+  "designation": "Developer",
+  "gender": "Male",
+  "dob": "1999-05-14",
+  "emailId": "test@mail.com"
+}
+
+### Register Valid Data
+POST http://localhost:9000/inventory-auth-service/register 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "username": "gaganaasasasa",
+  "address": {
+  "state": "Maharashta",
+  "city": "Mumbai",
+  "area": "Chandivali",
+  "pincode": "400072"
+  },
+  "firstName": "Gagandeep",
+  "lastName": "Singh",
+  "designation": "Developer",
+  "gender": "Male",
+  "dob": "1999-05-14",
+  "emailId": "test@mail.com",
+  "phoneNo": "8419969059",
+  "password": "12345678"
+}
+
+### Register Valid Data
+PUT http://localhost:9000/inventory-auth-service/register 
+Content-Type: application/json
+Authorization: Bearer [Fetch by performing login]
+
+{
+  "userId": "100001",
+  "username": "gagana",
+  "address": {
+  "state": "Maharashta",
+  "city": "Mumbai",
+  "area": "Chandivali",
+  "pincode": "400072"
+  },
+  "firstName": "Gagandeep",
+  "lastName": "Singh",
+  "designation": "Developer",
+  "gender": "Male",
+  "dob": "1999-05-14",
+  "emailId": "test@mail.com",
+  "phoneNo": "8419969059",
+  "password": "12345678",
+  "securityQuestion": "What is your name",
+  "securityAnswer": "123456"
+}
+
+
+################## Extras ##################
+
+### Fetch All users
+GET http://localhost:9100/inventory-auth-service/register
+Authorization: Bearer [Fetch by performing login]
+
+
+### Fetch All users
+GET http://localhost:9000/inventory-auth-service/register
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5MjY5OCwiZXhwIjoxNjA0Mjk2Mjk4fQ.pg3Q4GumlxwWuWh-N4urwUX81jHBmFlW9FJDcVOAcP8
+
+###################### Product Order
+
+### Fetch All product orders
+GET http://localhost:9000/inventory-product-order-service/productOrder
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5Mjk4OCwiZXhwIjoxNjA0Mjk2NTg4fQ.sgdYEzR4TnruHcLLNk4WSWEbgiKcZaK5JTzM_R2Hr-k
+
+### Fetch Product by Invalid ID
+GET http://localhost:9000/inventory-product-order-service/productOrder/100000000
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+### Fetch Product by Invalid ID
+GET http://localhost:9000/inventory-product-order-service/productOrder/10sssdsd
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5Mjk4OCwiZXhwIjoxNjA0Mjk2NTg4fQ.sgdYEzR4TnruHcLLNk4WSWEbgiKcZaK5JTzM_R2Hr-k
+
+### Fetch Product by valid ID
+GET http://localhost:9000/inventory-product-order-service/productOrder/100001
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+### Update Status - Invalid
+PUT http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "orderId": "1212122",
+  "status": "Deliv"
+}
+
+### Update Status - Invalid
+PUT http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer [Fetch by performing login]
+
+{
+  "status": "Deliv"
+}
+
+### Update Status - Valid - Makes quantity 80 to 180
+PUT http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "orderId": "100001",
+  "status": "Delivered"
+}
+
+### Update Status - Error
+PUT http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "orderId": "100003",
+  "status": "Cancelled"
+}
+
+### Update Status - Valid
+PUT http://localhost:9000/inventory-product-order-service/productOrder
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+  "orderId": "100001",
+  "status": "Delivered"
+}
+
+### Invalid Product
+POST http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "productOrderId": "100001",
+  "quantity": "80.0",
+  "pricePerUnit": "100.0",
+  "qualityCheck": "Passed",
+  "orderStatus": "Delivered",
+  "deliveryDate": "2020-12-12"
+}
+
+### Invalid Product Future
+POST http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "productOrderId": 100001,
+  "quantity": 80.0,
+  "pricePerUnit": 100.0,
+  "qualityCheck": "Passed",
+  "orderStatus": "Delivered",
+  "deliveryDate": "2020-12-12",
+  "manufactureDate": "2019-05-13",
+  "expiryDate": "2019-09-09",
+  "orderedOn": "2020-09-09",
+  "distributorName": "Rajesh",
+  "distributorId": 100001,
+  "supplierId": "1000001"
+}
+
+### Create Product
+POST http://localhost:9000/inventory-product-order-service/productOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "productId": 100001,
+  "quantity": 80.0,
+  "pricePerUnit": 100.0,
+  "qualityCheck": "Passed",
+  "orderStatus": "Delivered",
+  "deliveryDate": "2020-12-12",
+  "manufactureDate": "2019-05-13",
+  "expiryDate": "2025-09-09",
+  "distributorId": 100001,
+  "supplierId": "1000001"
+}
+
+############## Raw Material 
+
+### Fetch All raw materials
+GET http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+### Fetch Valid RawMaterial Order
+GET http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder/1000004
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+### Fetch In Valid RawMaterial Order
+GET http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder/1000999
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+### Update Order Status - Already delivered
+PUT http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "orderId": "1000000",
+  "status": "Delivered"
+}
+
+### Update Order Status - Makes order quantity of 1000001 as 70 to 125
+PUT http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "orderId": "1000003",
+  "status": "Delivered"
+}
+
+### Update Order Status - Already cancelled
+PUT http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer [Fetch by performing login]
+
+{
+  "orderId": "1000009",
+  "status": "Delivered"
+}
+
+### Insert RawMaterial Order - Missing data
+POST  http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "rawMaterialId": "10000000",
+  "pricePerUnit": 56,
+  "qualityCheck": "Passe",
+  "deliveryDate": "2020-11-03",
+  "expiryDate": "2022-11-03",
+  "supplierId": "1000000"
+}
+
+### Insert RawMaterial Order  - Invalid Data
+POST  http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "rawMaterialId": "10000000",
+  "quantity": "44",
+  "pricePerUnit": 56,
+  "qualityCheck": "Passe",
+  "deliveryDate": "2020-11-03",
+  "expiryDate": "2022-11-03",
+  "supplierId": "1000000"
+}
+
+### Insert RawMaterial Order  - Past date
+POST  http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+{
+  "rawMaterialId": "10000000",
+  "quantity": "44",
+  "pricePerUnit": 56,
+  "qualityCheck": "Passe",
+  "deliveryDate": "2020-11-03",
+  "expiryDate": "2019-11-03",
+  "supplierId": "1000000"
+}
+
+### Insert RawMaterial Order  - Valid Data
+POST  http://localhost:9000/inventory-rawmaterial-order-service/rawMaterialOrder
+Content-Type: application/json
+Authorization: Bearer [Fetch by performing login]
+
+{
+  "rawMaterialId": "1000000",
+  "quantity": "44",
+  "pricePerUnit": 56,
+  "qualityCheck": "Passed",
+  "deliveryDate": "2020-11-03",
+  "expiryDate": "2022-11-03",
+  "supplierId": "1000000"
+}
+
+
+################## Supplier Service ###############
+
+################ Distributor Tests ################ 
+
+### Fetch All Distributor
+GET http://localhost:9600/distributor
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+
+### Fetch Distributor by Invalid ID
+GET http://localhost:9600/distributor/sdsdsds
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+
+### Fetch Distributor by valid ID
+GET http://localhost:9600/distributor/1000001
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+
+
+### Insert a Distributor - Invalid
+POST http://localhost:9600/distributor
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+Content-Type: application/json
+
+{
+  "name": "Dummy Distributor",
+  "phoneNo": "9988776655"
+}
+
+### Insert a Distributor - Invalid
+POST http://localhost:9600/distributor
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+  "name": "Dummy Distributor",
+  "location": "Mumbai",
+  "phoneNo": "998877665"
+}
+
+### Insert a Distributor - valid
+POST http://localhost:9600/distributor
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJnYWdhbiIsImlhdCI6MTYwNDI5NDEzNiwiZXhwIjoxNjA0Mjk3NzM2fQ.OqTnEugv13hbqOW2xAZCd0lD_wGPdPByyjxU7vo5308
+Content-Type: application/json
+
+{
+  "name": "Dummy Distributor",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+### Update a Distributor - Invalid
+PUT http://localhost:9600/distributor
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+
+  "distributorId": "100001",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+### Update a Distributor - valid
+PUT http://localhost:9600/distributor
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+
+  "distributorId": 1000000,
+  "name": "Danial",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+################ Supplier Tests ################ 
+
+### Fetch All Supplier
+GET http://localhost:9600/supplier
+Authorization: Bearer [Fetch by performing login]
+
+### Fetch Supplier by Invalid ID
+GET http://localhost:9600/supplier/121s
+Authorization: Bearer [Fetch by performing login]
+
+### Fetch Supplier by valid ID
+GET http://localhost:9600/supplier/121
+Authorization: Bearer [Fetch by performing login]
+
+### Insert a Supplier - Invalid
+POST http://localhost:9600/supplier
+Content-Type: application/json
+Authorization: Bearer [Fetch by performing login]
+
+{
+  "name": "Dummy Supplier",
+  "phoneNo": "9988776655"
+}
+
+### Insert a Supplier - Invalid
+POST http://localhost:9600/supplier
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+  "name": "Dummy Supplier",
+  "location": "Mumbai",
+  "phoneNo": "998877665"
+}
+
+### Insert a Supplier - valid
+POST http://localhost:9600/supplier
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+  "name": "Dummy Supplier",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+### Update a Supplier - Invalid
+PUT http://localhost:9600/supplier
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+
+  "supplierId": "100001",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+### Update a Supplier - valid
+PUT http://localhost:9600/supplier
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+
+  "supplierId": 1000000,
+  "name": "Danial",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+################ Warehouse Tests ################ 
+
+### Fetch All Warehouse
+GET http://localhost:9600/warehouse
+Authorization: Bearer [Fetch by performing login]
+
+### Fetch Warehouse by Invalid ID
+GET http://localhost:9600/warehouse/121s
+Authorization: Bearer [Fetch by performing login]
+
+### Fetch Warehouse by valid ID
+GET http://localhost:9600/warehouse/121
+Authorization: Bearer [Fetch by performing login]
+
+### Insert a Warehouse - Invalid
+POST http://localhost:9600/warehouse
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+  "name": "Dummy Warehouse",
+  "phoneNo": "9988776655"
+}
+
+### Insert a Warehouse - valid
+POST http://localhost:9600/warehouse
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+  "name": "Dummy Warehouse",
+  "location": "Mumbai"
+}
+
+### Update a Warehouse - Invalid
+PUT http://localhost:9600/warehouse
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+
+  "warehouseId": "100001",
+  "location": "Mumbai",
+  "phoneNo": "9988776655"
+}
+
+### Update a Warehouse - valid
+PUT http://localhost:9600/warehouse
+Authorization: Bearer [Fetch by performing login]
+Content-Type: application/json
+
+{
+
+  "warehouseId": 1000000,
+  "name": "Danial",
+  "description": "Nearby Somewhere"
+}

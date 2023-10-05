@@ -1,0 +1,51 @@
+<!-- <p>view-profile works!</p> -->
+<br />
+<br />
+<div class="container">
+  <label>
+    <h1>Distributors List</h1>
+  </label>
+  <br />
+  <br />
+
+  <div class="container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>Distributor Id</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Phone Number</th>
+          <th
+            *ngIf="role === 'Admin'"
+            [routerLink]="['/dashboard/adddistributors']"
+          >
+            <button type="submit" class="btn btn-success">
+              Add New Distributor
+            </button>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let distributor of distributors">
+          <td>{{ distributor.distributorId }}</td>
+          <td>{{ distributor.name }}</td>
+          <td>{{ distributor.location }}</td>
+          <td>{{ distributor.phoneNo }}</td>
+          <td>
+            <button
+              (click)="updateDistributor(distributor.distributorId)"
+              class="btn btn-primary"
+              style="margin-left: 10px"
+              *ngIf="role === 'Admin'"
+            >
+              Edit
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <br />
+</div>

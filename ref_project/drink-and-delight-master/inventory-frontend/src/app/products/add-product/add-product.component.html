@@ -1,0 +1,144 @@
+<div>
+  <div class="d-flex flex-column" id="content-wrapper">
+    <div id="content">
+      <div class="container-fluid">
+        <h3 class="text-dark mb-4">Add Product</h3>
+        <div class="card shadow">
+          <div class="card-header py-3">
+            <p class="text-primary m-0 font-weight-bold">Details</p>
+          </div>
+          <div class="card-body">
+            <form
+              (ngSubmit)="saveProduct(addForm.value)"
+              #addForm="ngForm"
+              class="needs-validation"
+            >
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="product"
+                      ><strong>Product Name</strong><br
+                    /></label>
+                    <input
+                      class="form-control"
+                      [(ngModel)]="product.materialName"
+                      type="text"
+                      placeholder="Product Name"
+                      name="materialName"
+                      required
+                      #materialName="ngModel"
+                      [class.is-invalid]="materialName.invalid && materialName.touched"
+                    />
+                    <div *ngIf="materialName.errors && materialName.invalid && materialName.touched">
+                      <small class="text-danger" *ngIf="materialName.errors.required">Material Name is required field</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="description"
+                      ><strong>Description</strong><br
+                    /></label>
+                    <input
+                      class="form-control"
+                      [(ngModel)]="product.description"
+                      type="text"
+                      placeholder="Description"
+                      required
+                      name="description"
+                      #description="ngModel"
+                      [class.is-invalid]="description.invalid && description.touched"
+                    />
+                    
+                    <div *ngIf="description.errors && description.invalid && description.touched">
+                      <small class="text-danger" *ngIf="description.errors.required">materialName is required field</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="quantity"><strong>Quantity</strong><br /></label
+                    ><input
+                      class="form-control"
+                      type="number"
+                      [(ngModel)]="product.quantityAvailable"
+                      name="quantityAvailable"
+                      disabled
+                      value="0"
+                      placeholder="0"
+                      #quantityAvailable="ngModel"
+                    />
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group">
+                    <label for="Qty Unit"
+                      ><strong>Quantity Unit</strong><br /></label
+                    ><select
+                      class="form-control"
+                      name="quantityUnit"
+                      required
+                      [(ngModel)]="product.quantityUnit"
+                      #quantityUnit="ngModel"
+                      [class.is-invalid]="quantityUnit.invalid && quantityUnit.touched"
+                    >
+                      <optgroup label="Quantity Parameters">
+                        <option value="Litre" selected="">Litre</option>
+                        <option value="Kilogram">Kilogram</option>
+                      </optgroup>
+                    </select>
+                    
+                    <div *ngIf="quantityUnit.errors && quantityUnit.invalid && quantityUnit.touched">
+                      <small class="text-danger" *ngIf="quantityUnit.errors.required">Quantity Unit is required field</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="col">
+                  <div class="form-group">
+                    <label for="Qty Unit"
+                      ><strong>Warehouse</strong><br /></label
+                    ><select
+                      class="form-control"
+                      name="warehouseId"
+                      [(ngModel)]="warehouseId"
+                      #warehouse="ngModel"
+                      required
+                      [class.is-invalid]="warehouse.invalid && warehouse.touched"
+                    >
+                      <optgroup label="Select Warehouses">
+                        <option
+                          *ngFor="let warehouse of warehouses"
+                          [value]="warehouse.warehouseId"
+                          selected=""
+                          
+                        >
+                          {{ warehouse.name }}
+                        </option>
+                      </optgroup>
+                    </select>
+                    
+                    <div *ngIf="warehouse.errors && warehouse.invalid && warehouse.touched">
+                      <small class="text-danger" *ngIf="warehouse.errors.required">Warehouse ID is required field</small>
+                    </div>
+                  </div>
+                </div>
+                <div class="col">
+                  <div class="form-group text-center">
+                    <label for="submit"></label><br />
+                    <button class="btn btn-primary" type="submit" name="submit">
+                      ADD PRODUCT
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

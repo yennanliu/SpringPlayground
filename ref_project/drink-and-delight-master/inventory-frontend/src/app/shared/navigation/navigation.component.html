@@ -1,0 +1,48 @@
+<p>footer works!</p>
+<div id="wrapper">
+  <nav
+    class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient-primary p-0"
+  >
+    <div class="container-fluid d-flex flex-column p-0">
+      <a
+        id="logo"
+        class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+        [routerLink]="['/dashboard']"
+      >
+        <div class="sidebar-brand-icon rotate-n-15">
+          <i class="fas fa-cocktail"></i>
+        </div>
+        <div class="sidebar-brand-text mx-3"><span>Drink & Delight</span></div>
+      </a>
+      <hr class="nav-hr" />
+      <a
+        id="role"
+        class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0"
+        [routerLink]="['/dashboard']"
+      >
+        <div class="sidebar-brand-icon rotate-n-15"></div>
+        <div class="sidebar-brand-text mx-3">Welcome, {{ user?.username }}</div>
+      </a>
+      <hr class="nav-hr" />
+      <ul class="nav navbar-nav text-light" id="accordionSidebar">
+        <li class="nav-item" *ngFor="let item of paths">
+          <a class="nav-link" [routerLink]="[item.route]">
+            <i [class]="item.class"></i><span> {{ item.label }} </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="signOut()" style="cursor: pointer">
+            <i class="fas fa-sign-out-alt"> </i><span>Sign Out</span>
+          </a>
+        </li>
+      </ul>
+      <div class="text-center d-none d-md-inline">
+        <button
+          class="btn rounded-circle border-0"
+          id="sidebarToggle"
+          type="button"
+        ></button>
+      </div>
+    </div>
+  </nav>
+</div>

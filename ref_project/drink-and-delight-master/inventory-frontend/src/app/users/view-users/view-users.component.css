@@ -1,0 +1,16 @@
+table {
+  width: 100%;
+}
+
+div {
+  margin-bottom: 16px;
+}
+
+mat-card {
+  border-radius: 0px;
+}
+
+.spinner-container {
+  text-align-last: center;
+}
+
