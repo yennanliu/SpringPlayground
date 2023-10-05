@@ -48,6 +48,8 @@
 	- Part 23 : https://youtu.be/K-ywr1I1mr0?si=HCioIDSZ0Y5NUaAx
 	- Part 24 : https://youtu.be/5BQfPkykC5Q?si=5coa-xp32Z1YcZI-
 	- Part 25 : https://youtu.be/2XRQzR4y2yM?si=IVI7pHYSMLT_ZGL4
+	- Part 26 : https://youtu.be/RGJTBl9fkO4?si=QFn0mdHtHAK5XEZW
+	- Part 27 : https://youtu.be/1s0oommR7qY?si=1g3zfpbJLFCMwM_V
 
 
 - Spring JWT
