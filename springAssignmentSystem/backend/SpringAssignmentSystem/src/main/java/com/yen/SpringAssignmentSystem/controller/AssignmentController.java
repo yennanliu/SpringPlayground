@@ -118,8 +118,7 @@ public class AssignmentController {
 ////                assignment.setCodeReviewer(codeReviewer);
 ////            }
 //        }
-        //assignment.setStatus(assignment.getStatus());
-        assignment.setStatus("Submitted"); // TODO : fix this
+        assignment.setStatus(assignment.getStatus());
         System.out.println(">>> (PutMapping) update Assignment as = " + assignment);
         Assignment updatedAssignment = assignmentService.save(assignment);
         return ResponseEntity.ok(updatedAssignment);
