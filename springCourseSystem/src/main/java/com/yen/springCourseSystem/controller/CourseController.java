@@ -41,6 +41,7 @@ public class CourseController {
         course.setCourseStatus("O");
         course.setCourseReqs(new String[]{"a","b"});
 
+        log.info("new course = " + course);
         map.put("course", course);
 
         return "course/input_course";
