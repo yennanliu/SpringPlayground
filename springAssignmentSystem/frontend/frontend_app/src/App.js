@@ -10,7 +10,7 @@ import Homepage from "./Homepage";
 import Login from "./Login";
 import AssignmentView from "./AssignmentView";
 import PrivateRoute from "./PrivateRoute";
-import CodeReviewerAssignmentView from "./CodeReviewerDashBoard";
+import CodeReviewerDashboard from "./CodeReviewerDashBoard";
 
 // bootstrap : https://react-bootstrap.netlify.app/docs/getting-started/introduction
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -115,7 +115,7 @@ function App() {
       }></Route> */}
 
       <Route path="/" element={<Homepage />}></Route>
-      <Route path="/code_review" element={<CodeReviewerAssignmentView />}></Route>
+      <Route path="/code_review" element={<CodeReviewerDashboard />}></Route>
       <Route path="/login" element={<Login />}></Route>
     </Routes>
   );

@@ -10,7 +10,7 @@ import { Button, Card, Col, Row, Badge, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";
 
-const CodeReviewerAssignmentView = () => {
+const CodeReviewerDashboard = () => {
   const navigate = useNavigate();
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignments, setAssignment] = useState(null);
@@ -32,7 +32,7 @@ const CodeReviewerAssignmentView = () => {
 
   return (
     <Container>
-      <h1>Dashboard !!</h1>
+      <h1>CodeReviewerDashboard !!</h1>
       <Row>
         <Col>
           <div
@@ -107,4 +107,4 @@ const CodeReviewerAssignmentView = () => {
 
 // https://youtu.be/SbzKc3lwVQw?si=VRm29BYVejRSMQgL&t=740
 // when export "default", we don't need {} when import (check App.js)
-export default CodeReviewerAssignmentView;
+export default CodeReviewerDashboard;
