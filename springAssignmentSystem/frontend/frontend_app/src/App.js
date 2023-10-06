@@ -81,6 +81,17 @@ function App() {
   //   console.log(`>>> JWT is ${getJwt}`);
   // }, [getJwt]);
 
+
+  // TODO : fix below
+  // https://youtu.be/1s0oommR7qY?si=qVpfNknPBLSZ9x5v&t=1328
+  // function getRolesFromJWT() {
+  //   if (user.jwt) {
+  //     const decodedJwt = jwt_decode(user.jwt);
+  //     return decodedJwt.authorities;
+  //   }
+  //   return [];
+  // }
+
   // return view
   return (
     /** Manage all App paths */
