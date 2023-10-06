@@ -10,6 +10,7 @@ import Homepage from "./Homepage";
 import Login from "./Login";
 import AssignmentView from "./AssignmentView";
 import PrivateRoute from "./PrivateRoute";
+import CodeReviewerAssignmentView from "./CodeReviewerDashBoard";
 
 // bootstrap : https://react-bootstrap.netlify.app/docs/getting-started/introduction
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -92,6 +93,13 @@ function App() {
   //   return [];
   // }
 
+  /** 
+   *  NOTE !!!
+   * 
+   *  In the implementation here, there is NO logic that redirect to different view (e.g. dashboard, codeReiewerDashboard...)
+   *  with JWT info. Instead, I make seperated route url for views
+   */
+
   // return view
   return (
     /** Manage all App paths */
@@ -107,6 +115,7 @@ function App() {
       }></Route> */}
 
       <Route path="/" element={<Homepage />}></Route>
+      <Route path="/code_review" element={<CodeReviewerAssignmentView />}></Route>
       <Route path="/login" element={<Login />}></Route>
     </Routes>
   );
