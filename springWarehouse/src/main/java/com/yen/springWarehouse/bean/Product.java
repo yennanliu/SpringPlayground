@@ -24,5 +24,5 @@ public class Product {
     private String name;
     private int typeId;
     private int price;
-    private char productStatus;
+    private String productStatus;
 }

@@ -11,9 +11,13 @@ import com.yen.springWarehouse.service.ProductService;
 import com.yen.springWarehouse.util.ProductQueryHelper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements ProductService {
 
     @Autowired

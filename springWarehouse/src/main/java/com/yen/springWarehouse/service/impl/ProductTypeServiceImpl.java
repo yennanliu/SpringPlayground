@@ -8,10 +8,14 @@ import com.yen.springWarehouse.mapper.ProductMapper;
 import com.yen.springWarehouse.mapper.ProductTypeMapper;
 import com.yen.springWarehouse.service.ProductTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 // NOTE below !!!
 // -> we don't implement every abstract method in  ProductTypeService, but we extend ServiceImpl first
 // then implement rest of the abstract methods
+@Service
+@Transactional(rollbackFor = Exception.class)
 public class ProductTypeServiceImpl extends ServiceImpl<ProductTypeMapper, ProductType> implements ProductTypeService {
 
     @Autowired
