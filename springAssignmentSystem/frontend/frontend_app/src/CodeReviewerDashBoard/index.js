@@ -33,6 +33,7 @@ const CodeReviewerDashboard = () => {
   return (
     <Container>
       <h1>CodeReviewerDashboard !!</h1>
+      <Link to="http://localhost:3000/dashboard">Go to Dashboard</Link>
       <Row>
         <Col>
           <div
