@@ -27,34 +27,34 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     public Page<Product> getProductPage(ProductQueryHelper helper, Integer pageNo, Integer pageSize) {
 
         Page<Product> page = new Page<>(pageNo,pageSize);
-        QueryWrapper<Product> courseWrapper = new QueryWrapper<>();
+        QueryWrapper<Product> productWrapper = new QueryWrapper<>();
 
         if(StringUtils.isNotEmpty(helper.getQryProductName())){
-            courseWrapper.like("product_name", helper.getQryProductName());
+            productWrapper.like("product_name", helper.getQryProductName());
         }
 
         if(helper.getQryStartPrice()!=null){
-            courseWrapper.lambda().ge(Product::getPrice, helper.getQryStartPrice());
+            productWrapper.lambda().ge(Product::getPrice, helper.getQryStartPrice());
         }
 
         if(helper.getQryEndPrice()!=null){
-            courseWrapper.lambda().le(Product::getPrice, helper.getQryEndPrice());
+            productWrapper.lambda().le(Product::getPrice, helper.getQryEndPrice());
         }
 
         if(StringUtils.isNotEmpty(helper.getQryProductType())){
-            courseWrapper.like("type_id", Integer.parseInt(helper.getQryProductType()));
+            productWrapper.like("type_id", Integer.parseInt(helper.getQryProductType()));
         }
 
-        List<Product> courseList = baseMapper.getProductList(page, courseWrapper);
+        List<Product> productList = baseMapper.getProductList(page, productWrapper);
 
         // TODO : fix below
-//        courseList.forEach(_prod ->
-//                //course.setCourseType(courseTypeMapper.selectById(course.getTypeId()))
+//        productList.forEach(_prod ->
+//                //product.setproductType(productTypeMapper.selectById(product.getTypeId()))
 //                _prod.setTypeId(productTypeMapper.selectById(_prod.getTypeId()))
 //        );
 
-        if(CollectionUtils.isNotEmpty(courseList)){
-            page.setRecords(courseList);
+        if(CollectionUtils.isNotEmpty(productList)){
+            page.setRecords(productList);
             return page;
         }
 

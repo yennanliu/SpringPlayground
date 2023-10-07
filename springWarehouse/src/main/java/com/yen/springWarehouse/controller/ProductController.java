@@ -15,6 +15,7 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/product")
+//@RestController
 public class ProductController {
 
     private int PAGE_SIZE = 3;
@@ -28,9 +29,9 @@ public class ProductController {
     @GetMapping("/toInput")
     public String toInput(Map<String, Object> map, Product product) {
 
-        map.put("courseTypeList", productTypeService.list());
+        map.put("productTypeList", productTypeService.list());
         product.setProductStatus("O");
-        //product.setCourseReqs(new String[]{"a","b"}); // TODO : check if necessary
+        //product.setproductReqs(new String[]{"a","b"}); // TODO : check if necessary
         log.info("new product = " + product);
         map.put("product", product);
         return "product/input_product";
@@ -52,10 +53,12 @@ public class ProductController {
         map.put("page", page);
         map.put("helper", helper);
         log.info("(ProductController list) map = {}", map);
-        return "product/list_product";
+        //return "product/list_product";
+        return "index";
+        //return "OK";
     }
 
-    @PostMapping(value="/remove/{courseNo}")
+    @PostMapping(value="/remove/{productNo}")
     public String remove(@PathVariable("productNo") String productNo) {
 
         productService.removeById(productNo);
@@ -67,7 +70,7 @@ public class ProductController {
 
         Product product = productService.getById(productNo);
         // TODO : fix below
-        //product.setTypeId(courseTypeService.getById(course.getTypeId()));
+        //product.setTypeId(productTypeService.getById(product.getTypeId()));
         map.put("product" , product);
         map.put("productTypeList", productTypeService.list());
         return "product/update_product";

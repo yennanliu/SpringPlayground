@@ -14,6 +14,6 @@ public interface ProductMapper extends BaseMapper<Product> {
 
     /** get info for pagination */
     // TODO : check @Param("ew") ??
-    List<Product> getProductList(Page<Product> coursePage, @Param("ew") Wrapper<Product> wrapper);
+    List<Product> getProductList(Page<Product> productPage, @Param("ew") Wrapper<Product> wrapper);
 
 }

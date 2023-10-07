@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改课程类型</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body style="padding:8px;">
+<h3 class="title">修改课程</h3>
+<img id="textbookPic"
+     alt="默认教材封面"
+     width="300"
+     height="250"
+     class="imgShow"
+     style="float:right" th:src="@{/product/getPic/{productNo}(productNo=${product.productNo})}" /><br/>
+<form th:action="@{/product/update}" method="post"  enctype="multipart/form-data" th:object="${product}">
+    <input type="hidden" name="productNo" th:value="*{productNo}" />
+    <div>
+        <span>课程编号: [[${productNo}]]</span>
+    </div>
+    <div>
+        <span>课程名称:</span>
+        <input type="text" name="productName" th:value="*{productName}" >
+    </div>
+    <div>
+        <span>教材封面:</span>
+        <input id="producttextbookpic" type="file" name="producttextbookpic" size="40" />
+    </div>
+    <div>
+        <span>课程课时:</span>
+        <input type="text" name="productHours" th:value="*{productHours}" >
+    </div>
+    <div>
+        <span>课程学分:</span>
+        <input type="text" name="productPoint" th:value="*{productPoint}" >
+    </div>
+    <div>
+        <span>课程类型:</span>
+        <select name="typeId" th:value="*{productType.typeId}">
+            <option th:each="list:${productTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
+        </select>
+    </div>
+    <div>
+        <span>课程状态:</span>
+        <input type="radio" name="productStatus" th:value="O" th:checked="${product.productStatus eq 'O'}">开放公选&nbsp;&nbsp;
+        <input type="radio" name="productStatus" th:value="Z" th:checked="${product.productStatus eq 'Z'}">暂不开放&nbsp;&nbsp;
+        <input type="radio" name="productStatus" th:value="C" th:checked="${product.productStatus eq 'C'}">停止授课&nbsp;&nbsp;
+    </div>
+    <div>
+        <span>选课条件:</span>
+        <input id="a" type="checkbox" name="productReqs" value="a" />大三以上
+        <input id="b" type="checkbox" name="productReqs" value="b" />平均成绩80分
+        <input id="c" type="checkbox" name="productReqs" value="c" />党员
+        <input id="d" type="checkbox" name="productReqs" value="d" />未拖欠学费
+    </div>
+    <div>
+        <span>备注说明:</span>
+        <textarea name="productMemo" rows="6" cols="60">[[${product.productMemo}]]</textarea>
+    </div>
+
+    <div>
+        <input type="submit" value="修改课程"/>
+    </div>
+</form>
+</body>
+<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:inline="javascript">
+    $(function() {
+        var productReqs = [[${product.productReqs}]]
+        for (var i = 0; i < productReqs.length; i++) {
+            $("#" + productReqs[i]).attr("checked", true)
+        }
+
+        $('#producttextbookpic').on('change', function () {
+            var file = $(this)
+            var fileObj = file[0];  //获取当前元素
+            var dataURL;
+            var windowURL = window.URL;
+            if (fileObj.files[0]) {
+                dataURL = windowURL.createObjectURL(fileObj.files[0])   //创建一个新的对象URL,该对象URL可以代表某一个指定的File对象或Blob对象.
+                $('.imgShow').attr('src', dataURL);
+            }
+            else {
+                dataURL = file.val();
+                console.log(dataURL)
+                $('.imgShow').style.filter = 'progid:DXImageTransform.Micsoft.AlphaImageLoader(sizingMethod = scale)'
+                $('.imgShow').filters.item('DXImageTransform.Microsoft.AlphaImageLoader').src = dataURL;
+            }
+            $.ajaxFileUpload({
+                url: "",
+                fileElementId: "uploadImg",
+                dataType: "string",
+                success: function (data) {
+                    //图片路径
+                    $('.imgShow').attr("src", data);
+                }
+            });
+        });
+    });
+
+
+</script>
+</html>

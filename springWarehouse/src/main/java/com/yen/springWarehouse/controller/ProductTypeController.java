@@ -26,7 +26,7 @@ public class ProductTypeController {
     @GetMapping("/toInput")
     public String input(Map<String, Object> map) {
 
-        map.put("courseType", new ProductType()); // TODO : check necessary ?
+        map.put("productType", new ProductType()); // TODO : check necessary ?
         return "productType/input_product_type";
     }
 
@@ -77,7 +77,7 @@ public class ProductTypeController {
 
         log.info("update product type as {}", productType);
         productTypeService.updateById(productType);
-        return "redirect:/courseType/list";
+        return "redirect:/productType/list";
     }
 
 }
