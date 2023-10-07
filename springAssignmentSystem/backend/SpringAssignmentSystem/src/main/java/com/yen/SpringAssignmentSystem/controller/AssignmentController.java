@@ -64,12 +64,20 @@ public class AssignmentController {
     @GetMapping("")
     public ResponseEntity<?> getAssignments(@AuthenticationPrincipal User user) {
 
+        // TODO : fix this, read User from request, instead of hardcode
         //System.out.println(">>> User = " + user.toString());
-        // TODO : fix this, read User from request, remove hardcode
         User u1 = new User();
         u1.setId(1L);
-
         Set<Assignment> assignmentsByUser = assignmentService.findByUser(u1);
+        return ResponseEntity.ok(assignmentsByUser);
+    }
+
+    // NOTE : instead of query assignment with role from JWT, I use the other endpoint instead
+    // https://youtu.be/mEdWzE4-sLg?si=OunD8llEQwwNgKid&t=928
+    @GetMapping("/to_review")
+    public ResponseEntity<?> getToReviewAssignments(@AuthenticationPrincipal User user) {
+
+        List<Assignment> assignmentsByUser = assignmentService.findByStatus("Submitted");
         return ResponseEntity.ok(assignmentsByUser);
     }
 
@@ -88,7 +96,6 @@ public class AssignmentController {
 //                .anyMatch(offer -> offer.getId().equals(JAVA_FOUNDATIONS_OFFER_ID));
 //
 //        if (isBootcampStudent) {
-//
 //            AssignmentResponseDto response = new BootcampAssignmentResponseDto(assignmentOpt.orElse(new Assignment()));
 //            return ResponseEntity.ok(response);
 //        } else if (isJavaFoundationsStudent) {
