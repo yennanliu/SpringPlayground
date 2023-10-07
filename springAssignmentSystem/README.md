@@ -13,6 +13,7 @@
 
 - Endpoints
 	- Swagger : http://localhost:8080/swagger-ui/index.html
+	- App home page : http://localhost:3000/
 
 ## Ref
 - Video list
