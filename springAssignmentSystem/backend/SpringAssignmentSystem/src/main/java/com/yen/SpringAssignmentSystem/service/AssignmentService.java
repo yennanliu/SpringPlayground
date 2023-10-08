@@ -133,6 +133,12 @@ public class AssignmentService {
         return assignmentRepo.findById(assignmentId);
     }
 
+    public List<Assignment> findByStatus(String status) {
+
+        System.out.println(">>> (findByStatus) status = " + status);
+        return assignmentRepo.findByStatus(status);
+    }
+
     public Assignment save(Assignment assignment) {
 
         // load the assignment from DB using assignment.getId() in order to get current

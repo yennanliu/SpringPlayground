@@ -64,6 +64,7 @@ const Dashboard = () => {
   return (
     <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
+      <Link to="http://localhost:3000/code_review">Go to Code Reviewer Dashboard</Link>
       {/* <div>JWT value is {getJwt}</div> */}
       {/** https://youtu.be/1s0oommR7qY?si=Bbl2US1phgOvbur9&t=169 */}
       <Row>
