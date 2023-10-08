@@ -72,6 +72,16 @@ public class ProductTypeController {
         return "redirect:/productType/list";
     }
 
+    @GetMapping(value="/preUpdate/{typeId}")
+    public String preUpdate(@PathVariable("typeId") Integer typeId, Map<String, Object> map) {
+
+        log.info(">>> preUpdate typeId : {}, map = {}", typeId, map);
+        ProductType productType = productTypeService.getById(typeId);
+        log.info(">>> productType = {}", productType);
+        map.put("productType", productType);
+        return "productType/update_product_type";
+    }
+
     @PostMapping(value="/update")
     public String update(ProductType productType) {
 

@@ -1,8 +1,14 @@
 package com.yen.springWarehouse.bean;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * CREATE TABLE IF NOT EXISTS product(
@@ -19,10 +25,23 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Product {
+@TableName("prduct")
+public class Product implements Serializable {
 
+    private static final long serialVersionUID = 88884233250815L;
+
+    @TableId(type = IdType.AUTO)
+    private int id;
+
+    @TableField("name")
     private String name;
+
+    @TableField("type_id")
     private int typeId;
+
+    @TableField("price")
     private int price;
+
+    @TableField("product_status")
     private String productStatus;
 }
