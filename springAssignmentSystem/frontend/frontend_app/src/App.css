@@ -41,6 +41,7 @@
 /** https://youtu.be/mEdWzE4-sLg?si=B24xqgDhleI7Fh8r&t=1081 */
 .assignment-wrapper {
 
-  border : 1px dashed black; 
-
+  border : 1px dashed black;
+  padding: 2em;
+  border-radius: 1em;
 }
