@@ -48,6 +48,14 @@ const CodeReviewerDashboard = () => {
           </div>
         </Col>
       </Row>
+
+      {/** check .assignment-wrapper setting in App.css */}
+      {/* <div className="assignment-wrapper in-review"></div> */}
+
+      <div className="assignment-wrapper submitted"></div>
+
+      {/* <div className="assignment-wrapper needs-update"></div> */}
+
       {assignments &&
         assignments.map((assignment) => (
           // <Col>
@@ -99,8 +107,7 @@ const CodeReviewerDashboard = () => {
           // </Col>
         ))}
       <Card style={{ width: "18rem", height: "20rem" }}>
-        <Card.Body className="d-flex flex-column justify-content-around">
-        </Card.Body>
+        <Card.Body className="d-flex flex-column justify-content-around"></Card.Body>
       </Card>
     </Container>
   );
