@@ -25,7 +25,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("prduct")
+@TableName("product")
 public class Product implements Serializable {
 
     private static final long serialVersionUID = 88884233250815L;
