@@ -16,5 +16,5 @@ CREATE TABLE IF NOT EXISTS product(
 INSERT INTO product(name, type_id, price, product_status)
 VALUES
 ("i-phone", 2, 300, "0"),
-("cookie", 4, 10, "0"),
+("cookie2", 4, 10, "0"),
 ("soap", 1, 50, "0");

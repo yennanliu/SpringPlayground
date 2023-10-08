@@ -53,8 +53,8 @@ public class ProductController {
         map.put("page", page);
         map.put("helper", helper);
         log.info("(ProductController list) map = {}", map);
-        //return "product/list_product";
-        return "index";
+        return "product/list_product";
+        //return "index";
         //return "OK";
     }
 
