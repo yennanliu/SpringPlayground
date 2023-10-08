@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
 
@@ -74,6 +75,31 @@ public class ProductController {
         map.put("product" , product);
         map.put("productTypeList", productTypeService.list());
         return "product/update_product";
+    }
+
+    @PostMapping(value="/update")
+    public String update(Product product, Map<String, Object> map) throws Exception{
+
+        // TODO : fix below for upload product picture
+//        if(file.getBytes().length > 0){
+//            course.setCourseTextbookPic(file.getBytes());
+//        }
+
+        log.info(" Update product as " + product);
+        try{
+            // TODO : fix if modify as invalid/not existed typeId (### Error updating database.  Cause: java.sql.SQLIntegrityConstraintViolationException: Cannot add or update a child row: a foreign key constraint fails (`warehouse_system`.`product`, CONSTRAINT `FK_PRODUCT_TYPE` FOREIGN KEY (`type_id`) REFERENCES `product_type` (`type_id`)))
+            productService.updateById(product);
+            log.info("Product update OK");
+        }catch(Exception e){
+            log.error("Product update Failed, exception : " + e.getMessage(),e);
+            log.info("productTypeList = " + productTypeService.list());
+            map.put("productTypeList", productTypeService.list());
+            // if update failed, return update product page
+            return "/product/update_product";
+        }
+
+        // if update success, redirect to product list page
+        return "redirect:/product/list";
     }
 
 }
