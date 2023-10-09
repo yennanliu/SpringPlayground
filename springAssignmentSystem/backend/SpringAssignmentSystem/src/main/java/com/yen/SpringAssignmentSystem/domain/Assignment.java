@@ -39,7 +39,7 @@ public class Assignment {
 
     //@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     //@Column(name="code_reviewer")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST) // https://blog.csdn.net/wsaicyj/article/details/123966389
     private User codeReviewer;
 
     @Column(name="submitted_date")
