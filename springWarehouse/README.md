@@ -28,7 +28,7 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-
+| http://localhost:7777/ | Get | Home page | ----- | ---- |
 
 ## Important Concepts
 

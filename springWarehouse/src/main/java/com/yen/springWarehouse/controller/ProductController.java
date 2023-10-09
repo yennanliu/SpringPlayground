@@ -38,6 +38,29 @@ public class ProductController {
         return "product/input_product";
     }
 
+    @PostMapping(value="/create")
+    public String create(Product product, Map<String, Object> map) throws Exception{
+
+        //读取文件数据，转成字节数组
+
+//        if(file!=null){
+//            product.setCourseTextbookPic(file.getBytes());
+//        }
+
+        try{
+            log.info("(create) Add new product : " + productTypeService);
+            productService.save(product);
+            log.info("new product save OK");
+        }catch(Exception e){
+            log.error("new product save failed : " + e.getMessage(),e);
+            map.put("productTypeService", productTypeService.list());
+            // TODO : redirect to custom error page or return error msg
+            //return "redirect:/product/input_course";
+        }
+
+        return "redirect:/product/list";
+    }
+
     @RequestMapping("/list")
     public String list(@RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr, Map<String, Object> map, ProductQueryHelper helper) {
 
