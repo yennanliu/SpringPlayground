@@ -46,9 +46,9 @@
 
 /** https://youtu.be/iYchh7v7P1Q?si=mOdM1W0chyQe1mpH&t=269 */
 .assignment-wrapper-title {
-  width: "min-content";
-  margin-top: "-2em";
-  margin-bottom: "1em";
-  background-color: "white";
-  white-space: "nowrap";
+  width: min-content !important;
+  margin-top: -2em !important;
+  margin-bottom: 1em !important;
+  background-color: white !important;
+  white-space: nowrap !important;
 }

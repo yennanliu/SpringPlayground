@@ -76,69 +76,138 @@ const CodeReviewerDashboard = () => {
         </Col>
       </Row>
 
+      {/**
+       *
+       *  In Review
+       */}
       {/** check .assignment-wrapper setting in App.css */}
-      {/* <div className="assignment-wrapper in-review"></div> */}
-      {/** css style from App.css */}
-      <div className="assignment-wrapper submitted">
-        <div
-          className="assignment-wrapper-title h3 mt-5"
-        >
-          Awaiting Review
-        </div>
+      <div className="assignment-wrapper in-review">
+        <div className="assignment-wrapper-title h3 mt-5">In Review</div>
         {assignments &&
-          assignments.map((assignment) => (
-            // <Col>
-            <Card
-              key={assignment.id}
-              style={{ width: "18rem", height: "20rem" }}
-            >
-              <Card.Body className="d-flex flex-column justify-content-around">
-                <Card.Title>Assignment #{assignment.number}</Card.Title>
+          assignments
+            .filter((assignment) => assignment.status === "In Review")
+            .map((assignment) => (
+              // <Col>
+              <Card
+                key={assignment.id}
+                style={{ width: "18rem", height: "20rem" }}
+              >
+                <Card.Body className="d-flex flex-column justify-content-around">
+                  <Card.Title>Assignment #{assignment.number}</Card.Title>
 
-                <div className="d-flex align-items-start">
-                  <StatusBadge text={assignment.status} />
-                </div>
+                  <div className="d-flex align-items-start">
+                    <StatusBadge text={assignment.status} />
+                  </div>
 
-                <Card.Text style={{ marginTop: "1em" }}>
-                  <b>GitHub URL</b>: {assignment.githubUrl}
-                  <br />
-                  <b>Branch</b>: {assignment.branch}
-                </Card.Text>
+                  <Card.Text style={{ marginTop: "1em" }}>
+                    <b>GitHub URL</b>: {assignment.githubUrl}
+                    <br />
+                    <b>Branch</b>: {assignment.branch}
+                  </Card.Text>
 
-                {assignment && assignment.status === "Completed" ? (
-                  <>
-                    <Button
-                      onClick={() => {
-                        window.open(assignment.codeReviewVideoUrl);
-                      }}
-                      className="mb-4"
-                    >
-                      Watch Review
-                    </Button>
+                  {assignment && assignment.status === "Completed" ? (
+                    <>
+                      <Button
+                        onClick={() => {
+                          window.open(assignment.codeReviewVideoUrl);
+                        }}
+                        className="mb-4"
+                      >
+                        Watch Review
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          navigate(`/assignments/${assignment.id}`);
+                        }}
+                      >
+                        View
+                      </Button>
+                    </>
+                  ) : (
                     <Button
                       variant="secondary"
                       onClick={() => {
-                        navigate(`/assignments/${assignment.id}`);
+                        //navigate(`/assignments/${assignment.id}`);
+                        claimAssignment(assignment);
                       }}
                     >
-                      View
+                      Claim
                     </Button>
-                  </>
-                ) : (
-                  <Button
-                    variant="secondary"
-                    onClick={() => {
-                      //navigate(`/assignments/${assignment.id}`);
-                      claimAssignment(assignment);
-                    }}
-                  >
-                    Claim
-                  </Button>
-                )}
-              </Card.Body>
-            </Card>
-            // </Col>
-          ))}
+                  )}
+                </Card.Body>
+              </Card>
+              // </Col>
+            ))}
+        <Card style={{ width: "18rem", height: "20rem" }}>
+          <Card.Body className="d-flex flex-column justify-content-around"></Card.Body>
+        </Card>
+      </div>
+
+      {/**
+       *
+       *  Awaiting Review
+       */}
+
+      {/** css style from App.css */}
+      <div className="assignment-wrapper submitted">
+        <div className="assignment-wrapper-title h3 mt-5">Awaiting Review</div>
+        {assignments &&
+          assignments
+            .filter((assignment) => assignment.status === "Submitted")
+            .map((assignment) => (
+              // <Col>
+              <Card
+                key={assignment.id}
+                style={{ width: "18rem", height: "20rem" }}
+              >
+                <Card.Body className="d-flex flex-column justify-content-around">
+                  <Card.Title>Assignment #{assignment.number}</Card.Title>
+
+                  <div className="d-flex align-items-start">
+                    <StatusBadge text={assignment.status} />
+                  </div>
+
+                  <Card.Text style={{ marginTop: "1em" }}>
+                    <b>GitHub URL</b>: {assignment.githubUrl}
+                    <br />
+                    <b>Branch</b>: {assignment.branch}
+                  </Card.Text>
+
+                  {assignment && assignment.status === "Completed" ? (
+                    <>
+                      <Button
+                        onClick={() => {
+                          window.open(assignment.codeReviewVideoUrl);
+                        }}
+                        className="mb-4"
+                      >
+                        Watch Review
+                      </Button>
+                      <Button
+                        variant="secondary"
+                        onClick={() => {
+                          navigate(`/assignments/${assignment.id}`);
+                        }}
+                      >
+                        View
+                      </Button>
+                    </>
+                  ) : (
+                    <Button
+                      variant="secondary"
+                      onClick={() => {
+                        //navigate(`/assignments/${assignment.id}`);
+                        claimAssignment(assignment);
+                      }}
+                    >
+                      Claim
+                    </Button>
+                  )}
+                </Card.Body>
+              </Card>
+              // </Col>
+            ))}
         <Card style={{ width: "18rem", height: "20rem" }}>
           <Card.Body className="d-flex flex-column justify-content-around"></Card.Body>
         </Card>
