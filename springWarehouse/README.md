@@ -28,7 +28,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| http://localhost:7777/ | Get | Home page | ----- | ---- |
+| http://localhost:7777/ | Get | Home page || |
+| http://localhost:7777/swagger-ui/index.html | Get | API doc page || |
 
 ## Important Concepts
 
