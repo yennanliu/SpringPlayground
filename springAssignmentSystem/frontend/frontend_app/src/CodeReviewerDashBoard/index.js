@@ -24,19 +24,28 @@ const CodeReviewerDashboard = () => {
       authorities: ["ROLE_CODE_REVIEWER"],
     };
     assignment.codeReviewer = user;
+    // TODO : fix this hardcode status
     assignment.status = "In Review";
     console.log("claim assignment : " + JSON.stringify(assignment));
     ajax(`/api/assignments/${assignment.id}`, "PUT", getJwt, assignment).then(
-      (assignment) => {
+      (updatedAssignment) => {
         // TODO : update view for assignment that changed
+        // copy an array syntax [...oldArray]
+        // https://youtu.be/utXVb3R1yuE?si=MkVbNb5R8imKjtkw&t=1947
+        const assignmentsCopied = [...assignments];
+        const i = assignmentsCopied.findIndex((x) => x.id === assignment.id);
+        assignmentsCopied[i] = updatedAssignment;
+        setAssignment(assignmentsCopied);
       }
     );
   }
 
   useEffect(() => {
-    ajax("/api/assignments/to_review", "GET", getJwt).then((assignmentsData) => {
-      setAssignment(assignmentsData);
-    });
+    ajax("/api/assignments/to_review", "GET", getJwt).then(
+      (assignmentsData) => {
+        setAssignment(assignmentsData);
+      }
+    );
   }, []);
 
   function createAssignment() {
