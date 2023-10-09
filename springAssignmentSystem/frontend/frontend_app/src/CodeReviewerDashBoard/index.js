@@ -78,17 +78,10 @@ const CodeReviewerDashboard = () => {
 
       {/** check .assignment-wrapper setting in App.css */}
       {/* <div className="assignment-wrapper in-review"></div> */}
-
+      {/** css style from App.css */}
       <div className="assignment-wrapper submitted">
         <div
-          className="h3 mt-5"
-          style={{
-            width: "min-content",
-            marginTop: "-2em",
-            marginBottom: "1em",
-            backgroundColor: "white",
-            whiteSpace: "nowrap",
-          }}
+          className="assignment-wrapper-title h3 mt-5"
         >
           Awaiting Review
         </div>

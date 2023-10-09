@@ -37,11 +37,18 @@
   }
 } */
 
-
 /** https://youtu.be/mEdWzE4-sLg?si=B24xqgDhleI7Fh8r&t=1081 */
 .assignment-wrapper {
-
-  border : 1px dashed black;
+  border: 1px dashed black;
   padding: 2em;
   border-radius: 1em;
+}
+
+/** https://youtu.be/iYchh7v7P1Q?si=mOdM1W0chyQe1mpH&t=269 */
+.assignment-wrapper-title {
+  width: "min-content";
+  margin-top: "-2em";
+  margin-bottom: "1em";
+  background-color: "white";
+  white-space: "nowrap";
 }
