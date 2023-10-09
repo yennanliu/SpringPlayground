@@ -15,10 +15,37 @@ const CodeReviewerDashboard = () => {
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignments, setAssignment] = useState(null);
 
+  // https://youtu.be/utXVb3R1yuE?si=4Hv8qBS_gQ8mJVfF&t=408
+  function claimAssignment(assignment) {
+    //const decodedJwt = jwt_decode(getJwt);
+    const user = {
+      id: null,
+      username: "my_code_reivewer",
+      authorities: ["ROLE_CODE_REVIEWER"],
+    };
+    assignment.codeReviewer = user;
+    // TODO : fix this hardcode status
+    assignment.status = "In Review";
+    console.log("claim assignment : " + JSON.stringify(assignment));
+    ajax(`/api/assignments/${assignment.id}`, "PUT", getJwt, assignment).then(
+      (updatedAssignment) => {
+        // TODO : update view for assignment that changed
+        // copy an array syntax [...oldArray]
+        // https://youtu.be/utXVb3R1yuE?si=MkVbNb5R8imKjtkw&t=1947
+        const assignmentsCopied = [...assignments];
+        const i = assignmentsCopied.findIndex((x) => x.id === assignment.id);
+        assignmentsCopied[i] = updatedAssignment;
+        setAssignment(assignmentsCopied);
+      }
+    );
+  }
+
   useEffect(() => {
-    ajax("/api/assignments/", "GET", getJwt).then((assignmentsData) => {
-      setAssignment(assignmentsData);
-    });
+    ajax("/api/assignments/to_review", "GET", getJwt).then(
+      (assignmentsData) => {
+        setAssignment(assignmentsData);
+      }
+    );
   }, []);
 
   function createAssignment() {
@@ -108,10 +135,11 @@ const CodeReviewerDashboard = () => {
                   <Button
                     variant="secondary"
                     onClick={() => {
-                      navigate(`/assignments/${assignment.id}`);
+                      //navigate(`/assignments/${assignment.id}`);
+                      claimAssignment(assignment);
                     }}
                   >
-                    Edit
+                    Claim
                   </Button>
                 )}
               </Card.Body>
