@@ -81,7 +81,9 @@ public class AssignmentController {
         ListUtil list_util = new ListUtil();
         List<Assignment> submittedAssignment = assignmentService.findByStatus("Submitted");
         List<Assignment> inReviewAssignment = assignmentService.findByStatus("In Review");
-        List<Assignment> merge = list_util.mergeList(submittedAssignment, inReviewAssignment);
+        List<Assignment> needsUpdateAssignment = assignmentService.findByStatus("Needs Update");
+        List<Assignment> _merge = list_util.mergeList(submittedAssignment, inReviewAssignment);
+        List<Assignment> merge = list_util.mergeList(_merge, needsUpdateAssignment);
         return ResponseEntity.ok(merge);
     }
 
