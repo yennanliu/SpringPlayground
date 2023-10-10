@@ -60,7 +60,7 @@ public class MerchantController {
         log.info("iPage.total = {}, iPage.getPages = {} iPage = {}",  iPage.getTotal(), iPage.getPages(), iPage);
         map.put("page", iPage);
 
-        return "merchant/list_merchant_type";
+        return "merchant/list_merchant";
     }
 
     @PostMapping("/remove/{typeId}")
