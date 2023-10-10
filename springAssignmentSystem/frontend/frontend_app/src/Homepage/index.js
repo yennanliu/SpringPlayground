@@ -15,9 +15,11 @@ const Homepage = () => {
       <p></p>
       <Link to="http://localhost:3000/dashboard">Go to Dashboard</Link>
       <p></p>
-      <Link to="http://localhost:3000/code_review">
+      <Link to="http://localhost:3000/code_review_dashboard">
         Go to Code Reviewer Dashboard
       </Link>
+      <p></p>
+      <Link to="http://localhost:3000/code_review">Go to Code Review</Link>
     </Container>
   );
 };

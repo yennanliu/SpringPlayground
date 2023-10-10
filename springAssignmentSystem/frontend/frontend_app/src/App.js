@@ -11,6 +11,7 @@ import Login from "./Login";
 import AssignmentView from "./AssignmentView";
 import PrivateRoute from "./PrivateRoute";
 import CodeReviewerDashboard from "./CodeReviewerDashBoard";
+import CodeReviewerAssignmentView from "./CodeReviewAssignmentView";
 
 // bootstrap : https://react-bootstrap.netlify.app/docs/getting-started/introduction
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -106,7 +107,14 @@ function App() {
       <Route path="/dashboard" element={<Dashboard />}></Route>
       <Route path="/assignments/:id" element={<AssignmentView />}></Route>
       <Route path="/" element={<Homepage />}></Route>
-      <Route path="/code_review" element={<CodeReviewerDashboard />}></Route>
+      <Route
+        path="/code_review_dashboard"
+        element={<CodeReviewerDashboard />}
+      ></Route>
+      <Route
+        path="/code_review"
+        element={<CodeReviewerAssignmentView />}
+      ></Route>
       <Route path="/login" element={<Login />}></Route>
 
       {/* redirect to login page if access dashboard without login */}
