@@ -2,20 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add New Product Type</title>
+    <title>Add New Merchant</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
     <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 </head>
 <body style="padding:8px;">
-    <h3 class="title">Add New Product Type</h3>
-    <form th:action="@{/productType/create}" method="post" th:object="${productType}">
-        <div>
-            <span>Product Type Name:</span>
-            <input type="text" name="typeName" placeholder="Product Type Name">
-        </div>
-        <div>
-            <input type="submit" value=" confirm "/>
-        </div>
-    </form>
+<h3 class="title">Add New Merchant</h3>
+<form th:action="@{/merchant/create}" method="post" th:object="${Merchant}">
+    <div>
+        <span>Merchant Name:</span>
+        <input type="text" name="name" placeholder="Merchant Name">
+    </div>
+    <div>
+        <input type="submit" value=" confirm "/>
+    </div>
+</form>
 </body>
 </html>
