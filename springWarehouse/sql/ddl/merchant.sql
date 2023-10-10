@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS merchant(
     name varchar(100) not null,
     city varchar(10),
     type varchar(10),
-    status varchar(1) not null
+    status varchar(1)
 );
 
 INSERT INTO merchant(name, city, type, status)
