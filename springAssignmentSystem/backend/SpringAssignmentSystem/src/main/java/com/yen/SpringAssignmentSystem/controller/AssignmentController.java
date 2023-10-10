@@ -11,6 +11,7 @@ import com.yen.SpringAssignmentSystem.proffesso.domain.Offer;
 import com.yen.SpringAssignmentSystem.service.AssignmentService;
 import com.yen.SpringAssignmentSystem.service.OrderService;
 import com.yen.SpringAssignmentSystem.service.UserService;
+import com.yen.SpringAssignmentSystem.util.ListUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -77,8 +78,13 @@ public class AssignmentController {
     @GetMapping("/to_review")
     public ResponseEntity<?> getToReviewAssignments(@AuthenticationPrincipal User user) {
 
-        List<Assignment> assignmentsByUser = assignmentService.findByStatus("Submitted");
-        return ResponseEntity.ok(assignmentsByUser);
+        ListUtil list_util = new ListUtil();
+        List<Assignment> submittedAssignment = assignmentService.findByStatus("Submitted");
+        List<Assignment> inReviewAssignment = assignmentService.findByStatus("In Review");
+        List<Assignment> needsUpdateAssignment = assignmentService.findByStatus("Needs Update");
+        List<Assignment> _merge = list_util.mergeList(submittedAssignment, inReviewAssignment);
+        List<Assignment> merge = list_util.mergeList(_merge, needsUpdateAssignment);
+        return ResponseEntity.ok(merge);
     }
 
     @GetMapping("{assignmentId}")
