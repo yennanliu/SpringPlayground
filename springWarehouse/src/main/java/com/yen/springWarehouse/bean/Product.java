@@ -42,6 +42,9 @@ public class Product implements Serializable {
     @TableField("price")
     private int price;
 
+    @TableField("merchant_id")
+    private int merchantId;
+
     @TableField("product_status")
     private String productStatus;
 }
