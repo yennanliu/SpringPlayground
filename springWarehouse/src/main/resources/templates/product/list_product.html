@@ -18,6 +18,7 @@
         <th>Name</th>
         <th>Type Id</th>
         <th>Price</th>
+        <th>Amount</th>
     </tr>
     <tr class="type" th:each="Product : ${page.records}">
         <td th:text="${Product.id}" nowrap></td>
@@ -25,6 +26,7 @@
         <td id="name" th:text="${Product.name}" nowrap></td>
         <td id="id" th:text="${Product.typeId}" nowrap></td>
         <td id="price" th:text="${Product.price}" nowrap></td>
+        <td id="amount" th:text="${Product.amount}" nowrap></td>
         <td nowrap>
             <button class="update" th:href="@{/product/preUpdate/{id}(id=${Product.id})}" >修改</button>
             <button class="delete" th:href="@{/product/remove/{id}(id=${Product.id})}">删除</button>

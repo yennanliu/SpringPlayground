@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS product(
     price int not null,
     merchant_id varchar(100),
     product_status varchar(1) not null,
+    amount int DEFAULT 0,
     constraint FK_PRODUCT_TYPE FOREIGN KEY (type_id) references product_type(type_id)
 );
 

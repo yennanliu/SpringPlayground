@@ -47,4 +47,7 @@ public class Product implements Serializable {
 
     @TableField("product_status")
     private String productStatus;
+
+    @TableField("amount")
+    private int amount;
 }

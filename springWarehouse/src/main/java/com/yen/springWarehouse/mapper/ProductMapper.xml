@@ -11,7 +11,8 @@
         name,
         type_id,
         price,
-        product_status
+        product_status,
+        amount
     </sql>
 
     <!-- SQL query with paging, NOTE : if there is group type in Mybatis, only use element type in group -->
