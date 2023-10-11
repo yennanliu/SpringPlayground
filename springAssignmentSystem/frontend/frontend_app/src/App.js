@@ -106,14 +106,14 @@ function App() {
     <Routes>
       <Route path="/dashboard" element={<Dashboard />}></Route>
       <Route path="/assignments/:id" element={<AssignmentView />}></Route>
+      <Route
+        path="/code_review/:id"
+        element={<CodeReviewerAssignmentView />}
+      ></Route>
       <Route path="/" element={<Homepage />}></Route>
       <Route
         path="/code_review_dashboard"
         element={<CodeReviewerDashboard />}
-      ></Route>
-      <Route
-        path="/code_review"
-        element={<CodeReviewerAssignmentView />}
       ></Route>
       <Route path="/login" element={<Login />}></Route>
 
