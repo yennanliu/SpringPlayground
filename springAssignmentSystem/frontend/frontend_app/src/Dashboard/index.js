@@ -64,13 +64,15 @@ const Dashboard = () => {
   return (
     <div style={{ margin: "2em" }}>
       <h1>Dashboard !!</h1>
-      <Link to="http://localhost:3000/code_review">Go to Code Reviewer Dashboard</Link>
+      <Link to="http://localhost:3000/code_review_dashboard">
+        Go to Code Reviewer Dashboard
+      </Link>
       {/* <div>JWT value is {getJwt}</div> */}
       {/** https://youtu.be/1s0oommR7qY?si=Bbl2US1phgOvbur9&t=169 */}
       <Row>
         <Col>
           <div
-          className="d-flex justify-content-end"
+            className="d-flex justify-content-end"
             style={{ cursor: "pointer" }}
             onClick={() => {
               setJwt(null);
