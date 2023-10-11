@@ -207,7 +207,7 @@ const CodeReviewerDashboard = () => {
                         claimAssignment(assignment);
                       }}
                     >
-                      Claim
+                      Go Review
                     </Button>
                   )}
                 </Card.Body>

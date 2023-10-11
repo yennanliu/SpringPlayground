@@ -54,7 +54,12 @@ const CodeReviewerAssignmentView = () => {
 
     // https://youtu.be/SOyfQCsOvO4?si=Eu1z9CWZO0c-e3Zq&t=816
 
-    console.log("(saveAssignment) status =  " +status + ",  assignment = " + JSON.stringify(assignment));
+    console.log(
+      "(saveAssignment) status =  " +
+        status +
+        ",  assignment = " +
+        JSON.stringify(assignment)
+    );
 
     if (status && assignment.status !== status) {
       updateAssignment("status", status);
@@ -197,6 +202,20 @@ const CodeReviewerAssignmentView = () => {
 
           <Button onClick={() => saveAssignment("completed")}>
             Complete Review
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={() => (window.location.href = "/dashboard")}
+          >
+            Back
+          </Button>
+
+          <Button
+            variant="danger"
+            onClick={() => saveAssignment("Needs Update")}
+          >
+            Reject Assignment
           </Button>
         </>
       ) : (
