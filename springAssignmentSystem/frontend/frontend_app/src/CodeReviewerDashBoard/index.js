@@ -15,6 +15,12 @@ const CodeReviewerDashboard = () => {
   const [getJwt, setJwt] = useLocalState("", "jwt"); // getter, setter
   const [assignments, setAssignment] = useState(null);
 
+  // https://youtu.be/SOyfQCsOvO4?si=7WyTqRP2AlsyPAkx&t=207
+  function editReview(assignment) {
+    console.log(">>> (editReview) assignment = " + JSON.stringify(assignment));
+    window.location.href = `/code_review/${assignment.id}`;
+  }
+
   // https://youtu.be/utXVb3R1yuE?si=4Hv8qBS_gQ8mJVfF&t=408
   function claimAssignment(assignment) {
     //const decodedJwt = jwt_decode(getJwt);
@@ -129,10 +135,10 @@ const CodeReviewerDashboard = () => {
                       variant="secondary"
                       onClick={() => {
                         //navigate(`/assignments/${assignment.id}`);
-                        claimAssignment(assignment);
+                        editReview(assignment);
                       }}
                     >
-                      Claim
+                      Edit
                     </Button>
                   )}
                 </Card.Body>
@@ -201,7 +207,7 @@ const CodeReviewerDashboard = () => {
                         claimAssignment(assignment);
                       }}
                     >
-                      Claim
+                      Go Review
                     </Button>
                   )}
                 </Card.Body>

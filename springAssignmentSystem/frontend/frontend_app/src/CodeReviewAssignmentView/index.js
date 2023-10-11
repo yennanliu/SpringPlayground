@@ -1,7 +1,7 @@
 import React, { useEffect, useInsertionEffect, useState, useRef } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { Badge, Button, Container } from "react-bootstrap";
 
 import Col from "react-bootstrap/Col";
@@ -11,9 +11,14 @@ import Row from "react-bootstrap/Row";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import userEvent from "@testing-library/user-event";
 
-const AssignmentView = () => {
-  const assignmentId = window.location.href.split("/assignments/")[1];
+const CodeReviewerAssignmentView = () => {
+  console.log(
+    ">>> (CodeReviewerAssignmentView) window.location.href = " +
+      window.location.href
+  );
+  const assignmentId = window.location.href.split("/code_review/")[1];
   // https://youtu.be/zQiKOu8iGco?si=zRyGka60wy07xUrV&t=1934
   // init a new assignment
   const [assignment, setAssignment] = useState({
@@ -31,7 +36,7 @@ const AssignmentView = () => {
   // https://youtu.be/2XRQzR4y2yM?si=p8QcytO5aBC6ufBj&t=459
   // setup current status
   const previousAssignmentValue = useRef(assignment);
-  
+
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
     //assignment[prop] = value;
@@ -41,13 +46,23 @@ const AssignmentView = () => {
     console.log(assignment);
   }
 
-  function saveAssignment() {
+  function saveAssignment(status) {
     // call BE API save assignment
 
     // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
-    if (assignment.status === assignmentStatuses[0].status) {
-      updateAssignment("status", assignmentStatuses[1].status);
+
+    // https://youtu.be/SOyfQCsOvO4?si=Eu1z9CWZO0c-e3Zq&t=816
+
+    console.log(
+      "(saveAssignment) status =  " +
+        status +
+        ",  assignment = " +
+        JSON.stringify(assignment)
+    );
+
+    if (status && assignment.status !== status) {
+      updateAssignment("status", status);
     } else {
       // https://youtu.be/2XRQzR4y2yM?si=RDbtHpdUnVs8j7JE&t=1109
       persist();
@@ -84,20 +99,6 @@ const AssignmentView = () => {
     // V2
     // https://youtu.be/w6YUDqKiT8I?si=pXIQhoWmGDLjQgtI&t=803
     ajax(`/api/assignments/${assignmentId}`, "GET", getJwt)
-      // V1
-      // fetch(`/api/assignments/${assignmentId}`, {
-      //   headers: {
-      //     "Content-type": "application/json",
-      //     Authentication: `Bearer ${getJwt}`,
-      //   },
-      //   method: "GET",
-      // })
-      //   .then((response) => {
-      //     if (response.status === 200) {
-      //       return response.json();
-      //     }
-      //   })
-
       // https://youtu.be/K-ywr1I1mr0?si=nFWaN1mbJ8cKub_r&t=845
       .then((assignmentsResponse) => {
         let assignmentsData = assignmentsResponse.assignment;
@@ -148,54 +149,6 @@ const AssignmentView = () => {
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
-          {/** Dropdown:
-           *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
-           *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
-           */}
-          <Form.Group as={Row} className="my-4" controlId="assignmentName">
-            <Form.Label column sm="2">
-              Assignment Number
-            </Form.Label>
-            <Col sm="10">
-              <DropdownButton
-                as={ButtonGroup}
-                variant="info"
-                title={
-                  assignment.number
-                    ? `Assignment ${assignment.number}`
-                    : "Select an Assignment"
-                }
-                onSelect={(selectedAssignment) => {
-                  setSelectedAssignment(selectedAssignment);
-                  updateAssignment("number", selectedAssignment);
-                }}
-              >
-                {/* {["1", "2", "3", "4", "5"].map((number) => (
-                  <Dropdown.Item eventKey={number}>
-                    {assignmentNum}
-                  </Dropdown.Item>
-                ))} */}
-                {/* https://youtu.be/K-ywr1I1mr0?si=vELe7cwexA5ME29P&t=1023 */}
-                {assignmentEnums.map((assignmentEnum) => (
-                  <Dropdown.Item
-                    key={assignmentEnum.assignmentNum}
-                    eventKey={assignmentEnum.assignmentNum}
-                  >
-                    {assignmentEnum.assignmentNum}
-                  </Dropdown.Item>
-                ))}
-
-                {/* <Dropdown.Item eventKey="1">Action</Dropdown.Item>
-                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                <Dropdown.Item eventKey="3" active>
-                  Active Item
-                </Dropdown.Item> */}
-                {/* <Dropdown.Divider />
-                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
-              </DropdownButton>
-            </Col>
-          </Form.Group>
-
           <Form.Group as={Row} className="my-4" controlId="githubUrl">
             <Form.Label column sm="2">
               GitHub URL
@@ -206,6 +159,7 @@ const AssignmentView = () => {
                   updateAssignment("githubUrl", event.target.value)
                 }
                 type="url"
+                readOnly
                 value={assignment.githubUrl}
                 placeholder="http//github.com"
               />
@@ -222,13 +176,47 @@ const AssignmentView = () => {
                   updateAssignment("branch", event.target.value)
                 }
                 type="text"
+                readOnly
                 value={assignment.branch}
                 placeholder="master"
               />
             </Col>
           </Form.Group>
 
-          <Button onClick={() => saveAssignment()}>Submit Assignment</Button>
+          {/**https://youtu.be/SOyfQCsOvO4?si=S6KBoGBnYrkOLi8G&t=560 */}
+          <Form.Group as={Row} className="mb-3" controlId="branch">
+            <Form.Label column sm="2">
+              Video Review URL
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                onChange={(event) =>
+                  updateAssignment("codeReviewVideoUrl", event.target.value)
+                }
+                type="text"
+                value={assignment.codeReviewVideoUrl}
+                placeholder="https/my-review-video-url"
+              />
+            </Col>
+          </Form.Group>
+
+          <Button onClick={() => saveAssignment("completed")}>
+            Complete Review
+          </Button>
+
+          <Button
+            variant="secondary"
+            onClick={() => (window.location.href = "/dashboard")}
+          >
+            Back
+          </Button>
+
+          <Button
+            variant="danger"
+            onClick={() => saveAssignment("Needs Update")}
+          >
+            Reject Assignment
+          </Button>
         </>
       ) : (
         <></>
@@ -237,4 +225,4 @@ const AssignmentView = () => {
   );
 };
 
-export default AssignmentView;
+export default CodeReviewerAssignmentView;
