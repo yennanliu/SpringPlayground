@@ -11,7 +11,6 @@ import Row from "react-bootstrap/Row";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
-import userEvent from "@testing-library/user-event";
 
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];

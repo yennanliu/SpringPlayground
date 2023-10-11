@@ -1,7 +1,7 @@
 import React, { useEffect, useInsertionEffect, useState, useRef } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
-import { Link } from "react-router-dom";
+import { Link, json } from "react-router-dom";
 import { Badge, Button, Container } from "react-bootstrap";
 
 import Col from "react-bootstrap/Col";
@@ -46,13 +46,18 @@ const CodeReviewerAssignmentView = () => {
     console.log(assignment);
   }
 
-  function saveAssignment() {
+  function saveAssignment(status) {
     // call BE API save assignment
 
     // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
-    if (assignment.status === assignmentStatuses[0].status) {
-      updateAssignment("status", assignmentStatuses[1].status);
+
+    // https://youtu.be/SOyfQCsOvO4?si=Eu1z9CWZO0c-e3Zq&t=816
+
+    console.log("(saveAssignment) status =  " +status + ",  assignment = " + JSON.stringify(assignment));
+
+    if (status && assignment.status !== status) {
+      updateAssignment("status", status);
     } else {
       // https://youtu.be/2XRQzR4y2yM?si=RDbtHpdUnVs8j7JE&t=1109
       persist();
@@ -190,7 +195,9 @@ const CodeReviewerAssignmentView = () => {
             </Col>
           </Form.Group>
 
-          <Button onClick={() => saveAssignment()}>Complete Review</Button>
+          <Button onClick={() => saveAssignment("completed")}>
+            Complete Review
+          </Button>
         </>
       ) : (
         <></>
