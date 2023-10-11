@@ -139,54 +139,6 @@ const CodeReviewerAssignmentView = () => {
       {/** only show below when assignment is not null */}
       {assignment ? (
         <>
-          {/** Dropdown:
-           *  https://youtu.be/MGtkDvpD6rs?si=DV0FkrAYixoeN9fd&t=1569
-           *  https://react-bootstrap.netlify.app/docs/components/dropdowns/
-           */}
-          <Form.Group as={Row} className="my-4" controlId="assignmentName">
-            <Form.Label column sm="2">
-              Assignment Number
-            </Form.Label>
-            <Col sm="10">
-              <DropdownButton
-                as={ButtonGroup}
-                variant="info"
-                title={
-                  assignment.number
-                    ? `Assignment ${assignment.number}`
-                    : "Select an Assignment"
-                }
-                onSelect={(selectedAssignment) => {
-                  setSelectedAssignment(selectedAssignment);
-                  updateAssignment("number", selectedAssignment);
-                }}
-              >
-                {/* {["1", "2", "3", "4", "5"].map((number) => (
-                  <Dropdown.Item eventKey={number}>
-                    {assignmentNum}
-                  </Dropdown.Item>
-                ))} */}
-                {/* https://youtu.be/K-ywr1I1mr0?si=vELe7cwexA5ME29P&t=1023 */}
-                {assignmentEnums.map((assignmentEnum) => (
-                  <Dropdown.Item
-                    key={assignmentEnum.assignmentNum}
-                    eventKey={assignmentEnum.assignmentNum}
-                  >
-                    {assignmentEnum.assignmentNum}
-                  </Dropdown.Item>
-                ))}
-
-                {/* <Dropdown.Item eventKey="1">Action</Dropdown.Item>
-                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                <Dropdown.Item eventKey="3" active>
-                  Active Item
-                </Dropdown.Item> */}
-                {/* <Dropdown.Divider />
-                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
-              </DropdownButton>
-            </Col>
-          </Form.Group>
-
           <Form.Group as={Row} className="my-4" controlId="githubUrl">
             <Form.Label column sm="2">
               GitHub URL
@@ -197,6 +149,7 @@ const CodeReviewerAssignmentView = () => {
                   updateAssignment("githubUrl", event.target.value)
                 }
                 type="url"
+                readOnly
                 value={assignment.githubUrl}
                 placeholder="http//github.com"
               />
@@ -213,8 +166,26 @@ const CodeReviewerAssignmentView = () => {
                   updateAssignment("branch", event.target.value)
                 }
                 type="text"
+                readOnly
                 value={assignment.branch}
                 placeholder="master"
+              />
+            </Col>
+          </Form.Group>
+
+          {/**https://youtu.be/SOyfQCsOvO4?si=S6KBoGBnYrkOLi8G&t=560 */}
+          <Form.Group as={Row} className="mb-3" controlId="branch">
+            <Form.Label column sm="2">
+              Video Review URL
+            </Form.Label>
+            <Col sm="10">
+              <Form.Control
+                onChange={(event) =>
+                  updateAssignment("codeReviewVideoUrl", event.target.value)
+                }
+                type="text"
+                value={assignment.codeReviewVideoUrl}
+                placeholder="https/my-review-video-url"
               />
             </Col>
           </Form.Group>
