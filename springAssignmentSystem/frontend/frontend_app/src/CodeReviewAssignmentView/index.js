@@ -14,7 +14,11 @@ import DropdownButton from "react-bootstrap/DropdownButton";
 import userEvent from "@testing-library/user-event";
 
 const CodeReviewerAssignmentView = () => {
-  const assignmentId = window.location.href.split("/assignments/")[1];
+  console.log(
+    ">>> (CodeReviewerAssignmentView) window.location.href = " +
+      window.location.href
+  );
+  const assignmentId = window.location.href.split("/code_review/")[1];
   // https://youtu.be/zQiKOu8iGco?si=zRyGka60wy07xUrV&t=1934
   // init a new assignment
   const [assignment, setAssignment] = useState({
@@ -32,7 +36,6 @@ const CodeReviewerAssignmentView = () => {
   // https://youtu.be/2XRQzR4y2yM?si=p8QcytO5aBC6ufBj&t=459
   // setup current status
   const previousAssignmentValue = useRef(assignment);
-  //console.log(">>> previousAssignmentValue = " + JSON.stringify(previousAssignmentValue))
 
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
@@ -86,20 +89,6 @@ const CodeReviewerAssignmentView = () => {
     // V2
     // https://youtu.be/w6YUDqKiT8I?si=pXIQhoWmGDLjQgtI&t=803
     ajax(`/api/assignments/${assignmentId}`, "GET", getJwt)
-      // V1
-      // fetch(`/api/assignments/${assignmentId}`, {
-      //   headers: {
-      //     "Content-type": "application/json",
-      //     Authentication: `Bearer ${getJwt}`,
-      //   },
-      //   method: "GET",
-      // })
-      //   .then((response) => {
-      //     if (response.status === 200) {
-      //       return response.json();
-      //     }
-      //   })
-
       // https://youtu.be/K-ywr1I1mr0?si=nFWaN1mbJ8cKub_r&t=845
       .then((assignmentsResponse) => {
         let assignmentsData = assignmentsResponse.assignment;

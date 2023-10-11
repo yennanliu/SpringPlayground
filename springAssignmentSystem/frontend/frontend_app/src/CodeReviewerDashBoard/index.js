@@ -17,7 +17,8 @@ const CodeReviewerDashboard = () => {
 
   // https://youtu.be/SOyfQCsOvO4?si=7WyTqRP2AlsyPAkx&t=207
   function editReview(assignment) {
-    window.location.href = `/assignments/${assignment.id}`;
+    console.log(">>> (editReview) assignment = " + JSON.stringify(assignment));
+    window.location.href = `/code_review/${assignment.id}`;
   }
 
   // https://youtu.be/utXVb3R1yuE?si=4Hv8qBS_gQ8mJVfF&t=408

@@ -32,8 +32,7 @@ const AssignmentView = () => {
   // https://youtu.be/2XRQzR4y2yM?si=p8QcytO5aBC6ufBj&t=459
   // setup current status
   const previousAssignmentValue = useRef(assignment);
-  //console.log(">>> previousAssignmentValue = " + JSON.stringify(previousAssignmentValue))
-
+  
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
     //assignment[prop] = value;
