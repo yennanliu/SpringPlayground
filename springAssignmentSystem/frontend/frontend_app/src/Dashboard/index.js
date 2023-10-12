@@ -57,7 +57,8 @@ const Dashboard = () => {
       .then((assignment) => {
         console.log("BE response = " + assignment);
         // redirect to new assignment URL
-        window.location.href = `/assignments/${assignment.id}`;
+        //window.location.href = `/assignments/${assignment.id}`;
+        navigate(`/assignments/${assignment.id}`);
       });
   }
 
@@ -76,7 +77,8 @@ const Dashboard = () => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setJwt(null);
-              window.location.href = "/login";
+              //window.location.href = "/login";
+              navigate("/login");
             }}
           >
             Logout

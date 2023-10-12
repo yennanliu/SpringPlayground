@@ -3,19 +3,15 @@ import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link, json } from "react-router-dom";
 import { Badge, Button, Container } from "react-bootstrap";
-
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-
+import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";
 
-// import ButtonGroup from "react-bootstrap/ButtonGroup";
-// import Dropdown from "react-bootstrap/Dropdown";
-// import DropdownButton from "react-bootstrap/DropdownButton";
-// import userEvent from "@testing-library/user-event";
-
 const CodeReviewerAssignmentView = () => {
+  const navigate = useNavigate();
+
   console.log(
     ">>> (CodeReviewerAssignmentView) window.location.href = " +
       window.location.href
@@ -211,7 +207,10 @@ const CodeReviewerAssignmentView = () => {
 
           <Button
             variant="secondary"
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() =>
+              //window.location.href = "/dashboard"
+              navigate("/dashboard")
+            }
           >
             Back
           </Button>
