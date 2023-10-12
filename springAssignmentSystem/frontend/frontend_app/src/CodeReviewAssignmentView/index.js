@@ -49,7 +49,6 @@ const CodeReviewerAssignmentView = () => {
 
     // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
-
     // https://youtu.be/SOyfQCsOvO4?si=Eu1z9CWZO0c-e3Zq&t=816
 
     console.log(
@@ -101,9 +100,9 @@ const CodeReviewerAssignmentView = () => {
       .then((assignmentsResponse) => {
         let assignmentsData = assignmentsResponse.assignment;
 
-        console.log("BE response assignmentsData = " + assignmentsData);
-        console.log("BE response branch = " + assignmentsData.branch);
-        console.log("BE response githubUrl = " + assignmentsData.githubUrl);
+        // console.log("BE response assignmentsData = " + assignmentsData);
+        // console.log("BE response branch = " + assignmentsData.branch);
+        // console.log("BE response githubUrl = " + assignmentsData.githubUrl);
 
         if (assignmentsData.branch === null) {
           assignmentsData.branch = "";

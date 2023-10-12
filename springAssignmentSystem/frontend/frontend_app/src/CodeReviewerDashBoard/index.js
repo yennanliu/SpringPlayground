@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import { Link } from "react-router-dom";
 import ajax from "../Services/fetchService";
-// import Card from "react-bootstrap/Card";
 import { Button, Card, Col, Row, Badge, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";

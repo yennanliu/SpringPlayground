@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import { Link } from "react-router-dom";
 import ajax from "../Services/fetchService";
-// import Card from "react-bootstrap/Card";
 import { Button, Card, Col, Row, Badge } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";
@@ -40,20 +39,6 @@ const Dashboard = () => {
     console.log("createAssignment ...");
     // V2
     ajax("/api/assignments/", "POST", getJwt)
-      // V1
-      // fetch("/api/assignments/", {
-      //   headers: {
-      //     "Content-type": "application/json",
-      //     Authentication: `Bearer ${getJwt}`,
-      //   },
-      //   method: "POST",
-      //   body: JSON.stringify({ user: "admin-user" }),
-      // })
-      // .then((response) => {
-      //   if (response.status === 200) {
-      //     return response.json();
-      //   }
-      // })
       .then((assignment) => {
         console.log("BE response = " + assignment);
         // redirect to new assignment URL
