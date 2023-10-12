@@ -27,7 +27,19 @@ Table merchant {
     status varchar
 }
 
+Table orders {
+    id varchar [primary key]
+    merchant_id integer
+    prodcut_id integer
+    amount integer
+    create_time datatime
+    update_time datatime
+}
+
 
 
 Ref: product.id > product_type.id // many-to-one
 Ref: product.merchant_id > merchant.id // many-to-one
+
+Ref: product.id > orders.prodcut_id // many-to-one
+Ref: merchant.id > orders.merchant_id // many-to-one

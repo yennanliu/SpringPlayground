@@ -1,7 +1,18 @@
 # Spring Warehouse System
 > Build a Warehouse admin system with Spring boot
+> This system is internal operation team, for product, merchant, order management
+> Warehouse data are maintained, managed via this simple app
 
-## Steps
+- Data Model
+<p align="center"><img src ="./springWarehouse/doc/pic/data_model.png"></p>
+
+- Main functionality
+  - Add, remove, modify on *product* (storage), type, merchant, order
+
+- Terms
+  - Product : goods storage in warehouse
+  - Merchant : business (company) who owns product
+  - Orders : a transaction, product from warehouse will be sent to client 
 
 ## Run
 
