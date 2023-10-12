@@ -12,6 +12,8 @@ import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 
+import StatusBadge from "../StatusBadge";
+
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
   // https://youtu.be/zQiKOu8iGco?si=zRyGka60wy07xUrV&t=1934
@@ -31,7 +33,7 @@ const AssignmentView = () => {
   // https://youtu.be/2XRQzR4y2yM?si=p8QcytO5aBC6ufBj&t=459
   // setup current status
   const previousAssignmentValue = useRef(assignment);
-  
+
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
     //assignment[prop] = value;
@@ -138,9 +140,12 @@ const AssignmentView = () => {
           )}
         </Col>
         <Col>
-          <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
+          {/* <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
             {assignment.status}
-          </Badge>
+          </Badge> */}
+          <div className="d-flex align-items-start">
+            <StatusBadge text={assignment.status} />
+          </div>
         </Col>
       </Row>
       <p></p>

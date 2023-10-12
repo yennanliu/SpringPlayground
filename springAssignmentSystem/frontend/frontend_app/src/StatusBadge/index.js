@@ -3,7 +3,7 @@ import { Badge } from "react-bootstrap";
 
 // https://github.com/tp02ga/AssignmentSubmissionApp/blob/master/front-end/src/StatusBadge/index.js
 // https://youtu.be/MGtkDvpD6rs?si=8fiI7fI_uO9vqr3b&t=729
-
+// https://youtu.be/d_YH4TnLuhk?si=T5FeTjUEDWkkJkKl&t=431
 const StatusBadge = (props) => {
   const { text } = props;
   function getColorOfBadge() {

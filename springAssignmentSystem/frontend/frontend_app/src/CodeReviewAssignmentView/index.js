@@ -8,10 +8,12 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import userEvent from "@testing-library/user-event";
+import StatusBadge from "../StatusBadge";
+
+// import ButtonGroup from "react-bootstrap/ButtonGroup";
+// import Dropdown from "react-bootstrap/Dropdown";
+// import DropdownButton from "react-bootstrap/DropdownButton";
+// import userEvent from "@testing-library/user-event";
 
 const CodeReviewerAssignmentView = () => {
   console.log(
@@ -139,9 +141,12 @@ const CodeReviewerAssignmentView = () => {
           )}
         </Col>
         <Col>
-          <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
+          {/* <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
             {assignment.status}
-          </Badge>
+          </Badge> */}
+          <div className="d-flex align-items-start">
+            <StatusBadge text={assignment.status} />
+          </div>
         </Col>
       </Row>
       <p></p>
