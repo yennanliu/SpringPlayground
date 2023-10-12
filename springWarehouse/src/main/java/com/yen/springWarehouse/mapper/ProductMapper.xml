@@ -11,6 +11,7 @@
         name,
         type_id,
         price,
+        merchant_id,
         product_status,
         amount
     </sql>

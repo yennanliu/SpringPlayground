@@ -67,6 +67,12 @@ java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
     - system admin
 3. Add amount to Product bean
 4. Add batch add/delete
+5. Code refactor
+6. Unit test
+7. Deployment
+   1. DockerFile
+   2. CI/CD
+   3. logs
 
 
 ## Ref

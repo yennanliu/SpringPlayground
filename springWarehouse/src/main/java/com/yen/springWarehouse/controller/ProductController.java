@@ -2,6 +2,7 @@ package com.yen.springWarehouse.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.Product;
+import com.yen.springWarehouse.service.MerchantService;
 import com.yen.springWarehouse.service.ProductService;
 import com.yen.springWarehouse.service.ProductTypeService;
 import com.yen.springWarehouse.util.ProductQueryHelper;
@@ -27,13 +28,17 @@ public class ProductController {
     @Autowired
     ProductTypeService productTypeService;
 
+    @Autowired
+    MerchantService merchantService;
+
     @GetMapping("/toInput")
     public String toInput(Map<String, Object> map, Product product) {
 
         map.put("productTypeList", productTypeService.list());
+        map.put("merchantList", merchantService.list());
         product.setProductStatus("O");
         //product.setproductReqs(new String[]{"a","b"}); // TODO : check if necessary
-        log.info("new product = " + product);
+        log.info("(toInput) new product = " + product + " map = " + map);
         map.put("product", product);
         return "product/input_product";
     }
