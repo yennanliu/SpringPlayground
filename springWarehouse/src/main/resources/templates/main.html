@@ -32,6 +32,13 @@
         <div class="menuitem">
             <a th:href="@{/merchant/list}" target="contentFrame">Merchant Update</a>
         </div>
+        <div class="seperator"></div>
+        <div class="menuitem">
+            <a th:href="@{/order/toInput}"  target="contentFrame">New Order</a>
+        </div>
+        <div class="menuitem">
+            <a th:href="@{/order/list}" target="contentFrame">Order Update</a>
+        </div>
     </div>
     <div id="content">
         <iframe id="contentFrame" width="100%" scrolling="no" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="@{/welcome.html}">

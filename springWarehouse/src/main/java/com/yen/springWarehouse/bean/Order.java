@@ -14,13 +14,14 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("order")
+@TableName("orders")
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 58533333369667604L;
 
-    @TableId(type = IdType.AUTO)
-    private int id;
+    // https://www.cnblogs.com/mark5/p/14268122.html
+    @TableId(type = IdType.ASSIGN_UUID)
+    private String id;
 
     @TableField("merchant_id")
     private int merchantId;
