@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>modify merchant</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+</head>
+<body style="padding:8px;">
+<h3 class="title">modify merchant</h3>
+<form th:action="@{/merchant/update}" method="post" th:object="${merchant}">
+    <input type="hidden" name="_method" value="PUT"/>
+    <input type="hidden" name="id" th:value="*{id}">
+    <div>
+        <span>Merchant name:</span>
+        <input type="text" name="name" th:value="*{name}" placeholder="Merchant name">
+    </div>
+    <div>
+        <span>Merchant city:</span>
+        <input type="text" name="city" th:value="*{city}" placeholder="Merchant city">
+    </div>
+    <div>
+        <input type="submit" value=" 确定 "/>
+    </div>
+</form>
+</body>
+</html>

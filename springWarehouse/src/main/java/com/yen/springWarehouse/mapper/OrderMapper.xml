@@ -12,7 +12,7 @@
         select
         *
         from
-        order
+        orders
         <where>
             ${ew.sqlSegment}
         </where>
