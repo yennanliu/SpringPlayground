@@ -5,8 +5,6 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.Order;
-import com.yen.springWarehouse.bean.Product;
-import com.yen.springWarehouse.bean.ProductType;
 import com.yen.springWarehouse.service.MerchantService;
 import com.yen.springWarehouse.service.OrderService;
 import com.yen.springWarehouse.service.ProductService;
@@ -77,13 +75,22 @@ public class OrderController {
         return "order/list_order";
     }
 
+    // TODO : only allow cancel if order status is "uncompleted"
+    @PostMapping(value="/remove/{orderNo}")
+    public String remove(@PathVariable("orderNo") String orderNo) {
+
+        orderService.removeById(orderNo);
+        return "redirect:/order/list";
+    }
+
+    // TODO : only allow update if order status is "uncompleted"
     @GetMapping(value="/preUpdate/{orderNo}")
     public String preUpdate(@PathVariable("orderNo") String orderNo, Map<String, Object> map) {
 
         Order order = orderService.getById(orderNo);
         map.put("order" , order);
         map.put("orderList", orderService.list());
-        return "product/update_order";
+        return "order/update_order";
     }
 
     @PostMapping(value="/update")

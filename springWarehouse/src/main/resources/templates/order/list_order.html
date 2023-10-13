@@ -26,7 +26,7 @@
         <td id="amount" th:text="${order.amount}" nowrap></td>
         <td nowrap>
             <button class="update" th:href="@{/order/preUpdate/{id}(id=${order.id})}" >修改</button>
-            <button class="delete" th:href="@{/order/remove/{id}(id=${order.id})}">删除</button>
+            <button class="delete" th:href="@{/order/remove/{id}(id=${order.id})}">Cancel Order</button>
         </td>
     </tr>
 
