@@ -79,6 +79,7 @@ public class ProductController {
 
         Page<Product> page = productService.getProductPage(helper, pageNo, PAGE_SIZE);
         map.put("productTypeList", productTypeService.list());
+        map.put("merchantList", merchantService.list());
         map.put("page", page);
         map.put("helper", helper);
         log.info("(ProductController list) map = {}", map);
