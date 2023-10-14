@@ -32,6 +32,9 @@ public class Order implements Serializable {
     @TableField("amount")
     private int amount;
 
+    @TableField("status")
+    private String status;
+
     @TableField("create_time")
     private LocalDateTime createTime;
 

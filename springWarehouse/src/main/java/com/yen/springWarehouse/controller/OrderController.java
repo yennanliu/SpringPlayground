@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.Order;
+import com.yen.springWarehouse.enums.OrderStatus;
 import com.yen.springWarehouse.service.MerchantService;
 import com.yen.springWarehouse.service.OrderService;
 import com.yen.springWarehouse.service.ProductService;
@@ -41,6 +42,7 @@ public class OrderController {
     @PostMapping("/create")
     public String create(Order order) {
 
+        order.setStatus(OrderStatus.Pending.getMsg());
         log.info("(OrderController.create) Create new order : " + order.toString());
         orderService.save(order);
         return "redirect:/order/list";
