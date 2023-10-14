@@ -10,4 +10,6 @@ import com.yen.springWarehouse.util.ProductQueryHelper;
 public interface OrderService extends IService<Order> {
 
     Page<Order> getOrderPage(OrderQueryHelper helper, Integer pageNo, Integer pageSize);
+
+    Boolean updateProductWithOrder(Order order);
 }

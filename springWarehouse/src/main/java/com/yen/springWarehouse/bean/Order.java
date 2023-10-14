@@ -24,13 +24,13 @@ public class Order implements Serializable {
     private String id;
 
     @TableField("merchant_id")
-    private int merchantId;
+    private Integer merchantId;
 
     @TableField("product_id")
-    private int productId;
+    private Integer productId;
 
     @TableField("amount")
-    private int amount;
+    private Integer amount;
 
     @TableField("status")
     private String status;
