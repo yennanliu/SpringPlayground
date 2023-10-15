@@ -28,6 +28,9 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Autowired
     ProductService productService;
 
+    @Autowired
+    OrderMapper orderMapper;
+
 
     @Override
     public Page<Order> getOrderPage(OrderQueryHelper helper, Integer pageNo, Integer pageSize) {
@@ -75,6 +78,11 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
         product.setAmount(diff);
         productService.updateById(product);
         return true;
+    }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderMapper.getAllOrders();
     }
 
 }

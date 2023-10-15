@@ -9,14 +9,18 @@
 
     <!-- SQL query with paging, NOTE : if there is group type in Mybatis, only use element type in group -->
     <select id="getOrderList" resultType="com.yen.springWarehouse.bean.Order">
-        select
+        SELECT
         *
-        from
+        FROM
         orders
         <where>
             ${ew.sqlSegment}
         </where>
+    </select>
 
+    <!--  List<Order> getAllOrders(); -->
+    <select id="getAllOrders" resultType="com.yen.springWarehouse.bean.Order">
+        SELECT * FROM orders
     </select>
 
 </mapper>
