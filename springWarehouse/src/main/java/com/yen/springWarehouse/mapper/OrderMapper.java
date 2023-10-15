@@ -14,4 +14,5 @@ public interface OrderMapper extends BaseMapper<Order> {
 
     List<Order> getOrderList(Page<Order> orderPage, @Param("ew") Wrapper<Order> wrapper);
 
+    List<Order> getAllOrders();
 }

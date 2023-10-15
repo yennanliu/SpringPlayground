@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -110,6 +111,16 @@ public class OrderController {
         log.info("update order as {}", order);
         orderService.updateById(order);
         return "redirect:/order/list";
+    }
+
+    // TODO : fix below
+    /**
+     *  download order data as csv
+     *  https://pdai.tech/md/spring/springboot/springboot-x-file-upload-download.html
+     */
+    @GetMapping(value="/download")
+    public void download(){
+        List<Order> orders = orderService.getAllOrders();
     }
 
 }

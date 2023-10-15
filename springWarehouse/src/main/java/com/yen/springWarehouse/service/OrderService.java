@@ -7,9 +7,13 @@ import com.yen.springWarehouse.bean.Product;
 import com.yen.springWarehouse.util.OrderQueryHelper;
 import com.yen.springWarehouse.util.ProductQueryHelper;
 
+import java.util.List;
+
 public interface OrderService extends IService<Order> {
 
     Page<Order> getOrderPage(OrderQueryHelper helper, Integer pageNo, Integer pageSize);
 
     Boolean updateProductWithOrder(Order order);
+
+    List<Order> getAllOrders();
 }
