@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 @Slf4j
@@ -50,6 +51,7 @@ public class OrderController {
         }
 
         order.setStatus(OrderStatus.Pending.getMsg());
+        order.setCreateTime(LocalDateTime.now());
         log.info("(OrderController.create) Create new order : " + order.toString());
         orderService.save(order);
         return "redirect:/order/list";
