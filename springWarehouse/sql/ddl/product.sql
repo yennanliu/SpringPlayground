@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS product(
 );
 
 -- DML
-INSERT INTO product(name, type_id, price, merchant_id, product_status)
+INSERT INTO product(name, type_id, price, merchant_id, amount, product_status)
 VALUES
-("i-phone", 2, 300, 1, "0"),
-("cookie2", 4, 10, 2, "0"),
-("soap", 1, 50, 1, "0");
+("i-phone", 2, 300, 1, 3, "0"),
+("cookie2", 4, 10, 2, 2, "0"),
+("soap", 1, 50, 1, 1, "0");
