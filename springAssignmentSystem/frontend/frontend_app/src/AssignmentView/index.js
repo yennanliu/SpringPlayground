@@ -1,16 +1,15 @@
-import React, { useEffect, useInsertionEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link } from "react-router-dom";
-import { Badge, Button, Container } from "react-bootstrap";
-
+import { Button, Container } from "react-bootstrap";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
+import StatusBadge from "../StatusBadge";
 
 const AssignmentView = () => {
   const assignmentId = window.location.href.split("/assignments/")[1];
@@ -31,7 +30,7 @@ const AssignmentView = () => {
   // https://youtu.be/2XRQzR4y2yM?si=p8QcytO5aBC6ufBj&t=459
   // setup current status
   const previousAssignmentValue = useRef(assignment);
-  
+
   // https://youtu.be/zQiKOu8iGco?si=w4oK-Ap9YBPTTEWl&t=2007
   function updateAssignment(prop, value) {
     //assignment[prop] = value;
@@ -43,7 +42,6 @@ const AssignmentView = () => {
 
   function saveAssignment() {
     // call BE API save assignment
-
     // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
     if (assignment.status === assignmentStatuses[0].status) {
@@ -101,11 +99,9 @@ const AssignmentView = () => {
       // https://youtu.be/K-ywr1I1mr0?si=nFWaN1mbJ8cKub_r&t=845
       .then((assignmentsResponse) => {
         let assignmentsData = assignmentsResponse.assignment;
-
-        console.log("BE response assignmentsData = " + assignmentsData);
-        console.log("BE response branch = " + assignmentsData.branch);
-        console.log("BE response githubUrl = " + assignmentsData.githubUrl);
-
+        // console.log("BE response assignmentsData = " + assignmentsData);
+        // console.log("BE response branch = " + assignmentsData.branch);
+        // console.log("BE response githubUrl = " + assignmentsData.githubUrl);
         if (assignmentsData.branch === null) {
           assignmentsData.branch = "";
         }
@@ -138,9 +134,9 @@ const AssignmentView = () => {
           )}
         </Col>
         <Col>
-          <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
-            {assignment.status}
-          </Badge>
+          <div className="d-flex align-items-start">
+            <StatusBadge text={assignment.status} />
+          </div>
         </Col>
       </Row>
       <p></p>
@@ -184,14 +180,6 @@ const AssignmentView = () => {
                     {assignmentEnum.assignmentNum}
                   </Dropdown.Item>
                 ))}
-
-                {/* <Dropdown.Item eventKey="1">Action</Dropdown.Item>
-                <Dropdown.Item eventKey="2">Another action</Dropdown.Item>
-                <Dropdown.Item eventKey="3" active>
-                  Active Item
-                </Dropdown.Item> */}
-                {/* <Dropdown.Divider />
-                <Dropdown.Item eventKey="4">Separated link</Dropdown.Item> */}
               </DropdownButton>
             </Col>
           </Form.Group>

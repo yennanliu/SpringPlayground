@@ -3,17 +3,15 @@ import { useLocalState } from "../util/useLocalStorage";
 import ajax from "../Services/fetchService";
 import { Link, json } from "react-router-dom";
 import { Badge, Button, Container } from "react-bootstrap";
-
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
-
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-import Dropdown from "react-bootstrap/Dropdown";
-import DropdownButton from "react-bootstrap/DropdownButton";
-import userEvent from "@testing-library/user-event";
+import { useNavigate } from "react-router-dom";
+import StatusBadge from "../StatusBadge";
 
 const CodeReviewerAssignmentView = () => {
+  const navigate = useNavigate();
+
   console.log(
     ">>> (CodeReviewerAssignmentView) window.location.href = " +
       window.location.href
@@ -51,7 +49,6 @@ const CodeReviewerAssignmentView = () => {
 
     // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
-
     // https://youtu.be/SOyfQCsOvO4?si=Eu1z9CWZO0c-e3Zq&t=816
 
     console.log(
@@ -103,9 +100,9 @@ const CodeReviewerAssignmentView = () => {
       .then((assignmentsResponse) => {
         let assignmentsData = assignmentsResponse.assignment;
 
-        console.log("BE response assignmentsData = " + assignmentsData);
-        console.log("BE response branch = " + assignmentsData.branch);
-        console.log("BE response githubUrl = " + assignmentsData.githubUrl);
+        // console.log("BE response assignmentsData = " + assignmentsData);
+        // console.log("BE response branch = " + assignmentsData.branch);
+        // console.log("BE response githubUrl = " + assignmentsData.githubUrl);
 
         if (assignmentsData.branch === null) {
           assignmentsData.branch = "";
@@ -139,9 +136,12 @@ const CodeReviewerAssignmentView = () => {
           )}
         </Col>
         <Col>
-          <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
+          {/* <Badge pill bg="info" style={{ fontSize: "1.3em" }}>
             {assignment.status}
-          </Badge>
+          </Badge> */}
+          <div className="d-flex align-items-start">
+            <StatusBadge text={assignment.status} />
+          </div>
         </Col>
       </Row>
       <p></p>
@@ -206,7 +206,10 @@ const CodeReviewerAssignmentView = () => {
 
           <Button
             variant="secondary"
-            onClick={() => (window.location.href = "/dashboard")}
+            onClick={() =>
+              //window.location.href = "/dashboard"
+              navigate("/dashboard")
+            }
           >
             Back
           </Button>

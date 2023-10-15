@@ -5,7 +5,6 @@ import React, { useEffect, useState } from "react";
 import { useLocalState } from "../util/useLocalStorage";
 import { Link } from "react-router-dom";
 import ajax from "../Services/fetchService";
-// import Card from "react-bootstrap/Card";
 import { Button, Card, Col, Row, Badge, Container } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import StatusBadge from "../StatusBadge";
@@ -18,7 +17,8 @@ const CodeReviewerDashboard = () => {
   // https://youtu.be/SOyfQCsOvO4?si=7WyTqRP2AlsyPAkx&t=207
   function editReview(assignment) {
     console.log(">>> (editReview) assignment = " + JSON.stringify(assignment));
-    window.location.href = `/code_review/${assignment.id}`;
+    //window.location.href = `/code_review/${assignment.id}`;
+    navigate(`/code_review/${assignment.id}`);
   }
 
   // https://youtu.be/utXVb3R1yuE?si=4Hv8qBS_gQ8mJVfF&t=408
@@ -59,7 +59,8 @@ const CodeReviewerDashboard = () => {
     ajax("/api/assignments/", "POST", getJwt).then((assignment) => {
       console.log("BE response = " + assignment);
       // redirect to new assignment URL
-      window.location.href = `/assignments/${assignment.id}`;
+      //window.location.href = `/assignments/${assignment.id}`;
+      navigate(`/assignments/${assignment.id}`);
     });
   }
 
@@ -74,7 +75,8 @@ const CodeReviewerDashboard = () => {
             style={{ cursor: "pointer" }}
             onClick={() => {
               setJwt(null);
-              window.location.href = "/login";
+              //window.location.href = "/login";
+              navigate("/login");
             }}
           >
             Logout
