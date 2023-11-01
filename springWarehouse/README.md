@@ -112,7 +112,7 @@ mysql -u root
 #---------------------------
 # Step 2) run App
 #---------------------------
-java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
+nohup java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar &
 ```
 
 </details>
