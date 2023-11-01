@@ -3,7 +3,7 @@ version: '3'
 services:
   spring-warehouse:
     build:
-      context: ./springWarehouse
+      context: .
       dockerfile: Dockerfile
     ports:
       - "7777:7777"
