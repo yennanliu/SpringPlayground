@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  spring-warehouse:
+    build:
+      context: ./springWarehouse
+      dockerfile: Dockerfile
+    ports:
+      - "7777:7777"
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DATABASE: warehouse_system
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
+
+  mysql:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_DATABASE: warehouse_system
+      MYSQL_USER: root
+      MYSQL_PASSWORD:
