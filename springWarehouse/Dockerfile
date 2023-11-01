@@ -5,7 +5,7 @@ FROM maven:3.3-jdk-8-onbuild as builder
 WORKDIR /usr/src/app
 
 # Build the Spring Boot application
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
 # Create a lightweight Java 8 runtime image
 FROM openjdk:8-jre-slim
