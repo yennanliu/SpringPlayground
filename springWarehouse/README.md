@@ -46,6 +46,21 @@ java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
 
 </details>
 
+
+## Run (Docker)
+
+<details>
+<summary>App</summary>
+
+```bash
+git clone https://github.com/yennanliu/SpringPlayground.git
+cd SpringPlayground/springWarehouse
+docker build -t spring-warehouse .
+docker run -p 7777:7777 spring-warehouse
+```
+
+</details>
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
