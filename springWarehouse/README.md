@@ -24,7 +24,7 @@ Warehouse data are maintained, managed via this app
 - Mysql
 
 
-## Run
+## Run (local)
 
 <details>
 <summary>App</summary>
