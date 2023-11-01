@@ -8,14 +8,27 @@
 </head>
 <body style="padding:8px;">
     <h3 class="title">Add New Product Type</h3>
+
+    <h4 class="sub-title">Add single</h4>
     <form th:action="@{/productType/create}" method="post" th:object="${productType}">
         <div>
             <span>Product Type Name:</span>
             <input type="text" name="typeName" placeholder="Product Type Name">
         </div>
-        <div>
-            <input type="submit" value=" confirm "/>
-        </div>
+<!--        <div>-->
+<!--            <input type="submit" class="btn btn-primary" value=" confirm "/>-->
+<!--        </div>-->
+        <button type="submit" class="btn btn-primary" value=" confirm ">Add</button>
     </form>
+
+    <h4 class="sub-title">Add multiple</h4>
+    <form method="post" th:action="@{/productType/create_batch}" enctype="multipart/form-data">
+        <div class="form-group mt-3">
+            <label for="file">Select a CSV file</label>
+            <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+        </div>
+        <button type="submit" class="btn btn-primary">Import</button>
+    </form>
+
 </body>
 </html>

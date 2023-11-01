@@ -4,15 +4,19 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.yen.springWarehouse.bean.Product;
 import com.yen.springWarehouse.bean.ProductType;
-import com.yen.springWarehouse.service.ProductService;
 import com.yen.springWarehouse.service.ProductTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -37,14 +41,62 @@ public class ProductTypeController {
         return "redirect:/productType/list";
     }
 
+    // https://betterjavacode.com/java/how-to-file-upload-using-spring-boot
+    @PostMapping("/create_batch")
+    public String createBatch(@RequestParam("file") MultipartFile file, Map<String, Object> map) {
+
+        final String TYPE_ID = "type_id";
+        final String TYPE_NAME = "type_name";
+
+        log.info(">>> (create_batch) file = " + file.getSize());
+
+        if (file.isEmpty()) {
+            map.put("message", "Please select a CSV file to upload.");
+            map.put("status", false);
+            return "redirect:/productType/list";
+        }
+
+        BufferedReader bufferedReader;
+        List result = new ArrayList<>();
+
+        // TODO : refactor below as service
+        try {
+            String line;
+            InputStream inputStream = file.getInputStream();
+            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] productTypeData = line.split(",");
+                log.info(">>> (create_batch) line = " + line);
+                if (productTypeData == null || productTypeData.length != 2) {
+                    throw new RuntimeException("Input csv schema is wrong");
+                }
+                if (TYPE_ID.equalsIgnoreCase(productTypeData[0]) && TYPE_NAME.equalsIgnoreCase(productTypeData[1])) {
+                    continue; // first line is header
+                }
+                ProductType productType = new ProductType();
+                productType.setTypeId(Integer.parseInt(productTypeData[0]));
+                productType.setTypeName(productTypeData[1]);
+                result.add(productType);
+            }
+            // save to DB
+            productTypeService.saveBatch(result);
+            map.put("status", true);
+        } catch (Exception e) {
+            log.error(">>> (create_batch) exception : " + e);
+            map.put("status", false);
+        }
+
+        return "redirect:/productType/list";
+    }
+
     @GetMapping("/list")
-    public String list(Map<String, Object> map, @RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr) {
+    public String list(Map<String, Object> map, @RequestParam(value = "pageNo", required = false, defaultValue = "1") String pageNoStr) {
 
         int pageNo;
 
         // check pageNo
         pageNo = Integer.parseInt(pageNoStr);
-        if(pageNo < 1){
+        if (pageNo < 1) {
             pageNo = 1;
         }
 
