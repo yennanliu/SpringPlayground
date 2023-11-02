@@ -59,7 +59,7 @@ public class ProductTypeController {
         BufferedReader bufferedReader;
         List result = new ArrayList<>();
 
-        // TODO : refactor below as service
+        // TODO : refactor below as a service
         try {
             String line;
             InputStream inputStream = file.getInputStream();
