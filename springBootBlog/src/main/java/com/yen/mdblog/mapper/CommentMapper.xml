@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yen.mdblog.mapper.CommentMapper">
+
+    <!-- public List<Comment> getCommentByPostId(Long postId); -->
+    <select id="getCommentByPostId" resultType="com.yen.mdblog.entity.Po.Comment" parameterType="long">
+        SELECT * FROM comment where post_id = #{postId}
+    </select>
+
+    <!-- public void insertComment(Comment comment); -->
+    <insert id="insertComment">
+        INSERT INTO comment(`author_id`,`post_id`,`comment_content`, `create_time`, `update_time`)
+        values(#{authorId}, #{postId},  #{commentContent}, #{createTime}, #{updateTime})
+    </insert>
+
+</mapper>
