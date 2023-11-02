@@ -51,12 +51,12 @@ const CodeReviewerAssignmentView = () => {
     // means when submit an assignment at the first time
     // https://youtu.be/SOyfQCsOvO4?si=Eu1z9CWZO0c-e3Zq&t=816
 
-    console.log(
-      "(saveAssignment) status =  " +
-        status +
-        ",  assignment = " +
-        JSON.stringify(assignment)
-    );
+    // console.log(
+    //   "(saveAssignment) status =  " +
+    //     status +
+    //     ",  assignment = " +
+    //     JSON.stringify(assignment)
+    // );
 
     if (status && assignment.status !== status) {
       updateAssignment("status", status);

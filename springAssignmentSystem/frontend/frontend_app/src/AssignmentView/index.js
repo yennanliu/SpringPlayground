@@ -40,12 +40,21 @@ const AssignmentView = () => {
     console.log(assignment);
   }
 
-  function saveAssignment() {
+  function saveAssignment(status) {
     // call BE API save assignment
     // https://youtu.be/2XRQzR4y2yM?si=aiNeLhS3SXsU18HE&t=833
     // means when submit an assignment at the first time
-    if (assignment.status === assignmentStatuses[0].status) {
-      updateAssignment("status", assignmentStatuses[1].status);
+
+    // https://youtu.be/d_YH4TnLuhk?si=eYDtONFyA5U5hVZM&t=1134
+    // if (assignment.status === assignmentStatuses[0].status) {
+    //   updateAssignment("status", assignmentStatuses[1].status);
+    // } else {
+    //   // https://youtu.be/2XRQzR4y2yM?si=RDbtHpdUnVs8j7JE&t=1109
+    //   persist();
+    // }
+
+    if (status && assignment.status != status) {
+      updateAssignment("status", status);
     } else {
       // https://youtu.be/2XRQzR4y2yM?si=RDbtHpdUnVs8j7JE&t=1109
       persist();
@@ -216,7 +225,9 @@ const AssignmentView = () => {
             </Col>
           </Form.Group>
 
-          <Button onClick={() => saveAssignment()}>Submit Assignment</Button>
+          <Button onClick={() => saveAssignment("Submitted")}>
+            Submit Assignment
+          </Button>
         </>
       ) : (
         <></>
