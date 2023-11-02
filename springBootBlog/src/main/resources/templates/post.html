@@ -19,5 +19,16 @@
 		<p th:utext="${post.content}">Content</p>
 	</article>
 </div>
+
+<!-- comment -->
+<div th:if="${not #lists.isEmpty(comments)}" th:each="comment : ${comments}" class="card">
+	<div class="card-body">
+		<!-- <p th:text="'id: ' + ${greeting.id}" />-->
+		<p class="card-text" th:text="'ID: ' + ${comment.id}">Id</p>
+		<p class="card-text" th:text="'Author: ' + ${comment.authorId}">commenter Id</p>
+		<p class="card-text" th:text="'Content: ' + ${comment.commentContent}">content</p>
+	</div>
+</div>
+
 </body>
 </html>
