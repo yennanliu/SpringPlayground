@@ -1,7 +1,9 @@
 package com.yen.springWarehouse.util;
 
 import com.yen.springWarehouse.bean.Order;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.springframework.mock.web.MockMultipartFile;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -52,6 +54,17 @@ class csvUtilTest {
                     .map(csv_util::covertArrayToCSV)
                     .forEach(pw::println);
         }
+    }
+
+    @Test
+    public void testLoadCsvAsList(){
+
+        byte[] inputArray = "id, name \n 1, jack \n 2, may".getBytes();
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("tempFileName",inputArray);
+        System.out.println(csv_util.loadCsvAsList(mockMultipartFile).toString());
+
+        Assertions.assertFalse(mockMultipartFile.isEmpty());
+        Assertions.assertEquals(inputArray.length,mockMultipartFile.getSize());
     }
 
 }
