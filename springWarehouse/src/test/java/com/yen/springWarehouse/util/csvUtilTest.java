@@ -67,4 +67,13 @@ class csvUtilTest {
         Assertions.assertEquals(inputArray.length,mockMultipartFile.getSize());
     }
 
+    @Test
+    public void testLoadNullCsvAsList(){
+
+        byte[] inputArray = null;
+        MockMultipartFile mockMultipartFile = new MockMultipartFile("tempFileName",inputArray);
+        System.out.println(csv_util.loadCsvAsList(mockMultipartFile));
+        Assertions.assertTrue(mockMultipartFile.isEmpty());
+    }
+
 }
