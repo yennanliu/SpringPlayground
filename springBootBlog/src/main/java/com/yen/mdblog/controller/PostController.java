@@ -4,11 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.yen.mdblog.entity.Dto.SearchRequest;
 import com.yen.mdblog.entity.Po.Author;
+import com.yen.mdblog.entity.Po.Comment;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.AuthorService;
+import com.yen.mdblog.service.CommentService;
 import com.yen.mdblog.service.PostService;
 import com.yen.mdblog.util.PostUtil;
 import lombok.extern.log4j.Log4j2;
@@ -50,6 +52,9 @@ public class PostController {
 
 	@Autowired
 	PostMapper postMapper;
+
+	@Autowired
+	CommentService commentService;
 
 	@GetMapping("/all")
 	public String getPaginatedPosts(
@@ -102,7 +107,14 @@ public class PostController {
 
 		Optional<Post> postOptional = postRepository.findById(id);
 		if (postOptional.isPresent()) {
+
 			model.addAttribute("post", postOptional.get());
+
+			// load comment
+			// TODO : double check whether should do below here or in CommentController
+			List<Comment> comment = commentService.getCommentsByPostId(id);
+			//System.out.println(">>> comment len  = " + comment.size());
+
 		} else {
 			model.addAttribute("error", "no-post");
 		}
