@@ -87,6 +87,9 @@ mysql -u root
 #---------------------------
 # Step 2) run App
 #---------------------------
+# copy jar
+scp -i Downloads/yen-personal-aws-key-1.pem SpringPlayground/springBootBlog/target/md-blog-0.0.1-SNAPSHOT.jar  ubuntu@xx-yyy-zzz.ap-northeast-1.compute.amazonaws.com:/home/ubuntu
+
 nohup java -jar target/mdblog-0.0.1-SNAPSHOT.jar &
 ```
 
