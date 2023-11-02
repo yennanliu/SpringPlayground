@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.ProductType;
 import com.yen.springWarehouse.service.ProductTypeService;
+import com.yen.springWarehouse.util.csvUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,11 +14,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/productType")
@@ -45,11 +45,6 @@ public class ProductTypeController {
     @PostMapping("/create_batch")
     public String createBatch(@RequestParam("file") MultipartFile file, Map<String, Object> map) {
 
-        final String TYPE_ID = "type_id";
-        final String TYPE_NAME = "type_name";
-
-        log.info(">>> (create_batch) file = " + file.getSize());
-
         if (file.isEmpty()) {
             map.put("message", "Please select a CSV file to upload.");
             map.put("status", false);
@@ -57,35 +52,24 @@ public class ProductTypeController {
         }
 
         BufferedReader bufferedReader;
-        List result = new ArrayList<>();
-
-        // TODO : refactor below as a service
+        List<String> res = new ArrayList<>();
+        csvUtil csv_util = new csvUtil();
         try {
-            String line;
-            InputStream inputStream = file.getInputStream();
-            bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] productTypeData = line.split(",");
-                log.info(">>> (create_batch) line = " + line);
-                if (productTypeData == null || productTypeData.length != 2) {
-                    throw new RuntimeException("Input csv schema is wrong");
-                }
-                if (TYPE_ID.equalsIgnoreCase(productTypeData[0]) && TYPE_NAME.equalsIgnoreCase(productTypeData[1])) {
-                    continue; // first line is header
-                }
+            res = csv_util.loadCsvAsList(file);
+            //System.out.println(">>> res = " + res); // >>> res = ["100001,type-1", "100002,type-2", "100003,type-3"]
+            List<ProductType> productTypeList = res.stream().map(data -> {
                 ProductType productType = new ProductType();
-                productType.setTypeId(Integer.parseInt(productTypeData[0]));
-                productType.setTypeName(productTypeData[1]);
-                result.add(productType);
-            }
-            // save to DB
-            productTypeService.saveBatch(result);
+                String[] _data = data.toString().replace("|", "").split(",");
+                productType.setTypeId(Integer.parseInt(_data[0]));
+                productType.setTypeName(_data[1]);
+                return productType;
+            }).collect(Collectors.toList());
+            productTypeService.saveBatch(productTypeList);
             map.put("status", true);
         } catch (Exception e) {
-            log.error(">>> (create_batch) exception : " + e);
+            log.error(">>> load csv failed : " + e);
             map.put("status", false);
         }
-
         return "redirect:/productType/list";
     }
 
