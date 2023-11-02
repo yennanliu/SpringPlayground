@@ -112,8 +112,12 @@ public class PostController {
 
 			// load comment
 			// TODO : double check whether should do below here or in CommentController
-			List<Comment> comment = commentService.getCommentsByPostId(id);
-			//System.out.println(">>> comment len  = " + comment.size());
+			List<Comment> commentList = commentService.getCommentsByPostId(id);
+			System.out.println(">>> comment len  = " + commentList.size());
+			// only add to model when comment size > 0
+			if (commentList.size() > 0){
+				model.addAttribute("comments", commentList);
+			}
 
 		} else {
 			model.addAttribute("error", "no-post");
