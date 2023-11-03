@@ -6,6 +6,7 @@ import com.yen.mdblog.entity.Dto.SearchRequest;
 import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.entity.Po.Comment;
 import com.yen.mdblog.entity.Po.Post;
+import com.yen.mdblog.entity.Vo.CreateComment;
 import com.yen.mdblog.entity.Vo.CreatePost;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.repository.PostRepository;
@@ -109,6 +110,7 @@ public class PostController {
 		if (postOptional.isPresent()) {
 
 			model.addAttribute("post", postOptional.get());
+			model.addAttribute("comment", new CreateComment());
 
 			// load comment
 			// TODO : double check whether should do below here or in CommentController

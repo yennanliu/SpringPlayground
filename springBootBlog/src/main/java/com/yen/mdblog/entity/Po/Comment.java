@@ -1,6 +1,8 @@
 package com.yen.mdblog.entity.Po;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import javax.persistence.*;
 import java.util.*;
@@ -8,6 +10,8 @@ import java.util.*;
 @Data
 @Entity
 @ToString
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "comment")
 public class Comment {
 
