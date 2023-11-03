@@ -16,8 +16,6 @@ public interface AuthorMapper {
 
     public int getAuthorCount();
 
-//    @Insert("INSERT INTO authors(`id`,`email`,`name`,`url`) values(#{id}, #{email},  #{name}, #{url})")
-//    @Options(useGeneratedKeys = true, keyProperty = "id")
     public void insertAuthor(Author author);
 
     public void updateAuthor(Author author);

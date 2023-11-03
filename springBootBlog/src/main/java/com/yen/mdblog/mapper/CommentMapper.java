@@ -13,5 +13,5 @@ public interface CommentMapper {
 
     public List<Comment> getCommentByPostId(Long postId);
 
-    public void insertComment(@Param("Comment") Comment comment);
+    public void insertComment(Comment comment);
 }
