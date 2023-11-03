@@ -25,6 +25,9 @@
 <!--<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post" align="left">-->
 <form action="#" th:action="@{/comment/create}"  th:object="${comment}" method="post" align="left">
 	<p>Content: <textarea name="commentContent" rows="3" cols="50" th:field="*{commentContent}">your content</textarea></p>
+
+	<input type="text" name="postId" th:value="*{postId}" placeholder="post id">
+
 	<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 </body>
