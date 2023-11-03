@@ -8,17 +8,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
 import java.io.Serializable;
 
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-@TableName("merchant")
+//@TableName("merchant")
+@Table(name="merchant")
 public class Merchant implements Serializable {
 
     private static final long serialVersionUID = 234345356533250815L;
 
-    @TableId(type = IdType.AUTO)
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    //@TableId(type = IdType.AUTO)
     private int id;
 
     @TableField("name")

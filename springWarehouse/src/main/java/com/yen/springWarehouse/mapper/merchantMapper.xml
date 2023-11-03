@@ -5,8 +5,7 @@
 <!-- name space -->
 <mapper namespace="com.yen.springWarehouse.mapper.MerchantMapper">
 
-    <!-- SQL -->
-    <!-- SQL query with paging, NOTE : if there is group type in Mybatis, only use element type in group -->
+    <!-- query with paging, NOTE : if there is group type in Mybatis, only use element type in group -->
     <select id="getMerchantList" resultType="com.yen.springWarehouse.bean.Merchant">
         select
         *
@@ -15,6 +14,14 @@
         <where>
             ${ew.sqlSegment}
         </where>
+    </select>
+
+    <!-- List<Merchant> getAllMerchant(); -->
+    <select id="getAllMerchant" resultType="com.yen.springWarehouse.bean.Merchant">
+        select
+        *
+        from
+        merchant
     </select>
 
 </mapper>

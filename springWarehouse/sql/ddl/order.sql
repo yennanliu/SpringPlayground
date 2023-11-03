@@ -16,6 +16,10 @@ CREATE TABLE IF NOT EXISTS orders (
 
 INSERT INTO orders(id, merchant_id, product_id, amount, status, create_time, update_time)
 VALUES
-("213ac245-7a2a-453b-a4a7-149426b13f84", 1, 1, 1, "completed", now(), now()),
-("d42b3224-b715-46af-9294-3b2ecc6ccc7a", 2, 2, 1, "cancelled", now(), now()),
+("213ac24efgefdf84", 1, 1, 1, "completed", now(), now()),
+("d42b3224-b715-4gfgf-3b2eccc7a", 2, 2, 1, "cancelled", now(), now()),
+("d42b322;;4-b715-4gfgf-3b2eccc7a", 2, 2, 1, "cancelled", now(), now()),
+("-b715-4gfg;;f-3b2eccc7a", 2, 2, 1, "cancelled", now(), now()),
+("-b715-4gfgf-", 2, 2, 1, "cancelled", now(), now()),
+("d42b3224--4gfgf-3b2eccc7a", 2, 2, 1, "cancelled", now(), now()),
 (uuid(), 1, 3, 1, "pending", now(), now());

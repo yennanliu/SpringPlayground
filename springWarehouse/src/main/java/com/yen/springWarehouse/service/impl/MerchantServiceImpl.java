@@ -51,4 +51,9 @@ public class MerchantServiceImpl extends ServiceImpl<MerchantMapper, Merchant> i
         return new Page<>();
     }
 
+    @Override
+    public List<Merchant> getAllMerchant() {
+        return merchantMapper.getAllMerchant();
+    }
+
 }

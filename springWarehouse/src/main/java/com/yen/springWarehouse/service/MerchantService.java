@@ -7,8 +7,11 @@ import com.yen.springWarehouse.bean.Product;
 import com.yen.springWarehouse.util.MerchantQueryHelper;
 import com.yen.springWarehouse.util.ProductQueryHelper;
 
+import java.util.List;
+
 public interface MerchantService extends IService<Merchant> {
 
     Page<Merchant> getMerchantPage(MerchantQueryHelper helper, Integer pageNo, Integer pageSize);
 
+    List<Merchant> getAllMerchant();
 }
