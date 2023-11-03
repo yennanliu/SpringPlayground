@@ -49,7 +49,7 @@ public class CommentController {
         log.info(">>>> create post end ...");
         commentService.insertComment(comment);
         model.addAttribute("user", principal.getName());
-        return "success";
+        return "comment_success";
     }
 
 }
