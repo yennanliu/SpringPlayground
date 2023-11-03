@@ -41,9 +41,11 @@ public class CommentController {
         log.info(">>> create comment start ...");
         Comment comment = new Comment();
 //        comment.setAuthorId(request.getAuthorId());
-//        comment.setPostId(request.getPostId());
+        comment.setPostId(request.getPostId());
         comment.setCommentContent(request.getCommentContent());
         comment.setCreateTime(new Date()); //?
+
+        System.out.println(">>> (CommentController) create new comment = " + comment.toString());
         log.info(">>>> create post end ...");
         commentService.insertComment(comment);
         model.addAttribute("user", principal.getName());
