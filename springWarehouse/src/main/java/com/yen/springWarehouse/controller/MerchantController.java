@@ -89,11 +89,12 @@ public class MerchantController {
 
 
     @GetMapping("/list")
-    public String list(Map<String, Object> map,
-                       @RequestParam(value = "pageNo", required = false, defaultValue = "0") int pageNum,
-                       @RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize) {
+    public String list(@RequestParam(value = "pageNum", required = false, defaultValue = "0") int pageNum,
+                       @RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+                       Map<String, Object> map) {
 
-        log.info("pageNum = {}", pageNum);
+        //pageNum = 2;
+        log.info(">>> pageNum = {}", pageNum);
 
 //        Page<Merchant> page = new Page<>(pageNum, PAGINATIONSIZE);
 //        QueryWrapper<Merchant> queryWrapper = new QueryWrapper<>();
@@ -106,8 +107,8 @@ public class MerchantController {
 
 
         Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "id"));
-        Page<Merchant> postsPage = merchantRepository.findAll(pageRequest); //merchantService //postRepository.findAll(pageRequest);
-        List<Merchant> merchants = postsPage.toList();
+        Page<Merchant> merchantsPage = merchantRepository.findAll(pageRequest); //merchantService //postRepository.findAll(pageRequest);
+        List<Merchant> merchants = merchantsPage.toList();
         log.info(">>> merchants length = {}", merchants.toArray().length);
         PageInfo<Merchant> pageInfo = null;
         //為了程式的嚴謹性，判斷非空：
@@ -127,11 +128,8 @@ public class MerchantController {
             //4.使用model/map/modelandview等帶回前端
             System.out.println(">>> (merchant) pageInfo = " + pageInfo.getPages());
 
-
-
-
             map.put("pageInfo",pageInfo);
-            map.put("merchantList",merchantList);
+            map.put("merchants", merchants);
         }finally {
             PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
         }

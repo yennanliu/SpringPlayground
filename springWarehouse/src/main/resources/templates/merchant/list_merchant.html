@@ -10,7 +10,7 @@
 
 <body>
 <div class="container">
-    <div th:each="merchant : ${merchantList}" class="card">
+    <div th:each="merchant : ${merchants}" class="card">
         <div class="card-body">
 <!--            <h5 style="color:#0404B4;" class="card-title" th:utext="'Title: ' + ${post.title}">Post title</h5>-->
 <!--            <h6 class="card-subtitle mb-2" th:text="'Date: ' + ${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>-->
@@ -18,7 +18,8 @@
 <!--            <h6 class="card-text" th:utext="'Author ID: ' + ${post.authorId}">Author</h6>-->
 <!--            <a href="#" th:href="'/posts/' + ${post.id}" th:text="${'Read more'}" class="card-link">Read more</a>-->
 
-            <h6 class="card-text" th:utext="'Author ID: ' + ${merchant.city}">City</h6>
+            <h6 class="card-text" th:utext="'Author city: ' + ${merchant.city}">City</h6>
+            <h6 class="card-text" th:utext="'Author Id: ' + ${merchant.id}">Id</h6>
         </div>
     </div>
 </div>
@@ -36,22 +37,22 @@ https://www.796t.com/article.php?id=200769
         <!--			</li>-->
         <a th:href="'/merchant/all?page=0'">First</a>
         <li class="prev" th:if="${pageInfo.hasPreviousPage}">
-            <a th:href="'/merchant/all?pageNum='+${pageInfo.prePage}">
+            <a th:href="'/merchant/list?pageNum='+${pageInfo.prePage}">
                 <i class="ace-icon fa fa-angle-double-left"></i>
             </a>
         </li>
         <!--遍歷條數-->
         <li th:each="nav:${pageInfo.navigatepageNums}">
-            <a th:href="'/merchant/all?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
+            <a th:href="'/merchant/list?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
             <span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} " th:text=" ${nav} "></span>
         </li>
         <li class="next" th:if="${pageInfo.hasNextPage}">
-            <a th:href="'/merchant/all?pageNum='+${pageInfo.nextPage}">
+            <a th:href="'/merchant/list?pageNum='+${pageInfo.nextPage}">
                 <i class="ace-icon fa fa-angle-double-right"></i>
             </a>
         </li>
         <li>
-            <a th:href="'/merchant/all?pageNum='+${pageInfo.pages}">Last</a>
+            <a th:href="'/merchant/list?pageNum='+${pageInfo.pages}">Last</a>
         </li>
     </ul>
 </div>
