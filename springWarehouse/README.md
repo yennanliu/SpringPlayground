@@ -17,7 +17,7 @@ Warehouse data are maintained, managed via this app
 
 ## Tech
 
-- Java
+- Java 8
 - Spring boot
 - mybatispluss
 - thymeleaf
