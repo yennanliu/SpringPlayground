@@ -9,11 +9,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @org.mybatis.spring.annotation.MapperScan("com.yen.springWarehouse.mapper")
 @EnableTransactionManagement // TODO : recheck this
 @SpringBootApplication
-public class SpringWarehouseApplication {
+public class WarehouseApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(SpringWarehouseApplication.class, args);
+		SpringApplication.run(WarehouseApplication.class, args);
 	}
 
 }
