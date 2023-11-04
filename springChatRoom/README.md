@@ -1,12 +1,28 @@
 # Spring Chat Room
 
+- UI : http://localhost:8080
+
 ## Run
 ```bash
 ```
 
 ## Tech
-- spring boot
-- Spring socket
+- Java 11
+- spring boot 3.0.12
+- webSocket
+- STOMP
+- Extension
+  - Redis
+
+## Todo
+- Feature
+  - private msg (1 to 1)
+  - group chat
+  - @ "notification"
+  - msg push (?)
+  - "read" 已讀 feature
+  - show user list
+  - save history msg
 
 ## Knowledge
 - WebSocket
