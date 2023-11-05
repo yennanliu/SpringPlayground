@@ -16,8 +16,8 @@
 <!--        values(#{authorId}, #{postId},  #{commentContent}, #{createTime}, #{updateTime})-->
 <!--    </insert>-->
     <insert id="insertComment">
-        INSERT INTO comment(`post_id`, `comment_content`)
-        values(#{postId}, #{commentContent})
+        INSERT INTO comment(`user_name`, `post_id`, `comment_content`, `create_time`)
+        values(#{userName}, #{postId}, #{commentContent}, #{createTime})
     </insert>
 
 </mapper>

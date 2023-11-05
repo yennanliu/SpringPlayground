@@ -21,7 +21,7 @@ public class Comment {
     private Integer id;
 
     @Column
-    private Integer authorId;
+    private String userName;
 
     @Column
     private Long postId;

@@ -24,9 +24,8 @@
 <body>
 <!--<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post" align="left">-->
 <form action="#" th:action="@{/comment/create}"  th:object="${comment}" method="post" align="left">
-	<p>Content: <textarea name="commentContent" rows="3" cols="50" th:field="*{commentContent}">your content</textarea></p>
 
-<!--	<input type="text" name="postId" th:text="${post.id}" th:placeholder="${menu.name}">-->
+	<p>Content: <textarea name="commentContent" rows="3" cols="50" th:field="*{commentContent}">your content</textarea></p>
 	<input type="text" name="postId" th:value="${post.id}">
 
 	<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
@@ -39,7 +38,7 @@
 	<div class="card-body">
 		<!-- <p th:text="'id: ' + ${greeting.id}" />-->
 		<p class="card-text" th:text="'ID: ' + ${comment.id}">Id</p>
-		<p class="card-text" th:text="'Author: ' + ${comment.authorId}">commenter Id</p>
+		<p class="card-text" th:text="'Author: ' + ${comment.userName}">commentor name</p>
 		<p class="card-text" th:text="'Content: ' + ${comment.commentContent}">content</p>
 		<p class="card-text" th:text="'Time: ' + ${comment.createTime}">comment time</p>
 	</div>

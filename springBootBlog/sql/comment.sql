@@ -1,8 +1,8 @@
 -- DDL for comment table
 
-INSERT INTO comment(`author_id`,`post_id`,`comment_content`, `create_time`, `update_time`)
+INSERT INTO comment(`user_name`,`post_id`,`comment_content`, `create_time`, `update_time`)
 values
-(1, 1,  "some comment", now(), now()),
-(2, 2,  "some comment", now(), now()),
-(3, 3,  "some comment", now(), now()),
-(2, 1,  "ahahahahahahaah", now(), now());
+("mask", 1,  "some comment", now(), now()),
+("kim", 2,  "some comment", now(), now()),
+("yuri", 3,  "some comment", now(), now()),
+("suzuki", 1,  "ahahahahahahaah", now(), now());
