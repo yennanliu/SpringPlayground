@@ -30,11 +30,6 @@ public class CommentController {
     @Autowired
     CommentService commentService;
 
-//    @GetMapping("/{postId}")
-//    public String getComments(){
-//
-//    }
-
     @RequestMapping(value="/create", method= RequestMethod.POST)
     public String createComment(CreateComment request, Model model, Principal principal){
 
