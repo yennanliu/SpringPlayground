@@ -11,4 +11,6 @@ import java.util.List;
 public interface MerchantMapper extends BaseMapper<Merchant> {
 
     List<Merchant> getMerchantList(Page<Merchant> merchantPage, @Param("ew") QueryWrapper<Merchant> wrapper);
+
+    List<Merchant> getAllMerchant();
 }

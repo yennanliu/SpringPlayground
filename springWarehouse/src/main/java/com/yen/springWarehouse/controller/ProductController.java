@@ -17,7 +17,6 @@ import java.util.Map;
 @Slf4j
 @Controller
 @RequestMapping("/product")
-//@RestController
 public class ProductController {
 
     private int PAGE_SIZE = 3;
@@ -84,8 +83,6 @@ public class ProductController {
         map.put("helper", helper);
         log.info("(ProductController list) map = {}", map);
         return "product/list_product";
-        //return "index";
-        //return "OK";
     }
 
     @PostMapping(value="/remove/{productNo}")
