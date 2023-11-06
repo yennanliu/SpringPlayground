@@ -56,7 +56,7 @@ public class AuthorEditController {
             model.addAttribute("LoginRequest", request);
             model.addAttribute("user", principal.getName());
         }
-        return "author_pre_edit";
+        return "author/author_pre_edit";
     }
 
     @GetMapping("/")
@@ -64,7 +64,7 @@ public class AuthorEditController {
 
         model.addAttribute("CreateAuthor", new CreateAuthor());
         model.addAttribute("user", principal.getName());
-        return "author_pre_edit";
+        return "author/author_pre_edit";
     }
 
     @GetMapping("/{id}")
@@ -72,7 +72,7 @@ public class AuthorEditController {
 
         Author author = authorService.getById(id);
         model.addAttribute("author", author);
-        return "author_edit";
+        return "author/author_edit";
     }
 
     @PostMapping(value="/update")
