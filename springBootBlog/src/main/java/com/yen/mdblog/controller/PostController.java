@@ -99,7 +99,7 @@ public class PostController {
 		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		model.addAttribute("user", principal.getName());
 
-		return "posts";
+		return "post/posts";
 	}
 
 	@GetMapping("/{id}")
@@ -125,7 +125,7 @@ public class PostController {
 		}
 
 		model.addAttribute("user", principal.getName());
-		return "post";
+		return "post/post";
 	}
 
 	@GetMapping("/create")
@@ -133,7 +133,7 @@ public class PostController {
 
 		model.addAttribute("CreatePost", new CreatePost());
 		model.addAttribute("user", principal.getName());
-		return "create_post";
+		return "post/create_post";
 	}
 
 	@RequestMapping(value="/create", method= RequestMethod.POST)
@@ -174,7 +174,7 @@ public class PostController {
 		log.info(">>>> create post end ...");
 		postService.savePost(post);
 		model.addAttribute("user", principal.getName());
-		return "success";
+		return "post/success";
 	}
 
 	@GetMapping("/mypost")
@@ -190,7 +190,7 @@ public class PostController {
 		if (author == null){
 			model.addAttribute("user", principal.getName());
 			log.info("use null_my_post");
-			return "null_my_post";
+			return "post/null_my_post";
 		}
 
 		// filter posts with authorId
@@ -204,7 +204,7 @@ public class PostController {
 		//Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		model.addAttribute("user", principal.getName());
 
-		return "my_post";
+		return "post/my_post";
 	}
 
 	@GetMapping("/pre_search")
@@ -212,8 +212,7 @@ public class PostController {
 
 		model.addAttribute("SearchRequest", new SearchRequest());
 		model.addAttribute("user", principal.getName());
-		//return "create_post";
-		return "post_presearch";
+		return "post/post_presearch";
 	}
 
 	@PostMapping("/search")
@@ -225,7 +224,7 @@ public class PostController {
 
 		model.addAttribute("user", principal.getName());
 		model.addAttribute("posts", posts);
-		return "post_search_result";
+		return "post/post_search_result";
 	}
 
 }

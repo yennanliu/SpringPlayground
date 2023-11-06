@@ -25,13 +25,13 @@ public class AuthorRegisterController {
 
         model.addAttribute("CreateAuthor", new CreateAuthor());
         model.addAttribute("user", principal.getName());
-        return "register";
+        return "author/register";
     }
 
     @RequestMapping(value="/create", method= RequestMethod.POST)
     public String createUser(CreateAuthor request){
 
-        log.info(">>> create new user start ...");
+        log.info("create new user start ...");
         try{
             Author author = new Author();
             String name = request.getName();
@@ -42,12 +42,12 @@ public class AuthorRegisterController {
             author.setEmail(email);
             author.setCreateTime(new Date());
             author.setUpdateTime(new Date());
-            log.info(">>> author = " + author.toString());
+            log.info("author = " + author.toString());
             authorMapper.insertAuthor(author);
-            log.info(">>> create new user OK ...");
-            return "success_register";
+            log.info("create new user OK ...");
+            return "author/success_register";
         }catch (Exception e){
-            String errorMsg = ">>> create new user failed ..." + e;
+            String errorMsg = "create new user failed ..." + e;
             log.error(errorMsg);
             return errorMsg;
         }

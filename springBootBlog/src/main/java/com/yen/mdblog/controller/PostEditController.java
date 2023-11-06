@@ -61,8 +61,6 @@ public class PostEditController {
                 Page<Post> postsPage = postRepository.findAll(pageRequest);
                 posts = postsPage.toList();
                 postList = postMapper.getAllPosts();
-//                PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
-//                postList = postMapper.getAllPosts();
                 PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
                 pageInfo = new PageInfo<Post>(postList, PageConst.PAGE_SIZE.getSize());
                 model.addAttribute("pageInfo",pageInfo);
@@ -78,14 +76,14 @@ public class PostEditController {
         }
 
         model.addAttribute("user", principal.getName());
-        return "post_pre_edit";
+        return "post/post_pre_edit";
     }
 
     @GetMapping("/")
     public String EditPost(Model model, Principal principal) {
         model.addAttribute("CreatePost", new CreatePost());
         model.addAttribute("user", principal.getName());
-        return "post_edit";
+        return "post/post_edit";
     }
 
     @GetMapping("/{id}")
@@ -99,7 +97,7 @@ public class PostEditController {
         }
 
         model.addAttribute("user", principal.getName());
-        return "post_edit";
+        return "post/post_edit";
     }
 
     @PostMapping(value="/update")
@@ -109,7 +107,6 @@ public class PostEditController {
         log.info(">>> update post : {}", post);
         postService.updatePost(post);
         log.info(">>> update professor : return to professor/list page");
-
         model.addAttribute("user", principal.getName());
         return "redirect:/posts/all";
     }
