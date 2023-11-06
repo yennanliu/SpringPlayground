@@ -8,5 +8,5 @@ public interface CommentService {
 
     List<Comment> getCommentsByPostId(Long postId);
 
-    void insertComment(Comment comment);
+    Boolean insertComment(String userName, Long postId, String commentContent);
 }
