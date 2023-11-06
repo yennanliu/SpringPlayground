@@ -106,14 +106,11 @@ public class PostController {
 	public String getPostById(@PathVariable long id, Model model, Principal principal) {
 
 		Optional<Post> postOptional = postRepository.findById(id);
-
 		if (postOptional.isPresent()) {
 			model.addAttribute("post", postOptional.get());
 			model.addAttribute("comment", new CreateComment());
 			// load comment
-			// TODO : double check whether should do below here or in CommentController
 			List<Comment> commentList = commentService.getCommentsByPostId(id);
-			System.out.println(">>> comment len  = " + commentList.size());
 			// only add to model when comment size > 0
 			if (commentList.size() > 0){
 				model.addAttribute("comments", commentList);
@@ -163,7 +160,6 @@ public class PostController {
 		post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
 		post.setAuthorId(author.getId());
 		post.setDateTime(LocalDateTime.now());
-		//post.setAuthorId(authorId);
 		log.info(">>> request = " + request + " post = " + post + " author = " + author);
 		log.info(">>>> create post end ...");
 		postService.savePost(post);
@@ -179,7 +175,6 @@ public class PostController {
 			Model model) {
 
 		Author author = authorService.getByName(principal.getName());
-
 		// if there is current user has no any post
 		if (author == null){
 			model.addAttribute("user", principal.getName());
