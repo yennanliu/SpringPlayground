@@ -8,6 +8,7 @@ import com.yen.mdblog.entity.Po.Comment;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Vo.CreateComment;
 import com.yen.mdblog.entity.Vo.CreatePost;
+import com.yen.mdblog.mapper.AuthorMapper;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.AuthorService;
@@ -54,6 +55,9 @@ public class PostController {
 
 	@Autowired
 	CommentService commentService;
+
+	@Autowired
+	AuthorMapper authorMapper;
 
 	@GetMapping("/all")
 	public String getPaginatedPosts(
@@ -146,7 +150,7 @@ public class PostController {
 			author.setCreateTime(new Date());
 			author.setUpdateTime(new Date());
 			author.setName(authorName);
-			authorService.saveAuthor(author);
+			authorMapper.insertAuthor(author);
 			Integer id = authorService.getByName(authorName).getId();
 			author.setId(id);
 		}else{

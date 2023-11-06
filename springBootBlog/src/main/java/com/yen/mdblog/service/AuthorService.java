@@ -12,7 +12,7 @@ public interface AuthorService {
 
     List<Author> getAllAuthors();
 
-    void saveAuthor(Author author);
+    Boolean createAuthor(String name, String email);
 
     void updateAuthor(Author author);
 }

@@ -41,7 +41,6 @@ public class AuthorEditController {
             try{
                 // add blogs for editing blogs at admin-age
                 PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
-                //authorList = DataUtil.iterable2List(authorRepository.findAll());
                 authorList = authorService.getAllAuthors();
                 pageInfo = new PageInfo<Author>(authorList, PageConst.PAGE_SIZE.getSize());
                 model.addAttribute("pageInfo", pageInfo);
