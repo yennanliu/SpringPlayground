@@ -19,6 +19,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostsById(Integer authorId) {
+
         return postMapper.findById(authorId);
     }
 
@@ -30,6 +31,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostByKeyword(SearchRequest request) {
+
         return  postMapper.findByKeyword(request);
     }
 

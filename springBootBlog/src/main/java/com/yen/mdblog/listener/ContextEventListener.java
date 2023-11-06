@@ -29,8 +29,10 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 	@Value("classpath:posts/*")
 	private Resource[] postFiles;
 
+	// load all blog files in /resources/posts when app is launched
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+
 		Arrays.stream(postFiles).forEach(postFile -> {
 
 			Optional<String> postFileNameOpt = Optional.ofNullable(postFile.getFilename());

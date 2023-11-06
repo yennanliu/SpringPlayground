@@ -11,10 +11,6 @@
     </select>
 
     <!-- public void insertComment(Comment comment); -->
-<!--    <insert id="insertComment">-->
-<!--        INSERT INTO comment(`author_id`,`post_id`,`comment_content`, `create_time`, `update_time`)-->
-<!--        values(#{authorId}, #{postId},  #{commentContent}, #{createTime}, #{updateTime})-->
-<!--    </insert>-->
     <insert id="insertComment">
         INSERT INTO comment(`user_name`, `post_id`, `comment_content`, `create_time`)
         values(#{userName}, #{postId}, #{commentContent}, #{createTime})

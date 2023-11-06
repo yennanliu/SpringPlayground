@@ -16,11 +16,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByPostId(Long postId) {
+
         return commentMapper.getCommentByPostId(postId);
     }
 
     @Override
     public void insertComment(Comment comment) {
+
         commentMapper.insertComment(comment);
     }
 

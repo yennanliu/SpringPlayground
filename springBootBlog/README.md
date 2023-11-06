@@ -113,33 +113,22 @@ nohup java -jar target/mdblog-0.0.1-SNAPSHOT.jar &
 | `GET /` | GET |Swagger | 	http://localhost:8888/swagger-ui.html |Api page|
 
 
-## System dep
+## Technology
 - Java 11 (JDK 11)
+- Mybatis, Data Jpa, lombok
+- Spring security, OAuth
+- Mysql
 
 
 ## TODO
-
-<details>
-<summary>TODO</summary>
-
-1. paging
-2. admin page (modify blogs ...)
-3. filter blog
-4. timeline
-5. fix load history post
-6. logout
-7. 404, 500 ... html
-
-</details>
-
-## TODO
-- FE layout when access via mobile
 - UI improvement
-- comment feature (post)
+  - FE layout when access via mobile
 - Admin page
   - edit user profile, update photo
-- Reply post
 - Notification email
 - Post tag
+- Post timeline
 - Fix bugs
   - logout, login again, redirect to wrong pages
+- FE App (Blog service V2)
+- 404, 500 ... html, custom error msg

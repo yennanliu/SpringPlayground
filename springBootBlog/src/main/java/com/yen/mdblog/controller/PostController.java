@@ -41,7 +41,6 @@ public class PostController {
 	@Autowired
 	PostRepository postRepository;
 
-	// TODO : implement paging with it
 	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
 
 	@Autowired
@@ -63,20 +62,17 @@ public class PostController {
 			Principal principal,
 			Model model) {
 
-		/**
-		 *  Use pageHelper
-		 *  	- https://www.796t.com/article.php?id=200769
-		 */
+		// Use pageHelper : https://www.796t.com/article.php?id=200769
 		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
 		Page<Post> postsPage = postRepository.findAll(pageRequest);
 		List<Post> posts = postsPage.toList();
 		log.info(">>> posts length = {}", posts.toArray().length);
 		PageInfo<Post> pageInfo = null;
 		//為了程式的嚴謹性，判斷非空：
-		if(pageNum <= 0){
+		if (pageNum <= 0) {
 			pageNum = 0;
 		}
-		log.info("當前頁是："+pageNum+"顯示條數是："+pageSize);
+		log.info("當前頁是：" + pageNum + "顯示條數是：" + pageSize);
 		//1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
 		PageHelper.startPage(pageNum, pageSize);
 		//2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
@@ -106,11 +102,10 @@ public class PostController {
 	public String getPostById(@PathVariable long id, Model model, Principal principal) {
 
 		Optional<Post> postOptional = postRepository.findById(id);
-		if (postOptional.isPresent()) {
 
+		if (postOptional.isPresent()) {
 			model.addAttribute("post", postOptional.get());
 			model.addAttribute("comment", new CreateComment());
-
 			// load comment
 			// TODO : double check whether should do below here or in CommentController
 			List<Comment> commentList = commentService.getCommentsByPostId(id);
@@ -119,11 +114,9 @@ public class PostController {
 			if (commentList.size() > 0){
 				model.addAttribute("comments", commentList);
 			}
-
 		} else {
 			model.addAttribute("error", "no-post");
 		}
-
 		model.addAttribute("user", principal.getName());
 		return "post/post";
 	}
@@ -160,7 +153,6 @@ public class PostController {
 			Integer id = authorService.getByName(authorName).getId();
 			author.setId(id);
 		}
-
 		BeanUtils.copyProperties(request, post);
 		post.setId(postService.getTotalPost() + 1);
 		post.setDateTime(LocalDateTime.now());
@@ -168,9 +160,7 @@ public class PostController {
 		post.setAuthorId(author.getId());
 		post.setDateTime(LocalDateTime.now());
 		//post.setAuthorId(authorId);
-		log.info(">>> request = " + request);
-		log.info(">>> post = " + post);
-		log.info(">>> author = " + author);
+		log.info(">>> request = " + request + " post = " + post + " author = " + author);
 		log.info(">>>> create post end ...");
 		postService.savePost(post);
 		model.addAttribute("user", principal.getName());
@@ -194,16 +184,12 @@ public class PostController {
 		}
 
 		// filter posts with authorId
-		log.info(">>> author.getId() = " + author.getId());
 		List<Post> posts = postService.getPostsById(author.getId());
-		log.info(">>> posts count = " + posts.size());
-
 		model.addAttribute("posts", posts);
 		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
 		//Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		model.addAttribute("user", principal.getName());
-
 		return "post/my_post";
 	}
 
@@ -218,10 +204,7 @@ public class PostController {
 	@PostMapping("/search")
 	public String searchPost(Model model, Principal principal, SearchRequest request){
 
-		System.out.println(">>> request = " + request);
 		List<Post> posts = postService.getPostByKeyword(request);
-		System.out.println(">>> posts count = " + posts.size());
-
 		model.addAttribute("user", principal.getName());
 		model.addAttribute("posts", posts);
 		return "post/post_search_result";
