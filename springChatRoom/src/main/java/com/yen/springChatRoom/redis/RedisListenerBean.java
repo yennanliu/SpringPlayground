@@ -15,6 +15,7 @@ import java.net.InetAddress;
 import org.springframework.stereotype.Component;
 
 
+/** Class for Redis channel conn */
 @Component
 public class RedisListenerBean {
 

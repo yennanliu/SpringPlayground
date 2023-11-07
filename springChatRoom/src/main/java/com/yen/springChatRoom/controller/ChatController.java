@@ -24,7 +24,10 @@ public class ChatController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
-    // single mode
+    /**
+     *  single mode : read msg from FE, and send to
+     *                other users (@SendTo("/topic/public")) directly
+     */
 //    @MessageMapping("/chat.sendMessage")
 //    @SendTo("/topic/public")
 //    public ChatMessage sendMessage(@Payload ChatMessage chatMessage){
@@ -32,14 +35,18 @@ public class ChatController {
 //        return chatMessage;
 //    }
 
-    // cluster mode
+    /**
+     *  cluster mode : read msg from FE, but NOT send to other users,
+     *                 instead, send to Redis channel, so the other service
+     *                 on cluster can read/digest the msg
+     */
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(@Payload ChatMessage chatMessage){
         try{
             //redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage)));
             redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage));
         }catch (Exception e){
-            LOGGER.error(e.getMessage(), e);
+            LOGGER.error("send msg error : " + e.getMessage(), e);
         }
     }
 
