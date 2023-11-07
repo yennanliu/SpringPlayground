@@ -1,6 +1,10 @@
 package com.yen.springChatRoom.controller;
 
 import com.yen.springChatRoom.model.ChatMessage;
+import com.yen.springChatRoom.util.JsonUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -12,13 +16,33 @@ import org.slf4j.LoggerFactory;
 @Controller
 public class ChatController {
 
+    @Value("${redis.channel.msgToAll}")
+    private String msgToAll;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
+    // single mode
+//    @MessageMapping("/chat.sendMessage")
+//    @SendTo("/topic/public")
+//    public ChatMessage sendMessage(@Payload ChatMessage chatMessage){
+//
+//        return chatMessage;
+//    }
+
+    // cluster mode
     @MessageMapping("/chat.sendMessage")
-    @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage){
-        return chatMessage;
+    public void sendMessage(@Payload ChatMessage chatMessage){
+        try{
+            //redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage)));
+            redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage));
+        }catch (Exception e){
+            LOGGER.error(e.getMessage(), e);
+        }
     }
+
 
     @MessageMapping("/chat.addUser")
     @SendTo("/topic/public")
