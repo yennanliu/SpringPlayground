@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- name space -->
+<mapper namespace="com.yen.springWarehouse.mapper.ReportMapper">
+
+    <!-- SQL -->
+
+    <!-- List<Report> getReport(); -->
+    <select id="getReport" resultType="com.yen.springWarehouse.bean.Report">
+        select
+        o.create_time,
+        m.name as merchant_name,
+        p.name as product_name,
+        count(1) as count
+        FROM
+        orders o
+        INNER JOIN
+        product p
+        ON
+        o.product_id = p.id
+        INNER JOIN
+        merchant m
+        ON
+        m.id = o.merchant_id
+        GROUP BY
+        create_time,
+        merchant_name,
+        product_name
+    </select>
+
+</mapper>
