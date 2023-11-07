@@ -1,11 +1,25 @@
 # Spring Warehouse System
 
-Build a Warehouse admin system with Spring boot.
-This system is for internal operation users. offers product, merchant, and order management.
-Warehouse data are maintained, managed via this app
+<p align="center"><img src ="./doc/pic/SpringWareHouse.svg"></p>
 
-- Data Model
+Build a Warehouse admin system with Spring boot.
+This system is for internal operation users. offers product, merchant, and order management. Warehouse data are maintained, managed via this app
+
+## Technology
+- Java 8
+- Spring boot
+- mybatispluss
+- thymeleaf
+- Mysql
+
+## Data Model
+
+<details>
+<summary>Data Model</summary>
+
 <p align="center"><img src ="./doc/pic/data_model.png"></p>
+
+</details>
 
 - Main functionality
   - Add, remove, modify on *product* (storage), type, merchant, order
@@ -14,14 +28,6 @@ Warehouse data are maintained, managed via this app
   - Product : goods storage in warehouse
   - Merchant : business (company) who owns product
   - Orders : a transaction, product from warehouse will be sent to client 
-
-## Tech
-
-- Java 8
-- Spring boot
-- mybatispluss
-- thymeleaf
-- Mysql
 
 
 ## Run (local)

@@ -1,5 +1,16 @@
-# markdown-blog
-> Build a blog via spring boot with markdown
+# Spring Blog
+
+<p align="center"><img src ="./doc/pic/SpringBlog.svg"></p>
+
+Build a blog system via spring boot. Functionality : CRUD, Login/Logout (Spring security, OAuth), Blog post, edit, Comment, New user register, edit, Blog search
+
+
+## Technology
+
+- Java 11 (JDK 11)
+- Mybatis, Data Jpa, lombok
+- Spring security, OAuth
+- Mysql
 
 ### Login:
 
@@ -97,6 +108,7 @@ nohup java -jar target/mdblog-0.0.1-SNAPSHOT.jar &
 
 
 ## API
+
 | API      | Type | Purpose                         | Example cmd                                            | Comment                        |
 |----------|------|---------------------------------|--------------------------------------------------------|--------------------------------|
 | `GET`  | GET  | all posts                       | http://localhost:8888/posts/all                        | home page                      |
@@ -113,14 +125,8 @@ nohup java -jar target/mdblog-0.0.1-SNAPSHOT.jar &
 | `GET /` | GET |Swagger | 	http://localhost:8888/swagger-ui.html |Api page|
 
 
-## Technology
-- Java 11 (JDK 11)
-- Mybatis, Data Jpa, lombok
-- Spring security, OAuth
-- Mysql
-
-
 ## TODO
+
 - UI improvement
   - FE layout when access via mobile
 - Admin page
