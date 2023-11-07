@@ -1,28 +1,37 @@
 # Spring Chat Room
 
-- UI : http://localhost:8080
+Build a chat system with webSocket, run in Spring boot system.
 
-## Run
-```bash
-```
+- UI : http://localhost:8080
 
 ## Tech
 - Java 11
 - spring boot 3.0.12
 - webSocket
 - STOMP
+- FE
+  - SockJS (webSocket client)
 - Extension
-  - Redis
+    - Redis
+
+## Run
+```bash
+mvn package -DskipTests
+java -jar target/springChatRoom-0.0.1-SNAPSHOT.jar
+```
 
 ## Todo
 - Feature
   - private msg (1 to 1)
-  - group chat
+  - setup group, group chat
   - @ "notification"
   - msg push (?)
   - "read" 已讀 feature
   - show user list
   - save history msg
+  - broadcast msg
+  - push msg to users (offer API)
+  - offer user counts/online users (offer API)
 
 ## Knowledge
 - WebSocket
