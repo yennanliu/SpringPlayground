@@ -5,7 +5,7 @@ Build a chat system with webSocket, run in Spring boot system.
 - UI : http://localhost:8080
 
 ## Tech
-- Java 11
+- Java 17
 - spring boot 3.0.12
 - webSocket
 - STOMP
