@@ -2,6 +2,9 @@
 
 <p align="center"><img src ="./doc/pic/SpringWareHouse.svg"></p>
 
+<p align="center"><img src ="./doc/pic/warehouse_ui_1.png"></p>
+
+
 Build a Warehouse admin system with Spring boot.
 This system is for internal operation users. offers product, merchant, and order management. Warehouse data are maintained, managed via this app
 
