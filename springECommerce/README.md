@@ -1,6 +1,12 @@
 # springECommerce
-> xxx yyy
 
+## Features
+
+- product demo page
+- cart
+- payment
+- review order
+- sign in / out
 
 ## Steps
 
