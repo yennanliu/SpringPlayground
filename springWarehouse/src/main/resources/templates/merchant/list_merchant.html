@@ -23,8 +23,8 @@
         <td id="name" th:text="${merchant.name}" nowrap></td>
         <td id="city" th:text="${merchant.city}" nowrap></td>
         <td nowrap>
-            <button class="update" th:href="@{/merchant/preUpdate/{id}(id=${merchant.id})}" >修改</button>
-            <button class="delete" th:href="@{/merchant/remove/{id}(id=${merchant.id})}">删除</button>
+            <button class="update" th:href="@{/merchant/preUpdate/{id}(id=${merchant.id})}" >Modify</button>
+            <button class="delete" th:href="@{/merchant/remove/{id}(id=${merchant.id})}">Delete</button>
         </td>
     </tr>
 
@@ -55,7 +55,7 @@
     </a>
     |
     到 <input type="text" id="pageNo" size=4 style="text-align:right;"/> 页
-    <button class="linkspan" id="five" style="color:black;text-decoration:none;"> 跳 转 </button>
+    <button class="linkspan" id="five" style="color:black;text-decoration:none;"> Visit </button>
 </div>
 <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
 <script th:inline="javascript">
