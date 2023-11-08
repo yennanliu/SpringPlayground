@@ -33,7 +33,10 @@ Generate spotify playlist based on input values / recommendation with Spotify AP
 
 - https://developer.spotify.com/documentation/web-api/reference/get-recommendations - recommendations API
 - https://developer.spotify.com/documentation/web-api/reference/get-audio-features - get song feature
+- https://github.com/spotify-web-api-java/spotify-web-api-java - Java client
+- https://jitpack.io/p/lbengzon/spotify-web-api-java
 - https://github.com/yennanliu/nelson/blob/master/server.js#L88
 - https://nelson.glitch.me/#
+- https://github.com/hardikSinghBehl/spotifyApiSpring/tree/master - other project in java
 
 ## TODO
