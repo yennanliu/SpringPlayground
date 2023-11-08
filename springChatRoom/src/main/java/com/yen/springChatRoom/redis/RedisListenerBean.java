@@ -42,7 +42,7 @@ public class RedisListenerBean {
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);
 
-        // monitor/listen msgToAll (Redis channel)
+        // listen msgToAll (Redis channel)
         container.addMessageListener(listenerAdapter, new PatternTopic(msgToAll));
         container.addMessageListener(listenerAdapter, new PatternTopic(userStatus));
         LOGGER.info("Subscribe Redis channel : " + msgToAll);

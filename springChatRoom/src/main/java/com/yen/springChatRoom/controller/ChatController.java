@@ -19,8 +19,16 @@ public class ChatController {
     @Value("${redis.channel.msgToAll}")
     private String msgToAll;
 
+    @Value("${redis.set.onlineUsers}")
+    private String onlineUsers;
+
+    @Value("${redis.channel.userStatus}")
+    private String userStatus;
+
+    // TODO : check difference ? RedisTemplate VS RedisTemplate<String, String>
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, String> redisTemplate;
+    //private RedisTemplate redisTemplate;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
@@ -52,22 +60,35 @@ public class ChatController {
 
 
     @MessageMapping("/chat.addUser")
-    @SendTo("/topic/public")
-    public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+    public void addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 
         LOGGER.info("User added in Chatroom:" + chatMessage.getSender());
-        // add username in web socket session
-        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-        return chatMessage;
-
-        // TODO : update with below
-//        try {
-//            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-////            redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
-////            redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-//        } catch (Exception e) {
-//            LOGGER.error(e.getMessage(), e);
-//        }
+        try {
+            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+            redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
+            redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage(), e);
+        }
     }
+
+//    @MessageMapping("/chat.addUser")
+//    @SendTo("/topic/public")
+//    public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
+//
+//        LOGGER.info("User added in Chatroom:" + chatMessage.getSender());
+//        // add username in web socket session
+//        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+//        return chatMessage;
+//
+//        // TODO : update with below
+////        try {
+////            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+//////            redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
+//////            redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
+////        } catch (Exception e) {
+////            LOGGER.error(e.getMessage(), e);
+////        }
+//    }
 
 }
