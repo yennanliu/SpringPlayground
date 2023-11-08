@@ -22,9 +22,12 @@
         <td th:text="${download.id}" nowrap></td>
         <td id="name" th:text="${download.downloadUrl}" nowrap></td>
         <td id="city" th:text="${download.status}" nowrap></td>
-<!--        <td nowrap>-->
-<!--            <button class="update" th:href="@{/merchant/preUpdate/{id}(id=${merchant.id})}" >Download</button>-->
-<!--        </td>-->
+<!--        <a href="https://www.example.com/path/to/your/file.pdf" download="filename.pdf">-->
+<!--            <button>Download File</button>-->
+<!--        </a>-->
+        <td nowrap>
+            <button class="download" th:href="@{/download/download_report/{id}(id=${download.id})}">Download</button>
+        </td>
     </tr>
 
 </table>
