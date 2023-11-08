@@ -19,4 +19,10 @@ Generate spotify playlist based on input values / recommendation with Spotify AP
 
 ## Important Concepts
 
+## Ref
+
+- https://developer.spotify.com/documentation/web-api/reference/get-recommendations
+- https://github.com/yennanliu/nelson/blob/master/server.js#L88
+- https://nelson.glitch.me/#
+
 ## TODO
