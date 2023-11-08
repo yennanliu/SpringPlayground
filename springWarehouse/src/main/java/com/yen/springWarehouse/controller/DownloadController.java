@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -46,5 +47,12 @@ public class DownloadController {
         return "download/list_download";
     }
 
+    @PostMapping("/download_report")
+    public String downloadReport(DownloadStatus downloadStatus){
+
+        //downloadStatusService.down(merchant);
+        System.out.println("download_report!!!");
+        return null;
+    }
 
 }
