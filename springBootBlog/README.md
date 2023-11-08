@@ -2,6 +2,8 @@
 
 <p align="center"><img src ="./doc/pic/SpringBlog.svg"></p>
 
+<p align="center"><img src ="./doc/pic/blog_ui_1.png"></p>
+
 Build a blog system via spring boot. Functionality : CRUD, Login/Logout (Spring security, OAuth), Blog post, edit, Comment, New user register, edit, Blog search
 
 
