@@ -47,12 +47,13 @@ public class DownloadController {
         return "download/list_download";
     }
 
-    @PostMapping("/download_report")
+    //@PostMapping("/download_report")
+    @GetMapping("/download_report")
     public String downloadReport(DownloadStatus downloadStatus){
 
         //downloadStatusService.down(merchant);
         System.out.println("download_report!!!");
-        return null;
+        return "download/list_download";
     }
 
 }
