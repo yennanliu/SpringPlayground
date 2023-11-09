@@ -25,9 +25,16 @@
 <!--        <a href="https://www.example.com/path/to/your/file.pdf" download="filename.pdf">-->
 <!--            <button>Download File</button>-->
 <!--        </a>-->
-        <td nowrap>
-            <button class="download" th:href="@{/download/download_report/{id}(id=${download.id})}">Download</button>
+        <!--
+        HTML button send GET or POST request
+        https://stackoverflow.com/questions/46987384/html-form-post-or-get-depending-on-button-clicked
+        -->
+        <td>
+            <a href="/resources/test.json" download>
+                <img src="/resources/static/ws3_img.jpeg" alt="download">
+            </a>
         </td>
+
     </tr>
 
 </table>
