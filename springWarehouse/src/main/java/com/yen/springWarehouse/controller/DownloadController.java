@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.DownloadStatus;
 import com.yen.springWarehouse.service.DownloadStatusService;
 import com.yen.springWarehouse.util.DateTimeUtils;
+import com.yen.springWarehouse.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -57,12 +58,23 @@ public class DownloadController {
 
         DateTimeUtils dateTimeUtils = new DateTimeUtils();
         String timestamp = dateTimeUtils.getCurrentDateYYYYMMDDHHMMSS();
+
+        FileUtil fileUtil = new FileUtil();
+
+        final String prefix = "/Users/yennanliu/SpringPlayground/";
         String fileName = "/" + timestamp + "_report.csv";
         DownloadStatus downloadStatus = new DownloadStatus();
         downloadStatus.setStatus("completed");
         downloadStatus.setDownloadUrl(fileName);
         downloadStatus.setCreateTime(new Date());
-        downloadStatusService.save(downloadStatus);
+        // save file to local // TODO : save it to remote file system (e.g. S3)
+        if (fileUtil.writeFile("some data", prefix+fileName)){
+            log.info("save File OK");
+            // save to DB
+            downloadStatusService.save(downloadStatus);
+        }else {
+            log.info("save File failed");
+        }
         return "download/success";
     }
 
