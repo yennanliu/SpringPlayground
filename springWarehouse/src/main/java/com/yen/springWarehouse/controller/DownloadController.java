@@ -6,14 +6,19 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.DownloadStatus;
 import com.yen.springWarehouse.service.DownloadStatusService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.Map;
 
 @Slf4j
@@ -47,13 +52,17 @@ public class DownloadController {
         return "download/list_download";
     }
 
-    //@PostMapping("/download_report")
     @GetMapping("/download_report")
-    public String downloadReport(DownloadStatus downloadStatus){
+    public ResponseEntity<Resource> downloadFile() throws IOException {
 
-        //downloadStatusService.down(merchant);
-        System.out.println("download_report!!!");
-        return "download/list_download";
+        // Load the file from the classpath (assuming it's in the resources/static directory)
+        Resource resource = new ClassPathResource("/test.json");
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=test.json");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(resource);
     }
 
 }
