@@ -13,6 +13,6 @@ CREATE TABLE IF NOT EXISTS download_status(
 
 INSERT INTO download_status(download_url, status, create_time)
 VALUES
-("some_url", "pending", now()),
-("some_url", "failed", now()),
-("some_url", "completed", now());
+("test.json", "pending", now()),
+("test.json", "failed", now()),
+("test.json", "completed", now());

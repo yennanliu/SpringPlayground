@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.DownloadStatus;
 import com.yen.springWarehouse.service.DownloadStatusService;
-
+import com.yen.springWarehouse.util.DateTimeUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 @Slf4j
@@ -48,8 +49,21 @@ public class DownloadController {
 
         log.info("iPage.total = {}, iPage.getPages = {} iPage = {}",  iPage.getTotal(), iPage.getPages(), iPage);
         map.put("page", iPage);
-
         return "download/list_download";
+    }
+
+    @GetMapping("/create")
+    public String createDownload(){
+
+        DateTimeUtils dateTimeUtils = new DateTimeUtils();
+        String timestamp = dateTimeUtils.getCurrentDateYYYYMMDDHHMMSS();
+        String fileName = "/" + timestamp + "_report.csv";
+        DownloadStatus downloadStatus = new DownloadStatus();
+        downloadStatus.setStatus("completed");
+        downloadStatus.setDownloadUrl(fileName);
+        downloadStatus.setCreateTime(new Date());
+        downloadStatusService.save(downloadStatus);
+        return "download/success";
     }
 
     @GetMapping("/download_report")

@@ -8,6 +8,13 @@
 <body style="padding:8px;">
 <h3 class="title">Report Download</h3>
 
+<button class="create" th:href="@{/download/create}" >Create Download 1</button>
+<button class="create" th:onclick="'window.location.href=' + @{/download/create}">Create Download 2</button>
+<a href="/download/create">
+    <button class="create">Create Download 3</button>
+</a>
+
+
 <form action="" method="POST">
     <input type="hidden" name="_method" value="DELETE"/>
 </form>
