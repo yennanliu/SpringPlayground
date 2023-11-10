@@ -151,7 +151,8 @@ nohup java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar &
 4. Add batch add/delete
 5. Code refactor
 6. Unit test
-7. Deployment
+7. SQL injection fix
+8. Deployment
    1. DockerFile
    2. CI/CD
    3. logs
