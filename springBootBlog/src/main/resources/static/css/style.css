@@ -1,0 +1,63 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #343a40;
+    margin: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.article {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px;
+}
+
+.comment {
+    background-color: #f8f9fa;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+}
+
+.comment h3 {
+    color: #007bff;
+}
+
+.comment .card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+}
+
+.comment .card-body {
+    padding: 10px;
+}
+
+.form-container {
+    margin: 10px;
+}
+
+textarea {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="submit"],
+input[type="reset"] {
+    padding: 8px;
+    margin-right: 5px;
+}
+
+/* Add more styles as needed */
