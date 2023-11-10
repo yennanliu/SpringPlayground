@@ -2,11 +2,11 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Merchant Management</title>
+    <title>Report Download</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
 </head>
 <body style="padding:8px;">
-<h3 class="title">Merchant Management</h3>
+<h3 class="title">Report Download</h3>
 
 <form action="" method="POST">
     <input type="hidden" name="_method" value="DELETE"/>
@@ -15,17 +15,23 @@
 <table border="0" cellspacing="0">
     <tr>
         <th>Id</th>
-        <th>Name</th>
-        <th>City</th>
+        <th>download_url</th>
+        <th>status</th>
     </tr>
-    <tr class="type" th:each="merchant : ${page.records}">
-        <td th:text="${merchant.id}" nowrap></td>
-        <td id="name" th:text="${merchant.name}" nowrap></td>
-        <td id="city" th:text="${merchant.city}" nowrap></td>
-        <td nowrap>
-            <button class="update" th:href="@{/merchant/preUpdate/{id}(id=${merchant.id})}" >Modify</button>
-            <button class="delete" th:href="@{/merchant/remove/{id}(id=${merchant.id})}">Delete</button>
+    <tr class="type" th:each="download : ${page.records}">
+        <td th:text="${download.id}" nowrap></td>
+        <td id="name" th:text="${download.downloadUrl}" nowrap></td>
+        <td id="city" th:text="${download.status}" nowrap></td>
+        <!--
+        HTML button send GET or POST request
+        https://stackoverflow.com/questions/46987384/html-form-post-or-get-depending-on-button-clicked
+        -->
+        <td>
+            <a href="/download/download_report">
+                <a href="/download/download_report">Download File</a>
+            </a>
         </td>
+
     </tr>
 
 </table>
