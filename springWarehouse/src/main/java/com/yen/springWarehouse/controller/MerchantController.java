@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.Merchant;
 import com.yen.springWarehouse.bean.ProductType;
 import com.yen.springWarehouse.service.MerchantService;
+import com.yen.springWarehouse.util.MerchantQueryHelper;
 import com.yen.springWarehouse.util.csvUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/merchant")
 public class MerchantController {
+
+    private final int PAGINATIONSIZE = 3;
 
     @Autowired
     MerchantService merchantService;
@@ -78,30 +81,33 @@ public class MerchantController {
 
 
     @GetMapping("/list")
-    public String list(Map<String, Object> map, @RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr) {
+    public String list(Map<String, Object> map,
+                       @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+                       @RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize) {
 
-        int pageNo;
-
-        // check pageNo
-        pageNo = Integer.parseInt(pageNoStr);
-        if(pageNo < 1){
-            pageNo = 1;
+        // check pageNum
+        if(pageNum < 1){
+            pageNum = 1;
         }
 
-        /*
-         * 1st param：which page
-         * 2nd param : record count per page
-         */
-        log.info("pageNo = {}", pageNo);
-        Page<Merchant> page = new Page<>(pageNo,3);
-        QueryWrapper<Merchant> queryWrapper = new QueryWrapper<>();
-        IPage<Merchant> iPage = merchantService.page(page,
-                new LambdaQueryWrapper<Merchant>()
-                        .orderByAsc(Merchant::getId)
-        );
-        log.info("iPage.total = {}, iPage.getPages = {} iPage = {}",  iPage.getTotal(), iPage.getPages(), iPage);
-        map.put("page", iPage);
+//
+//        /*
+//         * 1st param：which page
+//         * 2nd param : record count per page
+//         */
+//        log.info("pageNo = {}", pageNo);
+//        Page<Merchant> page = new Page<>(pageNo,3);
+//        QueryWrapper<Merchant> queryWrapper = new QueryWrapper<>();
+//        IPage<Merchant> iPage = merchantService.page(page,
+//                new LambdaQueryWrapper<Merchant>()
+//                        .orderByAsc(Merchant::getId)
+//        );
+//        log.info("iPage.total = {}, iPage.getPages = {} iPage = {}",  iPage.getTotal(), iPage.getPages(), iPage);
+//        map.put("page", iPage);
 
+        MerchantQueryHelper helper = new MerchantQueryHelper();
+        IPage<Merchant> iPage =  merchantService.getMerchantPage(helper, pageNum, pageSize);
+        map.put("page", iPage);
         return "merchant/list_merchant";
     }
 

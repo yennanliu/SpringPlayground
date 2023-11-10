@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MerchantQueryHelper implements Serializable {
+public class MerchantQueryHelper implements Serializable, BaseQueryHelper {
 
     private static final long serialVersionUID = -977205069L;
 
