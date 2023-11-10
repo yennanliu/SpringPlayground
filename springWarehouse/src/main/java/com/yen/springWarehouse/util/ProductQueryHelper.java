@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class ProductQueryHelper implements Serializable {
+public class ProductQueryHelper implements Serializable, BaseQueryHelper {
 
     private static final long serialVersionUID = -9777777557205069L;
 

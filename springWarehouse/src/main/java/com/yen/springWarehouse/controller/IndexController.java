@@ -18,7 +18,7 @@ public class IndexController {
     @GetMapping("/")
     public String main(Map<String, Object> map){
 
-        log.info(">>> mainController, map = {}", map);
+        log.info("IndexController, map = {}", map);
         return "main";
     }
 
