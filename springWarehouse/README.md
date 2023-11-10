@@ -8,6 +8,8 @@
 Build a Warehouse admin system with Spring boot.
 This system is for internal operation users. offers product, merchant, and order management. Warehouse data are maintained, managed via this app
 
+[Demo](http://43.206.107.101:7777/)
+
 ## Technology
 - Java 8
 - Spring boot
