@@ -17,6 +17,13 @@ This system is for internal operation users. offers product, merchant, and order
 - thymeleaf
 - Mysql
 
+## Feature:
+
+- Product/Type/Merchant add, edit, delete, query : Spring CRUD
+- Merchant/Type batch import : thymeleaf, File IO
+- Order management : Spring transaction, data model design
+- Report download : Async task, Spring schedule task
+
 ## Data Model
 
 <details>
