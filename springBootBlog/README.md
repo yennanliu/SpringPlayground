@@ -2,7 +2,7 @@
 
 <p align="center"><img src ="./doc/pic/SpringBlog.svg"></p>
 
-<p align="center"><img src ="./doc/pic/blog_ui_1.png"></p>
+<p align="center"><img src ="./doc/pic/blog_ui_v2.png"></p>
 
 Build a blog system via spring boot. Functionality : CRUD, Login/Logout (Spring security, OAuth), Blog post, edit, Comment, New user register, edit, Blog search
 
@@ -14,13 +14,20 @@ Build a blog system via spring boot. Functionality : CRUD, Login/Logout (Spring 
 - Spring security, OAuth
 - Mysql
 
-### Login:
+## Login:
 
-- Account : admin
-- Pwd : 123
+| Account | password | 
+|--|------|
+| admin | 123 |
+| user1 | 123 |
 
-- Account : user1
-- Pwd : 123
+## Feature:
+
+- User login/logout : Spring security, OAuth
+- Blog/Comment/User add, edit : Spring CRUD
+- User register : thymeleaf, Spring data jpa
+- Blog search : mybatis
+- Dark/light theme : Javascript
 
 ## Run (local)
 
