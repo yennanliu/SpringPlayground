@@ -12,6 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.Set;
 
 @Controller
 public class ChatController {
@@ -24,6 +27,8 @@ public class ChatController {
 
     @Value("${redis.channel.userStatus}")
     private String userStatus;
+
+    final String onlineUserKey = "websocket.onlineUsers";
 
     // TODO : check difference ? RedisTemplate VS RedisTemplate<String, String>
     @Autowired
@@ -58,7 +63,6 @@ public class ChatController {
         }
     }
 
-
     @MessageMapping("/chat.addUser")
     public void addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 
@@ -67,28 +71,12 @@ public class ChatController {
             headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
             redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
             redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
+
+            // show online user
+
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
     }
-
-//    @MessageMapping("/chat.addUser")
-//    @SendTo("/topic/public")
-//    public ChatMessage addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-//
-//        LOGGER.info("User added in Chatroom:" + chatMessage.getSender());
-//        // add username in web socket session
-//        headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-//        return chatMessage;
-//
-//        // TODO : update with below
-////        try {
-////            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
-//////            redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
-//////            redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-////        } catch (Exception e) {
-////            LOGGER.error(e.getMessage(), e);
-////        }
-//    }
 
 }

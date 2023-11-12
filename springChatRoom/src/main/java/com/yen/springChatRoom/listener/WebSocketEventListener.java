@@ -79,21 +79,4 @@ public class WebSocketEventListener {
         }
     }
 
-//    @EventListener
-//    public void handleWebSocketDisConnectListener(SessionDisconnectEvent event){
-//
-//        StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
-//        String username = (String) headerAccessor.getSessionAttributes().get("username");
-//
-//        if (username != null){
-//
-//            LOGGER.info("User disconnected : " + username);
-//            ChatMessage chatMessage = new ChatMessage();
-//            chatMessage.setType(ChatMessage.MessageType.LEAVE);
-//            chatMessage.setSender(username);
-//
-//            messagingTemplate.convertAndSend("/topic/public", chatMessage);
-//        }
-//    }
-
 }
