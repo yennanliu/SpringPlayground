@@ -24,5 +24,6 @@
   - Chat with specific user
     - https://www.baeldung.com/spring-websockets-send-message-to-user
     - https://github.com/eugenp/tutorials/tree/master/spring-security-modules/spring-security-web-sockets - code
-    - 
+    - https://juejin.cn/post/6844903717636947981
+
     - https://www.jb51.net/article/257091.htm

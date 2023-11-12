@@ -49,7 +49,6 @@ public class RedisListenerHandle extends MessageListenerAdapter{
             return;
         }
 
-
         if (msgToAll.equals(topic)) {
             LOGGER.info("Send message to all users:" + rawMsg);
             ChatMessage chatMessage = JsonUtil.parseJsonToObj(rawMsg, ChatMessage.class);

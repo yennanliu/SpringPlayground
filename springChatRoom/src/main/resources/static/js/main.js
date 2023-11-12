@@ -119,5 +119,34 @@ function getAvatarColor(messageSender) {
     return colors[index];
 }
 
+// online user
+function fetchUserList() {
+    fetch('/user/online_user') // Replace with the actual endpoint URL
+        .then(response => response.json())
+        .then(data => {
+            updateOnlineUsers(data);
+        })
+        .catch(error => {
+            console.error('Error fetching user list: ', error);
+        });
+}
+
+function updateOnlineUsers(users) {
+    const userList = document.getElementById('userList');
+    userList.innerHTML = ''; // Clear the list first
+
+    users.forEach(user => {
+        const listItem = document.createElement('li');
+        listItem.textContent = user;
+        userList.appendChild(listItem);
+    });
+}
+
+// Call the fetchUserList function to initially populate the user list
+fetchUserList();
+
+// You can also periodically update the user list using a timer or other events
+setInterval(fetchUserList, 5000); // Update every 5 seconds (adjust as needed)
+
 usernameForm.addEventListener('submit', connect, true)
 messageForm.addEventListener('submit', sendMessage, true)
