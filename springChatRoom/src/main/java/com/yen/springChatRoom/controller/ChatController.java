@@ -1,20 +1,16 @@
 package com.yen.springChatRoom.controller;
 
-import com.yen.springChatRoom.model.ChatMessage;
+import com.yen.springChatRoom.bean.ChatMessage;
 import com.yen.springChatRoom.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Set;
 
 @Controller
 public class ChatController {
@@ -71,9 +67,6 @@ public class ChatController {
             headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
             redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
             redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-
-            // show online user
-
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }

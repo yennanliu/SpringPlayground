@@ -1,4 +1,4 @@
-package com.yen.springChatRoom.model;
+package com.yen.springChatRoom.bean;
 
 public class ChatMessage {
     private MessageType type;
