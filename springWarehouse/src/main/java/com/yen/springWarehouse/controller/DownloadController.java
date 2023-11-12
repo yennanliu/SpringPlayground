@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.yen.springWarehouse.bean.DownloadStatus;
+import com.yen.springWarehouse.mapper.DownloadStatusMapper;
 import com.yen.springWarehouse.service.DownloadStatusService;
-
+import com.yen.springWarehouse.util.DateTimeUtils;
+import com.yen.springWarehouse.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -18,7 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -28,6 +34,12 @@ public class DownloadController {
 
     @Autowired
     DownloadStatusService downloadStatusService;
+
+    @Autowired
+    DownloadStatusMapper downloadStatusMapper;
+
+    String userDirectory = new File("").getAbsolutePath();
+    final String prefix = userDirectory + "/src/main/resources/report/";
 
     @GetMapping("/list")
     public String list(Map<String, Object> map, @RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr) {
@@ -48,17 +60,52 @@ public class DownloadController {
 
         log.info("iPage.total = {}, iPage.getPages = {} iPage = {}",  iPage.getTotal(), iPage.getPages(), iPage);
         map.put("page", iPage);
-
         return "download/list_download";
     }
 
+    @GetMapping("/create_report")
+    public String createDownload() {
+
+        DateTimeUtils dateTimeUtils = new DateTimeUtils();
+        String timestamp = dateTimeUtils.getCurrentDateYYYYMMDDHHMMSS();
+        FileUtil fileUtil = new FileUtil();
+
+        // create report
+        String fileName = timestamp + "_report.json";
+        Map<String, Object> map = new HashMap<>();
+        map.put("name", "king");
+        map.put("age", 17);
+        // save file to local // TODO : save it to remote file system (e.g. S3)
+        Boolean result = fileUtil.writeJsonFile(map, prefix + fileName);
+        if (result) {
+            DownloadStatus downloadStatus = new DownloadStatus();
+            downloadStatus.setStatus("completed");
+            downloadStatus.setDownloadUrl(fileName);
+            downloadStatus.setCreateTime(new Date());
+            log.info("save File OK");
+            // save to DB
+            downloadStatusService.save(downloadStatus);
+        } else {
+            log.info("save File failed");
+        }
+        return "download/success";
+    }
+
+    // TODO : fix : make GET request with report id
     @GetMapping("/download_report")
     public ResponseEntity<Resource> downloadFile() throws IOException {
 
         // Load the file from the classpath (assuming it's in the resources/static directory)
-        Resource resource = new ClassPathResource("/test.json");
+//        Resource resource = new ClassPathResource("/test.json");
+//        HttpHeaders headers = new HttpHeaders();
+//        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=test.json");
+
+        List<DownloadStatus> downloadStatusList = downloadStatusMapper.getAllDownloadStatus();
+        // TODO : fix below (currently only get 1st downloadStatus)
+        String downloadUrl = "/report/" + downloadStatusList.get(0).getDownloadUrl();
+        Resource resource = new ClassPathResource(downloadUrl);
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=test.json");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("test.json"));
 
         return ResponseEntity.ok()
                 .headers(headers)

@@ -179,6 +179,20 @@
             <scope>test</scope>
         </dependency>
 
+		<!-- time zone -->
+		<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			<version>2.9.2</version>
+		</dependency>
+
+		<!-- json file IO -->
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+
     </dependencies>
 
 	<build>
