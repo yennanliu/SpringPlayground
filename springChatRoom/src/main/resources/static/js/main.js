@@ -1,8 +1,9 @@
 'use strict';
 
 // Ref
-// - https://www.callicoder.com/spring-boot-websocket-chat-example/
-// - https://blog.csdn.net/qqxx6661/article/details/98883166
+// https://www.callicoder.com/spring-boot-websocket-chat-example/
+// https://blog.csdn.net/qqxx6661/article/details/98883166
+// WebSocket common API : https://www.twblogs.net/a/5c03de16bd9eee728baac84b
 
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
