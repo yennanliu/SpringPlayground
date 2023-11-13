@@ -38,6 +38,7 @@ function connect(event) {
 
 
 function onConnected() {
+
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);
 
@@ -46,6 +47,11 @@ function onConnected() {
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
     )
+
+    // Subscribe to private topic
+//    stompClient.subscribe('/user/topic/private/{channelId}', (message) => {
+//            // Handle incoming private messages
+//    });
 
     connectingElement.classList.add('hidden');
 }
@@ -142,6 +148,11 @@ function updateOnlineUsers(users) {
         userList.appendChild(listItem);
     });
 }
+
+// private msg (user - user)
+//function sendMessage(channelId, message) {
+//    stompClient.send(`/app/private/${channelId}`, {}, JSON.stringify(message));
+//}
 
 // Call the fetchUserList function to initially populate the user list
 fetchUserList();
