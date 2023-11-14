@@ -65,9 +65,18 @@ public class OAuthSecurityConfig {
                         }));
 
         return httpSecurity
+                // login
                 .formLogin()
-                .defaultSuccessUrl("/posts/all")
+                .defaultSuccessUrl("/posts/all", true)
+                .permitAll()
                 .and()
+                // logout // TODO : fix logout redirect
+                .logout()
+                .logoutUrl("/logout")
+                .logoutSuccessUrl("classpath:/templates/logout.html") // Redirect to "/logout.html" after logout
+                .permitAll()
+                .and()
+                // auth
                 .authorizeRequests(auth -> {
                     auth.anyRequest().authenticated();
                 })
