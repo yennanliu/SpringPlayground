@@ -27,16 +27,11 @@
         <td th:text="${download.id}" nowrap></td>
         <td id="name" th:text="${download.downloadUrl}" nowrap></td>
         <td id="city" th:text="${download.status}" nowrap></td>
-        <!--
-        HTML button send GET or POST request
-        https://stackoverflow.com/questions/46987384/html-form-post-or-get-depending-on-button-clicked
-        -->
         <td>
-            <a href="/download/download_report">
-                <a href="/download/download_report">Download File</a>
+            <a th:href="@{'/download/download_report?url=' + ${download.downloadUrl}}">
+                Download File
             </a>
         </td>
-
     </tr>
 
 </table>

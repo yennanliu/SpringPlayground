@@ -93,16 +93,13 @@ public class DownloadController {
 
     // TODO : fix : make GET request with report id
     @GetMapping("/download_report")
-    public ResponseEntity<Resource> downloadFile() throws IOException {
+    public ResponseEntity<Resource> downloadFile(String url) throws IOException {
 
-        // Load the file from the classpath (assuming it's in the resources/static directory)
-//        Resource resource = new ClassPathResource("/test.json");
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=test.json");
-
-        List<DownloadStatus> downloadStatusList = downloadStatusMapper.getAllDownloadStatus();
-        // TODO : fix below (currently only get 1st downloadStatus)
-        String downloadUrl = "/report/" + downloadStatusList.get(0).getDownloadUrl();
+        log.info(">>> (ResponseEntity<Resource> downloadFile) url = " + url);
+        //List<DownloadStatus> downloadStatusList = downloadStatusMapper.getAllDownloadStatus();
+        //String downloadUrl = "/report/" + downloadStatusList.get(0).getDownloadUrl();
+        String downloadUrl = "/report/" + url;
+        log.info("downloadUrl = " + downloadUrl);
         Resource resource = new ClassPathResource(downloadUrl);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("test.json"));
