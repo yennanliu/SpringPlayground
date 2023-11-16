@@ -178,6 +178,15 @@ function updateOnlineUsers(users) {
 function startChat(username) {
     // Add your logic here to start a private chat with the selected user
     console.log('>>> Start chat with ' + username);
+
+    // Open a popup window for the chat
+    const popupWindow = window.open('', '_blank', 'width=400,height=300');
+
+     // Add your logic to customize the popup window content
+     popupWindow.document.write('<html><head><title>Chat with ' + username + '</title></head><body>');
+     popupWindow.document.write('<h2>Chat with ' + username + '</h2>');
+     popupWindow.document.write('<p>This is the chat content. Customize it as needed.</p>');
+     popupWindow.document.write('</body></html>');
 }
 
 // Call the fetchUserList function to initially populate the user list
