@@ -176,18 +176,37 @@ function updateOnlineUsers(users) {
 
 // Function to handle chat initiation
 function startChat(username) {
-    // Add your logic here to start a private chat with the selected user
-    console.log('>>> Start chat with ' + username);
-
     // Open a popup window for the chat
     const popupWindow = window.open('', '_blank', 'width=400,height=300');
 
-     // Add your logic to customize the popup window content
-     popupWindow.document.write('<html><head><title>Chat with ' + username + '</title></head><body>');
-     popupWindow.document.write('<h2>Chat with ' + username + '</h2>');
-     popupWindow.document.write('<p>This is the chat content. Customize it as needed.</p>');
-     popupWindow.document.write('</body></html>');
+    // Add your logic to customize the popup window content
+    popupWindow.document.write('<html><head><title>Chat with ' + username + '</title></head><body>');
+    popupWindow.document.write('<h2>Chat with ' + username + '</h2>');
+    popupWindow.document.write('<div id="chatMessages"></div>');
+    popupWindow.document.write('<input type="text" id="messageInput" placeholder="Type a message..."/>');
+    popupWindow.document.write('<button onclick="sendMessage()">Send</button>');
+    popupWindow.document.write('</body></html>');
+
+    // Function to send a message from the popup window
+    popupWindow.sendMessage = function() {
+        const messageInput = popupWindow.document.getElementById('messageInput');
+        const chatMessages = popupWindow.document.getElementById('chatMessages');
+
+        const message = messageInput.value.trim();
+        if (message !== '') {
+            // Customize the way messages are displayed in the popup window
+            chatMessages.innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
+
+            // Add your logic to send the message to the other user
+            // Example: stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
+
+            // Clear the input field
+            messageInput.value = '';
+        }
+    };
 }
+
+
 
 // Call the fetchUserList function to initially populate the user list
 fetchUserList();
