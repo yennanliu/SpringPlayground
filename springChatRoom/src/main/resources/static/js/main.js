@@ -135,11 +135,33 @@ function updateOnlineUsers(users) {
     const userList = document.getElementById('userList');
     userList.innerHTML = ''; // Clear the list first
 
+//    users.forEach(user => {
+//        const listItem = document.createElement('li');
+//        listItem.textContent = user;
+//        userList.appendChild(listItem);
+//    });
+
     users.forEach(user => {
         const listItem = document.createElement('li');
-        listItem.textContent = user;
+
+        // Create a span for the green light
+        const greenLight = document.createElement('span');
+        greenLight.classList.add('green-light'); // You may need to define a CSS class for styling
+
+        // Append the green light span to the list item
+        listItem.appendChild(greenLight);
+
+        // Create a span for the username
+        const usernameSpan = document.createElement('span');
+        usernameSpan.textContent = user;
+
+        // Append the username span to the list item
+        listItem.appendChild(usernameSpan);
+
+        // Append the list item to the user list
         userList.appendChild(listItem);
     });
+
 }
 
 // Call the fetchUserList function to initially populate the user list
