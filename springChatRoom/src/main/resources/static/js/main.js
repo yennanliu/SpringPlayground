@@ -158,10 +158,26 @@ function updateOnlineUsers(users) {
         // Append the username span to the list item
         listItem.appendChild(usernameSpan);
 
+
+        // Create a "Chat" button
+        const chatButton = document.createElement('button');
+        chatButton.textContent = 'Chat';
+        chatButton.addEventListener('click', () => startChat(user)); // Replace with your chat initiation logic
+
+        // Append the "Chat" button to the list item
+        listItem.appendChild(chatButton);
+
+
         // Append the list item to the user list
         userList.appendChild(listItem);
     });
 
+}
+
+// Function to handle chat initiation
+function startChat(username) {
+    // Add your logic here to start a private chat with the selected user
+    console.log('>>> Start chat with ' + username);
 }
 
 // Call the fetchUserList function to initially populate the user list
