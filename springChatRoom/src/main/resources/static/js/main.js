@@ -197,6 +197,7 @@ function startChat(username) {
             // Customize the way messages are displayed in the popup window
             chatMessages.innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
 
+            // TODO : implement below in BE
             // Add your logic to send the message to the other user
             // Example: stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
 
