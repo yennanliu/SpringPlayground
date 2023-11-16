@@ -23,12 +23,21 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("ws").withSockJS(); // if browser not support websocket, use SockJS instead
     }
 
-
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 
+        /**
+         * 配置訊息代理
+         *
+         *  enableSimpleBroker： server端推送給client端的路徑prefix (server -> client)
+         *  setApplicationDestinationPrefixes： client端發送給server端的路徑prefix (client -> server)
+         *
+         *  https://hackmd.io/@mko123654/HkySHSe35
+         */
+
         //WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);
-        registry.setApplicationDestinationPrefixes("/app");
-        registry.enableSimpleBroker("/topic");
+        registry.setApplicationDestinationPrefixes("/app"); // (client -> server)
+        registry.enableSimpleBroker("/topic"); // (server -> client)
     }
+
 }

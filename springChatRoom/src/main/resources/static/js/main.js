@@ -1,8 +1,9 @@
 'use strict';
 
 // Ref
-// - https://www.callicoder.com/spring-boot-websocket-chat-example/
-// - https://blog.csdn.net/qqxx6661/article/details/98883166
+// https://www.callicoder.com/spring-boot-websocket-chat-example/
+// https://blog.csdn.net/qqxx6661/article/details/98883166
+// WebSocket common API : https://www.twblogs.net/a/5c03de16bd9eee728baac84b
 
 var usernamePage = document.querySelector('#username-page');
 var chatPage = document.querySelector('#chat-page');
@@ -37,6 +38,7 @@ function connect(event) {
 
 
 function onConnected() {
+
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);
 
@@ -45,6 +47,11 @@ function onConnected() {
         {},
         JSON.stringify({sender: username, type: 'JOIN'})
     )
+
+    // Subscribe to private topic
+//    stompClient.subscribe('/user/topic/private/{channelId}', (message) => {
+//            // Handle incoming private messages
+//    });
 
     connectingElement.classList.add('hidden');
 }
@@ -188,6 +195,11 @@ function startChat(username) {
      popupWindow.document.write('<p>This is the chat content. Customize it as needed.</p>');
      popupWindow.document.write('</body></html>');
 }
+
+// private msg (user - user)
+//function sendMessage(channelId, message) {
+//    stompClient.send(`/app/private/${channelId}`, {}, JSON.stringify(message));
+//}
 
 // Call the fetchUserList function to initially populate the user list
 fetchUserList();

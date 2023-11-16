@@ -1,6 +1,5 @@
 package com.yen.springChatRoom.controller;
 
-import com.yen.springChatRoom.bean.OnlineUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,13 +40,11 @@ public class UserController {
         Set<String> resultSet = redisTemplate.opsForSet().members(onlineUserKey);
         System.out.println("(getOnlineUser) resultSet = " + resultSet);
         // TODO : optimize below
-        OnlineUser onlineUser = new OnlineUser();
         List<String> users = new ArrayList<>();
         resultSet.forEach(x -> {
             users.add(x);
         });
-        onlineUser.setUsers(users);
-        return onlineUser.getUsers();
+        return users;
     }
 
 }
