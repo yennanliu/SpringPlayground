@@ -1,6 +1,6 @@
 package com.yen.springChatRoom.redis;
 
-import com.yen.springChatRoom.model.ChatMessage;
+import com.yen.springChatRoom.bean.ChatMessage;
 import com.yen.springChatRoom.service.ChatService;
 import com.yen.springChatRoom.util.JsonUtil;
 import org.slf4j.Logger;

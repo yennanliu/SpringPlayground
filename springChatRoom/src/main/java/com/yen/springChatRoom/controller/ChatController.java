@@ -1,20 +1,20 @@
 package com.yen.springChatRoom.controller;
 
-import com.yen.springChatRoom.model.ChatMessage;
+import com.yen.springChatRoom.bean.Message;
+import com.yen.springChatRoom.bean.ChatMessage;
 import com.yen.springChatRoom.util.JsonUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-
-import java.util.Set;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class ChatController {
@@ -34,6 +34,9 @@ public class ChatController {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
     //private RedisTemplate redisTemplate;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
@@ -77,6 +80,13 @@ public class ChatController {
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
+    }
+
+    // TODO : check @DestinationVariable ?
+    @RequestMapping("/private/{username}")
+    public void handlePrivateMessage(@DestinationVariable String username, Message message){
+
+        simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
     }
 
 }
