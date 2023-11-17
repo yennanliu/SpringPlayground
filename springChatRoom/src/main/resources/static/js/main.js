@@ -205,6 +205,12 @@ function startChat(username) {
             // Add your logic to send the message to the other user
             // Example: stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
 
+            // send msg to BE
+            //stompClient.subscribe('/app/private/' + username, onPrivateMessageReceived);
+            stompClient.subscribe('/app/private/' + username);
+            console.log(">>> send msg to /app/private/ : "  + message);
+            stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
+
             // Clear the input field
             messageInput.value = '';
         }
