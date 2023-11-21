@@ -15,5 +15,8 @@ public class CreatePost {
     private String content;
     private String synopsis;
     private String author;
+    private String fontSize;
+    private String fontStyle;
+    private String fontColor;
     private LocalDateTime dateTime;
 }

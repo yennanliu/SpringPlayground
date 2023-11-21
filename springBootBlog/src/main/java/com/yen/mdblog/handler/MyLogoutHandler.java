@@ -18,7 +18,7 @@ public class MyLogoutHandler implements LogoutHandler {
                        Authentication authentication) {
 
         // 登出時在console印出的訊息
-        System.out.println(">>> going to logoug ... MyLogoutHandler.logout()");
+        System.out.println(">>> going to logout ... MyLogoutHandler.logout()");
     }
 
 }
