@@ -42,20 +42,36 @@
         <label for="font-color">Font Color:</label>
         <input type="color" id="font-color" onchange="changeStyle()">
     </div>
+
+    <!-- Add hidden input fields to store font style values -->
+<!--    <input type="hidden" id="selectedFontSize" th:field="12px" />-->
+<!--    <input type="hidden" id="selectedFontStyle" th:field="Ariel" />-->
+<!--    <input type="hidden" id="selectedFontColor" th:field="red" />-->
+
+    <input type="hidden" th:value="20px" name="selectedFontSize" id="selectedFontSize" />
+
     <textarea id="content" name="courseMemo" th:field="*{content}" oninput="changeStyle()">blog content</textarea>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
 
 <script>
         function changeStyle() {
+
             var content = document.getElementById('content');
             var fontSize = document.getElementById('font-size').value;
             var fontStyle = document.getElementById('font-style').value;
             var fontColor = document.getElementById('font-color').value;
 
+            // Update hidden input fields with selected font style values
+            document.getElementById('selectedFontSize').value = fontSize;
+            document.getElementById('selectedFontStyle').value = fontStyle;
+            document.getElementById('selectedFontColor').value = fontColor;
+
+            // Apply style to content area
             content.style.fontSize = fontSize;
             content.style.fontFamily = fontStyle;
             content.style.color = fontColor;
+
         }
     </script>
 </body>
