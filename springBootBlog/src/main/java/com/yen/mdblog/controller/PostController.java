@@ -159,6 +159,11 @@ public class PostController {
 		post.setDateTime(LocalDateTime.now());
 		post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
 		post.setAuthorId(author.getId());
+
+		post.setFontSize(request.getFontSize());
+		post.setFontStyle(request.getFontStyle());
+		post.setFontColor(request.getFontColor());
+
 		post.setDateTime(LocalDateTime.now());
 		log.info(">>> request = " + request + " post = " + post + " author = " + author);
 		log.info(">>>> create post end ...");
@@ -187,7 +192,6 @@ public class PostController {
 		model.addAttribute("posts", posts);
 		// get current user login via spring security
 		model.addAttribute("user", principal.getName());
-		//Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
 		model.addAttribute("user", principal.getName());
 		return "post/my_post";
 	}

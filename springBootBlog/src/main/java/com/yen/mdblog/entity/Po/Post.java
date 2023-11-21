@@ -42,6 +42,15 @@ public class Post implements Serializable {
 	private Integer authorId;
 
 	@Column
+	private String fontSize;
+
+	@Column
+	private String fontStyle;
+
+	@Column
+	private String fontColor;
+
+	@Column
 	@Convert(converter = DateTimeUtil.class)
 	private LocalDateTime dateTime;
 }
