@@ -22,8 +22,8 @@
 
     <!-- public void insertPost(Post post); -->
     <insert id="insertPost">
-        INSERT INTO posts(`title`,`content`,`synopsis`,`author_id`, `date_time`)
-        values(#{Post.title},  #{Post.content}, #{Post.synopsis}, #{Post.authorId}, #{Post.dateTime})
+        INSERT INTO posts(`title`,`content`,`synopsis`,`author_id`, `font_size`, `font_style`, `font_color`, `date_time`)
+        values(#{Post.title},  #{Post.content}, #{Post.synopsis}, #{Post.authorId}, #{Post.fontSize}, #{Post.fontStyle}, #{Post.fontColor}, #{Post.dateTime})
     </insert>
 
     <!-- public void updatePost(Post post); -->

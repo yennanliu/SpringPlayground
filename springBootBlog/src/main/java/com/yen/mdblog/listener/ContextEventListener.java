@@ -70,6 +70,12 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
 					post.setContent(htmlContent);
 					post.setSynopsis(getSynopsisFromHtmlContent(htmlContent));
 					post.setDateTime(LocalDateTime.now());
+
+					// TODO : avoid hardcode below
+					post.setFontSize("12px");
+					post.setFontStyle("Ariel");
+					post.setFontColor("black");
+
 					postRepository.save(post);
 				}catch (Exception e){
 					System.out.println(">>> create post failed : " + e);
