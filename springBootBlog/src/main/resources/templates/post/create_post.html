@@ -38,10 +38,14 @@
             <option value="Times New Roman, serif">Times New Roman</option>
             <option value="Courier New, monospace">Courier New</option>
         </select>
-
         <label for="font-color">Font Color:</label>
         <input type="color" id="font-color" onchange="changeStyle()">
     </div>
+
+    <input type="hidden" th:value="20px" name="selectedFontSize" id="selectedFontSize"  th:field="*{FontSize}" />
+    <input type="hidden" th:value="Ariel" name="selectedFontStyle" id="selectedFontStyle" th:field="*{FontStyle}" />
+    <input type="hidden" th:value="red" name="selectedFontColor" id="selectedFontColor" th:field="*{FontColor}" />
+    
     <textarea id="content" name="courseMemo" th:field="*{content}" oninput="changeStyle()">blog content</textarea>
     <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
 </form>
@@ -53,9 +57,17 @@
             var fontStyle = document.getElementById('font-style').value;
             var fontColor = document.getElementById('font-color').value;
 
+            console.log(">>> fontSize = " + fontSize);
+
             content.style.fontSize = fontSize;
             content.style.fontFamily = fontStyle;
             content.style.color = fontColor;
+
+            document.getElementById('selectedFontSize').value = fontSize;
+            document.getElementById('selectedFontStyle').value = fontStyle;
+            document.getElementById('selectedFontColor').value = fontColor;
+
+            //console.log(">>> content = " + JSON.stringify(content));
         }
     </script>
 </body>
