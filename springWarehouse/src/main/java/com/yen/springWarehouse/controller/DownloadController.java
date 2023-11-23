@@ -39,7 +39,8 @@ public class DownloadController {
     DownloadStatusMapper downloadStatusMapper;
 
     String userDirectory = new File("").getAbsolutePath();
-    final String prefix = userDirectory + "/src/main/resources/report/";
+    //final String prefix = userDirectory + "/src/main/resources/report/";
+    final String prefix = userDirectory + "/src/main/resources/";
 
     @GetMapping("/list")
     public String list(Map<String, Object> map, @RequestParam(value="pageNo", required=false, defaultValue="1") String pageNoStr) {
@@ -77,6 +78,7 @@ public class DownloadController {
         map.put("age", 17);
         // save file to local // TODO : save it to remote file system (e.g. S3)
         Boolean result = fileUtil.writeJsonFile(map, prefix + fileName);
+        //Boolean result = fileUtil.writeJsonFile(map, fileName);
         if (result) {
             DownloadStatus downloadStatus = new DownloadStatus();
             downloadStatus.setStatus("completed");
@@ -97,10 +99,16 @@ public class DownloadController {
 
         log.info(">>> (ResponseEntity<Resource> downloadFile) url = " + url);
         //List<DownloadStatus> downloadStatusList = downloadStatusMapper.getAllDownloadStatus();
-        //String downloadUrl = "/report/" + downloadStatusList.get(0).getDownloadUrl();
-        String downloadUrl = "/report/" + url;
-        log.info("downloadUrl = " + downloadUrl);
-        Resource resource = new ClassPathResource(downloadUrl);
+        String downloadUrl = url;
+        log.info(">>> downloadUrl = " + downloadUrl);
+
+        // TODO : fix why can't read file from downloadUrl
+        //ClassPathResource resource = new ClassPathResource(String.valueOf(downloadUrl));
+        ClassPathResource resource = new ClassPathResource("demo_report.json");
+        log.info(resource.getPath());
+        log.info(String.valueOf(resource.exists()));
+        log.info(String.valueOf(resource.getURL()));
+
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("test.json"));
 
