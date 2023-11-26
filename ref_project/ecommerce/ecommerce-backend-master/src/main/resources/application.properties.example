@@ -1,0 +1,31 @@
+spring.datasource.url=jdbc:mysql://localhost:3306/ecommerce
+spring.datasource.username=root
+spring.datasource.password=root
+
+
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.initialization-mode=ALWAYS
+spring.jpa.hibernate.ddl-auto=update
+
+#Api Context Path prefix
+server.servlet.contextPath=/api
+
+spring.jpa.open-in-view=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQL5Dialect
+logging.level.org.hibernate.SQL=debug
+spring.jpa.properties.hibernate.globally_quoted_identifiers=true
+
+STRIPE_PUBLIC_KEY = STRIPE PUBLIC KEY
+STRIPE_SECRET_KEY = STRIPE SECRET KEY
+
+#For development use this url
+#baseURL=http://localhost:8081/
+#For production use this url
+baseURL=https://infallible-swartz-b50174.netlify.app
+
+server.port=8443
+security.require-ssl=true
+server.ssl.key-store=/etc/letsencrypt/live/remotedevs.org/keystore.p12
+server.ssl.key-store-password=password
+server.ssl.keyStoreType=PKCS12
+server.ssl.keyAlias=tomcat
