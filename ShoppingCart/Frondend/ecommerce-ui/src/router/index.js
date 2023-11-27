@@ -5,6 +5,7 @@ import HomeView from "../views/HomeView.vue";
 import AddCategory from "../views/Category/AddCategory";
 import EditCategory from "../views/Category/EditCategory";
 import Category from "../views/Category/Category";
+import Wishlist from "../views/Product/Wishlist.vue";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,12 @@ const routes = [
     path: "/admin/category/:id",
     name: "EditCategory",
     component: EditCategory,
+  },
+
+  {
+    path: "/wishlist",
+    name: "Wishlist",
+    component: Wishlist,
   },
 ];
 
