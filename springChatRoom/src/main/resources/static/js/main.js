@@ -44,6 +44,9 @@ function onConnected() {
     // Subscribe to the "/private" destination // TODO : make it general
     //stompClient.subscribe('/private/user123', onPrivateMessageReceived);
 
+    console.log(">>> subscribe /app/private/"+username );
+    stompClient.subscribe('/app/private/'+username);
+
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
@@ -210,9 +213,11 @@ function startChat(username) {
 
             // send msg to BE
             //stompClient.subscribe('/app/private/' + username, onPrivateMessageReceived);
-            stompClient.subscribe('/app/private/' + username);
+            //stompClient.subscribe('/app/private/' + username);
             console.log(">>> send msg to /app/private/" + username + ", message = " + message);
             stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
+
+            console.log("send private msg end")
 
             // Clear the input field
             messageInput.value = '';

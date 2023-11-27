@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -91,8 +92,8 @@ public class ChatController {
     }
 
     // TODO : check @DestinationVariable ?
-    @RequestMapping("/app/private/{username}")
-    public void handlePrivateMessage(@DestinationVariable String username, Message message){
+    @MessageMapping("/private/{username}")
+    public void handlePrivateMessage(@PathVariable String username, Message message){
 
         log.info("handlePrivateMessage : username = " + username + " message = " + message);
         // save to redis
