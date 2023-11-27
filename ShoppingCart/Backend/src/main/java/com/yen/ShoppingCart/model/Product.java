@@ -32,6 +32,10 @@ public class Product {
         this.category = category;
     }
 
+    public Product() {
+
+    }
+
     public Integer getId() {
         return id;
     }

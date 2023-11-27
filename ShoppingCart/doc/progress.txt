@@ -2,3 +2,6 @@
 
 # 20231126
 - https://dev.to/webtutsplus/let-s-develop-an-e-commerce-application-from-scratch-using-java-1gap
+
+# 20231127
+- https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-59o
