@@ -19,6 +19,18 @@ npm install --save axios
 npm install --save sweetalert
 ```
 
+```bash
+# if start from git clone :
+git clone https://github.com/yennanliu/SpringPlayground.git
+cd SpringPlayground/ShoppingCart/Frondend/ecommerce-ui
+npm install
+
+
+npm install --save axios
+
+npm install --save sweetalert
+```
+
 ## Run
 
 <details>
