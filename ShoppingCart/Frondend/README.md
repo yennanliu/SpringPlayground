@@ -12,6 +12,11 @@ vue create ecommerce-ui
 
 #  Run the following command in your command line to install the Vue router in your system
 vue add router
+
+# Axios is a popular, promise-based HTTP client that sports an easy-to-use API and can be used in both the browser and Node
+npm install --save axios
+
+npm install --save sweetalert
 ```
 
 ## Run

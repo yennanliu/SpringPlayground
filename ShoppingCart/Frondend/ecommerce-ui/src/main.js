@@ -4,6 +4,8 @@ import router from './router'
 
 /** APP ENTRY POINT */
 
+window.axios = require('axios')
+
 Vue.config.productionTip = false
 
 new Vue({
