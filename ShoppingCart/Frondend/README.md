@@ -5,6 +5,12 @@
 ## Steps
 
 
+## Setup
+
+```bash
+vue create ecommerce-ui
+```
+
 ## Run
 
 <details>
@@ -12,14 +18,10 @@
 
 ```bash
 #---------------------------
-# Run app
+# Run FE app
 #---------------------------
 
-# build
-mvn package
-
-# run
-java -jar <built_jar>
+npm run serve
 ```
 
 </details>
