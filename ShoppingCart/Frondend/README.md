@@ -39,7 +39,7 @@ npm run serve
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:8080/admin/category/add |  add  category | | |
-
+| http://localhost:8080/admin/category/ |  show  category | | |
 
 
 ## Important Concepts
