@@ -54,7 +54,8 @@
         }
         await axios({
           method: 'post',
-          url: this.baseURL+"category/update/"+this.id,
+          //url: this.baseURL+"category/update/"+this.id,
+          url: "http://localhost:9999/"+"category/update/"+this.id,
           data : JSON.stringify(updatedCategory),
           headers: {
             'Content-Type': 'application/json'
