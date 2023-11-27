@@ -25,7 +25,8 @@
         components : {CategoryBox},
         data() {
             return {
-                baseURL : "https://limitless-lake-55070.herokuapp.com/",
+                //baseURL : "https://limitless-lake-55070.herokuapp.com/",
+                baseURL: "http://localhost:9999/",
                 categories : null,
             }
         },
