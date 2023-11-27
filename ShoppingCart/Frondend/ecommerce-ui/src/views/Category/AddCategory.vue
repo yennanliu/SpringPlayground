@@ -22,7 +22,7 @@
              <label>ImageURL</label>
              <input type="url" class="form-control" v-model="imageURL" required>
            </div>
-           <button type="button" class="btn btn-primary">Submit</button>
+           <button type="button" class="btn btn-primary" @click="addCategory">Submit</button>
          </form>
         </div>
         <div class="col-3"></div>
@@ -31,6 +31,9 @@
  </template>
  
  <script>
+ var axios =  require('axios')
+ import swal from 'sweetalert';
+ 
  export default {
    data(){
      return {
@@ -39,9 +42,37 @@
        imageURL : null,
      }
    },
-   props : [],
    methods : {
-     
+     async addCategory() {
+       const newCategory = {
+         categoryName : this.categoryName,
+         description : this.description,
+         imageUrl : this.imageURL,
+       };
+ 
+       //const baseURL =  "https://limitless-lake-55070.herokuapp.com/";
+       const baseURL =  "http://localhost:9999/";
+ 
+ 
+       await axios({
+         method: 'post',
+         url: baseURL+"category/create",
+         data : JSON.stringify(newCategory),
+         headers: {
+           'Content-Type': 'application/json'
+         }
+       })
+       .then(() => {
+         swal({
+           text: "Category Added Successfully!",
+           icon: "success",
+           closeOnClickOutside: false,
+         });
+       })
+       .catch(err => console.log(err));
+     }
+   },
+   mounted(){
    }
  }
  </script>
