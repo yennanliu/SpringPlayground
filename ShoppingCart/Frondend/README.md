@@ -9,6 +9,9 @@
 
 ```bash
 vue create ecommerce-ui
+
+#  Run the following command in your command line to install the Vue router in your system
+vue add router
 ```
 
 ## Run
