@@ -3,8 +3,8 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
 import AddCategory from "../views/Category/AddCategory";
+import EditCategory from "../views/Category/EditCategory";
 import Category from "../views/Category/Category";
-
 
 Vue.use(VueRouter);
 
@@ -33,8 +33,13 @@ const routes = [
     path: "/admin/category",
     name: "AdminCategory",
     component: Category,
-}
+  },
 
+  {
+    path: "/admin/category/:id",
+    name: "EditCategory",
+    component: EditCategory,
+  },
 ];
 
 const router = new VueRouter({
