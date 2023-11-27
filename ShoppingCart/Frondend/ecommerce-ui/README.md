@@ -26,7 +26,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ### Vue intro
 
-#### Code structure
+#### 1) Code structure
 
 ```javascript
 <template>
@@ -49,7 +49,7 @@ The style tag houses the CSS of the component.
 
 src/components and src/views contain all our components.
 
-#### Folder Structure
+#### 2) Folder Structure
 
 Let’s go through the folder structure of our newly created Vue project
 
