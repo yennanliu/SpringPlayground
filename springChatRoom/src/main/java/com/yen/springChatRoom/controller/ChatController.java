@@ -1,21 +1,23 @@
 package com.yen.springChatRoom.controller;
 
-import com.yen.springChatRoom.model.ChatMessage;
+import com.yen.springChatRoom.bean.Message;
+import com.yen.springChatRoom.bean.ChatMessage;
 import com.yen.springChatRoom.util.JsonUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.Set;
-
+@Slf4j
 @Controller
 public class ChatController {
 
@@ -28,12 +30,18 @@ public class ChatController {
     @Value("${redis.channel.userStatus}")
     private String userStatus;
 
+    @Value("${redis.channel.private}")
+    private String privateChannel;
+
     final String onlineUserKey = "websocket.onlineUsers";
 
     // TODO : check difference ? RedisTemplate VS RedisTemplate<String, String>
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
     //private RedisTemplate redisTemplate;
+
+    @Autowired
+    private SimpMessagingTemplate simpMessagingTemplate;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
@@ -56,6 +64,9 @@ public class ChatController {
     @MessageMapping("/chat.sendMessage")
     public void sendMessage(@Payload ChatMessage chatMessage){
         try{
+
+            // test : save msg to redis
+            redisTemplate.opsForSet().add(msgToAll, JsonUtil.parseObjToJson(chatMessage));
             //redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage)));
             redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage));
         }catch (Exception e){
@@ -77,6 +88,19 @@ public class ChatController {
         } catch (Exception e) {
             LOGGER.error(e.getMessage(), e);
         }
+    }
+
+    // TODO : check @DestinationVariable ?
+    @RequestMapping("/app/private/{username}")
+    public void handlePrivateMessage(@DestinationVariable String username, Message message){
+
+        log.info("handlePrivateMessage : username = " + username + " message = " + message);
+        // save to redis
+
+        // redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
+        redisTemplate.opsForSet().add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
+
+        simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
     }
 
 }

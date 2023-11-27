@@ -37,8 +37,12 @@ function connect(event) {
 
 
 function onConnected() {
+
     // Subscribe to the Public Topic
     stompClient.subscribe('/topic/public', onMessageReceived);
+
+    // Subscribe to the "/private" destination // TODO : make it general
+    //stompClient.subscribe('/private/user123', onPrivateMessageReceived);
 
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
@@ -158,7 +162,6 @@ function updateOnlineUsers(users) {
         // Append the username span to the list item
         listItem.appendChild(usernameSpan);
 
-
         // Create a "Chat" button
         const chatButton = document.createElement('button');
         chatButton.textContent = 'Chat';
@@ -166,7 +169,6 @@ function updateOnlineUsers(users) {
 
         // Append the "Chat" button to the list item
         listItem.appendChild(chatButton);
-
 
         // Append the list item to the user list
         userList.appendChild(listItem);
@@ -189,6 +191,8 @@ function startChat(username) {
 
     // Function to send a message from the popup window
     popupWindow.sendMessage = function() {
+
+        console.log(">>> popupWindow.sendMessage")
         const messageInput = popupWindow.document.getElementById('messageInput');
         const chatMessages = popupWindow.document.getElementById('chatMessages');
 
@@ -197,8 +201,18 @@ function startChat(username) {
             // Customize the way messages are displayed in the popup window
             chatMessages.innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
 
+            // TODO: Fetch and display chat history
+            //fetchChatHistory(username, chatMessages);
+
+            // TODO : implement below in BE
             // Add your logic to send the message to the other user
             // Example: stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
+
+            // send msg to BE
+            //stompClient.subscribe('/app/private/' + username, onPrivateMessageReceived);
+            stompClient.subscribe('/app/private/' + username);
+            console.log(">>> send msg to /app/private/" + username + ", message = " + message);
+            stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
 
             // Clear the input field
             messageInput.value = '';
@@ -206,6 +220,19 @@ function startChat(username) {
     };
 }
 
+// Function to fetch and display chat history
+function fetchChatHistory(username, chatMessages) {
+    fetch('/app/chat/history/' + username)
+        .then(response => response.json())
+        .then(history => {
+            history.forEach(message => {
+                chatMessages.innerHTML += '<p><strong>' + message.sender + ':</strong> ' + message.content + '</p>';
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching chat history: ', error);
+        });
+}
 
 
 // Call the fetchUserList function to initially populate the user list
