@@ -3,6 +3,7 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
 import AddCategory from "../views/Category/AddCategory";
+import Category from "../views/Category/Category";
 
 
 Vue.use(VueRouter);
@@ -27,6 +28,13 @@ const routes = [
     name: "AddCategory",
     component: AddCategory,
   },
+
+  {
+    path: "/admin/category",
+    name: "AdminCategory",
+    component: Category,
+}
+
 ];
 
 const router = new VueRouter({
