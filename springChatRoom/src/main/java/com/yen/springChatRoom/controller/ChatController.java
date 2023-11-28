@@ -96,10 +96,13 @@ public class ChatController {
     public void handlePrivateMessage(@PathVariable String username, Message message){
 
         log.info("handlePrivateMessage : username = " + username + " message = " + message);
-        // save to redis
 
+        // save to redis
         // redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-        redisTemplate.opsForSet().add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
+        // TODO : fix data model
+        // current : handlePrivateMessage : username = {"sender":"fewfew","content":"777","type":"PRIVATE_CHAT"} message = Message(sender=fewfew, content=777, type=PRIVATE_CHAT)
+        //redisTemplate.opsForSet().add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
+        redisTemplate.opsForSet().add(privateChannel + "." + message.getSender(), JsonUtil.parseObjToJson(message));
 
         simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
     }

@@ -214,8 +214,17 @@ function startChat(username) {
             // send msg to BE
             //stompClient.subscribe('/app/private/' + username, onPrivateMessageReceived);
             //stompClient.subscribe('/app/private/' + username);
-            console.log(">>> send msg to /app/private/" + username + ", message = " + message);
-            stompClient.send('/app/private/' + username, {}, JSON.stringify({ sender: 'You', content: message, type: 'CHAT' }));
+
+             var chatMessage = {
+                        sender: username,
+                        content: messageInput.value,
+                        type: 'PRIVATE_CHAT'
+                    };
+
+            console.log(">>> chatMessage = " + JSON.stringify(chatMessage))
+
+            console.log(">>> send msg to /app/private/" + chatMessage.sender + ", message = " + message + " chatMessage = " + chatMessage);
+            stompClient.send(`/app/private/${chatMessage.sender}`, {}, JSON.stringify(chatMessage) );
 
             console.log("send private msg end")
 
