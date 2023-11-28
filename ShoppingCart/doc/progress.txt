@@ -9,3 +9,4 @@
 
 # 20231128
 - https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-part-3-wishlist-feature-26in
+- https://youtu.be/VZ1NV7EHGJw?si=l492wf7Onjzec8xR

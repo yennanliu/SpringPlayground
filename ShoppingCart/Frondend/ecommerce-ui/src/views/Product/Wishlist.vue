@@ -28,7 +28,7 @@ export default {
       
       
       // fetch products
-      axios.get(this.baseURL + "wishlist/"+this.token)
+      axios.get("http://localhost:9999/" + "wishlist/"+this.token)
         .then(data => this.products = data.data)
         .catch(err => console.log(err));
     },
