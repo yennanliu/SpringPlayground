@@ -7,7 +7,8 @@ import EditCategory from "../views/Category/EditCategory";
 import Category from "../views/Category/Category";
 import Wishlist from "../views/Product/Wishlist.vue";
 import ListProducts from '../views/Category/ListProducts.vue'
-
+import AddProduct from '../views/Product/AddProduct.vue'
+import EditProduct from '../views/Product/EditProduct.vue'
 import Product from '../views/Product/Product.vue'
 import ShowDetails from '../views/Product/ShowDetails.vue'
 
@@ -70,16 +71,16 @@ const routes = [
     name: 'AdminProduct',
     component: Product
   },
-  // {
-  //   path: '/admin/product/add',
-  //   name: 'AddProduct',
-  //   component: AddProduct
-  // },
-  // {
-  //   path: '/admin/product/:id',
-  //   name: 'EditProduct',
-  //   component: EditProduct,
-  // },
+  {
+    path: '/admin/product/add',
+    name: 'AddProduct',
+    component: AddProduct
+  },
+  {
+    path: '/admin/product/:id',
+    name: 'EditProduct',
+    component: EditProduct,
+  },
   {
     path : '/product/show/:id',
     name : 'ShowDetails',

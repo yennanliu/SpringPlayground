@@ -23,11 +23,11 @@
     name: 'Product',
     components : {ProductBox},
     props : [ "baseURL" , "products" ],
-    mounted(){
-      if (this.$route.name=='AdminProduct' && !localStorage.getItem('token')) {
-        this.$router.push({name : 'Signin'});
-      }
-    }
+    // mounted(){
+    //   if (this.$route.name=='AdminProduct' && !localStorage.getItem('token')) {
+    //     this.$router.push({name : 'Signin'});
+    //   }
+    // }
   }
   </script>
   
