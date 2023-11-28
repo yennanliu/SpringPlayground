@@ -1,6 +1,6 @@
 <template>
   <!-- https://github.com/webtutsplus/ecommerce-vuejs/blob/b4ba03b5e1ddf2de094c6eaf818743050135b654/src/components/Navbar.vue#L21 -->
-  
+
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <!--    Logo-->
     <router-link class="navbar-brand" :to="{ name: 'Home' }">
@@ -140,6 +140,7 @@
 </template>
 
 <script>
+import swal from "sweetalert";
 export default {
   name: "Navbar",
   props: ["cartCount"],
