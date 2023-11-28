@@ -6,3 +6,6 @@
 # 20231127
 - https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-59o
 - https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-part-3-wishlist-feature-26in
+
+# 20231128
+- https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-part-3-wishlist-feature-26in
