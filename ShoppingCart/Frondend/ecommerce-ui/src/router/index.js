@@ -6,6 +6,7 @@ import AddCategory from "../views/Category/AddCategory";
 import EditCategory from "../views/Category/EditCategory";
 import Category from "../views/Category/Category";
 import Wishlist from "../views/Product/Wishlist.vue";
+import ListProducts from '../views/Category/ListProducts.vue'
 
 Vue.use(VueRouter);
 
@@ -47,6 +48,12 @@ const routes = [
     name: "Wishlist",
     component: Wishlist,
   },
+  {
+    path : '/category/show/:id',
+    name : 'ListProducts',
+    component: ListProducts
+  },
+
 ];
 
 const router = new VueRouter({
