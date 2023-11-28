@@ -8,6 +8,9 @@ import Category from "../views/Category/Category";
 import Wishlist from "../views/Product/Wishlist.vue";
 import ListProducts from '../views/Category/ListProducts.vue'
 
+import Product from '../views/Product/Product.vue'
+import ShowDetails from '../views/Product/ShowDetails.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -25,6 +28,8 @@ const routes = [
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
+
+  // Category
   {
     path: "/admin/category/add",
     name: "AddCategory",
@@ -53,6 +58,34 @@ const routes = [
     name : 'ListProducts',
     component: ListProducts
   },
+
+  //Product routes
+  {
+    path: '/product',
+    name: 'Product',
+    component: Product
+  },
+  {
+    path: '/admin/product',
+    name: 'AdminProduct',
+    component: Product
+  },
+  // {
+  //   path: '/admin/product/add',
+  //   name: 'AddProduct',
+  //   component: AddProduct
+  // },
+  // {
+  //   path: '/admin/product/:id',
+  //   name: 'EditProduct',
+  //   component: EditProduct,
+  // },
+  {
+    path : '/product/show/:id',
+    name : 'ShowDetails',
+    component: ShowDetails
+  },
+
 
 ];
 

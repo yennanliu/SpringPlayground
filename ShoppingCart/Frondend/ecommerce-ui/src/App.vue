@@ -5,7 +5,8 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/admin/category">Category</router-link>  |
       <router-link to="/admin/category/add">Add</router-link> |
-      <router-link to="/admin/wishlist">Wishlist</router-link>
+      <router-link to="/admin/wishlist">Wishlist</router-link> |
+      <router-link to="/product">Product</router-link>
     </nav>
     <router-view/>
   </div>
