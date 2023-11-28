@@ -223,7 +223,7 @@ function startChat(username) {
 
             console.log(">>> chatMessage = " + JSON.stringify(chatMessage))
 
-            console.log(">>> send msg to /app/private/" + chatMessage.sender + ", message = " + message + " chatMessage = " + chatMessage);
+            console.log(">>> send msg to /private/" + chatMessage.sender + ", message = " + message + " chatMessage = " + chatMessage);
             stompClient.send(`/app/private/${chatMessage.sender}`, {}, JSON.stringify(chatMessage) );
 
             console.log("send private msg end")
@@ -236,7 +236,8 @@ function startChat(username) {
 
 // Function to fetch and display chat history
 function fetchChatHistory(username, chatMessages) {
-    fetch('/app/chat/history/' + username)
+    console.log("fetch history chat : " + `/private/history/${username}`)
+    fetch(`/private/history/${username}`)
         .then(response => response.json())
         .then(history => {
             history.forEach(message => {

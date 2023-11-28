@@ -18,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Set;
+
 @Slf4j
 @Controller
 public class ChatController {
@@ -105,6 +107,16 @@ public class ChatController {
         redisTemplate.opsForSet().add(privateChannel + "." + message.getSender(), JsonUtil.parseObjToJson(message));
 
         simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
+    }
+
+    @MessageMapping("/private/history/{username}")
+    public void getHistoryPrivateChat(@PathVariable String username, Message message){
+
+        String key = "/private/history/" + username;
+        // Set<String> resultSet = redisTemplate.opsForSet().members("key1");
+        Set<String> res = redisTemplate.opsForSet().members(key);
+        res.forEach(System.out::println);
+
     }
 
 }
