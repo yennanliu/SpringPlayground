@@ -15,11 +15,7 @@
       delcare global variable via router view
       -> so baseURL, categories are visible to ALL views
     -->
-    <router-view
-    :baseURL="baseURL"
-    :categories="categories"
-    >
-    </router-view>
+    <router-view :baseURL="baseURL" :categories="categories"> </router-view>
   </div>
 </template>
 
@@ -37,19 +33,17 @@ export default {
   },
   methods: {
     async fetchData() {
-
- // fetch products
+      // fetch products
       await axios
-        .get(this.baseURL + 'product/')
+        .get(this.baseURL + "product/")
         .then((res) => (this.products = res.data))
         .catch((err) => console.log(err));
 
       //fetch categories
       await axios
-        .get(this.baseURL + 'category/')
+        .get(this.baseURL + "category/")
         .then((res) => (this.categories = res.data))
         .catch((err) => console.log(err));
-
     },
   },
 

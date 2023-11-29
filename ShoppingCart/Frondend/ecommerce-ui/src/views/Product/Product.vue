@@ -18,11 +18,37 @@
   </template>
   
   <script>
+  // https://youtu.be/VZ1NV7EHGJw?si=JPmnA7oQoVdPJwAL&t=1450
+  // https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Product/Product.vue
+
   import ProductBox from '../../components/Product/ProductBox';
+  var axios =  require('axios');
+
   export default {
     name: 'Product',
     components : {ProductBox},
-    props : [ "baseURL" , "products" ],
+    //props : [ "baseURL" , "products" ],
+    props : [ "baseURL" ],
+
+    data() {
+            return {
+                //baseURL : "https://limitless-lake-55070.herokuapp.com/",
+                //baseURL: "http://localhost:9999/",
+                products : [],
+            }
+        },
+        methods: {
+            async getProducts() {
+                //fetch categories
+                await axios.get(this.baseURL + "product/")
+                    .then(res => this.products = res.data)
+                    .catch(err => console.log(err))
+            }
+        },
+        mounted(){
+            this.getProducts();
+        }
+
     // mounted(){
     //   if (this.$route.name=='AdminProduct' && !localStorage.getItem('token')) {
     //     this.$router.push({name : 'Signin'});
