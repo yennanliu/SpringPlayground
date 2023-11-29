@@ -11,7 +11,7 @@ import com.yen.springWarehouse.util.DateTimeUtils;
 import com.yen.springWarehouse.util.FileUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -102,12 +102,25 @@ public class DownloadController {
         String downloadUrl = url;
         log.info(">>> downloadUrl = " + downloadUrl);
 
+        // TODO : use readStream
+//        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
+//        InputStream inputStream = resourceLoader.getResource(downloadUrl).getInputStream();
+
+        Resource resource = null;
+        try{
+            File file = new File("src/main/resources/" + downloadUrl);
+            resource = new InputStreamResource(new FileInputStream(file));
+        }catch (Exception e){
+            log.error("download failed ");
+            e.printStackTrace();
+        }
+
         // TODO : fix why can't read file from downloadUrl
-        ClassPathResource resource = new ClassPathResource(String.valueOf(downloadUrl));
-        //ClassPathResource resource = new ClassPathResource("demo_report.json");
-        log.info(resource.getPath());
-        log.info(String.valueOf(resource.exists()));
-        log.info(String.valueOf(resource.getURL()));
+//        ClassPathResource resource = new ClassPathResource(String.valueOf(downloadUrl));
+//        //ClassPathResource resource = new ClassPathResource("demo_report.json");
+//        log.info(resource.getPath());
+//        log.info(String.valueOf(resource.exists()));
+//        log.info(String.valueOf(resource.getURL()));
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("dummy.json"));
