@@ -3,14 +3,43 @@
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/admin/category">Category</router-link>  |
+      <router-link to="/admin/category">Category</router-link> |
       <router-link to="/admin/category/add">Add</router-link> |
       <router-link to="/admin/wishlist">Wishlist</router-link> |
       <router-link to="/admin/product">Product</router-link>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+import axios from "axios";
+
+export default {
+  // components: {},
+  data() {
+    return {
+      baseURL: "http://localhost:9999/",
+      products: [],
+      categories: [],
+    };
+  },
+  methods: {
+    async fetchData() {
+      await axios
+        .get(this.baseURL + "category/")
+        .then((res) => {
+          this.categories = res.data;
+        })
+        .catch((err) => console.log("err : " + err));
+    },
+  },
+
+  mounted() {
+    this.fetchData;
+  },
+};
+</script>
 
 <style>
 #app {
