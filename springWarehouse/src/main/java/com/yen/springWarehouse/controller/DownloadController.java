@@ -102,10 +102,6 @@ public class DownloadController {
         String downloadUrl = url;
         log.info(">>> downloadUrl = " + downloadUrl);
 
-        // TODO : use readStream
-//        DefaultResourceLoader resourceLoader = new DefaultResourceLoader();
-//        InputStream inputStream = resourceLoader.getResource(downloadUrl).getInputStream();
-
         Resource resource = null;
         try{
             File file = new File("src/main/resources/" + downloadUrl);
@@ -118,12 +114,12 @@ public class DownloadController {
         // TODO : fix why can't read file from downloadUrl
 //        ClassPathResource resource = new ClassPathResource(String.valueOf(downloadUrl));
 //        //ClassPathResource resource = new ClassPathResource("demo_report.json");
-//        log.info(resource.getPath());
-//        log.info(String.valueOf(resource.exists()));
-//        log.info(String.valueOf(resource.getURL()));
+//        log.info(resource.getPath() + String.valueOf(resource.exists()) + String.valueOf(resource.getURL()));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("dummy.json"));
+        //headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("dummy.json"));
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format(downloadUrl));
+
         headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
 
         return ResponseEntity.ok()
