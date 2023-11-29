@@ -47,6 +47,8 @@ function onConnected() {
     console.log(">>> subscribe /app/private/"+username );
     stompClient.subscribe('/app/private/'+username);
 
+    stompClient.subscribe(`/app/private/chat_history/${username}`);
+
     // Tell your username to the server
     stompClient.send("/app/chat.addUser",
         {},
@@ -128,6 +130,7 @@ function getAvatarColor(messageSender) {
 
 // online user
 function fetchUserList() {
+    // NOTE !!! it's http call (not web socket call)
     fetch('/user/online_user') // Replace with the actual endpoint URL
         .then(response => response.json())
         .then(data => {
@@ -141,12 +144,6 @@ function fetchUserList() {
 function updateOnlineUsers(users) {
     const userList = document.getElementById('userList');
     userList.innerHTML = ''; // Clear the list first
-
-//    users.forEach(user => {
-//        const listItem = document.createElement('li');
-//        listItem.textContent = user;
-//        userList.appendChild(listItem);
-//    });
 
     users.forEach(user => {
         const listItem = document.createElement('li');
@@ -199,13 +196,12 @@ function startChat(username) {
         const messageInput = popupWindow.document.getElementById('messageInput');
         const chatMessages = popupWindow.document.getElementById('chatMessages');
 
+        //log.info(">>> chatMessages = " + JSON.stringify(chatMessages))
+
         const message = messageInput.value.trim();
         if (message !== '') {
             // Customize the way messages are displayed in the popup window
             chatMessages.innerHTML += '<p><strong>You:</strong> ' + message + '</p>';
-
-            // TODO: Fetch and display chat history
-            //fetchChatHistory(username, chatMessages);
 
             // TODO : implement below in BE
             // Add your logic to send the message to the other user
@@ -228,6 +224,11 @@ function startChat(username) {
 
             console.log("send private msg end")
 
+            // TODO : check whether send private msg to Redis or fetch history msg from Redis first ?
+            // TODO: Fetch and display chat history
+            //fetchChatHistory(username, chatMessages);
+            //fetchChatHistory(username);
+
             // Clear the input field
             messageInput.value = '';
         }
@@ -235,13 +236,14 @@ function startChat(username) {
 }
 
 // Function to fetch and display chat history
-function fetchChatHistory(username, chatMessages) {
-    console.log("fetch history chat : " + `/private/history/${username}`)
-    fetch(`/private/history/${username}`)
+function fetchChatHistory(username) {
+    fetch(`/private/chat_history/${username}`)
         .then(response => response.json())
+        .then(console.log(">>> response = " + JSON.stringify(response)))
         .then(history => {
             history.forEach(message => {
-                chatMessages.innerHTML += '<p><strong>' + message.sender + ':</strong> ' + message.content + '</p>';
+                //chatMessages.innerHTML += '<p><strong>' + message.sender + ':</strong> ' + message.content + '</p>';
+                console.log(">>> message = " + JSON.stringify(message))
             });
         })
         .catch(error => {
