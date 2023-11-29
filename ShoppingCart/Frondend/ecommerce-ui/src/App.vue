@@ -8,7 +8,18 @@
       <router-link to="/admin/wishlist">Wishlist</router-link> |
       <router-link to="/admin/product">Product</router-link>
     </nav>
-    <router-view />
+
+    <!-- 
+      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
+
+      delcare global variable via router view
+      -> so baseURL, categories are visible to ALL views
+    -->
+    <router-view
+    :baseURL="baseURL"
+    :categories="categories"
+    >
+    </router-view>
   </div>
 </template>
 

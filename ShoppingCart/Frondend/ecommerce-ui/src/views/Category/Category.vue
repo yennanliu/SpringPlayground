@@ -18,16 +18,19 @@
 </template>
 
 <script>
+    // https://youtu.be/VZ1NV7EHGJw?si=4WTLDL8usNMai9nh&t=660
+
     import CategoryBox from '../../components/Category/CategoryBox';
     var axios =  require('axios');
     export default {
         name: 'Category',
+        //props : ["categories"],
         components : {CategoryBox},
         data() {
             return {
                 //baseURL : "https://limitless-lake-55070.herokuapp.com/",
                 baseURL: "http://localhost:9999/",
-                categories : null,
+                categories : [],
             }
         },
         methods: {
