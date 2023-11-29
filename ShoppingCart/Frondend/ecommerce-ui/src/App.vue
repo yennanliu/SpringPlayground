@@ -26,7 +26,7 @@ export default {
   // components: {},
   data() {
     return {
-      baseURL: "http://localhost:9999/",
+      baseURL: "http://localhost:9999/", // this baseURL will be read by all views
       products: [],
       categories: [],
     };

@@ -33,7 +33,7 @@
     data() {
             return {
                 //baseURL : "https://limitless-lake-55070.herokuapp.com/",
-                //baseURL: "http://localhost:9999/",
+                //baseURL: "http://localhost:9999/", // NOTE !! we read baseURL from App.vue
                 products : [],
             }
         },
@@ -47,13 +47,16 @@
         },
         mounted(){
             this.getProducts();
+
         }
 
+    // TODO : deal with token, login/logout    
     // mounted(){
     //   if (this.$route.name=='AdminProduct' && !localStorage.getItem('token')) {
     //     this.$router.push({name : 'Signin'});
     //   }
     // }
+
   }
   </script>
   
