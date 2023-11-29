@@ -37,12 +37,19 @@ export default {
   },
   methods: {
     async fetchData() {
+
+ // fetch products
       await axios
-        .get(this.baseURL + "category/")
-        .then((res) => {
-          this.categories = res.data;
-        })
-        .catch((err) => console.log("err : " + err));
+        .get(this.baseURL + 'product/')
+        .then((res) => (this.products = res.data))
+        .catch((err) => console.log(err));
+
+      //fetch categories
+      await axios
+        .get(this.baseURL + 'category/')
+        .then((res) => (this.categories = res.data))
+        .catch((err) => console.log(err));
+
     },
   },
 
