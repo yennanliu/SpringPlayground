@@ -70,7 +70,7 @@
 		<h1 th:utext="${post.title}">Title</h1>
 		<p class="card-subtitle mb-2"
 		   th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</p>
-		<p th:utext="${post.content}" style="font-size: ${post.fontSize}; font-family: ${post.fontStyle}; color: ${post.fontColor};">Content</p>
+		<p th:utext="${post.content}" th:style="'font-size: ' + ${post.fontSize} + '; color: ' + ${post.fontColor} + '; font-family: ' + ${post.fontStyle}">Content</p>
 	</article>
 </div>
 <!-- create comment -->
