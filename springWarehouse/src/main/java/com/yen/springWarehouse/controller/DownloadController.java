@@ -103,14 +103,15 @@ public class DownloadController {
         log.info(">>> downloadUrl = " + downloadUrl);
 
         // TODO : fix why can't read file from downloadUrl
-        //ClassPathResource resource = new ClassPathResource(String.valueOf(downloadUrl));
-        ClassPathResource resource = new ClassPathResource("demo_report.json");
+        ClassPathResource resource = new ClassPathResource(String.valueOf(downloadUrl));
+        //ClassPathResource resource = new ClassPathResource("demo_report.json");
         log.info(resource.getPath());
         log.info(String.valueOf(resource.exists()));
         log.info(String.valueOf(resource.getURL()));
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("test.json"));
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=%s".format("dummy.json"));
+        headers.add(HttpHeaders.CONTENT_TYPE, "application/json");
 
         return ResponseEntity.ok()
                 .headers(headers)
