@@ -29,7 +29,13 @@
     <!-- public void updatePost(Post post); -->
     <update id="updatePost">
         UPDATE posts
-        SET title = #{Post.title}, content = #{Post.content}, synopsis = #{Post.synopsis}
+        SET
+        title = #{Post.title},
+        content = #{Post.content},
+        synopsis = #{Post.synopsis},
+        font_size = #{Post.fontSize},
+        font_style = #{Post.fontStyle},
+        font_color = #{Post.fontColor}
         WHERE id = #{Post.id}
     </update>
 

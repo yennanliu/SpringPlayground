@@ -3,7 +3,60 @@
 <head>
 <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
     <meta charset="UTF-8" name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
-    <title>This is the title of the Spring Boot POC!</title>
+    <title>Edit post</title>
+    <style>
+         body {
+         font-family: 'Arial', sans-serif;
+         background-color: #f8f9fa;
+         color: #343a40;
+         margin: 0;
+         }
+         .container {
+         max-width: 800px;
+         margin: 0 auto;
+         }
+         .alert-danger {
+         background-color: #f8d7da;
+         border-color: #f5c6cb;
+         color: #721c24;
+         }
+         .article {
+         background-color: #fff;
+         border: 1px solid #ddd;
+         padding: 20px;
+         margin: 10px;
+         }
+         .comment {
+         background-color: #f8f9fa;
+         border: 1px solid #ddd;
+         padding: 10px;
+         margin: 10px 0;
+         }
+         .comment h3 {
+         color: #007bff;
+         }
+         .comment .card {
+         background-color: #fff;
+         border: 1px solid #ddd;
+         margin-top: 10px;
+         }
+         .comment .card-body {
+         padding: 10px;
+         }
+         .form-container {
+         margin: 10px;
+         }
+         textarea {
+         width: 100%;
+         margin-bottom: 10px;
+         }
+         input[type="text"],
+         input[type="submit"],
+         input[type="reset"] {
+         padding: 8px;
+         margin-right: 5px;
+         }
+      </style>
 </head>
 <body>
 <div th:insert="header"></div>
@@ -24,12 +77,55 @@
         <input type="text" name="title" th:value="*{title}" >
     </div>
     <div>
+        <label for="font-size">Font Size:</label>
+        <select id="font-size" onchange="changeStyle()">
+            <option value="12px">12px</option>
+            <option value="16px">16px</option>
+            <option value="20px">20px</option>
+        </select>
+
+        <label for="font-style">Font Style:</label>
+        <select id="font-style" onchange="changeStyle()">
+            <option value="Arial, sans-serif">Arial</option>
+            <option value="Times New Roman, serif">Times New Roman</option>
+            <option value="Courier New, monospace">Courier New</option>
+        </select>
+        <label for="font-color">Font Color:</label>
+        <input type="color" id="font-color" onchange="changeStyle()">
+    </div>
+
+    <input type="hidden" th:value="20px" name="selectedFontSize" id="selectedFontSize"  th:field="*{FontSize}" />
+    <input type="hidden" th:value="Ariel" name="selectedFontStyle" id="selectedFontStyle" th:field="*{FontStyle}" />
+    <input type="hidden" th:value="red" name="selectedFontColor" id="selectedFontColor" th:field="*{FontColor}" />
+
+    <div>
         <span>Content:</span>
-        <textarea name="content" rows="6" cols="60">[[${post.content}]]</textarea>
+        <textarea id="content" name="content" rows="6" cols="60" oninput="changeStyle()">[[${post.content}]]</textarea>
     </div>
     <div>
         <input type="submit" value="Submit"/>
     </div>
 </form>
+<script>
+        // TODO : refactor and import JS
+        function changeStyle() {
+            var content = document.getElementById('content');
+            var fontSize = document.getElementById('font-size').value;
+            var fontStyle = document.getElementById('font-style').value;
+            var fontColor = document.getElementById('font-color').value;
+
+            console.log(">>> fontSize = " + fontSize);
+
+            content.style.fontSize = fontSize;
+            content.style.fontFamily = fontStyle;
+            content.style.color = fontColor;
+
+            document.getElementById('selectedFontSize').value = fontSize;
+            document.getElementById('selectedFontStyle').value = fontStyle;
+            document.getElementById('selectedFontColor').value = fontColor;
+
+            //console.log(">>> content = " + JSON.stringify(content));
+        }
+    </script>
 </body>
 </html>
