@@ -2,7 +2,7 @@ package com.yen.ShoppingCart.service;
 
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
-import com.yen.ShoppingCart.model.dto.ProductDto;
+import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

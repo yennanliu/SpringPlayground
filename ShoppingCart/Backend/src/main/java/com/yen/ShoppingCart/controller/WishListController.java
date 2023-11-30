@@ -4,7 +4,7 @@ import com.yen.ShoppingCart.common.ApiResponse;
 import com.yen.ShoppingCart.model.Product;
 import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.WishList;
-import com.yen.ShoppingCart.model.dto.ProductDto;
+import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.ProductService;
 import com.yen.ShoppingCart.service.WishListService;

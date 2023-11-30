@@ -1,15 +1,15 @@
-package com.yen.ShoppingCart.model.dto;
+package com.yen.ShoppingCart.model.dto.product;
 
-import com.sun.istack.NotNull;
 import com.yen.ShoppingCart.model.Product;
 
 public class ProductDto {
+
     private Integer id;
-    private @NotNull String name;
-    private @NotNull String imageURL;
-    private @NotNull double price;
-    private @NotNull String description;
-    private @NotNull Integer categoryId;
+    private String name;
+    private String imageURL;
+    private double price;
+    private String description;
+    private  Integer categoryId;
 
     public ProductDto(Product product) {
         this.setId(product.getId());
@@ -20,7 +20,7 @@ public class ProductDto {
         this.setCategoryId(product.getCategory().getId());
     }
 
-    public ProductDto(@NotNull String name, @NotNull String imageURL, @NotNull double price, @NotNull String description, @NotNull Integer categoryId) {
+    public ProductDto(String name, String imageURL, double price, String description,  Integer categoryId) {
         this.name = name;
         this.imageURL = imageURL;
         this.price = price;
@@ -78,5 +78,4 @@ public class ProductDto {
     public void setCategoryId(Integer categoryId) {
         this.categoryId = categoryId;
     }
-
 }
