@@ -2,15 +2,24 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
+// Category
 import AddCategory from "../views/Category/AddCategory";
 import EditCategory from "../views/Category/EditCategory";
 import Category from "../views/Category/Category";
+
+// Wishlist
 import Wishlist from "../views/Product/Wishlist.vue";
-import ListProducts from '../views/Category/ListProducts.vue'
-import AddProduct from '../views/Product/AddProduct.vue'
-import EditProduct from '../views/Product/EditProduct.vue'
-import Product from '../views/Product/Product.vue'
-import ShowDetails from '../views/Product/ShowDetails.vue'
+
+// product
+import ListProducts from "../views/Category/ListProducts.vue";
+import AddProduct from "../views/Product/AddProduct.vue";
+import EditProduct from "../views/Product/EditProduct.vue";
+import Product from "../views/Product/Product.vue";
+import ShowDetails from "../views/Product/ShowDetails.vue";
+
+// signin, signup
+import Signup from "../views/Signup.vue";
+import Signin from "../views/Signin.vue";
 
 Vue.use(VueRouter);
 
@@ -55,39 +64,49 @@ const routes = [
     component: Wishlist,
   },
   {
-    path : '/category/show/:id',
-    name : 'ListProducts',
-    component: ListProducts
+    path: "/category/show/:id",
+    name: "ListProducts",
+    component: ListProducts,
   },
 
   //Product routes
   {
-    path: '/product',
-    name: 'Product',
-    component: Product
+    path: "/product",
+    name: "Product",
+    component: Product,
   },
   {
-    path: '/admin/product',
-    name: 'AdminProduct',
-    component: Product
+    path: "/admin/product",
+    name: "AdminProduct",
+    component: Product,
   },
   {
-    path: '/admin/product/add',
-    name: 'AddProduct',
-    component: AddProduct
+    path: "/admin/product/add",
+    name: "AddProduct",
+    component: AddProduct,
   },
   {
-    path: '/admin/product/:id',
-    name: 'EditProduct',
+    path: "/admin/product/:id",
+    name: "EditProduct",
     component: EditProduct,
   },
   {
-    path : '/product/show/:id',
-    name : 'ShowDetails',
-    component: ShowDetails
+    path: "/product/show/:id",
+    name: "ShowDetails",
+    component: ShowDetails,
   },
 
-
+  //Signin and Signup
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup,
+  },
+  {
+    path: "/signin",
+    name: "Signin",
+    component: Signin,
+  },
 ];
 
 const router = new VueRouter({
