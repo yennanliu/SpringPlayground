@@ -47,7 +47,22 @@ export default {
   },
 
   mounted() {
-    this.fetchData;
+    /**  
+     *  // NOTE!!! via this method call, we can get products, categories
+     *     when launch FE app (App.vue is imported to main.js as main FE entry point),
+     *     so all other views (e.g. Product, EditProduct, Category, EditCategory...)
+     *     can use products, categories directly via
+     *  
+     *     props: ["baseURL", "categories", "products"],
+     * 
+     *     this.categories
+     *     this.products
+     *     
+     *     ..
+     * 
+     *     via above trick, we can simplify our code, and make logic more clear, simple
+     */
+    this.fetchData();
   },
 };
 </script>

@@ -1,89 +1,98 @@
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h3 class="pt-3">Edit Category</h3>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div class="col-3"></div>
-        <div class="col-md-6 px-5 px-md-0">
-          <form>
-            <div class="form-group">
-              <label>Category Name</label>
-              <input type="text" class="form-control" v-model="categoryName" required>
-            </div>
-            <div class="form-group">
-              <label>Description</label>
-              <input type="text" class="form-control" v-model="description" required>
-            </div>
-            <div class="form-group">
-              <label>ImageURL</label>
-              <input type="url" class="form-control" v-model="imageUrl" required>
-            </div>
-            <button type="button" class="btn btn-primary" @click="editCategory">Submit</button>
-          </form>
-        </div>
-        <div class="col-3"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h4 class="pt-3">Edit Category</h4>
       </div>
     </div>
-  </template>
-  
-  <script>
-  var axios =  require('axios')
-  import swal from 'sweetalert';
-  export default {
-    data(){
-      return {
-        id : null,
-        categoryName : null,
-        description : null,
-        imageUrl : null,
-        categoryIndex : null
-      }
-    },
-    props : ["baseURL", "category"],
-    methods : {
-      async editCategory() {
-        const updatedCategory = {
-          id : this.id,
-          categoryName : this.categoryName,
-          description : this.description,
-          imageUrl : this.imageUrl,
-        }
-        await axios({
-          method: 'post',
-          //url: this.baseURL+"category/update/"+this.id,
-          url: "http://localhost:9999/"+"category/update/"+this.id,
-          data : JSON.stringify(updatedCategory),
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-        .then(() => {
+
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-md-6 px-5 px-md-0">
+        <form v-if="category">
+          <div class="form-group">
+            <label>Category Name</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="category.categoryName"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Description</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="category.description"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>ImageURL</label>
+            <input
+              type="url"
+              class="form-control"
+              v-model="category.imageUrl"
+              required
+            />
+          </div>
+          <button type="button" class="btn btn-primary" @click="editCategory">
+            Submit
+          </button>
+        </form>
+      </div>
+      <div class="col-3"></div>
+    </div>
+  </div>
+</template>
+
+<script>
+var axios = require("axios");
+import swal from "sweetalert";
+
+export default {
+  data() {
+    return {
+      category: null,
+    };
+  },
+  props: ["baseURL", "categories"],
+  methods: {
+    async editCategory() {
+      delete this.category["products"];
+      await axios
+        .post(this.baseURL + "category/update/" + this.id, this.category)
+        .then((res) => {
+          //sending the event to parent to handle
+          console.log(res);
+          this.$emit("fetchData");
+          this.$router.push({ name: "AdminCategory" });
           swal({
             text: "Category Updated Successfully!",
             icon: "success",
             closeOnClickOutside: false,
           });
         })
-        .catch(err => console.log(err));
-      }
+        .catch((err) => console.log(err));
     },
-    mounted() {
-      this.id = this.$route.params.id;
-      this.categoryName = this.category.categoryName;
-      this.description = this.category.description;
-      this.imageUrl = this.category.imageUrl;
-    }
-  }
-  </script>
-  
-  <style scoped>
-  h4 {
-    font-family: 'Roboto', sans-serif;
-    color: #484848;
-    font-weight: 700;
-  }
-  </style>
+  },
+  mounted() {
+    // if (!localStorage.getItem('token')) {
+    //   this.$router.push({name : 'Signin'});
+    //   return;
+    // }
+    this.id = this.$route.params.id;
+    this.category = this.categories.find((category) => category.id == this.id);
+    console.log("category", this.category);
+  },
+};
+</script>
+
+<style scoped>
+h4 {
+  font-family: "Roboto", sans-serif;
+  color: #484848;
+  font-weight: 700;
+}
+</style>

@@ -1,0 +1,17 @@
+## Ref
+
+Tutorial
+	- Part 1 : https://dev.to/webtutsplus/let-s-develop-an-e-commerce-application-from-scratch-using-java-1gap
+	- Part 2 : https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-59o
+
+- Video
+	- FE : https://www.youtube.com/playlist?list=PLzXSm2gSfuPIIoymeZWdH_uRWqIIT-iQy
+	- BE : https://www.youtube.com/playlist?list=PLzXSm2gSfuPJc2sSAmmud6TLpx0H7otyd
+
+- Code
+	- BE code : https://github.com/webtutsplus/ecommerce-backend
+	- FE code : https://github.com/webtutsplus/ecommerce-vuejs
+
+- Final demo:
+	- BE : https://limitless-lake-55070.herokuapp.com/swagger-ui.html
+	- FE : https://simplecoding-ecommerce.netlify.app/signin
