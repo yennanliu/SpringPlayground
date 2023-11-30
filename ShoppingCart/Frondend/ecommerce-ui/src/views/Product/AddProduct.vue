@@ -76,9 +76,10 @@ export default {
       description: null,
       imageURL: null,
       price: null,
+      categories: [],
     };
   },
-  props: ["baseURL", "products", "categories"],
+  props: ["baseURL", "products"],
   methods: {
     async addProduct() {
       const newProduct = {
@@ -100,7 +101,7 @@ export default {
       })
         .then((res) => {
           //sending the event to parent to handle
-          console.log(res)
+          console.log(res);
           this.$emit("fetchData");
           this.$router.push({ name: "AdminProduct" });
           swal({
@@ -111,12 +112,25 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+
+    async getCategories() {
+      //fetch categories
+      await axios
+        .get(this.baseURL + "category/")
+        .then((res) => (this.categories = res.data))
+        .catch((err) => console.log(err));
+    },
   },
-//   mounted() {
-//     if (!localStorage.getItem("token")) {
-//       this.$router.push({ name: "Signin" });
-//     }
-//   },
+
+  mounted() {
+    this.getCategories();
+  },
+
+  //   mounted() {
+  //     if (!localStorage.getItem("token")) {
+  //       this.$router.push({ name: "Signin" });
+  //     }
+  //   },
 };
 </script>
 
