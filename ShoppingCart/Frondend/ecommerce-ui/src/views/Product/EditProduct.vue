@@ -69,23 +69,27 @@
 </template>
 
 <script>
+var axios = require("axios");
 import swal from "sweetalert";
-import axios from "axios";
 
 export default {
   data() {
     return {
       product: null,
+      products: [],
     };
   },
-  props: ["baseURL", "products", "categories"],
+  //props: ["baseURL", "products", "categories"],
+  props: ["baseURL", "categories"],
   methods: {
     async editProduct() {
       axios
-        //post(this.baseURL + "product/update/" + this.id, this.product)
-        .post("localhost:9999" + "product/update/" + this.id, this.product)
+        .post(
+          "http://localhost:9999/" + "product/update/" + this.id,
+          this.product
+        )
         .then((res) => {
-        console.log(res)
+          console.log(res);
           //sending the event to parent to handle
           this.$emit("fetchData");
           this.$router.push({ name: "AdminProduct" });
@@ -97,14 +101,41 @@ export default {
         })
         .catch((err) => console.log("err", err));
     },
+
+    async getProduct() {
+      //fetch categories
+      await axios
+        .get(this.baseURL + "product/")
+        .then((res) => {
+          //console.log("res = " + JSON.stringify(res))
+          //console.log("res.data = " + JSON.stringify(res.data))
+          console.log(
+            "this.products.find = " +
+              JSON.stringify(res.data.find((product) => product.id == 1))
+          );
+          // use this approach for now
+          this.product = res.data.find(
+            (product) => product.id == this.$route.params.id
+          );
+        })
+        .catch((err) => console.log(err));
+    },
   },
   mounted() {
     // if (!localStorage.getItem("token")) {
     //   this.$router.push({ name: "Signin" });
     //   return;
     // }
+
+    this.getProduct();
     this.id = this.$route.params.id;
-    this.product = this.products.find((product) => product.id == this.id);
+    console.log("this.id  = " + this.id);
+    console.log("this.products  = " + JSON.stringify(this.products));
+    console.log("this.categories  = " + JSON.stringify(this.categories));
+
+    // TODO : fix why can filter product via id
+    //this.product = this.products.find((product) => product.id == this.id);
+    //console.log(">>> this.product  = " + JSON.stringify(this.product));
   },
 };
 </script>

@@ -48,6 +48,7 @@
 </template>
 
 <script>
+// TODO : fix data not shown when fresh page (not submit edit requst yet)
 var axios = require("axios");
 import swal from "sweetalert";
 
@@ -84,7 +85,7 @@ export default {
     // }
     this.id = this.$route.params.id;
     this.category = this.categories.find((category) => category.id == this.id);
-    console.log("category", this.category);
+    console.log(">>> category", this.category);
   },
 };
 </script>

@@ -26,8 +26,8 @@ export default {
   data() {
     return {
       baseURL: "http://localhost:9999/", // this baseURL will be read by all views
-      products: [],
-      categories: [],
+      products: null,
+      categories: null,
     };
   },
   methods: {
@@ -47,19 +47,19 @@ export default {
   },
 
   mounted() {
-    /**  
+    /**
      *  // NOTE!!! via this method call, we can get products, categories
      *     when launch FE app (App.vue is imported to main.js as main FE entry point),
      *     so all other views (e.g. Product, EditProduct, Category, EditCategory...)
      *     can use products, categories directly via
-     *  
+     *
      *     props: ["baseURL", "categories", "products"],
-     * 
+     *
      *     this.categories
      *     this.products
-     *     
+     *
      *     ..
-     * 
+     *
      *     via above trick, we can simplify our code, and make logic more clear, simple
      */
     this.fetchData();
