@@ -1,10 +1,13 @@
 package com.yen.ShoppingCart.controller;
 
 import com.yen.ShoppingCart.enums.Role;
+import com.yen.ShoppingCart.exception.AuthenticationFailException;
 import com.yen.ShoppingCart.exception.CustomException;
 import com.yen.ShoppingCart.model.AuthenticationToken;
 import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.ResponseDto;
+import com.yen.ShoppingCart.model.dto.user.SignInDto;
+import com.yen.ShoppingCart.model.dto.user.SignInResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignupDto;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.service.AuthenticationService;
@@ -32,5 +35,49 @@ import static com.yen.ShoppingCart.config.MessageStrings.USER_CREATED;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UserController {
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    AuthenticationService authenticationService;
+
+    @Autowired
+    UserService userService;
+
+    @GetMapping("/all")
+    public List<User> findAllUser(@RequestParam("token") String token) throws AuthenticationFailException {
+
+        authenticationService.authenticate(token);
+        return userRepository.findAll();
+    }
+
+    @PostMapping("/signup")
+    public ResponseDto Signup(@RequestBody SignupDto signupDto) throws CustomException {
+
+        return userService.signUp(signupDto);
+    }
+
+    //TODO token should be updated
+    @PostMapping("/signIn")
+    public SignInResponseDto Signup(@RequestBody SignInDto signInDto) throws CustomException {
+
+        return userService.signIn(signInDto);
+    }
+
+    // TODO : fix/check below
+    //    @PostMapping("/updateUser")
+//    public ResponseDto updateUser(@RequestParam("token") String token, @RequestBody UserUpdateDto userUpdateDto) {
+//        authenticationService.authenticate(token);
+//        return userService.updateUser(token, userUpdateDto);
+//    }
+
+
+//    @PostMapping("/createUser")
+//    public ResponseDto updateUser(@RequestParam("token") String token, @RequestBody UserCreateDto userCreateDto)
+//            throws CustomException, AuthenticationFailException {
+//        authenticationService.authenticate(token);
+//        return userService.createUser(token, userCreateDto);
+//    }
 
 }
