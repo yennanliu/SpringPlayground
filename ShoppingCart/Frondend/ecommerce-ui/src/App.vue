@@ -3,9 +3,12 @@
     <nav>
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link> |
-      <router-link to="/admin/category">Category</router-link> |
-      <router-link to="/admin/wishlist">Wishlist</router-link> |
-      <router-link to="/admin/product">Product</router-link> |
+      <router-link to="/category">Category</router-link> |
+      <router-link to="/wishlist">Wishlist</router-link> |
+      <router-link to="/product">Product</router-link> |
+      <router-link to="/admin/category">Category (admin)</router-link> |
+      <router-link to="/admin/wishlist">Wishlist (admin)</router-link> |
+      <router-link to="/admin/product">Product (admin)</router-link> |
       <router-link to="/signup">Signup</router-link> |
       <router-link to="/signin">Signin</router-link> 
     </nav>
