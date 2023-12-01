@@ -3,9 +3,9 @@ import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
 
 // Category
-import AddCategory from "../views/Category/AddCategory";
-import EditCategory from "../views/Category/EditCategory";
-import Category from "../views/Category/Category";
+import Category from "../views/Category/Category.vue";
+import AddCategory from "../views/Category/AddCategory.vue";
+import EditCategory from "../views/Category/EditCategory.vue";
 
 // Wishlist
 import Wishlist from "../views/Product/Wishlist.vue";
@@ -24,11 +24,15 @@ import Signin from "../views/Signin.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  // home view
   {
     path: "/",
     name: "home",
     component: HomeView,
   },
+
+  // admin view
+
   {
     path: "/about",
     name: "about",
@@ -39,34 +43,38 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
 
-  // Category
+  //Category routes
   {
-    path: "/admin/category/add",
-    name: "AddCategory",
-    component: AddCategory,
+    path: "/category",
+    name: "Category",
+    component: Category,
   },
-
   {
     path: "/admin/category",
     name: "AdminCategory",
     component: Category,
   },
-
+  {
+    path: "/admin/category/add",
+    name: "AddCategory",
+    component: AddCategory,
+  },
   {
     path: "/admin/category/:id",
     name: "EditCategory",
     component: EditCategory,
   },
-
-  {
-    path: "/wishlist",
-    name: "Wishlist",
-    component: Wishlist,
-  },
   {
     path: "/category/show/:id",
     name: "ListProducts",
     component: ListProducts,
+  },
+
+  // wishlist
+  {
+    path: "/wishlist",
+    name: "Wishlist",
+    component: Wishlist,
   },
 
   //Product routes
