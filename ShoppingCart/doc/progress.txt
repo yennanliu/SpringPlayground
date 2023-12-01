@@ -16,7 +16,7 @@
 - https://youtu.be/VZ1NV7EHGJw?si=l492wf7Onjzec8xR
 
 # 20231201
-- https://dev.to/nilmadhabmondal/let-s-develop-shopping-cart-for-ecommerce-app-5f0h (not yet implement)
+- https://dev.to/nilmadhabmondal/let-s-develop-shopping-cart-for-ecommerce-app-5f0h (done)
 - https://dev.to/nilmadhabmondal/let-s-add-a-shopping-cart-feature-in-vue-js-for-our-ecommerce-app-581c (not yet implement)
 - https://dev.to/nilmadhabmondal/let-s-add-a-checkout-feature-in-spring-boot-for-our-ecommerce-app-5bii  (not yet implement)
 - https://dev.to/nilmadhabmondal/let-s-add-a-checkout-feature-in-vue-js-for-our-ecommerce-app-2fnc
