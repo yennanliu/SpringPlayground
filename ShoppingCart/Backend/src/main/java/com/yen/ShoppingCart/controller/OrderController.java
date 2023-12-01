@@ -1,7 +1,15 @@
 package com.yen.ShoppingCart.controller;
 
+import com.stripe.exception.StripeException;
+import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.yen.ShoppingCart.common.ApiResponse;
+import com.yen.ShoppingCart.exception.AuthenticationFailException;
+import com.yen.ShoppingCart.exception.OrderNotFoundException;
+import com.yen.ShoppingCart.model.Order;
+import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.checkout.CheckoutItemDto;
+import com.yen.ShoppingCart.model.dto.checkout.StripeResponse;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 
 @Slf4j
 @RestController
@@ -28,5 +38,64 @@ public class OrderController {
     @Autowired
     private AuthenticationService authenticationService;
 
+    // stripe create session API
+    @PostMapping("/create-checkout-session")
+    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws  StripeException {
+
+        // create the stripe session
+        Session session = orderService.createSession(checkoutItemDtoList);
+        log.info("Stripe session = " + session.toString());
+        StripeResponse stripeResponse = new StripeResponse(session.getId());
+        // send the stripe session id in response
+        return new ResponseEntity<StripeResponse>(stripeResponse, HttpStatus.OK);
+    }
+
+    // place order after checkout
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> placeOrder(@RequestParam("token") String token, @RequestParam("sessionId") String sessionId)
+            throws AuthenticationFailException {
+
+        log.info("(placeOrder) token = " + token);
+        // validate token
+        authenticationService.authenticate(token);
+        // retrieve user
+        User user = authenticationService.getUser(token);
+        log.info("(placeOrder) user = " + user);
+        // place the order
+        orderService.placeOrder(user, sessionId);
+        return new ResponseEntity<>(new ApiResponse(true, "Order has been placed"), HttpStatus.CREATED);
+    }
+
+    // get all orders
+    @GetMapping("/")
+    public ResponseEntity<List<Order>> getAllOrders(@RequestParam("token") String token) throws AuthenticationFailException {
+
+        log.info("(getAllOrders) token = " + token);
+        // validate token
+        authenticationService.authenticate(token);
+        // retrieve user
+        User user = authenticationService.getUser(token);
+        // get orders
+        List<Order> orderDtoList = orderService.listOrders(user);
+
+        return new ResponseEntity<>(orderDtoList, HttpStatus.OK);
+    }
+
+    // get orderitems for an order
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getOrderById(@PathVariable("id") Integer id, @RequestParam("token") String token)
+            throws AuthenticationFailException {
+
+        log.info("(getOrderById) token = " + token + " id = " + id);
+        // validate token
+        authenticationService.authenticate(token);
+        try {
+            Order order = orderService.getOrder(id);
+            return new ResponseEntity<>(order,HttpStatus.OK);
+        }
+        catch (OrderNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
+        }
+    }
 
 }
