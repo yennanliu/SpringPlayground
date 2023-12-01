@@ -28,7 +28,8 @@ java -jar <built_jar>
 
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
-| http://localhost:9999/swagger-ui.html |  | | |
+| http://localhost:8080| UI home page (FE) | | |
+| http://localhost:9999/swagger-ui.html | API page (BE) | | |
 
 
 
