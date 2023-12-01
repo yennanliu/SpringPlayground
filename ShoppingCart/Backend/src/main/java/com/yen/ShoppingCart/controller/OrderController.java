@@ -1,7 +1,10 @@
 package com.yen.ShoppingCart.controller;
 
+import com.stripe.param.checkout.SessionCreateParams;
+import com.yen.ShoppingCart.model.dto.checkout.CheckoutItemDto;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.OrderService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+@Slf4j
 @RestController
 @RequestMapping("/order")
 public class OrderController {
@@ -23,5 +27,6 @@ public class OrderController {
 
     @Autowired
     private AuthenticationService authenticationService;
+
 
 }
