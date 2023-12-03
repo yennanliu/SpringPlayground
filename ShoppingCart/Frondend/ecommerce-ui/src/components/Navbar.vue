@@ -1,6 +1,4 @@
 <template>
-  <!-- https://github.com/webtutsplus/ecommerce-vuejs/blob/b4ba03b5e1ddf2de094c6eaf818743050135b654/src/components/Navbar.vue#L21 -->
-
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <!--    Logo-->
     <router-link class="navbar-brand" :to="{ name: 'Home' }">
@@ -66,9 +64,9 @@
             Browse
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Home' }"
+            <!-- <router-link class="dropdown-item" :to="{ name: 'Home' }"
               >Home</router-link
-            >
+            > -->
             <router-link class="dropdown-item" :to="{ name: 'Product' }"
               >Product</router-link
             >
@@ -100,9 +98,9 @@
             <router-link class="dropdown-item" v-else :to="{ name: 'Wishlist' }"
               >Wishlist</router-link
             >
-            <router-link class="dropdown-item" :to="{ name: 'Admin' }"
+            <!-- <router-link class="dropdown-item" :to="{ name: 'Admin' }"
               >Admin</router-link
-            >
+            > -->
             <router-link
               class="dropdown-item"
               v-if="!token"
@@ -121,25 +119,27 @@
           </div>
         </li>
 
-        <li class="nav-item">
+        <!-- <li class="nav-item">
           <router-link class="nav-link text-light" :to="{ name: 'Order' }"
             >Orders</router-link
           >
-        </li>
-        <li class="nav-item">
+        </li> -->
+        <!-- <li class="nav-item">
           <div id="cart">
             <span id="nav-cart-count">{{ cartCount }}</span>
             <router-link class="text-light" :to="{ name: 'Cart' }"
-              ><i class="fa fa-shopping-cart" style="font-size:36px"></i
+              ><i class="fa fa-shopping-cart" style="font-size: 36px"></i
             ></router-link>
           </div>
-        </li>
+        </li> -->
       </ul>
     </div>
   </nav>
 </template>
 
 <script>
+// https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/components/Navbar.vue
+
 import swal from "sweetalert";
 export default {
   name: "Navbar",

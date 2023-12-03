@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+//import HomeView from "../views/HomeView.vue";
+import Home from '../views/Home.vue'
 
 // Category
 import Category from "../views/Category/Category.vue";
@@ -27,8 +28,8 @@ const routes = [
   // home view
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Home",
+    component: Home,
   },
 
   // admin view
