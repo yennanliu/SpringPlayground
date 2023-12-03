@@ -13,6 +13,7 @@ import com.yen.ShoppingCart.model.dto.cart.CartDto;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.CartService;
 import com.yen.ShoppingCart.service.ProductService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 //import javax.validation.Valid;
 
+@Slf4j
 @RestController
 @RequestMapping("/cart")
 public class CartController {
@@ -48,6 +50,7 @@ public class CartController {
     @GetMapping("/")
     public ResponseEntity<CartDto> getCartItems(@RequestParam("token") String token) throws AuthenticationFailException {
 
+        log.info("getCartItems : token = " + token);
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);
         CartDto cartDto = cartService.listCartItems(user);

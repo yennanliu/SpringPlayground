@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 //import HomeView from "../views/HomeView.vue";
-import Home from '../views/Home.vue'
+import Home from "../views/Home.vue";
 
 // Category
 import Category from "../views/Category/Category.vue";
@@ -17,6 +17,9 @@ import AddProduct from "../views/Product/AddProduct.vue";
 import EditProduct from "../views/Product/EditProduct.vue";
 import Product from "../views/Product/Product.vue";
 import ShowDetails from "../views/Product/ShowDetails.vue";
+
+// Cart
+import Cart from "../views/Cart/Cart.vue";
 
 // signin, signup
 import Signup from "../views/Signup.vue";
@@ -103,6 +106,13 @@ const routes = [
     path: "/product/show/:id",
     name: "ShowDetails",
     component: ShowDetails,
+  },
+
+  // Cart
+  {
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
   },
 
   //Signin and Signup

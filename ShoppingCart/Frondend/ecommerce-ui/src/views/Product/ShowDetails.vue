@@ -136,7 +136,7 @@ export default {
     },
 
     listCartItems() {
-      axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
+      axios.get(`http://localhost:9999/cart/?token=${this.token}`).then(
         (response) => {
           if (response.status === 200) {
             this.$router.push("/cart");
@@ -150,11 +150,13 @@ export default {
   },
   mounted() {
     this.id = this.$route.params.id;
+    console.log("this.id = " + this.id)
     this.product = this.products.find((product) => product.id == this.id);
     this.category = this.categories.find(
       (category) => category.id == this.product.categoryId
     );
     this.token = localStorage.getItem("token");
+    console.log("this.token = " + this.token)
   },
 };
 </script>
