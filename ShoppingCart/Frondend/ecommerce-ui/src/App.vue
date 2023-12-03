@@ -33,6 +33,7 @@ export default {
       baseURL: "http://localhost:9999/", // this baseURL will be read by all views
       products: null,
       categories: null,
+      token: null,
     };
   },
   methods: {
@@ -67,7 +68,9 @@ export default {
      *
      *     via above trick, we can simplify our code, and make logic more clear, simple
      */
-    this.fetchData();
+     this.token = localStorage.getItem('token');
+     console.log("this.token = " + this.token)
+     this.fetchData();
   },
 };
 </script>
