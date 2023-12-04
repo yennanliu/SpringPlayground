@@ -7,7 +7,7 @@
       </div>
       <div class="col-md-6 col-12 pt-3 pt-md-0">
         <h4>{{ product.name }}</h4>
-        <h6 class="category font-italic">{{ category.categoryName }}</h6>
+        <!-- <h6 class="category font-italic">{{ category.categoryName }}</h6> -->
         <h6 class="font-weight-bold">$ {{ product.price }}</h6>
         <p>
           {{ product.description }}
@@ -147,16 +147,64 @@ export default {
         }
       );
     },
+
+    // TODO : fix with filter from product list
+    async getProduct() {
+      //fetch categories
+      await axios
+        .get(this.baseURL + "product/")
+        .then((res) => {
+          console.log("this.$route.params.id = " + this.$route.params.id);
+          console.log(
+            "this.products.find = " +
+              JSON.stringify(
+                res.data.find((product) => product.id == this.$route.params.id)
+              )
+          );
+          // use this approach for now
+          this.product = res.data.find(
+            (product) => product.id == this.$route.params.id
+          );
+        })
+        .catch((err) => console.log(err));
+    },
+     // TODO : fix with filter from category list
+    async getCategory() {
+      //fetch categories
+      await axios
+        .get(this.baseURL + "category/")
+        .then((res) => {
+          console.log("this.$route.params.id = " + this.$route.params.id);
+          console.log(
+            "this.categories.find = " +
+              JSON.stringify(
+                res.data.find(
+                  (category) => category.id == this.$route.params.id
+                )
+              )
+          );
+          // use this approach for now
+          this.category = res.data.find(
+            (category) => category.id == this.$route.params.id
+          );
+        })
+        .catch((err) => console.log(err));
+    },
   },
   mounted() {
     this.id = this.$route.params.id;
-    console.log("this.id = " + this.id)
-    this.product = this.products.find((product) => product.id == this.id);
-    this.category = this.categories.find(
-      (category) => category.id == this.product.categoryId
-    );
+    console.log("this.id = " + this.id);
+    this.getProduct();
+    this.getCategory();
+    //this.product = this.products.find((product) => product.id == this.id);
+    // console.log(">>> this.product = " + JSON.stringify(this.product))
+    // console.log(">>> this.product.categoryId  = " + this.product.categoryId)
+    // this.category = this.categories.find(
+    //   (category) => category.id == this.product.categoryId
+    // );
+    // console.log(">>> this.category = " + JSON.stringify(this.category))
     this.token = localStorage.getItem("token");
-    console.log("this.token = " + this.token)
+    console.log("this.token = " + this.token);
   },
 };
 </script>

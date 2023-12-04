@@ -98,12 +98,16 @@ export default {
         (response) => {
           if (response.status == 200) {
             const result = response.data;
+            console.log(
+              ">>> (listCartItems) result = " + JSON.stringify(result)
+            );
             // store cartitems and total price in two variables
             this.cartItems = result.cartItems;
             this.totalcost = result.totalCost;
           }
         },
         (error) => {
+          console.log(">>> (listCartItems) error = " + error);
           console.log(error);
         }
       );
