@@ -19,7 +19,7 @@ import Product from "../views/Product/Product.vue";
 import ShowDetails from "../views/Product/ShowDetails.vue";
 
 // Cart
-//import Cart from "../views/Cart/Cart.vue";
+import Cart from "../views/Cart/Cart.vue";
 
 // Checkout
 import Checkout from "../views/Checkout/Checkout.vue";
@@ -112,11 +112,11 @@ const routes = [
   },
 
   // Cart
-  // {
-  //   path: "/cart",
-  //   name: "Cart",
-  //   component: Cart,
-  // },
+  {
+    path: "/cart",
+    name: "Cart",
+    component: Cart,
+  },
 
   // checkout
   {
