@@ -26,7 +26,7 @@
               type="button"
               id="add-to-cart-button"
               class="btn"
-              @click="addToCart(this.id)"
+              @click="addToCart()"
             >
               Add to Cart
               <ion-icon name="cart-outline" v-pre></ion-icon>
@@ -104,7 +104,7 @@ export default {
           }
         );
     },
-    addToCart(productId) {
+    addToCart() {
       if (!this.token) {
         swal({
           text: "Please log in first!",
@@ -114,7 +114,7 @@ export default {
       }
       axios
         .post(`${this.baseURL}cart/add?token=${this.token}`, {
-          productId: productId,
+          productId: this.id, //productId, // TODO : fix get id from input param (use this.id approach for now)
           quantity: this.quantity,
         })
         .then(
@@ -154,6 +154,9 @@ export default {
       await axios
         .get(this.baseURL + "product/")
         .then((res) => {
+          console.log(">>> this.$route.params.id = " + this.$route.params.id)
+          this.id = this.$route.params.id;
+          console.log(">>> this.id =  " + this.id)
           console.log("this.$route.params.id = " + this.$route.params.id);
           console.log(
             "this.products.find = " +
@@ -192,8 +195,8 @@ export default {
     },
   },
   mounted() {
-    this.id = this.$route.params.id;
-    console.log("this.id = " + this.id);
+    // this.id = this.$route.params.id;
+    // console.log(">>> this.id = " + this.id);
     this.getProduct();
     this.getCategory();
     //this.product = this.products.find((product) => product.id == this.id);
