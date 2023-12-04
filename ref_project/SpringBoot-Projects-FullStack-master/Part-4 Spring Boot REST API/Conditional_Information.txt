@@ -1,0 +1,66 @@
+Part-4. Spring Boot REST API
+-------------------------------
+* Asect Oriented Programming
+
+         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+
+(100%)
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* SpringBootSwagger2Enablin
+
+
+
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* SpringBoot-swagger-profile
+* SpringFileUploadDownload
+* SpringJerseyJPA
+* SpringJerseySimple
+* SpringMySQL
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+* SpringRestDB
+ -----
+MySQL
+JPA
+WEB
+Hibernate (create, create-drop, validate, update)
+Update your tools and Maven
+(working -100%)
+
+
+spring.jpa.hibernate.ddl-auto = update
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+* SpringMySQL
+------------
+ - SpringBoot
+ - Java
+ - JPA
+ - MySQL
+ - POSTMAN
+
+
+
+100% working well. 
+working well
+1. GET 
+2. POST  
+
+need to know 
+3. PUT
+4. DELETE
+---------------------------------------------------------------------------
+SpringJerseyJPA
+-----------------
+
+Source code is not error
+but complier error.
