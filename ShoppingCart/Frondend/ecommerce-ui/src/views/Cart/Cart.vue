@@ -52,8 +52,13 @@
           <br /><a href="#" class="text-right" @click="deleteItem(cartItem.id)"
             >Remove From Cart</a
           >
+          <!-- TODO : add UpdateCart button -->
+          <!-- <br /><a href="#" class="text-right" @click="updateItem(cartItem.id)"
+          >Update Cart</a
+        > -->
         </div>
       </div>
+
       <div class="col-2"></div>
       <div class="col-12"><hr /></div>
     </div>
@@ -135,6 +140,24 @@ export default {
       this.$router.push({
         name: "ShowDetails",
         params: { id: productId },
+      });
+    },
+    updateItem(itemId, quantity) {
+      let i;
+      console.log(">>> (updateItem) this.cartItem = " + JSON.stringify(this.cartItem))
+      for (i = 0; i < this.len; i++) {
+        if (this.cartItem[i].id === itemId) {
+          break;
+        }
+      }
+      this.cartItem[i].pQuantity = quantity;
+      let userId = this.cartItem[i].userId;
+      let productId = this.cartItem[i].pId;
+      axios.put(`${this.baseURL}cart/update/${itemId}/?token=${this.token}`, {
+        id: itemId,
+        userId,
+        productId,
+        quantity,
       });
     },
   },
