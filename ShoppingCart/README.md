@@ -4,6 +4,9 @@
 
 ## Steps
 
+- Create an account in Stripe (BE checkout)
+	- https://dashboard.stripe.com/register?redirect=%2Fdocs%2Fjs%2Finitializing
+
 
 ## Run
 
