@@ -17,6 +17,8 @@ vue add router
 npm install --save axios
 
 npm install --save sweetalert
+
+npm install --save stripe
 ```
 
 ```bash
@@ -29,6 +31,8 @@ npm install
 npm install --save axios
 
 npm install --save sweetalert
+
+npm install --save stripe
 ```
 
 ## Run

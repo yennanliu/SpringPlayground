@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <div class="div_class">
     <h3>You will be redirected to payment page</h3>
 
@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+const Stripe = require('stripe');
 var axios = require("axios");
 export default {
   data() {
@@ -82,6 +83,7 @@ export default {
     // get the token
     this.token = localStorage.getItem("token");
     // get all the cart items
+    // API ref : https://stripe.com/docs/api?lang=node
     this.stripe = Stripe(this.stripeAPIToken);
     this.getAllItems();
   },
@@ -131,4 +133,4 @@ export default {
   border-radius: 15px;
   cursor: not-allowed;
 }
-</style> -->
+</style>
