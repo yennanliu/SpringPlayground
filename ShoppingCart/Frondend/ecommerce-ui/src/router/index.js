@@ -28,6 +28,10 @@ import Checkout from "../views/Checkout/Checkout.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 
+// success, failed
+import Success from '../helper/payment/Success.vue'
+import Failed from '../helper/payment/Failed.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -136,6 +140,20 @@ const routes = [
     name: "Signin",
     component: Signin,
   },
+
+
+  // success, failed
+  {
+    path: '/payment/success',
+    name: 'PaymentSuccess',
+    component:Success
+  },
+  {
+    path: '/payment/failed',
+    name: 'FailedPayment',
+    component:Failed
+  },
+
 ];
 
 const router = new VueRouter({

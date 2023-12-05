@@ -17,7 +17,7 @@
   </div>
 </template>
 <script>
-const Stripe = require('stripe');
+const Stripe = require("stripe");
 var axios = require("axios");
 export default {
   data() {
@@ -37,7 +37,10 @@ export default {
         Configures Stripe by setting up the elements and
         creating the card element.
       */
-    configureStripe() {},
+    configureStripe() {
+      console.log(">>> this.stripeAPIToken = " + this.stripeAPIToken)
+      this.stripe = Stripe(this.stripeAPIToken);
+    },
 
     getAllItems() {
       axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
@@ -84,7 +87,8 @@ export default {
     this.token = localStorage.getItem("token");
     // get all the cart items
     // API ref : https://stripe.com/docs/api?lang=node
-    this.stripe = Stripe(this.stripeAPIToken);
+    //this.stripe = Stripe(this.stripeAPIToken);
+    this.configureStripe();
     this.getAllItems();
   },
 };
