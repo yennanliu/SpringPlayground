@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
 class ProductServiceTest {
-    
+
     @Mock
     ProductRepository productRepository;
 
@@ -41,13 +41,14 @@ class ProductServiceTest {
     public void setUp(){
 
         System.out.println("setup ...");
-        // public Product(String name, String imageURL, double price, String description, Category category) {
         Category category = new Category();
         product = new Product("prod_name","img_url", 100.0, "some desp", category);
+        product.setId(1);
         productDto = new ProductDto(product);
 
         productList = new ArrayList<>();
         for (int i = 0; i < 3; i++){
+            product.setId(i+2);
             productList.add(product);
         }
     }
@@ -89,6 +90,28 @@ class ProductServiceTest {
         Mockito.when(productRepository.findAll()).thenReturn(new ArrayList<>());
         List<ProductDto> res = productService.listProducts();
         assertEquals(res.size(), 0);
+    }
+
+    @Test
+    public void testGetDtoFromProduct(){
+
+        ProductDto receivedProdDTO = ProductService.getDtoFromProduct(product);
+        assertEquals(receivedProdDTO.getName(), "prod_name");
+        assertEquals(receivedProdDTO.getImageURL(), "img_url");
+        assertEquals(receivedProdDTO.getDescription(), "some desp");
+        assertEquals(receivedProdDTO.getPrice(), 100.0);
+    }
+
+    @Test
+    public void testUpdateProduct(){
+
+        // TODO : fix below test logic
+        Product newProduct = new Product("new_prod_name","new_img_url", 999.0, "new desp", category);
+        newProduct.setId(1);
+        ProductDto newProductDto = new ProductDto();
+        Mockito.when(productRepository.save(product)).thenReturn(newProduct);
+        productService.updateProduct(1, newProductDto, category);
+        assertEquals(newProduct.getName(), "new_prod_name");
     }
 
 }
