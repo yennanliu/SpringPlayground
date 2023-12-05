@@ -42,6 +42,9 @@ public class OrderController {
     @PostMapping("/create-checkout-session")
     public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws  StripeException {
 
+        log.info("(checkoutList) checkoutItemDtoList = ");
+        checkoutItemDtoList.forEach(x -> {System.out.println(x.toString());});
+
         // create the stripe session
         Session session = orderService.createSession(checkoutItemDtoList);
         log.info("Stripe session = " + session.toString());

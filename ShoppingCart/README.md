@@ -37,5 +37,11 @@ java -jar <built_jar>
 | http://localhost:9999/swagger-ui.html | API page (BE) | | |
 
 
+## Dependency
+
+- Java 11 (for using Stripe client properly)
+- Vue.js
+- npm
+- Mysql
 
 ## Important Concepts

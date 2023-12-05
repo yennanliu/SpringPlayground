@@ -57,7 +57,9 @@ public class OrderService {
                         )
                         .build();
 
-        log.info("currency = " + priceData.getCurrency() + " product = " + priceData.getProduct());
+        // TODO : fix hardcode below
+        //priceData.
+        log.info("currency = " + priceData.getCurrency() + ", product = " + priceData.getProduct());
         return priceData;
     }
 
@@ -85,6 +87,7 @@ public class OrderService {
 
         // set the private key
         Stripe.apiKey = apiKey;
+        log.info("apiKey = " + apiKey + " Stripe.apiKey = " + Stripe.apiKey);
 
         List<SessionCreateParams.LineItem> sessionItemsList = new ArrayList<>();
 
@@ -93,7 +96,11 @@ public class OrderService {
             sessionItemsList.add(createSessionLineItem(checkoutItemDto));
         }
 
+        log.info("sessionItemsList = " + sessionItemsList);
+        sessionItemsList.forEach(x -> {System.out.println(x.toString());});
+
         // build the session param
+        log.info("build Stripe session start");
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -102,6 +109,7 @@ public class OrderService {
                 .setSuccessUrl(successURL)
                 .build();
 
+        log.info("build Stripe session end");
         return Session.create(params);
     }
 

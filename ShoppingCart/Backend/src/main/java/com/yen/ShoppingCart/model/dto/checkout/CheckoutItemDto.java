@@ -1,5 +1,8 @@
 package com.yen.ShoppingCart.model.dto.checkout;
 
+import lombok.ToString;
+
+@ToString
 public class CheckoutItemDto {
 
     private String productName;
@@ -55,7 +58,5 @@ public class CheckoutItemDto {
     public void setProductId(long id) {
         this.productId = id;
     }
-
-
 
 }
