@@ -22,7 +22,6 @@ public class ProductService {
 
         Product product = getProductFromDto(productDto, category);
         productRepository.save(product);
-
     }
 
     // local method
