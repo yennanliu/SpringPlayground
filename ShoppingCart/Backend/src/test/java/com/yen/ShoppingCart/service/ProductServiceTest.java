@@ -1,5 +1,6 @@
 package com.yen.ShoppingCart.service;
 
+import com.yen.ShoppingCart.exception.ProductNotExistException;
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
 import com.yen.ShoppingCart.model.dto.product.ProductDto;
@@ -16,6 +17,7 @@ import org.mockito.quality.Strictness;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -48,8 +50,9 @@ class ProductServiceTest {
 
         productList = new ArrayList<>();
         for (int i = 0; i < 3; i++){
-            product.setId(i+2);
-            productList.add(product);
+            Product tmpProd = new Product("prod_name","img_url", 100.0, "some desp", category);
+            tmpProd.setId(i+2);
+            productList.add(tmpProd);
         }
     }
 
@@ -112,6 +115,31 @@ class ProductServiceTest {
         Mockito.when(productRepository.save(product)).thenReturn(newProduct);
         productService.updateProduct(1, newProductDto, category);
         assertEquals(newProduct.getName(), "new_prod_name");
+    }
+
+    @Test
+    public void testShouldGetProductIfExist(){
+
+        Mockito.when(productRepository.findById(1)).thenReturn(Optional.ofNullable(product));
+
+        Product receivedProd = productService.getProductById(1);
+        assertEquals(receivedProd.getId(), 1);
+        assertEquals(receivedProd.getName(), "prod_name");
+        assertEquals(receivedProd.getImageURL(), "img_url");
+        assertEquals(receivedProd.getPrice(), 100.0);
+        assertEquals(receivedProd.getDescription(), "some desp");
+    }
+
+    @Test
+    public void testShouldThrowExceptionIfNotExist(){
+
+        int id = 999;
+        // https://www.developer.com/java/java-optional-object/#:~:text=You%20can%20create%20an%20Optional,if%20the%20value%20is%20null.
+        Optional dummyResp = Optional.empty();
+        Mockito.when(productRepository.findById(999)).thenReturn(dummyResp);
+        Exception exception = assertThrows(ProductNotExistException.class, () -> {
+            productService.getProductById(id);
+        });
     }
 
 }
