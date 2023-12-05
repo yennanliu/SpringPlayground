@@ -17,12 +17,20 @@
   </div>
 </template>
 <script>
-const Stripe = require("stripe");
+//const Stripe = require("stripe");
+// import { ConvertApi } from 'exports-loader?type=commonjs&exports=ConvertApi!convertapi-js'
+// load JS SDK explicitly :
+// https://stackoverflow.com/questions/65485241/use-javascript-sdk-in-vue-project
+//import {Stripe} from 'https://js.stripe.com/v3/'
+import {loadStripe} from '@stripe/stripe-js';
+const stripe = await loadStripe('pk_test_51OJSFeLMMLE7XGb55zFRgu8PdipN0S8rpdHUtnVpTSNn7SLsWnrG7rdq2ETBNkzMYGdB7P81hhGzy6GtZJDMI9RV00S6SpI6YB');
+// const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
+
 var axios = require("axios");
 export default {
   data() {
     return {
-      stripeAPIToken: process.env.VUE_APP_STRIPETOKEN,
+      stripeAPIToken: "pk_test_51OJSFeLMMLE7XGb55zFRgu8PdipN0S8rpdHUtnVpTSNn7SLsWnrG7rdq2ETBNkzMYGdB7P81hhGzy6GtZJDMI9RV00S6SpI6YB",//process.env.VUE_APP_STRIPETOKEN,
       stripe: "",
       token: null,
       sessionId: null,
@@ -37,10 +45,10 @@ export default {
         Configures Stripe by setting up the elements and
         creating the card element.
       */
-    configureStripe() {
-      console.log(">>> this.stripeAPIToken = " + this.stripeAPIToken)
-      this.stripe = Stripe(this.stripeAPIToken);
-    },
+    // configureStripe() {
+    //   console.log(">>> this.stripeAPIToken = " + this.stripeAPIToken)
+    //   this.stripe = Stripe(this.stripeAPIToken);
+    // },
 
     getAllItems() {
       axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
@@ -88,7 +96,8 @@ export default {
     // get all the cart items
     // API ref : https://stripe.com/docs/api?lang=node
     //this.stripe = Stripe(this.stripeAPIToken);
-    this.configureStripe();
+    this.stripe = stripe //Stripe(this.stripeAPIToken);
+    //this.configureStripe();
     this.getAllItems();
   },
 };

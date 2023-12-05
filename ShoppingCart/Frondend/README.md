@@ -18,7 +18,8 @@ npm install --save axios
 
 npm install --save sweetalert
 
-npm install --save stripe
+# npm install --save stripe
+npm install @stripe/stripe-js
 ```
 
 ```bash
