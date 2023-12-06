@@ -73,6 +73,18 @@
             <router-link class="dropdown-item" :to="{ name: 'Category' }"
               >Category</router-link
             >
+            <router-link class="dropdown-item" :to="{ name: 'Cart' }"
+              >Cart</router-link
+            >
+            <router-link
+              class="dropdown-item"
+              v-if="!token"
+              :to="{ name: 'Signin' }"
+              >Wishlist</router-link
+            >
+            <router-link class="dropdown-item" v-else :to="{ name: 'Wishlist' }"
+              >Wishlist</router-link
+            >
           </div>
         </li>
 
@@ -86,18 +98,9 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Accounts
+            LogIn/SignUp
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link
-              class="dropdown-item"
-              v-if="!token"
-              :to="{ name: 'Signin' }"
-              >Wishlist</router-link
-            >
-            <router-link class="dropdown-item" v-else :to="{ name: 'Wishlist' }"
-              >Wishlist</router-link
-            >
             <!-- <router-link class="dropdown-item" :to="{ name: 'Admin' }"
               >Admin</router-link
             > -->
