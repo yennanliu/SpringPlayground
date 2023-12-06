@@ -9,6 +9,8 @@
       <router-link to="/admin/category">Category (admin)</router-link> |
       <router-link to="/admin/wishlist">Wishlist (admin)</router-link> |
       <router-link to="/admin/product">Product (admin)</router-link> |
+      <router-link to="/order">Order</router-link> |
+      <router-link to="/cart">Cart</router-link> |
       <router-link to="/signup">Signup</router-link> |
       <router-link to="/signin">Signin</router-link> 
     </nav>
