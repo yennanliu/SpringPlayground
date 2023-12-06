@@ -28,3 +28,6 @@
 
 # 20231205
 - https://dev.to/nilmadhabmondal/let-s-add-a-checkout-feature-in-vue-js-for-our-ecommerce-app-2fnc (not yet implement)
+
+# 20231206
+- https://dev.to/nilmadhabmondal/let-s-add-a-checkout-feature-in-vue-js-for-our-ecommerce-app-2fnc (not yet implement)
