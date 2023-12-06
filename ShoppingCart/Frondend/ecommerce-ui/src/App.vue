@@ -6,6 +6,12 @@
       v-if="!['Signup', 'Signin'].includes($route.name)"
     />
     <div style="min-height: 60vh">
+       <!-- 
+      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
+
+      delcare global variable via router view
+      -> so baseURL, categories are visible to ALL views
+      -->
       <router-view
         v-if="products && categories"
         :baseURL="baseURL"
@@ -71,7 +77,25 @@ export default {
     },
   },
   mounted() {
+    /**
+     *  // NOTE!!! via this.fetchData() call, we can get products, categories
+     *
+     *     when launch FE app (App.vue is imported to main.js as main FE entry point),
+     *     so all other views (e.g. Product, EditProduct, Category, EditCategory...)
+     *     can use products, categories directly via
+     *
+     *     props: ["baseURL", "categories", "products"],
+     *
+     *     this.categories
+     *     this.products
+     *
+     *     ..
+     *
+     *     via above trick, we can simplify our code, and make logic more clear, simple
+     */
+
     this.token = localStorage.getItem("token");
+    console.log("this.token = " + this.token);
     this.fetchData();
   },
 };
