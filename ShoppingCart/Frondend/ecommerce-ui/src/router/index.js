@@ -29,8 +29,12 @@ import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 
 // success, failed
-import Success from '../helper/payment/Success.vue'
-import Failed from '../helper/payment/Failed.vue'
+import Success from "../helper/payment/Success.vue";
+import Failed from "../helper/payment/Failed.vue";
+
+// orders
+import Order from "../views/Orders/Order.vue";
+import OrderDetails from "../views/Orders/OrderDetails";
 
 Vue.use(VueRouter);
 
@@ -141,19 +145,30 @@ const routes = [
     component: Signin,
   },
 
-
   // success, failed
   {
-    path: '/payment/success',
-    name: 'PaymentSuccess',
-    component:Success
+    path: "/payment/success",
+    name: "PaymentSuccess",
+    component: Success,
   },
   {
-    path: '/payment/failed',
-    name: 'FailedPayment',
-    component:Failed
+    path: "/payment/failed",
+    name: "FailedPayment",
+    component: Failed,
   },
 
+  // orders
+  {
+    path: "/order",
+    name: "Order",
+    component: Order,
+  },
+
+  {
+    path: "/order/:id",
+    name: "OrderDetails",
+    component: OrderDetails,
+  },
 ];
 
 const router = new VueRouter({

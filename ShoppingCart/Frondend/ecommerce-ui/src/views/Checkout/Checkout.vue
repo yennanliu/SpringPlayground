@@ -23,6 +23,7 @@
 // https://stackoverflow.com/questions/65485241/use-javascript-sdk-in-vue-project
 //import {Stripe} from 'https://js.stripe.com/v3/'
 import {loadStripe} from '@stripe/stripe-js';
+// TODO : read public key from conf
 const stripe = await loadStripe('pk_test_51OJSFeLMMLE7XGb55zFRgu8PdipN0S8rpdHUtnVpTSNn7SLsWnrG7rdq2ETBNkzMYGdB7P81hhGzy6GtZJDMI9RV00S6SpI6YB');
 // const stripe = await loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
@@ -84,6 +85,16 @@ export default {
           return response.data;
         })
         .then((session) => {
+          /**
+           *  
+           * A Stripe Api method (this.stripe.redirectToCheckout)
+           * 
+           * which we store the session id we received from the response data 
+           * in our sessionId which will redirect the user to a Stripe-hosted page 
+           * to securely collect payment information. When a user completes their purchase, 
+           * they are redirected back to our website.
+           * 
+           */
           return this.stripe.redirectToCheckout({
             sessionId: session.sessionId,
           });
