@@ -64,9 +64,9 @@
             Browse
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <!-- <router-link class="dropdown-item" :to="{ name: 'Home' }"
+            <router-link class="dropdown-item" :to="{ name: 'Home' }"
               >Home</router-link
-            > -->
+            >
             <router-link class="dropdown-item" :to="{ name: 'Product' }"
               >Product</router-link
             >
@@ -119,19 +119,21 @@
           </div>
         </li>
 
-        <!-- <li class="nav-item">
+        <li class="nav-item">
           <router-link class="nav-link text-light" :to="{ name: 'Order' }"
             >Orders</router-link
           >
-        </li> -->
-        <!-- <li class="nav-item">
+        </li>
+
+        <li class="nav-item">
           <div id="cart">
             <span id="nav-cart-count">{{ cartCount }}</span>
             <router-link class="text-light" :to="{ name: 'Cart' }"
               ><i class="fa fa-shopping-cart" style="font-size: 36px"></i
             ></router-link>
           </div>
-        </li> -->
+        </li>
+
       </ul>
     </div>
   </nav>

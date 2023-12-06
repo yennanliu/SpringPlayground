@@ -1,43 +1,42 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/category">Category</router-link> |
-      <router-link to="/wishlist">Wishlist</router-link> |
-      <router-link to="/product">Product</router-link> |
-      <router-link to="/admin/category">Category (admin)</router-link> |
-      <router-link to="/admin/wishlist">Wishlist (admin)</router-link> |
-      <router-link to="/admin/product">Product (admin)</router-link> |
-      <router-link to="/order">Order</router-link> |
-      <router-link to="/cart">Cart</router-link> |
-      <router-link to="/signup">Signup</router-link> |
-      <router-link to="/signin">Signin</router-link> 
-    </nav>
-
-    <!-- 
-      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
-
-      delcare global variable via router view
-      -> so baseURL, categories are visible to ALL views
-    -->
-    <router-view :baseURL="baseURL" :categories="categories"> </router-view>
+  <div>
+    <Navbar
+      :cartCount="cartCount"
+      @resetCartCount="resetCartCount"
+      v-if="!['Signup', 'Signin'].includes($route.name)"
+    />
+    <div style="min-height: 60vh">
+      <router-view
+        v-if="products && categories"
+        :baseURL="baseURL"
+        :products="products"
+        :categories="categories"
+        @fetchData="fetchData"
+      >
+      </router-view>
+    </div>
+    <Footer v-if="!['Signup', 'Signin'].includes($route.name)" />
   </div>
 </template>
 
 <script>
-import axios from "axios";
-
+var axios = require("axios");
+import Navbar from "./components/Navbar.vue";
+import Footer from "./components/Footer.vue";
 export default {
-  // components: {},
   data() {
     return {
-      baseURL: "http://localhost:9999/", // this baseURL will be read by all views
+      //baseURL: "https://limitless-lake-55070.herokuapp.com/",
+      baseURL: "http://localhost:9999/",
       products: null,
       categories: null,
+      key: 0,
       token: null,
+      cartCount: 0,
     };
   },
+
+  components: { Footer, Navbar },
   methods: {
     async fetchData() {
       // fetch products
@@ -51,51 +50,35 @@ export default {
         .get(this.baseURL + "category/")
         .then((res) => (this.categories = res.data))
         .catch((err) => console.log(err));
+
+      //fetch cart items
+      if (this.token) {
+        await axios.get(`${this.baseURL}cart/?token=${this.token}`).then(
+          (response) => {
+            if (response.status == 200) {
+              // update cart
+              this.cartCount = Object.keys(response.data.cartItems).length;
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    },
+    resetCartCount() {
+      this.cartCount = 0;
     },
   },
-
   mounted() {
-    /**
-     *  // NOTE!!! via this method call, we can get products, categories
-     *     when launch FE app (App.vue is imported to main.js as main FE entry point),
-     *     so all other views (e.g. Product, EditProduct, Category, EditCategory...)
-     *     can use products, categories directly via
-     *
-     *     props: ["baseURL", "categories", "products"],
-     *
-     *     this.categories
-     *     this.products
-     *
-     *     ..
-     *
-     *     via above trick, we can simplify our code, and make logic more clear, simple
-     */
-     this.token = localStorage.getItem('token');
-     console.log("this.token = " + this.token)
-     this.fetchData();
+    this.token = localStorage.getItem("token");
+    this.fetchData();
   },
 };
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+html {
+  overflow-y: scroll;
 }
 </style>
