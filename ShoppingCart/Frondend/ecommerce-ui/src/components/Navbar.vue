@@ -2,7 +2,7 @@
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <!--    Logo-->
     <router-link class="navbar-brand" :to="{ name: 'Home' }">
-      <img id="logo" src="../assets/icon.png" />
+      <img id="logo" src="../assets/icon2.png" />
     </router-link>
 
     <!--    Burger Button-->
