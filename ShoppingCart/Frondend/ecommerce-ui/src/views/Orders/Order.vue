@@ -13,7 +13,7 @@
     >
       <div class="col-2"></div>
       <div class="col-md-3 embed-responsive embed-responsive-16by9">
-        <!--                display image in left-->
+        <!-- display image in left-->
         <img
           v-bind:src="order.imageURL"
           class="w-100 card-img-top embed-responsive-item"
@@ -61,8 +61,8 @@ export default {
         (response) => {
           if (response.status == 200) {
             this.orders = response.data;
-            console.log(">>> response.data = " + JSON.stringify(response.data))
-            console.log(">>> this.orders = " + JSON.stringify(this.orders))
+            // console.log(">>> response.data = " + JSON.stringify(response.data))
+            // console.log(">>> this.orders = " + JSON.stringify(this.orders))
             // for each order populate orderList
             this.orders.forEach((order) => {
               this.orderList.push({
