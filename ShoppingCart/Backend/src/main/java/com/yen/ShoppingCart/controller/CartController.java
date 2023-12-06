@@ -42,7 +42,10 @@ public class CartController {
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);
         Product product = productService.getProductById(addToCartDto.getProductId());
-        System.out.println("product to add"+  product.getName());
+
+        log.info("(addToCart) addToCartDto = " + addToCartDto);
+        log.info("(addToCart) add " +  product.toString() + " to Cart");
+
         cartService.addToCart(addToCartDto, product, user);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Added to cart"), HttpStatus.CREATED);
 

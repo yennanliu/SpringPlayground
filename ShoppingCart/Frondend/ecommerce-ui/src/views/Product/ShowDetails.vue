@@ -37,11 +37,11 @@
         <div class="features pt-3">
           <h5><strong>Features</strong></h5>
           <ul>
-            <li>Lorem ipsum dolor sit amet consectetur adipisicing elit.</li>
-            <li>Officia quas, officiis eius magni error magnam voluptatem</li>
-            <li>nesciunt quod! Earum voluptatibus quaerat dolorem doloribus</li>
-            <li>molestias ipsum ab, ipsa consectetur laboriosam soluta et</li>
-            <li>ut doloremque dolore corrupti, architecto iusto beatae.</li>
+            <li>this is a product description.</li>
+            <li>blablalalalalalalalalal</li>
+            <li>more words are still ongoing</li>
+            <li>make good works</li>
+            <li>last words</li>
           </ul>
         </div>
 
@@ -114,7 +114,8 @@ export default {
       }
       axios
         .post(`${this.baseURL}cart/add?token=${this.token}`, {
-          productId: this.id, //productId, // TODO : fix get id from input param (use this.id approach for now)
+          //productId: this.id, //productId, // TODO : fix get id from input param (use this.id approach for now)
+          productId: this.$route.params.id,
           quantity: this.quantity,
         })
         .then(
@@ -154,9 +155,9 @@ export default {
       await axios
         .get(this.baseURL + "product/")
         .then((res) => {
-          console.log(">>> this.$route.params.id = " + this.$route.params.id)
+          console.log(">>> this.$route.params.id = " + this.$route.params.id);
           this.id = this.$route.params.id;
-          console.log(">>> this.id =  " + this.id)
+          console.log(">>> this.id =  " + this.id);
           console.log("this.$route.params.id = " + this.$route.params.id);
           console.log(
             "this.products.find = " +
@@ -171,7 +172,7 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-     // TODO : fix with filter from category list
+    // TODO : fix with filter from category list
     async getCategory() {
       //fetch categories
       await axios
