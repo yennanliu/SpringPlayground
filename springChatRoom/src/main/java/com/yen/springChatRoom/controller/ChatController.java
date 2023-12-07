@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -15,7 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
+
+import java.util.Set;
 
 @Slf4j
 @Controller
@@ -91,16 +94,29 @@ public class ChatController {
     }
 
     // TODO : check @DestinationVariable ?
-    @RequestMapping("/app/private/{username}")
-    public void handlePrivateMessage(@DestinationVariable String username, Message message){
+    @MessageMapping("/private/{username}")
+    public void handlePrivateMessage(@PathVariable String username, Message message){
 
         log.info("handlePrivateMessage : username = " + username + " message = " + message);
-        // save to redis
 
+        // save to redis
         // redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-        redisTemplate.opsForSet().add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
+        // TODO : fix data model
+        // current : handlePrivateMessage : username = {"sender":"fewfew","content":"777","type":"PRIVATE_CHAT"} message = Message(sender=fewfew, content=777, type=PRIVATE_CHAT)
+        //redisTemplate.opsForSet().add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
+        redisTemplate.opsForSet().add(privateChannel + "." + message.getSender(), JsonUtil.parseObjToJson(message));
 
         simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
+    }
+
+    @MessageMapping("/private/history/{username}")
+    public void getHistoryPrivateChat(@PathVariable String username, Message message){
+
+        String key = "/private/history/" + username;
+        // Set<String> resultSet = redisTemplate.opsForSet().members("key1");
+        Set<String> res = redisTemplate.opsForSet().members(key);
+        res.forEach(System.out::println);
+
     }
 
 }

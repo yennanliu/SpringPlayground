@@ -31,6 +31,9 @@ public class RedisListenerBean {
     @Value("${redis.channel.userStatus}")
     private String userStatus;
 
+    @Value("${redis.channel.private}")
+    private String privateChannel;
+
     /** Redis channel bean
      *
      *   1. listen Redis channel via binding (for example : container.addMessageListener)
@@ -44,8 +47,15 @@ public class RedisListenerBean {
 
         // listen msgToAll (Redis channel)
         container.addMessageListener(listenerAdapter, new PatternTopic(msgToAll));
-        container.addMessageListener(listenerAdapter, new PatternTopic(userStatus));
+
         LOGGER.info("Subscribe Redis channel : " + msgToAll);
+        container.addMessageListener(listenerAdapter, new PatternTopic(userStatus));
+
+        LOGGER.info("Subscribe Redis channel : " + userStatus);
+
+        container.addMessageListener(listenerAdapter, new PatternTopic(privateChannel));
+        LOGGER.info("Subscribe Redis channel : " + privateChannel);
+
         return container;
     }
 
