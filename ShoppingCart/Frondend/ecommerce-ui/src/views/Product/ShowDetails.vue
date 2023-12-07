@@ -18,7 +18,7 @@
             <div class="input-group-prepend">
               <span class="input-group-text" id="basic-addon1">Quantity</span>
             </div>
-            <input class="form-control" type="number" v-bind:value="quantity" />
+            <input class="form-control" type="number" v-model="quantity" />
           </div>
 
           <div class="input-group col-md-3 col-4 p-0">
