@@ -35,14 +35,22 @@
           <p id="item-price" class="mb-0 font-weight-bold">
             $ {{ cartItem.product.price }} per unit
           </p>
+
           <p id="item-quantity" class="mb-0">
             Quantity :
             <input
               size="1"
               class="p-0 h-25 border-bottom border-top-0 border-left-0 border-right-0"
+              type="number"
               v-model="cartItem.quantity"
+              @change="
+                updateItem(cartItem.id, cartItem.product.id, cartItem.quantity)
+              "
             />
           </p>
+
+          <!-- updateItem(itemId, productId, quantity) -->
+
           <p id="item-total-price" class="mb-0">
             Total Price:
             <span class="font-weight-bold">
@@ -142,23 +150,28 @@ export default {
         params: { id: productId },
       });
     },
-    updateItem(itemId, quantity) {
-      let i;
-      console.log(">>> (updateItem) this.cartItem = " + JSON.stringify(this.cartItem))
-      for (i = 0; i < this.len; i++) {
-        if (this.cartItem[i].id === itemId) {
-          break;
-        }
-      }
-      this.cartItem[i].pQuantity = quantity;
-      let userId = this.cartItem[i].userId;
-      let productId = this.cartItem[i].pId;
-      axios.put(`${this.baseURL}cart/update/${itemId}/?token=${this.token}`, {
-        id: itemId,
-        userId,
-        productId,
-        quantity,
-      });
+
+    updateItem(itemId, productId, quantity) {
+      console.log(">>> (updateItem) itemId = " + itemId);
+      console.log(">>> (updateItem) productId = " + productId);
+
+      axios
+        .put(`${this.baseURL}cart/update/${itemId}/?token=${this.token}`, {
+          id: itemId,
+          productId: productId, // Replace with the actual product id
+          quantity,
+        })
+        .then(
+          (response) => {
+            if (response.status === 200) {
+              console.log("Item quantity updated successfully");
+              // You may want to update the total cost or perform other actions as needed
+            }
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     },
   },
   mounted() {
