@@ -43,13 +43,8 @@
               class="p-0 h-25 border-bottom border-top-0 border-left-0 border-right-0"
               type="number"
               v-model="cartItem.quantity"
-              @change="
-                updateItem(cartItem.id, cartItem.product.id, cartItem.quantity)
-              "
             />
           </p>
-
-          <!-- updateItem(itemId, productId, quantity) -->
 
           <p id="item-total-price" class="mb-0">
             Total Price:
@@ -61,9 +56,9 @@
             >Remove From Cart</a
           >
           <!-- TODO : add UpdateCart button -->
-          <!-- <br /><a href="#" class="text-right" @click="updateItem(cartItem.id)"
-          >Update Cart</a
-        > -->
+          <br /><a href="#" class="text-right" @click="updateItem(cartItem.id, cartItem.product.id, cartItem.quantity)"
+            >Update Cart</a
+          >
         </div>
       </div>
 
