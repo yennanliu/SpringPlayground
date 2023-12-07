@@ -116,7 +116,7 @@
               :to="{ name: 'Signup' }"
               >Sign Up</router-link
             >
-            <a class="dropdown-item" v-if="token" href="#" @click="signout"
+            <a class="dropdown-item" v-if="token" href="" @click="signout"
               >Sign Out</a
             >
           </div>
