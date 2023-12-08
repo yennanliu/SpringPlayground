@@ -17,7 +17,6 @@ public class WishList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-
     @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
