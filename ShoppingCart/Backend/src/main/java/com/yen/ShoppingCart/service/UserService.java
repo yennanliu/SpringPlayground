@@ -115,7 +115,7 @@ public class UserService {
     // local method
 
     // TODO !!! double check below logic
-    private String hashPassword(String password) throws NoSuchAlgorithmException {
+    String hashPassword(String password) throws NoSuchAlgorithmException {
 
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
