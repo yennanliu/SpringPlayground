@@ -60,7 +60,6 @@ class ProductServiceTest {
     public void testAddProductSuccess(){
 
         // TODO : adjust test logic
-        Mockito.when(productRepository.save(product)).thenReturn(product);
         productService.addProduct(productDto, category);
     }
 
