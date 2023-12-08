@@ -49,7 +49,7 @@
           id="wishlist-button"
           class="btn mr-3 p-1 py-0"
           :class="{ product_added_wishlist: isAddedToWishlist }"
-          @click="addToWishList(this.id)"
+          @click="addToWishList()"
         >
           {{ wishlistString }}
         </button>
@@ -87,7 +87,8 @@ export default {
   },
   props: ["baseURL", "products", "categories"],
   methods: {
-    addToWishList(productId) {
+    addToWishList() {
+      //console.log("productId = " + productId);
       if (!this.token) {
         swal({
           text: "Please log in first!",
@@ -97,7 +98,7 @@ export default {
       }
       axios
         .post(`${this.baseURL}wishlist/add?token=${this.token}`, {
-          id: productId,
+          id: this.$route.params.id, //productId, // TODO : fix get id from input param (use this.id approach for now)
         })
         .then(
           (response) => {

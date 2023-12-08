@@ -19,8 +19,8 @@
 </template>
 
 <script>
+var axios = require("axios");
 import ProductBox from "../../components/Product/ProductBox";
-import axios from "axios";
 export default {
   data() {
     return {
@@ -42,7 +42,6 @@ export default {
   },
   mounted() {
     this.token = localStorage.getItem("token");
-    console.log("this.token = " + this.token)
     this.fetchWishlist();
   },
 };
