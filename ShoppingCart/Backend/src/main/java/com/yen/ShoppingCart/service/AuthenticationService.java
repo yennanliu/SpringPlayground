@@ -18,10 +18,12 @@ public class AuthenticationService {
     TokenRepository repository;
 
     public void saveConfirmationToken(AuthenticationToken authenticationToken) {
+
         repository.save(authenticationToken);
     }
 
     public AuthenticationToken getToken(User user) {
+
         return repository.findTokenByUser(user);
     }
 
@@ -43,7 +45,6 @@ public class AuthenticationService {
         if (!Helper.notNull(getUser(token))) {
             throw new AuthenticationFailException(MessageStrings.AUTH_TOEKN_NOT_VALID);
         }
-
     }
 
 }
