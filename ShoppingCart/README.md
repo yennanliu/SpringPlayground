@@ -10,6 +10,13 @@ Main functions:
 	- Product, category, cart CRUD
 	- Stripe payment gateway integration
 
+
+<p align="center"><img src ="./doc/pic/demo_1.png"></p>
+
+<p align="center"><img src ="./doc/pic/demo_2.png"></p>
+
+<p align="center"><img src ="./doc/pic/demo_3.png"></p>
+
 ## Dependency
 
 - Java 11 (for using Stripe API properly)
@@ -38,10 +45,11 @@ Main functions:
 #---------------------------
 
 # build
+cd ShoppingCart/Backend
 mvn package
 
 # run
-java -jar ShoppingCart-0.0.1-SNAPSHOT.jar
+java -jar target/ShoppingCart-0.0.1-SNAPSHOT.jar
 
 # BE endpoint : http://localhost:9999
 

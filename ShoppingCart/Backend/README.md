@@ -19,10 +19,11 @@
 #---------------------------
 
 # build
+cd ShoppingCart/Backend
 mvn package
 
 # run
-java -jar ShoppingCart-0.0.1-SNAPSHOT.jar
+java -jar target/ShoppingCart-0.0.1-SNAPSHOT.jar
 
 # BE endpoint : http://localhost:9999
 ```
