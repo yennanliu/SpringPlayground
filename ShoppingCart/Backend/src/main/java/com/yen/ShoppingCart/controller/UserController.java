@@ -9,6 +9,7 @@ import com.yen.ShoppingCart.model.dto.ResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignInDto;
 import com.yen.ShoppingCart.model.dto.user.SignInResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignupDto;
+import com.yen.ShoppingCart.repository.TokenRepository;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.UserService;
@@ -44,7 +45,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
+    
     @GetMapping("/all")
     public List<User> findAllUser(@RequestParam("token") String token) throws AuthenticationFailException {
 
@@ -63,6 +64,15 @@ public class UserController {
     public SignInResponseDto Signup(@RequestBody SignInDto signInDto) throws CustomException {
 
         return userService.signIn(signInDto);
+    }
+
+    @PostMapping("/userProfile")
+    public User getUserProfile(@RequestParam("token") String token){
+
+        // get user from token
+        authenticationService.authenticate(token);
+        User user = authenticationService.getUser(token);
+        return user;
     }
 
     // TODO : fix/check below
