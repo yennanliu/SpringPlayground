@@ -78,7 +78,7 @@ public class OrderService {
     }
 
     // create session from list of checkout items
-    public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException, StripeException {
+    public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
         // supply success and failure url for stripe
         String successURL = baseURL + "payment/success";

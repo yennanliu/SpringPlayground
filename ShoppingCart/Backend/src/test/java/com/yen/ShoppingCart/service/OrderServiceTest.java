@@ -1,15 +1,18 @@
 package com.yen.ShoppingCart.service;
 
 import static org.junit.jupiter.api.Assertions.*;
-
 //import static spark.Spark.post;
 //import static spark.Spark.port;
 import com.google.gson.JsonSyntaxException;
 import com.stripe.Stripe;
 import com.stripe.exception.SignatureVerificationException;
+import com.stripe.exception.StripeException;
 import com.stripe.model.*;
+import com.stripe.model.checkout.Session;
 import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.yen.ShoppingCart.enums.Role;
+import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.checkout.CheckoutItemDto;
 import com.yen.ShoppingCart.repository.OrderItemsRepository;
 import com.yen.ShoppingCart.repository.OrderRepository;
@@ -18,9 +21,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -32,6 +39,9 @@ class OrderServiceTest {
     @Mock
     OrderItemsRepository orderItemsRepository;
 
+    @Mock
+    SessionCreateParams sessionCreateParams;
+
     @InjectMocks
     CartService cartService;
 
@@ -42,6 +52,10 @@ class OrderServiceTest {
 
     private CheckoutItemDto checkoutItemDto_2;
 
+    private List<CheckoutItemDto> checkoutItemDtoList;
+
+    private User user_1;
+
     @BeforeEach
     public void setUp(){
 
@@ -49,6 +63,14 @@ class OrderServiceTest {
 
         checkoutItemDto_1 = new CheckoutItemDto("prod_1", 1, 100, 1, 1);
         checkoutItemDto_2 = new CheckoutItemDto();
+
+        checkoutItemDtoList = new ArrayList<>();
+
+        checkoutItemDtoList.add(checkoutItemDto_1);
+
+        Stripe.apiKey = "my_api_key";
+
+        user_1 = new User("f_name", "l_name", "email", Role.USER, "pwd");
     }
 
     @Test
@@ -72,6 +94,34 @@ class OrderServiceTest {
         assertEquals(item1.getCurrency(), null);
     }
 
+    // TODO : fix this
+//    @Test
+//    public void ShouldCreateSessionIfNoException() throws StripeException {
+//
+//        Stripe.apiKey = "my_api_key";
+//
+//        // Mockito.when(tokenRepository.findTokenByToken("my_token")).thenReturn(token1);
+//        Mockito.when(SessionCreateParams.builder()).thenReturn(new SessionCreateParams.Builder());
+//
+//        Session session = orderService.createSession(checkoutItemDtoList);
+//        System.out.println(session);
+//    }
+
+    @Test
+    public void testShouldThrowStripeExceptionIfNullApiKey(){
+
+        Exception exception = assertThrows(StripeException.class, () -> {
+            orderService.createSession(checkoutItemDtoList);
+        });
+
+        String expectStr = "No API key provided. Set your API key using `Stripe.apiKey = \"<API-KEY>\"`. You can generate API keys from the Stripe Dashboard. See https://stripe.com/docs/api/authentication for details or contact support at https://support.stripe.com/email if you have any questions.";
+        assertEquals(exception.getMessage(), expectStr);
+    }
+
+//    @Test
+//    public void shouldPlaceOrderIfUserSessionIdExist(){
+//
+//    }
 
 
 //    // https://dashboard.stripe.com/test/webhooks/create?endpoint_location=local
