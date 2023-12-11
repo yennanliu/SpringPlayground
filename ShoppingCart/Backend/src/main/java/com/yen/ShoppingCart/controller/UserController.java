@@ -45,7 +45,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-    
+
     @GetMapping("/all")
     public List<User> findAllUser(@RequestParam("token") String token) throws AuthenticationFailException {
 
@@ -66,7 +66,7 @@ public class UserController {
         return userService.signIn(signInDto);
     }
 
-    @PostMapping("/userProfile")
+    @GetMapping("/userProfile")
     public User getUserProfile(@RequestParam("token") String token){
 
         // get user from token

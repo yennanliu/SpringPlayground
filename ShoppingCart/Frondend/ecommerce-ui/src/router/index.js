@@ -41,6 +41,9 @@ import Admin from "../views/Admin/Admin.vue";
 // import Gallery from '../views/Admin/Gallery.vue'
 // import AddImage from '../views/Admin/AddImage.vue'
 
+// user
+import User from "../views/User/User.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -180,6 +183,13 @@ const routes = [
     path: "/admin",
     name: "Admin",
     component: Admin,
+  },
+
+  //User routes
+  {
+    path: "/user",
+    name: "User",
+    component: User,
   },
 ];
 
