@@ -25,6 +25,20 @@
       </div>
     </div>
   </template>
+
+  <!-- NOTE !!!
+
+  Will only show product edit button when route name is "AdminProduct"
+
+  e.g. 
+        <router-link
+          id="edit-product"
+          :to="{ name: 'EditProduct', params: { id: product.id } }"
+          v-show="$route.name == 'AdminProduct'"
+        >
+          Edit
+        </router-link>
+  -->
   
   <script>
   export default {

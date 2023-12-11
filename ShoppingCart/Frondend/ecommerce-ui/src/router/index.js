@@ -84,11 +84,6 @@ const routes = [
     name: "EditCategory",
     component: EditCategory,
   },
-  {
-    path: "/category/show/:id",
-    name: "ListProducts",
-    component: ListProducts,
-  },
 
   // wishlist
   {
@@ -122,6 +117,11 @@ const routes = [
     path: "/product/show/:id",
     name: "ShowDetails",
     component: ShowDetails,
+  },
+  {
+    path: "/category/show/:id",
+    name: "ListProducts",
+    component: ListProducts,
   },
 
   // Cart
