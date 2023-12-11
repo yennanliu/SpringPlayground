@@ -5,9 +5,12 @@
   
         <div class="container py-5">
           <header class="text-left text-white py-5">
-            <h3 class="mb-4 rounded"><a href="#start-shopping" class="bg-white px-2 py-2 rounded" id="heading">Start Shopping</a></h3>
-            <p id="content" class="lead mb-0 bg-dark p-1 rounded">WELCOME !!
-              E-commerce shopping platform built with Java, and Vue javasctipt</p>
+            <h3 class="mb-4 rounded"><a href="#start-shopping" class="bg-white px-2 py-2 rounded" id="heading">Shoppppppp</a></h3>
+            <p id="content" class="lead mb-0 bg-dark p-1 rounded">WELCOME ⚡⚡⚡
+              This is a simple E-commerce system built with Vue, Java. You are welcomed to add whatever feature, changes on it. Treat it as your idea plaground.
+
+              Disclaimer : This service has nothing to do with 🍌 👓
+              </p>
           </header>
         </div>
       </div>
