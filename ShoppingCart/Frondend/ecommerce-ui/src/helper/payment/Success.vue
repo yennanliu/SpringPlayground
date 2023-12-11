@@ -38,6 +38,7 @@ export default {
   mounted() {
     this.token = localStorage.getItem("token");
     this.sessionId = localStorage.getItem("sessionId");
+    console.log(">>> (ShowDetails.vue) this.sessionId = " + this.sessionId);
     this.saveOrder();
   },
 };

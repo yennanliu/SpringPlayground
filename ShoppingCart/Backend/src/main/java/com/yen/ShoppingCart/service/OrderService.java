@@ -52,13 +52,15 @@ public class OrderService {
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
                         .setCurrency("usd")
-                        .setUnitAmount((long)(checkoutItemDto.getPrice()*100))
-                        .setProductData(SessionCreateParams.LineItem.PriceData.ProductData.builder().setName(checkoutItemDto.getProductName()).build()
+                        .setUnitAmount((long)(checkoutItemDto.getPrice() * 100)) // TODO : double check ?
+                        .setProductData(
+                                SessionCreateParams.LineItem.PriceData.ProductData
+                                .builder()
+                                .setName(checkoutItemDto.getProductName())
+                                .build()
                         )
                         .build();
 
-        // TODO : fix hardcode below
-        //priceData.
         log.info("currency = " + priceData.getCurrency() + ", product = " + priceData.getProduct());
         return priceData;
     }
@@ -76,7 +78,7 @@ public class OrderService {
     }
 
     // create session from list of checkout items
-    public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException, StripeException {
+    public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
         // supply success and failure url for stripe
         String successURL = baseURL + "payment/success";
