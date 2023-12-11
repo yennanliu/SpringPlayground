@@ -79,10 +79,10 @@ export default {
     },
   },
   mounted() {
-    // if (!localStorage.getItem('token')) {
-    //   this.$router.push({name : 'Signin'});
-    //   return;
-    // }
+    if (!localStorage.getItem('token')) {
+      this.$router.push({name : 'Signin'});
+      return;
+    }
     this.id = this.$route.params.id;
     this.category = this.categories.find((category) => category.id == this.id);
     console.log(">>> category", this.category);

@@ -101,9 +101,9 @@
             LogIn/SignUp
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <!-- <router-link class="dropdown-item" :to="{ name: 'Admin' }"
+            <router-link class="dropdown-item" :to="{ name: 'Admin' }"
               >Admin</router-link
-            > -->
+            >
             <router-link
               class="dropdown-item"
               v-if="!token"
@@ -136,7 +136,6 @@
             ></router-link>
           </div>
         </li>
-
       </ul>
     </div>
   </nav>

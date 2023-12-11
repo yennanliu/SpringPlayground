@@ -84,3 +84,10 @@ npm run serve
 
 
 ## Important Concepts
+
+## TODO:
+
+- Implement cart with web session (not need to login)
+- Arch V2 (BE app with Nginx, Redis distribution)
+- Bug fix
+- Signup with Google OAuth 2
