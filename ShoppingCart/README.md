@@ -4,18 +4,28 @@
 - Frontend : Vue
 - Backend : Spring boot
 
-Main functions:
-	- Login, logout
-	- Authorization with Token
-	- Product, category, cart CRUD
-	- Stripe payment gateway integration
-
-
 <p align="center"><img src ="./doc/pic/demo_1.png"></p>
 
 <p align="center"><img src ="./doc/pic/demo_2.png"></p>
 
 <p align="center"><img src ="./doc/pic/demo_3.png"></p>
+
+
+ARCHITECTURE :
+
+- V1
+<p align="center"><img src ="./doc/pic/ShoppingCart_arch_v1.svg"></p>
+
+
+- V2
+<p align="center"><img src ="./doc/pic/ShoppingCart_arch_v2.svg"></p>
+
+## Main functions:
+
+- Login, logout
+- Authorization with Token
+- Product, category, cart CRUD
+- Stripe payment gateway integration
 
 ## Dependency
 
