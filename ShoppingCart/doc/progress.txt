@@ -31,3 +31,7 @@
 
 # 20231206
 - https://dev.to/nilmadhabmondal/let-s-add-a-checkout-feature-in-vue-js-for-our-ecommerce-app-2fnc (not yet implement)
+
+# 20231211
+- https://dev.to/nilmadhabmondal/let-s-add-a-checkout-feature-in-vue-js-for-our-ecommerce-app-2fnc (done)
+- https://dev.to/nilmadhabmondal/let-s-add-the-place-order-feature-to-our-e-commerce-app-using-spring-boot-4lfj (done)

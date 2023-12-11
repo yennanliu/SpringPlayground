@@ -36,6 +36,11 @@ import Failed from "../helper/payment/Failed.vue";
 import Order from "../views/Orders/Order.vue";
 import OrderDetails from "../views/Orders/OrderDetails";
 
+// admin
+import Admin from "../views/Admin/Admin.vue";
+// import Gallery from '../views/Admin/Gallery.vue'
+// import AddImage from '../views/Admin/AddImage.vue'
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -168,6 +173,13 @@ const routes = [
     path: "/order/:id",
     name: "OrderDetails",
     component: OrderDetails,
+  },
+
+  //Admin routes
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
 ];
 
