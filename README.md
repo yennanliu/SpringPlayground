@@ -7,8 +7,12 @@
 
 ## Projects
 
-- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : spring basic project demo
-- [springAdvance](https://github.com/yennanliu/SpringPlayground/tree/main/springAdvance) : spring advance project demo
+- [WareHouse system](https://github.com/yennanliu/SpringPlayground/tree/main/springWarehouse): WareHouse management tool
+- [Blog system](https://github.com/yennanliu/SpringPlayground/tree/main/springBootBlog) : Blog system
+- [ChatRoom](https://github.com/yennanliu/SpringPlayground/tree/main/springChatRoom) : Chat room service with webSocket
+- [Spring Shopping Cart](https://github.com/yennanliu/SpringPlayground/tree/main/ShoppingCart) - Full stack ecommerce service with Vue.js, Java Spring boot
+- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : Basic Spring project demo
+
 
 ## Structure
 
@@ -83,10 +87,6 @@ Ref
 - Init
 	- [Spring Boot Initializr](https://start.spring.io/)
 - Projects
-- Video
-	- https://www.youtube.com/watch?v=pS5HrZuvXLc&list=PLmOn9nNkQxJE3V_Eev79ao-g3a6BplSQG&index=1
-	- https://www.youtube.com/codejava
-- Blog
-	- https://www.codejava.net/frameworks/spring-boot/spring-boot-crud-example-with-spring-mvc-spring-data-jpa-thymeleaf-hibernate-mysql#Database
+- [BE roadmap](https://roadmap.sh/backend)
 
 </details>
