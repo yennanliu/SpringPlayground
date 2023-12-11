@@ -1,5 +1,22 @@
 # Shopping Cart
-> xxx yyy
+> Full stack E-commerce system built with Vue.js, Spring boot
+
+- Frontend : Vue
+- Backend : Spring boot
+
+Main functions:
+	- Login, logout
+	- Authorization with Token
+	- Product, category, cart CRUD
+	- Stripe payment gateway integration
+
+## Dependency
+
+- Java 11 (for using Stripe API properly)
+- Vue.js
+- npm
+- maven
+- Mysql
 
 
 ## Steps
@@ -17,14 +34,25 @@
 
 ```bash
 #---------------------------
-# Run app
+# Run BE app
 #---------------------------
 
 # build
 mvn package
 
 # run
-java -jar <built_jar>
+java -jar ShoppingCart-0.0.1-SNAPSHOT.jar
+
+# BE endpoint : http://localhost:9999
+
+#---------------------------
+# Run FE app
+#---------------------------
+
+cd ShoppingCart/Frondend/ecommerce-ui
+npm run serve
+
+# FE endpoint : http://localhost:8080
 ```
 
 </details>
@@ -36,12 +64,5 @@ java -jar <built_jar>
 | http://localhost:8080| UI home page (FE) | | |
 | http://localhost:9999/swagger-ui.html | API page (BE) | | |
 
-
-## Dependency
-
-- Java 11 (for using Stripe client properly)
-- Vue.js
-- npm
-- Mysql
 
 ## Important Concepts

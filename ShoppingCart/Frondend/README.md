@@ -1,5 +1,5 @@
-# Shopping Cart
-> xxx yyy
+# Shopping Cart - FE App
+> FE app for Shopping cart service
 
 
 ## Steps
@@ -8,6 +8,9 @@
 ## Setup
 
 ```bash
+# V1) start from create null project
+
+# init project
 vue create ecommerce-ui
 
 #  Run the following command in your command line to install the Vue router in your system
@@ -18,22 +21,23 @@ npm install --save axios
 
 npm install --save sweetalert
 
-# npm install --save stripe
 npm install @stripe/stripe-js
 ```
 
 ```bash
-# if start from git clone :
+# V2) start from git clone
+
+# get code
 git clone https://github.com/yennanliu/SpringPlayground.git
 cd SpringPlayground/ShoppingCart/Frondend/ecommerce-ui
 npm install
 
-
+# install pkg
 npm install --save axios
 
 npm install --save sweetalert
 
-npm install --save stripe
+npm install @stripe/stripe-js
 ```
 
 ## Run
@@ -61,10 +65,3 @@ npm run serve
 
 
 ## Important Concepts
-
-## Ref
-
-- Part 1 : https://dev.to/webtutsplus/let-s-develop-an-e-commerce-application-from-scratch-using-java-1gap
-- Part 2 : https://dev.to/nilmadhabmondal/creating-an-ecommerce-frontend-with-vue-js-59o
-- BE code : https://github.com/webtutsplus/ecommerce-backend
-- FE code : https://github.com/webtutsplus/ecommerce-vuejs
