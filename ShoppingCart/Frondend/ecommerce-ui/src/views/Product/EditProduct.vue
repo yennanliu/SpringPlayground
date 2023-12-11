@@ -111,7 +111,9 @@ export default {
           //console.log("res.data = " + JSON.stringify(res.data))
           console.log(
             "this.products.find = " +
-              JSON.stringify(res.data.find((product) => product.id == this.$route.params.id))
+              JSON.stringify(
+                res.data.find((product) => product.id == this.$route.params.id)
+              )
           );
           // use this approach for now
           this.product = res.data.find(

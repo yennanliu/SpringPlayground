@@ -1,12 +1,12 @@
 <template>
   <div class="adminPanel container">
     <router-link :to="{ name: 'AdminProduct' }">
-      <button type="button" class="btn btn-primary btn-lg">
+      <button type="button" class="btn btn-outline-primary">
         Admin Products
       </button>
     </router-link>
     <router-link :to="{ name: 'AdminCategory' }">
-      <button type="button" class="btn btn-primary btn-lg">
+      <button type="button" class="btn btn-outline-primary">
         Admin Categories
       </button>
     </router-link>
