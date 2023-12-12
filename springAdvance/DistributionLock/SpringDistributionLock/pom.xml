@@ -14,7 +14,7 @@
 	<name>SpringDistributionLock</name>
 	<description>Demo project for SpringDistributionLock</description>
 	<properties>
-		<java.version>11</java.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
@@ -43,6 +43,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
+			<version>8.0.30</version>
 		</dependency>
 
 	</dependencies>
