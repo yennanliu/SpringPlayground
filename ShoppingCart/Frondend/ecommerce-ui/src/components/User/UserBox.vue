@@ -1,44 +1,17 @@
 <template>
   <div class="card h-100 w-100">
-    <!-- <div class="embed-responsive embed-responsive-16by9">
-        <img
-          class="card-img-top embed-responsive-item"
-          :src="product.imageURL"
-          alt="Product Image"
-        />
-      </div> -->
     <div class="card-body">
       <router-link :to="{ name: 'ShowDetails', params: { id: user.id } }"
         ><h5 class="card-title">
-          Name : {{ user.firstName + user.lastName }}
+          Name : {{ user.firstName + " " + user.lastName }}
         </h5></router-link
       >
+      <p class="card-text"><sup>Id : </sup>{{ user.id }}</p>
       <p class="card-text"><sup>Email : </sup>{{ user.email }}</p>
       <p class="card-text"><sup>Role : </sup>{{ user.role }}</p>
-      <!-- <router-link
-          id="edit-product"
-          :to="{ name: 'EditProduct', params: { id: product.id } }"
-          v-show="$route.name == 'AdminProduct'"
-        >
-          Edit
-        </router-link> -->
     </div>
   </div>
 </template>
-
-<!-- NOTE !!!
-
-  Will only show product edit button when route name is "AdminProduct"
-
-  e.g. 
-        <router-link
-          id="edit-product"
-          :to="{ name: 'EditProduct', params: { id: product.id } }"
-          v-show="$route.name == 'AdminProduct'"
-        >
-          Edit
-        </router-link>
-  -->
 
 <script>
 export default {

@@ -1,22 +1,3 @@
-<!-- <template>
-    <div class="container">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h4 class="pt-3">Our Products</h4>
-          <router-link id="add-product" :to="{name : 'AddProduct'}" v-show="$route.name=='AdminProduct'">
-            <button class="btn">Add a new Product</button>
-          </router-link>
-        </div>
-      </div>
-      <div class="row">
-          <div v-for="product of products" :key="product.id" class="col-md-6 col-xl-4 col-12 pt-3  justify-content-around d-flex">
-            <ProductBox :product="product">
-            </ProductBox>
-          </div>
-      </div>
-    </div>
-  </template> -->
-
 <template>
   <div class="container">
     <div class="row">
@@ -48,7 +29,6 @@ export default {
   methods: {
     async getUser() {
       console.log("this.token = " + this.token);
-      this.token = "8230d006-5271-49fc-84fd-28b80b3b66e3";
       axios
         // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
         .get(this.baseURL + `/user/userProfile?token=${this.token}`)
@@ -64,6 +44,13 @@ export default {
     },
   },
   mounted() {
+    // login first if can't get token
+    if (!localStorage.getItem("token")) {
+      this.$router.push({ name: "Signin" });
+      return;
+    }
+    // get token
+    this.token = localStorage.getItem("token");
     this.getUser();
   },
 };
