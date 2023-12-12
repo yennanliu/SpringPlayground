@@ -69,6 +69,7 @@ public class UserController {
     @GetMapping("/userProfile")
     public User getUserProfile(@RequestParam("token") String token){
 
+        log.info("(getUserProfile) token = " + token);
         // get user from token
         authenticationService.authenticate(token);
         User user = authenticationService.getUser(token);

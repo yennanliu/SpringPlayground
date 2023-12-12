@@ -10,11 +10,11 @@
     <div class="card-body">
       <router-link :to="{ name: 'ShowDetails', params: { id: user.id } }"
         ><h5 class="card-title">
-          {{ user.firstName + user.lastName }}
+          Name : {{ user.firstName + user.lastName }}
         </h5></router-link
       >
-      <p class="card-text"><sup>$</sup>{{ user.email }}</p>
-      <p class="card-text"><sup>$</sup>{{ user.role }}</p>
+      <p class="card-text"><sup>Email : </sup>{{ user.email }}</p>
+      <p class="card-text"><sup>Role : </sup>{{ user.role }}</p>
       <!-- <router-link
           id="edit-product"
           :to="{ name: 'EditProduct', params: { id: product.id } }"
@@ -26,7 +26,7 @@
   </div>
 </template>
 
-  <!-- NOTE !!!
+<!-- NOTE !!!
 
   Will only show product edit button when route name is "AdminProduct"
 
@@ -39,8 +39,8 @@
           Edit
         </router-link>
   -->
-  
-  <script>
+
+<script>
 export default {
   name: "UserBox",
   props: ["user"],
@@ -54,8 +54,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .embed-responsive .card-img-top {
   object-fit: cover;
 }

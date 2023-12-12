@@ -16,8 +16,21 @@
       </div>
     </div>
   </template> -->
-  
-  <script>
+
+<template>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h4 class="pt-3">User Profile</h4>
+      </div>
+    </div>
+    <div class="row">
+      <UserBox :user="user"> </UserBox>
+    </div>
+  </div>
+</template>
+
+<script>
 import UserBox from "../../components/User/UserBox";
 var axios = require("axios");
 
@@ -34,12 +47,20 @@ export default {
   },
   methods: {
     async getUser() {
-      if (this.token) {
-        await axios
-          .get(this.baseURL + "userProfile/")
-          .then((res) => (this.user = res.data))
-          .catch((err) => console.log(err));
-      }
+      console.log("this.token = " + this.token);
+      this.token = "8230d006-5271-49fc-84fd-28b80b3b66e3";
+      axios
+        // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
+        .get(this.baseURL + `/user/userProfile?token=${this.token}`)
+        .then((response) => {
+          // Handle the response data here
+          this.user = response.data;
+          console.log(response.data);
+        })
+        .catch((error) => {
+          // Handle errors
+          console.error("getUser error :", error);
+        });
     },
   },
   mounted() {
@@ -47,8 +68,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
