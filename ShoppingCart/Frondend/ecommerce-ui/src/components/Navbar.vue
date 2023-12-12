@@ -104,6 +104,10 @@
             <router-link class="dropdown-item" :to="{ name: 'Admin' }"
               >Admin</router-link
             >
+
+            <router-link class="dropdown-item" :to="{ name: 'User' }"
+              >User</router-link
+            >
             <router-link
               class="dropdown-item"
               v-if="!token"
