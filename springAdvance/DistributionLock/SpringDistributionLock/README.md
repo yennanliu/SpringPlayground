@@ -1,6 +1,12 @@
 # Spring Advance - Distribution Lock
 > xxx yyy
 
+## Dep
+
+- Java 17
+- JDK 17
+- Mysql
+
 
 ## Steps
 
