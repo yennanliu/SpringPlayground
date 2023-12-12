@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class StockController {
 
     @Autowired
-    StockService service;
+    StockService stockService;
 
     @GetMapping("stock/deduct")
     public String deduct(){
-        service.deduct();
+        stockService.deduct();
         return "Stock already deducted";
     }
 
