@@ -3,3 +3,13 @@ Spring:
     hiddenmethod:
       filter:
         enabled: true # enable form (表單) REST function
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: YOUR_GOOGLE_CLIENT_ID
+            clientSecret: YOUR_GOOGLE_CLIENT_SECRET
+            scope:
+            - email
+            - profile
