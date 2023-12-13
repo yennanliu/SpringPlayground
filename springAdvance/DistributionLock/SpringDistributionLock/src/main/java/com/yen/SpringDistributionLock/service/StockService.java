@@ -22,16 +22,17 @@ public class StockService {
 
         // lock
         lock.lock();
+        int count = 0;
         try{
             // get record
             Stock stock = stockMapper.selectOne(new QueryWrapper<Stock>().eq("product_code", "prod-1"));
             if (stock != null && stock.getCount() > 0){
-                int count = stock.getCount();
+                count = stock.getCount();
                 stock.setCount(count-1);
                 stockMapper.updateById(stock);
             }
 
-            System.out.println("Stock count = ");
+            System.out.println("Stock count = " + count);
         }catch (Exception e){
             e.printStackTrace();
             System.out.println("deduct op error : " + e);
