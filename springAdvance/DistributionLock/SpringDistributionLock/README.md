@@ -72,9 +72,11 @@ bash bin/jmeter
 
 - 3 cases make local JVM lock failed
   1) 多例模式 (Multiton Pattern)
+     -[video](https://youtu.be/L7OFClDyWLs?si=_rYUlzOFkuDD8PRU&t=75)
   2) 事務性 (transaction)
   3) cluster deployment (集群部署)
   Ref
+     - https://youtu.be/L7OFClDyWLs?si=HNMvaI6WeAoJZ3lk
      - https://youtu.be/pD8bEeq9q_U?si=z5OyNhApRaj2ARLp&t=21
      - https://youtu.be/CDaWk2RIBL4?si=D_FR2JKduE3JtCer&t=18
 
