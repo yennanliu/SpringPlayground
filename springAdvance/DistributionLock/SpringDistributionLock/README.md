@@ -74,6 +74,10 @@ bash bin/jmeter
   1) 多例模式 (Multiton Pattern)
      -[video](https://youtu.be/L7OFClDyWLs?si=_rYUlzOFkuDD8PRU&t=75)
   2) 事務性 (transaction)
+     -[video](https://youtu.be/pD8bEeq9q_U?si=GQQ1rD-Wt0BalBwm)
+     - ACID : atomicity, consistency, isolation, and durability
+     - also relative to isolation, which is different in different DB
+     - https://github.com/yennanliu/CS_basics/blob/master/doc/faq/db/db_isolation_levels.md
   3) cluster deployment (集群部署)
   Ref
      - https://youtu.be/L7OFClDyWLs?si=HNMvaI6WeAoJZ3lk

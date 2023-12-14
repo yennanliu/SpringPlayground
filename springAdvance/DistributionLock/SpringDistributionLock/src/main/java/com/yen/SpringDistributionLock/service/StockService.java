@@ -4,14 +4,28 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yen.SpringDistributionLock.mapper.StockMapper;
 import com.yen.SpringDistributionLock.pojo.Stock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 // https://youtu.be/O3ROb-vTd_o?si=XAw0KIHJCQC4ufHf&t=535
 
+
+/**
+ *  prototype (多例模式) make JVM local lock failed
+ *  https://youtu.be/L7OFClDyWLs?si=kqVc5L_-Jv2GQU_G&t=119
+ */
+//@Scope(value = "prototype", proxyMode = ScopedProxyMode.TARGET_CLASS) // change to prototype (多例模式)
+/**
+ *  Transactional (事務性) make JVM local lock failed
+ *  https://youtu.be/pD8bEeq9q_U?si=NzUuYN239o8J3N4Z&t=43
+ */
+//@Transactional
 @Service
-public class StockService {
+public class StockService { // default : Singleton (@Scope("Singleton"))
 
     @Autowired
     StockMapper stockMapper;
