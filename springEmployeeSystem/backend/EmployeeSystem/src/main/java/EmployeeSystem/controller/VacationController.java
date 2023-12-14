@@ -1,7 +1,7 @@
-package EmployeeSystem.demo.controller;
+package EmployeeSystem.controller;
 
-import EmployeeSystem.demo.model.Vacation;
-import EmployeeSystem.demo.service.VacationService;
+import EmployeeSystem.model.Vacation;
+import EmployeeSystem.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

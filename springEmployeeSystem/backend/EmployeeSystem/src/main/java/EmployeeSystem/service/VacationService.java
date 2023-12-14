@@ -1,7 +1,7 @@
-package EmployeeSystem.demo.service;
+package EmployeeSystem.service;
 
-import EmployeeSystem.demo.model.Vacation;
-import EmployeeSystem.demo.repository.VacationRepository;
+import EmployeeSystem.model.Vacation;
+import EmployeeSystem.repository.VacationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

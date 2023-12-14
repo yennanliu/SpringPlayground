@@ -1,16 +1,15 @@
-package EmployeeSystem.demo.controller;
+package EmployeeSystem.controller;
 
-import EmployeeSystem.demo.common.ApiResponse;
-import EmployeeSystem.demo.model.User;
-import EmployeeSystem.demo.model.dto.UserCreateDto;
-import EmployeeSystem.demo.service.UserService;
+import EmployeeSystem.common.ApiResponse;
+import EmployeeSystem.model.User;
+import EmployeeSystem.model.dto.UserCreateDto;
+import EmployeeSystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/users")

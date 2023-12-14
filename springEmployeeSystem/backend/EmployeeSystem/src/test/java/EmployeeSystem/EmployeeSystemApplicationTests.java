@@ -1,4 +1,4 @@
-package EmployeeSystem.demo;
+package EmployeeSystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

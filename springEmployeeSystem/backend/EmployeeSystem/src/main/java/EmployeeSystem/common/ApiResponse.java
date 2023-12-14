@@ -1,4 +1,4 @@
-package EmployeeSystem.demo.common;
+package EmployeeSystem.common;
 
 import java.time.LocalDateTime;
 

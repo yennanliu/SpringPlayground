@@ -1,4 +1,4 @@
-package EmployeeSystem.demo.model;
+package EmployeeSystem.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

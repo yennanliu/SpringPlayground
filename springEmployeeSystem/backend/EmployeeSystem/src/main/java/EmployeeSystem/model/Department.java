@@ -1,6 +1,5 @@
-package EmployeeSystem.demo.model;
+package EmployeeSystem.model;
 
-import EmployeeSystem.demo.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

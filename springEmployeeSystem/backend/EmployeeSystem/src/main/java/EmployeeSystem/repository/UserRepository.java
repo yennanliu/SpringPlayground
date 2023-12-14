@@ -1,6 +1,6 @@
-package EmployeeSystem.demo.repository;
+package EmployeeSystem.repository;
 
-import EmployeeSystem.demo.model.User;
+import EmployeeSystem.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<User, Integer> {

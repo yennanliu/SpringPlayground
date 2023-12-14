@@ -1,8 +1,8 @@
-package EmployeeSystem.demo.service;
+package EmployeeSystem.service;
 
-import EmployeeSystem.demo.model.User;
-import EmployeeSystem.demo.model.dto.UserCreateDto;
-import EmployeeSystem.demo.repository.UserRepository;
+import EmployeeSystem.model.User;
+import EmployeeSystem.model.dto.UserCreateDto;
+import EmployeeSystem.repository.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

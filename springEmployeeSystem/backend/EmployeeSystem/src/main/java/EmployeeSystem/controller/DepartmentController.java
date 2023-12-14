@@ -1,8 +1,7 @@
-package EmployeeSystem.demo.controller;
+package EmployeeSystem.controller;
 
-import EmployeeSystem.demo.model.Department;
-import EmployeeSystem.demo.model.User;
-import EmployeeSystem.demo.service.DepartmentService;
+import EmployeeSystem.model.Department;
+import EmployeeSystem.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

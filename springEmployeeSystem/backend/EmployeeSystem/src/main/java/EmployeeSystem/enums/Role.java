@@ -1,4 +1,4 @@
-package EmployeeSystem.demo.enums;
+package EmployeeSystem.enums;
 
 public enum Role {
     USER,
