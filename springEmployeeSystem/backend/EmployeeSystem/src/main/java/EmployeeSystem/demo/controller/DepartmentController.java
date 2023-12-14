@@ -27,7 +27,7 @@ public class DepartmentController {
         return new ResponseEntity<>(departments, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("/{departmentId}")
     public ResponseEntity<Department> getDepartmentById(@PathVariable("departmentId") Integer departmentId){
 
         Department department = departmentService.getDepartmentById(departmentId);
