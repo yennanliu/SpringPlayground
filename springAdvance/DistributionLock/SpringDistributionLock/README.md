@@ -31,15 +31,40 @@ mvn package
 
 # run
 java -jar <built_jar>
+
+
+#---------------------------
+# Run nginx
+#---------------------------
+
+# https://github.com/yennanliu/utility_shell/blob/master/nginx/install_nginx.sh
+
+# http://localhost:8080/
+
+# start
+brew services start nginx
+
+# stop
+brew services stop nginx
+
+#---------------------------
+# Run nginx
+#---------------------------
+
+# https://youtu.be/-EeTUjNlkN0?si=llNkPSRd2j5hvvsl&t=108
+# https://github.com/yennanliu/utility_shell/blob/master/jmeter/install_%20jmeter.sh
+
+cd apache-jmeter-5.6.2
+bash bin/jmeter
 ```
 
 </details>
 
 ## API
 
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| Test |  | | |
+| API | Type               | Purpose | Example cmd | Comment|
+| ----- |--------------------| ---- | ----- | ---- |
+| http://localhost:7777/stock/deduct | lock test endpoint | | |
 
 
 
