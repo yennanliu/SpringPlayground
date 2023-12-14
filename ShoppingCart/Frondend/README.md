@@ -11,6 +11,7 @@
 # V1) start from create null project
 
 # init project
+# (choose vue 2)
 vue create ecommerce-ui
 
 #  Run the following command in your command line to install the Vue router in your system
