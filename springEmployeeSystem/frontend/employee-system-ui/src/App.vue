@@ -4,9 +4,40 @@
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
+
+<script>
+var axios = require("axios");
+export default {
+  data() {
+    return {
+      baseURL: "http://localhost:9998/",
+      users: null,
+      departments: null,
+      key: 0,
+      token: null,
+      cartCount: 0,
+    };
+  },
+
+  methods: {
+    async fetchData() {
+      // get users
+      await axios
+        .get(this.baseURL + "users/")
+        .then((res) => (this.users = res.users))
+        .catch((err) => console.log(err));
+    },
+
+    mounted() {
+      this.fetchData();
+    },
+  },
+};
+</script>
+
 
 <style>
 #app {
