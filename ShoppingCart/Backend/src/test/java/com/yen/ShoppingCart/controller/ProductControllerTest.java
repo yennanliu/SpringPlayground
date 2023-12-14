@@ -61,24 +61,21 @@ class ProductControllerTest {
         productDto = new ProductDto(product);
 
         productList = new ArrayList<>();
+        productDtoList = new ArrayList<>();
+
         for (int i = 0; i < 3; i++){
+
             Product tmpProd = new Product("prod_name","img_url", 100.0, "some desp", category);
             tmpProd.setId(i+2);
             productList.add(tmpProd);
-        }
 
-        productDtoList = new ArrayList<>();
-        for (int i = 0; i < 3; i++){
-            Product tmpProd = new Product("prod_name","img_url", 100.0, "some desp", category);
             productDto = new ProductDto(product);
-            tmpProd.setId(i+2);
             productDtoList.add(productDto);
         }
-
     }
 
     @Test
-    public void testGetProducts() throws Exception {
+    public void shouldGetNotNullProducts() throws Exception {
 
         // mock
         when(productService.listProducts()).
@@ -92,5 +89,29 @@ class ProductControllerTest {
                 .andExpect(content().string(expect));
     }
 
+
+    @Test
+    public void shouldGetNullProducts() throws Exception {
+
+        // mock
+        when(productService.listProducts()).
+                thenReturn(new ArrayList<>());
+        // test
+        String expect = "[]";
+        mockMvc.perform(MockMvcRequestBuilders
+                        .get("/product/")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string(expect));
+    }
+
+    @Test
+    public void shouldAddProduct(){
+
+        // mock
+
+        // test
+
+    }
 
 }
