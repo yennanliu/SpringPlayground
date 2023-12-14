@@ -1,5 +1,5 @@
 # Spring Advance - Distribution Lock
-> xxx yyy
+> Distribution Lock demo with Spring boot application
 
 ## Dep
 
@@ -56,6 +56,16 @@ brew services stop nginx
 
 cd apache-jmeter-5.6.2
 bash bin/jmeter
+
+
+#---------------------------
+# Intellij
+#---------------------------
+
+# https://github.com/yennanliu/utility_shell/blob/master/intellij/intellij_command.sh
+# 30) Allow run app in parallel (multiple instances)
+# https://intellij-support.jetbrains.com/hc/en-us/community/posts/360010505820-Why-my-2020-3-2-IntelliJ-IDEA-Allow-parallel-run-check-box-is-missing
+# configuration -> select main app name -> "Modify options"  -> click "allow multiple instances check box
 ```
 
 </details>
