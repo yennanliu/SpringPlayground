@@ -1,11 +1,5 @@
 # Spring Blog
-
-ARCHITECTURE :
-
-
-- V1
-<p align="center"><img src ="./doc/pic/SpringBlog_arch.svg"></p>
-
+> Build a blog system via spring boot. Functionality : CRUD, Login/Logout (Spring security, OAuth), Blog post, edit, Comment, New user register, edit, Blog search
 
 <p align="center"><img src ="./doc/pic/demo0.png"></p>
 
@@ -13,8 +7,10 @@ ARCHITECTURE :
 
 <p align="center"><img src ="./doc/pic/demo2.png"></p>
 
-Build a blog system via spring boot. Functionality : CRUD, Login/Logout (Spring security, OAuth), Blog post, edit, Comment, New user register, edit, Blog search
+ARCHITECTURE :
 
+- V1
+<p align="center"><img src ="./doc/pic/SpringBlog_arch.svg"></p>
 
 ## Technology
 
