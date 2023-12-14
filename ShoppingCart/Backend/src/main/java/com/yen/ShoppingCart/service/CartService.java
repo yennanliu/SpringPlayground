@@ -28,6 +28,7 @@ public class CartService {
     }
 
     public CartService(CartRepository cartRepository) {
+
         this.cartRepository = cartRepository;
     }
 
@@ -49,13 +50,14 @@ public class CartService {
         double totalCost = 0;
         // TODO : change to functional style
         for (CartItemDto cartItemDto :cartItems){
-            totalCost += (cartItemDto.getProduct().getPrice()* cartItemDto.getQuantity());
+            totalCost += (cartItemDto.getProduct().getPrice() * cartItemDto.getQuantity());
         }
         return new CartDto(cartItems,totalCost);
     }
 
     // local method
     public static CartItemDto getDtoFromCart(Cart cart) {
+
         return new CartItemDto(cart);
     }
 

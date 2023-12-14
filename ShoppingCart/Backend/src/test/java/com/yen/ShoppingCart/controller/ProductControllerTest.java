@@ -1,27 +1,40 @@
 package com.yen.ShoppingCart.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yen.ShoppingCart.common.ApiResponse;
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
 import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.repository.ProductRepository;
 import com.yen.ShoppingCart.service.CategoryService;
 import com.yen.ShoppingCart.service.ProductService;
+import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -30,6 +43,9 @@ class ProductControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @MockBean
     ProductService productService;
@@ -106,12 +122,27 @@ class ProductControllerTest {
     }
 
     @Test
-    public void shouldAddProduct(){
+    public void shouldAddProduct() throws Exception {
 
         // mock
+        //given(productService.addProduct(productDto, category)).willAnswer((invocation -> invocation.getArgument(0)));
+        //given(categoryService.readCategory(anyInt())).willAnswer((invocation -> invocation.getArgument(0)));
+        Mockito.when(categoryService.readCategory(1))
+                .thenReturn(Optional.ofNullable(category));
 
+//        Mockito.when(productService.addProduct(productDto, category))
+//                .thenReturn(null);
+
+        ResponseEntity resp = new ResponseEntity<>(new ApiResponse(true, "Product has been added"), HttpStatus.CREATED);
+
+        ResultActions response = mockMvc.perform(post("/product/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(resp))
+        );
+
+        System.out.println("response = " + response);
         // test
-
+        //response.andExpect(MockMvcResultMatchers.status().isOk());
     }
 
 }
