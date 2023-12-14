@@ -1,13 +1,19 @@
 package EmployeeSystem.demo.model;
 
 import EmployeeSystem.demo.enums.Role;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class User {
 
     @Id
