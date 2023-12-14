@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @Column(name = "first_name")
@@ -35,4 +35,7 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Column(name = "departement_id")
+    private Integer departementId;
 }
