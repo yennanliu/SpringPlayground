@@ -13,6 +13,7 @@
         </h6>
         <h6 class="font-weight-bold">Email : {{ user.email }}</h6>
         <h6 class="font-weight-bold">Department : {{ user.departementId }}</h6>
+        <h6 class="font-weight-bold">Manager : {{ user.managerId }}</h6>
         <p>Role : {{ user.role }}</p>
       </div>
       <div class="col-md-1"></div>

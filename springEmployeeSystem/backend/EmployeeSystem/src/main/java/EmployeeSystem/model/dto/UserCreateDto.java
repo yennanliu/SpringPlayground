@@ -23,4 +23,6 @@ public class UserCreateDto {
     private String email;
 
     private String password;
+
+    private Integer managerId;
 }

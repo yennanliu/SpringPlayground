@@ -38,4 +38,7 @@ public class User {
 
     @Column(name = "departement_id")
     private Integer departementId;
+
+    @Column(name = "manager_id")
+    private Integer managerId;
 }
