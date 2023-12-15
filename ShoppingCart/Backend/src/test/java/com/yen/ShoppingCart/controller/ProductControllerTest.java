@@ -62,6 +62,8 @@ class ProductControllerTest {
 
     Category category;
 
+    Category category_2;
+
     List<Product> productList;
 
     List<ProductDto> productDtoList;
@@ -72,6 +74,10 @@ class ProductControllerTest {
         System.out.println("before ...");
 
         Category category = new Category();
+
+        category_2 = new Category("new_name", "new_desp");
+        category_2.setId(1);
+
         product = new Product("prod_name","img_url", 100.0, "some desp", category);
         product.setId(1);
         productDto = new ProductDto(product);
@@ -127,14 +133,10 @@ class ProductControllerTest {
         // mock
         //given(productService.addProduct(productDto, category)).willAnswer((invocation -> invocation.getArgument(0)));
         //given(categoryService.readCategory(anyInt())).willAnswer((invocation -> invocation.getArgument(0)));
-        Mockito.when(categoryService.readCategory(1))
-                .thenReturn(Optional.ofNullable(category));
-
-//        Mockito.when(productService.addProduct(productDto, category))
-//                .thenReturn(null);
+        when(categoryService.readCategory(anyInt()))
+                .thenReturn(Optional.ofNullable(category_2));
 
         ResponseEntity resp = new ResponseEntity<>(new ApiResponse(true, "Product has been added"), HttpStatus.CREATED);
-
         ResultActions response = mockMvc.perform(post("/product/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(resp))
