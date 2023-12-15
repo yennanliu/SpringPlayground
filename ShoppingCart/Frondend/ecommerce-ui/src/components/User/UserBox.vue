@@ -38,7 +38,7 @@ a {
 }
 
 .card-title {
-  color: #484848;
+  color: #eb7d08;
   font-size: 1.1rem;
   font-weight: 400;
 }

@@ -197,6 +197,11 @@ const routes = [
     name: "ShowUserDetails",
     component: ShowUserDetails,
   },
+  {
+    path: "/admin/user",
+    name: "AdminUser",
+    component: User,
+  },
 ];
 
 const router = new VueRouter({
