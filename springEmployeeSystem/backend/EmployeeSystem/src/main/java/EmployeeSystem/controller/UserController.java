@@ -39,4 +39,16 @@ public class UserController {
         return new ResponseEntity<>(new ApiResponse(true, "User has been added"), HttpStatus.CREATED);
     }
 
+    @PostMapping("/update/{userID}")
+    public ResponseEntity<ApiResponse> updateUser(@PathVariable("userID") Integer userID, @RequestBody UserCreateDto userCreateDto) {
+
+        //        Optional<Category> optionalCategory = categoryService.readCategory(productDto.getCategoryId());
+//        if (!optionalCategory.isPresent()) {
+//            return new ResponseEntity<ApiResponse>(new ApiResponse(false, "category is invalid"), HttpStatus.CONFLICT);
+//        }
+//        Category category = optionalCategory.get();
+        userService.updateUser(userID, userCreateDto);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "User has been updated"), HttpStatus.OK);
+    }
+
 }

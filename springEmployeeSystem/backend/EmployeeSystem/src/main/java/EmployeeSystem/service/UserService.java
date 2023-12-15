@@ -36,4 +36,11 @@ public class UserService {
         return user;
     }
 
+    public void updateUser(Integer userID, UserCreateDto userCreateDto) {
+
+        User updatedUser = new User();
+        BeanUtils.copyProperties(userCreateDto, updatedUser);
+        userRepository.save(updatedUser);
+    }
+
 }
