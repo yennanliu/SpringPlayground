@@ -23,32 +23,32 @@
             </select>
           </div> -->
           <div class="form-group">
-            <label>Name</label>
+            <label>firstName</label>
             <input
               type="text"
               class="form-control"
-              v-model="user.name"
+              v-model="user.firstName"
               required
             />
           </div>
-          <!-- <div class="form-group">
-            <label>Description</label>
+          <div class="form-group">
+            <label>lastName</label>
             <input
               type="text"
               class="form-control"
-              v-model="product.description"
+              v-model="user.lastName"
               required
             />
-          </div> -->
-          <!-- <div class="form-group">
-            <label>ImageURL</label>
+          </div>
+          <div class="form-group">
+            <label>role</label>
             <input
-              type="url"
+              type="text"
               class="form-control"
-              v-model="product.imageURL"
+              v-model="user.role"
               required
             />
-          </div> -->
+          </div>
           <div class="form-group">
             <label>Email</label>
             <input
@@ -75,8 +75,7 @@ import swal from "sweetalert";
 export default {
   data() {
     return {
-      product: null,
-      products: [],
+      user: null,
     };
   },
   //props: ["baseURL", "categories"],
