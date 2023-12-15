@@ -3,10 +3,10 @@
     <div class="card-body">
       <router-link :to="{ name: 'ShowDetails', params: { id: user.id } }"
         ><h5 class="card-title">
-          Name : {{ user.firstName + " " + user.lastName }}
+          Name : {{ user.firstName + " " + user.lastName }}, Email :
+          {{ user.email }}
         </h5></router-link
       >
-      <p class="card-text"><sup></sup>Email : {{ user.email }}</p>
       <!-- <router-link
         id="edit-user"
         :to="{ name: 'EditUser', params: { id: RouterLink.id } }"
@@ -38,9 +38,13 @@ export default {
   props: ["user"],
   methods: {
     showDetails() {
+      console.log(
+        "(showDetails) this.$route.params.id = " + this.$route.params.id
+      );
       this.$router.push({
         name: "ShowDetails",
-        params: { id: this.user.id },
+        //params: { id: this.user.id },
+        arams: { id: this.$route.params.id },
       });
     },
   },

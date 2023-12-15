@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-12 text-center">
         <!-- <h4 class="pt-3">{{ category.categoryName }}</h4> -->
-        <h1>This is User List</h1>
+        <h1>User List</h1>
         <h5>{{ msg }}</h5>
       </div>
     </div>
@@ -40,7 +40,7 @@ export default {
     };
   },
   components: { UserBox },
-  props: ["baseURL", "categories"],
+  props: ["baseURL"],
   methods: {
     async fetchData() {
       // fetch users

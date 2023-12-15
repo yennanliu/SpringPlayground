@@ -32,7 +32,6 @@ import Footer from "./components/Footer.vue";
 export default {
   data() {
     return {
-      //baseURL: "https://limitless-lake-55070.herokuapp.com/",
       baseURL: "http://localhost:9999/",
       products: null,
       categories: null,
