@@ -6,12 +6,10 @@
         <img :src="product.imageURL" :alt="product.name" class="img-fluid" />
       </div> -->
       <div class="col-md-6 col-12 pt-3 pt-md-0">
-        <h4>{{ user.id }}</h4>
-        <!-- <h6 class="category font-italic">{{ category.categoryName }}</h6> -->
-        <h6 class="font-weight-bold">$ {{ user.email }}</h6>
-        <p>
-          {{ user.role }}
-        </p>
+        <h4>ID : {{ user.id }}</h4>
+        <h6>Name : {{ user.firstName + " " + user.lastName }}</h6>
+        <h6>Email : {{ user.email }}</h6>
+        <p>Role : {{ user.role }}</p>
 
         <div class="d-flex flex-row justify-content-between">
           <!-- <div class="input-group col-md-3 col-4 p-0">
@@ -35,13 +33,13 @@
         </div>
 
         <div class="features pt-3">
-          <h5><strong>Features</strong></h5>
+          <h5><strong>Profile</strong></h5>
           <ul>
-            <li>this is a product description.</li>
+            <li>this is an user xywfwecw.</li>
             <li>blablalalalalalalalalal</li>
-            <li>more words are still ongoing</li>
+            <li>She likes drink</li>
             <li>make good works</li>
-            <li>last words</li>
+            <li>ans so on ...</li>
           </ul>
         </div>
 
@@ -96,7 +94,6 @@ export default {
       }
       axios
         .post(`${this.baseURL}cart/add?token=${this.token}`, {
-          //productId: this.id, //productId, // TODO : fix get id from input param (use this.id approach for now)
           productId: this.$route.params.id,
           quantity: this.quantity,
         })
@@ -127,14 +124,16 @@ export default {
           this.id = this.$route.params.id;
           console.log(">>> this.id =  " + this.id);
           console.log("this.$route.params.id = " + this.$route.params.id);
-          console.log(
-            "this.users.find = " +
-              JSON.stringify(
-                res.data.find((user) => user.id == this.$route.params.id)
-              )
-          );
+          console.log(">>> res =  " + JSON.stringify(res));
+          //   console.log(
+          //     "this.users.find = " +
+          //       JSON.stringify(
+          //         res.data.find((user) => user.id == this.$route.params.id)
+          //       )
+          //   );
           // use this approach for now
-          this.user = res.data.find((user) => user.id == this.$route.params.id);
+          //this.user = res.data.find((user) => user.id == this.$route.params.id);
+          this.user = res.data;
         })
         .catch((err) => console.log(err));
     },
