@@ -1,5 +1,6 @@
 package com.yen.ShoppingCart.controller;
 
+import com.yen.ShoppingCart.common.ApiResponse;
 import com.yen.ShoppingCart.enums.Role;
 import com.yen.ShoppingCart.exception.AuthenticationFailException;
 import com.yen.ShoppingCart.exception.CustomException;
@@ -9,6 +10,7 @@ import com.yen.ShoppingCart.model.dto.ResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignInDto;
 import com.yen.ShoppingCart.model.dto.user.SignInResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignupDto;
+import com.yen.ShoppingCart.model.dto.user.UserUpdateDto;
 import com.yen.ShoppingCart.repository.TokenRepository;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.service.AuthenticationService;
@@ -16,6 +18,8 @@ import com.yen.ShoppingCart.service.UserService;
 import com.yen.ShoppingCart.util.Helper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.yen.ShoppingCart.enums.ResponseStatus;
@@ -77,11 +81,13 @@ public class UserController {
     }
 
     // TODO : fix/check below
-    //    @PostMapping("/updateUser")
-//    public ResponseDto updateUser(@RequestParam("token") String token, @RequestBody UserUpdateDto userUpdateDto) {
-//        authenticationService.authenticate(token);
-//        return userService.updateUser(token, userUpdateDto);
-//    }
+    @PostMapping("/updateUser")
+    public ResponseEntity updateUser(@RequestParam("token") String token, @RequestBody User user) {
+
+        authenticationService.authenticate(token);
+        userService.updateUser(user);
+        return new ResponseEntity<>(new ApiResponse(true, "user is update"), HttpStatus.OK);
+    }
 
 
 //    @PostMapping("/createUser")

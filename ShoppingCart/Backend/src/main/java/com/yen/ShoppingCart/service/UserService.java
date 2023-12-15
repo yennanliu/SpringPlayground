@@ -10,10 +10,7 @@ import com.yen.ShoppingCart.exception.CustomException;
 import com.yen.ShoppingCart.model.AuthenticationToken;
 import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.ResponseDto;
-import com.yen.ShoppingCart.model.dto.user.SignInDto;
-import com.yen.ShoppingCart.model.dto.user.SignInResponseDto;
-import com.yen.ShoppingCart.model.dto.user.SignupDto;
-import com.yen.ShoppingCart.model.dto.user.UserCreateDto;
+import com.yen.ShoppingCart.model.dto.user.*;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.util.Helper;
 import lombok.extern.slf4j.Slf4j;
@@ -179,6 +176,24 @@ public class UserService {
             return true;
         }
         return false;
+    }
+
+    public void updateUser(User user) {
+
+        //User user = getUserFromDto(userUpdateDto);
+        //user.setId(userUpdateDto.getId());
+        userRepository.save(user);
+    }
+
+    private User getUserFromDto(UserUpdateDto userUpdateDto){
+
+        User user = new User();
+        user.setId(userUpdateDto.getId());
+        user.setEmail(userUpdateDto.getEmail());
+        user.setFirstName(userUpdateDto.getFirstName());
+        user.setLastName(userUpdateDto.getFirstName());
+        user.setRole(userUpdateDto.getRole());
+        return user;
     }
 
 }
