@@ -9,6 +9,14 @@
       <p class="card-text"><sup>Id : </sup>{{ user.id }}</p>
       <p class="card-text"><sup>Email : </sup>{{ user.email }}</p>
       <p class="card-text"><sup>Role : </sup>{{ user.role }}</p>
+
+      <router-link
+        id="edit-user"
+        :to="{ name: 'EditUser', params: { id: user.id } }"
+        v-show="$route.name == 'AdminUser'"
+      >
+        Edit
+      </router-link>
     </div>
   </div>
 </template>

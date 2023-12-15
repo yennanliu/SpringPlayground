@@ -100,23 +100,23 @@ export default {
     },
 
     async getUser() {
-      //fetch categories
-      await axios
-        .get(this.baseURL + "user/all")
-        .then((res) => {
-          console.log(
-            "this.user.find = " +
-              JSON.stringify(
-                res.data.find((user) => user.id == this.$route.params.id)
-              )
-          );
-          // use this approach for now
-          this.user = res.data.find((user) => user.id == this.$route.params.id);
+      console.log("this.token = " + this.token);
+      axios
+        // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
+        .get(this.baseURL + `/user/userProfile?token=${this.token}`)
+        .then((response) => {
+          // Handle the response data here
+          this.user = response.data;
+          console.log(response.data);
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          // Handle errors
+          console.error("getUser error :", error);
+        });
     },
   },
   mounted() {
+    this.token = localStorage.getItem("token");
     this.getUser();
     this.id = this.$route.params.id;
     console.log("this.id  = " + this.id);

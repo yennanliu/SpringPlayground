@@ -44,6 +44,7 @@ import Admin from "../views/Admin/Admin.vue";
 // user
 import User from "../views/User/User.vue";
 import ShowUserDetails from "../views/User/ShowUserDetails.vue";
+import EditUser from "../views/User/EditUser.vue";
 
 Vue.use(VueRouter);
 
@@ -191,6 +192,11 @@ const routes = [
     path: "/user",
     name: "User",
     component: User,
+  },
+  {
+    path: "/admin/user/:id",
+    name: "EditUser",
+    component: EditUser,
   },
   {
     path: "/user/show/:id",
