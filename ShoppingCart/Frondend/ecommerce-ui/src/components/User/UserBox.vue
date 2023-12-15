@@ -1,7 +1,7 @@
 <template>
   <div class="card h-100 w-100">
     <div class="card-body">
-      <router-link :to="{ name: 'ShowDetails', params: { id: user.id } }"
+      <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }"
         ><h5 class="card-title">
           Name : {{ user.firstName + " " + user.lastName }}
         </h5></router-link
@@ -18,9 +18,9 @@ export default {
   name: "UserBox",
   props: ["user"],
   methods: {
-    showDetails() {
+    ShowUserDetails() {
       this.$router.push({
-        name: "ShowDetails",
+        name: "ShowUserDetails",
         params: { id: this.user.id },
       });
     },
