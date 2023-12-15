@@ -17,7 +17,7 @@ INSERT INTO `department` (id, name)
 VALUES
 (1, "tech"),
 (2, "prod"),
-(3, "mkt")
+(3, "mkt");
 
 
 -- truncate vacation;

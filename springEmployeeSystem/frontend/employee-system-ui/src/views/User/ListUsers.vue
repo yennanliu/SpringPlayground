@@ -9,15 +9,15 @@
     </div>
 
     <div class="row">
-      <img
+      <!-- <img
         v-show="len == 0"
         class="img-fluid"
         src="../../assets/sorry.jpg"
         alt="Sorry"
-      />
+      /> -->
       <div
-        v-for="product of category.products"
-        :key="product.id"
+        v-for="user of users"
+        :key="user.id"
         class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
       >
         <UserBox :user="user"> </UserBox>
@@ -25,42 +25,40 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import UserBox from "../../components/User/UserBox";
+var axios = require("axios");
 export default {
   name: "ListUsers",
   data() {
     return {
       id: null,
-      categoryIndex: null,
-      category: {},
+      users: null,
       len: 0,
       msg: null,
     };
   },
   components: { UserBox },
   props: ["baseURL", "categories"],
+  methods: {
+    async fetchData() {
+      // fetch users
+      await axios
+        .get("http://localhost:9998/" + "users/")
+        .then((res) => (this.users = res.data))
+        .catch((err) => console.log(err));
+    },
+  },
   mounted() {
-    this.id = this.$route.params.id;
-    // this.categoryIndex = this.categories.findIndex(
-    //   (category) => category.id == this.id
-    // );
-    // this.category = this.categories[this.categoryIndex];
-
-    // this.len = this.category.products.length;
-    if (this.len == 0) {
-      this.msg = "Sorry, no products found";
-    } else if (this.len == 1) {
-      this.msg = "Only 1 product found";
-    } else {
-      this.msg = this.len + " products found";
-    }
+    //this.id = this.$route.params.id;
+    this.fetchData();
+    console.log(">>> this.users = " + this.users);
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
