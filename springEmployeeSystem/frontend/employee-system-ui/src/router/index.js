@@ -35,12 +35,12 @@ const routes = [
     component: ShowDetails,
   },
   {
-    path: "/admin/user/:id",
+    path: "/admin/users/:id",
     name: "EditUser",
     component: EditUser,
   },
   {
-    path: "/admin/user",
+    path: "/admin/users",
     name: "AdminUser",
     component: User,
   },

@@ -71,7 +71,7 @@ export default {
   methods: {
     async editUser() {
       axios
-        .post("http://localhost:9998/" + "users/updateUser/", this.user)
+        .post("http://localhost:9998/" + "users/update/", this.user)
         .then((res) => {
           console.log(res);
           //sending the event to parent to handle
@@ -90,7 +90,7 @@ export default {
       //console.log("this.token = " + this.token);
       axios
         // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
-        .get(this.baseURL + "/user/userProfile")
+        .get(this.baseURL + "/user/" + this.$route.params.id)
         .then((response) => {
           // Handle the response data here
           this.user = response.data;

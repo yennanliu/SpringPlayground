@@ -38,6 +38,11 @@ import swal from "sweetalert";
 export default {
   name: "UserBox",
   props: ["user"],
+  data() {
+    return {
+      users: [],
+    };
+  },
   methods: {
     showDetails() {
       console.log(

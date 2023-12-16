@@ -35,37 +35,6 @@ export default {
   },
   props: ["baseURL", "users"],
   methods: {
-    // addToCart() {
-    //   if (!this.token) {
-    //     swal({
-    //       text: "Please log in first!",
-    //       icon: "error",
-    //     });
-    //     return;
-    //   }
-    //   axios
-    //     .post(`${this.baseURL}user/add`, {
-    //       //productId: this.id, //productId, // TODO : fix get id from input param (use this.id approach for now)
-    //       userId: this.$route.params.id,
-    //     })
-    //     .then(
-    //       (response) => {
-    //         if (response.status == 201) {
-    //           swal({
-    //             text: "User Added OK!",
-    //             icon: "success",
-    //             closeOnClickOutside: false,
-    //           });
-    //           // refresh nav bar
-    //           this.$emit("fetchData");
-    //         }
-    //       },
-    //       (error) => {
-    //         console.log(error);
-    //       }
-    //     );
-    // },
-
     ListUsers() {
       //   if (!this.token) {
       //     swal({

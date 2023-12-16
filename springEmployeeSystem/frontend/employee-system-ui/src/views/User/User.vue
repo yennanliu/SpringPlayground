@@ -23,18 +23,20 @@ export default {
   data() {
     return {
       //baseURL: "http://localhost:9999/", // NOTE !! we read baseURL from App.vue
-      user: null,
+      user: {},
+      users: [],
     };
   },
   methods: {
     async getUser() {
-      console.log("this.token = " + this.token);
+      //console.log("this.token = " + this.token);
       axios
         // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
-        .get(this.baseURL + `/user/userProfile?token=${this.token}`)
+        .get("http://localhost:9998" + `/users/` + 1)
         .then((response) => {
           // Handle the response data here
           this.user = response.data;
+          console.log("this.user = " + this.user)
           console.log(response.data);
         })
         .catch((error) => {
@@ -45,12 +47,12 @@ export default {
   },
   mounted() {
     // login first if can't get token
-    if (!localStorage.getItem("token")) {
-      this.$router.push({ name: "Signin" });
-      return;
-    }
+    // if (!localStorage.getItem("token")) {
+    //   this.$router.push({ name: "Signin" });
+    //   return;
+    // }
     // get token
-    this.token = localStorage.getItem("token");
+    //this.token = localStorage.getItem("token");
     this.getUser();
   },
 };
