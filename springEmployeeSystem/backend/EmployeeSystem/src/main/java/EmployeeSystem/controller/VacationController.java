@@ -1,14 +1,14 @@
 package EmployeeSystem.controller;
 
+import EmployeeSystem.common.ApiResponse;
 import EmployeeSystem.model.Vacation;
+import EmployeeSystem.model.dto.UserCreateDto;
+import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -31,6 +31,20 @@ public class VacationController {
 
         Vacation vacation = vacationService.getVacationById(VacationById);
         return new ResponseEntity<>(vacation, HttpStatus.OK);
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<Vacation>> getDepartmentByUserId(@PathVariable("VacationById") Integer userId){
+
+        List<Vacation> vacationList = vacationService.getVacationByUserId(userId);
+        return new ResponseEntity<>(vacationList, HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> addVacation(@RequestBody VacationDto vacationDto){
+
+        vacationService.addVacation(vacationDto);
+        return new ResponseEntity<>(new ApiResponse(true, "Vacation has been added"), HttpStatus.CREATED);
     }
 
 }
