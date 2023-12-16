@@ -7,13 +7,13 @@
           {{ user.email }}
         </h5></router-link
       >
-      <!-- <router-link
+      <router-link
         id="edit-user"
-        :to="{ name: 'EditUser', params: { id: RouterLink.id } }"
+        :to="{ name: 'EditUser', params: { id: this.$route.params.id } }"
         v-show="$route.name == 'AdminUser'"
       >
         Edit
-      </router-link> -->
+      </router-link>
     </div>
   </div>
 </template>
@@ -33,6 +33,8 @@
   -->
 
 <script>
+var axios = require("axios");
+import swal from "sweetalert";
 export default {
   name: "UserBox",
   props: ["user"],
@@ -46,6 +48,23 @@ export default {
         //params: { id: this.user.id },
         arams: { id: this.$route.params.id },
       });
+    },
+
+    async editUser() {
+      axios
+        .post("http://localhost:9998/" + "users/update/", this.user)
+        .then((res) => {
+          console.log(res);
+          //sending the event to parent to handle
+          this.$emit("fetchData");
+          this.$router.push({ name: "AdminUser" });
+          swal({
+            text: "User Updated Successfully!",
+            icon: "success",
+            closeOnClickOutside: false,
+          });
+        })
+        .catch((err) => console.log("err", err));
     },
   },
 };

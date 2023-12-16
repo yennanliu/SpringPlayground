@@ -9,30 +9,36 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form v-if="product">
+        <form v-if="user">
           <div class="form-group">
-            <label>Department</label>
-            <select class="form-control" v-model="user.departmentId" required>
-              <option
-                v-for="department of departments"
-                :key="department.id"
-                :value="department.id"
-              >
-                {{ department.name }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label>Name</label>
+            <label>firstName</label>
             <input
               type="text"
               class="form-control"
-              v-model="user.name"
+              v-model="user.firstName"
               required
             />
           </div>
           <div class="form-group">
-            <label>email</label>
+            <label>lastName</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="user.lastName"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>role</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="user.role"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label>Email</label>
             <input
               type="text"
               class="form-control"
@@ -49,32 +55,28 @@
     </div>
   </div>
 </template>
-
-<script>
+  
+  <script>
 var axios = require("axios");
 import swal from "sweetalert";
 
 export default {
   data() {
     return {
-      product: null,
-      products: [],
+      user: null,
     };
   },
-  //props: ["baseURL", "products", "categories"],
-  props: ["baseURL", "categories"],
+  //props: ["baseURL", "categories"],
+  props: ["baseURL"],
   methods: {
     async editUser() {
       axios
-        .post(
-          "http://localhost:9998/" + "users/update/" + this.id,
-          this.product
-        )
+        .post("http://localhost:9998/" + "users/updateUser/", this.user)
         .then((res) => {
           console.log(res);
           //sending the event to parent to handle
           this.$emit("fetchData");
-          this.$router.push({ name: "AdminProduct" });
+          this.$router.push({ name: "AdminUser" });
           swal({
             text: "User Updated Successfully!",
             icon: "success",
@@ -84,45 +86,37 @@ export default {
         .catch((err) => console.log("err", err));
     },
 
-    async getProduct() {
-      //fetch categories
-      await axios
-        .get(this.baseURL + "product/")
-        .then((res) => {
-          //console.log("res = " + JSON.stringify(res))
-          //console.log("res.data = " + JSON.stringify(res.data))
-          console.log(
-            "this.products.find = " +
-              JSON.stringify(
-                res.data.find((product) => product.id == this.$route.params.id)
-              )
-          );
-          // use this approach for now
-          this.product = res.data.find(
-            (product) => product.id == this.$route.params.id
-          );
+    async getUser() {
+      //console.log("this.token = " + this.token);
+      axios
+        // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
+        .get(this.baseURL + "/user/userProfile")
+        .then((response) => {
+          // Handle the response data here
+          this.user = response.data;
+          console.log(response.data);
         })
-        .catch((err) => console.log(err));
+        .catch((error) => {
+          // Handle errors
+          console.error("getUser error :", error);
+        });
     },
   },
   mounted() {
-    // if (!localStorage.getItem("token")) {
-    //   this.$router.push({ name: "Signin" });
-    //   return;
-    // }
-    this.getProduct();
+    this.token = localStorage.getItem("token");
+    this.getUser();
     this.id = this.$route.params.id;
     console.log("this.id  = " + this.id);
-    console.log("this.products  = " + JSON.stringify(this.products));
-    console.log("this.categories  = " + JSON.stringify(this.categories));
+    console.log("this.users  = " + JSON.stringify(this.users));
   },
 };
 </script>
-
-<style scoped>
+  
+  <style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
 </style>
+  

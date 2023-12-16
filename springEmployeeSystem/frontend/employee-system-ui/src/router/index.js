@@ -5,6 +5,8 @@ import HomeView from "../views/HomeView.vue";
 // user
 import ListUsers from "../views/User/ListUsers.vue";
 import ShowDetails from "../views/User/ShowDetails.vue";
+import User from "../views/User/User.vue";
+import EditUser from "../views/User/EditUser.vue";
 
 Vue.use(VueRouter);
 
@@ -31,6 +33,16 @@ const routes = [
     path: "/users/show/:id",
     name: "ShowDetails",
     component: ShowDetails,
+  },
+  {
+    path: "/admin/user/:id",
+    name: "EditUser",
+    component: EditUser,
+  },
+  {
+    path: "/admin/user",
+    name: "AdminUser",
+    component: User,
   },
 ];
 
