@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+// https://waynestalk.com/spring-security-oauth2-google-signin-explained/
+
 @Configuration
 //@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -17,10 +19,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http.authorizeRequests() // 定義哪些url需要被保護
+                .antMatchers("/login.html").permitAll() // change login page to login.html
                 .anyRequest()
                 .authenticated()
                 .and()
-                .oauth2Login();
+                .oauth2Login()
+                .loginPage("/login.html")
+                .defaultSuccessUrl("/success.html");
     }
 
 }
