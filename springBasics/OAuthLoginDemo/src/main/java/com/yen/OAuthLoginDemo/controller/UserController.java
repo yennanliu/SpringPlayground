@@ -9,7 +9,10 @@ class UserController {
 
     @GetMapping("/user")
     public Principal getUser(Principal principal){
+
         System.out.println(">>> principal = " + principal.toString());
+        // will return google OAuth principal in http://localhost:8080/user
+        // example : OAuth2AuthenticationToken [Principal=Name: [xxxx], Granted Authorities:.....
         return principal;
     }
 
