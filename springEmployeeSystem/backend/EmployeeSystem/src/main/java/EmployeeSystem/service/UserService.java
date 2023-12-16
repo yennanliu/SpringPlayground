@@ -36,7 +36,7 @@ public class UserService {
         return user;
     }
 
-    public void updateUser(Integer userID, UserCreateDto userCreateDto) {
+    public void updateUser(UserCreateDto userCreateDto) {
 
         User updatedUser = new User();
         BeanUtils.copyProperties(userCreateDto, updatedUser);
