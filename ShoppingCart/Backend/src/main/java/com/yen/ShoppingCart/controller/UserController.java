@@ -82,9 +82,9 @@ public class UserController {
 
     // TODO : fix/check below
     @PostMapping("/updateUser")
-    public ResponseEntity updateUser(@RequestParam("token") String token, @RequestBody User user) {
+    public ResponseEntity updateUser(@RequestBody User user) {
 
-        authenticationService.authenticate(token);
+        //authenticationService.authenticate(token);
         userService.updateUser(user);
         return new ResponseEntity<>(new ApiResponse(true, "user is update"), HttpStatus.OK);
     }

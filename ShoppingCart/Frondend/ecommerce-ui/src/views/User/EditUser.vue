@@ -83,7 +83,7 @@ export default {
   methods: {
     async editUser() {
       axios
-        .post("http://localhost:9999/" + `user/updateUser?token=${this.token}`)
+        .post("http://localhost:9999/" + "user/updateUser/", this.user)
         .then((res) => {
           console.log(res);
           //sending the event to parent to handle
