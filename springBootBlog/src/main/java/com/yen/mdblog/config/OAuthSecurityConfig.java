@@ -2,7 +2,8 @@ package com.yen.mdblog.config;
 
 // social login : https://youtu.be/us0VjFiHogo?t=241
 
-import com.yen.mdblog.handler.MyLogoutHandler;
+//import com.yen.mdblog.handler.MyLogoutHandler;
+import com.yen.mdblog.service.CustomOAuth2UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,8 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 @EnableWebSecurity
 public class OAuthSecurityConfig {
 
+//    @Autowired
+//    MyLogoutHandler myLogoutHandler;
+
     @Autowired
-    MyLogoutHandler myLogoutHandler;
+    CustomOAuth2UserService customOAuth2UserService;
 
     // in memory user
     // https://www.youtube.com/watch?v=66DtzkhBlSA&t=515s
@@ -82,6 +86,7 @@ public class OAuthSecurityConfig {
                 })
                 .formLogin(Customizer.withDefaults())
                 .oauth2Login(Customizer.withDefaults())
+                //.userDetailsService(customOAuth2UserService)
                 .build();
     }
 
