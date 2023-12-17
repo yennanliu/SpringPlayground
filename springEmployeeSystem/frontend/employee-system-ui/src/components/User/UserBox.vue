@@ -9,7 +9,7 @@
       >
       <router-link
         id="edit-user"
-        :to="{ name: 'EditUser', params: { id: this.$route.params.id } }"
+        :to="{ name: 'EditUser', params: { id: user.id } }"
         v-show="$route.name == 'AdminUser'"
       >
         Edit

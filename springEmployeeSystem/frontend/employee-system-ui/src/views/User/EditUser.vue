@@ -10,6 +10,18 @@
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
         <form v-if="user">
+          <!-- <div class="form-group">
+            <label>Category</label>
+            <select class="form-control" v-model="user.id" required>
+              <option
+                v-for="user of users"
+                :key="user.id"
+                :value="user.id"
+              >
+                {{ category.categoryName }}
+              </option>
+            </select>
+          </div> -->
           <div class="form-group">
             <label>firstName</label>
             <input
@@ -29,15 +41,6 @@
             />
           </div>
           <div class="form-group">
-            <label>role</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="user.role"
-              required
-            />
-          </div>
-          <div class="form-group">
             <label>Email</label>
             <input
               type="text"
@@ -46,6 +49,26 @@
               required
             />
           </div>
+          <!-- <div class="form-group">
+            <label>ImageURL</label>
+            <input
+              type="url"
+              class="form-control"
+              v-model="product.imageURL"
+              required
+            />
+          </div> -->
+
+          <!-- <div class="form-group">
+            <label>Price</label>
+            <input
+              type="number"
+              class="form-control"
+              v-model="product.price"
+              required
+            />
+          </div> -->
+
           <button type="button" class="btn btn-primary" @click="editUser">
             Submit
           </button>
@@ -55,8 +78,8 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 var axios = require("axios");
 import swal from "sweetalert";
 
@@ -64,14 +87,15 @@ export default {
   data() {
     return {
       user: null,
+      users: [],
     };
   },
-  //props: ["baseURL", "categories"],
+  //props: ["baseURL", "products", "categories"],
   props: ["baseURL"],
   methods: {
     async editUser() {
       axios
-        .post("http://localhost:9998/" + "users/update/", this.user)
+        .post("http://localhost:9998/users/update/", this.user)
         .then((res) => {
           console.log(res);
           //sending the event to parent to handle
@@ -87,36 +111,38 @@ export default {
     },
 
     async getUser() {
-      //console.log("this.token = " + this.token);
-      axios
-        // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
-        .get("http://localhost:9998/users/" +1)
-        .then((response) => {
-          // Handle the response data here
-          this.user = response.data;
-          console.log(response.data);
+      //fetch categories
+      await axios
+        .get("http://localhost:9998/" + "users/")
+        .then((res) => {
+          // use this approach for now
+          this.user = res.data.find((user) => user.id == this.$route.params.id);
         })
-        .catch((error) => {
-          // Handle errors
-          console.error("getUser error :", error);
-        });
+        .catch((err) => console.log(err));
     },
   },
   mounted() {
-    this.token = localStorage.getItem("token");
+    // if (!localStorage.getItem("token")) {
+    //   this.$router.push({ name: "Signin" });
+    //   return;
+    // }
+
     this.getUser();
     this.id = this.$route.params.id;
     console.log("this.id  = " + this.id);
     console.log("this.users  = " + JSON.stringify(this.users));
+
+    // TODO : fix why can filter product via id
+    //this.product = this.products.find((product) => product.id == this.id);
+    //console.log(">>> this.product  = " + JSON.stringify(this.product));
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
 </style>
-  

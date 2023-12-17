@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       id: null,
-      users: null,
+      users: [],
       len: 0,
       msg: null,
     };
@@ -46,14 +46,19 @@ export default {
       // fetch users
       await axios
         .get("http://localhost:9998/" + "users/")
-        .then((res) => (this.users = res.data))
+        .then((res) => {
+          this.users = res.data;
+          console.log(
+            ">>> (fetchData) this.users = " + JSON.stringify(this.users)
+          );
+        })
         .catch((err) => console.log(err));
     },
   },
   mounted() {
     //this.id = this.$route.params.id;
     this.fetchData();
-    console.log(">>> this.users = " + this.users);
+    //console.log(">>> (ListUsers) this.users = " + JSON.stringify(this.users));
   },
 };
 </script>
