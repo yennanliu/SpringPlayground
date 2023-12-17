@@ -57,6 +57,8 @@ brew services stop nginx
 cd apache-jmeter-5.6.2
 bash bin/jmeter
 
+# reload config
+nginx -s reload
 
 #---------------------------
 # Intellij
