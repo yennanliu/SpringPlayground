@@ -4,7 +4,7 @@
       <div class="col-12 text-center">
         <h4 class="pt-3">Users</h4>
         <router-link
-          id="add-product"
+          id="add-user"
           :to="{ name: 'AddUser' }"
           v-show="$route.name == 'AdminUser'"
         >
@@ -70,7 +70,7 @@ h4 {
   font-weight: 700;
 }
 
-#add-product {
+#add-user {
   float: right;
   font-weight: 500;
 }

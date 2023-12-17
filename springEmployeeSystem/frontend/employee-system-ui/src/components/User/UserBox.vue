@@ -50,7 +50,6 @@ export default {
       );
       this.$router.push({
         name: "ShowDetails",
-        //params: { id: this.user.id },
         arams: { id: this.$route.params.id },
       });
     },
@@ -98,7 +97,7 @@ a {
   font-size: 0.9rem;
 }
 
-#edit-product {
+#edit-user {
   float: right;
 }
 </style>
