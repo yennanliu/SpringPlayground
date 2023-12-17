@@ -2,16 +2,32 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h4 class="pt-3">User Profile</h4>
+        <h4 class="pt-3">Users</h4>
+        <router-link
+          id="add-product"
+          :to="{ name: 'AddUser' }"
+          v-show="$route.name == 'AdminUser'"
+        >
+          <button class="btn">Add a new user</button>
+        </router-link>
       </div>
     </div>
     <div class="row">
-      <UserBox :user="user"> </UserBox>
+      <div
+        v-for="user of users"
+        :key="user.id"
+        class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
+      >
+        <UserBox :user="user"> </UserBox>
+      </div>
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
+// https://youtu.be/VZ1NV7EHGJw?si=JPmnA7oQoVdPJwAL&t=1450
+// https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Product/Product.vue
+
 import UserBox from "../../components/User/UserBox";
 var axios = require("axios");
 
@@ -23,42 +39,31 @@ export default {
   data() {
     return {
       //baseURL: "http://localhost:9999/", // NOTE !! we read baseURL from App.vue
-      user: {},
       users: [],
     };
   },
   methods: {
-    async getUser() {
-      //console.log("this.token = " + this.token);
-      axios
-        // http://localhost:9999/user/userProfile?token=8230d006-5271-49fc-84fd-28b80b3b66e3
-        .get("http://localhost:9998" + `/users/` + 1)
-        .then((response) => {
-          // Handle the response data here
-          this.user = response.data;
-          console.log("this.user = " + this.user)
-          console.log(response.data);
-        })
-        .catch((error) => {
-          // Handle errors
-          console.error("getUser error :", error);
-        });
+    async getUsers() {
+      await axios
+        .get("http://localhost:9998/users/")
+        .then((res) => (this.users = res.data))
+        .catch((err) => console.log(err));
     },
   },
   mounted() {
-    // login first if can't get token
-    // if (!localStorage.getItem("token")) {
-    //   this.$router.push({ name: "Signin" });
-    //   return;
-    // }
-    // get token
-    //this.token = localStorage.getItem("token");
-    this.getUser();
+    this.getUsers();
   },
+
+  // TODO : deal with token, login/logout
+  // mounted(){
+  //   if (this.$route.name=='AdminProduct' && !localStorage.getItem('token')) {
+  //     this.$router.push({name : 'Signin'});
+  //   }
+  // }
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
@@ -70,4 +75,3 @@ h4 {
   font-weight: 500;
 }
 </style>
-  
