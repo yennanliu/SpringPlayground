@@ -8,6 +8,13 @@ import ShowDetails from "../views/User/ShowDetails.vue";
 import User from "../views/User/User.vue";
 import EditUser from "../views/User/EditUser.vue";
 
+// depearment
+import ListDepartment from "../views/Department/ListDepartment.vue";
+//import ShowDetails from "../views/User/ShowDetails.vue";
+import ShowDepartmentDetails from "../views/Department/ShowDepartmentDetails.vue";
+import Department from "../views/Department/Department.vue";
+//import EditUser from "../views/User/EditUser.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -43,6 +50,23 @@ const routes = [
     path: "/admin/users",
     name: "AdminUser",
     component: User,
+  },
+
+  // depearment
+  {
+    path: "/departments/",
+    name: "ListDepartment",
+    component: ListDepartment,
+  },
+  {
+    path: "/departments/show/:id",
+    name: "ShowDepartmentDetails",
+    component: ShowDepartmentDetails,
+  },
+  {
+    path: "/admin/departments",
+    name: "AdminDepartment",
+    component: Department,
   },
 ];
 

@@ -41,12 +41,13 @@ export default {
     };
   },
   methods: {
-    showDetails() {
+    ShowDepartmentDetails() {
       console.log(
-        "(showDetails) this.$route.params.id = " + this.$route.params.id
+        "(ShowDepartmentDetails) this.$route.params.id = " +
+          this.$route.params.id
       );
       this.$router.push({
-        name: "ShowDetails",
+        name: "ShowDepartmentDetails",
         arams: { id: this.$route.params.id },
       });
     },
