@@ -89,9 +89,9 @@ nginx -s reload
 
 - case 2) `事務性 (transaction)`
  -[video](https://youtu.be/pD8bEeq9q_U?si=GQQ1rD-Wt0BalBwm)
-- ACID : atomicity, consistency, isolation, and durability
-- also relative to isolation, which is different in different DB
-- https://github.com/yennanliu/CS_basics/blob/master/doc/faq/db/db_isolation_levels.md
+ - ACID : atomicity, consistency, isolation, and durability
+ - also relative to isolation, which is different in different DB
+ - https://github.com/yennanliu/CS_basics/blob/master/doc/faq/db/db_isolation_levels.md
 
 - case 3) `cluster deployment (集群部署)`
   - Ref
