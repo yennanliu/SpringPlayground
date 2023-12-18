@@ -18,13 +18,13 @@
         :key="department.id"
         class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
       >
-        <DepartmentBox :departments="departments"> </DepartmentBox>
+        <DepartmentBox :department="department"> </DepartmentBox>
       </div>
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 // https://youtu.be/VZ1NV7EHGJw?si=JPmnA7oQoVdPJwAL&t=1450
 // https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Product/Product.vue
 
@@ -46,8 +46,11 @@ export default {
     async getDepartments() {
       await axios
         .get("http://localhost:9998/dep/")
-        .then((res) => (this.departments = res.data))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          this.departments = res.data;
+          console.log(">>> this.departments = " + JSON.stringify(this.departments))
+        })
+        .catch((err) => console.log("getDepartments err = " + err));
     },
   },
   mounted() {
@@ -62,8 +65,8 @@ export default {
   // }
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;

@@ -14,8 +14,8 @@
     </div>
   </div>
 </template>
-  
-  <!-- NOTE !!!
+
+<!-- NOTE !!!
   
     Will only show product edit button when route name is "AdminProduct"
   
@@ -28,8 +28,8 @@
             Edit
           </router-link>
     -->
-  
-  <script>
+
+<script>
 var axios = require("axios");
 import swal from "sweetalert";
 export default {
@@ -37,7 +37,7 @@ export default {
   props: ["department"],
   data() {
     return {
-      users: [],
+      departments: [],
     };
   },
   methods: {
@@ -52,7 +52,7 @@ export default {
       });
     },
 
-    async editUser() {
+    async EditDepartment() {
       axios
         .post("http://localhost:9998/dep/", this.department)
         .then((res) => {
@@ -71,8 +71,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .embed-responsive .card-img-top {
   object-fit: cover;
 }
@@ -99,4 +99,3 @@ a {
   float: right;
 }
 </style>
-  
