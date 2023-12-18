@@ -2,7 +2,6 @@ package EmployeeSystem.controller;
 
 import EmployeeSystem.common.ApiResponse;
 import EmployeeSystem.model.Vacation;
-import EmployeeSystem.model.dto.UserCreateDto;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.service.VacationService;
 import org.springframework.beans.factory.annotation.Autowired;
