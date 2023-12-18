@@ -1,7 +1,7 @@
 <template>
   <div class="card h-100 w-100">
     <div class="card-body">
-      <router-link :to="{ name: 'ShowDetails', params: { id: department.id } }"
+      <router-link :to="{ name: 'ShowDepartmentDetails', params: { id: department.id } }"
         ><h5 class="card-title">Name : {{ department.name }}</h5></router-link
       >
       <router-link

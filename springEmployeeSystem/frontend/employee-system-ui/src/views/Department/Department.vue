@@ -32,7 +32,7 @@ import DepartmentBox from "../../components/Department/DepartmentBox";
 var axios = require("axios");
 
 export default {
-  name: "User",
+  name: "Department",
   components: { DepartmentBox },
   props: ["baseURL"],
 

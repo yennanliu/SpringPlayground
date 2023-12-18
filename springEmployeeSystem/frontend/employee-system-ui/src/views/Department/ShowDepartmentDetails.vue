@@ -26,7 +26,7 @@ export default {
       token: null,
     };
   },
-  props: ["baseURL", "users"],
+  props: ["baseURL", "departments"],
   methods: {
     ListDepartments() {
       axios.get(`http://localhost:9998/dep/`).then(
