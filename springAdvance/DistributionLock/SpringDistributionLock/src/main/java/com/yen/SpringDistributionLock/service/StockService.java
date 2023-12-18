@@ -38,14 +38,25 @@ public class StockService { // default : Singleton (@Scope("Singleton"))
         lock.lock();
         int count = 0;
         try{
+            /**
+             *   Ideas for solving data inconsistency in cluster deployment (集群部署)
+             *
+             *   Idea 1) solve with SQL
+             *     -> update db_stock set count = count - 1 where product_code = 'prod-1' and count >= 1;
+             *
+             *
+             *
+             */
+            // 1) get stock amount
             // get record
             Stock stock = stockMapper.selectOne(new QueryWrapper<Stock>().eq("product_code", "prod-1"));
+            // 2) check if stock is enough
             if (stock != null && stock.getCount() > 0){
                 count = stock.getCount();
                 stock.setCount(count-1);
+                // 3) update stock to DB
                 stockMapper.updateById(stock);
             }
-
             System.out.println("Stock count = " + count);
         }catch (Exception e){
             e.printStackTrace();
