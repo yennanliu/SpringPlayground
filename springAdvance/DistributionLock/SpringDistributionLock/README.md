@@ -74,23 +74,24 @@ nginx -s reload
 
 ## API
 
-| API | Type               | Purpose | Example cmd | Comment|
-| ----- |--------------------| ---- | ----- | ---- |
-| http://localhost:7777/stock/deduct | lock test endpoint | | |
-
+| API                                | Type                             | Purpose | Example cmd | Comment|
+|------------------------------------|----------------------------------| ---- | ----- | ---- |
+| http://localhost:7777/stock/deduct | lock test endpoint               | | |
+| http://localhost:8080/stock/deduct   | Nginx endpoint | | |
 
 
 ## Important Concepts
 
-- 3 cases make local JVM lock failed
-  1) 多例模式 (Multiton Pattern)
+### 3 cases make local JVM lock failed
+
+- case 1) `多例模式 (Multiton Pattern)`
      -[video](https://youtu.be/L7OFClDyWLs?si=_rYUlzOFkuDD8PRU&t=75)
-  2) 事務性 (transaction)
+- case 2) `事務性 (transaction)`
      -[video](https://youtu.be/pD8bEeq9q_U?si=GQQ1rD-Wt0BalBwm)
      - ACID : atomicity, consistency, isolation, and durability
      - also relative to isolation, which is different in different DB
      - https://github.com/yennanliu/CS_basics/blob/master/doc/faq/db/db_isolation_levels.md
-  3) cluster deployment (集群部署)
+- case 3) `cluster deployment (集群部署)`
   Ref
      - https://youtu.be/L7OFClDyWLs?si=HNMvaI6WeAoJZ3lk
      - https://youtu.be/pD8bEeq9q_U?si=z5OyNhApRaj2ARLp&t=21
