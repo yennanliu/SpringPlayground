@@ -5,9 +5,9 @@
 
 -- dbs_stock
 
--- truncate dbs_stock;
+-- truncate db_stock;
 
-INSERT INTO dbs_stock(product_code, warehouse, count)
+INSERT INTO db_stock(product_code, warehouse, count)
 VALUES
 ("prod-1", "w-1", 5000),
 ("prod-2", "w-2", 2000),
