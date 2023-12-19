@@ -73,6 +73,9 @@
             <router-link class="dropdown-item" :to="{ name: 'Department' }"
               >Department</router-link
             >
+            <router-link class="dropdown-item" :to="{ name: 'Vacation' }"
+              >Vacation</router-link
+            >
             <!-- <router-link class="dropdown-item" :to="{ name: 'Cart' }"
               >Cart</router-link
             > -->

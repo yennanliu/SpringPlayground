@@ -25,6 +25,9 @@
       <div class="row">
         <div class="col-12 text-left">
           <h2 class="pt-3">Announcement</h2>
+          <h6>hackson timeline</h6>
+          <h6>2024 RTO plan</h6>
+          <h6>blblblbla</h6>
         </div>
       </div>
       <div class="row">
@@ -43,6 +46,8 @@
       <div class="row">
         <div class="col-12 text-left">
           <h2 class="pt-3">News</h2>
+          <h6>news 123</h6>
+          <h6>blblblbla</h6>
         </div>
       </div>
     </div>

@@ -15,6 +15,9 @@ import ShowDepartmentDetails from "../views/Department/ShowDepartmentDetails.vue
 import Department from "../views/Department/Department.vue";
 import EditDepartment from "../views/Department/EditDepartment.vue";
 
+// vacation
+import Vacation from "../views/Vacation/Vacation.vue";
+
 // signin, signup
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
@@ -97,6 +100,14 @@ const routes = [
     name: "EditDepartment",
     component: EditDepartment,
   },
+
+  // vacation
+  {
+    path: "/vacation",
+    name: "Vacation",
+    component: Vacation,
+  },
+
   //Signin and Signup
   {
     path: "/signup",

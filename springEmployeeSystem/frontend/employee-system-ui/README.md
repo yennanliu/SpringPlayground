@@ -17,6 +17,8 @@ vue add router
 npm install --save axios
 
 npm install --save sweetalert
+
+npm install vue-fullcalendar
 ```
 
 
@@ -26,9 +28,8 @@ npm install
 ```
 
 ### Compiles and hot-reloads for development
-```bash
-npm run serves
-#  http://localhost:8080/
+```
+npm run serve
 ```
 
 ### Compiles and minifies for production

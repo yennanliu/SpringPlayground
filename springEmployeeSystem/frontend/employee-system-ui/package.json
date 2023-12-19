@@ -12,6 +12,7 @@
     "core-js": "^3.8.3",
     "sweetalert": "^2.1.2",
     "vue": "^2.6.14",
+    "vue-fullcalendar": "^1.0.9",
     "vue-router": "^3.5.1"
   },
   "devDependencies": {
