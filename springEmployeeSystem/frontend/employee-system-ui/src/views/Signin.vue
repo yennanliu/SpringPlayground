@@ -93,7 +93,7 @@ export default {
       };
 
       await axios
-        .post(`${this.baseURL}user/signIn`, user)
+        .post(`${this.baseURL}users/signIn`, user)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           this.$emit("fetchData");
