@@ -1,33 +1,24 @@
 <template>
   <div class="card h-100 w-100">
     <div class="card-body">
-      <router-link :to="{ name: 'ShowDepartmentDetails', params: { id: department.id } }"
-        ><h5 class="card-title">Name : {{ department.name }}</h5></router-link
-      >
-      <router-link
-        id="edit-department"
-        :to="{ name: 'EditDepartment', params: { id: department.id } }"
-        v-show="$route.name == 'AdminDepartment'"
-      >
-        Edit
-      </router-link>
+      <div class="card-header">
+        <router-link
+          :to="{ name: 'ShowDepartmentDetails', params: { id: department.id } }"
+        >
+          <h5 class="card-title">Name: {{ department.name }}</h5>
+        </router-link>
+        <router-link
+          id="edit-department"
+          :to="{ name: 'EditDepartment', params: { id: department.id } }"
+          v-show="$route.name == 'AdminDepartment'"
+          class="edit-link"
+        >
+          Edit
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
-
-<!-- NOTE !!!
-  
-    Will only show product edit button when route name is "AdminProduct"
-  
-    e.g. 
-          <router-link
-            id="edit-product"
-            :to="{ name: 'EditProduct', params: { id: product.id } }"
-            v-show="$route.name == 'AdminProduct'"
-          >
-            Edit
-          </router-link>
-    -->
 
 <script>
 var axios = require("axios");
@@ -73,6 +64,12 @@ export default {
 </script>
 
 <style scoped>
+.card-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
 .embed-responsive .card-img-top {
   object-fit: cover;
 }
@@ -91,11 +88,15 @@ a {
   font-weight: bold;
 }
 
-.card-text {
-  font-size: 0.9rem;
+.edit-link {
+  background-color: #007bff;
+  color: #fff;
+  padding: 5px 5px;
+  border-radius: 3px;
+  cursor: pointer;
 }
 
-#edit-user {
-  float: right;
+.edit-link:hover {
+  background-color: #0056b3;
 }
 </style>
