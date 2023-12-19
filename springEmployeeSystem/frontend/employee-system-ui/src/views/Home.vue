@@ -9,14 +9,13 @@
               href="#start-shopping"
               class="bg-white px-2 py-2 rounded"
               id="heading"
-              >Shoppppppp</a
+              >Employee Portal</a
             >
           </h3>
           <p id="content" class="lead mb-0 bg-dark p-1 rounded">
-            WELCOME ⚡⚡⚡ This is a simple E-commerce system built with Vue,
+            Hola, This is a simple Employee Management system built with Vue,
             Java. You are welcomed to add whatever feature, changes on it. Treat
-            it as your idea plaground. Disclaimer : This service has nothing to
-            do with 🍌 👓
+            it as your idea plaground. Enjoy on leading your dream team 🚀🚀🚀
           </p>
         </header>
       </div>
@@ -25,7 +24,7 @@
     <div id="start-shopping" class="container">
       <div class="row">
         <div class="col-12 text-left">
-          <h2 class="pt-3">Top Categories</h2>
+          <h2 class="pt-3">Announcement</h2>
         </div>
       </div>
       <div class="row">
@@ -43,7 +42,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12 text-left">
-          <h2 class="pt-3">Top Products</h2>
+          <h2 class="pt-3">News</h2>
         </div>
       </div>
     </div>
@@ -75,7 +74,7 @@ export default {
 }
 
 #background-div {
-  background: url(../assets/home3.png);
+  background: url(../assets/home4.jpeg);
 }
 
 #heading {
