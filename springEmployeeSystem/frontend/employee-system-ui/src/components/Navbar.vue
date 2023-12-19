@@ -89,7 +89,7 @@
           </div>
         </li>
 
-        <!-- <li class="nav-item dropdown">
+        <li class="nav-item dropdown">
           <a
             class="nav-link text-light dropdown-toggle"
             href="#"
@@ -125,7 +125,7 @@
               >Sign Out</a
             >
           </div>
-        </li> -->
+        </li>
 
         <!-- <li class="nav-item">
           <router-link class="nav-link text-light" :to="{ name: 'Order' }"

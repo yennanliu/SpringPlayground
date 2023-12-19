@@ -15,6 +15,10 @@ import ShowDepartmentDetails from "../views/Department/ShowDepartmentDetails.vue
 import Department from "../views/Department/Department.vue";
 import EditDepartment from "../views/Department/EditDepartment.vue";
 
+// signin, signup
+import Signup from "../views/Signup.vue";
+import Signin from "../views/Signin.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -89,6 +93,17 @@ const routes = [
     path: "/admin/departments/:id",
     name: "EditDepartment",
     component: EditDepartment,
+  },
+  //Signin and Signup
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup,
+  },
+  {
+    path: "/signin",
+    name: "Signin",
+    component: Signin,
   },
 ];
 
