@@ -19,6 +19,9 @@ import EditDepartment from "../views/Department/EditDepartment.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 
+// admin
+import Admin from "../views/Admin/Admin.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -104,6 +107,12 @@ const routes = [
     path: "/signin",
     name: "Signin",
     component: Signin,
+  },
+  //Admin routes
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
 ];
 
