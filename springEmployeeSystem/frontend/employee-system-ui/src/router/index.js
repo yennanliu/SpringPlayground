@@ -10,10 +10,9 @@ import EditUser from "../views/User/EditUser.vue";
 
 // depearment
 import ListDepartment from "../views/Department/ListDepartment.vue";
-//import ShowDetails from "../views/User/ShowDetails.vue";
 import ShowDepartmentDetails from "../views/Department/ShowDepartmentDetails.vue";
 import Department from "../views/Department/Department.vue";
-//import EditUser from "../views/User/EditUser.vue";
+import EditDepartment from "../views/Department/EditDepartment.vue";
 
 Vue.use(VueRouter);
 
@@ -67,6 +66,11 @@ const routes = [
     path: "/admin/departments",
     name: "AdminDepartment",
     component: Department,
+  },
+  {
+    path: "/admin/departments/:id",
+    name: "EditDepartment",
+    component: EditDepartment,
   },
 ];
 
