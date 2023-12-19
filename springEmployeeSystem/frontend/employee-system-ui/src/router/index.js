@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+//import HomeView from "../views/HomeView.vue";
+import Home from "../views/Home.vue";
 
 // user
 import ListUsers from "../views/User/ListUsers.vue";
@@ -17,10 +18,17 @@ import EditDepartment from "../views/Department/EditDepartment.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  // home view
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
+  // home view
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Home",
+    component: Home,
   },
   {
     path: "/about",
@@ -30,6 +38,11 @@ const routes = [
   },
 
   // user
+  {
+    path: "/user",
+    name: "User",
+    component: User,
+  },
   {
     path: "/users/",
     name: "ListUsers",
@@ -52,6 +65,11 @@ const routes = [
   },
 
   // depearment
+  {
+    path: "/departments",
+    name: "Department",
+    component: Department,
+  },
   {
     path: "/departments/",
     name: "ListDepartment",

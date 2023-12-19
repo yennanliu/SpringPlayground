@@ -1,19 +1,22 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/users">Users</router-link> |
-      <router-link to="/admin/users">AdminUsers</router-link> |
-      <router-link to="/departments">Departments</router-link> |
-      <router-link to="/admin/departments">AdminDepartments</router-link> 
-    </nav>
-    <router-view />
+  <div>
+    <Navbar v-if="!['Signup', 'Signin'].includes($route.name)" />
+    <div style="min-height: 60vh">
+      <!-- 
+      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
+
+      delcare global variable via router view
+      -> so baseURL, categories are visible to ALL views
+      -->
+      <router-view :baseURL="baseURL" @fetchData="fetchData"> </router-view>
+    </div>
+    <!-- <Footer v-if="!['Signup', 'Signin'].includes($route.name)" /> -->
   </div>
 </template>
 
 <script>
 var axios = require("axios");
+import Navbar from "./components/Navbar.vue";
 export default {
   data() {
     return {
@@ -26,6 +29,7 @@ export default {
     };
   },
 
+  components: { Navbar },
   methods: {
     async fetchData() {
       // get users
@@ -34,7 +38,6 @@ export default {
         .then((res) => (this.users = res.users))
         .catch((err) => console.log(err));
     },
-
     mounted() {
       this.fetchData();
     },
