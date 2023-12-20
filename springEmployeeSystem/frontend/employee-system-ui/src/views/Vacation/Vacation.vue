@@ -13,7 +13,7 @@
     <FullCalendar
       ref="fullCalendar"
       class="calendar"
-      :events="vacations"
+      :events="calendarEvents"
       :header="header"
       :plugins="plugins"
       :editable="editable"
@@ -44,6 +44,17 @@ export default {
       editable: true,
     };
   },
+
+  computed: {
+    calendarEvents() {
+      return this.vacations.map((vacation) => ({
+        title: vacation.destination,
+        start: vacation.startDate,
+        end: vacation.endDate,
+      }));
+    },
+  },
+
   methods: {
     //this.fetchUserVacations("exampleUser");
 
