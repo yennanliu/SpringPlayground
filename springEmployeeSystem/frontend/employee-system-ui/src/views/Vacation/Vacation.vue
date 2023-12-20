@@ -19,6 +19,18 @@
       :editable="editable"
       @eventClick="handleEventClick"
     />
+
+    <!-- Bootstrap Vue modal -->
+    <b-modal
+      v-if="selectedVacation"
+      title="Vacation Details"
+      @hide="clearSelectedVacation"
+    >
+      <p>Destination: {{ selectedVacation.destination }}</p>
+      <p>Start Date: {{ selectedVacation.startDate }}</p>
+      <p>End Date: {{ selectedVacation.endDate }}</p>
+      <!-- Add other vacation details here -->
+    </b-modal>
   </div>
 </template>
 
@@ -26,15 +38,18 @@
 import FullCalendar from "vue-fullcalendar";
 import axios from "axios";
 //import "fullcalendar/dist/fullcalendar.css";
+import { BModal } from "bootstrap-vue";
 
 export default {
   components: {
     FullCalendar,
+    BModal,
   },
   data() {
     return {
       vacations: [],
       vacation: null,
+      selectedVacation: null,
       header: {
         left: "prev,next today",
         center: "title",
@@ -48,16 +63,18 @@ export default {
   computed: {
     calendarEvents() {
       return this.vacations.map((vacation) => ({
-        title: vacation.destination,
+        userId: vacation.userId,
+        type: vacation.type,
+        status: vacation.status,
         start: vacation.startDate,
         end: vacation.endDate,
+        vacationDetails: vacation, // Store the full vacation details in the event
       }));
     },
   },
 
   methods: {
     //this.fetchUserVacations("exampleUser");
-
     fetchUserVacations() {
       //console.log(">>> (fetchUserVacations) userId = " + userId);
       axios
@@ -75,7 +92,15 @@ export default {
     },
     handleEventClick(event) {
       console.log("Event Clicked:", event);
+      this.selectedVacation = event.vacationDetails;
+      console.log(">>> this.selectedVacation  = " + JSON.stringify(this.selectedVacation ))
       // Handle event click logic
+    },
+    showVacationDetails({ event }) {
+      this.selectedVacation = event.vacationDetails;
+    },
+    clearSelectedVacation() {
+      this.selectedVacation = null;
     },
   },
   mounted() {
