@@ -8,6 +8,11 @@
         Admin Departments
       </button>
     </router-link>
+    <router-link :to="{ name: 'AddVacation' }">
+      <button type="button" class="btn btn-outline-primary">
+        Admin Vacations
+      </button>
+    </router-link>
   </div>
 </template>
 
