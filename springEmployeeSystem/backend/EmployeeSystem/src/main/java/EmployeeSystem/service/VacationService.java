@@ -29,7 +29,7 @@ public class VacationService {
     public List<Vacation> getVacationByUserId(Integer userId) {
 
         List<Vacation> vacations = vacationRepository.findAll();
-        return vacations.stream().filter(x -> {return x.equals(userId);}
+        return vacations.stream().filter(x -> {return x.getUserId().equals(userId);}
         ).collect(Collectors.toList());
     }
 

@@ -24,16 +24,9 @@ public class VacationController {
         List<Vacation> vacations = vacationService.getVacations();
         return new ResponseEntity<>(vacations, HttpStatus.OK);
     }
-
-    @GetMapping("/{VacationById}")
-    public ResponseEntity<Vacation> getDepartmentById(@PathVariable("VacationById") Integer VacationById){
-
-        Vacation vacation = vacationService.getVacationById(VacationById);
-        return new ResponseEntity<>(vacation, HttpStatus.OK);
-    }
-
+    
     @GetMapping("/{userId}")
-    public ResponseEntity<List<Vacation>> getDepartmentByUserId(@PathVariable("VacationById") Integer userId){
+    public ResponseEntity<List<Vacation>> getDepartmentByUserId(@PathVariable("userId") Integer userId){
 
         List<Vacation> vacationList = vacationService.getVacationByUserId(userId);
         return new ResponseEntity<>(vacationList, HttpStatus.OK);

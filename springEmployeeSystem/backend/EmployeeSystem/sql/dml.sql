@@ -22,8 +22,9 @@ VALUES
 
 -- truncate vacation;
 
-INSERT INTO `vacation` (id, period, status, type, user_id)
+INSERT INTO `vacation` (id, start_date, end_date, status, type, user_id)
 VALUES
-(1, "20230101-20230102", "pending", "normal", 1),
-(2, "20230201-20230301", "pending", "normal", 1),
-(3, "20230101-20231001", "pending", "normal", 2);
+(1, "2023-01-01", "2023-02-01", "pending", "normal", 1),
+(2, "2022-01-01", "2023-02-01", "pending", "normal", 2),
+(3, "2000-01-01", "2024-02-01", "pending", "normal", 3),
+(4, "2020-01-01", "2027-02-01", "cancelled", "normal", 1);
