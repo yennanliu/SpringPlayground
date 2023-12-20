@@ -10,6 +10,14 @@
       </li>
     </ul>
 
+    <router-link
+          id="add-department"
+          :to="{ name: 'AddVacation' }"
+          v-show="$route.name == 'AddVacation'"
+        >
+          <button class="btn">Add new Vacation</button>
+        </router-link>
+
     <FullCalendar
       ref="fullCalendar"
       class="calendar"
