@@ -100,6 +100,13 @@ nginx -s reload
         - https://youtu.be/pD8bEeq9q_U?si=z5OyNhApRaj2ARLp&t=21
         - https://youtu.be/CDaWk2RIBL4?si=D_FR2JKduE3JtCer&t=18
 
+
+### 行級悲觀鎖
+- 如果想要行級鎖(只鎖住選定資料) 必須同時滿足以下二個條件:
+  - https://youtu.be/HyD7E8WkJhI?si=oTQgzl92MElMfjbX&t=38
+  -> 1) 鎖的查詢/更新條件必須是 index (索引)
+  -> 2) 查詢/更新條件必須是具體值 (example : 不可以是 模糊查詢, like
+
 ## Ref
 
 - Course

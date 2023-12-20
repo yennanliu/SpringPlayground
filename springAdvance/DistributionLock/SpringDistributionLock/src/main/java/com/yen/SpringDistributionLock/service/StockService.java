@@ -43,8 +43,15 @@ public class StockService { // default : Singleton (@Scope("Singleton"))
              *
              *   Idea 1) solve with SQL
              *     -> update db_stock set count = count - 1 where product_code = 'prod-1' and count >= 1;
+             *     -> 表級鎖 (鎖住整個表)
              *
              *
+             *   Idea 2) 悲觀鎖
+             *     -> select ... for update
+             *     -> https://youtu.be/HyD7E8WkJhI?si=oTQgzl92MElMfjbX&t=38
+             *     -> 如果想要行級鎖(只鎖住選定資料) 必須同時滿足以下二個條件:
+             *         -> 1) 鎖的查詢/更新條件必須是 index (索引)
+             *         -> 2) 查詢/更新條件必須是具體值 (example : 不可以是 模糊查詢, like ...)
              *
              */
             // 1) get stock amount
