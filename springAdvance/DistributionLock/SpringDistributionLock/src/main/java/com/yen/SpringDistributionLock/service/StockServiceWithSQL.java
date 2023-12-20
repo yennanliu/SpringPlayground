@@ -45,7 +45,12 @@ public class StockServiceWithSQL { // default : Singleton (@Scope("Singleton"))
              *     // https://youtu.be/vOQqh8WucVA?si=LvA2QBVIQ_mkxjT0&t=315
              *     -> update db_stock set count = count - 1 where product_code = 'prod-1' and count >= 1;
              *
+             *     -> pros
              *
+             *     -> cons
+             *          1. 鎖的範圍
+             *          2. ㄧ個商品有多個庫存紀錄(same product id) if multiple records with same "product id", then all records will be locked, affected
+             *          3. CAN'T track record change history
              *
              */
 

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
-@TableName("dbs_stock")
+@TableName("db_stock")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
