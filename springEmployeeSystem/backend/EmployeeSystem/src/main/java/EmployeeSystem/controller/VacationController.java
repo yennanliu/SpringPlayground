@@ -24,7 +24,7 @@ public class VacationController {
         List<Vacation> vacations = vacationService.getVacations();
         return new ResponseEntity<>(vacations, HttpStatus.OK);
     }
-    
+
     @GetMapping("/{userId}")
     public ResponseEntity<List<Vacation>> getDepartmentByUserId(@PathVariable("userId") Integer userId){
 
