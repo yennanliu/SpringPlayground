@@ -5,7 +5,7 @@
     <h2>User Vacations</h2>
     <ul>
       <li v-for="vacation in vacations" :key="vacation.id">
-        {{ vacation.destination }} ({{ vacation.startDate }} -
+        User {{ vacation.userId }}, ({{ vacation.startDate }} -
         {{ vacation.endDate }})
       </li>
     </ul>
@@ -21,7 +21,7 @@
     />
 
     <!-- Bootstrap Vue modal -->
-    <b-modal
+    <!-- <b-modal
       v-if="selectedVacation"
       title="Vacation Details"
       @hide="clearSelectedVacation"
@@ -29,8 +29,8 @@
       <p>Destination: {{ selectedVacation.destination }}</p>
       <p>Start Date: {{ selectedVacation.startDate }}</p>
       <p>End Date: {{ selectedVacation.endDate }}</p>
-      <!-- Add other vacation details here -->
-    </b-modal>
+    </b-modal> -->
+
   </div>
 </template>
 
@@ -38,12 +38,12 @@
 import FullCalendar from "vue-fullcalendar";
 import axios from "axios";
 //import "fullcalendar/dist/fullcalendar.css";
-import { BModal } from "bootstrap-vue";
+//import { BModal } from "bootstrap-vue";
 
 export default {
   components: {
     FullCalendar,
-    BModal,
+    //BModal,
   },
   data() {
     return {
@@ -68,7 +68,8 @@ export default {
         status: vacation.status,
         start: vacation.startDate,
         end: vacation.endDate,
-        vacationDetails: vacation, // Store the full vacation details in the event
+        vacationDetails: vacation, // Store the full vacation details in the event,
+        color: this.getColorForUser(vacation.userId),
       }));
     },
   },
@@ -93,7 +94,9 @@ export default {
     handleEventClick(event) {
       console.log("Event Clicked:", event);
       this.selectedVacation = event.vacationDetails;
-      console.log(">>> this.selectedVacation  = " + JSON.stringify(this.selectedVacation ))
+      console.log(
+        ">>> this.selectedVacation  = " + JSON.stringify(this.selectedVacation)
+      );
       // Handle event click logic
     },
     showVacationDetails({ event }) {
@@ -101,6 +104,20 @@ export default {
     },
     clearSelectedVacation() {
       this.selectedVacation = null;
+    },
+    getColorForUser(userId) {
+      console.log("(getColorForUser) userId = " + userId);
+      // Replace this logic with your own color assignment logic based on the userId
+      // For example, you can use a switch statement, or generate colors dynamically
+      switch (userId) {
+        case 1:
+          return "red";
+        case 2:
+          return "blue";
+        // Add more cases as needed
+        default:
+          return "green";
+      }
     },
   },
   mounted() {
