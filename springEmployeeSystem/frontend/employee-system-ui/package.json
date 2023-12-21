@@ -14,7 +14,8 @@
     "sweetalert": "^2.1.2",
     "vue": "^2.7.15",
     "vue-fullcalendar": "^1.0.9",
-    "vue-router": "^3.5.1"
+    "vue-router": "^3.5.1",
+    "vue2-datepicker": "^3.11.1"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

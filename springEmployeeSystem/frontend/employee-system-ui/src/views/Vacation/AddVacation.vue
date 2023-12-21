@@ -16,21 +16,19 @@
           </div>
           <div class="form-group">
             <label>Start date</label>
-            <input
-              type="text"
-              class="form-control"
+            <date-picker
               v-model="startDate"
+              :format="datePickerFormat"
               required
-            />
+            ></date-picker>
           </div>
           <div class="form-group">
             <label>End date</label>
-            <input
-              type="text"
-              class="form-control"
+            <date-picker
               v-model="endDate"
+              :format="datePickerFormat"
               required
-            />
+            ></date-picker>
           </div>
           <div class="form-group">
             <label>Type</label>
@@ -45,12 +43,19 @@
     </div>
   </div>
 </template>
- 
- <script>
+
+<script>
+import DatePicker from "vue2-datepicker";
+// import 'vue2-datepicker/index.css';
+// Add the above imports for date picker
+
 var axios = require("axios");
 import swal from "sweetalert";
 
 export default {
+  components: {
+    DatePicker,
+  },
   data() {
     return {
       userId: null,
@@ -58,6 +63,7 @@ export default {
       endDate: null,
       type: null,
       token: null,
+      datePickerFormat: "YYYY-MM-DD", // Set the desired date format
     };
   },
   methods: {
@@ -91,12 +97,11 @@ export default {
   },
   mounted() {
     this.token = localStorage.getItem("token");
-    //console.log("(AddVacation) this.token = " + this.token);
   },
 };
 </script>
- 
- <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
