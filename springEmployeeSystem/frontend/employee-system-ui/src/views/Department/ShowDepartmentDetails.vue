@@ -8,6 +8,13 @@
       <div class="col-md-6 col-12 pt-3 pt-md-0">
         <h6 class="font-weight-bold">Id : {{ department.id }}</h6>
         <h6 class="font-weight-bold">Name : {{ department.name }}</h6>
+
+        <h6 class="font-weight-bold mt-3">Users in this Department:</h6>
+        <ul>
+          <li v-for="user in department.users" :key="user.id">
+            {{ user.name }} (ID: {{ user.id }})
+          </li>
+        </ul>
       </div>
       <div class="col-md-1"></div>
     </div>
