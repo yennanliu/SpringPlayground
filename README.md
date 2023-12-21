@@ -7,10 +7,11 @@
 
 ## Projects
 
+- [Spring Shopping Cart](https://github.com/yennanliu/SpringPlayground/tree/main/ShoppingCart) - Full stack ecommerce service with Vue.js, Java Spring boot
+- [Spring Employee System](https://github.com/yennanliu/SpringPlayground/tree/main/springEmployeeSystem) - Full stack Employee System with Vue.js, Java Spring boot
 - [WareHouse system](https://github.com/yennanliu/SpringPlayground/tree/main/springWarehouse): WareHouse management tool
 - [Blog system](https://github.com/yennanliu/SpringPlayground/tree/main/springBootBlog) : Blog system
 - [ChatRoom](https://github.com/yennanliu/SpringPlayground/tree/main/springChatRoom) : Chat room service with webSocket
-- [Spring Shopping Cart](https://github.com/yennanliu/SpringPlayground/tree/main/ShoppingCart) - Full stack ecommerce service with Vue.js, Java Spring boot
 - [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : Basic Spring project demo
 
 
