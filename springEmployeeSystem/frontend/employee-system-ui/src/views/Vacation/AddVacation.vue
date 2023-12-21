@@ -10,10 +10,13 @@
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
         <form>
-          <div class="form-group">
-            <label>User ID</label>
-            <input type="text" class="form-control" v-model="userId" required />
-          </div>
+          <label>User</label>
+          <select class="form-control" v-model="userId" required>
+            <option v-for="user of users" :key="user.id" :value="user.id">
+              ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
+            </option>
+          </select>
+
           <div class="form-group">
             <label>Start date</label>
             <date-picker
@@ -64,6 +67,7 @@ export default {
       type: null,
       token: null,
       datePickerFormat: "YYYY-MM-DD", // Set the desired date format
+      users: [],
     };
   },
   methods: {
@@ -94,9 +98,23 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+
+    async fetchData() {
+      // fetch users
+      await axios
+        .get("http://localhost:9998/" + "users/")
+        .then((res) => {
+          this.users = res.data;
+          console.log(
+            ">>> (fetchData) this.users = " + JSON.stringify(this.users)
+          );
+        })
+        .catch((err) => console.log(err));
+    },
   },
   mounted() {
     this.token = localStorage.getItem("token");
+    this.fetchData();
   },
 };
 </script>
