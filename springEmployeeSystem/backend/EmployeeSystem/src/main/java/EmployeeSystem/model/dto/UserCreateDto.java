@@ -25,4 +25,6 @@ public class UserCreateDto {
     private String password;
 
     private Integer managerId;
+
+    private Integer departementId;
 }

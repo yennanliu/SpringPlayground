@@ -49,6 +49,15 @@
               required
             />
           </div>
+          <div class="form-group">
+            <label>Department</label>
+            <input
+              type="text"
+              class="form-control"
+              v-model="user.departementId"
+              required
+            />
+          </div>
           <!-- <div class="form-group">
             <label>ImageURL</label>
             <input
