@@ -14,6 +14,17 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  *   - https://youtu.be/tIIOSs4Wd-0?si=JlNWhGGem6mS35YD&t=369
  *   - row lock (行級別鎖) for multi thread data safety
+ *   - select ... for update
+ *
+ *   - pros
+ *
+ *   - cons
+ *      - performance not that good
+ *      - deadlock : make sure lock ordering when lock multiple records
+ *      - storage op needs to be consistent (庫存操作需統ㄧ)
+ *         - e.g.:
+ *            a) "select ... from" VS b) "select from ... for update"
+ *            不能有些用a) 有些用b)
  *
  */
 

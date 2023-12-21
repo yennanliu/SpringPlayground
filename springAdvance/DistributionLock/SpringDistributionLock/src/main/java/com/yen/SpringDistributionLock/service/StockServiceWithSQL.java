@@ -17,7 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
  *  Pure SQL deal with thread safety demo
  *
  *   - table lock (表級別鎖) for multi thread data safety
- *
+ *   - update ... set ...
  */
 
 
