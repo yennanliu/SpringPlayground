@@ -45,7 +45,6 @@ public class StockService { // default : Singleton (@Scope("Singleton"))
              *     -> update db_stock set count = count - 1 where product_code = 'prod-1' and count >= 1;
              *     -> 表級鎖 (鎖住整個表)
              *
-             *
              *   Idea 2) 悲觀鎖
              *     -> select ... for update
              *     -> https://youtu.be/HyD7E8WkJhI?si=oTQgzl92MElMfjbX&t=38
@@ -53,6 +52,21 @@ public class StockService { // default : Singleton (@Scope("Singleton"))
              *         -> 1) 鎖的查詢/更新條件必須是 index (索引)
              *         -> 2) 查詢/更新條件必須是具體值 (example : 不可以是 模糊查詢, like ...)
              *
+             *
+             *   Idea 3) 樂觀鎖
+             *      -> 時間戳+版本號
+             *      -> CAS algorithm
+             *          - compare and swap
+             *          - (if old version == new version, then update or abort) similar to password change
+             *
+             *          ```pseudocode
+             *          if old version == new version:
+             *             update;
+             *          else:
+             *             abort;
+             *          ```
+             *
+             *      -> https://youtu.be/y7blICVJ2i0?si=qURQCRgzyT9SPTHd
              */
             // 1) get stock amount
             // get record

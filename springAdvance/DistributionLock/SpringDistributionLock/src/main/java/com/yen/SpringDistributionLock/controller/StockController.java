@@ -1,6 +1,7 @@
 package com.yen.SpringDistributionLock.controller;
 
 import com.yen.SpringDistributionLock.service.StockService;
+import com.yen.SpringDistributionLock.service.StockServiceWithOptimisticLock;
 import com.yen.SpringDistributionLock.service.StockServiceWithPessimisticLock;
 import com.yen.SpringDistributionLock.service.StockServiceWithSQL;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,11 +20,17 @@ public class StockController {
     @Autowired
     StockServiceWithPessimisticLock stockServiceWithPessimisticLock;
 
+    @Autowired
+    StockServiceWithOptimisticLock stockServiceWithOptimisticLock;
+
     @GetMapping("stock/deduct")
     public String deduct(){
+
         //stockService.deduct();
         //stockServiceWithSQL.deduct();
-        stockServiceWithPessimisticLock.deduct();
+        //stockServiceWithPessimisticLock.deduct();
+        stockServiceWithOptimisticLock.deduct();
+
         return "Stock already deducted";
     }
 

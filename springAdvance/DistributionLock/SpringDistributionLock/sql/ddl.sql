@@ -11,5 +11,6 @@ CREATE TABLE IF NOT EXISTS db_stock(
     id int PRIMARY KEY AUTO_INCREMENT,
     product_code varchar(20),
     warehouse varchar(20),
-    count int
+    count int,
+    version int DEFAULT 0
 );
