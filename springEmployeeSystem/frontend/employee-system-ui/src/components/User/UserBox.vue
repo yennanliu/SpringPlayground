@@ -1,7 +1,7 @@
 <template>
   <div class="card h-100 w-100">
     <div class="card-body">
-      <router-link :to="{ name: 'ShowDetails', params: { id: user.id } }"
+      <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }"
         ><h5 class="card-title">
           Name : {{ user.firstName + " " + user.lastName }}, Email :
           {{ user.email }}
@@ -44,12 +44,12 @@ export default {
     };
   },
   methods: {
-    showDetails() {
+    ShowUserDetails() {
       console.log(
-        "(showDetails) this.$route.params.id = " + this.$route.params.id
+        "(ShowUserDetails) this.$route.params.id = " + this.$route.params.id
       );
       this.$router.push({
-        name: "ShowDetails",
+        name: "ShowUserDetails",
         arams: { id: this.$route.params.id },
       });
     },

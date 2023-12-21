@@ -5,7 +5,7 @@ import Home from "../views/Home.vue";
 
 // user
 import ListUsers from "../views/User/ListUsers.vue";
-import ShowDetails from "../views/User/ShowDetails.vue";
+import ShowUserDetails from "../views/User/ShowUserDetails.vue";
 import User from "../views/User/User.vue";
 import EditUser from "../views/User/EditUser.vue";
 
@@ -62,8 +62,8 @@ const routes = [
   },
   {
     path: "/users/show/:id",
-    name: "ShowDetails",
-    component: ShowDetails,
+    name: "ShowUserDetails",
+    component: ShowUserDetails,
   },
   {
     path: "/admin/users/:id",
