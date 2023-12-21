@@ -7,6 +7,9 @@
 
 -- truncate db_stock;
 
+-- create index
+CREATE INDEX product_code_idx ON db_stock (product_code);
+
 INSERT INTO db_stock(product_code, warehouse, count)
 VALUES
 ("prod-1", "w-1", 5000),
