@@ -3,8 +3,8 @@
     <div class="card-body">
       <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }"
         ><h5 class="card-title">
-          Name : {{ user.firstName + " " + user.lastName }}, Email :
-          {{ user.email }}
+          <li>{{ user.firstName + " " + user.lastName }}</li>
+          <li>{{ user.email }}</li>
         </h5></router-link
       >
       <router-link
