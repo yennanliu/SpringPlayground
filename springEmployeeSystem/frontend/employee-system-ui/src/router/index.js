@@ -14,6 +14,7 @@ import ListDepartment from "../views/Department/ListDepartment.vue";
 import ShowDepartmentDetails from "../views/Department/ShowDepartmentDetails.vue";
 import Department from "../views/Department/Department.vue";
 import EditDepartment from "../views/Department/EditDepartment.vue";
+import AddDepartment from "../views/Department/AddDepartment.vue";
 
 // vacation
 import Vacation from "../views/Vacation/Vacation.vue";
@@ -100,6 +101,11 @@ const routes = [
     path: "/admin/departments/:id",
     name: "EditDepartment",
     component: EditDepartment,
+  },
+  {
+    path: "/admin/departments/add",
+    name: "AddDepartment",
+    component: AddDepartment,
   },
 
   // vacation

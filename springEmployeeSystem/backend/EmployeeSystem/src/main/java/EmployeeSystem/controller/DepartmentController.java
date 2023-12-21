@@ -3,6 +3,7 @@ package EmployeeSystem.controller;
 import EmployeeSystem.common.ApiResponse;
 import EmployeeSystem.model.Department;
 import EmployeeSystem.model.dto.DepartmentDto;
+import EmployeeSystem.model.dto.UserCreateDto;
 import EmployeeSystem.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,13 @@ public class DepartmentController {
 
         departmentService.updateDepartment(departmentDto);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Department has been updated"), HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<ApiResponse> addDepartment(@RequestBody DepartmentDto departmentDto){
+
+        departmentService.addDepartment(departmentDto);
+        return new ResponseEntity<>(new ApiResponse(true, "Department has been added"), HttpStatus.CREATED);
     }
 
 }

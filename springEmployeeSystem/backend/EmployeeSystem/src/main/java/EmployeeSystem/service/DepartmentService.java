@@ -37,4 +37,11 @@ public class DepartmentService {
         departmentRepository.save(department);
     }
 
+    public void addDepartment(DepartmentDto departmentDto) {
+
+        Department department = new Department();
+        BeanUtils.copyProperties(departmentDto, department);
+        departmentRepository.save(department);
+    }
+
 }

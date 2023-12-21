@@ -3,13 +3,13 @@
     <div class="row">
       <div class="col-12 text-center">
         <h4 class="pt-3">Users</h4>
-        <router-link
+        <!-- <router-link
           id="add-user"
           :to="{ name: 'AddUser' }"
           v-show="$route.name == 'AdminUser'"
         >
           <button class="btn">Add a new user</button>
-        </router-link>
+        </router-link> -->
       </div>
     </div>
     <div class="row">

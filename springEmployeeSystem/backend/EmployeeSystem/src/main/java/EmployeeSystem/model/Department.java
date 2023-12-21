@@ -28,4 +28,5 @@ public class Department {
     @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
     @JoinColumn(name = "departement_id", referencedColumnName = "id")
     private Set<User> users = new HashSet<>();
+
 }
