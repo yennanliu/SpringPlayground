@@ -1,5 +1,6 @@
 package EmployeeSystem.service;
 
+import EmployeeSystem.enums.VacationStatus;
 import EmployeeSystem.model.Vacation;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.repository.VacationRepository;
@@ -37,6 +38,8 @@ public class VacationService {
 
         Vacation vacation = new Vacation();
         BeanUtils.copyProperties(vacationDto, vacation);
+        // set default status as pending
+        vacation.setStatus(VacationStatus.PENDING.getName());
         vacationRepository.save(vacation);
     }
 

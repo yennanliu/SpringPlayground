@@ -1,5 +1,6 @@
 package EmployeeSystem.model;
 
+import EmployeeSystem.enums.VacationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
