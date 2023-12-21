@@ -8,13 +8,27 @@
       <div class="col-md-6 col-12 pt-3 pt-md-0">
         <h4>{{ user.name }}</h4>
         <!-- <h6 class="category font-italic">{{ category.categoryName }}</h6> -->
-        <h6 class="font-weight-bold">
+        <h2 class="font-weight-bold">
           Name : {{ user.firstName + " " + user.lastName }}
-        </h6>
-        <h6 class="font-weight-bold">Email : {{ user.email }}</h6>
-        <h6 class="font-weight-bold">Department : {{ user.departementId }}</h6>
-        <h6 class="font-weight-bold">Manager : {{ user.managerId }}</h6>
-        <p>Role : {{ user.role }}</p>
+        </h2>
+        <h6 class="font-weight">ID : {{ user.id }}</h6>
+        <h6 class="font-weight">Email : {{ user.email }}</h6>
+        <h6 class="font-weight">Department : {{ user.departementId }}</h6>
+        <h6 class="font-weight">Manager : {{ user.managerId }}</h6>
+        <h6 class="font-weight">Role : {{ user.role }}</h6>
+
+        Vacation>>> :
+        <ul>
+          <li v-for="vacation in this.userVacations" :key="vacation.id">
+            ID: {{ vacation.id }} |  {{ vacation.startDate }} |  {{ vacation.endDate }}
+          </li>
+        </ul>
+
+        <!-- <ul>
+          <li v-for="user in users" :key="user.id">
+            {{ user.name }} (ID: {{ user.id }})
+          </li>
+        </ul> -->
       </div>
       <div class="col-md-1"></div>
     </div>
@@ -31,18 +45,13 @@ export default {
       user: {},
       id: null,
       token: null,
+      vacations: [],
+      userVacations: [],
     };
   },
   props: ["baseURL", "users"],
   methods: {
     ListUsers() {
-      //   if (!this.token) {
-      //     swal({
-      //       text: "Please log in first!",
-      //       icon: "error",
-      //     });
-      //     return;
-      //   }
       axios.get(`http://localhost:9998/users/`).then(
         (response) => {
           if (response.status === 200) {
@@ -54,7 +63,6 @@ export default {
         }
       );
     },
-
     // TODO : fix with filter from product list
     async getUser() {
       // fetch users
@@ -63,13 +71,28 @@ export default {
         .then((res) => (this.user = res.data))
         .catch((err) => console.log(err));
     },
+    async getUserVacations() {
+      //fetch categories
+      await axios
+        .get("http://localhost:9998/vacation/")
+        .then((res) => {
+          this.vacations = res.data;
+        })
+        .catch((err) => console.log(err));
+
+      // filter get vacation with user id
+      this.userVacations = this.vacations.filter(
+        (vacation) => vacation.userId == this.$route.params.id
+      );
+      console.log(
+        ">>> this.userVacations  = " + JSON.stringify(this.userVacations)
+      );
+    },
   },
   mounted() {
     console.log(">>> this.$route.params.id = " + this.$route.params.id);
-    //this.ListUsers();
     this.getUser();
-    // this.token = localStorage.getItem("token");
-    // console.log("this.token = " + this.token);
+    this.getUserVacations();
   },
 };
 </script>

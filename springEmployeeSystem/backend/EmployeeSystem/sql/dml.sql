@@ -26,7 +26,8 @@ VALUES
 
 INSERT INTO `vacation` (id, start_date, end_date, status, type, user_id)
 VALUES
-(1, "2023-12-01", "2023-12-02", "pending", "normal", 1),
-(2, "2023-12-10", "2023-12-11", "pending", "normal", 2),
-(3, "2023-12-30", "2023-12-31", "pending", "normal", 3),
-(4, "2024-12-01", "2024-12-02", "cancelled", "normal", 1);
+(1, "2023-12-01", "2023-12-02", "pending", "normal", 1001),
+(2, "2024-12-10", "2027-12-11", "pending", "normal", 1002),
+(3, "2023-12-10", "2023-12-11", "pending", "normal", 1002),
+(4, "2023-12-30", "2023-12-31", "pending", "normal", 1003),
+(5, "2024-12-01", "2024-12-02", "cancelled", "normal", 1004);
