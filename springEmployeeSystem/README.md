@@ -10,6 +10,9 @@
 
 <p align="center"><img src ="./doc/pic/demo_3.png"></p>
 
+<p align="center"><img src ="./doc/pic/demo_4.png"></p>
+
+<p align="center"><img src ="./doc/pic/demo_5.png"></p>
 
 ## Steps
 
