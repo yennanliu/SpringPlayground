@@ -13,6 +13,13 @@ import java.util.concurrent.locks.ReentrantLock;
 
 // https://youtu.be/O3ROb-vTd_o?si=XAw0KIHJCQC4ufHf&t=535
 
+/**
+ *  Pure SQL deal with thread safety demo
+ *
+ *   - table lock (表級別鎖) for multi thread data safety
+ *
+ */
+
 
 /**
  *  prototype (多例模式) make JVM local lock failed
@@ -41,7 +48,7 @@ public class StockServiceWithSQL { // default : Singleton (@Scope("Singleton"))
             /**
              *   Ideas for solving data inconsistency in cluster deployment (集群部署)
              *
-             *   Idea 1) solve with SQL
+             *   Idea 1) solve with SQL (pure SQL)
              *     // https://youtu.be/vOQqh8WucVA?si=LvA2QBVIQ_mkxjT0&t=315
              *     -> update db_stock set count = count - 1 where product_code = 'prod-1' and count >= 1;
              *
