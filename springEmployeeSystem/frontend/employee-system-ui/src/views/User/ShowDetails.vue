@@ -2,33 +2,44 @@
   <div class="container">
     <div class="row pt-5">
       <div class="col-md-1"></div>
-      <!-- <div class="col-md-4 col-12">
-        <img :src="product.imageURL" :alt="product.name" class="img-fluid" />
-      </div> -->
       <div class="col-md-6 col-12 pt-3 pt-md-0">
         <h4>{{ user.name }}</h4>
-        <!-- <h6 class="category font-italic">{{ category.categoryName }}</h6> -->
         <h2 class="font-weight-bold">
-          Name : {{ user.firstName + " " + user.lastName }}
+          Name: {{ user.firstName + " " + user.lastName }}
         </h2>
-        <h6 class="font-weight">ID : {{ user.id }}</h6>
-        <h6 class="font-weight">Email : {{ user.email }}</h6>
-        <h6 class="font-weight">Department : {{ user.departementId }}</h6>
-        <h6 class="font-weight">Manager : {{ user.managerId }}</h6>
-        <h6 class="font-weight">Role : {{ user.role }}</h6>
+        <h6 class="font-weight">ID: {{ user.id }}</h6>
+        <h6 class="font-weight">Email: {{ user.email }}</h6>
+        <h6 class="font-weight">Department: {{ user.departementId }}</h6>
+        <h6 class="font-weight">Manager: {{ user.managerId }}</h6>
+        <h6 class="font-weight">Role: {{ user.role }}</h6>
 
-        Vacation>>> :
-        <ul>
-          <li v-for="vacation in this.userVacations" :key="vacation.id">
-            ID: {{ vacation.id }} |  {{ vacation.startDate }} |  {{ vacation.endDate }}
-          </li>
-        </ul>
-
-        <!-- <ul>
-          <li v-for="user in users" :key="user.id">
-            {{ user.name }} (ID: {{ user.id }})
-          </li>
-        </ul> -->
+        <h3 class="font-weight mt-3">Vacations:</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Start Date</th>
+              <th>End Date</th>
+              <th>Status</th>
+              <th>Type</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="vacation in this.userVacations" :key="vacation.id">
+              <td>{{ vacation.id }}</td>
+              <td>{{ vacation.startDate }}</td>
+              <td>{{ vacation.endDate }}</td>
+              <td>{{ vacation.status }}</td>
+              <td>{{ vacation.type }}</td>
+              <td>
+                <router-link :to="`/vacation`">
+                  View vacation
+                </router-link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="col-md-1"></div>
     </div>
