@@ -2,27 +2,43 @@
   <div class="container">
     <div class="row pt-5">
       <div class="col-md-1"></div>
-      <!-- <div class="col-md-4 col-12">
-          <img :src="product.imageURL" :alt="product.name" class="img-fluid" />
-        </div> -->
-      <div class="col-md-6 col-12 pt-3 pt-md-0">
-        <h6 class="font-weight-bold">Id : {{ department.id }}</h6>
-        <h6 class="font-weight-bold">Name : {{ department.name }}</h6>
+      <div class="col-md-10 col-12">
+        <!-- <h6 class="font-weight-bold">Id: {{ department.id }}</h6> -->
+        <h1 class="font-weight-bold">Name: {{ department.name }}</h1>
 
-        <h6 class="font-weight-bold mt-3">Users in this Department:</h6>
-        <ul>
-          <li v-for="user in department.users" :key="user.id">
-            {{ user.name }} (ID: {{ user.id }})
-          </li>
-        </ul>
+        <h2 class="font-weight-bold mt-3">Users:</h2>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Profile</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="user in department.users" :key="user.id">
+              <td>{{ user.id }}</td>
+              <td>{{ user.firstName }} {{ user.lastName }}</td>
+              <td>{{ user.email }}</td>
+              <td>{{ user.departementId }}</td>
+              <td>
+                <router-link :to="`/users/show/${user.id}`">
+                  View Profile
+                </router-link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
       <div class="col-md-1"></div>
     </div>
   </div>
 </template>
-  
-  <script>
-//import swal from "sweetalert";
+
+<script>
 import axios from "axios";
 
 export default {
@@ -35,22 +51,7 @@ export default {
   },
   props: ["baseURL", "departments"],
   methods: {
-    ListDepartments() {
-      axios.get(`http://localhost:9998/dep/`).then(
-        (response) => {
-          if (response.status === 200) {
-            this.$router.push("/department");
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    },
-
-    // TODO : fix with filter from product list
     async getDepartment() {
-      // fetch users
       await axios
         .get(`http://localhost:9998/dep/${this.$route.params.id}`)
         .then((res) => (this.department = res.data))
@@ -58,16 +59,12 @@ export default {
     },
   },
   mounted() {
-    console.log(">>> this.$route.params.id = " + this.$route.params.id);
-    //this.ListUsers();
     this.getDepartment();
-    // this.token = localStorage.getItem("token");
-    // console.log("this.token = " + this.token);
   },
 };
 </script>
-  
-  <style>
+
+<style>
 .category {
   font-weight: 400;
 }
@@ -99,4 +96,3 @@ input[type="number"] {
   border-radius: 0;
 }
 </style>
-  
