@@ -4,7 +4,7 @@
       <div class="col-md-1"></div>
       <div class="col-md-10 col-12">
         <!-- <h6 class="font-weight-bold">Id: {{ department.id }}</h6> -->
-        <h1 class="font-weight-bold">Name: {{ department.name }}</h1>
+        <h1 class="font-weight-bold">Department: {{ department.name }}</h1>
 
         <h2 class="font-weight-bold mt-3">Users:</h2>
 

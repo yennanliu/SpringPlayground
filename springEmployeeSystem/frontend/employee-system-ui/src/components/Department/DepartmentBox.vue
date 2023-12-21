@@ -5,7 +5,7 @@
         <router-link
           :to="{ name: 'ShowDepartmentDetails', params: { id: department.id } }"
         >
-          <h5 class="card-title">Name: {{ department.name }}</h5>
+          <h5 class="card-title">{{ department.name }}</h5>
         </router-link>
         <router-link
           id="edit-department"
