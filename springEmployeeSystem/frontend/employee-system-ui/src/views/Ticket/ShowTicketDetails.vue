@@ -4,7 +4,7 @@
         <div class="col-md-1"></div>
         <div class="col-md-10 col-12">
           <!-- <h6 class="font-weight-bold">Id: {{ department.id }}</h6> -->
-          <h1 class="font-weight-bold">Ticket: {{ ticket.name }}</h1>
+          <h1 class="font-weight-bold">Ticket: {{ ticket.subject }}</h1>
   
           <h2 class="font-weight-bold mt-3">Users:</h2>
   
@@ -19,7 +19,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="ticket in tickets" :key="ticket.id">
+              <!-- <tr v-for="ticket in ticket" :key="ticket.id"> -->
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.subject }}</td>
                 <!-- <td>{{ user.email }}</td>
@@ -29,7 +29,7 @@
                     View Profile
                   </router-link>
                 </td> -->
-              </tr>
+              <!-- </tr> -->
             </tbody>
           </table>
         </div>
@@ -47,6 +47,7 @@
         //tickets: {},
         id: null,
         token: null,
+        ticket: null
       };
     },
     props: ["baseURL", "tickets"],
@@ -54,7 +55,10 @@
       async getTicket() {
         await axios
           .get(`http://localhost:9998/ticket/${this.$route.params.id}`)
-          .then((res) => (this.ticket = res.data))
+          .then((res) => {
+            this.ticket = res.data
+            console.log(">>> (getTicket) this.ticket = " + JSON.stringify())
+          })
           .catch((err) => console.log(err));
       },
     },

@@ -18,7 +18,7 @@
         :key="ticket.id"
         class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
       >
-        <TicketBox :ticket="tsicket"> </TicketBox>
+        <TicketBox :ticket="ticket"> </TicketBox>
       </div>
     </div>
   </div>
@@ -46,7 +46,10 @@ export default {
     async getTickets() {
       await axios
         .get("http://localhost:9998/ticket/")
-        .then((res) => (this.tickets = res.data))
+        .then((res) => {
+            this.tickets = res.data;
+            console.log(">>> this.tickets = " + JSON.stringify(this.tickets));
+        })
         .catch((err) => console.log(err));
     },
   },
