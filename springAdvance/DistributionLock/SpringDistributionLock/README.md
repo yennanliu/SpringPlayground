@@ -83,6 +83,18 @@ nginx -s reload
 
 ## Important Concepts
 
+### Lock comparison
+
+- AVOID use JVM local lock, since it CAN'T deal with data consistency outside instance (e.g. N instances, 1 MySQL)
+- performance:
+  - lock with single SQL > pessimistic lock > JVM lock > optimistic lock
+- if for good performance, simple biz logic, and no need to record change history
+  - use lock with single SQL
+- if read > write
+  - use optimistic lock, not heavy race condition
+- if write > read, race condition happens often
+  - use pessimistic lock
+
 ### 3 cases make local JVM lock failed
 
 - case 1) `多例模式 (Multiton Pattern)`
@@ -117,9 +129,9 @@ nginx -s reload
   - optimistic lock may fail when write-read separation (讀寫分離, 主從模式)
 
 
-    
 ## Ref
 
 - Course
     - Video
         - https://youtu.be/CcMVMRTS-eU?si=4EsXFRmyP6BmdVFF
+    - code
