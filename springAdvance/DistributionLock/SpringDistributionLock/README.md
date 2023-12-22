@@ -100,13 +100,24 @@ nginx -s reload
         - https://youtu.be/pD8bEeq9q_U?si=z5OyNhApRaj2ARLp&t=21
         - https://youtu.be/CDaWk2RIBL4?si=D_FR2JKduE3JtCer&t=18
 
-
 ### 行級悲觀鎖
+
 - 如果想要行級鎖(只鎖住選定資料) 必須同時滿足以下二個條件:
   - https://youtu.be/HyD7E8WkJhI?si=oTQgzl92MElMfjbX&t=38
   - 1) 鎖的查詢/更新條件必須是 index (索引)
   - 2) 查詢/更新條件必須是具體值 (example : 不可以是 模糊查詢, like
+- 時間戳+版本號
+- CAS algorithm
+  - compare and swap - (if old version == new version, then update or abort)
+- pros
+- cons
+  - low performance when multi thread (worse than pessimistic lock)
+  - ABA issue (cause by CAS algorithm)
+    - a record may change from A to B, then to A, but users may NOT be aware of it
+  - optimistic lock may fail when write-read separation (讀寫分離, 主從模式)
 
+
+    
 ## Ref
 
 - Course

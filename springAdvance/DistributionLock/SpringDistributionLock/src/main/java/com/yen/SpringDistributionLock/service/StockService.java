@@ -67,6 +67,14 @@ public class StockService { // default : Singleton (@Scope("Singleton"))
              *          ```
              *
              *      -> https://youtu.be/y7blICVJ2i0?si=qURQCRgzyT9SPTHd
+             *
+             *      -> pros
+             *
+             *      -> cons
+             *          - low performance when multi thread (worse than pessimistic lock)
+             *          - ABA issue (cause by CAS algorithm)
+             *              - a record may change from A to B, then to A, but users may NOT be aware of it
+             *          - optimistic lock may fail when write-read separation (讀寫分離, 主從模式)
              */
             // 1) get stock amount
             // get record
