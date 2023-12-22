@@ -4,6 +4,7 @@ import EmployeeSystem.enums.VacationStatus;
 import EmployeeSystem.model.Vacation;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.repository.VacationRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class VacationService {
 
@@ -24,7 +26,11 @@ public class VacationService {
 
     public Vacation getVacationById(Integer vacationId) {
 
-        return vacationRepository.findById(vacationId).get();
+        if (vacationRepository.findById(vacationId).isPresent()){
+            return vacationRepository.findById(vacationId).get();
+        }
+        log.warn("No vacation with vacationId = " + vacationId);
+        return null;
     }
 
     public List<Vacation> getVacationByUserId(Integer userId) {

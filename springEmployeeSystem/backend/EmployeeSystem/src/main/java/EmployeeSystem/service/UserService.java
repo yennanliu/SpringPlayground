@@ -116,11 +116,17 @@ public class UserService {
     }
 
     public List<User> getUsers(){
+
         return userRepository.findAll();
     }
 
     public User getUserById(Integer id){
-        return userRepository.findById(id).get();
+
+        if (userRepository.findById(id).isPresent()){
+            return userRepository.findById(id).get();
+        }
+        log.warn("No user with id = " + id);
+        return null;
     }
 
     public void addUser(UserCreateDto userCreateDto) {
