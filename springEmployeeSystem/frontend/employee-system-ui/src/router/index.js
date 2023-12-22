@@ -20,6 +20,12 @@ import AddDepartment from "../views/Department/AddDepartment.vue";
 import Vacation from "../views/Vacation/Vacation.vue";
 import AddVacation from "../views/Vacation/AddVacation.vue";
 
+// ticket
+import ListTickets from "../views/Ticket/ListTickets.vue";
+import ShowTicketDetails from "../views/Ticket/ShowTicketDetails.vue";
+import Ticket from "../views/Ticket/Ticket.vue";
+//import AddVacation from "../views/Vacation/AddVacation.vue";
+
 // signin, signup
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
@@ -118,6 +124,22 @@ const routes = [
     path: "/admin/vacation/add",
     name: "AddVacation",
     component: AddVacation,
+  },
+  // ticket
+  {
+    path: "/ticket",
+    name: "Ticket",
+    component: Ticket,
+  },
+  {
+    path: "/tickets/",
+    name: "ListTickets",
+    component: ListTickets,
+  },
+  {
+    path: "/tickets/show/:id",
+    name: "ShowTicketDetails",
+    component: ShowTicketDetails,
   },
 
   //Signin and Signup
