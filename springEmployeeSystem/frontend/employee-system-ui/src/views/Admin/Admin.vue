@@ -13,6 +13,11 @@
         Admin Vacations
       </button>
     </router-link>
+    <router-link :to="{ name: 'AddTicket' }">
+      <button type="button" class="btn btn-outline-primary">
+        Admin Tickets
+      </button>
+    </router-link>
   </div>
 </template>
 
