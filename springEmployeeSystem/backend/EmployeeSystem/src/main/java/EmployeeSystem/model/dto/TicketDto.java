@@ -15,6 +15,7 @@ public class TicketDto {
     private String subject;
     private String description;
     private Integer userId;
+    private Integer assignedTo; // assigned user id
     private String status;
     private String tag;
 }

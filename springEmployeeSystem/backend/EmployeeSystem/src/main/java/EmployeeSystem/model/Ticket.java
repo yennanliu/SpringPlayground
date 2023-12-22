@@ -8,7 +8,7 @@ import lombok.ToString;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "ticket")
+@Table(name = "tickets")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,8 +25,11 @@ public class Ticket {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "userId")
+    @Column(name = "user_id")
     private Integer userId;
+
+    @Column(name = "assigned_to")
+    private Integer assignedTo; // assigned user id
 
     @Column(name = "status")
     private String status;
