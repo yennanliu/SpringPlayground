@@ -9,12 +9,6 @@
     </div>
 
     <div class="row">
-      <!-- <img
-        v-show="len == 0"
-        class="img-fluid"
-        src="../../assets/sorry.jpg"
-        alt="Sorry"
-      /> -->
       <div
         v-for="user of users"
         :key="user.id"

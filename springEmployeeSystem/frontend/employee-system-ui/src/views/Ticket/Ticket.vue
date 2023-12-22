@@ -1,25 +1,39 @@
 <template>
   <div class="container">
-    <div class="row">
-      <div class="col-12 text-center">
-        <h4 class="pt-3">Tickets</h4>
-        <router-link
-          id="add-department"
-          :to="{ name: 'AddTicket' }"
-          v-show="$route.name == 'AdminTicket'"
-        >
-          <button class="btn">Add a new Ticket</button>
-        </router-link>
+    <div class="row pt-5">
+      <div class="col-md-1"></div>
+      <div class="col-md-6 col-12 pt-3 pt-md-0">
+        <h1>Ticket List</h1>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Subject</th>
+              <th>User ID</th>
+              <th>Assigned To</th>
+              <th>Status</th>
+              <th>tag</th>
+              <th>Detail</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="ticket in this.tickets" :key="ticket.id">
+              <td>{{ ticket.id }}</td>
+              <td>{{ ticket.subject }}</td>
+              <td>{{ ticket.userId }}</td>
+              <td>{{ ticket.assignedTo }}</td>
+              <td>{{ ticket.status }}</td>
+              <td>{{ ticket.tag }}</td>
+              <td>
+                <router-link :to="`/tickets/show/${ticket.id}`">
+                  Ticket Detail
+                </router-link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-    </div>
-    <div class="row">
-      <div
-        v-for="ticket of tickets"
-        :key="ticket.id"
-        class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
-      >
-        <TicketBox :ticket="ticket"> </TicketBox>
-      </div>
+      <div class="col-md-1"></div>
     </div>
   </div>
 </template>
@@ -28,12 +42,12 @@
 // https://youtu.be/VZ1NV7EHGJw?si=JPmnA7oQoVdPJwAL&t=1450
 // https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Product/Product.vue
 
-import TicketBox from "../../components/Ticket/TicketBox";
+//import TicketBox from "../../components/Ticket/TicketBox";
 var axios = require("axios");
 
 export default {
   name: "Ticket",
-  components: { TicketBox },
+  //components: { TicketBox },
   props: ["baseURL"],
 
   data() {
@@ -47,8 +61,8 @@ export default {
       await axios
         .get("http://localhost:9998/ticket/")
         .then((res) => {
-            this.tickets = res.data;
-            console.log(">>> this.tickets = " + JSON.stringify(this.tickets));
+          this.tickets = res.data;
+          console.log(">>> this.tickets = " + JSON.stringify(this.tickets));
         })
         .catch((err) => console.log(err));
     },
