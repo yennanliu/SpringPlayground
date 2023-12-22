@@ -60,3 +60,13 @@ npm run serve
 - Course
     - Video
         - xxx
+
+
+## TODO:
+
+1. Payroll service
+2. schema endpoint
+3. msg service (user <-> sys admin)
+4. ticket service
+5. oncall/schedule service
+    - [ref](https://developers.google.com/optimization/scheduling/employee_scheduling?hl=zh-tw&fbclid=IwAR3pPBfOG6MXgRinsq8s7SK7UNOH4Va6bKDY6dyakpUy1TBtlpz9WYe7ujg#assi)
