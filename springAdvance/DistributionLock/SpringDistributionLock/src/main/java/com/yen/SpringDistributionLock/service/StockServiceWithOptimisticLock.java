@@ -21,7 +21,8 @@ public class StockServiceWithOptimisticLock { // default : Singleton (@Scope("Si
 
     private ReentrantLock lock = new ReentrantLock();
 
-    @Transactional
+    /** NOTE 1) : NOT enable Transactional */
+    //@Transactional // no need to use transactional, since MySQL will automatically lock with MDL, https://youtu.be/rVgQP4NR_H8?si=4oqN1eZZUdjSkce5&t=276
     public void deduct() {
 
         // step 1) get storage count and lock record
@@ -42,7 +43,15 @@ public class StockServiceWithOptimisticLock { // default : Singleton (@Scope("Si
             //stockMapper.update(stock, new UpdateWrapper<Stock>().eq("id", stock.getId()).eq("version", version));
             if (stockMapper.update(stock, new UpdateWrapper<Stock>().eq("id", stock.getId()).eq("version", version)) == 0){
                 // if result == 0, means update FAIL, retry (recursion call)
-                System.out.println(">>> update failed, retry ...");
+                System.out.println(">>> update failed, retry (sleep 20 millisecond) ...");
+
+                /** NOTE 2) : sleep a few seconds to avoid freq retry cause OOP */
+                // sleep 20 millisecond, then retry : https://youtu.be/rVgQP4NR_H8?si=Xt97oJqWWonnils7&t=155
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
                 this.deduct();
             }
 
