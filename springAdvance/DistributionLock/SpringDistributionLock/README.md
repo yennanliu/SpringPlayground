@@ -59,8 +59,16 @@ cd apache-jmeter-5.6.2
 bash bin/jmeter  
   
 # reload config  
-nginx -s reload  
-  
+nginx -s reload 
+
+#---------------------------  
+# Run redis  
+#--------------------------- 
+
+brew services start redis
+ 
+brew services stop redis
+
 #---------------------------  
 # Intellij  
 #---------------------------  
@@ -88,12 +96,12 @@ nginx -s reload
 - AVOID use JVM local lock, since it CAN'T deal with data consistency outside instance (e.g. N instances, 1 MySQL)
 - performance:
   - lock with single SQL > pessimistic lock > JVM lock > optimistic lock
-- if for good performance, simple biz logic, and no need to record change history
-  - use lock with single SQL
-- if read > write
-  - use optimistic lock, not heavy race condition
-- if write > read, race condition happens often
-  - use pessimistic lock
+- If for good performance, simple biz logic, and no need to record change history
+  - use `lock with single SQL`
+- If read > write
+  - use `optimistic lock`, not heavy race condition
+- If write > read, race condition happens often
+  - use `pessimistic lock`
 
 ### 3 cases make local JVM lock failed
 
