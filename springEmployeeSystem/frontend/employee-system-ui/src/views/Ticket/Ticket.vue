@@ -20,8 +20,16 @@
             <tr v-for="ticket in this.tickets" :key="ticket.id">
               <td>{{ ticket.id }}</td>
               <td>{{ ticket.subject }}</td>
-              <td>{{ ticket.userId }}</td>
-              <td>{{ ticket.assignedTo }}</td>
+              <td>
+                <router-link :to="`/users/show/${ticket.userId}`">
+                    {{ ticket.userId }}
+                </router-link>
+              </td>
+              <td>
+                <router-link :to="`/users/show/${ticket.assignedTo}`">
+                    {{ ticket.assignedTo }}
+                </router-link>
+              </td>
               <td>{{ ticket.status }}</td>
               <td>{{ ticket.tag }}</td>
               <td>
