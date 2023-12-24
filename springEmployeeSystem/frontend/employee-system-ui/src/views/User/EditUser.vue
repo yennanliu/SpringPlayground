@@ -10,18 +10,6 @@
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
         <form v-if="user">
-          <!-- <div class="form-group">
-            <label>Category</label>
-            <select class="form-control" v-model="user.id" required>
-              <option
-                v-for="user of users"
-                :key="user.id"
-                :value="user.id"
-              >
-                {{ category.categoryName }}
-              </option>
-            </select>
-          </div> -->
           <div class="form-group">
             <label>firstName</label>
             <input
@@ -49,34 +37,17 @@
               required
             />
           </div>
-          <div class="form-group">
-            <label>Department</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="user.departementId"
-              required
-            />
-          </div>
-          <!-- <div class="form-group">
-            <label>ImageURL</label>
-            <input
-              type="url"
-              class="form-control"
-              v-model="product.imageURL"
-              required
-            />
-          </div> -->
 
-          <!-- <div class="form-group">
-            <label>Price</label>
-            <input
-              type="number"
-              class="form-control"
-              v-model="product.price"
-              required
-            />
-          </div> -->
+          <label>Department</label>
+          <select class="form-control" v-model="user.departementId" required>
+            <option
+              v-for="department of departments"
+              :key="department.id"
+              :value="department.id"
+            >
+              ID : {{ department.id }} Name : {{ department.name }}
+            </option>
+          </select>
 
           <button type="button" class="btn btn-primary" @click="editUser">
             Submit
@@ -97,9 +68,9 @@ export default {
     return {
       user: null,
       users: [],
+      departments: [],
     };
   },
-  //props: ["baseURL", "products", "categories"],
   props: ["baseURL"],
   methods: {
     async editUser() {
@@ -129,13 +100,20 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+
+    async getDepartments() {
+      //fetch categories
+      await axios
+        .get("http://localhost:9998/" + "dep/")
+        .then((res) => {
+          // use this approach for now
+          this.departments = res.data;
+        })
+        .catch((err) => console.log(err));
+    },
   },
   mounted() {
-    // if (!localStorage.getItem("token")) {
-    //   this.$router.push({ name: "Signin" });
-    //   return;
-    // }
-
+    this.getDepartments();
     this.getUser();
     this.id = this.$route.params.id;
     console.log("this.id  = " + this.id);
