@@ -70,7 +70,7 @@ export default {
           //sending the event to parent to handle
           console.log(res);
           this.$emit("fetchData");
-          this.$router.push({ name: "AdminDepartment" });
+          this.$router.push({ name: "AdminTicket" });
           swal({
             text: "Product Added Successfully!",
             icon: "success",

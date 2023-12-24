@@ -146,6 +146,11 @@ const routes = [
     name: "AddTicket",
     component: AddTicket,
   },
+  {
+    path: "/admin/tickets",
+    name: "AdminTicket",
+    component: Ticket,
+  },
 
   //Signin and Signup
   {
