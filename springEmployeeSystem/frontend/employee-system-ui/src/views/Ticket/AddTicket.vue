@@ -26,7 +26,7 @@
               ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
             </option>
           </select>
-          
+
           <label>Assigned User</label>
           <select class="form-control" v-model="assignedTo" required>
             <option v-for="user of users" :key="user.id" :value="user.id">
@@ -74,7 +74,7 @@ export default {
       users: []
     };
   },
-  props: ["baseURL", "products"],
+  props: ["baseURL"],
   methods: {
 
     async getUsers() {
