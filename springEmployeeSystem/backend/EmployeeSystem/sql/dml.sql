@@ -51,4 +51,10 @@ VALUES
 INSERT INTO `option_schema` (id, active, column_name, schema_name)
 VALUES
 (1001, 0, "test_col", "test_schema"),
-(1002, 1, "test_col_2", "test_schema_2");
+(1002, 1, "test_col_2", "test_schema_2"),
+(2001, 1, "normal", "vacation"),
+(2002, 1, "business", "vacation"),
+(2003, 1, "others", "vacation"),
+(3001, 1, "urgent", "ticket"),
+(3002, 1, "normal", "ticket"),
+(3003, 1, "backlog", "ticket");
