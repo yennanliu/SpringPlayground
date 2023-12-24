@@ -90,6 +90,18 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
+		<!--
+			spring monitor
+
+			endpoints:
+				/actuator/health
+				/actuator/info
+		-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
 	</dependencies>
 
 	<build>
