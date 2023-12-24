@@ -90,8 +90,9 @@ export default {
         },
       })
         .then(() => {
+          this.$router.push({ name: "Vacation" });
           swal({
-            text: "Vacation Added Successfully!",
+            text: "Vacation Added and email sent Successfully!",
             icon: "success",
             closeOnClickOutside: false,
           });

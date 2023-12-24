@@ -24,6 +24,8 @@ public class VacationService {
     @Autowired
     MailService mailService;
 
+    private final String adminEmail = "employee_admin@dev.com";
+
     public List<Vacation> getVacations() {
 
         return vacationRepository.findAll();
@@ -45,19 +47,21 @@ public class VacationService {
         ).collect(Collectors.toList());
     }
 
-    public void addVacation(VacationDto vacationDto) {
 
-        String userEmail = "employee_admin@dev.com";
+    public void addVacation(VacationDto vacationDto) {
 
         Vacation vacation = new Vacation();
         BeanUtils.copyProperties(vacationDto, vacation);
         // set default status as pending
         vacation.setStatus(VacationStatus.PENDING.getName());
 
-        log.info("send vacation email...");
+        // TODO : fix/check why async send email seems NOT working
+        log.info("send vacation email start ... " + vacation);
         mailService.sendMail(new NotificationEmail("Vacation created",
-                userEmail, "Your vacation request is received, we will review and back to you ASAP !!"));
-
+                adminEmail, "Hi, " + vacation.getUserId() + "\n" +
+                "Your vacation is received," + "\n" +
+                "Start date = " + vacation.getStartDate() + " End date = " + vacation.getEndDate() + "\n" +
+                "We will review and back to you ASAP !!"));
         vacationRepository.save(vacation);
     }
 
