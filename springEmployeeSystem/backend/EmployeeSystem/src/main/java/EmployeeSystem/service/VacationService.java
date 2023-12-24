@@ -1,12 +1,14 @@
 package EmployeeSystem.service;
 
 import EmployeeSystem.enums.VacationStatus;
+import EmployeeSystem.model.NotificationEmail;
 import EmployeeSystem.model.Vacation;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.repository.VacationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +20,9 @@ public class VacationService {
 
     @Autowired
     VacationRepository vacationRepository;
+
+    @Autowired
+    MailService mailService;
 
     public List<Vacation> getVacations() {
 
@@ -42,10 +47,17 @@ public class VacationService {
 
     public void addVacation(VacationDto vacationDto) {
 
+        String userEmail = "employee_admin@dev.com";
+
         Vacation vacation = new Vacation();
         BeanUtils.copyProperties(vacationDto, vacation);
         // set default status as pending
         vacation.setStatus(VacationStatus.PENDING.getName());
+
+        log.info("send vacation email...");
+        mailService.sendMail(new NotificationEmail("Vacation created",
+                userEmail, "Your vacation request is received, we will review and back to you ASAP !!"));
+
         vacationRepository.save(vacation);
     }
 

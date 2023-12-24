@@ -62,7 +62,8 @@ npm run serve
 
 - Course
     - Video
-        - xxx
+        - Fake SMTP turtorial (mailtrap)
+            - https://youtu.be/kpKUMmAmcj0?si=nerpvQP-35bLdoeK&t=777
 
 
 ## TODO:
