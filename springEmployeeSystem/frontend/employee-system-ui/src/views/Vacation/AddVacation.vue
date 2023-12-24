@@ -13,7 +13,7 @@
           <label>User</label>
           <select class="form-control" v-model="userId" required>
             <option v-for="user of users" :key="user.id" :value="user.id">
-              ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
+              ID : {{ user.id }} Name : {{ user.firstName }} {{ user.lastName }}
             </option>
           </select>
 
@@ -33,10 +33,23 @@
               required
             ></date-picker>
           </div>
-          <div class="form-group">
+
+          <!-- <div class="form-group">
             <label>Type</label>
             <input type="text" class="form-control" v-model="type" required />
-          </div>
+          </div> -->
+
+          <label>Type</label>
+          <select class="form-control" v-model="type" required>
+            <option
+              v-for="schema of schemas"
+              :key="schema.id"
+              :value="schemas.id"
+            >
+              {{ schema.columnName }}
+            </option>
+          </select>
+
           <button type="button" class="btn btn-primary" @click="addVacation">
             Submit
           </button>
@@ -68,6 +81,7 @@ export default {
       token: null,
       datePickerFormat: "YYYY-MM-DD", // Set the desired date format
       users: [],
+      schemas: [],
     };
   },
   methods: {
@@ -100,14 +114,27 @@ export default {
         .catch((err) => console.log(err));
     },
 
-    async fetchData() {
+    async getUsers() {
       // fetch users
       await axios
         .get("http://localhost:9998/" + "users/")
         .then((res) => {
           this.users = res.data;
           console.log(
-            ">>> (fetchData) this.users = " + JSON.stringify(this.users)
+            ">>> (getUsers) this.users = " + JSON.stringify(this.users)
+          );
+        })
+        .catch((err) => console.log(err));
+    },
+
+    async getSchemas() {
+      // fetch users
+      await axios
+        .get("http://localhost:9998/" + "/schema/active/")
+        .then((res) => {
+          this.schemas = res.data.filter((x) => x.schemaName === "vacation");
+          console.log(
+            ">>> (getSchemas) this.schemas = " + JSON.stringify(this.schemas)
           );
         })
         .catch((err) => console.log(err));
@@ -115,7 +142,8 @@ export default {
   },
   mounted() {
     this.token = localStorage.getItem("token");
-    this.fetchData();
+    this.getUsers();
+    this.getSchemas();
   },
 };
 </script>
