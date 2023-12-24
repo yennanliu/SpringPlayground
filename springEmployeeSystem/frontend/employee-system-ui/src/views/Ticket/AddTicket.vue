@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h4 class="pt-3">Add new Ticket</h4>
+        <h4 class="pt-3">Add New Ticket</h4>
       </div>
     </div>
 
@@ -20,20 +20,19 @@
             />
           </div>
 
-          <div class="form-group">
-            <label>User ID</label>
-            <input type="text" class="form-control" v-model="userId" required />
-          </div>
-
-          <div class="form-group">
-            <label>Assigned User ID</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="assignedTo"
-              required
-            />
-          </div>
+          <label>User</label>
+          <select class="form-control" v-model="userId" required>
+            <option v-for="user of users" :key="user.id" :value="user.id">
+              ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
+            </option>
+          </select>
+          
+          <label>Assigned User</label>
+          <select class="form-control" v-model="assignedTo" required>
+            <option v-for="user of users" :key="user.id" :value="user.id">
+              ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
+            </option>
+          </select>
 
           <div class="form-group">
             <label>Description</label>
@@ -72,10 +71,24 @@ export default {
       name: null,
       tickets: [],
       ticket: null,
+      users: []
     };
   },
   props: ["baseURL", "products"],
   methods: {
+
+    async getUsers() {
+      // fetch users
+      await axios
+        .get("http://localhost:9998/" + "users/")
+        .then((res) => {
+          this.users = res.data;
+          console.log(
+            ">>> (getUsers) this.users = " + JSON.stringify(this.users)
+          );
+        })
+        .catch((err) => console.log(err));
+    },
     async addTicket() {
       const newTicket = {
         id: this.id,
@@ -110,7 +123,9 @@ export default {
     },
   },
 
-  mounted() {},
+  mounted() {
+    this.getUsers();
+  },
 };
 </script>
     
