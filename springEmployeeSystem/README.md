@@ -69,8 +69,12 @@ npm run serve
 ## TODO:
 
 1. Payroll service
-2. schema endpoint
+2. schema endpoint (done)
 3. msg service (user <-> sys admin)
 4. ticket service
 5. oncall/schedule service
     - [ref](https://developers.google.com/optimization/scheduling/employee_scheduling?hl=zh-tw&fbclid=IwAR3pPBfOG6MXgRinsq8s7SK7UNOH4Va6bKDY6dyakpUy1TBtlpz9WYe7ujg#assi)
+6. checkin/checkout service
+7. review service
+8. bug fix
+9. unix test, integraton test
