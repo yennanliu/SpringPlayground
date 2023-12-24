@@ -1,5 +1,6 @@
 package EmployeeSystem.service;
 
+import EmployeeSystem.enums.TicketStatus;
 import EmployeeSystem.model.Ticket;
 import EmployeeSystem.model.dto.TicketDto;
 import EmployeeSystem.repository.TicketRepository;
@@ -39,6 +40,8 @@ public class TicketService {
 
     public void addTicket(Ticket ticket) {
 
+        // create ticket with "PENDING" as default status
+        ticket.setStatus(TicketStatus.PENDING.getName());
         ticketRepository.save(ticket);
     }
 

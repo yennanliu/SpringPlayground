@@ -13,15 +13,23 @@
               <tr>
                 <th>ID</th>
                 <th>Subject</th>
-                <!-- <th>Email</th>
-                <th>Department</th> -->
-                <!-- <th>Profile</th> -->
+                <th>User</th>
+                <th>Assgined User</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Tag</th>
               </tr>
             </thead>
             <tbody>
               <!-- <tr v-for="ticket in ticket" :key="ticket.id"> -->
                 <td>{{ ticket.id }}</td>
                 <td>{{ ticket.subject }}</td>
+                <td>{{ ticket.userId }}</td>
+                <td>{{ ticket.assignedTo }}</td>
+                <td>{{ ticket.description }}</td>
+                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.tag }}</td>
+
                 <!-- <td>{{ user.email }}</td>
                 <td>{{ user.departementId }}</td> -->
                 <!-- <td>
