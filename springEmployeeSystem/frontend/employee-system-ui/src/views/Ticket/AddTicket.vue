@@ -23,14 +23,14 @@
           <label>User</label>
           <select class="form-control" v-model="userId" required>
             <option v-for="user of users" :key="user.id" :value="user.id">
-              ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
+              ID : {{ user.id }} Name : {{ user.firstName }} {{ user.lastName }}
             </option>
           </select>
 
           <label>Assigned User</label>
           <select class="form-control" v-model="assignedTo" required>
             <option v-for="user of users" :key="user.id" :value="user.id">
-              ID : {{ user.id }}  Name : {{ user.firstName }} {{ user.lastName }}
+              ID : {{ user.id }} Name : {{ user.firstName }} {{ user.lastName }}
             </option>
           </select>
 
@@ -44,10 +44,16 @@
             />
           </div>
 
-          <div class="form-group">
-            <label>Tag</label>
-            <input type="text" class="form-control" v-model="tag" required />
-          </div>
+          <label>Tag</label>
+          <select class="form-control" v-model="tag" required>
+            <option
+              v-for="schema of schemas"
+              :key="schema.id"
+              :value="schemas.id"
+            >
+              {{ schema.columnName }}
+            </option>
+          </select>
 
           <button type="button" class="btn btn-primary" @click="addTicket">
             Submit
@@ -71,12 +77,12 @@ export default {
       name: null,
       tickets: [],
       ticket: null,
-      users: []
+      users: [],
+      schemas: [],
     };
   },
   props: ["baseURL"],
   methods: {
-
     async getUsers() {
       // fetch users
       await axios
@@ -89,6 +95,7 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+
     async addTicket() {
       const newTicket = {
         id: this.id,
@@ -121,10 +128,24 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+
+    async getSchemas() {
+      // fetch users
+      await axios
+        .get("http://localhost:9998/" + "/schema/active/")
+        .then((res) => {
+          this.schemas = res.data.filter((x) => x.schemaName === "ticket");
+          console.log(
+            ">>> (getSchemas) this.schemas = " + JSON.stringify(this.schemas)
+          );
+        })
+        .catch((err) => console.log(err));
+    },
   },
 
   mounted() {
     this.getUsers();
+    this.getSchemas();
   },
 };
 </script>
