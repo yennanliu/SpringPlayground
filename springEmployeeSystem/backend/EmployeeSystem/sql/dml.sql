@@ -44,3 +44,11 @@ VALUES
 (1001, "this is a ticket ...", "PENDING", "subject 1", "tag1", 1001, 1001),
 (1002, "this is a small ticket ...", "PENDING", "subject 2", "tag1", 1001, 1003),
 (1003, "this is a big ticket ...", "PENDING", "subject 3", "tag1", 1002, 1004);
+
+
+-- truncate option_schema;
+
+INSERT INTO `option_schema` (id, active, column_name, schema_name)
+VALUES
+(1001, 0, "test_col", "test_schema"),
+(1002, 1, "test_col_2", "test_schema_2");
