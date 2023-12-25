@@ -28,6 +28,7 @@ public class AuthenticationService {
     }
 
     public User getUser(String token) {
+
         AuthenticationToken authenticationToken = repository.findTokenByToken(token);
         if (Helper.notNull(authenticationToken)) {
             if (Helper.notNull(authenticationToken.getUser())) {
