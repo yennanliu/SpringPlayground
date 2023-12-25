@@ -34,7 +34,7 @@ exec -- execution failed
 --(nil)   -- execution failed
 
 -------------------------
--- open Redis client 1
+-- open Redis client 2
 -------------------------
 
 redis-cli
