@@ -11,9 +11,14 @@ import java.util.List;
 
 
 /**
- *   Stock service deal data consistency with Redis
+ *   Redis Optimistic lock for Stock service (redis optimistic lock : watch multi exec)
  *
  *   - https://youtu.be/RtrU2dGUxIQ?si=av_CvxqEnkex9NAt
+ *   - https://youtu.be/GEsGglOPWw8?si=1bTJopcdH9gzpU7d
+ *   - /sql/redis_optimistic_lock_demo.sql
+ *
+ *   #### Steps
+ *      - watch -> multi -> exec
  *
  *   - Insert data to redis with below cmd:
  *      set stock 5000
@@ -57,7 +62,7 @@ public class StockServiceRedisOptimisticLock { // default : Singleton (@Scope("S
 
                 //return null;
                 /**
-                 *  redis watch
+                 *  redis watch (Optimistic lock)
                  *
                  *   https://youtu.be/GEsGglOPWw8?si=0Np9hZZRWA49Eodj&t=37
                  *
@@ -74,7 +79,7 @@ public class StockServiceRedisOptimisticLock { // default : Singleton (@Scope("S
                 if (stock != null && stock.length() != 0){
                     Integer amount = Integer.valueOf(stock);
 
-                    /** redis multi
+                    /** redis multi (Optimistic lock)
                      *
                      *  open a transaction
                      */
@@ -85,7 +90,7 @@ public class StockServiceRedisOptimisticLock { // default : Singleton (@Scope("S
 
                         operations.opsForValue().set("stock", String.valueOf(amount-1));
 
-                        /**  redis exec
+                        /**  redis exec (Optimistic lock)
                          *
                          *   execution a transaction
                          */
