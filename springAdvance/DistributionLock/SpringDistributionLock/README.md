@@ -93,7 +93,7 @@ brew services stop redis
 
 ### Lock comparison
 
-- AVOID use JVM local lock, since it CAN'T deal with data consistency outside instance (e.g. N instances, 1 MySQL)
+- AVOID use JVM local lock (only work for single instance, singleton, since it CAN'T deal with data consistency outside instance (e.g. N instances, 1 MySQL)
 - performance:
   - lock with single SQL > pessimistic lock > JVM lock > optimistic lock
 - If for good performance, simple biz logic, and no need to record change history

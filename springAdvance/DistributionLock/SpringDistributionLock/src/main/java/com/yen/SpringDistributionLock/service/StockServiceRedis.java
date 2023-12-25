@@ -19,6 +19,13 @@ import java.util.concurrent.locks.ReentrantLock;
  *
  *   - Insert data to redis with below cmd:
  *      set stock 5000
+ *
+ *   - Approaches
+ *      - https://youtu.be/QxIAt_xgfA0?si=H4lEG_11e5n8ld7Y&t=108
+ *
+ *      1) local JVM (not recommended) (only work for single instance, singleton)
+ *      2) redis optimistic lock : watch multi exec
+ *      3) redis distribution
  */
 
 @Service
