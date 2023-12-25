@@ -52,9 +52,7 @@ npm run serve
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:8080/ |  FE App | | |
 | http://localhost:9998/swagger-ui.html |  BE API | | |
-| http://localhost:9998/actuator/health |  BE health monitor |[ref](https://kucw.github.io/blog/2020/7/spring-actuator/)  | |
-| http://localhost:9998/actuator/ |  Actuator - BE health monitor (all endpoints)  |[ref](https://kucw.github.io/blog/2020/7/spring-actuator/)  | 
-| http://localhost:9998/actuator/env |  Actuator - BE health monitor (app env)  |[ref](https://kucw.github.io/blog/2020/7/spring-actuator/) | |
+
 
 ## Important Concepts
 
@@ -71,10 +69,11 @@ npm run serve
 1. Payroll service
 2. schema endpoint (done)
 3. msg service (user <-> sys admin)
-4. ticket service
+4. ticket service (done)
 5. oncall/schedule service
     - [ref](https://developers.google.com/optimization/scheduling/employee_scheduling?hl=zh-tw&fbclid=IwAR3pPBfOG6MXgRinsq8s7SK7UNOH4Va6bKDY6dyakpUy1TBtlpz9WYe7ujg#assi)
 6. checkin/checkout service
 7. review service
 8. bug fix
 9. unix test, integraton test
+10. CICD
