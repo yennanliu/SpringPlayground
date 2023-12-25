@@ -40,11 +40,37 @@
             </tr>
           </tbody>
         </table>
+
+        <h3 class="font-weight mt-3">Subordinates:</h3>
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Department</th>
+              <th>Manager</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="subordinate in this.subordinates" :key="subordinate.id">
+              <td>{{ subordinate.id }}</td>
+              <td>{{ subordinate.firstName }} {{ subordinate.lastName }}</td>
+              <td>{{ subordinate.email }}</td>
+              <td>{{ subordinate.role }}</td>
+              <td>{{ subordinate.departementId }}</td>
+              <td>{{ subordinate.managerId }}</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
+
       <div class="col-md-1"></div>
     </div>
   </div>
 </template>
+
 
 <script>
 //import swal from "sweetalert";
@@ -58,6 +84,7 @@ export default {
       token: null,
       vacations: [],
       userVacations: [],
+      subordinates: []
     };
   },
   props: ["baseURL", "users"],
@@ -82,6 +109,13 @@ export default {
         .then((res) => (this.user = res.data))
         .catch((err) => console.log(err));
     },
+    async getSubordinates() {
+      // fetch users
+      await axios
+        .get(`http://localhost:9998/users/subordinates/${this.$route.params.id}`)
+        .then((res) => (this.subordinates = res.data))
+        .catch((err) => console.log(err));
+    },
     async getUserVacations() {
       //fetch categories
       await axios
@@ -103,6 +137,7 @@ export default {
   mounted() {
     console.log(">>> this.$route.params.id = " + this.$route.params.id);
     this.getUser();
+    this.getSubordinates();
     this.getUserVacations();
   },
 };
