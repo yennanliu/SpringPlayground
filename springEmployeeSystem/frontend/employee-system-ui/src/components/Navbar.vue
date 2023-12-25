@@ -20,7 +20,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!--      Search Bar-->
-      <form class="form-inline ml-auto mr-auto">
+      <!-- <form class="form-inline ml-auto mr-auto">
         <div class="input-group">
           <input
             size="100"
@@ -47,7 +47,7 @@
             </span>
           </div>
         </div>
-      </form>
+      </form> -->
 
       <!--      DropDowns-->
       <ul class="navbar-nav ml-auto">
