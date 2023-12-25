@@ -144,6 +144,14 @@ brew services stop redis
   - cons
     - low performance
 - Distribution lock
+  - cases
+    - over sales
+    - Cache Breakdown (緩存擊穿)
+      - redis key outdated -> no cache, so all requests hit DB (e.g. Mysql) directly
+      - use redis lock deal with above (e.g. client -> redis <-- update cache --> redis lock (only can access mysql when get lock, then update cache) -> Mysql)
+  - pros
+  - cons
+    - across progresses, across services, across instances
 
 ## Ref
 
