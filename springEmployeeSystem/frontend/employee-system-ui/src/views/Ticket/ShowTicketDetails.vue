@@ -6,7 +6,7 @@
         <!-- <h6 class="font-weight-bold">Id: {{ department.id }}</h6> -->
         <h1 class="font-weight-bold">Ticket: {{ ticket.subject }}</h1>
 
-        <h2 class="font-weight-bold mt-3">Users:</h2>
+        <h2 class="font-weight-bold mt-3">Detail:</h2>
 
         <table class="table">
           <thead>
