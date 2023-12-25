@@ -16,6 +16,7 @@
               <th>Email</th>
               <th>Department</th>
               <th>Profile</th>
+              <th>Role</th>
             </tr>
           </thead>
           <tbody>
@@ -24,6 +25,7 @@
               <td>{{ user.firstName }} {{ user.lastName }}</td>
               <td>{{ user.email }}</td>
               <td>{{ user.departementId }}</td>
+              <td>{{ user.role }}</td>
               <td>
                 <router-link :to="`/users/show/${user.id}`">
                   View Profile
