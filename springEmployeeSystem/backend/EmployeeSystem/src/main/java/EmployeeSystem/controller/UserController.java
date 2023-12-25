@@ -39,6 +39,13 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/subordinates/{managerId}")
+    public ResponseEntity<List<User>> getSubordinatesById(@PathVariable("managerId") Integer managerId){
+
+        List<User> userList = userService.getSubordinatesById(managerId);
+        return new ResponseEntity<>(userList, HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addUser(@RequestBody UserCreateDto userCreateDto){
 

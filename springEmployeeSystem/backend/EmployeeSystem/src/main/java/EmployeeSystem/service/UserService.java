@@ -18,7 +18,9 @@ import org.springframework.stereotype.Service;
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static EmployeeSystem.config.MessageStrings.USER_CREATED;
 
@@ -147,6 +149,25 @@ public class UserService {
         User updatedUser = new User();
         BeanUtils.copyProperties(userCreateDto, updatedUser);
         userRepository.save(updatedUser);
+    }
+
+    // get subordinates under manager
+    public List<User> getSubordinatesById(Integer managerId){
+
+        // TODO : do select logic in repository
+        //List<User> subordinates = userRepository.getSubordinates();
+
+        List<User> users = userRepository.findAll();
+        List<User> subordinates = users.stream().filter(x -> {
+            return x.getManagerId().equals(managerId);
+        }).collect(Collectors.toList());
+
+        if (subordinates != null && subordinates.size() > 0){
+            return  subordinates;
+        }
+
+        log.warn("No subordinates with managerId = " + managerId);
+        return new ArrayList<>();
     }
 
 }

@@ -6,14 +6,14 @@
 
 INSERT INTO `users` (id, email, first_name, last_name, password, role, departement_id, manager_id)
 VALUES
-(1001, "tom@google.com", "tom", "chen", "123", "USER", 1, 4),
-(1002, "lisa@google.com", "lisa", "park", "123", "USER", 2, 4),
-(1003, "shohei@google.com", "shohei", "ohtani", "123", "USER", 3, 4),
-(1004, "k@google.com", "k", "k", "123", "MANAGER", 3, 0),
-(1005, 'user1001@example.com', 'John', 'Doe', '123', 'USER', 1, 4),
-(1006, 'user1002@example.com', 'Jane', 'Smith', '123', 'USER', 2, 4),
-(1007, 'user1003@example.com', 'Alex', 'Johnson', '123', 'USER', 3, 4),
-(1008, 'manager1004@example.com', 'Manager', 'Doe', '123', 'MANAGER', 3, 0);
+(1001, "tom@google.com", "tom", "chen", "123", "USER", 1, 1004),
+(1002, "lisa@google.com", "lisa", "park", "123", "USER", 1, 1004),
+(1003, "shohei@google.com", "shohei", "ohtani", "123", "USER", 1, 1004),
+(1004, "k@google.com", "k", "k", "123", "MANAGER", 1, 0),
+(1005, 'john@fb.com', 'John', 'Doe', '123', 'USER', 2, 1008),
+(1006, 'jane@fb.com', 'Jane', 'Smith', '123', 'USER', 2, 1008),
+(1007, 'alex@fb.com', 'Alex', 'Johnson', '123', 'USER', 2, 1008),
+(1008, 'm1004@fb.com', 'Manager', 'Doe', '123', 'MANAGER', 2, 0);
 
 
 -- truncate department;

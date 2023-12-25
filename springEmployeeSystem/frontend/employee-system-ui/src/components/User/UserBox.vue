@@ -5,6 +5,7 @@
         ><h5 class="card-title">
           <li>{{ user.firstName + " " + user.lastName }}</li>
           <li>{{ user.email }}</li>
+          <li>{{ user.role }}</li>
         </h5></router-link
       >
       <router-link
