@@ -153,6 +153,20 @@ brew services stop redis
   - cons
     - across progresses, across services, across instances
 
+### Distribution lock
+
+- Implementation way
+  - with Redis
+  - with ZK (zookeeper or etcd)
+  - with MySQL
+
+- Features
+  - exclusive(獨佔排他使用)
+    - Redis :
+      - lock : setnx
+      - unlock : del
+      - retry : recursion call or while loop
+
 ## Ref
 
 - Course
