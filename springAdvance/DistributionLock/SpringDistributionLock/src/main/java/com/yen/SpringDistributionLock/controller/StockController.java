@@ -21,7 +21,7 @@ public class StockController {
     StockServiceWithOptimisticLock stockServiceWithOptimisticLock;
 
     @Autowired
-    StockServiceRedis stockServiceRedis;
+    StockServiceRedisOptimisticLock stockServiceRedisOptimisticLock;
 
     @GetMapping("stock/deduct")
     public String deduct(){
@@ -30,7 +30,7 @@ public class StockController {
         //stockServiceWithSQL.deduct();
         //stockServiceWithPessimisticLock.deduct();
         //stockServiceWithOptimisticLock.deduct();
-        stockServiceRedis.deduct();
+        stockServiceRedisOptimisticLock.deduct();
 
         return "Stock already deducted";
     }
