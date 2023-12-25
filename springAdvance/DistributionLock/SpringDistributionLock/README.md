@@ -136,6 +136,14 @@ brew services stop redis
     - a record may change from A to B, then to A, but users may NOT be aware of it
   - optimistic lock may fail when write-read separation (讀寫分離, 主從模式)
 
+### Redis lock
+
+- [Optimistic lock](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/service/StockServiceRedisOptimisticLock.java)
+  - steps : watch -> multi -> exec
+  - pros
+  - cons
+    - low performance
+- Distribution lock
 
 ## Ref
 

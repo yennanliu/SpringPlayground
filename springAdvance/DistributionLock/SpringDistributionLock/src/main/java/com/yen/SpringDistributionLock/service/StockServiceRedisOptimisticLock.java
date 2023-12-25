@@ -28,9 +28,15 @@ import java.util.List;
  *      - https://youtu.be/GEsGglOPWw8?si=0Np9hZZRWA49Eodj&t=37
  *
  *      1) local JVM (not recommended) (only work for single instance, singleton)
- *      2) redis optimistic lock : watch multi exec
- *          -> In this demo (StockServiceRedis)
- *      3) redis distribution
+ *
+ *      *** 2) redis optimistic lock : watch multi exec
+ *          -> In this demo (StockServiceRedisOptimisticLock)
+ *
+ *          - pros
+ *          - cons
+ *              - low performance
+ *
+ *      3) redis distribution lock
  */
 
 @Service
