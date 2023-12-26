@@ -149,6 +149,11 @@ brew services stop redis
     - Cache Breakdown (緩存擊穿)
       - redis key outdated -> no cache, so all requests hit DB (e.g. Mysql) directly
       - use redis lock deal with above (e.g. client -> redis <-- update cache --> redis lock (only can access mysql when get lock, then update cache) -> Mysql)
+  - Avoid deadlock
+    - solution : add lock expire time (e.g. : expire lock 20)
+    - cases
+      - a server gets a lock, then server down, so server has NO WAY to release its lock -> cause deadlock
+    - https://youtu.be/h_thAi4SCEQ?si=QAEFji03rR1n92Tp&t=72
   - pros
   - cons
     - across progresses, across services, across instances
