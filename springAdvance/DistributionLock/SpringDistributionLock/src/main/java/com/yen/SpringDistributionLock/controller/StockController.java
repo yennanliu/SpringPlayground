@@ -35,7 +35,7 @@ public class StockController {
         //stockServiceWithOptimisticLock.deduct();
         //stockServiceRedisOptimisticLock.deduct();
         stockServiceRedisDistributionLock.deduct();
-        
+
         return "Stock already deducted";
     }
 
