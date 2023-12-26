@@ -58,6 +58,7 @@ public class UserService {
         try{
 
             // save the User
+            user.setManagerId(0); // set manager ID = 0 as default
             createdUser = userRepository.save(user);
 
             /** generate token for user */
