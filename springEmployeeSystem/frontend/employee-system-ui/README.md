@@ -21,6 +21,8 @@ npm install --save sweetalert
 npm install vue-fullcalendar
 
 npm install vue2-datepicker
+
+npm install bootstrap-vue
 ```
 
 

@@ -3,13 +3,7 @@
 <template>
   <div>
     <h2>User Vacations</h2>
-    <ul>
-      <li v-for="vacation in vacations" :key="vacation.id">
-        User {{ vacation.userId }}, ({{ vacation.startDate }} -
-        {{ vacation.endDate }})
-      </li>
-    </ul>
-    
+
     <FullCalendar
       ref="fullCalendar"
       class="calendar"
@@ -21,15 +15,26 @@
     />
 
     <!-- Bootstrap Vue modal -->
-    <!-- <b-modal
+    <b-modal
       v-if="selectedVacation"
       title="Vacation Details"
       @hide="clearSelectedVacation"
     >
-      <p>Destination: {{ selectedVacation.destination }}</p>
+      <p>User ID: {{ selectedVacation.userId }}</p>
+      <p>Type: {{ selectedVacation.type }}</p>
+      <p>Status: {{ selectedVacation.status }}</p>
       <p>Start Date: {{ selectedVacation.startDate }}</p>
       <p>End Date: {{ selectedVacation.endDate }}</p>
-    </b-modal> -->
+    </b-modal>
+
+
+    <h2>Vacation List</h2>
+    <ul>
+      <li v-for="vacation in vacations" :key="vacation.id">
+        User {{ vacation.userId }}, ({{ vacation.startDate }} -
+        {{ vacation.endDate }})
+      </li>
+    </ul>
 
   </div>
 </template>
@@ -101,6 +106,7 @@ export default {
     },
     showVacationDetails({ event }) {
       this.selectedVacation = event.vacationDetails;
+      console.log(">>> (showVacationDetails) selectedVacation = " + JSON.stringify(this.selectedVacation))
     },
     clearSelectedVacation() {
       this.selectedVacation = null;
@@ -121,7 +127,7 @@ export default {
     },
   },
   mounted() {
-    this.fetchUserVacations("1"); // Replace with the actual username
+    this.fetchUserVacations(); // Replace with the actual username
   },
 };
 </script>
