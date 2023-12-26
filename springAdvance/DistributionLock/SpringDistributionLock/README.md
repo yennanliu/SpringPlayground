@@ -171,6 +171,12 @@ brew services stop redis
       - lock : setnx
       - unlock : del
       - retry : recursion call or while loop
+        - [code](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/service/StockServiceRedisDistributionLock.java)
+  - 原子性 (ATOM, Atomicity)
+    - https://youtu.be/h_thAi4SCEQ?si=f1spko6XNuhX6TKx&t=548
+    - make sure ATOM when `get lock` and `set up expire time`
+    - redis cmd : `set key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time`
+      - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_distribution_lock.sql)
 
 ## Ref
 

@@ -2,9 +2,12 @@ package com.yen.SpringDistributionLock.service;
 
 // https://youtu.be/kbO_HpxEcQ4?si=IPjLadwtplCmX-Pe&t=151
 
+import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -80,6 +83,15 @@ public class StockServiceRedisDistributionLock {
 
         }
         try {
+
+            /** Set lock expire time
+             *
+             *   below code NOT works (if server down before setting expire time, still no expire time, not ATOM)
+             *
+             *  https://youtu.be/h_thAi4SCEQ?si=6xOS8cfpoMdwCJ9L&t=363
+             */
+            //stringRedisTemplate.expire("lock", 30, TimeUnit.SECONDS);
+
             // 1) get stock amount
             String stock = stringRedisTemplate.opsForValue().get("stock").toString();
 
