@@ -91,7 +91,7 @@ brew services stop redis
 
 ## Important Concepts
 
-### Lock comparison
+### 1) Lock comparison
 
 - AVOID use JVM local lock (only work for single instance, singleton, since it CAN'T deal with data consistency outside instance (e.g. N instances, 1 MySQL)
 - performance:
@@ -103,7 +103,7 @@ brew services stop redis
 - If write > read, race condition happens often
   - use `pessimistic lock`
 
-### 3 cases make local JVM lock failed
+### 2) 3 cases make local JVM lock failed
 
 - case 1) `多例模式 (Multiton Pattern)`
     - [video](https://youtu.be/L7OFClDyWLs?si=_rYUlzOFkuDD8PRU&t=75)
@@ -120,7 +120,7 @@ brew services stop redis
         - https://youtu.be/pD8bEeq9q_U?si=z5OyNhApRaj2ARLp&t=21
         - https://youtu.be/CDaWk2RIBL4?si=D_FR2JKduE3JtCer&t=18
 
-### 行級悲觀鎖
+### 3) 行級悲觀鎖
 
 - 如果想要行級鎖(只鎖住選定資料) 必須同時滿足以下二個條件:
   - https://youtu.be/HyD7E8WkJhI?si=oTQgzl92MElMfjbX&t=38
@@ -136,7 +136,7 @@ brew services stop redis
     - a record may change from A to B, then to A, but users may NOT be aware of it
   - optimistic lock may fail when write-read separation (讀寫分離, 主從模式)
 
-### Redis lock
+### 4) Redis lock
 
 - [Optimistic lock](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/service/StockServiceRedisOptimisticLock.java)
   - steps : watch -> multi -> exec
@@ -158,7 +158,7 @@ brew services stop redis
   - cons
     - across progresses, across services, across instances
 
-### Distribution lock
+### 5) Distribution lock
 
 - Implementation way
   - with Redis
@@ -176,9 +176,9 @@ brew services stop redis
     - https://youtu.be/h_thAi4SCEQ?si=f1spko6XNuhX6TKx&t=548
     - make sure ATOM when `get lock` and `set up expire time`
     - redis cmd : `set key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time`
-      - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_distribution_lock.sql)
+      - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_expire_time_lock.sql)
 
-## Ref
+## 6) Ref
 
 - Course
     - Video

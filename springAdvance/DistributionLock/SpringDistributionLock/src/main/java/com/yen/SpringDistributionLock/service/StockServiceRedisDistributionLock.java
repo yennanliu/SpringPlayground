@@ -71,7 +71,7 @@ public class StockServiceRedisDistributionLock {
         // if get lock fail,
         // method 1) retry (recursion call), cons : recursion may cause stackoverflow
         // method 2) retry via iteration : https://youtu.be/HI9lQmCTPPc?si=eLxE7OgPwkiMOecF&t=29
-        while (!stringRedisTemplate.opsForValue().setIfAbsent("lock", "111")) {
+        while (!stringRedisTemplate.opsForValue().setIfAbsent("lock", "111", 3, TimeUnit.SECONDS)) {
 
             try {
                 Thread.sleep(50); // sleep 50 milliseconds
