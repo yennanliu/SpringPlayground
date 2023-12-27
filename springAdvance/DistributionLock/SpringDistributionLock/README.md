@@ -177,7 +177,8 @@ brew services stop redis
     - make sure ATOM when `get lock` and `set up expire time`
     - redis cmd : `set <key> <value> ex <expire_time> nx`
       - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_expire_time_lock.sql)
-
+    - however, need to make sure ATOM within `check same lock` and `release lock`
+        - -> use `Lua script` (redis default script language) (can send multiple cmd to redis at once)
 - 防誤刪
   - Only thread which receive lock can unlock it
   - UUID + check first, then delete
