@@ -2,11 +2,12 @@ package com.yen.SpringDistributionLock.service;
 
 // https://youtu.be/kbO_HpxEcQ4?si=IPjLadwtplCmX-Pe&t=151
 
-import org.apache.tomcat.jni.Time;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 
@@ -24,6 +25,10 @@ public class StockServiceRedisDistributionLock {
     StringRedisTemplate stringRedisTemplate;
 
     public void deduct() {
+
+        // use UUID as lock ID : https://youtu.be/uF3sVyB9Dx0?si=8FFJEytdcqEu8Xyz&t=524
+        String uuid = UUID.randomUUID().toString();
+
 
         /** add lock
          *
@@ -71,7 +76,7 @@ public class StockServiceRedisDistributionLock {
         // if get lock fail,
         // method 1) retry (recursion call), cons : recursion may cause stackoverflow
         // method 2) retry via iteration : https://youtu.be/HI9lQmCTPPc?si=eLxE7OgPwkiMOecF&t=29
-        while (!stringRedisTemplate.opsForValue().setIfAbsent("lock", "111", 3, TimeUnit.SECONDS)) {
+        while (!stringRedisTemplate.opsForValue().setIfAbsent("lock", uuid, 3, TimeUnit.SECONDS)) {
 
             try {
                 Thread.sleep(50); // sleep 50 milliseconds
@@ -113,7 +118,13 @@ public class StockServiceRedisDistributionLock {
              *
              *  unlock : del
              */
-            stringRedisTemplate.delete("lock");
+            // check if same lock, then lock (via uuid)
+            if (StringUtils.equals(stringRedisTemplate.opsForValue().get("lock"), uuid)){
+                stringRedisTemplate.delete("lock");
+            }else{
+                System.out.println("will NOT unlock, uuid are different");
+            }
+
         }
     }
 

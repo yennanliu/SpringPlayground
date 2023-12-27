@@ -175,8 +175,16 @@ brew services stop redis
   - 原子性 (ATOM, Atomicity)
     - https://youtu.be/h_thAi4SCEQ?si=f1spko6XNuhX6TKx&t=548
     - make sure ATOM when `get lock` and `set up expire time`
-    - redis cmd : `set key value [NX|XX] [GET] [EX seconds|PX milliseconds|EXAT unix-time`
+    - redis cmd : `set <key> <value> ex <expire_time> nx`
       - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_expire_time_lock.sql)
+
+- 防誤刪
+  - Only thread which receive lock can unlock it
+  - UUID + check first, then delete
+
+- 自動續期
+  - automatically refresh lock expire time
+  - to avoid if lock expired before op code completed
 
 ## 6) Ref
 
