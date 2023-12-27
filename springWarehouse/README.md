@@ -103,7 +103,10 @@ kill <pid>
 
 # pressure testing - jmeter
 cd apache-jmeter-5.6.2  
-bash bin/jmeter  
+bash bin/jmeter
+
+# curl
+curl  http://localhost:7777/productType/list?pageNoStr=1
 ```
 
 </details>
@@ -186,6 +189,7 @@ nohup java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar &
 | http://localhost:7777/ | Get | Home page || |
 | http://localhost:7777/swagger-ui/index.html | Get           | API doc page || |
 | http://localhost:8080/  | Nginx endpoint | | |
+
 
 ## Important Concepts
 
