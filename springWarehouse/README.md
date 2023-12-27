@@ -18,6 +18,8 @@ ARCHITECTURE :
 - V1
 <p align="center"><img src ="./doc/pic/SpringWareHouse.svg"></p>
 
+- V2
+  - Cluster mode with Nginx
 
 [Demo](http://43.206.107.101:7777/)
 
@@ -71,6 +73,22 @@ mvn package
 
 # run
 java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
+
+#---------------------------  
+# Run nginx  
+#---------------------------  
+  
+# https://github.com/yennanliu/utility_shell/blob/master/nginx/install_nginx.sh  
+# http://localhost:8080/  
+  
+# start  
+brew services start nginx  
+  
+# stop  
+brew services stop nginx
+
+# reload nginx config
+nginx -s reload
 ```
 
 </details>

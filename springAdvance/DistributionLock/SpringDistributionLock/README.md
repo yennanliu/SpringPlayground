@@ -69,6 +69,9 @@ brew services start redis
  
 brew services stop redis
 
+# reload nginx config
+nginx -s reload
+
 #---------------------------  
 # Intellij  
 #---------------------------  
