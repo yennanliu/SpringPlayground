@@ -87,8 +87,18 @@ brew services start nginx
 # stop  
 brew services stop nginx
 
+
+#---------------------------  
+# Other cmd
+#---------------------------  
+
+# kill progress uses port
 # reload nginx config
 nginx -s reload
+
+
+lsof -i :<port>
+kill <pid>
 ```
 
 </details>
@@ -166,10 +176,11 @@ nohup java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar &
 
 ## API
 
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
+| API | Type          | Purpose | Example cmd | Comment|
+| ----- |---------------| ---- | ----- | ---- |
 | http://localhost:7777/ | Get | Home page || |
-| http://localhost:7777/swagger-ui/index.html | Get | API doc page || |
+| http://localhost:7777/swagger-ui/index.html | Get           | API doc page || |
+| http://localhost:8080/  | Nginx endpoint | | |
 
 ## Important Concepts
 
