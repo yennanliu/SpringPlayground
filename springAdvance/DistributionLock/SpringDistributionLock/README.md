@@ -179,6 +179,7 @@ brew services stop redis
       - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_expire_time_lock.sql)
     - however, need to make sure ATOM within `check same lock` and `release lock`
         - -> use `Lua script` (redis default script language) (can send multiple cmd to redis at once)
+        - [lua code cmd](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/lua_cmd.lua)
 - 防誤刪
   - Only thread which receive lock can unlock it
   - UUID + check first, then delete
