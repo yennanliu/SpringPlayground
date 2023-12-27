@@ -40,6 +40,7 @@ EVAL "if 10>20 then return 10 else return 20 end" 0
 -- 5) pass parameters (KEYS, ARGV)
 
 -- use KEYS
+-- 2 keys, KEYS[1] = 10, KEYS[2] = 20
 EVAL "if KEYS[1]>KEYS[2] then return KEYS[1] else return KEYS[2] end" 2 10 20
 
 -- use KEYS, ARGV
