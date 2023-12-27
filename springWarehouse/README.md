@@ -94,13 +94,16 @@ brew services stop nginx
 # Other cmd
 #---------------------------  
 
-# kill progress uses port
 # reload nginx config
 nginx -s reload
 
-
+# kill progress uses port
 lsof -i :<port>
 kill <pid>
+
+# pressure testing - jmeter
+cd apache-jmeter-5.6.2  
+bash bin/jmeter  
 ```
 
 </details>
