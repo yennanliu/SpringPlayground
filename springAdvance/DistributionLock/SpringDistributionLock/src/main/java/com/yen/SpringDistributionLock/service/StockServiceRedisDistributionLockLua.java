@@ -81,8 +81,10 @@ public class StockServiceRedisDistributionLockLua {
                     "else " +
                     "return 0 " +
                     "end";
+            // NOTE : need to define result to avoid "io.lettuce.core.output.StatusOutput does not support set(long)" error
+            // e.g. sue DefaultRedisScript<>(luaScript, <result_type>) instead of DefaultRedisScript<>(luaScript)
             stringRedisTemplate.execute(
-                    new DefaultRedisScript<>(luaScript), Arrays.asList("lock"), uuid);
+                    new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList("lock"), uuid);
         }
     }
 
