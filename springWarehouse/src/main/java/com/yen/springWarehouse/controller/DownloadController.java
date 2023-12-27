@@ -65,11 +65,16 @@ public class DownloadController {
     }
 
     @GetMapping("/create_report")
-    public String createDownload() {
+    public String createDownload() throws InterruptedException {
 
         DateTimeUtils dateTimeUtils = new DateTimeUtils();
         String timestamp = dateTimeUtils.getCurrentDateYYYYMMDDHHMMSS();
         FileUtil fileUtil = new FileUtil();
+
+//        log.info("--------------------------------------------\n");
+//        log.info(">>>>>>>>> SLEEP 10 SECONDS >>>>>>>>>\n");
+//        Thread.sleep(10000);
+//        log.info("--------------------------------------------\n");
 
         // create report
         String fileName = timestamp + "_report.json";
