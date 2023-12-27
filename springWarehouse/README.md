@@ -72,7 +72,9 @@ ARCHITECTURE :
 mvn package
 
 # run
-java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
+# https://blog.csdn.net/G971005287W/article/details/114879972
+java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar --server.port=7777
+java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar --server.port=7778
 
 #---------------------------  
 # Run nginx  
