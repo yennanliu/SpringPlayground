@@ -101,16 +101,21 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
     @Override
     public void deduct(Integer id) {
 
+        /** V1 */
         System.out.println(">>> id = " + id);
         Product product = productMapper.selectById(id);
         System.out.println(">>> product = " + product);
         int amount = product.getAmount();
-        product.setAmount(amount-1);
-        UpdateWrapper<Product> wrapper = new UpdateWrapper<>(product);
-        // TODO : check why productMapper CAN'T update with UpdateWrapper
-        //wrapper.set("id", product.getId()).eq("amount", amount-1);
-        //productMapper.update(product, wrapper); //baseMapper.update(product, wrapper);
-        productMapper.updateById(product);
+
+//        product.setAmount(amount-1);
+//        UpdateWrapper<Product> wrapper = new UpdateWrapper<>(product);
+//        // TODO : check why productMapper CAN'T update with UpdateWrapper
+//        //productMapper.update(product, wrapper); //baseMapper.update(product, wrapper);
+//        productMapper.updateById(product);
+
+        /** V2 : use Mysql lock deal with cluster deployment */
+
+        productMapper.updateProductCount(product.getId(), 1);
         System.out.println(">>> product = " + product);
     }
 
