@@ -25,18 +25,33 @@
     </FullCalendar>
 
     <!-- Bootstrap Vue modal -->
-    <b-modal v-if="selectedVacation" title="Vacation Details" @hide="clearSelectedVacation">
+    <b-modal
+      v-if="selectedVacation"
+      title="Vacation Details"
+      @hide="clearSelectedVacation"
+    >
       <p>Destination: {{ selectedVacation.destination }}</p>
       <p>Start Date: {{ selectedVacation.startDate }}</p>
       <p>End Date: {{ selectedVacation.endDate }}</p>
     </b-modal>
 
     <h2>Vacation List</h2>
-    <ul>
-      <li v-for="vacation in vacations" :key="vacation.id">
-        User {{ vacation.userId }}, ({{ vacation.startDate }} - {{ vacation.endDate }})
-      </li>
-    </ul>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Duration</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="vacation in vacations" :key="vacation.id">
+          <td>{{ vacation.userId }}</td>
+          <td>{{ vacation.startDate }} {{ vacation.endDate }}</td>
+          <td>{{ vacation.status }}</td>
+        </tr>
+      </tbody>
+    </table>
   </div>
 </template>
 
