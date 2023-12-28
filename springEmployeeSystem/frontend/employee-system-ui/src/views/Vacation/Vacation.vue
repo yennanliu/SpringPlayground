@@ -40,14 +40,16 @@
       <thead>
         <tr>
           <th>User ID</th>
-          <th>Duration</th>
+          <th>Start Date</th>
+          <th>End Date</th>
           <th>Status</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="vacation in vacations" :key="vacation.id">
           <td>{{ vacation.userId }}</td>
-          <td>{{ vacation.startDate }} {{ vacation.endDate }}</td>
+          <td>{{ vacation.startDate }}</td>
+          <td>{{ vacation.endDate }}</td>
           <td>{{ vacation.status }}</td>
         </tr>
       </tbody>
