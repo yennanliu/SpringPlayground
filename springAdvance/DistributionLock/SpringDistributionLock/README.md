@@ -187,14 +187,16 @@ brew services stop redis
     - UUID + check first, then delete
   - 可重入性
     - JUC (java concurrency) ReentrantLock
-      - Lock Steps : ReentrantLock.lock() -> NonFairSync.lock() -> AQS.acquire() -> NonFairSync.tryAcquire(1) ->  sync.NonFairTryAcquire(1)
+      - `Lock Steps`: ReentrantLock.lock() -> NonFairSync.lock() -> AQS.acquire() -> NonFairSync.tryAcquire(1) ->  sync.NonFairTryAcquire(1)
         - 1. CAS gets lock, if not one owns lock (state==0), gets lock success, record which thread acquires lock (2 op)
         - 2. if state != 0, means lock already being used, check if current thread is with lock, if yes, 重入 (state += 1)
         - 3. or, lock failed, insert to queue, and wait
-      - Unlock Steps:  ReentrantLock.unlock() -> AQS.release(1) -> sync.tryRelease(1)
+      - `Unlock Steps`:  ReentrantLock.unlock() -> AQS.release(1) -> sync.tryRelease(1)
         - 1. check if current thread is with lock, if not, throw exception
         - 2. state-=1, check if state==0, if true, unlock success, return true
         - 3. if false, unlock failed, return false
+      - Implementation : Redis Hash data structure + Lua script
+        - https://youtu.be/V-OREDbG2UA?si=eh_tFgXkNRd8woOP
     - https://youtu.be/zt-qeYfQvJc?si=cGPlfxi9AGqOPiXq&t=282
   - 自動續期
     - automatically refresh lock expire time
