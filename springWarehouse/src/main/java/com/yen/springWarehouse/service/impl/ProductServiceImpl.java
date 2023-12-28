@@ -107,9 +107,11 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         int amount = product.getAmount();
         product.setAmount(amount-1);
         UpdateWrapper<Product> wrapper = new UpdateWrapper<>(product);
+        // TODO : check why productMapper CAN'T update with UpdateWrapper
         //wrapper.set("id", product.getId()).eq("amount", amount-1);
-        //productMapper.update(product, wrapper);
-        baseMapper.update(product, wrapper);
+        //productMapper.update(product, wrapper); //baseMapper.update(product, wrapper);
+        productMapper.updateById(product);
+        System.out.println(">>> product = " + product);
     }
 
 }
