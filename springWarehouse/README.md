@@ -184,12 +184,13 @@ nohup java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar &
 
 ## API
 
-| API | Type          | Purpose | Example cmd | Comment|
-| ----- |---------------| ---- | ----- | ---- |
-| http://localhost:7777/ | Get           | Home page || |
+| API                                         | Type          | Purpose | Example cmd | Comment|
+|---------------------------------------------|---------------| ---- | ----- | ---- |
+| http://localhost:7777/                      | Get           | Home page || |
 | http://localhost:7777/swagger-ui/index.html | Get           | API doc page || |
-| http://localhost:7777/test/type_list  | test endpoint | | |
-| http://localhost:8080/  | Nginx endpoint | | |
+| http://localhost:7777/test/type_list        | test endpoint | | |
+| http://localhost:7777/test/prod_list        | test endpoint | | |
+| http://localhost:8080/                      | Nginx endpoint | | |
 
 
 ## Important Concepts
