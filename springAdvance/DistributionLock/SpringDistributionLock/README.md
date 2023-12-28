@@ -196,6 +196,7 @@ brew services stop redis
         - 2. state-=1, check if state==0, if true, unlock success, return true
         - 3. if false, unlock failed, return false
       - Implementation : Redis Hash data structure + Lua script
+        - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_reentrantLock_lua.sql)
         - https://youtu.be/V-OREDbG2UA?si=eh_tFgXkNRd8woOP
     - https://youtu.be/zt-qeYfQvJc?si=cGPlfxi9AGqOPiXq&t=282
   - 自動續期

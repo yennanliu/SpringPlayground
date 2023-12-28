@@ -31,8 +31,12 @@ hincrby lock 66-666-666 1
 -- Lock Redis Lua cmd
 -------------------------------------
 
+--------------------
+-- ### V1
+--------------------
+
 -- if lock not existed
-if redis.call('exists', 'lock') = 0
+if redis.call('exists', 'lock') == 0
 then
 --  lock directly, return true
     redis.call('hset', 'lock', uuid, 1)
@@ -50,6 +54,47 @@ else
     return 0
 end
 
+--------------------
+-- ### V2
+--------------------
+
+-- if lock not existed or hexists == 1
+if redis.call('exists', 'lock') == 0 or redis.call('hexists', 'lock', uuid) == 1
+then
+--  lock directly, return true
+    redis.call('hincrby', 'lock', uuid, 1)
+    redis.call('expire', 'lock', 30)
+    return 1
+else
+    return 0
+end
+
+--------------------
+-- ### V2 with param
+--------------------
+
+if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], ARGV[1]) == 1
+then
+--  lock directly, return true
+    redis.call('hincrby', KEYS[1], ARGV[1], 1)
+    redis.call('expire', KEYS[1], ARGV[2])
+    return 1
+else
+    return 0
+end
+
+key: lock
+arg: uuid expire_time
+
+
+--------------------
+-- ### V2 with param in redis cmd form
+--------------------
+
+if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], ARGV[1]) == 1 then redis.call('hincrby', KEYS[1], ARGV[1], 1) redis.call('expire', KEYS[1], ARGV[2]) return 1 else return 0 end
+
+
+EVAL "if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], ARGV[1]) == 1 then redis.call('hincrby', KEYS[1], ARGV[1], 1) redis.call('expire', KEYS[1], ARGV[2]) return 1 else return 0 end" 1 lock 333-333-33 30
 
 -------------------------------------
 -- Unlock
