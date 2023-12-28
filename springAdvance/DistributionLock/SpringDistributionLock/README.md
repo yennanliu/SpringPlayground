@@ -153,7 +153,9 @@ brew services stop redis
     - solution : add lock expire time (e.g. : expire lock 20)
     - cases
       - a server gets a lock, then server down, so server has NO WAY to release its lock -> cause deadlock
+      - 不可重入
     - https://youtu.be/h_thAi4SCEQ?si=QAEFji03rR1n92Tp&t=72
+    - https://youtu.be/zt-qeYfQvJc?si=qIDLto7ro5Ru93v_&t=32
   - pros
   - cons
     - across progresses, across services, across instances
@@ -180,13 +182,15 @@ brew services stop redis
     - however, need to make sure ATOM within `check same lock` and `release lock`
         - -> use `Lua script` (redis default script language) (can send multiple cmd to redis at once)
         - [lua code cmd](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/lua_cmd.lua)
-- 防誤刪
-  - Only thread which receive lock can unlock it
-  - UUID + check first, then delete
-
-- 自動續期
-  - automatically refresh lock expire time
-  - to avoid if lock expired before op code completed
+  - 防誤刪
+    - Only thread which receive lock can unlock it
+    - UUID + check first, then delete
+  - 可重入性
+    - JUC (java concurrency) ReentrantLock
+    - https://youtu.be/zt-qeYfQvJc?si=cGPlfxi9AGqOPiXq&t=282
+  - 自動續期
+    - automatically refresh lock expire time
+    - to avoid if lock expired before op code completed
 
 ## 6) Ref
 
