@@ -75,6 +75,7 @@ public class StockServiceRedisDistributionLockLua {
 //                System.out.println("will NOT unlock, uuid are different");
 //            }
 
+            // https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/lua_redos_lock_atom.lua
             String luaScript = "if redis.call('get', KEYS[1]) == ARGV[1] " +
                     "then " +
                     "return redis.call('del', KEYS[1]) " +
