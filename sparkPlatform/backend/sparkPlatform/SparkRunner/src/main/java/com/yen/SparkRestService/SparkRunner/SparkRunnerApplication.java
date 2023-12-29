@@ -27,9 +27,11 @@ public class SparkRunnerApplication {
 
         SparkLauncher sparkLauncher = new SparkLauncher()
                 .setSparkHome(SPARK_HOME)
-                .setAppResource(SPARK_HOME + "/jars")
-                .setMainClass("com.yen.SparkRestService.SparkRunner")
-                .setMaster("localhost")
+                .setAppResource(SPARK_HOME + "/examples/jars" + "spark-examples_2.12-3.3.4.jar")
+                .setDeployMode("cluster")
+                .setMainClass("org.apache.spark.examples.SparkPi")
+                .setMaster("local[*]")
+                //.setMaster("spark://master:7077")
                 .setConf("spark.app.id", "AppID if you have one")
                 .setConf("spark.driver.memory", "8g")
                 .setConf("spark.akka.frameSize", "200")
@@ -47,7 +49,7 @@ public class SparkRunnerApplication {
         // Poll until application gets submitted
 
         while (handle.getAppId() == null) {
-            log.info("Waiting for application to be submitted: status=%s", handle.getState());
+            log.info("Waiting for application to be submitted: status = ", handle.getState());
             Thread.sleep(1500L);
         }
         log.info("Submitted as {}", handle.getAppId());
