@@ -49,7 +49,7 @@ brew services start nginx
 brew services stop nginx  
   
 #---------------------------  
-# Run nginx  
+# Run jmeter  
 #---------------------------  
   
 # https://youtu.be/-EeTUjNlkN0?si=llNkPSRd2j5hvvsl&t=108  

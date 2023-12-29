@@ -5,6 +5,13 @@
 -- https://youtu.be/V-OREDbG2UA?si=dNHrBr83Gq5dR8RY
 
 -------------------------------------
+-- Syntax
+-------------------------------------
+
+-- Syntax
+-- 1. hset <lock_name> <key> <value>
+
+-------------------------------------
 -- Lock
 -------------------------------------
 
@@ -99,6 +106,39 @@ EVAL "if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], AR
 -------------------------------------
 -- Unlock
 -------------------------------------
+
+-- https://youtu.be/X4qAl1-yC3s?si=Fj7QC4Ri6ONKI3Lh&t=13
+
+-- Unlock Steps
+-- 1. check if lock existed
+-- 2. check if lock is owned by current thread (HEXISTS)
+--    if false, return nil
+--    if true, count -= 1  (HINCRBY, -1)
+--             if updated count == 0, release lock (del lock), and return true,
+--             if updated count != 0, return false
+
+if redis.call('EXISTS', lock) and redis.call('HEXISTS', lock, uuid)
+then
+    return 1
+end
+
+
+
+--127.0.0.1:6379> hset lock 111-11 1
+--(integer) 1
+--127.0.0.1:6379>
+--127.0.0.1:6379> exists lock
+--(integer) 1
+--127.0.0.1:6379> hexists lock 3423-4234
+--(integer) 0
+--127.0.0.1:6379> hexists lock 111-11
+--(integer) 1
+--127.0.0.1:6379> hincrby lock 111-11 -1
+--(integer) 0
+--127.0.0.1:6379> hincrby lock 111-11 1
+--(integer) 1
+--127.0.0.1:6379> hincrby lock 111-11 1
+--(integer) 2
 
 -------------------------------------
 -- Unlock Redis Lua cmd
