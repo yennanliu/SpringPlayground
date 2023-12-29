@@ -61,7 +61,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Browse
+            Employee
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link class="dropdown-item" :to="{ name: 'Home' }"
@@ -70,28 +70,31 @@
             <router-link class="dropdown-item" :to="{ name: 'User' }"
               >User</router-link
             >
-            <router-link class="dropdown-item" :to="{ name: 'Department' }"
-              >Department</router-link
-            >
             <router-link class="dropdown-item" :to="{ name: 'Vacation' }"
               >Vacation</router-link
+            >
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link text-light dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Department
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <router-link class="dropdown-item" :to="{ name: 'Department' }"
+              >Department</router-link
             >
             <router-link class="dropdown-item" :to="{ name: 'Ticket' }"
               >Ticket</router-link
             >
-            <!-- <router-link class="dropdown-item" :to="{ name: 'Cart' }"
-              >Cart</router-link
-            > -->
-            <!-- <router-link
-              class="dropdown-item"
-              v-if="!token"
-              :to="{ name: 'Signin' }"
-              >Wishlist</router-link
-            >
-            <router-link class="dropdown-item" v-else :to="{ name: 'Wishlist' }"
-              >Wishlist</router-link
-            >
-            -->
           </div>
         </li>
 
@@ -110,10 +113,6 @@
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link class="dropdown-item" :to="{ name: 'Admin' }"
               >Admin</router-link
-            >
-
-            <router-link class="dropdown-item" :to="{ name: 'User' }"
-              >User</router-link
             >
             <router-link
               class="dropdown-item"
