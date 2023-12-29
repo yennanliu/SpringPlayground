@@ -104,7 +104,7 @@ if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], ARGV[1])
 EVAL "if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], ARGV[1]) == 1 then redis.call('hincrby', KEYS[1], ARGV[1], 1) redis.call('expire', KEYS[1], ARGV[2]) return 1 else return 0 end" 1 lock 333-333-33 30
 
 -------------------------------------
--- Unlock
+-- Unlock & Unlock Lua cmd
 -------------------------------------
 
 -- https://youtu.be/X4qAl1-yC3s?si=Fj7QC4Ri6ONKI3Lh&t=13
@@ -117,12 +117,18 @@ EVAL "if redis.call('exists', KEYS[1]) == 0 or redis.call('hexists', KEYS[1], AR
 --             if updated count == 0, release lock (del lock), and return true,
 --             if updated count != 0, return false
 
-if redis.call('EXISTS', lock) and redis.call('HEXISTS', lock, uuid)
+if redis.call('HEXISTS', 'lock', uuid) == 0
 then
-    return 1
+    return nil
+elseif redis.call('HINCRBY', 'lock', uuid, -1) == 0
+then
+    return redis.call('del', 'lock')
+else
+    return 0
 end
 
-
+key: lock
+arg: uuid
 
 --127.0.0.1:6379> hset lock 111-11 1
 --(integer) 1
@@ -143,3 +149,22 @@ end
 -------------------------------------
 -- Unlock Redis Lua cmd
 -------------------------------------
+
+if redis.call('HEXISTS', KEYS[1], ARGV[1]) == 0
+then
+    return nil
+elseif redis.call('HINCRBY', KEYS[1], ARGV[1], -1) == 0
+then
+    return redis.call('del', KEYS[1])
+else
+    return 0
+end
+
+
+-- in one line form
+
+if redis.call('HEXISTS', KEYS[1], ARGV[1]) == 0 then return nil elseif redis.call('HINCRBY', KEYS[1], ARGV[1], -1) == 0 then return redis.call('del', KEYS[1]) else return 0 end
+
+-- in Redis EVAL cmd form
+
+EVAL "if redis.call('HEXISTS', KEYS[1], ARGV[1]) == 0 then return nil elseif redis.call('HINCRBY', KEYS[1], ARGV[1], -1) == 0 then return redis.call('del', KEYS[1]) else return 0 end" 1 lock 11-11-11
