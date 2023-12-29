@@ -20,8 +20,9 @@ public class Checkin {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @Column(name = "user_id")
     private Integer userID;
 
-    @Column
+    @Column(name = "create_time")
     private Date createTime;
 }

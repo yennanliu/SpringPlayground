@@ -58,3 +58,11 @@ VALUES
 (3001, 1, "urgent", "ticket"),
 (3002, 1, "normal", "ticket"),
 (3003, 1, "backlog", "ticket");
+
+-- truncate check_in;
+
+INSERT INTO `check_in` (id, user_id, create_time)
+VALUES
+(1001, 1, now()),
+(1002, 2, now()),
+(1003, 3, now());
