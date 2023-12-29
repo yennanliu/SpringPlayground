@@ -40,6 +40,9 @@ bash stop-master.sh
 bash stop-slave.sh
 
 
+# UI : http://localhost:8080/
+
+
 # run example job
 cd /Users/yennanliu/spark-3.3.4-bin-hadoop3
 
