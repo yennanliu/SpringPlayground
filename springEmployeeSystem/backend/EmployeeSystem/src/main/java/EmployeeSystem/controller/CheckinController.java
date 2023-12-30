@@ -34,7 +34,6 @@ public class CheckinController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addCheckin(@RequestBody Checkin checkin){
 
-        System.out.println(">>> checkin = " + checkin.toString());
         checkinService.addCheckin(checkin.getUserId());
         return new ResponseEntity<>(new ApiResponse(true, "Checkin has been added"), HttpStatus.CREATED);
     }

@@ -10,10 +10,10 @@
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
         <form>
-          <!-- <div class="form-group">
-              <label>Name</label>
-              <input type="text" class="form-control" v-model="name" required />
-            </div> -->
+          <div class="form-group">
+            <label>User Id</label>
+            <input type="text" class="form-control" v-model="userId" required />
+          </div>
           <button type="button" class="btn btn-primary" @click="addCheckin">
             checkin
           </button>
@@ -31,14 +31,18 @@ import axios from "axios";
 export default {
   data() {
     return {
+      id: null,
       userId: null,
+      createTime: null,
     };
   },
-  props: ["baseURL", "products"],
+  props: ["baseURL"],
   methods: {
     async addCheckin() {
       const newCheckin = {
+        id: null,
         userId: this.userId,
+        createTime: null,
       };
 
       await axios({
@@ -53,9 +57,9 @@ export default {
           //sending the event to parent to handle
           console.log(res);
           this.$emit("fetchData");
-          this.$router.push({ name: "AdminDepartment" });
+          this.$router.push({ name: "Home" });
           swal({
-            text: "Checkin Added Successfully!",
+            text: "User id = " + this.userId + " Checkin OK !",
             icon: "success",
             closeOnClickOutside: false,
           });

@@ -35,13 +35,13 @@ export default {
       departmentId: null,
       name: null,
       departments: [],
-      department: null
+      department: null,
     };
   },
   props: ["baseURL", "products"],
   methods: {
     async addDepartment() {
-      const newProduct = {
+      const newDepartment = {
         id: this.id,
         name: this.name,
       };
@@ -49,7 +49,7 @@ export default {
       await axios({
         method: "post",
         url: "http://localhost:9998/" + "dep/add",
-        data: JSON.stringify(newProduct),
+        data: JSON.stringify(newDepartment),
         headers: {
           "Content-Type": "application/json",
         },
