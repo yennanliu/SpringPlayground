@@ -1,40 +1,42 @@
-<!-- CheckIn.vue -->
-
 <template>
   <div class="container">
-    <h2>Check-In Page</h2>
+    <div class="row">
+      <div class="col-12 text-center">
+        <h4 class="pt-3">Check In</h4>
+      </div>
+    </div>
 
-    <button class="btn btn-primary" @click="addCheckin">Check-In</button>
-    
-    <!-- <div v-if="!isCheckedIn">
-      <button class="btn btn-primary" @click="addCheckin">Check-In</button>
-    </div> -->
-
-    <!-- <div v-else>
-      <p>User {{ userId }} has checked in at {{ checkInTime }}</p>
-    </div> -->
+    <div class="row">
+      <div class="col-3"></div>
+      <div class="col-md-6 px-5 px-md-0">
+        <form>
+          <!-- <div class="form-group">
+              <label>Name</label>
+              <input type="text" class="form-control" v-model="name" required />
+            </div> -->
+          <button type="button" class="btn btn-primary" @click="addCheckin">
+            checkin
+          </button>
+        </form>
+      </div>
+      <div class="col-3"></div>
+    </div>
   </div>
 </template>
-  
-  <script>
+    
+    <script>
 import swal from "sweetalert";
 import axios from "axios";
 
 export default {
   data() {
     return {
-      userId: null, // Replace with the actual user ID
+      userId: null,
     };
   },
+  props: ["baseURL", "products"],
   methods: {
-    // checkIn() {
-    //   // Simulate checking in by setting isCheckedIn to true and capturing the check-in time
-    //   this.isCheckedIn = true;
-    //   this.checkInTime = new Date().toLocaleTimeString();
-    // },
-
     async addCheckin() {
-      console.log(">>> addCheckin start ...");
       const newCheckin = {
         userId: this.userId,
       };
@@ -51,7 +53,7 @@ export default {
           //sending the event to parent to handle
           console.log(res);
           this.$emit("fetchData");
-          this.$router.push({ name: "home" });
+          this.$router.push({ name: "AdminDepartment" });
           swal({
             text: "Checkin Added Successfully!",
             icon: "success",
@@ -61,13 +63,16 @@ export default {
         .catch((err) => console.log(err));
     },
   },
+
+  mounted() {},
 };
 </script>
-  
-  <style scoped>
-.container {
-  max-width: 600px;
-  margin: 50px auto;
+    
+    <style scoped>
+h4 {
+  font-family: "Roboto", sans-serif;
+  color: #484848;
+  font-weight: 700;
 }
 </style>
-  
+    
