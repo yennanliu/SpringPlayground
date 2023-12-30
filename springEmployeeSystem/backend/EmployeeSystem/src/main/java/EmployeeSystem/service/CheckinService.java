@@ -23,14 +23,15 @@ public class CheckinService {
     public List<Checkin> getCheckinByUserId(Integer userId) {
 
         List<Checkin> checkinList = checkinRepository.findAll();
-        return checkinList.stream().filter(x -> {return x.getUserID().equals(userId);}
+        return checkinList.stream().filter(x -> {return x.getUserId().equals(userId);}
         ).collect(Collectors.toList());
     }
 
     public void addCheckin(Integer userID) {
 
+        System.out.println(">>> userID = " + userID);
         Checkin checkin = new Checkin();
-        checkin.setUserID(userID);
+        checkin.setUserId(userID);
         checkin.setCreateTime(new Date());
         checkinRepository.save(checkin);
     }
