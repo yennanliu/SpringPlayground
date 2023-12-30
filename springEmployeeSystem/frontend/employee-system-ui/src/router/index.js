@@ -26,6 +26,9 @@ import ShowTicketDetails from "../views/Ticket/ShowTicketDetails.vue";
 import Ticket from "../views/Ticket/Ticket.vue";
 import AddTicket from "../views/Ticket/AddTicket.vue";
 
+// checkin
+import Checkin from "../views/Checkin/Checkin.vue";
+
 // signin, signup
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
@@ -151,6 +154,13 @@ const routes = [
     name: "AdminTicket",
     component: Ticket,
   },
+
+    // checkin
+    {
+      path: "/checkin",
+      name: "Checkin",
+      component: Checkin,
+    },
 
   //Signin and Signup
   {

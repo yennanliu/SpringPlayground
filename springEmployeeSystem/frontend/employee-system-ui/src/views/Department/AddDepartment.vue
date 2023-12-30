@@ -10,18 +10,6 @@
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
         <form>
-          <!-- <div class="form-group">
-            <label>Category</label>
-            <select class="form-control" v-model="departmentId" required>
-              <option
-                v-for="department of departments"
-                :key="department.id"
-                :value="department.id"
-              >
-                {{ departments.name }}
-              </option>
-            </select>
-          </div> -->
           <div class="form-group">
             <label>Name</label>
             <input type="text" class="form-control" v-model="name" required />
