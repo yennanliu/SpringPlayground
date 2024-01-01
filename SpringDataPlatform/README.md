@@ -81,6 +81,17 @@ bash bin/flink run examples/streaming/TopSpeedWindowing.jar
 
 # stop cluster
 bash bin/stop-cluster.sh
+
+
+# curl upload a jar
+# curl -X POST -H "Expect:" -F "@jarfile=/Users/yennanliu/flink-1.17.2/examples/streaming/StateMachineExample.jar" http://localhost:8081/jars/upload
+
+# https://juejin.cn/s/flink%20rest%20api%20upload%20jar
+
+curl -X POST -H "Expect:" -F "jarfile=@streaming/StateMachineExample.jar" http://localhost:8081/jars/upload
+
+
+curl -X POST -H "Expect:" -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars/upload
 ```
 </details>
 
