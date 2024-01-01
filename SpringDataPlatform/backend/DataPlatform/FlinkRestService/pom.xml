@@ -91,6 +91,19 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!--
+
+        MultipartBody
+
+        https://www.baeldung.com/guide-to-okhttp
+        https://blog.csdn.net/CarloPan/article/details/117321521
+        -->
+<!--        <dependency>-->
+<!--            <groupId>com.squareup.okhttp3</groupId>-->
+<!--            <artifactId>okhttp</artifactId>-->
+<!--            <version>4.12.0</version>-->
+<!--        </dependency>-->
+
     </dependencies>
 
     <build>
