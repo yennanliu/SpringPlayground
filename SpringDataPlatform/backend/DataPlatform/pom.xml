@@ -6,6 +6,7 @@
     <modules>
         <module>SparkRunner</module>
         <module>SparkRestService</module>
+        <module>FlinkRestService</module>
     </modules>
     <parent>
 		<groupId>org.springframework.boot</groupId>

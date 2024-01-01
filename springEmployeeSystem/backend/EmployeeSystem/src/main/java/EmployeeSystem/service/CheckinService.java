@@ -28,7 +28,7 @@ public class CheckinService {
     }
 
     public void addCheckin(Integer userID) {
-        
+
         Checkin checkin = new Checkin();
         checkin.setUserId(userID);
         checkin.setCreateTime(new Date());
