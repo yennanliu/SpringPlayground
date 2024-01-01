@@ -29,6 +29,7 @@ public class StockServiceRedisReentrantLockLua {
 
         // get redis distribution lock
         DistributedRedisLock redisLock = this.distributedLockFactory.getRedisLock("lock");
+        System.out.println(">>> (StockServiceRedisReentrantLockLua.deduct) redisLock = " + redisLock.toString());
         // lock
         redisLock.lock();
 
@@ -51,6 +52,17 @@ public class StockServiceRedisReentrantLockLua {
         } finally {
             redisLock.unlock();
         }
+    }
+
+    // https://youtu.be/vGSAzGKI2H4?si=7KdOWR9r25pvseEz&t=269
+    public void testThreadTestReentrantLock(){
+
+        DistributedRedisLock lock = this.distributedLockFactory.getRedisLock("lock");
+        // lock
+        lock.lock();
+        System.out.println("test ReentrantLock");
+        // unlock
+        lock.unlock();
     }
 
 }

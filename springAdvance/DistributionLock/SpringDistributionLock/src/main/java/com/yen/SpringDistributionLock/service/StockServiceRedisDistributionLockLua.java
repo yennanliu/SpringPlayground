@@ -1,5 +1,6 @@
 package com.yen.SpringDistributionLock.service;
 
+import com.yen.SpringDistributionLock.lock.DistributedRedisLock;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -42,7 +43,6 @@ public class StockServiceRedisDistributionLockLua {
 
         }
         try {
-
             // 1) get stock amount
             String stock = stringRedisTemplate.opsForValue().get("stock").toString();
 

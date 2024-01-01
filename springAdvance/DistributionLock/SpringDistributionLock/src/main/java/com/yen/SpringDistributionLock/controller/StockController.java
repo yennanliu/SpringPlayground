@@ -42,7 +42,9 @@ public class StockController {
         //stockServiceRedisOptimisticLock.deduct();
         //stockServiceRedisDistributionLock.deduct();
         //stockServiceRedisDistributionLockLua.deduct();
+
         stockServiceRedisReentrantLockLua.deduct();
+        stockServiceRedisReentrantLockLua.testThreadTestReentrantLock();
 
         return "Stock already deducted";
     }
