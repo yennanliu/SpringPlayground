@@ -47,6 +47,10 @@ public class StockServiceRedisReentrantLockLua {
                     stringRedisTemplate.opsForValue().set("stock", String.valueOf(amount - 1));
                 }
             }
+
+            // for testing ReentrantLock (可重入鎖)
+            //this.testThreadTestReentrantLock();
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

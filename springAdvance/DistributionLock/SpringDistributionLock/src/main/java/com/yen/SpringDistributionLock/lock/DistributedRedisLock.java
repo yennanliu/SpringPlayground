@@ -110,6 +110,10 @@ public class DistributedRedisLock implements Lock {
 
         // if false, means can't get lock successfully, sleep
         System.out.println(">>> (tryLock) lockName = " + lockName + " uuid = " + this.uuid + " expire time = " + this.expire + " ID = " + getId()) ;
+        Boolean res = stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(this.expire));
+
+        System.out.println("--------> (tryLock) res = " + res);
+
         while (!stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(this.expire))){
             System.out.println("can't get lock, sleep 50 milliseconds");
             Thread.sleep(50);
