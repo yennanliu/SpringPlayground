@@ -1,4 +1,4 @@
-package com.yen.SparkRestService;
+package com.yen.FlinkRestService.SparkRestService;
 
 public class SparkRestServiceApplication {
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package com.yen.SparkRestService.SparkRunner;
+package com.yen.FlinkRestService.SparkRestService.SparkRunner;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.spark.launcher.SparkAppHandle;

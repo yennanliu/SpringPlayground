@@ -1,4 +1,4 @@
-package com.yen.SparkRestService.SparkRunner.sparkPlatform;
+package com.yen.FlinkRestService.SparkRestService.SparkRunner.sparkPlatform;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
