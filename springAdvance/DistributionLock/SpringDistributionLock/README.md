@@ -239,6 +239,12 @@ brew services stop redis
 - [video](https://youtu.be/_v86mnwBVYg?si=LYcF52YbkkBcn8FL&t=233)
 - [video](https://youtu.be/bSScx1TKtFk?si=H34YveIxiwl-zdxi&t=227)
 
+
+### 8) Redisson : Redis Java client (distribution capability)
+
+- https://github.com/redisson/redisson
+- https://github.com/redisson/redisson/wiki/Table-of-Content
+
 ## 10) Ref
 
 - Course
