@@ -56,7 +56,9 @@ public class DistributedRedisLock implements Lock {
 
         this.stringRedisTemplate = stringRedisTemplate;
         this.lockName = lockName;
-        this.uuid =  uuid; //UUID.randomUUID().toString(); // "66-666-666";
+
+        // https://youtu.be/XWq_GRvjJYI?si=_xxJe_uISXpVgU2d&t=714
+        this.uuid = uuid + "-" + Thread.currentThread().getId(); //uuid; //UUID.randomUUID().toString(); // "66-666-666";
     }
 
     @Override
@@ -108,12 +110,12 @@ public class DistributedRedisLock implements Lock {
 //        );
 
         // if false, means can't get lock successfully, sleep
-        System.out.println(">>> (tryLock) lockName = " + lockName + " uuid = " + this.uuid + " expire time = " + this.expire + " ID = " + getId()) ;
-        Boolean res = stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(this.expire));
+        System.out.println(">>> (tryLock) lockName = " + lockName + " uuid = " + this.uuid + " expire time = " + this.expire + " ID = " + this.uuid) ;
+        Boolean res = stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), this.uuid, String.valueOf(this.expire));
 
         System.out.println("--------> (tryLock) res = " + res);
 
-        while (!stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(this.expire))){
+        while (!stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), this.uuid, String.valueOf(this.expire))){
             System.out.println("can't get lock, sleep 50 milliseconds");
             Thread.sleep(50);
             // retry
@@ -139,8 +141,8 @@ public class DistributedRedisLock implements Lock {
         // NOTE !!! DO NOT use Boolean as return type, since nul, 0 are both recognized as false in java
         //          -> use Long type instead
         // https://youtu.be/V5iKz8HPiI4?si=VW4P0Zkp0JvAN_4o&t=1305
-        System.out.println(">>> (unlock) lockName = " + lockName + " uuid = " + uuid + " Id = " + getId());
-        Long flag = this.stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Long.class), Arrays.asList(lockName), getId());
+        System.out.println(">>> (unlock) lockName = " + lockName + " uuid = " + uuid + " Id = " + this.uuid);
+        Long flag = this.stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Long.class), Arrays.asList(lockName), this.uuid);
 
         if (flag == null){
             throw new IllegalMonitorStateException("Unlock failed : this lock is NOT belong to current thread");
@@ -159,12 +161,18 @@ public class DistributedRedisLock implements Lock {
      *
      *  logic : uuid + "-" + threadId
      *
-     *  - https://youtu.be/vGSAzGKI2H4?si=oT-jcFFmFfMIY8tx&t=610
+     *      - https://youtu.be/vGSAzGKI2H4?si=oT-jcFFmFfMIY8tx&t=610
+     *
+     *  update :
+     *      - deal with parent, child thread
+     *      - instead of having getId() method
+     *      -  -> get uuid = uuid + "-" + Thread.currentThread().getId() in constructor directly
+     *      - https://youtu.be/XWq_GRvjJYI?si=AA0ShbGHTE_B9QTI&t=697
      */
-    private String getId() {
-
-        return uuid + "-" + Thread.currentThread().getId();
-    }
+//    private String getId() {
+//
+//        return uuid + "-" + Thread.currentThread().getId();
+//    }
 
     /**
      * renew lock expire time
@@ -185,7 +193,7 @@ public class DistributedRedisLock implements Lock {
                 // if renew expire time success, delay this.expire * 1000 / 3, then renew again (recursive call)
                 // if renew faled, means lock NOT existed anymore, so need to renew, no need to call method again
                 //stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(expire));
-                if (stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(expire))) {
+                if (stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), uuid, String.valueOf(expire))) {
 
                     renewExpireTime();
                 }
