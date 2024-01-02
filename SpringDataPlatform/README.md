@@ -109,6 +109,7 @@ curl -X POST -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:8081 | GET| Flink UI  | |
+| http://localhost:9999/swagger-ui.html | GET| BE api swagger (Flink REST) | |
 | http://localhost:8081/jobs/overview | GET| Get all jobs  | |
 | http://localhost:8081/jobs/<job_id> | GET| Get a job detail | |
 | http://localhost:8081/v1/jars/upload | POST | upload job jar| |
@@ -116,6 +117,9 @@ curl -X POST -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars
 | http://localhost:8081/v1/jars/<id>/run?entry-class=xxx&program-args=xxx| POST | trigger submitted job |
 | http://localhost:8081/v1/<jar_id> | DELETE | delete submitted jar |
 | http://localhost:8081/v1/<jar_id> | GET | cancel a submitted jar |
+
+
+
 
 ## Important Concepts
 

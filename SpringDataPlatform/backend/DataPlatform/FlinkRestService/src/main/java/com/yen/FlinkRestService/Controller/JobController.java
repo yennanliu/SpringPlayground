@@ -1,7 +1,5 @@
 package com.yen.FlinkRestService.Controller;
 
-import com.yen.FlinkRestService.Common.ApiResponse;
-import com.yen.FlinkRestService.Controller.dto.UploadJarDto;
 import com.yen.FlinkRestService.Service.JobService;
 import com.yen.FlinkRestService.model.Job;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +28,6 @@ public class JobController {
 
         Job job = jobService.getJobById(jobId);
         return new ResponseEntity<>(job, HttpStatus.OK);
-    }
-
-    /**
-     *  curl cmd :
-     *
-     *  curl -X POST -H "Expect:" -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars/upload
-     *
-     *  curl -X POST -F "jarfile=@/Users/yennanliu/flink-1.17.2/examples/table/StreamSQLExample.jar" http://localhost:8081/jars/upload
-     */
-    @PostMapping("/add_jar")
-    public ResponseEntity<ApiResponse> addJobJar(@RequestBody UploadJarDto uploadJarDto){
-
-        jobService.addJobJar(uploadJarDto);
-        return new ResponseEntity<>(new ApiResponse(true, "Job jar has been added"), HttpStatus.CREATED);
     }
 
 }

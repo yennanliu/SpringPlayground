@@ -26,15 +26,6 @@ public class JobService {
     @Autowired
     JobRepository jobRepository;
 
-    @Autowired
-    JobJarRepository jobJarRepository;
-
-//    @Autowired
-    private RestTemplate restTemplate;
-
-    // TODO : read from conf
-    private String BASE_URL = "http://localhost:8081/";
-
 
     public List<Job> getJobs() {
         return jobRepository.findAll();
@@ -47,38 +38,6 @@ public class JobService {
         }
         log.warn("No Job with JobId = " + jobId);
         return null;
-    }
-
-    // https://github.com/thestyleofme/flink-api-spring-boot-starter/blob/master/src/main/java/com/github/codingdebugallday/client/app/service/jars/FlinkJarService.java
-    public void addJobJar(UploadJarDto uploadJarDto) {
-
-        log.info("(addJobJar) uploadJarDto = " + uploadJarDto.toString());
-
-        MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
-        bodyMap.add("jarfile", new FileSystemResource(uploadJarDto.getJarFile()));
-
-        restTemplate = new RestTemplate();
-
-        HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Expect", "");
-
-        // create request
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-        //HttpEntity<String> request = new HttpEntity<String>(uploadJarDto.toString(), headers);
-        log.info("(addJobJar) requestEntity = " + requestEntity);
-
-        // send request to Flink REST api
-        //restTemplate.postForObject(BASE_URL+"/jars/upload", request, String.class);
-        // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplate.exchange(BASE_URL+"/jars/upload", HttpMethod.POST, requestEntity, String.class);
-
-        // save jar info to DB
-        JobJar jobjar = new JobJar();
-        jobjar.setFileName(uploadJarDto.getJarFile());
-        jobjar.setStatus("success"); // TODO : error handling
-        jobjar.setUploadTime(new Date());
-        jobJarRepository.save(jobjar);
     }
 
 }
