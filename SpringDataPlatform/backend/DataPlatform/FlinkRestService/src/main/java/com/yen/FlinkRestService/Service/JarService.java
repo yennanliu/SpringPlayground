@@ -1,8 +1,9 @@
 package com.yen.FlinkRestService.Service;
 
-import com.yen.FlinkRestService.Controller.dto.UploadJarDto;
+import com.yen.FlinkRestService.model.dto.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.model.JobJar;
+import com.yen.FlinkRestService.util.RestTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -15,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.util.Date;
 
 @Slf4j
@@ -30,29 +32,42 @@ public class JarService {
     // TODO : read from conf
     private String BASE_URL = "http://localhost:8081/";
 
+    // constructor
+    JarService(){
+        this.restTemplate = new RestTemplate();
+    }
+
     // https://github.com/thestyleofme/flink-api-spring-boot-starter/blob/master/src/main/java/com/github/codingdebugallday/client/app/service/jars/FlinkJarService.java
     public void addJobJar(UploadJarDto uploadJarDto) {
 
-        log.info("(addJobJar) uploadJarDto = " + uploadJarDto.toString());
+        System.out.println(">>> uploadJarDto = " + uploadJarDto.toString());
 
+        // Set the URL
+        String url = "http://localhost:8081/jars/upload";
+
+        // Set the file path
+
+        // Create a MultiValueMap to hold the file and headers
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
+        //bodyMap.add("jarfile", new FileSystemResource(filePath));
         bodyMap.add("jarfile", new FileSystemResource(uploadJarDto.getJarFile()));
 
-        restTemplate = new RestTemplate();
-
+        // Create headers with "Expect" set to an empty string
         HttpHeaders headers = new HttpHeaders();
-        //headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("Expect", "");
+        //headers.set("Expect", "");
 
-        // create request
+        // Create the request entity with headers and body
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-        //HttpEntity<String> request = new HttpEntity<String>(uploadJarDto.toString(), headers);
-        log.info("(addJobJar) requestEntity = " + requestEntity);
 
-        // send request to Flink REST api
-        //restTemplate.postForObject(BASE_URL+"/jars/upload", request, String.class);
+        // Create a RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+
         // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplate.exchange(BASE_URL+"/jars/upload", HttpMethod.POST, requestEntity, String.class);
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        // Print the response status code and body
+        System.out.println("Response Status Code: " + responseEntity.getStatusCode());
+        System.out.println("Response Body: " + responseEntity.getBody());
 
         // save jar info to DB
         JobJar jobjar = new JobJar();
