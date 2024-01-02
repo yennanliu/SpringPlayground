@@ -74,12 +74,19 @@ public class JobService {
 
         // Make the HTTP POST request
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
-        
+
         // Print the response status code and body
         System.out.println("Response Status Code: " + responseEntity.getStatusCode());
         System.out.println("Response Body: " + responseEntity.getBody());
 
+        //String x = responseEntity.getBody();
         // save to DB
-
+        Job job = new Job();
+        job.setJobId(responseEntity.getBody()); // TODO : get jobId value only
+        job.setName(jobSubmitDto.getJarId());
+        job.setStartTime( System.currentTimeMillis()); // TODO : double check
+        System.out.println("job = " + job);
+        jobRepository.save(job);
     }
+
 }
