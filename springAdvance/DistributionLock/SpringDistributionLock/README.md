@@ -162,19 +162,32 @@ brew services stop redis
 
 ### 5) Distribution lock
 
-- Implementation way
-  - with Redis
-  - with ZK (zookeeper or etcd)
-  - with MySQL
+- Implementation:
+
+  - with `Redis`
+    - V1: `setnx` : 獨佔排他, 死鎖, 不可重入, 原子性
+    - V2: `set k v 30 nx` : 獨佔排他, 死鎖, 不可重入
+    - V3: hash + lua script : 可重入鎖 (preferable)
+      - step 1: check if lock is owned (exists), if not, then get lock (hset/hincrby) and set expire time
+      - step 2: if lock is owned, retry
+      - step 3: if get lock failed, retry
+      - [code](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/lock/DistributedRedisLock.java)
+
+  - with `ZK (zookeeper or etcd)`
+
+  - with `MySQL`
+
+### 6) Distribution lock (`Redis`)
 
 - Features
-  - exclusive(獨佔排他使用)
+  - [summary](https://youtu.be/LCxDMbnU_M0?si=tZ6As-xkdoFwgGIu&t=120)
+  - a) exclusive(獨佔排他使用)
     - Redis :
-      - lock : setnx
-      - unlock : del
+      - lock cmd : `setnx`
+      - unlock cmd : `del`
       - retry : recursion call or while loop
         - [code](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/service/StockServiceRedisDistributionLock.java)
-  - 原子性 (ATOM, Atomicity)
+  - b) 原子性 (ATOM, Atomicity)
     - https://youtu.be/h_thAi4SCEQ?si=f1spko6XNuhX6TKx&t=548
     - make sure ATOM when `get lock` and `set up expire time`
     - redis cmd : `set <key> <value> ex <expire_time> nx`
@@ -182,10 +195,10 @@ brew services stop redis
     - however, need to make sure ATOM within `check same lock` and `release lock`
         - -> use `Lua script` (redis default script language) (can send multiple cmd to redis at once)
         - [lua code cmd](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/lua_cmd.lua)
-  - 防誤刪
+  - c) 防誤刪
     - Only thread which receive lock can unlock it
     - UUID + check first, then delete
-  - 可重入性
+  - d) 可重入性
     - JUC (java concurrency) ReentrantLock
       - `Lock Steps`: ReentrantLock.lock() -> NonFairSync.lock() -> AQS.acquire() -> NonFairSync.tryAcquire(1) ->  sync.NonFairTryAcquire(1)
         - 1. CAS gets lock, if not one owns lock (state==0), gets lock success, record which thread acquires lock (2 op)
@@ -196,14 +209,18 @@ brew services stop redis
         - 2. state-=1, check if state==0, if true, unlock success, return true
         - 3. if false, unlock failed, return false
       - Implementation : Redis Hash data structure + Lua script
+        - Id = UUID + thread-id (key field value)
         - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_reentrantLock_lua.sql)
         - https://youtu.be/V-OREDbG2UA?si=eh_tFgXkNRd8woOP
+        - Id = UUID + thread-id
     - https://youtu.be/zt-qeYfQvJc?si=cGPlfxi9AGqOPiXq&t=282
-  - 自動續期
+  - e) 自動續期
+    - timer + lua script
+    - [sql](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/redis_auto_renew_expire_time_lua.sql)
     - automatically refresh lock expire time
     - to avoid if lock expired before op code completed
 
-## 6) Ref
+## 7) Ref
 
 - Course
     - Video
