@@ -1,12 +1,11 @@
 package com.yen.SpringDistributionLock.lock;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
-import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
-import java.util.UUID;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -162,9 +161,38 @@ public class DistributedRedisLock implements Lock {
      *
      *  - https://youtu.be/vGSAzGKI2H4?si=oT-jcFFmFfMIY8tx&t=610
      */
-    private String getId(){
+    private String getId() {
 
         return uuid + "-" + Thread.currentThread().getId();
     }
+
+    /**
+     * renew lock expire time
+     * - https://youtu.be/XWq_GRvjJYI?si=FM8_jL6qA3afTYzP&t=30
+     */
+    private void renewExpireTime() {
+
+        String luaScript = "if redis.call('HEXISTS', KEYS[1], ARGV[1]) == 1 " +
+                "then "
+                + "return redis.call('EXPIRE', KEYS[1],  ARGV[2]) " +
+                "else return 0 " +
+                "end";
+
+        // periodically run (定時任務) : run every one third period of expire time
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                // if renew expire time success, delay this.expire * 1000 / 3, then renew again (recursive call)
+                // if renew faled, means lock NOT existed anymore, so need to renew, no need to call method again
+                //stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(expire));
+                if (stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(expire))) {
+
+                    renewExpireTime();
+                }
+            }
+        }, this.expire * 1000 / 3);
+
+    }
+
 
 }
