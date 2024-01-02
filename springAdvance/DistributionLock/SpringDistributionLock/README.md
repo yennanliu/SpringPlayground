@@ -143,6 +143,7 @@ brew services stop redis
   - pros
   - cons
     - low performance
+
 - Distribution lock
   - cases
     - over sales
@@ -165,13 +166,24 @@ brew services stop redis
 - Implementation:
 
   - with `Redis`
-    - V1: `setnx` : 獨佔排他, 死鎖, 不可重入, 原子性
-    - V2: `set k v 30 nx` : 獨佔排他, 死鎖, 不可重入
-    - V3: hash + lua script : 可重入鎖 (preferable)
-      - step 1: check if lock is owned (exists), if not, then get lock (hset/hincrby) and set expire time
-      - step 2: if lock is owned, retry
-      - step 3: if get lock failed, retry
-      - [code](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/lock/DistributedRedisLock.java)
+    - [video](https://youtu.be/LCxDMbnU_M0?si=QiAdiFj2Q2t3lGVB&t=510)
+    - LOCK
+      - V1: `setnx` : 獨佔排他, 死鎖, 不可重入, 原子性
+      - V2: `set k v 30 nx` : 獨佔排他, 死鎖, 不可重入
+      - `V3: hash + lua script : 可重入鎖` (preferable) ******
+        - step 1: check if lock is owned (exists), if not, then get lock (hset/hincrby) and set expire time
+        - step 2: if lock is owned, check if owned by current thread (hexists), if true, then 重入  (hincrby), and update expire time (expire)
+        - step 3: if above is false, then get lock failed, retry
+        - [code](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/lock/DistributedRedisLock.java)
+      - `V4: timer定時器 + Lua script + lock expire time auto renew`
+        - check if current thread's lock (hexists=1), if true, renew expire time
+      - UNLOCK
+        - V1: `del` : 導致誤刪
+        - V2: check, then delete and make sure ATOM : Lua script
+        - `V3: hash + Lua script : 可重入` (preferable) ******
+          - step 1: check if current thread's lock existed, if not, return nil, throw exception
+          - step 2: if existed, (hincrby-1), check if hincrby-1 == 0, if yes, release lock, return true
+          - step 3: if above is false, return false
 
   - with `ZK (zookeeper or etcd)`
 
