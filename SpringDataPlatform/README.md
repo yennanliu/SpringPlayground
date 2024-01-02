@@ -101,6 +101,22 @@ curl -X POST -H "Expect:" -F "jarfile=@streaming/StateMachineExample.jar" http:/
 curl -X POST -H "Expect:" -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars/upload
 
 curl -X POST -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars/upload
+
+
+# submit job
+# https://stackoverflow.com/questions/54348050/flink-rest-api-error-request-did-not-match-expected-format-jarrunrequestbody
+curl -X POST -H 'Content-Type: application/json' --data '
+{
+  "programArgsList" : [
+    "--input-job-name",
+    "StreamSQLExample"
+  ],
+"parallelism": 30
+}
+' http://localhost:8081/jars/927a9fac-c7bf-48cd-b1b8-b4e536449eb0_StreamSQLExample.jar/run
+
+
+curl -X POST -H 'Content-Type: application/json' http://localhost:8081/jars/927a9fac-c7bf-48cd-b1b8-b4e536449eb0_StreamSQLExample.jar/run
 ```
 </details>
 
