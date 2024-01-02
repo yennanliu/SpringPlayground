@@ -232,7 +232,14 @@ brew services stop redis
     - automatically refresh lock expire time
     - to avoid if lock expired before op code completed
 
-## 7) Ref
+
+### 7) RedLock algorithm (Redis) (紅鎖算法)
+
+- deal with lock failure in redis cluster (node1, node2 .. ) (no master-slave relation)
+- [video](https://youtu.be/_v86mnwBVYg?si=LYcF52YbkkBcn8FL&t=233)
+- [video](https://youtu.be/bSScx1TKtFk?si=H34YveIxiwl-zdxi&t=227)
+
+## 10) Ref
 
 - Course
     - Video
