@@ -33,11 +33,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-    //   id: null,
-    //   fileName: null,
-    //   status: null,
-    //   uploadTime: null,
-    jar: {}
+      jar: {},
     };
   },
   props: ["baseURL", "jars"],
