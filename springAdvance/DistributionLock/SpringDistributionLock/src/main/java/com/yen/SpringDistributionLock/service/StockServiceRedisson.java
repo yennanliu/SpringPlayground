@@ -7,13 +7,14 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Redis Lock with client library (Redisson)
  * <p>
- * <p>
- * <p>
  * - https://youtu.be/ynJQouCae4I?si=yAxtOEJ1ZCPHGLpk&t=570
+ * <p>
+ * - https://youtu.be/Sld_bKriREo?si=LV3gX_JzsFIUyw7G&t=556
  */
 @Service
 public class StockServiceRedisson {
@@ -31,6 +32,9 @@ public class StockServiceRedisson {
 
         // lock
         lock.lock();
+        // https://youtu.be/Sld_bKriREo?si=syTRREvTmv8Y5VpN&t=620
+        // auto release lock after 10 sec,  so no need to relase lock
+        //lock.lock(10, TimeUnit.SECONDS);
 
         try {
 
