@@ -39,6 +39,9 @@ public class StockController {
     @Autowired
     StockServiceRedissonFairLock stockServiceRedissonFairLock;
 
+    @Autowired
+    StockServiceRedissonReadWriteLock stockServiceRedissonReadWriteLock;
+
     @GetMapping("stock/deduct")
     public String deduct(){
 
@@ -64,6 +67,30 @@ public class StockController {
 
         stockServiceRedissonFairLock.testFairLock(id);
         return "Test Fair Lock";
+    }
+
+
+    /**
+     *  Endpoint for testing Redisson ReadLock
+     *   - https://youtu.be/T___uj6PolA?si=dmrd6x4LPzBGzHWA&t=377
+     */
+    @GetMapping("test/read/lock")
+    public String testReadLock(){
+
+        stockServiceRedissonReadWriteLock.testReadLock();
+        return "Test Read Lock";
+    }
+
+
+    /**
+     *  Endpoint for testing Redisson write Lock
+     *   - https://youtu.be/T___uj6PolA?si=2NaBUHcdLzC6fuTD&t=403
+     */
+    @GetMapping("test/write/lock")
+    public String testWriteLock(){
+
+        stockServiceRedissonReadWriteLock.testWriteLock();
+        return "Test Write Lock";
     }
 
 }
