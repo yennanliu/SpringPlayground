@@ -15,4 +15,5 @@ public interface ProductService extends IService<Product> {
 
     List<ProductDto> getProductDtoListFromProductList(List<Product> productList);
 
+    void deduct(Integer id);
 }

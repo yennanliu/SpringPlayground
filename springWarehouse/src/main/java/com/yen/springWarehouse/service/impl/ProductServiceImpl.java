@@ -1,6 +1,7 @@
 package com.yen.springWarehouse.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -29,6 +30,9 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
 
     @Autowired
     ProductTypeMapper productTypeMapper;
+
+    @Autowired
+    ProductMapper productMapper;
 
     @Autowired
     MerchantService merchantService;
@@ -92,6 +96,27 @@ public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> impl
         ).collect(Collectors.toList());
 
         return productDtoList;
+    }
+
+    @Override
+    public void deduct(Integer id) {
+
+        /** V1 */
+        System.out.println(">>> id = " + id);
+        Product product = productMapper.selectById(id);
+        System.out.println(">>> product = " + product);
+        int amount = product.getAmount();
+
+//        product.setAmount(amount-1);
+//        UpdateWrapper<Product> wrapper = new UpdateWrapper<>(product);
+//        // TODO : check why productMapper CAN'T update with UpdateWrapper
+//        //productMapper.update(product, wrapper); //baseMapper.update(product, wrapper);
+//        productMapper.updateById(product);
+
+        /** V2 : use Mysql lock deal with cluster deployment */
+
+        productMapper.updateProductCount(product.getId(), 1);
+        System.out.println(">>> product = " + product);
     }
 
 }

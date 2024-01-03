@@ -18,6 +18,8 @@ ARCHITECTURE :
 - V1
 <p align="center"><img src ="./doc/pic/SpringWareHouse.svg"></p>
 
+- V2
+  - Cluster mode with Nginx
 
 [Demo](http://43.206.107.101:7777/)
 
@@ -70,7 +72,41 @@ ARCHITECTURE :
 mvn package
 
 # run
-java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
+# https://blog.csdn.net/G971005287W/article/details/114879972
+java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar --server.port=7777
+java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar --server.port=7778
+
+#---------------------------  
+# Run nginx  
+#---------------------------  
+  
+# https://github.com/yennanliu/utility_shell/blob/master/nginx/install_nginx.sh  
+# http://localhost:8080/  
+  
+# start  
+brew services start nginx  
+  
+# stop  
+brew services stop nginx
+
+
+#---------------------------  
+# Other cmd
+#---------------------------  
+
+# reload nginx config
+nginx -s reload
+
+# kill progress uses port
+lsof -i :<port>
+kill <pid>
+
+# pressure testing - jmeter
+cd apache-jmeter-5.6.2  
+bash bin/jmeter
+
+# curl
+curl  http://localhost:7777/productType/list?pageNoStr=1
 ```
 
 </details>
@@ -148,10 +184,15 @@ nohup java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar &
 
 ## API
 
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| http://localhost:7777/ | Get | Home page || |
-| http://localhost:7777/swagger-ui/index.html | Get | API doc page || |
+| API                                                 | Type          | Purpose | Example cmd | Comment|
+|-----------------------------------------------------|---------------| ---- | ----- | ---- |
+| http://localhost:7777/                              | Get           | Home page || |
+| http://localhost:7777/swagger-ui/index.html         | Get           | API doc page || |
+| http://localhost:7777/test/type                     | test endpoint | | |
+| http://localhost:7777/test/prod                     | test endpoint | | |
+| http://localhost:7777/test/prod/deduct/{product_id} | test endpoint | | |
+| http://localhost:8080/                              | Nginx endpoint | | |
+
 
 ## Important Concepts
 
