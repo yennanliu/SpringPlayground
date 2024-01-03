@@ -83,10 +83,11 @@ brew services stop redis
 
 ## API
 
-| API                                | Type                             | Purpose | Example cmd | Comment|  
-|------------------------------------|----------------------------------| ---- | ----- | ---- |  
-| http://localhost:7777/stock/deduct | lock test endpoint               | | |
-| http://localhost:8080/stock/deduct   | Nginx endpoint | | |
+| API                                | Type                                     | Purpose | Example cmd | Comment|  
+|------------------------------------|------------------------------------------| ---- | ----- | ---- |  
+| http://localhost:7777/stock/deduct | lock test endpoint                       | | |
+| http://localhost:8080/stock/deduct   | Nginx endpoint                           | | |
+| http://localhost:8080/test/fair/lock/{id}   | test Redisson Fair lock (Nignx endpoint) | | |
 
 
 ## Important Concepts
