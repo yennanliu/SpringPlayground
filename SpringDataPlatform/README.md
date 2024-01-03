@@ -149,7 +149,7 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:8081/jars/927a
 }
 
 {
-  "jarFile": "/Users/yennanliu/flink-1.17.2/examples/streaming/WordCount.jar"
+  "jarFile": "/Users/yennanliu/flink-1.17.2/examples/streaming/TopSpeedWindowing.jar"
 }
 
 

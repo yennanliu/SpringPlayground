@@ -1,0 +1,44 @@
+# data-platform-ui
+
+## project init
+```bash
+# V1) start from create null project
+
+cd springDataPlatform/frontend
+
+# init project
+# (choose vue 2)
+vue create data-platform-ui
+
+#  Run the following command in your command line to install the Vue router in your system
+vue add router
+
+# Axios is a popular, promise-based HTTP client that sports an easy-to-use API and can be used in both the browser and Node
+npm install --save axios
+
+npm install --save sweetalert
+```
+
+
+## Project setup
+```
+npm install
+```
+
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
