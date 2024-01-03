@@ -25,49 +25,49 @@ public class StockServiceRedissonFairLock {
     @Autowired
     private RedissonClient redissonClient;
 
-    public void deduct() {
-
-        // get lock
-        RLock lock = redissonClient.getLock("lock");
-
-        // lock
-        lock.lock();
-
-        try {
-
-            // 1) get stock amount
-            String stock = stringRedisTemplate.opsForValue().get("stock").toString();
-
-            // 2) check if stock is enough
-            if (stock != null && stock.length() != 0) {
-
-                Integer amount = Integer.valueOf(stock);
-
-                // 3) update stock to DB
-                if (amount > 0) {
-
-                    stringRedisTemplate.opsForValue().set("stock", String.valueOf(amount - 1));
-                }
-            }
-
-            this.testThreadTestReentrantLock();
-
-        } finally {
-            // unlock
-            lock.unlock();
-        }
-    }
-
-
-    public void testThreadTestReentrantLock(){
-
-        RLock lock = this.redissonClient.getLock("lock");
-        // lock
-        lock.lock();
-        System.out.println("(Redisson) test ThreadTestReentrantLock");
-        // unlock
-        lock.unlock();
-    }
+//    public void deduct() {
+//
+//        // get lock
+//        RLock lock = redissonClient.getLock("lock");
+//
+//        // lock
+//        lock.lock();
+//
+//        try {
+//
+//            // 1) get stock amount
+//            String stock = stringRedisTemplate.opsForValue().get("stock").toString();
+//
+//            // 2) check if stock is enough
+//            if (stock != null && stock.length() != 0) {
+//
+//                Integer amount = Integer.valueOf(stock);
+//
+//                // 3) update stock to DB
+//                if (amount > 0) {
+//
+//                    stringRedisTemplate.opsForValue().set("stock", String.valueOf(amount - 1));
+//                }
+//            }
+//
+//            this.testThreadTestReentrantLock();
+//
+//        } finally {
+//            // unlock
+//            lock.unlock();
+//        }
+//    }
+//
+//
+//    public void testThreadTestReentrantLock(){
+//
+//        RLock lock = this.redissonClient.getLock("lock");
+//        // lock
+//        lock.lock();
+//        System.out.println("(Redisson) test ThreadTestReentrantLock");
+//        // unlock
+//        lock.unlock();
+//    }
 
     /**
      *
