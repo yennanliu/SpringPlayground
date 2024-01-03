@@ -2,17 +2,17 @@
   <div class="card h-100 w-100">
     <div class="card-body">
       <div class="card-header">
-        <router-link :to="{ name: 'showJarDetails', params: { id: jar.id } }">
+        <router-link :to="{ name: 'ShowJarDetails', params: { id: jar.id } }">
           <h5 class="card-title">{{ jar.name }}</h5>
         </router-link>
-        <router-link
+        <!-- <router-link
           id="edit-jar"
           :to="{ name: 'EditJar', params: { id: jar.id } }"
           v-show="$route.name == 'AdminJar'"
           class="edit-link"
         >
           Edit
-        </router-link>
+        </router-link> -->
       </div>
     </div>
   </div>

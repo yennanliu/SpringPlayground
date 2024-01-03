@@ -5,6 +5,7 @@ import HomeView from "../views/HomeView.vue";
 // jar
 import Jar from "../views/Jar/Jar.vue";
 import ListJar from "../views/Jar/ListJar.vue";
+import ShowJarDetails from "../views/Jar/ShowJarDetails.vue";
 
 Vue.use(VueRouter);
 
@@ -31,6 +32,11 @@ const routes = [
     path: "/jars/",
     name: "ListJar",
     component: ListJar,
+  },
+  {
+    path: "/jars/show/:id",
+    name: "ShowJarDetails",
+    component: ShowJarDetails,
   },
 ];
 
