@@ -15,14 +15,15 @@ This system is for internal operation users. offers product, merchant, and order
 
 ARCHITECTURE :
 
-- V1
+- V1 : single node mode
 <p align="center"><img src ="./doc/pic/SpringWareHouse.svg"></p>
 
 
-- V2
-<p align="center"><img src ="./doc/pic/SpringWareHouse_V2.svg"></p>
+- V2 : cluster mode
 
-[branch](https://github.com/yennanliu/SpringPlayground/tree/warehouse-dev-007-cluster-niginx)
+[cluster mode branch](https://github.com/yennanliu/SpringPlayground/tree/warehouse-dev-007-cluster-niginx)
+
+<p align="center"><img src ="./doc/pic/SpringWareHouse_V2.svg"></p>
 
 
 [Demo](http://43.206.107.101:7777/)
