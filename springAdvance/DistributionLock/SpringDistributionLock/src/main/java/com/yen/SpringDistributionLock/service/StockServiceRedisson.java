@@ -1,5 +1,6 @@
 package com.yen.SpringDistributionLock.service;
 
+import com.yen.SpringDistributionLock.lock.DistributedRedisLock;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,10 +54,27 @@ public class StockServiceRedisson {
                 }
             }
 
+            this.testThreadTestReentrantLock();
+
+//            // https://youtu.be/su4F77h0mSE?si=hHThlUfEa_oJSRRx&t=399
+//            TimeUnit.SECONDS.sleep(1000);
+//        } catch (InterruptedException e) {
+//            throw new RuntimeException(e);
         } finally {
             // unlock
             lock.unlock();
         }
+    }
+
+
+    public void testThreadTestReentrantLock(){
+
+        RLock lock = this.redissonClient.getLock("lock");
+        // lock
+        lock.lock();
+        System.out.println("(Redisson) test ThreadTestReentrantLock");
+        // unlock
+        lock.unlock();
     }
 
 }
