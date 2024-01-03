@@ -4,6 +4,7 @@ import HomeView from "../views/HomeView.vue";
 
 // jar
 import Jar from "../views/Jar/Jar.vue";
+import ListJar from "../views/Jar/ListJar.vue";
 
 Vue.use(VueRouter);
 
@@ -20,11 +21,16 @@ const routes = [
       import(/* webpackChunkName: "about" */ "../views/AboutView.vue"),
   },
 
-  // jart
+  // jar
   {
-    path: "/jars",
+    path: "/jar",
     name: "Jar",
     component: Jar,
+  },
+  {
+    path: "/jars/",
+    name: "ListJar",
+    component: ListJar,
   },
 ];
 
