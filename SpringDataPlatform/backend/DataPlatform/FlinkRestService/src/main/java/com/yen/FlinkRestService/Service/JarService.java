@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -75,6 +76,20 @@ public class JarService {
         jobjar.setStatus("success"); // TODO : error handling
         jobjar.setUploadTime(new Date());
         jobJarRepository.save(jobjar);
+    }
+
+    public List<JobJar> getJars() {
+
+        return jobJarRepository.findAll();
+    }
+
+    public JobJar getJarByJobId(Integer jobJarId){
+
+        if (jobJarRepository.findById(jobJarId).isPresent()){
+            return jobJarRepository.findById(jobJarId).get();
+        }
+        log.warn("No Job jar with jobJarId = " + jobJarId);
+        return null;
     }
 
 }
