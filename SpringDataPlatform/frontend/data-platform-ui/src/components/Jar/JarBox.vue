@@ -3,7 +3,7 @@
     <div class="card-body">
       <div class="card-header">
         <router-link :to="{ name: 'ShowJarDetails', params: { id: jar.id } }">
-          <h5 class="card-title">{{ jar.name }}</h5>
+          <h5 class="card-title">{{ jar.fileName }}</h5>
         </router-link>
         <!-- <router-link
           id="edit-jar"

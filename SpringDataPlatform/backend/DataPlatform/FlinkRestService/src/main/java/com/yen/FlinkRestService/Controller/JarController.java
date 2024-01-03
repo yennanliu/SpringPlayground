@@ -35,7 +35,7 @@ public class JarController {
     }
 
     @GetMapping("/{jobJarId}")
-    public ResponseEntity<JobJar> getJobJarById(Integer jobJarId) {
+    public ResponseEntity<JobJar> getJobJarById(@PathVariable("jobJarId") Integer jobJarId) {
 
 
         JobJar jobJar = jarService.getJarByJobId(jobJarId);

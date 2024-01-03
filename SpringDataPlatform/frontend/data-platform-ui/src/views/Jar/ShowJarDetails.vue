@@ -33,10 +33,11 @@ import axios from "axios";
 export default {
   data() {
     return {
-      id: null,
-      fileName: null,
-      status: null,
-      uploadTime: null,
+    //   id: null,
+    //   fileName: null,
+    //   status: null,
+    //   uploadTime: null,
+    jar: {}
     };
   },
   props: ["baseURL", "jars"],
@@ -45,6 +46,7 @@ export default {
       await axios
         .get(`http://localhost:9999/jar/${this.$route.params.id}`)
         .then((res) => {
+          console.log("${this.$route.params.id} = " + this.$route.params.id);
           this.jar = res.data;
           console.log(">>> (getJar) this.jar = " + JSON.stringify());
         })
