@@ -19,6 +19,12 @@ ARCHITECTURE :
 <p align="center"><img src ="./doc/pic/SpringWareHouse.svg"></p>
 
 
+- V2
+<p align="center"><img src ="./doc/pic/SpringWareHouse_V2.svg"></p>
+
+[branch](https://github.com/yennanliu/SpringPlayground/tree/warehouse-dev-007-cluster-niginx)
+
+
 [Demo](http://43.206.107.101:7777/)
 
 ## Technology
