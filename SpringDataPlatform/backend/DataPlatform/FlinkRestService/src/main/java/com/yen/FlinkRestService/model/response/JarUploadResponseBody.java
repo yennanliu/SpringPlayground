@@ -1,4 +1,4 @@
-package com.yen.FlinkRestService.model;
+package com.yen.FlinkRestService.model.response;
 
 import java.util.List;
 

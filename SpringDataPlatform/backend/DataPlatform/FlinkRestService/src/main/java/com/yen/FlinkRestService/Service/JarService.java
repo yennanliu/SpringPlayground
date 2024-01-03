@@ -3,7 +3,6 @@ package com.yen.FlinkRestService.Service;
 import com.yen.FlinkRestService.model.dto.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.model.JobJar;
-import com.yen.FlinkRestService.util.RestTemplateUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -16,7 +15,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
 import java.util.Date;
 import java.util.List;
 

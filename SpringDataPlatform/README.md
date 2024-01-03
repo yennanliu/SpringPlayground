@@ -148,12 +148,25 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:8081/jars/927a
   "jarFile": "/Users/yennanliu/flink-1.17.2/examples/table/StreamSQLExample.jar"
 }
 
+{
+  "jarFile": "/Users/yennanliu/flink-1.17.2/examples/streaming/WordCount.jar"
+}
+
 
 # Submit flink job with jar id
 {
   "allowNonRestoredState": true,
   "entryClass": "string",
   "jarId": "6219018d-42ed-4d68-bff7-bfc60b7d20c3_StreamSQLExample.jar",
+  "parallelism": 1,
+  "programArgs": "string",
+  "savePointPath": "string"
+}
+
+{
+  "allowNonRestoredState": true,
+  "entryClass": "string",
+  "jarId": "e0b02137-f5f1-49da-a734-04c43da5208e_WordCount.jar",
   "parallelism": 1,
   "programArgs": "string",
   "savePointPath": "string"

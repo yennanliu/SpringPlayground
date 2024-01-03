@@ -1,8 +1,10 @@
 package com.yen.FlinkRestService.Service;
 
+import com.alibaba.fastjson2.JSON;
 import com.yen.FlinkRestService.Repository.JobRepository;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.dto.JobSubmitDto;
+import com.yen.FlinkRestService.model.response.JobSubmitResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -10,8 +12,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -39,17 +39,13 @@ public class JobService {
 
     public void addJob(JobSubmitDto jobSubmitDto) {
 
-        System.out.println("jobSubmitDto = " + jobSubmitDto.toString());
+        log.info("jobSubmitDto = " + jobSubmitDto.toString());
 
-        // call Flink REST endpoint
         // Set the URL
         String baseUrl = "http://localhost:8081/jars/"; //"http://localhost:8081/jars/{projectId}/run";
         String projectId = jobSubmitDto.getJarId(); //"yourProjectId"; // Replace with the actual project ID
 
         String url = baseUrl + jobSubmitDto.getJarId() + "/run";
-        // Create the request URL with path variables
-        //String url = baseUrl.replace("{projectId}", projectId);
-
         System.out.println("url = " + url);
 
         // Set the query parameters
@@ -76,13 +72,14 @@ public class JobService {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
 
         // Print the response status code and body
-        System.out.println("Response Status Code: " + responseEntity.getStatusCode());
-        System.out.println("Response Body: " + responseEntity.getBody());
+        // https://www.runoob.com/w3cnote/fastjson-intro.html
+        JobSubmitResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobSubmitResponse.class);
+        log.info("Response Status Code: " + responseEntity.getStatusCode());
+        System.out.println("jobSubmitResponse : " +jobSubmitResponse.toString());
 
-        //String x = responseEntity.getBody();
         // save to DB
         Job job = new Job();
-        job.setJobId(responseEntity.getBody()); // TODO : get jobId value only
+        job.setJobId(jobSubmitResponse.getJobid());
         job.setName(jobSubmitDto.getJarId());
         job.setStartTime( System.currentTimeMillis()); // TODO : double check
         System.out.println("job = " + job);
