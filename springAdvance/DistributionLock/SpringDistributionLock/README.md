@@ -90,7 +90,7 @@ brew services stop redis
 | http://localhost:8080/test/fair/lock/{id} | test Redisson Fair lock (Nignx endpoint) | | |
 | http://localhost:8080/test/read/lock      | test Redisson read lock (Nignx endpoint) | | |
 | http://localhost:8080/test/write/lock     | test Redisson write lock (Nignx endpoint) | | |
-
+| http://localhost:8080/test/semaphore    | test Redisson write lock (Nignx endpoint) | | |
 
 
 ## Important Concepts

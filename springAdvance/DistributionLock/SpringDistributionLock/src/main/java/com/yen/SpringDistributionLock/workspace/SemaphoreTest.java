@@ -32,7 +32,7 @@ public class SemaphoreTest {
 
                     // release resource
                     semaphore.release();
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

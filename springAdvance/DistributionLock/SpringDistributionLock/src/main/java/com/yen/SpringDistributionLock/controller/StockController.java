@@ -42,6 +42,9 @@ public class StockController {
     @Autowired
     StockServiceRedissonReadWriteLock stockServiceRedissonReadWriteLock;
 
+    @Autowired
+    StockServiceSemaphore stockServiceSemaphore;
+
     @GetMapping("stock/deduct")
     public String deduct(){
 
@@ -91,6 +94,18 @@ public class StockController {
 
         stockServiceRedissonReadWriteLock.testWriteLock();
         return "Test Write Lock";
+    }
+
+    /**
+     *  Test Distribution Semaphore with redis
+     *
+     *   - https://youtu.be/LHd8_ATmBD8?si=-yzFQ85oGTB0GOZN&t=571
+     */
+    @GetMapping("test/semaphore")
+    public String testSemaphore(){
+
+        stockServiceSemaphore.testSemaphore();
+        return "Test Semaphore";
     }
 
 }
