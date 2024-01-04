@@ -83,14 +83,17 @@ brew services stop redis
 
 ## API
 
-| API                                       | Type                                     | Purpose | Example cmd | Comment|  
-|-------------------------------------------|------------------------------------------| ---- | ----- | ---- |  
-| http://localhost:7777/stock/deduct        | lock test endpoint                       | | |
-| http://localhost:8080/stock/deduct        | Nginx endpoint                           | | |
-| http://localhost:8080/test/fair/lock/{id} | test Redisson Fair lock (Nignx endpoint) | | |
-| http://localhost:8080/test/read/lock      | test Redisson read lock (Nignx endpoint) | | |
+| API                                       | Type                                      | Purpose | Example cmd | Comment|  
+|-------------------------------------------|-------------------------------------------| ---- | ----- | ---- |  
+| http://localhost:7777/stock/deduct        | lock test endpoint                        | | |
+| http://localhost:8080/stock/deduct        | Nginx endpoint                            | | |
+| http://localhost:8080/test/fair/lock/{id} | test Redisson Fair lock (Nignx endpoint)  | | |
+| http://localhost:8080/test/read/lock      | test Redisson read lock (Nignx endpoint)  | | |
 | http://localhost:8080/test/write/lock     | test Redisson write lock (Nignx endpoint) | | |
-| http://localhost:8080/test/semaphore    | test Redisson write lock (Nignx endpoint) | | |
+| http://localhost:8080/test/semaphore      | test Redisson semaphore (Nignx endpoint)  | | |
+| http://localhost:8080/test/countdown      | test Redisson countdown (Nignx endpoint)  | | |
+| http://localhost:8080/test/latch          | test Redisson latch (Nignx endpoint)      | | |
+
 
 
 ## Important Concepts

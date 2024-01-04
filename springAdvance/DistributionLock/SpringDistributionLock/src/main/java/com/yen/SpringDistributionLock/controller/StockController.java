@@ -45,6 +45,9 @@ public class StockController {
     @Autowired
     StockServiceSemaphore stockServiceSemaphore;
 
+    @Autowired
+    StockServiceCountDownLatch stockServiceCountDownLatch;
+
     @GetMapping("stock/deduct")
     public String deduct(){
 
@@ -106,6 +109,25 @@ public class StockController {
 
         stockServiceSemaphore.testSemaphore();
         return "Test Semaphore";
+    }
+
+    /**
+     *  CountDownLatch
+     *
+     *  https://youtu.be/qsypEWwBLR8?si=8ZMv8CEmMWuPmbmS&t=768
+     */
+    @GetMapping("test/latch")
+    public String testLatch(){
+
+        stockServiceCountDownLatch.testLatch();
+        return "CountDownLatch  - Leader close door !!!";
+    }
+
+    @GetMapping("test/countdown")
+    public String testCountDown(){
+
+        stockServiceCountDownLatch.testCountDown();
+        return "CountDownLatch  - student leave room ... ";
     }
 
 }
