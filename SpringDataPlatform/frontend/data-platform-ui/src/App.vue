@@ -5,7 +5,8 @@
       <router-link to="/about">About</router-link> |
       <router-link to="/jars">Jar List</router-link> |
       <router-link to="/admin/jars/add">Add Job Jar</router-link> |
-      <router-link to="/jobs">Job List</router-link>
+      <router-link to="/jobs">Job List</router-link> |
+      <router-link to="/admin/jobs/add">Submit Job</router-link>
     </nav>
     <router-view />
   </div>

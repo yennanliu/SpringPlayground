@@ -12,6 +12,7 @@ import AddJar from "../views/Jar/AddJar.vue";
 import Job from "../views/Job/Job.vue";
 import ListJob from "../views/Job/ListJob.vue";
 import ShowJobDetails from "../views/Job/ShowJobDetails.vue";
+import AddJob from "../views/Job/AddJob.vue";
 
 Vue.use(VueRouter);
 
@@ -65,6 +66,11 @@ const routes = [
     path: "/jobs/show/:id",
     name: "ShowJobDetails",
     component: ShowJobDetails,
+  },
+  {
+    path: "/admin/jobs/add",
+    name: "AddJob",
+    component: AddJob,
   },
 ];
 
