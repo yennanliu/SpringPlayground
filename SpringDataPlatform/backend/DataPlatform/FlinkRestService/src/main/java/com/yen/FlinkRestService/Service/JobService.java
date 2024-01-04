@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.yen.FlinkRestService.Repository.JobRepository;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.dto.JobSubmitDto;
+import com.yen.FlinkRestService.model.response.JobDetailResponse;
 import com.yen.FlinkRestService.model.response.JobSubmitResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class JobService {
 
 
     public List<Job> getJobs() {
+
         return jobRepository.findAll();
     }
 
@@ -85,5 +87,28 @@ public class JobService {
         System.out.println("job = " + job);
         jobRepository.save(job);
     }
+
+    public void updateJob(String jobId){
+
+        log.info("jobId = " + jobId);
+        String baseUrl = "http://localhost:8081/jobs/";
+        String url = baseUrl + jobId;
+        log.info("url = " + url);
+
+        // Create a RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Make the HTTP GET request
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+
+        JobDetailResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobDetailResponse.class);
+
+        // Print the response status code and body
+//        System.out.println("Response Status Code: " + responseEntity.getStatusCode());
+//        System.out.println("Response Body: " + responseEntity.getBody());
+        log.info("name = " + jobSubmitResponse.getName() + " state = " + jobSubmitResponse.getState());
+    }
+
+
 
 }

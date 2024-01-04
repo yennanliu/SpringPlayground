@@ -41,4 +41,11 @@ public class JobController {
         return new ResponseEntity<>(new ApiResponse(true, "Job has been added"), HttpStatus.CREATED);
     }
 
+    @GetMapping("/detail/{jobId}")
+    public void testGetJobDetail(@RequestParam("savedJobId") String savedJobId){
+
+        jobService.updateJob(savedJobId);
+        //return new ResponseEntity<>("xxx", HttpStatus.OK);
+    }
+
 }
