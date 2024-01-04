@@ -29,7 +29,7 @@ public class JobJar {
     private String fileName;
 
     @Column(name = "saved_jar_name")
-    private String saveJorName;
+    private String savedJarName;
 
     @Column(name = "status")
     private String status;

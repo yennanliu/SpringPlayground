@@ -83,7 +83,7 @@ public class JarService {
         jobjar.setFileName(uploadJarDto.getJarFile());
         jobjar.setStatus("success"); // TODO : error handling
         jobjar.setUploadTime(new Date());
-        jobjar.setSaveJorName(jarUtil.getJarNameFromRepsonse(jarUploadResponse));
+        jobjar.setSavedJarName(jarUtil.getJarNameFromRepsonse(jarUploadResponse));
         jobJarRepository.save(jobjar);
     }
 

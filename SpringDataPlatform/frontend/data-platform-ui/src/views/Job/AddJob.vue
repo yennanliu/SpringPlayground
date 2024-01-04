@@ -12,8 +12,30 @@
         <form>
           <div class="form-group">
             <label>Jar ID</label>
-            <input type="text" class="form-control" v-model="jarId" required />
+
+            <!-- <input type="text" class="form-control" v-model="jarId" required /> -->
+
+            <!-- <select class="form-control" v-model="savedJarName" required>
+              <option
+                v-for="jar of jars"
+                :key="jar.id"
+                :value="jar.savedJarName"
+              >
+                Name : {{ jar.savedJorName }}
+              </option>
+            </select> -->
+
+            <select class="form-control" v-model="savedJarName" required>
+              <option
+                v-for="jar in jars"
+                :key="jar.id"
+                :value="jar.savedJarName"
+              >
+                Name : {{ jar.savedJarName }}
+              </option>
+            </select>
           </div>
+
           <button type="button" class="btn btn-primary" @click="addJob">
             Submit
           </button>
@@ -35,16 +57,34 @@ export default {
       allowNonRestoredState: null,
       entryClass: null,
       jarId: null,
+      savedJarName: null,
       parallelism: null,
       programArgs: null,
       savePointPath: null,
+      jars: [],
     };
   },
   props: ["baseURL"],
   methods: {
+    async getJars() {
+      // fetch users
+      await axios
+        .get("http://localhost:9999/" + "jar/")
+        .then((res) => {
+          this.jars = res.data;
+          console.log(">>> (getJars) this.jars = " + JSON.stringify(this.jars));
+        })
+        .catch((err) => console.log(err));
+    },
+
     async addJob() {
       const newJob = {
-        jarId: this.jarId,
+        allowNonRestoredState: null,
+        entryClass: null,
+        jarId: this.savedJarName,
+        parallelism: 1,
+        programArgs: null,
+        savePointPath: null,
       };
 
       await axios({
@@ -70,7 +110,9 @@ export default {
     },
   },
 
-  mounted() {},
+  mounted() {
+    this.getJars();
+  },
 };
 </script>
       
