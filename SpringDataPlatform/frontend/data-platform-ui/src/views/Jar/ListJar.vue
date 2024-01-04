@@ -1,73 +1,88 @@
 <template>
-    <div class="container">
-      <div class="row">
-        <div class="col-12 text-center">
-          <h1>Jar List</h1>
-          <h5>{{ msg }}</h5>
-        </div>
-      </div>
-  
-      <div class="row">
-        <div
-          v-for="jar of jars"
-          :key="jar.id"
-          class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
-        >
-          <JarBox :jar="jar"> </JarBox>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>Jar List</h1>
+        <h5>{{ msg }}</h5>
       </div>
     </div>
-  </template>
-    
-    <script>
-  import JarBox from "../../components/Jar/JarBox";
-  var axios = require("axios");
-  export default {
-    name: "ListDepartment",
-    data() {
-      return {
-        id: null,
-        jars: [],
-        len: 0,
-        msg: null,
-      };
+
+    <div class="row">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Jar Name</th>
+            <th>Detail</th>
+            <!-- Add more columns if needed -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="jar in jars" :key="jar.id">
+            <td>{{ jar.id }}</td>
+            <td>{{ jar.fileName }}</td>
+            <td>
+              <router-link :to="`/jars/show/${jar.id}`">
+                Jar Detail
+              </router-link>
+            </td>
+            <!-- Add more columns if needed -->
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</template>
+
+<script>
+//import JarBox from "../../components/Jar/JarBox";
+var axios = require("axios");
+
+export default {
+  name: "ListDepartment",
+  data() {
+    return {
+      id: null,
+      jars: [],
+      len: 0,
+      msg: null,
+    };
+  },
+  //components: { JarBox },
+  props: ["baseURL"],
+  methods: {
+    async fetchData() {
+      try {
+        const response = await axios.get("http://localhost:9999/jar/");
+        this.jars = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
-    components: { JarBox },
-    props: ["baseURL"],
-    methods: {
-      async fetchData() {
-        // fetch users
-        await axios
-          .get("http://localhost:9999/" + "jar/")
-          .then((res) => {
-            this.jars = res.data;
-            console.log(
-              ">>> (fetchData) this.jars = " +
-                JSON.stringify(this.jars)
-            );
-          })
-          .catch((err) => console.log(err));
-      },
-    },
-    mounted() {
-      //this.id = this.$route.params.id;
-      this.fetchData();
-      //console.log(">>> (ListUsers) this.users = " + JSON.stringify(this.users));
-    },
-  };
-  </script>
-    
-    <style scoped>
-  h4 {
-    font-family: "Roboto", sans-serif;
-    color: #484848;
-    font-weight: 700;
-  }
-  
-  h5 {
-    font-family: "Roboto", sans-serif;
-    color: #686868;
-    font-weight: 300;
-  }
-  </style>
-    
+  },
+  mounted() {
+    this.fetchData();
+  },
+};
+</script>
+
+<style scoped>
+h1,
+h5 {
+  font-family: "Roboto", sans-serif;
+  color: #484848;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+</style>
