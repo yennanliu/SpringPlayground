@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class JarUploadResponseBody {
+public class JarUploadResponse {
 
 
     /**

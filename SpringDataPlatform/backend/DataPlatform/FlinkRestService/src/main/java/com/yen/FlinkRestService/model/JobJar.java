@@ -28,6 +28,9 @@ public class JobJar {
     @Column(name = "file_name")
     private String fileName;
 
+    @Column(name = "saved_jar_name")
+    private String saveJorName;
+
     @Column(name = "status")
     private String status;
 

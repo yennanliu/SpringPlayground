@@ -1,8 +1,12 @@
 package com.yen.FlinkRestService.Service;
 
+import com.alibaba.fastjson2.JSON;
 import com.yen.FlinkRestService.model.dto.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.model.JobJar;
+import com.yen.FlinkRestService.model.response.JarUploadResponse;
+import com.yen.FlinkRestService.model.response.JobSubmitResponse;
+import com.yen.FlinkRestService.util.JarUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -31,8 +35,11 @@ public class JarService {
     // TODO : read from conf
     private String BASE_URL = "http://localhost:8081/";
 
+    private JarUtil jarUtil = new JarUtil();
+
     // constructor
     JarService(){
+
         this.restTemplate = new RestTemplate();
     }
 
@@ -64,6 +71,9 @@ public class JarService {
         // Make the HTTP POST request
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
+        JarUploadResponse jarUploadResponse = JSON.parseObject(responseEntity.getBody(), JarUploadResponse.class);
+
+
         // Print the response status code and body
         System.out.println("Response Status Code: " + responseEntity.getStatusCode());
         System.out.println("Response Body: " + responseEntity.getBody());
@@ -73,6 +83,7 @@ public class JarService {
         jobjar.setFileName(uploadJarDto.getJarFile());
         jobjar.setStatus("success"); // TODO : error handling
         jobjar.setUploadTime(new Date());
+        jobjar.setSaveJorName(jarUtil.getJarNameFromRepsonse(jarUploadResponse));
         jobJarRepository.save(jobjar);
     }
 
