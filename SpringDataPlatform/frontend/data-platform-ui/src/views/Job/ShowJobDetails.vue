@@ -11,7 +11,6 @@
               <th>ID</th>
               <th>Job ID</th>
               <th>Name</th>
-              <th>Name</th>
               <th>Start Time</th>
               <th>Status</th>
               <th>Flink Job Link</th>

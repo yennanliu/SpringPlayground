@@ -8,20 +8,36 @@
     </div>
 
     <div class="row">
-      <div
-        v-for="job of jobs"
-        :key="job.id"
-        class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
-      >
-        <JobBox :job="job"> </JobBox>
-      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Job Name</th>
+            <th>Detail</th>
+            <!-- Add more columns if needed -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="job in jobs" :key="job.id">
+            <td>{{ job.id }}</td>
+            <td>{{ job.name }}</td>
+            <td>
+              <router-link :to="`/jobs/show/${job.id}`">
+                Job Detail
+              </router-link>
+            </td>
+            <!-- Add more columns if needed -->
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
-    
-    <script>
-import JobBox from "../../components/Job/JobBox";
+
+<script>
+//import JobBox from "../../components/Job/JobBox";
 var axios = require("axios");
+
 export default {
   name: "ListJob",
   data() {
@@ -32,40 +48,41 @@ export default {
       msg: null,
     };
   },
-  components: { JobBox },
+  //components: { JobBox },
   props: ["baseURL"],
   methods: {
     async fetchData() {
-      // fetch users
-      await axios
-        .get("http://localhost:9999/" + "job/")
-        .then((res) => {
-          this.jobs = res.data;
-          console.log(
-            ">>> (fetchData) this.jobs = " + JSON.stringify(this.jobs)
-          );
-        })
-        .catch((err) => console.log(err));
+      try {
+        const response = await axios.get("http://localhost:9999/job/");
+        this.jobs = response.data;
+      } catch (error) {
+        console.error(error);
+      }
     },
   },
   mounted() {
     this.fetchData();
-    //console.log(">>> (ListUsers) this.users = " + JSON.stringify(this.users));
   },
 };
 </script>
-    
-    <style scoped>
-h4 {
-  font-family: "Roboto", sans-serif;
-  color: #484848;
-  font-weight: 700;
-}
 
+<style scoped>
+h1,
 h5 {
   font-family: "Roboto", sans-serif;
-  color: #686868;
-  font-weight: 300;
+  color: #484848;
+}
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
 }
 </style>
-    
