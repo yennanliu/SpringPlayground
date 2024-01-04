@@ -40,8 +40,21 @@ public class StockServiceSemaphore {
         // setup semaphore via Redisson
         // it's OK to put below in or outside method
         RSemaphore semaphore = redissonClient.getSemaphore("semaphore");
-        // https://youtu.be/LHd8_ATmBD8?si=wDFRVg5_SZNkEpyd&t=1083
-        // setup resource amount
+        /**
+         *   // setup resource amount (限流線程數)
+         *
+         *   - if concurrent thread > resource amount
+         *      -> extra request will be blocked
+         *
+         *   - only thread which receive resource successfully, can execute following code
+         *   - need to manually delete semaphore in redis, if update val
+         *      - e.g. :  semaphore.trySetPermits(3);
+         *              -> delete semaphore in redis
+         *              -> then set new semaphore as semaphore.trySetPermits(5);
+         *
+         *  - https://youtu.be/LHd8_ATmBD8?si=wDFRVg5_SZNkEpyd&t=1083
+         *  - https://youtu.be/qsypEWwBLR8?si=BXoWlnIpyEHCCkih&t=46
+         */
         semaphore.trySetPermits(3);
 
         try{
@@ -58,7 +71,7 @@ public class StockServiceSemaphore {
             stringRedisTemplate.opsForList().rightPush("log", "#### " + Thread.currentThread().getName() + " get resource !");
             stringRedisTemplate.opsForList().rightPush("log", "--------> " + Thread.currentThread().getName() + " release resource ==============");
 
-            // release resource
+            // Need to manually release resource, so other thread can get resource
             semaphore.release();
 
         }catch (Exception e){
