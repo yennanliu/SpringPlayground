@@ -6,6 +6,7 @@ import HomeView from "../views/HomeView.vue";
 import Jar from "../views/Jar/Jar.vue";
 import ListJar from "../views/Jar/ListJar.vue";
 import ShowJarDetails from "../views/Jar/ShowJarDetails.vue";
+import AddJar from "../views/Jar/AddJar.vue";
 
 // job
 import Job from "../views/Job/Job.vue";
@@ -42,6 +43,11 @@ const routes = [
     path: "/jars/show/:id",
     name: "ShowJarDetails",
     component: ShowJarDetails,
+  },
+  {
+    path: "/admin/jars/add",
+    name: "AddJar",
+    component: AddJar,
   },
 
   // job
