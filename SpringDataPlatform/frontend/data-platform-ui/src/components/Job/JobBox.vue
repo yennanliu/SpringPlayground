@@ -3,7 +3,7 @@
     <div class="card-body">
       <div class="card-header">
         <router-link :to="{ name: 'ShowJobDetails', params: { id: job.id } }">
-          <h5 class="card-title">{{ jar.name }}</h5>
+          <h5 class="card-title">{{ job.name }}</h5>
         </router-link>
         <!-- <router-link
             id="edit-jar"

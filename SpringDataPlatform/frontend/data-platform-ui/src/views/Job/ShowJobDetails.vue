@@ -43,10 +43,10 @@ export default {
   methods: {
     async getJob() {
       await axios
-        .get(`http://localhost:9999/jon/${this.$route.params.id}`)
+        .get(`http://localhost:9999/job/${this.$route.params.id}`)
         .then((res) => {
           console.log("${this.$route.params.id} = " + this.$route.params.id);
-          this.jar = res.data;
+          this.job = res.data;
           console.log(">>> (getJob) this.job = " + JSON.stringify());
         })
         .catch((err) => console.log(err));
