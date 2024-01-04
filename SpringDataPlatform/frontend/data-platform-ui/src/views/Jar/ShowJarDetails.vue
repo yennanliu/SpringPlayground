@@ -22,7 +22,7 @@
             <td>{{ jar.uploadTime }}</td>
             <td>
               <a :href="`http://localhost:8081/#/submit`" target="_blank">
-                View Job
+                View Jar
               </a>
             </td>
           </tbody>

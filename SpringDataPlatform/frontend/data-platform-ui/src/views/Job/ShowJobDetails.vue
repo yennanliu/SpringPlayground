@@ -14,6 +14,7 @@
               <th>Name</th>
               <th>Start Time</th>
               <th>Status</th>
+              <th>Flink Job Link</th>
             </tr>
           </thead>
           <tbody>
@@ -22,6 +23,11 @@
             <td>{{ job.name }}</td>
             <td>{{ job.startTime }}</td>
             <td>{{ job.status }}</td>
+            <td>
+              <a :href="`http://localhost:8081/#/job`" target="_blank">
+                View Job
+              </a>
+            </td>
           </tbody>
         </table>
       </div>
