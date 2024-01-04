@@ -12,6 +12,7 @@
               <th>File Name</th>
               <th>Status</th>
               <th>Upload Time</th>
+              <th>Flink Jar Link</th>
             </tr>
           </thead>
           <tbody>
@@ -19,6 +20,11 @@
             <td>{{ jar.subject }}</td>
             <td>{{ jar.status }}</td>
             <td>{{ jar.uploadTime }}</td>
+            <td>
+              <a :href="`http://localhost:8081/#/submit`" target="_blank">
+                View Job
+              </a>
+            </td>
           </tbody>
         </table>
       </div>
