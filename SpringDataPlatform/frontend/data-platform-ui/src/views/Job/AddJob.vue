@@ -12,19 +12,6 @@
         <form>
           <div class="form-group">
             <label>Jar ID</label>
-
-            <!-- <input type="text" class="form-control" v-model="jarId" required /> -->
-
-            <!-- <select class="form-control" v-model="savedJarName" required>
-              <option
-                v-for="jar of jars"
-                :key="jar.id"
-                :value="jar.savedJarName"
-              >
-                Name : {{ jar.savedJorName }}
-              </option>
-            </select> -->
-
             <select class="form-control" v-model="savedJarName" required>
               <option
                 v-for="jar in jars"
