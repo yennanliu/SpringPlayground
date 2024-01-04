@@ -247,10 +247,33 @@ brew services stop redis
 - [video](https://youtu.be/bSScx1TKtFk?si=H34YveIxiwl-zdxi&t=227)
 
 
-### 8) Redisson : Redis Java client (distribution capability)
+### 8) `Redisson : Redis Java client` *****
+
+- Java client with Redis distribution lock feature
+- Setup steps
+  - step 1: add dep
+  - step 2: config
+    - [RedissonConfig](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/config/RedissonConfig.java)
+    - [add client to Spring container (IOC)](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/service/StockServiceRedissonReadWriteLock.java#L27)
+  - step 3: use
+    - `ReentrantLock lock :  redissonClient.getLock("xxx");`
+    - `fair lock : RReadWriteLock rwLock = redissonClient.getFairLock("xxx");`
+    - `readwrite lock: `
+      - `RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");`
+      - `rwLock.readLock.lock();` // or unlock
+      - `rwLock.writeLock.lock();` // or unlock
+    - 信號量 (Semaphore)
+      - Rsemaphore semaphore = redissionClient.getSemaphore("xxx");
+      - semaphore.trySetPermits(3);
+      - semaphore.acquire(); // or release
+    - 閉鎖 (countDownLatch)
+      - RCountDownLatch cdl = redissionClient.getCountDownLatch("xxx");
+      - cdl.trySetCount(6);
+      - cdl.await(); // or countDown
 
 - https://github.com/redisson/redisson
 - https://github.com/redisson/redisson/wiki/Table-of-Content
+- https://youtu.be/iZjxpEv2jSg?si=H29OQTTM2SRfCLPQ&t=31
 
 ## 10) Ref
 
