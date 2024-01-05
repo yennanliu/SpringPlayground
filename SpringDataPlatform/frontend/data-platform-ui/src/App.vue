@@ -1,16 +1,50 @@
 <template>
-  <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/jars">Jar List</router-link> |
-      <router-link to="/admin/jars/add">Add Job Jar</router-link> |
-      <router-link to="/jobs">Job List</router-link> |
-      <router-link to="/admin/jobs/add">Submit Job</router-link>
-    </nav>
-    <router-view />
+  <div>
+    <Navbar v-if="!['Signup', 'Signin'].includes($route.name)" />
+    <div style="min-height: 60vh">
+      <!-- 
+      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
+
+      delcare global variable via router view
+      -> so baseURL, categories are visible to ALL views
+      -->
+      <router-view :baseURL="baseURL" @fetchData="fetchData"> </router-view>
+    </div>
+    <!-- <Footer v-if="!['Signup', 'Signin'].includes($route.name)" /> -->
   </div>
 </template>
+
+<script>
+//var axios = require("axios");
+import Navbar from "./components/Navbar.vue";
+export default {
+  data() {
+    return {
+      baseURL: "http://localhost:9998/",
+      users: null,
+      departments: null,
+      key: 0,
+      token: null,
+      cartCount: 0,
+    };
+  },
+
+  components: { Navbar },
+  methods: {
+    // async fetchData() {
+    //   // get users
+    //   await axios
+    //     .get(this.baseURL + "users/")
+    //     .then((res) => (this.users = res.users))
+    //     .catch((err) => console.log(err));
+    // },
+    mounted() {
+      //this.fetchData();
+    },
+  },
+};
+</script>
+
 
 <style>
 #app {
