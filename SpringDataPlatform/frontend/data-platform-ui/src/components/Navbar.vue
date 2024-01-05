@@ -31,7 +31,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Jar
+            Flink Jar
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link class="dropdown-item" :to="{ name: 'Home' }"
@@ -56,14 +56,14 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Department
+          Flink Jobs
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Department' }"
-              >Department</router-link
+            <router-link class="dropdown-item" :to="{ name: 'ListJob' }"
+              >List Job</router-link
             >
-            <router-link class="dropdown-item" :to="{ name: 'Ticket' }"
-              >Ticket</router-link
+            <router-link class="dropdown-item" :to="{ name: 'AddJob' }"
+              >Add new Job</router-link
             >
           </div>
         </li>
