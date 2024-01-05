@@ -193,11 +193,20 @@ curl --request POST http://localhost:8083/v1/sessions
 # ➜  flink-1.17.2 curl --request POST http://localhost:8083/v1/sessions
 # {"sessionHandle":"01def222-f1bd-427b-be19-56bc21a5728f"}%
 
-sessionHandle="a3f20a30-dc51-4dd6-b24f-0fa60236ac8a"
+sessionHandle="f04dc9c0-3dbd-4b6d-bf60-247175f3e685"
 
-curl --request POST http://localhost:8083/v1/sessions/${sessionHandle}/statements/ --data '{"statement": "SELECT 1"}'
+url="http://localhost:8083/v1/sessions/${sessionHandle}/statements/"
 
-curl --request POST http://localhost:8083/v1/sessions/01def222-f1bd-427b-be19-56bc21a5728/statements/ --data '{"statement": "SELECT 1"}'
+curl --request POST $url --data '{"statement": "SELECT 1"}'
+
+# curl --request POST $url --data '{"statement": "SELECT 1"}'
+# {"operationHandle":"d256d8b1-f93e-4ee3-bb75-447be071cb5d"}%
+
+operationHandle="52133f20-d14c-40d5-954c-45914f119cda"
+
+result_url="http://localhost:8083/v1/sessions/${sessionHandle}/operations/${operationHandle}/result/0"
+
+curl --request GET $result_url
 ```
 </details>
 
