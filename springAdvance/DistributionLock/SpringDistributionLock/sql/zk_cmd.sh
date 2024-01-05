@@ -46,6 +46,21 @@ get /aa/cc
 
 get /aa/dd
 
+# 4) create Persistent Sequential (永久節點)
+
+create -s /yy "hello yyy"
+
+# 5) create Ephemeral node (暫時節點)
+
+create -e /zz "hello zz"
+
+# leave CLI, back again, /zz node is gone
+
+
+# 5) create Ephemeral serialization node (暫時序列化節點)
+
+create -s -e /xxxx "xxx yyy"
+
 
 
 

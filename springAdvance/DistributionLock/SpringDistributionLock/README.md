@@ -297,6 +297,8 @@ zkCli
 
 ### 9) Zookeeper
 
+- [basic cmd](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/zk_cmd.sh)
+
 - Node type
   - 永久節點
     - still exists when shutdown ZK
