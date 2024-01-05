@@ -24,12 +24,10 @@ public class UpdateJobStatus {
     public void updateSubmittedJobStatus(){
 
         System.out.println("----------> updateSubmittedJobStatus ...");
-
         // get all jid (job id)
-        List<String> JobIds = jobService.getJobs().stream().map(job -> {
-            return job.getJobId();
-        }).collect(Collectors.toList());
-
+//        List<String> JobIds = jobService.getJobs().stream().map(job -> {
+//            return job.getJobId();
+//        }).collect(Collectors.toList());
         jobService.updateAllJobs();
     }
 

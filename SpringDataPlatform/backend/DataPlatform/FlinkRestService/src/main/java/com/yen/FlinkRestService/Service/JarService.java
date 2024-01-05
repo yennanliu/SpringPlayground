@@ -55,7 +55,6 @@ public class JarService {
 
         // Create a MultiValueMap to hold the file and headers
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
-        //bodyMap.add("jarfile", new FileSystemResource(filePath));
         bodyMap.add("jarfile", new FileSystemResource(uploadJarDto.getJarFile()));
 
         // Create headers with "Expect" set to an empty string

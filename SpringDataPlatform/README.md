@@ -171,6 +171,12 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:8081/jars/927a
   "programArgs": "string",
   "savePointPath": "string"
 }
+
+# stop job
+# /jobs/:jobid/stop.
+
+curl http://localhost:8081/jobs/6e80fe182c310a484bf7e9d4f25ac18d/cancel
+
 ```
 
 ```bash

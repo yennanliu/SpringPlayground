@@ -48,7 +48,7 @@ public class JobService {
 
         // Set the URL
         String baseUrl = "http://localhost:8081/jars/"; //"http://localhost:8081/jars/{projectId}/run";
-        String projectId = jobSubmitDto.getJarId(); //"yourProjectId"; // Replace with the actual project ID
+        //String projectId = jobSubmitDto.getJarId(); //"yourProjectId"; // Replace with the actual project ID
 
         String url = baseUrl + jobSubmitDto.getJarId() + "/run";
         System.out.println("url = " + url);
@@ -120,7 +120,6 @@ public class JobService {
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
         log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
         log.info(">>> jobOverviewResponse.getJobOverviewList() = " + jobOverviewResponse.getJobs());
-        log.info(">>> jobOverviewResponse len = " + jobOverviewResponse.getJobs().size());
 
         if (jobs == null || jobs.size() == 0) {
             log.warn("NO job to update");
@@ -130,12 +129,17 @@ public class JobService {
         // update job and save to DB
         jobs.stream().forEach(job -> {
             Job currentJob = this.getJobByJid(job.getJid());
-            log.info("---> (updateAllJobs) currentJob = " + currentJob.toString());
+            if (currentJob == null){
+                log.warn("Can't find job in DB, jid = " +  job.getJid(), " save new job to DB");
+                Job newJob = new Job();
+                newJob.setJobId(job.getJid());
+                jobRepository.save(newJob);
+                currentJob = newJob;
+            }
             currentJob.setStartTime(job.getStartTime());
             currentJob.setEndTime(job.getEndTime());
             currentJob.setState(job.getState());
-            log.info("---> (updateAllJobs) currentJob = " + currentJob.toString());
-            // will update if record already existed (with PK)
+            // will update if record already existed (primary key)
             jobRepository.save(currentJob);
         });
     }
@@ -151,6 +155,36 @@ public class JobService {
         }
         log.warn("No Job with jid = " + jid);
         return null;
+    }
+
+    public void cancelJob(String jobID) {
+
+        // curl http://localhost:8081/jobs/6e80fe182c310a484bf7e9d4f25ac18d/cancel
+        String baseUrl = "http://localhost:8081/jobs/";
+        //String url = baseUrl + jobID + "/cancel";
+        String url = baseUrl + jobID + "/stop";
+        log.info("url = " + url);
+
+        // Create headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+
+        // Set the request body
+        String requestBody = ""; //"{ \"programArgsList\": \"parallelism\": 1 }";
+
+        // Create the request entity with headers and request body
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+
+        // Create a RestTemplate
+        RestTemplate restTemplate = new RestTemplate();
+
+        // Make the HTTP POST request
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+
+        // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
+        String resp = JSON.parseObject(responseEntity.getBody(), String.class);
+        log.info("Response Status Code: " + responseEntity.getStatusCode());
+        System.out.println("resp : " +resp.toString());
     }
 
 }

@@ -43,11 +43,7 @@ public class JarController {
     }
 
     /**
-     *  curl cmd :
-     *
-     *  curl -X POST -H "Expect:" -F "jarfile=@table/StreamSQLExample.jar" http://localhost:8081/jars/upload
-     *
-     *  curl -X POST -F "jarfile=@/Users/yennanliu/flink-1.17.2/examples/table/StreamSQLExample.jar" http://localhost:8081/jars/upload
+     *  curl cmd : curl -X POST -F "jarfile=@/Users/yennanliu/flink-1.17.2/examples/table/StreamSQLExample.jar" http://localhost:8081/jars/upload
      */
     @PostMapping("/add_jar")
     public ResponseEntity<ApiResponse> addJobJar(@RequestBody UploadJarDto uploadJarDto){

@@ -42,18 +42,18 @@ public class JobController {
         return new ResponseEntity<>(new ApiResponse(true, "Job has been added"), HttpStatus.CREATED);
     }
 
-//    @GetMapping("/detail/{jobId}")
-//    public void testGetJobDetail(@RequestParam("savedJobId") String savedJobId){
-//
-//        jobService.updateJob(savedJobId);
-//        //return new ResponseEntity<>("xxx", HttpStatus.OK);
-//    }
-
     @PostMapping("/update")
     public ResponseEntity<ApiResponse> updateJob(@RequestBody JobUpdateDto jobUpdateDto) {
 
         jobService.updateJob(jobUpdateDto);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Job has been updated"), HttpStatus.OK);
+    }
+
+    @PostMapping("/cancel")
+    public ResponseEntity<ApiResponse> cancelJob(@RequestBody String jobID) {
+
+        jobService.cancelJob(jobID);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Job has been cancelled"), HttpStatus.OK);
     }
 
 }
