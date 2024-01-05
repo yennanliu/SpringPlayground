@@ -22,8 +22,11 @@
             <td>{{ job.name }}</td>
             <td>{{ job.state }}</td>
             <td>{{ job.startTime }}</td>
+            <!--
+              http://localhost:8081/#/job/running/da174a6766a7d930054d566d508f2103/overview
+            -->
             <td>
-              <a :href="`http://localhost:8081/#/job`" target="_blank">
+              <a :href="`${getFlinkJobLink(job)}`" target="_blank">
                 View Job
               </a>
             </td>
@@ -46,6 +49,19 @@ export default {
   },
   props: ["baseURL", "jobs"],
   methods: {
+    toLowerCase(input) {
+      return input.toLowerCase();
+    },
+
+    getFlinkJobLink(job) {
+      return (
+        "http://localhost:8081/#/job/" +
+        this.toLowerCase(job.state) +
+        "/" +
+        job.jobId
+      );
+    },
+
     async getJob() {
       await axios
         .get(`http://localhost:9999/job/${this.$route.params.id}`)
