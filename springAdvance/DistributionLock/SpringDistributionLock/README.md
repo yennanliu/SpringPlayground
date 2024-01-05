@@ -294,6 +294,19 @@ zkCli
 - https://github.com/redisson/redisson/wiki/Table-of-Content
 - https://youtu.be/iZjxpEv2jSg?si=H29OQTTM2SRfCLPQ&t=31
 
+
+### 9) Zookeeper
+
+- Node type
+  - 永久節點
+    - still exists when shutdown ZK
+  - 臨時節點
+    - deleted when shutdown ZK
+  - 永久序列化節點
+    - still exists when shutdown ZK (serialization node)
+  - 臨時序列化節點
+    - deleted when shutdown ZK (serialization node)
+
 ## 10) Ref
 
 - Course
