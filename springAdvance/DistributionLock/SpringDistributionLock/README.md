@@ -301,13 +301,27 @@ zkCli
 
 - Node type
   - 永久節點
+    - `create /path content`
     - still exists when shutdown ZK
   - 臨時節點
+    - `create -e /path content`
     - deleted when shutdown ZK
   - 永久序列化節點
+    - `create -s /path content`
     - still exists when shutdown ZK (serialization node)
   - 臨時序列化節點
+    - `create -s -e /path content`
     - deleted when shutdown ZK (serialization node)
+
+- Node event monitor (only once)
+  - Node creation monitoring
+    - `stat -w /xx` 
+  - Node deletion monitoring
+    - `stat -w /xx`
+  - Node data change monitoring
+    - `get -w /bb`
+  - sub Node change monitoring
+    - `ls -w /xx`
 
 ## 10) Ref
 
