@@ -54,6 +54,9 @@ export default {
     },
 
     getFlinkJobLink(job) {
+      if (!job) {
+        return null;
+      }
       return (
         "http://localhost:8081/#/job/" +
         this.toLowerCase(job.state) +
