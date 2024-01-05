@@ -30,10 +30,13 @@ public class UpdateJobStatus {
             return job.getJobId();
         }).collect(Collectors.toList());
 
-        for (String jobId : JobIds){
-            System.out.println("jobId = " + jobId);
-            jobService.updateJob(jobId);
-        }
+        jobService.updateAllJobs();
+
+//        for (String jobId : JobIds){
+//            System.out.println("jobId = " + jobId);
+//            jobService.updateJob(jobId);
+//            //jobService.updateJob2(jobId);
+//        }
     }
 
 }

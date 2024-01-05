@@ -13,6 +13,7 @@
           <tr>
             <th>ID</th>
             <th>Job Name</th>
+            <th>State</th>
             <th>Detail</th>
             <!-- Add more columns if needed -->
           </tr>
@@ -21,6 +22,7 @@
           <tr v-for="job in jobs" :key="job.id">
             <td>{{ job.id }}</td>
             <td>{{ job.name }}</td>
+            <td>{{ job.state }}</td>
             <td>
               <router-link :to="`/jobs/show/${job.id}`">
                 Job Detail

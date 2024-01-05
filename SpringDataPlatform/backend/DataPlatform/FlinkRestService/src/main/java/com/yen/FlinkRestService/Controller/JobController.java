@@ -4,6 +4,7 @@ import com.yen.FlinkRestService.Common.ApiResponse;
 import com.yen.FlinkRestService.Service.JobService;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.dto.JobSubmitDto;
+import com.yen.FlinkRestService.model.dto.JobUpdateDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,11 +42,18 @@ public class JobController {
         return new ResponseEntity<>(new ApiResponse(true, "Job has been added"), HttpStatus.CREATED);
     }
 
-    @GetMapping("/detail/{jobId}")
-    public void testGetJobDetail(@RequestParam("savedJobId") String savedJobId){
+//    @GetMapping("/detail/{jobId}")
+//    public void testGetJobDetail(@RequestParam("savedJobId") String savedJobId){
+//
+//        jobService.updateJob(savedJobId);
+//        //return new ResponseEntity<>("xxx", HttpStatus.OK);
+//    }
 
-        jobService.updateJob(savedJobId);
-        //return new ResponseEntity<>("xxx", HttpStatus.OK);
+    @PostMapping("/update")
+    public ResponseEntity<ApiResponse> updateJob(@RequestBody JobUpdateDto jobUpdateDto) {
+
+        jobService.updateJob(jobUpdateDto);
+        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Job has been updated"), HttpStatus.OK);
     }
 
 }

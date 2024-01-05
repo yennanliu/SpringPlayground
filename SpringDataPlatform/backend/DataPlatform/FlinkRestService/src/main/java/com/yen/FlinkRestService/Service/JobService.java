@@ -4,9 +4,12 @@ import com.alibaba.fastjson2.JSON;
 import com.yen.FlinkRestService.Repository.JobRepository;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.dto.JobSubmitDto;
-import com.yen.FlinkRestService.model.response.JobDetailResponse;
+import com.yen.FlinkRestService.model.dto.JobUpdateDto;
+import com.yen.FlinkRestService.model.response.JobOverview;
+import com.yen.FlinkRestService.model.response.JobOverviewResponse;
 import com.yen.FlinkRestService.model.response.JobSubmitResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -59,8 +62,6 @@ public class JobService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
 
-        //JarRunRequestBody requestBody = new JarRunRequestBody();
-
         // Set the request body
         String requestBody = ""; //"{ \"programArgsList\": \"parallelism\": 1 }";
 
@@ -73,8 +74,7 @@ public class JobService {
         // Make the HTTP POST request
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
 
-        // Print the response status code and body
-        // https://www.runoob.com/w3cnote/fastjson-intro.html
+        // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
         JobSubmitResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobSubmitResponse.class);
         log.info("Response Status Code: " + responseEntity.getStatusCode());
         System.out.println("jobSubmitResponse : " +jobSubmitResponse.toString());
@@ -88,11 +88,26 @@ public class JobService {
         jobRepository.save(job);
     }
 
-    public void updateJob(String jobId){
+    public void updateJob(JobUpdateDto jobUpdateDto) {
 
-        log.info("jobId = " + jobId);
-        String baseUrl = "http://localhost:8081/jobs/";
-        String url = baseUrl + jobId;
+        log.info("added  jobUpdateDto = " + jobUpdateDto);
+        if (!jobRepository.findById(jobUpdateDto.getId()).isPresent()) {
+            log.warn("Job NOT existed, id = " + jobUpdateDto.getId());
+        }
+        Job currentJob = jobRepository.findById(jobUpdateDto.getId()).get();
+        currentJob.setState(jobUpdateDto.getState());
+        currentJob.setStartTime(jobUpdateDto.getStartTime());
+        currentJob.setEndTime(jobUpdateDto.getEndTime());
+        currentJob.setDuration(jobUpdateDto.getDuration());
+        // TODO : modify with update method
+        log.info("updated currentJob = " + currentJob);
+        jobRepository.save(currentJob);
+    }
+
+    public void updateAllJobs() {
+
+        String baseUrl = "http://localhost:8081/jobs/overview";
+        String url = baseUrl;
         log.info("url = " + url);
 
         // Create a RestTemplate
@@ -101,14 +116,41 @@ public class JobService {
         // Make the HTTP GET request
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
 
-        JobDetailResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobDetailResponse.class);
+        JobOverviewResponse jobOverviewResponse = JSON.parseObject(responseEntity.getBody(), JobOverviewResponse.class);
+        List<JobOverview> jobs = jobOverviewResponse.getJobs();
+        log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
+        log.info(">>> jobOverviewResponse.getJobOverviewList() = " + jobOverviewResponse.getJobs());
+        log.info(">>> jobOverviewResponse len = " + jobOverviewResponse.getJobs().size());
 
-        // Print the response status code and body
-//        System.out.println("Response Status Code: " + responseEntity.getStatusCode());
-//        System.out.println("Response Body: " + responseEntity.getBody());
-        log.info("name = " + jobSubmitResponse.getName() + " state = " + jobSubmitResponse.getState());
+        if (jobs == null || jobs.size() == 0) {
+            log.warn("NO job to update");
+            return;
+        }
+
+        // update job and save to DB
+        jobs.stream().forEach(job -> {
+            Job currentJob = this.getJobByJid(job.getJid());
+            log.info("---> (updateAllJobs) currentJob = " + currentJob.toString());
+            currentJob.setStartTime(job.getStartTime());
+            currentJob.setEndTime(job.getEndTime());
+            currentJob.setState(job.getState());
+            log.info("---> (updateAllJobs) currentJob = " + currentJob.toString());
+            // will update if record already existed (with PK)
+            jobRepository.save(currentJob);
+        });
     }
 
+    // TODO : optimize below with mapper (SQL)
+    private Job getJobByJid(String jid) {
 
+        List<Job> jobs = jobRepository.findAll();
+        for (Job job : jobs) {
+            if (job.getJobId().equals(jid)) {
+                return job;
+            }
+        }
+        log.warn("No Job with jid = " + jid);
+        return null;
+    }
 
 }
