@@ -193,20 +193,23 @@ curl --request POST http://localhost:8083/v1/sessions
 # ➜  flink-1.17.2 curl --request POST http://localhost:8083/v1/sessions
 # {"sessionHandle":"01def222-f1bd-427b-be19-56bc21a5728f"}%
 
-sessionHandle="f04dc9c0-3dbd-4b6d-bf60-247175f3e685"
+sessionHandle="25c1a1b1-2c2e-4c70-be27-a60c152881d6"
 
 url="http://localhost:8083/v1/sessions/${sessionHandle}/statements/"
 
-curl --request POST $url --data '{"statement": "SELECT 1"}'
+curl --request POST $url --data '{"statement": "SELECT 1, 2, 3"}'
 
 # curl --request POST $url --data '{"statement": "SELECT 1"}'
 # {"operationHandle":"d256d8b1-f93e-4ee3-bb75-447be071cb5d"}%
 
-operationHandle="52133f20-d14c-40d5-954c-45914f119cda"
+operationHandle="d2ea0f50-54fe-4c22-b529-91b389c44304"
 
 result_url="http://localhost:8083/v1/sessions/${sessionHandle}/operations/${operationHandle}/result/0"
 
 curl --request GET $result_url
+
+# curl --request GET $result_url
+# {"resultType":"PAYLOAD","isQueryResult":true,"jobID":"d9a289ba044b6f0d07284cbdc6f7e63c","resultKind":"SUCCESS_WITH_CONTENT","results":{"columns":[{"name":"EXPR$0","logicalType":{"type":"INTEGER","nullable":false},"comment":null}],"rowFormat":"JSON","data":[{"kind":"INSERT","fields":[1]}]},"nextResultUri":"/v1/sessions/25c1a1b1-2c2e-4c70-be27-a60c152881d6/operations/7fa9b9c1-0a19-46c5-ae97-776a3e944bac/result/1"}%
 ```
 </details>
 
