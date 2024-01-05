@@ -166,11 +166,38 @@ curl -X POST -H 'Content-Type: application/json' http://localhost:8081/jars/927a
 {
   "allowNonRestoredState": true,
   "entryClass": "string",
-  "jarId": "e0b02137-f5f1-49da-a734-04c43da5208e_WordCount.jar",
+  "jarId": "bead32dc-a0cd-49e0-b525-0d927375c4c7_StreamSQLExample.jar",
   "parallelism": 1,
   "programArgs": "string",
   "savePointPath": "string"
 }
+```
+
+```bash
+# Flink SQL gateway
+
+# https://nightlies.apache.org/flink/flink-docs-master/zh/docs/dev/table/sql-gateway/overview/
+
+# start SQL gateway
+bash bin/sql-gateway.sh start -Dsql-gateway.endpoint.rest.address=localhost
+
+# stop SQL gateway
+bash bin/sql-gateway.sh stop
+
+#bash bin/sql-gateway.sh
+
+curl http://localhost:8083/v1/info
+
+curl --request POST http://localhost:8083/v1/sessions
+
+# ➜  flink-1.17.2 curl --request POST http://localhost:8083/v1/sessions
+# {"sessionHandle":"01def222-f1bd-427b-be19-56bc21a5728f"}%
+
+sessionHandle="a3f20a30-dc51-4dd6-b24f-0fa60236ac8a"
+
+curl --request POST http://localhost:8083/v1/sessions/${sessionHandle}/statements/ --data '{"statement": "SELECT 1"}'
+
+curl --request POST http://localhost:8083/v1/sessions/01def222-f1bd-427b-be19-56bc21a5728/statements/ --data '{"statement": "SELECT 1"}'
 ```
 </details>
 
