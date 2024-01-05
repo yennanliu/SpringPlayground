@@ -323,6 +323,11 @@ zkCli
   - sub Node change monitoring
     - `ls -w /xx`
 
+- Java client
+  - official client (org.apache.zookeeper)
+  - zkClient : has many foundation implementation, used by Kafka, Dubbo..
+  - Curator : similar to Redisson, has distribution lock implementation
+
 ## 10) Ref
 
 - Course
