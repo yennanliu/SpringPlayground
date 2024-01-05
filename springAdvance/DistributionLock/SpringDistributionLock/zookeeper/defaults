@@ -1,0 +1,1 @@
+[ -z "$ZOOCFGDIR" ] && export ZOOCFGDIR="/usr/local/etc/zookeeper"

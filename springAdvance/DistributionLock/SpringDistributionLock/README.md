@@ -69,6 +69,25 @@ brew services start redis
  
 brew services stop redis
 
+
+#---------------------------  
+# Run zookeeper  
+#--------------------------- 
+
+# https://husterxsp.github.io/2018/10/08/zookeeper%E5%AE%89%E8%A3%85/
+# https://github.com/yennanliu/utility_shell/blob/master/zookeeper/zk_cmd.sh
+
+brew services run zookeeper
+
+brew services stop zookeeper
+
+# file path
+# /usr/local/etc/zookeeper
+
+cd /usr/local/etc/zookeeper
+
+zkCli
+
 #---------------------------  
 # Intellij  
 #---------------------------  
