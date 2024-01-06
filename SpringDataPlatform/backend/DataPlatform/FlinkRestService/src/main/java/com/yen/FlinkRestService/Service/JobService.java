@@ -9,8 +9,8 @@ import com.yen.FlinkRestService.model.response.JobOverview;
 import com.yen.FlinkRestService.model.response.JobOverviewResponse;
 import com.yen.FlinkRestService.model.response.JobSubmitResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,6 +30,8 @@ public class JobService {
     @Autowired
     private RestTemplateService restTemplateService;
 
+    @Value("${flink.base_url}")
+    private String BASE_URL; //private String BASE_URL = "http://localhost:8081/";
 
     public List<Job> getJobs() {
 
@@ -50,7 +52,7 @@ public class JobService {
         log.info("jobSubmitDto = " + jobSubmitDto.toString());
 
         // Set the URL
-        String baseUrl = "http://localhost:8081/jars/"; //"http://localhost:8081/jars/{projectId}/run";
+        String baseUrl = BASE_URL + "/jars/"; //"http://localhost:8081/jars/"; //"http://localhost:8081/jars/{projectId}/run";
         String url = baseUrl + jobSubmitDto.getJarId() + "/run";
         System.out.println("url = " + url);
 
@@ -91,7 +93,7 @@ public class JobService {
 
     public void updateAllJobs() {
 
-        String url = "http://localhost:8081/jobs/overview";;
+        String url = BASE_URL + "/jobs/overview"; //"http://localhost:8081/jobs/overview";;
         log.info("url = " + url);
 
         // Make HTTP GET request
@@ -141,9 +143,7 @@ public class JobService {
     public void cancelJob(String jobID) {
 
         // curl http://localhost:8081/jobs/6e80fe182c310a484bf7e9d4f25ac18d/cancel
-        String baseUrl = "http://localhost:8081/jobs/";
-        //String url = baseUrl + jobID + "/cancel";
-        String url = baseUrl + jobID + "/stop";
+        String url = BASE_URL + "/jobs/" + jobID + "/stop";
         log.info("url = " + url);
 
         // Create headers

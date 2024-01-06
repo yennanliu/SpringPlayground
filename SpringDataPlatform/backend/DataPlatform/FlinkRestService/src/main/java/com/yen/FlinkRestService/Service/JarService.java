@@ -5,10 +5,10 @@ import com.yen.FlinkRestService.model.dto.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.model.JobJar;
 import com.yen.FlinkRestService.model.response.JarUploadResponse;
-import com.yen.FlinkRestService.model.response.JobSubmitResponse;
 import com.yen.FlinkRestService.util.JarUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -33,7 +33,8 @@ public class JarService {
     private RestTemplate restTemplate;
 
     // TODO : read from conf
-    private String BASE_URL = "http://localhost:8081/";
+    @Value("${flink.base_url}")
+    private String BASE_URL; //private String BASE_URL = "http://localhost:8081/";
 
     private JarUtil jarUtil = new JarUtil();
 
@@ -49,7 +50,8 @@ public class JarService {
         System.out.println(">>> uploadJarDto = " + uploadJarDto.toString());
 
         // Set the URL
-        String url = "http://localhost:8081/jars/upload";
+        String url = BASE_URL + "/jars/upload";
+        log.info("url = " + url);
 
         // Set the file path
 
