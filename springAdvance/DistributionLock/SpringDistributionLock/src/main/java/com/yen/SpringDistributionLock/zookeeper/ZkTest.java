@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch;
  *  - https://youtu.be/LTiRPXieav4?si=XCZiKKPk47OR1cYu&t=191
  *  - https://youtu.be/zvYXU_oxZ08?si=F_b72ozRuYsWLlO7&t=23
  *  - https://youtu.be/Y-1ra744pKk?si=GgEbtPnQ4PinPM_8&t=15
+ *  - https://youtu.be/qVj2v7Fl5cU?si=KBxDPRx8G97xojsg
  */
 public class ZkTest {
 
@@ -77,6 +78,18 @@ public class ZkTest {
             // check current node's sub node
             List<String> children = zooKeeper.getChildren(path, false, stat);
             System.out.println("Sub node list = " + children);
+
+            // update node
+            //zooKeeper.setData(path, "hi xxxxxx updated".getBytes(), -1);
+            // if set version = -1, means we update anyway (don't care version)
+            // otherwise, ZK will only update node data when version = current version
+            zooKeeper.setData(path, "hi xxxxxx updated".getBytes(), stat.getVersion());
+
+            // delete node
+            // similar as above, if -1, then delete node anyway
+            // otherwise, ZK will only delete node when version = current version
+            //zooKeeper.delete("/aa/cc/dd", stat.getVersion());
+            zooKeeper.delete("/aa/cc/dd",-1);
 
         } catch (IOException e) {
             e.printStackTrace();
