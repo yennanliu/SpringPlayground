@@ -39,24 +39,30 @@ public class RestTemplateService {
 
     public ResponseEntity<String> sendPostRequest(String url, String requestBody, MediaType mediaType){
 
+        ResponseEntity<String> responseEntity = null;
         log.info("url = " + url + "requestBody = " + requestBody);
 
-        // Create headers
-        this.headers.setContentType(mediaType);
+        try{
+            // Create headers
+            this.headers.setContentType(mediaType);
 
-        // Create the request entity with headers and request body
-        this.requestEntity = new HttpEntity<>(requestBody, headers);
+            // Create the request entity with headers and request body
+            this.requestEntity = new HttpEntity<>(requestBody, headers);
 
-        // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity(url, requestEntity, String.class);
+            // Make the HTTP POST request
+            responseEntity = this.restTemplate.postForEntity(url, requestEntity, String.class);
 
-        log.info("Response Status Code: " + responseEntity.getStatusCode());
-        log.info("Response Entity :  " + responseEntity);
+            log.info("Response Status Code: " + responseEntity.getStatusCode());
+            log.info("Response Entity :  " + responseEntity);
+        }catch (Exception e){
+            log.warn("sendPostRequest failed : " + url);
+            e.printStackTrace();
+        }
 
         return responseEntity;
     }
 
-    public ResponseEntity<String> sendGETRequest(String url){
+    public ResponseEntity<String> sendGetRequest(String url){
 
         ResponseEntity<String> responseEntity = null;
         log.info("url = " + url);

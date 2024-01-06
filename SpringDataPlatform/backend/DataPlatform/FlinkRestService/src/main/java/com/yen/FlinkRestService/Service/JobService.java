@@ -51,43 +51,25 @@ public class JobService {
 
         // Set the URL
         String baseUrl = "http://localhost:8081/jars/"; //"http://localhost:8081/jars/{projectId}/run";
-        //String projectId = jobSubmitDto.getJarId(); //"yourProjectId"; // Replace with the actual project ID
-
         String url = baseUrl + jobSubmitDto.getJarId() + "/run";
         System.out.println("url = " + url);
 
-        // Set the query parameters
-//        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-//        queryParams.add("entry-class", jobSubmitDto.getEntryClass());
-//        queryParams.add("program-args", jobSubmitDto.getProgramArgs());
-
-        // Create headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // Set the request body
+        // Set request body
         String requestBody = ""; //"{ \"programArgsList\": \"parallelism\": 1 }";
 
-        // Create the request entity with headers and request body
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        // Create a RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
+        // Make HTTP POST request
+        ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, requestBody, MediaType.APPLICATION_JSON);
 
         // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
         JobSubmitResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobSubmitResponse.class);
         log.info("Response Status Code: " + responseEntity.getStatusCode());
-        System.out.println("jobSubmitResponse : " +jobSubmitResponse.toString());
+        log.info("jobSubmitResponse : " +jobSubmitResponse.toString());
 
         // save to DB
         Job job = new Job();
         job.setJobId(jobSubmitResponse.getJobid());
         job.setName(jobSubmitDto.getJarId());
         job.setStartTime( System.currentTimeMillis()); // TODO : double check
-        System.out.println("job = " + job);
         jobRepository.save(job);
     }
 
@@ -108,12 +90,12 @@ public class JobService {
     }
 
     public void updateAllJobs() {
-        
+
         String url = "http://localhost:8081/jobs/overview";;
         log.info("url = " + url);
 
         // Make HTTP GET request
-        ResponseEntity<String> responseEntity = restTemplateService.sendGETRequest(url);
+        ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
         JobOverviewResponse jobOverviewResponse = JSON.parseObject(responseEntity.getBody(), JobOverviewResponse.class);
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
 
