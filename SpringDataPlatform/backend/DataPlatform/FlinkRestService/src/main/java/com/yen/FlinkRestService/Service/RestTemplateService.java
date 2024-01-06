@@ -29,7 +29,7 @@ public class RestTemplateService {
     public ResponseEntity<String> sendPostRequest(String url, String requestBody, MediaType mediaType){
 
         ResponseEntity<String> responseEntity = null;
-        log.info("url = " + url + "requestBody = " + requestBody);
+        log.info("url = " + url + " requestBody = " + requestBody);
 
         try{
             // Create headers
