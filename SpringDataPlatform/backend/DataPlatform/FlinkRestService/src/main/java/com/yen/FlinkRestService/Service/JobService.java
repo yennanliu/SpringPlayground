@@ -27,6 +27,9 @@ public class JobService {
     @Autowired
     JobRepository jobRepository;
 
+    @Autowired
+    private RestTemplateService restTemplateService;
+
 
     public List<Job> getJobs() {
 
@@ -105,19 +108,15 @@ public class JobService {
     }
 
     public void updateAllJobs() {
-
-        String baseUrl = "http://localhost:8081/jobs/overview";
-        String url = baseUrl;
+        
+        String url = "http://localhost:8081/jobs/overview";;
         log.info("url = " + url);
 
-        // Create a RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Make the HTTP GET request
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
-
+        // Make HTTP GET request
+        ResponseEntity<String> responseEntity = restTemplateService.sendGETRequest(url);
         JobOverviewResponse jobOverviewResponse = JSON.parseObject(responseEntity.getBody(), JobOverviewResponse.class);
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
+
         log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
         log.info(">>> jobOverviewResponse.getJobOverviewList() = " + jobOverviewResponse.getJobs());
 

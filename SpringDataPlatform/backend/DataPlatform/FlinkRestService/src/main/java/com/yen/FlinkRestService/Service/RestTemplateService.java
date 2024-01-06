@@ -1,51 +1,78 @@
-//package com.yen.FlinkRestService.Service;
-//
-//import com.alibaba.fastjson2.JSON;
-//import com.yen.FlinkRestService.Common.RestTemplateResponse;
-//import com.yen.FlinkRestService.model.response.JarUploadResponse;
-//import org.springframework.core.io.FileSystemResource;
-//import org.springframework.http.HttpEntity;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.HttpMethod;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.stereotype.Service;
-//import org.springframework.util.LinkedMultiValueMap;
-//import org.springframework.util.MultiValueMap;
-//import org.springframework.web.client.RestTemplate;
-//
-//@Service
-//public class RestTemplateService<T> {
-//
-//    // attr
-//    private String baseURL;
-//
-//    public RestTemplateResponse<T> sendPostRequst(String url, Object requestBody){
-//
-//
-//        // Create a MultiValueMap to hold the file and headers
-//        MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
-//        bodyMap.add("jarfile", new FileSystemResource(uploadJarDto.getJarFile()));
-//
-//        // Create headers with "Expect" set to an empty string
-//        HttpHeaders headers = new HttpHeaders();
-//
-//        // Create the request entity with headers and body
-//        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-//
-//        // Create a RestTemplate
-//        RestTemplate restTemplate = new RestTemplate();
-//
-//        // Make the HTTP POST request
-//        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-//
-//        JarUploadResponse jarUploadResponse = JSON.parseObject(responseEntity.getBody(), JarUploadResponse.class);
-//
-//        return null;
-//    }
-//
-//    public void sendGETRequst(){
-//
-//        //return null;
-//    }
-//
-//}
+package com.yen.FlinkRestService.Service;
+
+import com.alibaba.fastjson2.JSON;
+import com.yen.FlinkRestService.Common.RestTemplateResponse;
+import com.yen.FlinkRestService.model.response.JarUploadResponse;
+import com.yen.FlinkRestService.model.response.JobOverview;
+import com.yen.FlinkRestService.model.response.JobOverviewResponse;
+import jdk.jfr.ContentType;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.*;
+import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.List;
+
+@Slf4j
+@Service
+public class RestTemplateService {
+
+    // attr
+    //private String url;
+
+    RestTemplate restTemplate;
+
+    HttpHeaders headers;
+
+    HttpEntity<String> requestEntity;
+
+    // constructor
+    RestTemplateService(){
+
+        //this.url = url;
+        this.restTemplate = new RestTemplate();
+        this.headers = new HttpHeaders();
+    }
+
+    public ResponseEntity<String> sendPostRequest(String url, String requestBody, MediaType mediaType){
+
+        log.info("url = " + url + "requestBody = " + requestBody);
+
+        // Create headers
+        this.headers.setContentType(mediaType);
+
+        // Create the request entity with headers and request body
+        this.requestEntity = new HttpEntity<>(requestBody, headers);
+
+        // Make the HTTP POST request
+        ResponseEntity<String> responseEntity = this.restTemplate.postForEntity(url, requestEntity, String.class);
+
+        log.info("Response Status Code: " + responseEntity.getStatusCode());
+        log.info("Response Entity :  " + responseEntity);
+
+        return responseEntity;
+    }
+
+    public ResponseEntity<String> sendGETRequest(String url){
+
+        ResponseEntity<String> responseEntity = null;
+        log.info("url = " + url);
+
+        try{
+            // Make the HTTP GET request
+            responseEntity = this.restTemplate.getForEntity(url, String.class);
+
+            log.info("Response Status Code: " + responseEntity.getStatusCode());
+            log.info("Response Entity :  " + responseEntity);
+        }catch (Exception e){
+            log.warn("sendGETRequest failed : " + url);
+            e.printStackTrace();
+        }
+
+        return responseEntity;
+    }
+
+}
