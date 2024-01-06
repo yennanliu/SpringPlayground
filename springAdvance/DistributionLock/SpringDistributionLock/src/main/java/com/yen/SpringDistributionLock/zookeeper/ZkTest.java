@@ -1,8 +1,10 @@
 package com.yen.SpringDistributionLock.zookeeper;
 
 import org.apache.zookeeper.*;
+import org.apache.zookeeper.data.Stat;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 /**
@@ -12,6 +14,7 @@ import java.util.concurrent.CountDownLatch;
  * <p>
  *  - https://youtu.be/LTiRPXieav4?si=XCZiKKPk47OR1cYu&t=191
  *  - https://youtu.be/zvYXU_oxZ08?si=F_b72ozRuYsWLlO7&t=23
+ *  - https://youtu.be/Y-1ra744pKk?si=GgEbtPnQ4PinPM_8&t=15
  */
 public class ZkTest {
 
@@ -57,7 +60,24 @@ public class ZkTest {
             zooKeeper.create("/yen/test_4", "hello EPHEMERAL serialization zk !!!".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             zooKeeper.create("/yen/test_4", "hello EPHEMERAL serialization zk !!!".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             zooKeeper.create("/yen/test_4", "hello EPHEMERAL serialization zk !!!".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-            
+
+            // check if node exists
+            String path = "/aa/cc"; //"/yen/test_1";
+            Stat stat = zooKeeper.exists(path, false);
+            if (stat != null){
+                System.out.println("Node exists : " + path);
+            }else{
+                System.out.println("Node NOT exists : " + path);
+            }
+
+            // get node data (content)
+            byte[] data = zooKeeper.getData(path, false, stat);
+            System.out.println("Node data = " + new String(data));
+
+            // check current node's sub node
+            List<String> children = zooKeeper.getChildren(path, false, stat);
+            System.out.println("Sub node list = " + children);
+
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
