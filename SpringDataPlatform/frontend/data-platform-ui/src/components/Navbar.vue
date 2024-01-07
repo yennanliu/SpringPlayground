@@ -56,7 +56,7 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-          Flink Jobs
+            Flink Jobs
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link class="dropdown-item" :to="{ name: 'ListJob' }"
@@ -64,6 +64,9 @@
             >
             <router-link class="dropdown-item" :to="{ name: 'AddJob' }"
               >Add new Job</router-link
+            >
+            <router-link class="dropdown-item" :to="{ name: 'AddSqlJob' }"
+              >Add new SQL Job</router-link
             >
           </div>
         </li>

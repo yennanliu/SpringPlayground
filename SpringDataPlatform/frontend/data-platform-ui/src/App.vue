@@ -15,12 +15,12 @@
 </template>
 
 <script>
-//var axios = require("axios");
+var axios = require("axios");
 import Navbar from "./components/Navbar.vue";
 export default {
   data() {
     return {
-      baseURL: "http://localhost:9998/",
+      baseURL: "http://localhost:9999/",
       users: null,
       departments: null,
       key: 0,
@@ -31,15 +31,15 @@ export default {
 
   components: { Navbar },
   methods: {
-    // async fetchData() {
-    //   // get users
-    //   await axios
-    //     .get(this.baseURL + "users/")
-    //     .then((res) => (this.users = res.users))
-    //     .catch((err) => console.log(err));
-    // },
+    async fetchData() {
+      // get jars
+      await axios
+        .get(this.baseURL + "jar/")
+        .then((res) => (this.jars = res.jars))
+        .catch((err) => console.log(err));
+    },
     mounted() {
-      //this.fetchData();
+      this.fetchData();
     },
   },
 };

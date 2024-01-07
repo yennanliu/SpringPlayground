@@ -15,6 +15,9 @@ import ListJob from "../views/Job/ListJob.vue";
 import ShowJobDetails from "../views/Job/ShowJobDetails.vue";
 import AddJob from "../views/Job/AddJob.vue";
 
+// SqlJob
+import AddSqlJob from "../views/SqlJob/AddSqlJob.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -77,6 +80,13 @@ const routes = [
     path: "/admin/jobs/add",
     name: "AddJob",
     component: AddJob,
+  },
+
+  // SqlJob
+  {
+    path: "/admin/sql_jobs/add",
+    name: "AddSqlJob",
+    component: AddSqlJob,
   },
 ];
 
