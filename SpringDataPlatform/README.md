@@ -244,9 +244,12 @@ bash bin/zeppelin-daemon.sh stop
 
 # install dokcer image
 
-docker run -p 8080:8080 --rm -v /Users/yennanliu/docker_file \
--v /Users/yennanliu/docker_file/flink -e FLINK_HOME=/Users/yennanliu/flink-1.17.2 -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.10.0
+# docker run -p 8080:8080 --rm -v /Users/yennanliu/docker_file \
+# -v /Users/yennanliu/docker_file/flink -e FLINK_HOME=/Users/yennanliu/flink-1.17.2 -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.10.0
 
+
+docker run -p 8081:8080 --rm -v /Users/yennanliu/docker_file \
+-v /Users/yennanliu/docker_file/flink -e FLINK_HOME=/Users/yennanliu/flink-1.17.2 --name zeppelin apache/zeppelin:0.10.0
 ```
 </details>
 
