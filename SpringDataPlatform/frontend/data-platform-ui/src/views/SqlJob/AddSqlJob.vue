@@ -51,9 +51,9 @@ export default {
         method: "post",
         url: "http://localhost:9999" + "/sql_job/add",
         data: JSON.stringify(newSQLJob),
-        // headers: {
-        //   "Content-Type": "application/json",
-        // },
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
         .then((res) => {
           //sending the event to parent to handle
