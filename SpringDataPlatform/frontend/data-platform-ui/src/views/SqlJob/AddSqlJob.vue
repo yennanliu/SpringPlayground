@@ -12,12 +12,12 @@
         <form>
           <div class="form-group">
             <label>SQL command</label>
-            <input
-              type="text"
+            <textarea
               class="form-control"
               v-model="statement"
+              rows="5"
               required
-            />
+            ></textarea>
           </div>
           <button type="button" class="btn btn-primary" @click="addSQLJob">
             Submit
@@ -28,8 +28,8 @@
     </div>
   </div>
 </template>
-        
-        <script>
+
+<script>
 import swal from "sweetalert";
 import axios from "axios";
 
@@ -73,12 +73,16 @@ export default {
   mounted() {},
 };
 </script>
-        
-        <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
+
+/* Additional styling for the textarea */
+textarea {
+  font-family: "Courier New", monospace;
+}
 </style>
-        
