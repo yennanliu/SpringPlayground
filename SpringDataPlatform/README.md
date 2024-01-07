@@ -180,7 +180,10 @@ curl http://localhost:8081/jobs/6e80fe182c310a484bf7e9d4f25ac18d/cancel
 ```
 
 ```bash
+#---------------------------------
 # Flink SQL gateway
+#---------------------------------
+
 
 # https://nightlies.apache.org/flink/flink-docs-master/zh/docs/dev/table/sql-gateway/overview/
 
@@ -216,6 +219,34 @@ curl --request GET $result_url
 
 # curl --request GET $result_url
 # {"resultType":"PAYLOAD","isQueryResult":true,"jobID":"d9a289ba044b6f0d07284cbdc6f7e63c","resultKind":"SUCCESS_WITH_CONTENT","results":{"columns":[{"name":"EXPR$0","logicalType":{"type":"INTEGER","nullable":false},"comment":null}],"rowFormat":"JSON","data":[{"kind":"INSERT","fields":[1]}]},"nextResultUri":"/v1/sessions/25c1a1b1-2c2e-4c70-be27-a60c152881d6/operations/7fa9b9c1-0a19-46c5-ae97-776a3e944bac/result/1"}%
+```
+
+```bash
+#---------------------------------
+# Apache Zeeplin
+#---------------------------------
+
+# https://medium.com/luckspark/setting-up-spark-2-0-1-and-zeppelin-0-6-2-on-macos-sierra-b163db9848f3#:~:text=to%20stop%20the%20zeppelin%2C%20simply,%2Ddaemon.sh%20stop%20command.
+
+# start Zeeplin server
+bash bin/zeppelin-daemon.sh start
+
+# stop Zeeplin server
+bash bin/zeppelin-daemon.sh stop
+```
+
+```bash
+#---------------------------------
+# Apache Zeeplin (Docker)
+#---------------------------------
+
+# https://zeppelin.apache.org/docs/0.10.1/quickstart/install.html
+
+# install dokcer image
+
+docker run -p 8080:8080 --rm -v /mnt/disk1/notebook:/notebook \
+-v /mnt/disk1/flink-1.12.2:/opt/flink -e FLINK_HOME=/Users/yennanliu/flink-1.17.2 -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.10.0
+
 ```
 </details>
 
