@@ -68,6 +68,11 @@
             <router-link class="dropdown-item" :to="{ name: 'AddSqlJob' }"
               >Add new SQL Job</router-link
             >
+            <!-- Zeppelin -->
+            <router-link class="dropdown-item" :to="{ name: 'Zeppelin' }"
+              >Zeppelin Notebook</router-link
+            >
+
           </div>
         </li>
 
