@@ -77,9 +77,9 @@ public class ZKClient {
         }
     }
 
-    public ZKDistributionLock getLock(String lockName){
+    public ZKDistributionLock getLock(ZooKeeper zooKeeper, String lockName){
 
-        return new ZKDistributionLock(lockName);
+        return new ZKDistributionLock(zooKeeper, lockName);
     }
 
 }
