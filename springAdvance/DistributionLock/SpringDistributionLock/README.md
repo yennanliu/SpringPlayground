@@ -328,7 +328,23 @@ zkCli
   - zkClient : has many foundation implementation, used by Kafka, Dubbo..
   - Curator : similar to Redisson, has distribution lock implementation
 
-## 10) Ref
+
+## 11) ZK distribution lock
+
+- Features
+  - 獨佔排他 (exclusion) : via node creation (only 1 thread can create 1 node (and only once))
+  ```bash
+  [zk: localhost:2181(CONNECTED) 52] create /locks/lock
+  Created /locks/lock
+  [zk: localhost:2181(CONNECTED) 54] create /locks/lock
+  Node already exists: /locks/lock
+  ```
+
+  - 
+
+
+
+## 20) Ref
 
 - Course
     - Video
