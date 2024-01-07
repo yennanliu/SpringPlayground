@@ -13,6 +13,8 @@
               <th>Name</th>
               <th>State</th>
               <th>Start Time</th>
+              <th>End Time</th>
+              <th>Duration</th>
               <th>Flink Job Link</th>
             </tr>
           </thead>
@@ -22,6 +24,8 @@
             <td>{{ job.name }}</td>
             <td>{{ job.state }}</td>
             <td>{{ job.startTime }}</td>
+            <td>{{ job.endTime }}</td>
+            <td>{{ job.duration }}</td>
             <!--
               http://localhost:8081/#/job/running/da174a6766a7d930054d566d508f2103/overview
             -->
@@ -50,6 +54,9 @@ export default {
   props: ["baseURL", "jobs"],
   methods: {
     toLowerCase(input) {
+      if (input == null) {
+        return ""; // or return null; depending on your use case
+      }
       return input.toLowerCase();
     },
 

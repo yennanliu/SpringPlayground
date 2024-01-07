@@ -1,10 +1,14 @@
 package com.yen.FlinkRestService.Service;
 
-import com.alibaba.fastjson2.JSON;
+//import com.alibaba.fastjson2.JSON;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.yen.FlinkRestService.Repository.JobRepository;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.dto.JobSubmitDto;
 import com.yen.FlinkRestService.model.dto.JobUpdateDto;
+import com.yen.FlinkRestService.model.response.JarUploadResponse;
 import com.yen.FlinkRestService.model.response.JobOverview;
 import com.yen.FlinkRestService.model.response.JobOverviewResponse;
 import com.yen.FlinkRestService.model.response.JobSubmitResponse;
@@ -63,7 +67,8 @@ public class JobService {
         ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, requestBody, MediaType.APPLICATION_JSON);
 
         // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
-        JobSubmitResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobSubmitResponse.class);
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+        JobSubmitResponse jobSubmitResponse  = gson.fromJson(responseEntity.getBody(), JobSubmitResponse.class);
         log.info("Response Status Code: " + responseEntity.getStatusCode());
         log.info("jobSubmitResponse : " + jobSubmitResponse.toString());
 
@@ -98,7 +103,10 @@ public class JobService {
 
         // Make HTTP GET request
         ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
-        JobOverviewResponse jobOverviewResponse = JSON.parseObject(responseEntity.getBody(), JobOverviewResponse.class);
+        // gson transform with json string name with dash (e.g. start-time) to java object
+        // https://github.com/google/gson/blob/main/UserGuide.md#json-field-naming-support
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+        JobOverviewResponse jobOverviewResponse = gson.fromJson(responseEntity.getBody(), JobOverviewResponse.class);
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
 
         log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
@@ -145,6 +153,8 @@ public class JobService {
 
     public void cancelJob(String jobID) {
 
+        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+
         // curl http://localhost:8081/jobs/6e80fe182c310a484bf7e9d4f25ac18d/cancel
         String url = BASE_URL + "/jobs/" + jobID + "/stop";
         log.info("url = " + url);
@@ -166,7 +176,8 @@ public class JobService {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
 
         // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
-        String resp = JSON.parseObject(responseEntity.getBody(), String.class);
+        String resp = gson.fromJson(responseEntity.getBody(), String.class);
+
         log.info("Response Status Code: " + responseEntity.getStatusCode());
         System.out.println("resp : " +resp.toString());
     }

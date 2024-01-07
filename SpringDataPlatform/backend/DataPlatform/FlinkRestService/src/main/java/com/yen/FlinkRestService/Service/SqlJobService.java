@@ -33,8 +33,8 @@ public class SqlJobService {
 
         ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", null);
         log.info(">>> responseEntity = " + responseEntity.toString());
-        log.info(">>> responseEntity body = " + responseEntity.getBody());
 
+        // TODO : replace with gson
         SqlJobSubmitResponse sqlJobSubmitResponse = JSON.parseObject(responseEntity.getBody(), SqlJobSubmitResponse.class);
         String sessionHandle = sqlJobSubmitResponse.getSessionHandle();
         log.info(">>> sessionHandle = " + sessionHandle);

@@ -42,8 +42,8 @@ public class JobOverview {
 
     private String jid;
     private String name;
-    private long startTime;
-    private long endTime;
+    private Long startTime;
+    private Long endTime;
     private int duration;
     private String state;
     private long lastModification;
