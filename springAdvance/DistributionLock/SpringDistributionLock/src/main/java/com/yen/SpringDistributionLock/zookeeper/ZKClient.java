@@ -77,4 +77,9 @@ public class ZKClient {
         }
     }
 
+    public ZKDistributionLock getLock(String lockName){
+
+        return new ZKDistributionLock(lockName);
+    }
+
 }
