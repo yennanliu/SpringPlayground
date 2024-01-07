@@ -16,6 +16,7 @@ import java.util.concurrent.CountDownLatch;
  *  - https://youtu.be/zvYXU_oxZ08?si=F_b72ozRuYsWLlO7&t=23
  *  - https://youtu.be/Y-1ra744pKk?si=GgEbtPnQ4PinPM_8&t=15
  *  - https://youtu.be/qVj2v7Fl5cU?si=KBxDPRx8G97xojsg
+ *
  */
 public class ZkTest {
 
@@ -62,7 +63,7 @@ public class ZkTest {
             zooKeeper.create("/yen/test_4", "hello EPHEMERAL serialization zk !!!".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
             zooKeeper.create("/yen/test_4", "hello EPHEMERAL serialization zk !!!".getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
 
-            // check if node exists
+            // check if node exists  (zk cmd : stat)
             String path = "/aa/cc"; //"/yen/test_1";
             Stat stat = zooKeeper.exists(path, false);
             if (stat != null){
@@ -71,11 +72,11 @@ public class ZkTest {
                 System.out.println("Node NOT exists : " + path);
             }
 
-            // get node data (content)
+            // get node data (content) (zk cmd : get)
             byte[] data = zooKeeper.getData(path, false, stat);
             System.out.println("Node data = " + new String(data));
 
-            // check current node's sub node
+            // check current node's sub node (zk cmd : ls)
             List<String> children = zooKeeper.getChildren(path, false, stat);
             System.out.println("Sub node list = " + children);
 
