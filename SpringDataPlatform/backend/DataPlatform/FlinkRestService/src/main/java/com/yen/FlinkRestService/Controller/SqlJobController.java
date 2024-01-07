@@ -3,6 +3,7 @@ package com.yen.FlinkRestService.Controller;
 import com.yen.FlinkRestService.Common.ApiResponse;
 import com.yen.FlinkRestService.Service.SqlJobService;
 import com.yen.FlinkRestService.model.dto.JobSubmitDto;
+import com.yen.FlinkRestService.model.dto.SqlJobSubmitDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,10 @@ public class SqlJobController {
     SqlJobService sqlJobService;
 
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addJob(){
+    public ResponseEntity<ApiResponse> addJob(SqlJobSubmitDto sqlJobSubmitDto){
 
         //jobService.addJob(jobSubmitDto);
-        sqlJobService.submitSQLJob();
+        sqlJobService.submitSQLJob(sqlJobSubmitDto);
         return new ResponseEntity<>(new ApiResponse(true, "SQL job has been added"), HttpStatus.CREATED);
     }
 

@@ -65,7 +65,7 @@ public class JobService {
         // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
         JobSubmitResponse jobSubmitResponse = JSON.parseObject(responseEntity.getBody(), JobSubmitResponse.class);
         log.info("Response Status Code: " + responseEntity.getStatusCode());
-        log.info("jobSubmitResponse : " +jobSubmitResponse.toString());
+        log.info("jobSubmitResponse : " + jobSubmitResponse.toString());
 
         // save to DB
         Job job = new Job();
@@ -122,6 +122,9 @@ public class JobService {
             currentJob.setStartTime(job.getStartTime());
             currentJob.setEndTime(job.getEndTime());
             currentJob.setState(job.getState());
+            if (currentJob.getName() == null || currentJob.getName().length() == 0){
+                currentJob.setName(job.getName());
+            }
             // will update if record already existed (primary key)
             jobRepository.save(currentJob);
         });
