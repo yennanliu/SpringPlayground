@@ -20,6 +20,7 @@ import AddSqlJob from "../views/SqlJob/AddSqlJob.vue";
 
 // Zeppelin
 import Zeppelin from "../views/Zeppelin/Zeppelin.vue";
+import ZeppelinApp from "../views/Zeppelin/ZeppelinApp.vue";
 
 Vue.use(VueRouter);
 
@@ -98,7 +99,11 @@ const routes = [
     name: "Zeppelin",
     component: Zeppelin,
   },
-
+  {
+    path: "/zeppelinApp",
+    name: "ZeppelinApp",
+    component: ZeppelinApp,
+  },
 ];
 
 const router = new VueRouter({

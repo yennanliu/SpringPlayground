@@ -72,7 +72,10 @@
             <router-link class="dropdown-item" :to="{ name: 'Zeppelin' }"
               >Zeppelin Home</router-link
             >
-
+            <!-- zeppelinApp -->
+            <router-link class="dropdown-item" :to="{ name: 'ZeppelinApp' }"
+              >Zeppelin App</router-link
+            >
           </div>
         </li>
 
