@@ -332,7 +332,9 @@ zkCli
 ## 11) ZK distribution lock
 
 - Features
-  - 獨佔排他 (exclusion) : via node creation (only 1 thread can create 1 node (and only once))
+  - 獨佔排他 (exclusion) : 自旋鎖
+    - 利用 `ZK node 無法重覆特性`
+    - via node creation (only 1 thread can create 1 node (and only once))
   ```bash
   [zk: localhost:2181(CONNECTED) 52] create /locks/lock
   Created /locks/lock
@@ -340,7 +342,8 @@ zkCli
   Node already exists: /locks/lock
   ```
 
-  - 
+  - 阻塞鎖
+    - 利用 `ZK 臨時序列化節點`
 
 
 
