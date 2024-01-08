@@ -56,12 +56,20 @@ public class JobService {
         log.info("jobSubmitDto = " + jobSubmitDto.toString());
 
         // Set the URL
-        String baseUrl = BASE_URL + "/jars/"; //"http://localhost:8081/jars/"; //"http://localhost:8081/jars/{projectId}/run";
-        String url = baseUrl + jobSubmitDto.getJarId() + "/run";
+        /**
+         *  example :
+         *
+         *  1) POST: /jars/MyProgram.jar/run?savepointPath=/my-savepoints/savepoint-1bae02a80464&allowNonRestoredState=true
+         *
+         *  1) "http://localhost:8081/jars/{projectId}/run";
+         */
+        String baseUrl = BASE_URL + "/jars/";
+        // TODO : fix below to send entry-class, parallelism to flink
+        String url = baseUrl + jobSubmitDto.getJarId() + "/run"; // + "entry-class=" + jobSubmitDto.getEntryClass();
         System.out.println("url = " + url);
 
         // Set request body
-        String requestBody = ""; //"{ \"programArgsList\": \"parallelism\": 1 }";
+        String requestBody = "";
 
         // Make HTTP POST request
         ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, requestBody, MediaType.APPLICATION_JSON);

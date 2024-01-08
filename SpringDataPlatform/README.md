@@ -83,11 +83,6 @@ bash bin/flink run examples/streaming/TopSpeedWindowing.jar
 
 # stop cluster
 bash bin/stop-cluster.sh
-
-
-# copy jars
-cp -fr /Users/yennanliu/flink-1.17.2/examples SpringPlayground/SpringDataPlatform/backend/DataPlatform/FlinkRestService/src/main/resources/
-
 ```
 
 ```bash
@@ -101,8 +96,13 @@ cp -fr /Users/yennanliu/flink-1.17.2/examples SpringPlayground/SpringDataPlatfor
 
 # https://juejin.cn/s/flink%20rest%20api%20upload%20jar
 
-cd examples
 
+#---------------------------------
+# Flink REST API
+#---------------------------------
+
+# https://nightlies.apache.org/flink/flink-docs-release-1.18/zh/docs/ops/rest_api/
+# https://nightlies.apache.org/flink/flink-docs-release-1.18/generated/rest_v1_dispatcher.yml
 
 #---------------------------------
 # Flink upload jar via API call
