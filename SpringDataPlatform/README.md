@@ -248,7 +248,12 @@ bash bin/zeppelin-daemon.sh stop
 # -v /Users/yennanliu/docker_file/flink -e FLINK_HOME=/Users/yennanliu/flink-1.17.2 -e ZEPPELIN_NOTEBOOK_DIR='/notebook' --name zeppelin apache/zeppelin:0.10.0
 
 # map 8080 port (in docker) to 8082 (external)
-docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink -e FLINK_HOME=/opt/flink  --name zeppelin apache/zeppelin:0.10.0
+# docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink -e FLINK_HOME=/opt/flink  --name zeppelin apache/zeppelin:0.10.0
+
+# pass zeppelin conf to docker env
+cd SpringPlayground/SpringDataPlatform/backend
+
+docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink --rm -v $(pwd)/zeppelin:/opt/zeppelin/conf:ro -e FLINK_HOME=/opt  --name zeppelin apache/zeppelin:0.10.0
 ```
 </details>
 
