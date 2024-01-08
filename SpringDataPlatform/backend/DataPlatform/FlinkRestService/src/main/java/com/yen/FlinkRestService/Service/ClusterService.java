@@ -4,9 +4,12 @@ import com.yen.FlinkRestService.Repository.ClusterRepository;
 import com.yen.FlinkRestService.model.Cluster;
 import com.yen.FlinkRestService.model.dto.AddClusterDto;
 import com.yen.FlinkRestService.model.dto.UpdateClusterDto;
+import com.yen.FlinkRestService.model.response.ClusterPingResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 
@@ -16,6 +19,9 @@ public class ClusterService {
 
     @Autowired
     private ClusterRepository clusterRepository;
+
+    @Autowired
+    private RestTemplateService restTemplateService;
 
     public List<Cluster> getClusters() {
 
@@ -54,6 +60,26 @@ public class ClusterService {
         curCluster.setStatus("Updated"); // TODO : replace with enums
         clusterRepository.save(curCluster);
         return curCluster;
+    }
+
+    public ClusterPingResponse pingCluster(Integer clusterId){
+
+        if (!clusterRepository.findById(clusterId).isPresent()){
+            log.warn("No saved cluster with id : " + clusterId);
+            return null;
+        }
+
+        Cluster cluster = clusterRepository.findById(clusterId).get();
+        ResponseEntity<String> resp =  restTemplateService.pingServer(cluster.getUrl(), cluster.getPort());
+        ClusterPingResponse clusterResp = new ClusterPingResponse();
+        // if 2xx // TODO : optimize this
+        if (StringUtils.startsWithIgnoreCase(resp.getStatusCode().toString(), "2")){
+            clusterResp.setIsAccessible(true);
+        }else{
+            clusterResp.setIsAccessible(false);
+        }
+        clusterResp.setMessage(resp.getBody());
+        return new ClusterPingResponse();
     }
 
 }

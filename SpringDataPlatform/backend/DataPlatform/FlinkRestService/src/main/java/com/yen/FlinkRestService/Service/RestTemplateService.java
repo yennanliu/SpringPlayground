@@ -70,4 +70,12 @@ public class RestTemplateService {
         return responseEntity;
     }
 
+    // ping/test if remote server is accessible
+    public ResponseEntity<String> pingServer(String url, Integer port){
+
+        String pingUrl = url + ":" + port;
+        log.info("pingUrl = " + pingUrl);
+        return this.restTemplate.getForEntity(pingUrl, String.class);
+    }
+
 }
