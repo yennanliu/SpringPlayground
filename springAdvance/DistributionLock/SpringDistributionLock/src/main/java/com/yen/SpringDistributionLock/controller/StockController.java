@@ -1,6 +1,7 @@
 package com.yen.SpringDistributionLock.controller;
 
 import com.yen.SpringDistributionLock.service.*;
+import com.yen.SpringDistributionLock.zookeeper.ZKDistributionLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,6 +48,9 @@ public class StockController {
 
     @Autowired
     StockServiceCountDownLatch stockServiceCountDownLatch;
+
+    @Autowired
+    StockServiceZK stockServiceZK;
 
     @GetMapping("stock/deduct")
     public String deduct(){
@@ -128,6 +132,13 @@ public class StockController {
 
         stockServiceCountDownLatch.testCountDown();
         return "CountDownLatch  - student leave room ... ";
+    }
+
+    @GetMapping("test/zk")
+    public String testZKLock(){
+
+        stockServiceZK.deduct();
+        return "stockServiceZK  - deduct run ... ";
     }
 
 }
