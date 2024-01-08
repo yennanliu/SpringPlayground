@@ -1,5 +1,6 @@
 package com.yen.SpringDistributionLock.service;
 
+import com.yen.SpringDistributionLock.zookeeper.ZKBlockingLock;
 import com.yen.SpringDistributionLock.zookeeper.ZKClient;
 import com.yen.SpringDistributionLock.zookeeper.ZKDistributionLock;
 import org.apache.zookeeper.ZooKeeper;
@@ -25,7 +26,8 @@ public class StockServiceZK {
     public void deduct() {
 
         // get lock
-        ZKDistributionLock lock = zkClient.getLock("lock");
+        //ZKDistributionLock lock = zkClient.getLock("lock");
+        ZKBlockingLock lock = zkClient.getBlockingLock("lock");
 
         try {
             // lock

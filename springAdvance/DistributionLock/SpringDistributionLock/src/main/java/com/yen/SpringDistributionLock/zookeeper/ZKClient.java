@@ -82,4 +82,9 @@ public class ZKClient {
         return new ZKDistributionLock(this.zooKeeper, lockName);
     }
 
+    public ZKBlockingLock getBlockingLock(String lockName){
+
+        return new ZKBlockingLock(this.zooKeeper, lockName);
+    }
+
 }
