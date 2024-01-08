@@ -9,11 +9,11 @@
               href="#start-shopping"
               class="bg-white px-2 py-2 rounded"
               id="heading"
-              >DataPlatform Service</a
+              >Data Platform Service</a
             >
           </h3>
           <p id="content" class="lead mb-0 bg-dark p-1 rounded">
-            Data Platform : Flink, Spark
+            Apache Flink Jar, SQL Job submit, Jar upload, resource management.
           </p>
         </header>
       </div>
@@ -29,13 +29,13 @@
         </div>
       </div>
       <div class="row">
-        <div
+        <!-- <div
           v-for="index in this.category_size"
           :key="index"
           class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex"
         >
           <CategoryBox :category="categories[index - 1]"> </CategoryBox>
-        </div>
+        </div> -->
       </div>
     </div>
 

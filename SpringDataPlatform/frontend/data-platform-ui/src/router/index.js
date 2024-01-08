@@ -22,6 +22,10 @@ import AddSqlJob from "../views/SqlJob/AddSqlJob.vue";
 import Zeppelin from "../views/Zeppelin/Zeppelin.vue";
 import ZeppelinApp from "../views/Zeppelin/ZeppelinApp.vue";
 
+// signin, signup
+import Signup from "../views/Signup.vue";
+import Signin from "../views/Signin.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -103,6 +107,17 @@ const routes = [
     path: "/zeppelinApp",
     name: "ZeppelinApp",
     component: ZeppelinApp,
+  },
+  //Signin and Signup
+  {
+    path: "/signup",
+    name: "Signup",
+    component: Signup,
+  },
+  {
+    path: "/signin",
+    name: "Signin",
+    component: Signin,
   },
 ];
 
