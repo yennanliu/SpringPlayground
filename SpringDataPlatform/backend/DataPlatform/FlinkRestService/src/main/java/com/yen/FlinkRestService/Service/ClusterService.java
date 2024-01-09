@@ -71,15 +71,20 @@ public class ClusterService {
 
         Cluster cluster = clusterRepository.findById(clusterId).get();
         ResponseEntity<String> resp =  restTemplateService.pingServer(cluster.getUrl(), cluster.getPort());
+        log.info("(pingCluster) resp status = " + resp.getStatusCode());
         ClusterPingResponse clusterResp = new ClusterPingResponse();
+        clusterResp.setIsAccessible(false);
         // if 2xx // TODO : optimize this
         if (StringUtils.startsWithIgnoreCase(resp.getStatusCode().toString(), "2")){
             clusterResp.setIsAccessible(true);
+            cluster.setStatus("connected");
         }else{
-            clusterResp.setIsAccessible(false);
+            cluster.setStatus("not_connected");
         }
         clusterResp.setMessage(resp.getBody());
-        return new ClusterPingResponse();
+        // save to DB
+        clusterRepository.save(cluster);
+        return clusterResp;
     }
 
 }
