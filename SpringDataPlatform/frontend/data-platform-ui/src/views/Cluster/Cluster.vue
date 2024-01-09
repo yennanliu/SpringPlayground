@@ -28,7 +28,7 @@
   // https://youtu.be/VZ1NV7EHGJw?si=JPmnA7oQoVdPJwAL&t=1450
   // https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Product/Product.vue
   
-  import JobBox from "../../components/Clusters/ClusterBox";
+  import JobBox from "../../components/Cluster/ClusterBox";
   var axios = require("axios");
   
   export default {

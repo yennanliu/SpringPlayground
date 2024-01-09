@@ -43,6 +43,9 @@
             <router-link class="dropdown-item" :to="{ name: 'AddJar' }"
               >Add Jar</router-link
             >
+            <router-link class="dropdown-item" :to="{ name: 'Cluster' }"
+              >Cluster</router-link
+            >
           </div>
         </li>
 

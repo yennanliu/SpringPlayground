@@ -15,10 +15,10 @@ import ListJob from "../views/Job/ListJob.vue";
 import ShowJobDetails from "../views/Job/ShowJobDetails.vue";
 import AddJob from "../views/Job/AddJob.vue";
 
-// // cluster
-// import Job from "../views/Job/Job.vue";
-// import ListJob from "../views/Job/ListJob.vue";
-// import ShowJobDetails from "../views/Job/ShowJobDetails.vue";
+// cluster
+import Cluster from "../views/Cluster/Cluster.vue";
+import ListCluster from "../views/Cluster/ListCluster.vue";
+//import ShowClusterDetails from "../views/Cluster/ShowClusterDetails.vue";
 // import AddJob from "../views/Job/AddJob.vue";
 
 // SqlJob
@@ -125,6 +125,23 @@ const routes = [
     name: "Signin",
     component: Signin,
   },
+  // cluster
+
+  {
+    path: "/cluster",
+    name: "Cluster",
+    component: Cluster,
+  },
+  {
+    path: "/clusters/",
+    name: "ListCluster",
+    component: ListCluster,
+  },
+  // {
+  //   path: "/clusters/show/:id",
+  //   name: "ShowClusterDetails",
+  //   component: ShowClusterDetails,
+  // }
 ];
 
 const router = new VueRouter({
