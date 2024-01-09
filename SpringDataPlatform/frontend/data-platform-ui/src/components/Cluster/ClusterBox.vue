@@ -5,7 +5,7 @@
         <router-link
           :to="{ name: 'ShowClusterDetails', params: { id: cluster.id } }"
         >
-          <h5 class="card-title">{{ cluster.id }}</h5>
+          <h5 class="card-title">{{  cluster.url + cluster.port}}</h5>
         </router-link>
       </div>
     </div>

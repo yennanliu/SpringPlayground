@@ -31,6 +31,25 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
+            Cluster
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <router-link class="dropdown-item" :to="{ name: 'Cluster' }"
+              >Cluster List</router-link
+            >
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link text-light dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
             Flink Jar
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -42,9 +61,6 @@
             >
             <router-link class="dropdown-item" :to="{ name: 'AddJar' }"
               >Add Jar</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'Cluster' }"
-              >Cluster</router-link
             >
           </div>
         </li>
