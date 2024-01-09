@@ -4,6 +4,7 @@ import com.yen.FlinkRestService.Common.ApiResponse;
 import com.yen.FlinkRestService.Service.ClusterService;
 import com.yen.FlinkRestService.model.Cluster;
 import com.yen.FlinkRestService.model.dto.AddClusterDto;
+import com.yen.FlinkRestService.model.dto.PingClusterDto;
 import com.yen.FlinkRestService.model.dto.UpdateClusterDto;
 import com.yen.FlinkRestService.model.response.ClusterPingResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -49,11 +50,11 @@ public class ClusterController {
         clusterService.updateCluster(updateClusterDto);
         return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Cluster has been updated"), HttpStatus.OK);
     }
+    
+    @PostMapping("/ping")
+    public ResponseEntity<ApiResponse> pingCluster(@RequestBody PingClusterDto pingClusterDto) {
 
-    @PostMapping("/ping/{clusterId}")
-    public ResponseEntity<ApiResponse> pingCluster(@PathVariable("clusterId") Integer clusterId) {
-
-        ClusterPingResponse resp = clusterService.pingCluster(clusterId);
+        ClusterPingResponse resp = clusterService.pingCluster(pingClusterDto.getId());
         return new ResponseEntity<ApiResponse>(new ApiResponse(resp.getIsAccessible(), resp.getMessage()), HttpStatus.OK);
     }
 
