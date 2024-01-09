@@ -15,6 +15,12 @@ import ListJob from "../views/Job/ListJob.vue";
 import ShowJobDetails from "../views/Job/ShowJobDetails.vue";
 import AddJob from "../views/Job/AddJob.vue";
 
+// // cluster
+// import Job from "../views/Job/Job.vue";
+// import ListJob from "../views/Job/ListJob.vue";
+// import ShowJobDetails from "../views/Job/ShowJobDetails.vue";
+// import AddJob from "../views/Job/AddJob.vue";
+
 // SqlJob
 import AddSqlJob from "../views/SqlJob/AddSqlJob.vue";
 
