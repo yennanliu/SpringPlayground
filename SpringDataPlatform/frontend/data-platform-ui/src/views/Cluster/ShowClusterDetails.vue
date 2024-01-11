@@ -60,19 +60,32 @@ export default {
 
     // Add the "Test Cluster" method
     async pingCluster() {
-      try {
-        const response = await axios.get(`http://localhost:9999/cluster/ping`);
-        this.clusterStatus = response.data;
-        console.log("Test Cluster Response:", response.data);
-        // Handle the response as needed
-        swal({
-          text: "Cluster Connection Status : " + this.clusterStatus.status,
-          icon: "success",
-          closeOnClickOutside: false,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      const pingReq = {
+        id: this.$route.params.id,
+      };
+
+      console.log(">>> pingReq = " + JSON.stringify(pingReq))
+
+      await axios({
+        method: "post",
+        url: "http://localhost:9999/cluster/ping",
+        data: JSON.stringify(pingReq),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          //sending the event to parent to handle
+          console.log(res);
+          this.$emit("fetchData");
+          //this.$router.push({ name: "Home" });
+          swal({
+            text: "Cluster Connection Status : " + this.clusterStatus.status,
+            icon: "success",
+            closeOnClickOutside: false,
+          });
+        })
+        .catch((err) => console.log(err));
     },
   },
   mounted() {
