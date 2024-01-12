@@ -278,6 +278,8 @@ docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink --rm -
 
 ## Ref
 
-- Course
-    - Video
-        - xxx
+- Zeppelin client API
+  - https://blog.csdn.net/weixin_44870914/article/details/124375498
+  - https://www.laitimes.com/article/1pl86_1vmmq.html
+  - https://zeppelin.apache.org/docs/latest/usage/zeppelin_sdk/client_api.html
+  - https://developer.aliyun.com/search?spm=a2c6h.12873639.J_XmGx2FZCDAeIy2ZCWL7sW.i0.71aa3f894flC57&k=Apache%20Zeppelin%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B&scene=community

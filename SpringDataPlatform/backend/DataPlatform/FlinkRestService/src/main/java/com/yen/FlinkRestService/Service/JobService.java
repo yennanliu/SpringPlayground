@@ -187,7 +187,7 @@ public class JobService {
         String resp = gson.fromJson(responseEntity.getBody(), String.class);
 
         log.info("Response Status Code: " + responseEntity.getStatusCode());
-        System.out.println("resp : " +resp.toString());
+        System.out.println("resp : " + resp);
     }
 
 }

@@ -33,13 +33,13 @@ public class JarService {
     JobJarRepository jobJarRepository;
 
     //@Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
     // TODO : read from conf
     @Value("${flink.base_url}")
     private String BASE_URL; //private String BASE_URL = "http://localhost:8081/";
 
-    private JarUtil jarUtil = new JarUtil();
+    private final JarUtil jarUtil = new JarUtil();
 
     // constructor
     JarService(){
