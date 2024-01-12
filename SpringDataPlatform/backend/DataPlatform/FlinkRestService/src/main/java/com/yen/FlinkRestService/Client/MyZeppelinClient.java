@@ -27,13 +27,14 @@ public class MyZeppelinClient {
 
         ClientConfig clientConfig = new ClientConfig(ZeppelinURL);
         try {
-            zeppelinClient = new ZeppelinClient(clientConfig);
+            this.zeppelinClient = new ZeppelinClient(clientConfig);
+            log.info("ZeppelinClient config = " + zeppelinClient.getClientConfig().toString());
             log.info("Init ZeppelinClient OK : " + zeppelinClient);
         } catch (Exception e) {
             log.error("Init ZeppelinClient fail !!!");
             throw new RuntimeException(e);
         }
-        return zeppelinClient;
+        return this.zeppelinClient;
     }
 
 //    @PreDestroy
