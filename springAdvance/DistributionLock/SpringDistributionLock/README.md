@@ -351,8 +351,28 @@ zkCli
   - 可重入鎖
     - 同ㄧ線程已獲取該鎖, 可以直接再次獲得該鎖(可重入)
       - Method 1) 在ZK node紀錄服務器, 線程 以及重入訊息
-      - Method 2) 使用 TreadLocal : 線程局部變量, 線程私有
+      - Method 2) 使用 TreadLocal : 線程局部變量, 線程私有: [code](https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/src/main/java/com/yen/SpringDistributionLock/zookeeper/ZKReentrantLock.java)
+  - 公平鎖:
+    - 有序列
 
+
+## 12) ZK lock VS Redis lock
+
+  - 獨佔排他互斥使用: 
+    - Redis : 節點不重覆
+    - ZK: 節點不重覆
+    
+    - 防死鎖:
+      - Redis : 過期時間
+      - ZK: 臨時節點
+
+    - 可重入鎖:
+      - Redis : Lua script + hash map
+      - ZK: 使用 TreadLocal, 線程局部變量, 線程私有
+
+    - 防誤刪:
+      - Redis : UUID + Thread ID
+      - ZK: 給每個線程 創建唯一的序列化節點
 
 ## 20) Ref
 
