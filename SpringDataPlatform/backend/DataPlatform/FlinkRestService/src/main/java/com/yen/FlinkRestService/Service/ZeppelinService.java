@@ -1,6 +1,7 @@
 package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Client.MyZeppelinClient;
+import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zeppelin.client.ClientConfig;
 import org.apache.zeppelin.client.NoteResult;
@@ -42,7 +43,8 @@ public class ZeppelinService {
 
         String path = null;
         try{
-            path = this.zeppelinClient.createNote(notePath);
+            path = zeppelinClient.createNote(notePath);
+            log.info("createNote OK, notePath = " + path);
             return path;
         }catch (Exception e){
             e.printStackTrace();
@@ -51,6 +53,8 @@ public class ZeppelinService {
     }
 
     public void deleteNote(String noteId){
+
+        log.info("(deleteNote)  noteId = " + noteId);
 
         if (noteId == null || noteId.length() == 0){
             throw new RuntimeException("(deleteNote) noteId can't be null");
@@ -127,16 +131,16 @@ public class ZeppelinService {
         return null;
     }
 
-    public String addParagraph(String noteId, String title, String text) throws Exception{
+    public String addParagraph(AddParagraphDTO addParagraphDTO) throws Exception{
 
-        if (noteId == null || noteId.length() == 0){
+        if (addParagraphDTO.getNoteId() == null || addParagraphDTO.getNoteId().length() == 0){
             throw new RuntimeException("(addParagraph) noteId can't be null");
         }
 
         String res = null;
 
         try {
-            res = zeppelinClient.addParagraph(noteId, title, text);
+            res = zeppelinClient.addParagraph(addParagraphDTO.getNoteId(), addParagraphDTO.getTitle(), addParagraphDTO.getText());
         }catch (Exception e){
             e.printStackTrace();
         }

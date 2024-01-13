@@ -1,6 +1,7 @@
 package com.yen.FlinkRestService.Controller;
 
 import com.yen.FlinkRestService.Service.ZeppelinService;
+import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,22 +15,24 @@ public class ZeppelinController {
     @Autowired
     private ZeppelinService zeppelinService;
 
-
-    /**
-     *
-     *     @PostMapping("/ping")
-     *     public ResponseEntity<ApiResponse> pingCluster(@RequestBody PingClusterDto pingClusterDto) {
-     *
-     *         ClusterPingResponse resp = clusterService.pingCluster(pingClusterDto.getId());
-     *         return new ResponseEntity<ApiResponse>(new ApiResponse(resp.getIsAccessible(), resp.getMessage()), HttpStatus.OK);
-     *     }
-     */
-
     @PostMapping("/create")
     public String createNotebook(@RequestBody String notePath){
 
         String res = zeppelinService.createNote(notePath);
         return res;
+    }
+
+    @PostMapping("/delete")
+    public void deleteNotebook(@RequestBody String notePath){
+
+        zeppelinService.deleteNote(notePath);
+    }
+
+    // public String addParagraph(String noteId, String title, String text)
+    @PostMapping("/addParagraph")
+    public void addParagraph(@RequestBody AddParagraphDTO addParagraphDTO) throws Exception {
+
+        zeppelinService.addParagraph(addParagraphDTO);
     }
 
 }
