@@ -3,6 +3,7 @@ package com.yen.SpringDistributionLock.service;
 import com.yen.SpringDistributionLock.zookeeper.ZKBlockingLock;
 import com.yen.SpringDistributionLock.zookeeper.ZKClient;
 import com.yen.SpringDistributionLock.zookeeper.ZKDistributionLock;
+import com.yen.SpringDistributionLock.zookeeper.ZKReentrantLock;
 import org.apache.zookeeper.ZooKeeper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,6 +29,7 @@ public class StockServiceZK {
         // get lock
         //ZKDistributionLock lock = zkClient.getLock("lock");
         ZKBlockingLock lock = zkClient.getBlockingLock("lock");
+        //ZKReentrantLock lock = zkClient.getReentrantLock("lock");
 
         try {
             // lock

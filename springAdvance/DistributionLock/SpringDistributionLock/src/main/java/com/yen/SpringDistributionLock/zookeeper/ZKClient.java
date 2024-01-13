@@ -87,4 +87,9 @@ public class ZKClient {
         return new ZKBlockingLock(this.zooKeeper, lockName);
     }
 
+    public ZKReentrantLock getReentrantLock(String lockName){
+
+        return new ZKReentrantLock(this.zooKeeper, lockName);
+    }
+
 }
