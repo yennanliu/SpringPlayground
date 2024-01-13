@@ -64,27 +64,43 @@ public class ClusterService {
 
     public ClusterPingResponse pingCluster(Integer clusterId){
 
+        ClusterPingResponse clusterPingResponse = new ClusterPingResponse();
+
         if (!clusterRepository.findById(clusterId).isPresent()){
-            log.warn("No saved cluster with id : " + clusterId);
-            return null;
+            String msg = "failed, No saved cluster with id : " + clusterId;
+            log.warn(msg);
+            clusterPingResponse.setMessage(msg);
+            return clusterPingResponse;
         }
 
         Cluster cluster = clusterRepository.findById(clusterId).get();
         ResponseEntity<String> resp =  restTemplateService.pingServer(cluster.getUrl(), cluster.getPort());
+
+        // if null resp (restTemplate can't access cluster)
+        if (resp == null || resp.toString().equals(null)){
+            cluster.setStatus("not_connected");
+            clusterPingResponse.setMessage("failed");
+            clusterPingResponse.setIsAccessible(false);
+            // save to DB
+            clusterRepository.save(cluster);
+            return clusterPingResponse;
+        }
+
         log.info("(pingCluster) resp status = " + resp.getStatusCode());
-        ClusterPingResponse clusterResp = new ClusterPingResponse();
-        clusterResp.setIsAccessible(false);
+        clusterPingResponse = new ClusterPingResponse();
+
         // if 2xx // TODO : optimize this
         if (StringUtils.startsWithIgnoreCase(resp.getStatusCode().toString(), "2")){
-            clusterResp.setIsAccessible(true);
+            clusterPingResponse.setIsAccessible(true);
             cluster.setStatus("connected");
         }else{
+            clusterPingResponse.setIsAccessible(false);
             cluster.setStatus("not_connected");
         }
-        clusterResp.setMessage(resp.getBody());
+        clusterPingResponse.setMessage(resp.getBody());
         // save to DB
         clusterRepository.save(cluster);
-        return clusterResp;
+        return clusterPingResponse;
     }
 
 }

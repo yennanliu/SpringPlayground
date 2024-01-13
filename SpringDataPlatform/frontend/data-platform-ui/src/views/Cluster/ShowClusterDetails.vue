@@ -64,7 +64,7 @@ export default {
         id: this.$route.params.id,
       };
 
-      console.log(">>> pingReq = " + JSON.stringify(pingReq))
+      console.log(">>> pingReq = " + JSON.stringify(pingReq));
 
       await axios({
         method: "post",
@@ -76,12 +76,16 @@ export default {
       })
         .then((res) => {
           //sending the event to parent to handle
-          console.log(res);
+          console.log(
+            ">>> pingCluster success  " + JSON.stringify(res.data.success)
+          );
+          //console.log(">>> pingCluster res " + JSON.stringify(res));
           this.$emit("fetchData");
-          //this.$router.push({ name: "Home" });
           swal({
-            text: "Cluster Connection Status : " + this.clusterStatus.status,
-            icon: "success",
+            text: `Cluster Connection Result: ${
+              res.data.success ? "Success" : "Failed"
+            }`,
+            icon: res.data.success ? "success" : "error",
             closeOnClickOutside: false,
           });
         })
