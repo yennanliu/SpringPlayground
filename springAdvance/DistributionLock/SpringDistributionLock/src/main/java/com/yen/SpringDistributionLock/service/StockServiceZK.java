@@ -28,8 +28,8 @@ public class StockServiceZK {
 
         // get lock
         //ZKDistributionLock lock = zkClient.getLock("lock");
-        ZKBlockingLock lock = zkClient.getBlockingLock("lock");
-        //ZKReentrantLock lock = zkClient.getReentrantLock("lock");
+        //ZKBlockingLock lock = zkClient.getBlockingLock("lock");
+        ZKReentrantLock lock = zkClient.getReentrantLock("lock");
 
         try {
             // lock

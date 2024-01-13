@@ -86,6 +86,7 @@ public class ZKReentrantLock implements Lock {
              *  flag > 0 : has lock, but not yet release
              */
             Integer flag = THREAD_LOCAL.get();
+            System.out.println("(tryLock) flag = " + flag);
             if (flag != null && flag > 0){
                 THREAD_LOCAL.set(flag + 1);
                 return true;
@@ -150,6 +151,8 @@ public class ZKReentrantLock implements Lock {
                 }
                 cdl.await();
             }
+
+            THREAD_LOCAL.set(1);
             return true;
 
         } catch (Exception e) {
@@ -183,6 +186,7 @@ public class ZKReentrantLock implements Lock {
             if (THREAD_LOCAL.get() == 0){
                 this.zooKeeper.delete(this.currentNodePath, -1);
             }
+
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } catch (KeeperException e) {
