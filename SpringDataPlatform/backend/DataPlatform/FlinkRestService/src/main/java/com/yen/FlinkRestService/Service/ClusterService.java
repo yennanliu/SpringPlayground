@@ -2,8 +2,8 @@ package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Repository.ClusterRepository;
 import com.yen.FlinkRestService.model.Cluster;
-import com.yen.FlinkRestService.model.dto.AddClusterDto;
-import com.yen.FlinkRestService.model.dto.UpdateClusterDto;
+import com.yen.FlinkRestService.model.dto.cluster.AddClusterDto;
+import com.yen.FlinkRestService.model.dto.cluster.UpdateClusterDto;
 import com.yen.FlinkRestService.model.response.ClusterPingResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

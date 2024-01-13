@@ -1,4 +1,4 @@
-package com.yen.FlinkRestService.model.dto;
+package com.yen.FlinkRestService.model.dto.cluster;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,9 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class UpdateClusterDto {
+public class PingClusterDto {
 
     private Integer id;
-    private String url;
-    private Integer port;
 }

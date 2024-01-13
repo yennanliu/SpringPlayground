@@ -1,4 +1,4 @@
-package com.yen.FlinkRestService.model.dto;
+package com.yen.FlinkRestService.model.dto.job;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class PingClusterDto {
+public class CancelJobDto {
 
-    private Integer id;
+    private String jobId;
 }

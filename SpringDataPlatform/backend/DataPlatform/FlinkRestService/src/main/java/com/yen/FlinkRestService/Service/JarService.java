@@ -4,7 +4,7 @@ package com.yen.FlinkRestService.Service;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.yen.FlinkRestService.model.dto.UploadJarDto;
+import com.yen.FlinkRestService.model.dto.jar.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.model.JobJar;
 import com.yen.FlinkRestService.model.response.JarUploadResponse;

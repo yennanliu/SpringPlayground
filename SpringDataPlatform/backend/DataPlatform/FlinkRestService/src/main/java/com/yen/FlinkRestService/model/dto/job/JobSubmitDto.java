@@ -1,4 +1,4 @@
-package com.yen.FlinkRestService.model.dto;
+package com.yen.FlinkRestService.model.dto.job;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

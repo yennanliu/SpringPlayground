@@ -2,18 +2,15 @@ package com.yen.FlinkRestService.Controller;
 
 import com.yen.FlinkRestService.Common.ApiResponse;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
-import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.JobJar;
-import com.yen.FlinkRestService.model.dto.UploadJarDto;
+import com.yen.FlinkRestService.model.dto.jar.UploadJarDto;
 import com.yen.FlinkRestService.Service.JarService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.util.List;
 
 @Slf4j
