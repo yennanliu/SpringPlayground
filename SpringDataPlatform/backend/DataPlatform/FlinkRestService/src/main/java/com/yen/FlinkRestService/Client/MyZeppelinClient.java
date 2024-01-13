@@ -15,7 +15,7 @@ public class MyZeppelinClient {
 
     // attr
     ZeppelinClient zeppelinClient;
-    private String ZeppelinURL = "http://localhost:8888";
+    private String ZeppelinURL = "http://localhost:8082";
 
     /**
      * @PostConstruct :
@@ -28,8 +28,8 @@ public class MyZeppelinClient {
         ClientConfig clientConfig = new ClientConfig(ZeppelinURL);
         try {
             this.zeppelinClient = new ZeppelinClient(clientConfig);
-            log.info("ZeppelinClient config = " + zeppelinClient.getClientConfig().toString());
-            log.info("Init ZeppelinClient OK : " + zeppelinClient);
+            log.info("ZeppelinClient RestUrl = " + zeppelinClient.getClientConfig().getZeppelinRestUrl());
+            log.info("Init ZeppelinClient OK : " + zeppelinClient.toString());
         } catch (Exception e) {
             log.error("Init ZeppelinClient fail !!!");
             throw new RuntimeException(e);

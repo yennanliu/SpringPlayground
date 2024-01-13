@@ -2,6 +2,7 @@ package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Client.MyZeppelinClient;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.zeppelin.client.ClientConfig;
 import org.apache.zeppelin.client.NoteResult;
 import org.apache.zeppelin.client.ParagraphResult;
 import org.apache.zeppelin.client.ZeppelinClient;
@@ -29,8 +30,11 @@ public class ZeppelinService {
     private ZeppelinClient zeppelinClient;
 
     // constructor
-//    ZeppelinService(){
+//    ZeppelinService() throws Exception {
 //
+//        ClientConfig clientConfig = new ClientConfig(ZeppelinURL);
+//        this.zeppelinClient = new ZeppelinClient(clientConfig);
+//        System.out.println(">>> Zeppelin client config = " + this.zeppelinClient.getClientConfig());
 //    }
 
 
@@ -38,7 +42,7 @@ public class ZeppelinService {
 
         String path = null;
         try{
-            path = zeppelinClient.createNote(notePath);
+            path = this.zeppelinClient.createNote(notePath);
             return path;
         }catch (Exception e){
             e.printStackTrace();
