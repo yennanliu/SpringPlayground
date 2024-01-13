@@ -387,7 +387,12 @@ zkCli
     - Redis :
     - ZK: 幾乎不會發生, ZKㄧ般為集群部署
 
-  
+## 13) `Curator : ZK distribution lock Java client`
+
+  - Curator-framework : core library (對ZK底層封裝)
+  - Curator-recipes : 對常見應用場景封裝（e.g. distribution lock)
+
+
 ## 20) Ref
 
 - Course
