@@ -395,6 +395,10 @@ zkCli
 ## 14) Curator ZK lock
   
   - InterProcessMutex : 類似ReentrantLock, 分布式版本
+    - Main methods:
+      - Public InterProcessMutex(CuratorFramework client, String path)
+      - public void require()
+      - public void release()
 
 ## 20) Ref
 
