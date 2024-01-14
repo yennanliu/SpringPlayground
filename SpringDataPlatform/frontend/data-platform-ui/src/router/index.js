@@ -19,7 +19,7 @@ import AddJob from "../views/Job/AddJob.vue";
 import Cluster from "../views/Cluster/Cluster.vue";
 import ListCluster from "../views/Cluster/ListCluster.vue";
 import ShowClusterDetails from "../views/Cluster/ShowClusterDetails.vue";
-// import AddJob from "../views/Job/AddJob.vue";
+import AddCluster from "../views/Cluster/AddCluster.vue";
 
 // SqlJob
 import AddSqlJob from "../views/SqlJob/AddSqlJob.vue";
@@ -133,7 +133,7 @@ const routes = [
     component: Cluster,
   },
   {
-    path: "/clusters/",
+    path: "/clusters",
     name: "ListCluster",
     component: ListCluster,
   },
@@ -141,7 +141,12 @@ const routes = [
     path: "/clusters/show/:id",
     name: "ShowClusterDetails",
     component: ShowClusterDetails,
-  }
+  },
+  {
+    path: "/admin/clusters/add",
+    name: "AddCluster",
+    component: AddCluster,
+  },
 ];
 
 const router = new VueRouter({

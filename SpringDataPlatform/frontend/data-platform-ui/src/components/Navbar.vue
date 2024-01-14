@@ -37,6 +37,9 @@
             <router-link class="dropdown-item" :to="{ name: 'Cluster' }"
               >Cluster List</router-link
             >
+            <router-link class="dropdown-item" :to="{ name: 'AddCluster' }"
+              >Add Cluster</router-link
+            >
           </div>
         </li>
 
