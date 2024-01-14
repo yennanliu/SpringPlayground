@@ -392,6 +392,9 @@ zkCli
   - Curator-framework : core library (對ZK底層封裝)
   - Curator-recipes : 對常見應用場景封裝（e.g. distribution lock)
 
+## 14) Curator ZK lock
+  
+  - InterProcessMutex : 類似ReentrantLock, 分布式版本
 
 ## 20) Ref
 

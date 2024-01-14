@@ -1,5 +1,8 @@
-package com.yen.SpringDistributionLock.zookeeper;
+package com.yen.SpringDistributionLock.config;
 
+import com.yen.SpringDistributionLock.zookeeper.ZKBlockingLock;
+import com.yen.SpringDistributionLock.zookeeper.ZKDistributionLock;
+import com.yen.SpringDistributionLock.zookeeper.ZKReentrantLock;
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;

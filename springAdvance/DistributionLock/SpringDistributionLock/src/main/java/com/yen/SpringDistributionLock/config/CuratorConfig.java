@@ -23,11 +23,13 @@ public class CuratorConfig {
 
         // define retry policy
         RetryPolicy retryPolicy = new ExponentialBackoffRetry(10000, 3);
+
         CuratorFramework zkClient = CuratorFrameworkFactory.newClient("127.0.0.1:2181", retryPolicy);
 
         /** NOTE !!! need to start client, otherwise many methods NOT works */
         zkClient.start();
         log.info("zkClient config = " + zkClient.getConfig());
+
         return zkClient;
     }
 
