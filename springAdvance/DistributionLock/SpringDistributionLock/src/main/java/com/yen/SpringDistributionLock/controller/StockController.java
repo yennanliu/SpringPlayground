@@ -52,6 +52,9 @@ public class StockController {
     @Autowired
     StockServiceZK stockServiceZK;
 
+    @Autowired
+    StockServiceZKCurator stockServiceZKCurator;
+
     @GetMapping("stock/deduct")
     public String deduct(){
 
@@ -139,6 +142,13 @@ public class StockController {
 
         stockServiceZK.deduct();
         return "stockServiceZK  - deduct run ... ";
+    }
+
+    @GetMapping("test/zk_curator")
+    public String testZKCuratorLock(){
+
+        stockServiceZKCurator.deduct();
+        return "stockServiceZKCurator  - deduct run ... ";
     }
 
 }

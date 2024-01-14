@@ -1,5 +1,6 @@
 package com.yen.SpringDistributionLock.service;
 
+import com.yen.SpringDistributionLock.lock.DistributedRedisLock;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,16 @@ public class StockServiceZKCurator {
                     stringRedisTemplate.opsForValue().set("stock", String.valueOf(amount - 1));
                 }
             }
+
+            /**
+             *  Test Curator Lock reentrantLock feature
+             *
+             *   - Note : in order to make sure threads are using same lock,
+             *            below we pass mutex to testCuratorReentrantLock method
+             *            -> less flexibility (cons when use Curator)
+             */
+            this.testCuratorReentrantLock(mutex);
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {
@@ -54,6 +65,21 @@ public class StockServiceZKCurator {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    /**
+     *  Test Curator Lock reentrantLock feature
+     *
+     *  https://youtu.be/Zx-r9bKJ_Dk?si=KCr20aSLIRsa1CaM&t=15
+     */
+    public void testCuratorReentrantLock(InterProcessMutex mutex) throws Exception {
+
+        //InterProcessMutex mutex = new InterProcessMutex(curatorFramework, "/curator/locks");
+        // lock
+        mutex.acquire();
+        System.out.println("test testCuratorReentrantLock");
+        // unlock
+        mutex.release();
     }
 
 }
