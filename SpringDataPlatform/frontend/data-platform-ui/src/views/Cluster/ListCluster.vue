@@ -15,6 +15,7 @@
               <th>Port</th>
               <th>Status</th>
               <th>Url</th>
+              <th>Detail</th>
               <!-- Add more columns if needed -->
             </tr>
           </thead>
@@ -24,6 +25,11 @@
               <td>{{ cluster.port }}</td>
               <td>{{ cluster.status }}</td>
               <td>{{ cluster.url }}</td>
+              <td>
+                <router-link :to="`/clusters/show/${cluster.id}`">
+                  Cluster Detail
+                </router-link>
+              </td>
               <!-- Add more columns if needed -->
             </tr>
           </tbody>

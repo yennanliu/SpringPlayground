@@ -34,7 +34,7 @@
             Cluster
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Cluster' }"
+            <router-link class="dropdown-item" :to="{ name: 'ListCluster' }"
               >Cluster List</router-link
             >
             <router-link class="dropdown-item" :to="{ name: 'AddCluster' }"
