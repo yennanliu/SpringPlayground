@@ -9,17 +9,17 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
+        <form @submit.prevent="addJar">
           <div class="form-group">
             <label>Jar File</label>
             <input
-              type="text"
+              type="file"
+              ref="fileInput"
               class="form-control"
-              v-model="jarFile"
               required
             />
           </div>
-          <button type="button" class="btn btn-primary" @click="addJar">
+          <button type="submit" class="btn btn-primary">
             Submit
           </button>
         </form>
@@ -28,35 +28,34 @@
     </div>
   </div>
 </template>
-    
-    <script>
+
+<script>
 import swal from "sweetalert";
 import axios from "axios";
 
 export default {
   data() {
-    return {
-      id: null,
-      jarFile: null,
-    };
+    return {};
   },
-  props: ["baseURL", "products"],
+  props: ["baseURL"],
   methods: {
     async addJar() {
-      const newJar = {
-        jarFile: this.jarFile,
-      };
+      // Get the selected file from the input
+      const fileInput = this.$refs.fileInput;
+      const file = fileInput.files[0];
 
-      await axios({
-        method: "post",
-        url: "http://localhost:9999/" + "jar/add_jar",
-        data: JSON.stringify(newJar),
+      // Create a FormData object and append the file to it
+      const formData = new FormData();
+      formData.append("jarfile", file);
+
+      // Make the multipart/form-data POST request
+      await axios.post(`http://localhost:9999/jar/add_jar`, formData, {
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "multipart/form-data",
         },
       })
         .then((res) => {
-          //sending the event to parent to handle
+          // Sending the event to parent to handle
           console.log(res);
           this.$emit("fetchData");
           this.$router.push({ name: "ListJar" });
@@ -69,16 +68,13 @@ export default {
         .catch((err) => console.log(err));
     },
   },
-
-  mounted() {},
 };
 </script>
-    
-    <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
 </style>
-    
