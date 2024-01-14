@@ -19,7 +19,7 @@
               <td>{{ cluster.id }}</td>
               <td>{{ cluster.url }}</td>
               <td>{{ cluster.port }}</td>
-              <td>{{ cluster.status }}</td>
+              <td :style="{ color: getStatusColor(cluster.status) }">{{ cluster.status }}</td>
             </tr>
           </tbody>
         </table>
@@ -60,36 +60,23 @@ export default {
 
     // Add the "Test Cluster" method
     async pingCluster() {
-      const pingReq = {
-        id: this.$route.params.id,
-      };
-
-      console.log(">>> pingReq = " + JSON.stringify(pingReq));
-
-      await axios({
-        method: "post",
-        url: "http://localhost:9999/cluster/ping",
-        data: JSON.stringify(pingReq),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(
-            ">>> pingCluster success  " + JSON.stringify(res.data.success)
-          );
-          //console.log(">>> pingCluster res " + JSON.stringify(res));
-          this.$emit("fetchData");
-          swal({
-            text: `Cluster Connection Result: ${
-              res.data.success ? "Success" : "Failed"
-            }`,
-            icon: res.data.success ? "success" : "error",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      try {
+        const response = await axios.get(`http://localhost:9999/cluster/ping`);
+        this.clusterStatus = response.data;
+        console.log("Test Cluster Response:", response.data);
+        // Handle the response as needed
+        swal({
+          text: "Cluster Connection Status : " + this.clusterStatus.status,
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    getStatusColor(status) {
+      // Add logic to determine color based on status
+      return status === 'connected' ? 'green' : 'red';
     },
   },
   mounted() {
