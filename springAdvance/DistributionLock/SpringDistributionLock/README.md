@@ -402,6 +402,13 @@ zkCli
       - 加鎖: public void require()
       - 解鎖: public void release()
 
+  - InterProcessSemaphoreMutex : 不可重入鎖
+
+  - InterProcessReadWriteMutex : 可重入讀寫鎖
+    - 讀讀 -> 可並發
+    - 讀寫 -> 不可並發
+    - 寫寫 -> 不可並發
+
 ## 20) Ref
 
 - Course
