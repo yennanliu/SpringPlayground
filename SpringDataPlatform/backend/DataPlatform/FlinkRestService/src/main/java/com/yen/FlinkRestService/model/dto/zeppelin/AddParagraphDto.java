@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class AddParagraphDTO {
+public class AddParagraphDto {
 
     private String noteId;
     private String title;

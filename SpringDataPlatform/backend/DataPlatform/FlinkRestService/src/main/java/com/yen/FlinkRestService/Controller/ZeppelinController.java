@@ -1,7 +1,8 @@
 package com.yen.FlinkRestService.Controller;
 
 import com.yen.FlinkRestService.Service.ZeppelinService;
-import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDTO;
+import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
+import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,9 +17,9 @@ public class ZeppelinController {
     private ZeppelinService zeppelinService;
 
     @PostMapping("/create")
-    public String createNotebook(@RequestBody String notePath){
+    public String createNotebook(@RequestBody CreateNoteDto createNoteDto){
 
-        String res = zeppelinService.createNote(notePath);
+        String res = zeppelinService.createNote(createNoteDto);
         return res;
     }
 
@@ -30,7 +31,7 @@ public class ZeppelinController {
 
     // public String addParagraph(String noteId, String title, String text)
     @PostMapping("/addParagraph")
-    public void addParagraph(@RequestBody AddParagraphDTO addParagraphDTO) throws Exception {
+    public void addParagraph(@RequestBody AddParagraphDto addParagraphDTO) throws Exception {
 
         zeppelinService.addParagraph(addParagraphDTO);
     }

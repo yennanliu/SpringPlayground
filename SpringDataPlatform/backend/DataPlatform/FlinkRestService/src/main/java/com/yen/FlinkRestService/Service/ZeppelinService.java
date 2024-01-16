@@ -1,9 +1,8 @@
 package com.yen.FlinkRestService.Service;
 
-import com.yen.FlinkRestService.Client.MyZeppelinClient;
-import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDTO;
+import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
+import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.zeppelin.client.ClientConfig;
 import org.apache.zeppelin.client.NoteResult;
 import org.apache.zeppelin.client.ParagraphResult;
 import org.apache.zeppelin.client.ZeppelinClient;
@@ -39,11 +38,11 @@ public class ZeppelinService {
 //    }
 
 
-    public String createNote(String notePath){
+    public String createNote(CreateNoteDto createNoteDto){
 
         String path = null;
         try{
-            path = zeppelinClient.createNote(notePath);
+            path = zeppelinClient.createNote(createNoteDto.getNotePath(), createNoteDto.getInterpreterGroup());
             log.info("createNote OK, notePath = " + path);
             return path;
         }catch (Exception e){
@@ -131,7 +130,7 @@ public class ZeppelinService {
         return null;
     }
 
-    public String addParagraph(AddParagraphDTO addParagraphDTO) throws Exception{
+    public String addParagraph(AddParagraphDto addParagraphDTO) throws Exception{
 
         if (addParagraphDTO.getNoteId() == null || addParagraphDTO.getNoteId().length() == 0){
             throw new RuntimeException("(addParagraph) noteId can't be null");
