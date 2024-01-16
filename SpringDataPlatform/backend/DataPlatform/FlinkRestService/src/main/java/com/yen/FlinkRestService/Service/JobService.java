@@ -4,8 +4,10 @@ package com.yen.FlinkRestService.Service;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.Repository.JobRepository;
 import com.yen.FlinkRestService.model.Job;
+import com.yen.FlinkRestService.model.JobJar;
 import com.yen.FlinkRestService.model.dto.job.JobSubmitDto;
 import com.yen.FlinkRestService.model.dto.job.JobUpdateDto;
 import com.yen.FlinkRestService.model.response.JobOverview;
@@ -22,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -29,6 +32,9 @@ public class JobService {
 
     @Autowired
     JobRepository jobRepository;
+
+    @Autowired
+    JobJarRepository jobJarRepository;
 
     @Autowired
     private RestTemplateService restTemplateService;
@@ -64,7 +70,11 @@ public class JobService {
          */
         String baseUrl = BASE_URL + "/jars/";
         // TODO : fix below to send entry-class, parallelism to flink
-        String url = baseUrl + jobSubmitDto.getJarId() + "/run"; // + "entry-class=" + jobSubmitDto.getEntryClass();
+        if (!jobJarRepository.findById(jobSubmitDto.getJarId()).isPresent()){
+            throw new RuntimeException("Job jar NOT exists, Jar ID = " + jobSubmitDto.getJarId());
+        }
+        JobJar jobJar = jobJarRepository.findById(jobSubmitDto.getJarId()).get();
+        String url = baseUrl + jobJar.getSavedJarName() + "/run"; // + "entry-class=" + jobSubmitDto.getEntryClass();
         System.out.println("url = " + url);
 
         // Set request body
@@ -82,7 +92,7 @@ public class JobService {
         // save to DB
         Job job = new Job();
         job.setJobId(jobSubmitResponse.getJobid());
-        job.setName(jobSubmitDto.getJarId());
+        job.setName(jobJar.getId() + "-" + jobJar.getSavedJarName());
         job.setStartTime( System.currentTimeMillis()); // TODO : double check
         jobRepository.save(job);
     }

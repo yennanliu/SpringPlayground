@@ -8,7 +8,7 @@ public class JarUtil {
     public String getJarNameFromRepsonse(JarUploadResponse jarUploadResponse){
         try{
             String fileName = jarUploadResponse.getFilename();
-            String[] list = fileName.split("/");
+            String[] list = fileName.split("/flink-web-upload");
             return list[list.length-1];
         }catch (Exception e){
             e.printStackTrace();

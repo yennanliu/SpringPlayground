@@ -38,7 +38,7 @@ import lombok.ToString;
 @ToString
 public class JobSubmitDto {
 
-    private String jarId; // 927a9fac-c7bf-48cd-b1b8-b4e536449eb0_StreamSQLExample.jar
+    private Integer jarId;
     private String entryClass; // "org.apache.flink.table.examples.java.basics.StreamSQLExample"
     private Integer parallelism = 1; // default as 1
     private String programArgs;

@@ -12,13 +12,9 @@
         <form>
           <div class="form-group">
             <label>Jar ID</label>
-            <select class="form-control" v-model="savedJarName" required>
-              <option
-                v-for="jar in jars"
-                :key="jar.id"
-                :value="jar.savedJarName"
-              >
-                Name : {{ jar.savedJarName }}
+            <select class="form-control" v-model="savedJarId" required>
+              <option v-for="jar in jars" :key="jar.id" :value="jar.id">
+                Name : {{ jar.id + " " + jar.savedJarName }}
               </option>
             </select>
           </div>
@@ -32,8 +28,8 @@
     </div>
   </div>
 </template>
-      
-      <script>
+
+<script>
 import swal from "sweetalert";
 import axios from "axios";
 
@@ -44,7 +40,7 @@ export default {
       allowNonRestoredState: null,
       entryClass: null,
       jarId: null,
-      savedJarName: null,
+      savedJarId: null,
       parallelism: null,
       programArgs: null,
       savePointPath: null,
@@ -59,7 +55,6 @@ export default {
         .get("http://localhost:9999/" + "jar/")
         .then((res) => {
           this.jars = res.data;
-          console.log(">>> (getJars) this.jars = " + JSON.stringify(this.jars));
         })
         .catch((err) => console.log(err));
     },
@@ -68,7 +63,7 @@ export default {
       const newJob = {
         allowNonRestoredState: null,
         entryClass: null,
-        jarId: this.savedJarName,
+        jarId: this.savedJarId,
         parallelism: 1,
         programArgs: null,
         savePointPath: null,
@@ -102,12 +97,11 @@ export default {
   },
 };
 </script>
-      
-      <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
 </style>
-      
