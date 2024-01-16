@@ -11,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class PingClusterDto {
 
-    private Integer id;
+    private String id;
 }

@@ -54,7 +54,7 @@ public class ClusterController {
     @PostMapping("/ping")
     public ResponseEntity<ApiResponse> pingCluster(@RequestBody PingClusterDto pingClusterDto) {
 
-        ClusterPingResponse resp = clusterService.pingCluster(pingClusterDto.getId());
+        ClusterPingResponse resp = clusterService.pingCluster(Integer.parseInt(pingClusterDto.getId()));
         return new ResponseEntity<ApiResponse>(new ApiResponse(resp.getIsAccessible(), resp.getMessage()), HttpStatus.OK);
     }
 

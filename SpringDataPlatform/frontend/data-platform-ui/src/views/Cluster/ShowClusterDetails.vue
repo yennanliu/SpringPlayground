@@ -19,7 +19,9 @@
               <td>{{ cluster.id }}</td>
               <td>{{ cluster.url }}</td>
               <td>{{ cluster.port }}</td>
-              <td :style="{ color: getStatusColor(cluster.status) }">{{ cluster.status }}</td>
+              <td :style="{ color: getStatusColor(cluster.status) }">
+                {{ cluster.status }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -60,23 +62,39 @@ export default {
 
     // Add the "Test Cluster" method
     async pingCluster() {
-      try {
-        const response = await axios.get(`http://localhost:9999/cluster/ping`);
-        this.clusterStatus = response.data;
-        console.log("Test Cluster Response:", response.data);
-        // Handle the response as needed
-        swal({
-          text: "Cluster Connection Status : " + this.clusterStatus.status,
-          icon: "success",
-          closeOnClickOutside: false,
-        });
-      } catch (error) {
-        console.error(error);
-      }
+      const toPingCluster = {
+        id: this.$route.params.id,
+      };
+      await axios({
+        method: "post",
+        url: "http://localhost:9999/cluster/ping",
+        data: JSON.stringify(toPingCluster),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((res) => {
+          console.log("Test Cluster Response:", res.data);
+          if (res.data.success) {
+            swal({
+              text: "Cluster Connection Status: Connected",
+              icon: "success",
+              closeOnClickOutside: false,
+            });
+          } else {
+            swal({
+              text: "Cluster Connection Status: Not Connected",
+              icon: "error",
+              closeOnClickOutside: false,
+            });
+          }
+        })
+        .catch((err) => console.log(err));
     },
+
     getStatusColor(status) {
       // Add logic to determine color based on status
-      return status === 'connected' ? 'green' : 'red';
+      return status === "connected" ? "green" : "red";
     },
   },
   mounted() {
