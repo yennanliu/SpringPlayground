@@ -67,6 +67,9 @@
             <router-link class="dropdown-item" :to="{ name: 'ListNotebook' }"
               >Notebook List</router-link
             >
+            <router-link class="dropdown-item" :to="{ name: 'AddNotebook' }"
+              >Add Notebook</router-link
+            >
           </div>
         </li>
 

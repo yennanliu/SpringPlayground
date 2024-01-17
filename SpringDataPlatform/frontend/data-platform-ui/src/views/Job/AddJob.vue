@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h4 class="pt-3">Submit new Job</h4>
+        <h4 class="pt-3">Submit a new Flink Job</h4>
       </div>
     </div>
 

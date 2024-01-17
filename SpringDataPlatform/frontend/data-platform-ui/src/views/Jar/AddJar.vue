@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h4 class="pt-3">Add new Jar</h4>
+        <h4 class="pt-3">Add a new Jar</h4>
       </div>
     </div>
 
