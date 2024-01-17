@@ -1,15 +1,22 @@
 package com.yen.FlinkRestService.Service;
 
+import com.yen.FlinkRestService.Repository.NotebookRepository;
+import com.yen.FlinkRestService.model.Job;
+import com.yen.FlinkRestService.model.Notebook;
 import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zeppelin.client.NoteResult;
 import org.apache.zeppelin.client.ParagraphResult;
 import org.apache.zeppelin.client.ZeppelinClient;
+import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -29,6 +36,9 @@ public class ZeppelinService {
     @Autowired
     private ZeppelinClient zeppelinClient;
 
+    @Autowired
+    private NotebookRepository notebookRepository;
+
     // constructor
 //    ZeppelinService() throws Exception {
 //
@@ -37,15 +47,56 @@ public class ZeppelinService {
 //        System.out.println(">>> Zeppelin client config = " + this.zeppelinClient.getClientConfig());
 //    }
 
+    public List<Notebook> getNotebooks() {
+
+        return notebookRepository.findAll();
+    }
+
+    public Notebook getNotebookById(Integer notebookId) {
+
+        if (notebookRepository.findById(notebookId).isPresent()){
+            return notebookRepository.findById(notebookId).get();
+        }
+        log.warn("No Notebook with notebookId = " + notebookId);
+        return null;
+    }
+
+    public Notebook getNotebookByZeppelinNoteId(String zeppelinNoteId) {
+
+        List<Notebook> notebookList = notebookRepository.findAll();
+
+        if (notebookList == null || notebookList.size() == 0){
+            log.warn("No saved notebook !");
+            return null;
+        }
+
+        List<Notebook> filteredNotebook = notebookList.stream().filter(x -> {
+           return x.getZeppelinNoteId() == zeppelinNoteId;
+        }).collect(Collectors.toList());
+
+        if (filteredNotebook.size() > 1){
+            throw new RuntimeException("more than one notebook existed in DB !! zeppelinNoteId = " + zeppelinNoteId);
+        }
+
+        return filteredNotebook.get(0);
+    }
 
     public String createNote(CreateNoteDto createNoteDto){
 
         String path = null;
         try{
             path = zeppelinClient.createNote(createNoteDto.getNotePath(), createNoteDto.getInterpreterGroup());
-            log.info("createNote OK, notePath = " + path);
+            log.info("create zeppelin notebook OK, notePath = " + path);
+            // save to DB
+            Notebook notebook = new Notebook();
+            notebook.setZeppelinNoteId(path);
+            notebook.setInterpreterGroup(createNoteDto.getInterpreterGroup());
+            notebook.setInsertTime(new Date());
+            notebook.setUpdateTime(new Date());
+            notebookRepository.save(notebook);
             return path;
         }catch (Exception e){
+            log.error("create zeppelin notebook fail");
             e.printStackTrace();
         }
         return path;
@@ -61,6 +112,9 @@ public class ZeppelinService {
 
         try {
             zeppelinClient.deleteNote(noteId);
+            // delete from DB
+            Notebook notebook = this.getNotebookByZeppelinNoteId(noteId);
+            notebookRepository.delete(notebook);
         }catch (Exception e){
             e.printStackTrace();
         }
