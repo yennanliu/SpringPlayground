@@ -1,8 +1,26 @@
 # SparkPlatform
-> Data platform for Apache Spark job management
+> Data platform for Apache Flink job management
 
 
-## Steps
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| http://localhost:8081 | GET| Flink UI  | |
+| http://localhost:8082/#/ | GET| Zeppelin UI  | |
+| http://localhost:8082/next/#/| GET| Zeppelin new UI  | |
+| http://localhost:9999/swagger-ui.html | GET| BE api swagger (Flink REST) | |
+| http://localhost:8081/jobs/overview | GET| Get all jobs  | |
+| http://localhost:8081/jobs/<job_id> | GET| Get a job detail | |
+| http://localhost:8081/v1/jars/upload | POST | upload job jar| |
+| http://localhost:8081/v1/jars | GET | get submitted job id |
+| http://localhost:8081/v1/jars/<id>/run?entry-class=xxx&program-args=xxx| POST | trigger submitted job |
+| http://localhost:8081/v1/<jar_id> | DELETE | delete submitted jar |
+| http://localhost:8081/v1/<jar_id> | GET | cancel a submitted jar |
+
+
+
+## Build
 
 
 ## Run
@@ -254,24 +272,10 @@ bash bin/zeppelin-daemon.sh stop
 cd SpringPlayground/SpringDataPlatform/backend
 
 docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink --rm -v $(pwd)/zeppelin:/opt/zeppelin/conf:ro -e FLINK_HOME=/opt  --name zeppelin apache/zeppelin:0.10.0
+
+docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink -e FLINK_HOME=/opt  --name zeppelin apache/zeppelin:0.10.0
 ```
 </details>
-
-## API
-
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| http://localhost:8081 | GET| Flink UI  | |
-| http://localhost:9999/swagger-ui.html | GET| BE api swagger (Flink REST) | |
-| http://localhost:8081/jobs/overview | GET| Get all jobs  | |
-| http://localhost:8081/jobs/<job_id> | GET| Get a job detail | |
-| http://localhost:8081/v1/jars/upload | POST | upload job jar| |
-| http://localhost:8081/v1/jars | GET | get submitted job id |
-| http://localhost:8081/v1/jars/<id>/run?entry-class=xxx&program-args=xxx| POST | trigger submitted job |
-| http://localhost:8081/v1/<jar_id> | DELETE | delete submitted jar |
-| http://localhost:8081/v1/<jar_id> | GET | cancel a submitted jar |
-
-
 
 
 ## Important Concepts
@@ -281,5 +285,5 @@ docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink --rm -
 - Zeppelin client API
   - https://blog.csdn.net/weixin_44870914/article/details/124375498
   - https://www.laitimes.com/article/1pl86_1vmmq.html
-  - https://zeppelin.apache.org/docs/latest/usage/zeppelin_sdk/client_api.html
+  - https://zeppelin.apache.org/docs/latest/usage/zeppelin_sdk/client_api.htmls
   - https://developer.aliyun.com/search?spm=a2c6h.12873639.J_XmGx2FZCDAeIy2ZCWL7sW.i0.71aa3f894flC57&k=Apache%20Zeppelin%E7%B3%BB%E5%88%97%E6%95%99%E7%A8%8B&scene=community
