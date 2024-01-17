@@ -53,17 +53,19 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            Flink Jar
+            Zeppelin
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Home' }"
-              >Home</router-link
+            <!-- Zeppelin -->
+            <router-link class="dropdown-item" :to="{ name: 'Zeppelin' }"
+              >Zeppelin Home</router-link
             >
-            <router-link class="dropdown-item" :to="{ name: 'ListJar' }"
-              >Jar List</router-link
+            <!-- zeppelinApp -->
+            <router-link class="dropdown-item" :to="{ name: 'ZeppelinApp' }"
+              >Zeppelin App</router-link
             >
-            <router-link class="dropdown-item" :to="{ name: 'AddJar' }"
-              >Add Jar</router-link
+            <router-link class="dropdown-item" :to="{ name: 'ListNotebook' }"
+              >Notebook List</router-link
             >
           </div>
         </li>
@@ -90,13 +92,30 @@
             <router-link class="dropdown-item" :to="{ name: 'AddSqlJob' }"
               >Submit new SQL Job</router-link
             >
-            <!-- Zeppelin -->
-            <router-link class="dropdown-item" :to="{ name: 'Zeppelin' }"
-              >Zeppelin Home</router-link
+          </div>
+        </li>
+
+        <li class="nav-item dropdown">
+          <a
+            class="nav-link text-light dropdown-toggle"
+            href="#"
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          >
+            Flink Jar
+          </a>
+          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <router-link class="dropdown-item" :to="{ name: 'Home' }"
+              >Home</router-link
             >
-            <!-- zeppelinApp -->
-            <router-link class="dropdown-item" :to="{ name: 'ZeppelinApp' }"
-              >Zeppelin App</router-link
+            <router-link class="dropdown-item" :to="{ name: 'ListJar' }"
+              >Jar List</router-link
+            >
+            <router-link class="dropdown-item" :to="{ name: 'AddJar' }"
+              >Add Jar</router-link
             >
           </div>
         </li>

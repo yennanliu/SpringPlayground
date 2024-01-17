@@ -27,6 +27,7 @@ import AddSqlJob from "../views/SqlJob/AddSqlJob.vue";
 // Zeppelin
 import Zeppelin from "../views/Zeppelin/Zeppelin.vue";
 import ZeppelinApp from "../views/Zeppelin/ZeppelinApp.vue";
+import ListNotebook from "../views/Zeppelin/ListNotebook.vue";
 
 // signin, signup
 import Signup from "../views/Signup.vue";
@@ -114,6 +115,12 @@ const routes = [
     name: "ZeppelinApp",
     component: ZeppelinApp,
   },
+  {
+    path: "/notebooks",
+    name: "ListNotebook",
+    component: ListNotebook,
+  },
+
   //Signin and Signup
   {
     path: "/signup",
@@ -126,7 +133,6 @@ const routes = [
     component: Signin,
   },
   // cluster
-
   {
     path: "/cluster",
     name: "Cluster",
