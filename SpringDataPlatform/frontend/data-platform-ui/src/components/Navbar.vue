@@ -70,6 +70,9 @@
             <router-link class="dropdown-item" :to="{ name: 'AddNotebook' }"
               >Add Notebook</router-link
             >
+            <router-link class="dropdown-item" :to="{ name: 'NotebookConsole' }"
+              >Notebook Console</router-link
+            >
           </div>
         </li>
 

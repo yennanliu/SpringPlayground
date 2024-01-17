@@ -29,6 +29,7 @@ import Zeppelin from "../views/Zeppelin/Zeppelin.vue";
 import ZeppelinApp from "../views/Zeppelin/ZeppelinApp.vue";
 import ListNotebook from "../views/Zeppelin/ListNotebook.vue";
 import AddNotebook from "../views/Zeppelin/AddNotebook.vue";
+import NotebookConsole from "../views/Zeppelin/NotebookConsole.vue";
 
 // signin, signup
 import Signup from "../views/Signup.vue";
@@ -125,6 +126,11 @@ const routes = [
     path: "/admin/notebook/add",
     name: "AddNotebook",
     component: AddNotebook,
+  },
+  {
+    path: "/notebook_console",
+    name: "NotebookConsole",
+    component: NotebookConsole,
   },
 
   //Signin and Signup
