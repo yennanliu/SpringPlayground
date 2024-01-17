@@ -16,7 +16,7 @@
             <th>Interpreter Group</th>
             <th>Added Time</th>
             <th>Updated Time</th>
-            <!-- <th>Detail</th> -->
+            <th>Detail</th>
             <!-- Add more columns if needed -->
           </tr>
         </thead>
@@ -27,11 +27,11 @@
             <td>{{ notebook.interpreterGroup }}</td>
             <td>{{ notebook.insertTime }}</td>
             <td>{{ notebook.updateTime }}</td>
-            <!-- <td>
-              <router-link :to="`/jars/show/${jar.id}`">
-                Jar Detail
-              </router-link>
-            </td> -->
+            <td>
+              <a :href="`${getZeppelinNotebookLink(notebook)}`" target="_blank">
+                View Notebook
+              </a>
+            </td>
             <!-- Add more columns if needed -->
           </tr>
         </tbody>
@@ -55,10 +55,17 @@ export default {
   },
   props: ["baseURL"],
   methods: {
+    getZeppelinNotebookLink(notebook) {
+      if (!notebook) {
+        return null;
+      }
+      return "http://localhost:8082/next/#/notebook/" + notebook.zeppelinNoteId;
+    },
+
     async fetchData() {
       try {
         const response = await axios.get("http://localhost:9999/zeppelin/");
-        console.log(">>> response = " + JSON.stringify(response))
+        console.log(">>> response = " + JSON.stringify(response));
         this.notebooks = response.data;
       } catch (error) {
         console.error(error);
