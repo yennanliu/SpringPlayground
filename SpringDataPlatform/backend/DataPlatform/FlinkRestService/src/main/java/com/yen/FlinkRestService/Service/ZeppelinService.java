@@ -181,7 +181,28 @@ public class ZeppelinService {
 
     public NoteResult waitUntilNoteFinished(String noteId) throws Exception{
 
-        return null;
+        NoteResult result = null;
+        try{
+            result = zeppelinClient.waitUntilNoteFinished(noteId, 15000); // 15 sec timeout
+            log.info("Notebook run result = " + result);
+        }catch (Exception e){
+            log.warn("Can't get Notebook run result, either timeout or run failure");
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public ParagraphResult waitUtilParagraphFinish(String noteId, String paragraphId){
+
+        ParagraphResult result = null;
+        try{
+            result = zeppelinClient.waitUtilParagraphFinish(noteId, paragraphId, 15000); // 15 sec timeout
+            log.info("Notebook run result = " + result);
+        }catch (Exception e){
+            log.warn("Can't get Paragraph run result, either timeout or run failure");
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public String addParagraph(AddParagraphDto addParagraphDTO) throws Exception{
@@ -195,6 +216,7 @@ public class ZeppelinService {
         try {
             res = zeppelinClient.addParagraph(addParagraphDTO.getNoteId(), addParagraphDTO.getTitle(), addParagraphDTO.getText());
         }catch (Exception e){
+            log.warn("Add paragraph to notebook fail, request = " + addParagraphDTO);
             e.printStackTrace();
         }
         return res;
@@ -202,6 +224,7 @@ public class ZeppelinService {
 
     public void updateParagraph(String noteId, String paragraphId, String title, String text) throws Exception{
 
+        zeppelinClient.updateParagraph(noteId, paragraphId, title, text);
     }
 
     public ParagraphResult executeParagraph(String noteId, String paragraphId, String sessionId, Map<String, String> parameters) throws Exception{
@@ -236,17 +259,20 @@ public class ZeppelinService {
         return res;
     }
 
-    public void cancelParagraph(String noteId, String paragraphId){
+    public void cancelParagraph(String noteId, String paragraphId) throws Exception {
 
+        zeppelinClient.cancelParagraph(noteId, paragraphId);
     }
 
     public ParagraphResult queryParagraphResult(String noteId, String paragraphId){
 
-        return null;
-    }
-
-    public ParagraphResult waitUtilParagraphFinish(String noteId, String paragraphId){
-
+        ParagraphResult res = null;
+        try{
+            res = zeppelinClient.queryParagraphResult(noteId, paragraphId);
+        }catch (Exception e){
+            log.warn("query paragraph result fail, noteId = {}, paragraphId = {}", noteId, paragraphId);
+            e.printStackTrace();
+        }
         return null;
     }
 

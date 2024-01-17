@@ -45,8 +45,6 @@ public class ZeppelinController {
 
         zeppelinService.deleteNote(notePath);
     }
-
-    // public String addParagraph(String noteId, String title, String text)
     @PostMapping("/addParagraph")
     public void addParagraph(@RequestBody AddParagraphDto addParagraphDTO) throws Exception {
 
