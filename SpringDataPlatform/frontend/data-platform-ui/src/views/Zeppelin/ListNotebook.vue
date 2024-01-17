@@ -13,19 +13,25 @@
           <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Detail</th>
+            <th>Interpreter Group</th>
+            <th>Added Time</th>
+            <th>Updated Time</th>
+            <!-- <th>Detail</th> -->
             <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
           <tr v-for="notebook in notebooks" :key="notebook.id">
-            <td>{{ notebooks.id }}</td>
-            <td>{{ notebooks.zeppelinNoteId }}</td>
-            <td>
+            <td>{{ notebook.id }}</td>
+            <td>{{ notebook.zeppelinNoteId }}</td>
+            <td>{{ notebook.interpreterGroup }}</td>
+            <td>{{ notebook.insertTime }}</td>
+            <td>{{ notebook.updateTime }}</td>
+            <!-- <td>
               <router-link :to="`/jars/show/${jar.id}`">
                 Jar Detail
               </router-link>
-            </td>
+            </td> -->
             <!-- Add more columns if needed -->
           </tr>
         </tbody>
@@ -35,7 +41,6 @@
 </template>
   
   <script>
-//import JarBox from "../../components/Jar/JarBox";
 var axios = require("axios");
 
 export default {
@@ -48,12 +53,12 @@ export default {
       msg: null,
     };
   },
-  //components: { JarBox },
   props: ["baseURL"],
   methods: {
     async fetchData() {
       try {
         const response = await axios.get("http://localhost:9999/zeppelin/");
+        console.log(">>> response = " + JSON.stringify(response))
         this.notebooks = response.data;
       } catch (error) {
         console.error(error);
