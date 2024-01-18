@@ -65,24 +65,18 @@ export default {
         result: undefined,
       });
     },
-    // executeCode(index) {
-    //   // Mock code execution, replace with actual execution logic
-    //   const result = this.mockExecuteCode(this.cells[index].code);
-    //   console.log("Run on cell ID = " + this.selectedNotebook)
-    //   this.$set(this.cells, index, {
-    //     ...this.cells[index],
-    //     result,
-    //   });
-    // },
     async executeCode(index) {
       console.log(
         "Run on cell ID = " + this.selectedNotebook + " index = " + index
       );
+
       const codeCmd = {
         noteId: this.selectedNotebook,
-        text: "kkk ",
+        text: this.cells[index].code,
       };
+
       console.log("codeCmd = " + JSON.stringify(codeCmd));
+
       await axios({
         method: "post",
         url: "http://localhost:9999/zeppelin/addParagraph",
@@ -92,14 +86,14 @@ export default {
         },
       })
         .then((res) => {
-          //sending the event to parent to handle
           console.log(res);
+          // Handle the result as needed
+          this.$set(this.cells, index, {
+            ...this.cells[index],
+            result: res.data.result, // Assuming the result is available in the response
+          });
         })
         .catch((err) => console.log(err));
-    },
-    mockExecuteCode(code) {
-      // Mock execution, replace with actual code execution logic
-      return `Mock Result for Notebook ${this.selectedNotebook}: ${code}`;
     },
   },
   mounted() {
