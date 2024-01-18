@@ -20,12 +20,71 @@ class ZeppelinServiceTest {
 
     private ZSession session = null;
 
-    /** Zeppelin test */
+    private final String ZEPPELIN_URL = "http://localhost:8082";
+
+    /**
+     * Zeppelin flink test
+     * <p>
+     * https://github.com/apache/zeppelin/blob/master/zeppelin-client-examples/src/main/java/org/apache/zeppelin/client/examples/FlinkExample.java
+     */
     @Test
-    public void zSessionSparkTest(){
+    public void zSessionFlinkTest() {
+        try {
+
+            ClientConfig clientConfig = new ClientConfig(ZEPPELIN_URL);
+            Map<String, String> intpProperties = new HashMap<>();
+
+            session = ZSession.builder()
+                    .setClientConfig(clientConfig)
+                    .setInterpreter("flink")
+                    .setIntpProperties(intpProperties)
+                    .build();
+
+            session.start();
+            System.out.println(">>>>>>>> Flink Web UI: " + session.getWeburl());
+
+            // scala (single result)
+            ExecuteResult result = session.execute("benv.fromElements(1,2,3).print()");
+            System.out.println("Result: " + result.getResults().get(0).getData());
+
+            // scala (multiple result)
+            result = session.execute("val data = benv.fromElements(1,2,3).map(e=>(e, e * 2))\n" +
+                    "data.print()\n" +
+                    "z.show(data)");
+
+            // The first result is text output
+            System.out.println("Result 1: type: " + result.getResults().get(0).getType() +
+                    ", data: " + result.getResults().get(0).getData() );
+            // The second result is table output
+            System.out.println("Result 2: type: " + result.getResults().get(1).getType() +
+                    ", data: " + result.getResults().get(1).getData() );
+            System.out.println("Flink Job Urls:\n" + StringUtils.join(result.getJobUrls(), "\n"));
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (session != null) {
+                try {
+                    session.stop();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Zeppelin spark test
+     * <p>
+     * https://zeppelin.apache.org/docs/latest/usage/zeppelin_sdk/session_api.html
+     */
+    @Test
+    public void zSessionSparkTest() {
 
         try {
-            ClientConfig clientConfig = new ClientConfig("http://localhost:8082");
+            ClientConfig clientConfig = new ClientConfig(ZEPPELIN_URL);
             Map<String, String> intpProperties = new HashMap<>();
             intpProperties.put("spark.master", "local[*]");
 
@@ -49,10 +108,10 @@ class ZeppelinServiceTest {
 
             // The first result is text output
             System.out.println("Result 1: type: " + result.getResults().get(0).getType() +
-                    ", data: " + result.getResults().get(0).getData() );
+                    ", data: " + result.getResults().get(0).getData());
             // The second result is table output
             System.out.println("Result 2: type: " + result.getResults().get(1).getType() +
-                    ", data: " + result.getResults().get(1).getData() );
+                    ", data: " + result.getResults().get(1).getData());
             System.out.println("Spark Job Urls:\n" + StringUtils.join(result.getJobUrls(), "\n"));
 
             // error output
@@ -101,7 +160,7 @@ class ZeppelinServiceTest {
     }
 
     @Test
-    public void mtTest(){
+    public void myTest() {
         System.out.println(123);
     }
 
