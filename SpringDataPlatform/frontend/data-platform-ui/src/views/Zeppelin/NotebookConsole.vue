@@ -23,10 +23,23 @@
         placeholder="Type your code here"
       ></textarea>
       <button @click="executeCode(index)">Run Code</button>
-      <div v-if="cell.result !== undefined">
+
+      <!-- <div v-if="cell.result !== undefined">
         <strong>Result:</strong>
         <pre>{{ cell.result }}</pre>
+      </div> -->
+
+      <!-- Result Cell -->
+      <div v-if="cell.executionResult !== undefined">
+        <strong>Execution Result:</strong>
+        <pre>{{ cell.executionResult }}</pre>
       </div>
+      <!-- <div>
+        <strong>Execution Result:</strong>
+        <pre>{{ cell.executionResult }}</pre>
+      </div> -->
+      <hr />
+
       <hr />
     </div>
   </div>
@@ -63,6 +76,7 @@ export default {
       this.cells.push({
         code: "",
         result: undefined,
+        executionResult: undefined, // Added result field for execution result
       });
     },
     async executeCode(index) {
@@ -86,11 +100,19 @@ export default {
         },
       })
         .then((res) => {
+          // console.log(res);
+          // // Handle the result as needed
+          // this.$set(this.cells, index, {
+          //   ...this.cells[index],
+          //   result: res.data.result, // Assuming the result is available in the response
+          // });
+
           console.log(res);
           // Handle the result as needed
           this.$set(this.cells, index, {
             ...this.cells[index],
             result: res.data.result, // Assuming the result is available in the response
+            executionResult: "dummy result", //res.data.executionResult, // Assuming execution result is available in the response
           });
         })
         .catch((err) => console.log(err));
