@@ -3,7 +3,7 @@
     <h1>Notebook console</h1>
     <label>Select Notebook:</label>
     <select v-model="selectedNotebook">
-      <option v-for="notebook in notebooks" :key="notebook.id" :value="notebook.id">
+      <option v-for="notebook in notebooks" :key="notebook.id" :value="notebook.zeppelinNoteId">
         {{ "Notebook ID = " + notebook.zeppelinNoteId + ",     Interpreter = " + notebook.interpreterGroup}}
       </option>
     </select>
@@ -57,6 +57,7 @@ export default {
     executeCode(index) {
       // Mock code execution, replace with actual execution logic
       const result = this.mockExecuteCode(this.cells[index].code);
+      console.log("Run on cell ID = " + this.selectedNotebook)
       this.$set(this.cells, index, {
         ...this.cells[index],
         result,
