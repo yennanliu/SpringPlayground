@@ -5,6 +5,7 @@ import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.Notebook;
 import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
+import com.yen.FlinkRestService.model.dto.zeppelin.ExecuteParagraphDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zeppelin.client.NoteResult;
 import org.apache.zeppelin.client.ParagraphResult;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -215,6 +217,7 @@ public class ZeppelinService {
 
         try {
             res = zeppelinClient.addParagraph(addParagraphDTO.getNoteId(), addParagraphDTO.getTitle(), addParagraphDTO.getText());
+            log.info("(addParagraph) res = " + res);
         }catch (Exception e){
             log.warn("Add paragraph to notebook fail, request = " + addParagraphDTO);
             e.printStackTrace();
@@ -225,6 +228,25 @@ public class ZeppelinService {
     public void updateParagraph(String noteId, String paragraphId, String title, String text) throws Exception{
 
         zeppelinClient.updateParagraph(noteId, paragraphId, title, text);
+    }
+
+
+    public ParagraphResult executeParagraph(ExecuteParagraphDto executeParagraphDto){
+
+        ParagraphResult res = null;
+        String noteId = executeParagraphDto.getNoteId();
+        String paragraphId = executeParagraphDto.getParagraphId();
+
+        if (noteId == null || paragraphId == null){
+            throw new RuntimeException("Can't execute paragraph, either noteId or paragraphId is null");
+        }
+
+        try {
+            res = zeppelinClient.executeParagraph(noteId, paragraphId);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return res;
     }
 
     public ParagraphResult executeParagraph(String noteId, String paragraphId, String sessionId, Map<String, String> parameters) throws Exception{
@@ -275,5 +297,13 @@ public class ZeppelinService {
         }
         return null;
     }
+
+    /**
+     *
+     *      public ParagraphResult executeParagraph(String noteId, String paragraphId) throws Exception {
+     *         return this.executeParagraph(noteId, paragraphId, "", new HashMap());
+     *     }
+     *
+     */
 
 }

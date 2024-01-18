@@ -5,6 +5,7 @@ import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.Notebook;
 import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
+import com.yen.FlinkRestService.model.dto.zeppelin.ExecuteParagraphDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,10 +46,17 @@ public class ZeppelinController {
 
         zeppelinService.deleteNote(notePath);
     }
+
     @PostMapping("/addParagraph")
     public void addParagraph(@RequestBody AddParagraphDto addParagraphDTO) throws Exception {
 
         zeppelinService.addParagraph(addParagraphDTO);
+    }
+
+    @PostMapping("/execute_paragraph")
+    public void executeParagraph(@RequestBody ExecuteParagraphDto executeParagraphDto){
+
+        zeppelinService.executeParagraph(executeParagraphDto);
     }
 
 }
