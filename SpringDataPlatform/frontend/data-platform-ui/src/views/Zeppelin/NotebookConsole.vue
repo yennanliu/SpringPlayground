@@ -22,12 +22,7 @@
         v-model="cell.code"
         placeholder="Type your code here"
       ></textarea>
-      <button @click="executeCode(index)">Run Code</button>
-
-      <!-- <div v-if="cell.result !== undefined">
-        <strong>Result:</strong>
-        <pre>{{ cell.result }}</pre>
-      </div> -->
+      <button @click="addAndRunCell(index)">Run Code</button>
 
       <!-- Result Cell -->
       <div v-if="cell.executionResult !== undefined">
@@ -73,28 +68,30 @@ export default {
     },
 
     addCell() {
+      console.log("new cell added !");
       this.cells.push({
         code: "",
         result: undefined,
         executionResult: undefined, // Added result field for execution result
       });
     },
-    async executeCode(index) {
+    async addAndRunCell(index) {
       console.log(
         "Run on cell ID = " + this.selectedNotebook + " index = " + index
       );
 
-      const codeCmd = {
+      const addCellCmd = {
         noteId: this.selectedNotebook,
         text: this.cells[index].code,
       };
 
-      console.log("codeCmd = " + JSON.stringify(codeCmd));
+      console.log("codeCmd = " + JSON.stringify(addCellCmd));
 
+      // Step 1) send "add paragraph" request to backend
       await axios({
         method: "post",
         url: "http://localhost:9999/zeppelin/addParagraph",
-        data: JSON.stringify(codeCmd),
+        data: JSON.stringify(addCellCmd),
         headers: {
           "Content-Type": "application/json",
         },
@@ -106,9 +103,11 @@ export default {
           //   ...this.cells[index],
           //   result: res.data.result, // Assuming the result is available in the response
           // });
-
-          console.log(res);
+          console.log("(addCell) res = " + JSON.stringify(res));
           // Handle the result as needed
+
+          this.runCell();
+
           this.$set(this.cells, index, {
             ...this.cells[index],
             result: res.data.result, // Assuming the result is available in the response
@@ -117,7 +116,27 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    async runCell() {
+      console.log("run cell !");
+      const runCmd = {
+        noteId: this.selectedNotebook,
+        paragraphId: "paragraph_1705661212924_1271688536", //1// this.cells[index].code,
+      };
+
+      console.log(">>> runCell = " + JSON.stringify(runCmd));
+      await axios({
+        method: "post",
+        url: "http://localhost:9999/zeppelin/execute_paragraph",
+        data: JSON.stringify(runCmd),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }).then((res) => {
+        console.log("(runCell) res = " + JSON.stringify(res));
+      });
+    },
   },
+
   mounted() {
     this.getNotebooks();
   },

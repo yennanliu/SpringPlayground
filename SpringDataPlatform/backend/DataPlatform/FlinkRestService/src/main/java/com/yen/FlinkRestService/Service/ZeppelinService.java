@@ -246,6 +246,7 @@ public class ZeppelinService {
         }catch (Exception e){
             e.printStackTrace();
         }
+        log.info("(executeParagraph) res = " + res);
         return res;
     }
 
