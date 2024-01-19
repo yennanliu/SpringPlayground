@@ -1,10 +1,9 @@
-# SparkPlatform
-> Data platform for Apache Flink job management
+# Spring Data platform
+> Build big Data platform for Apache Flink job management
 
 
 - Frontend : Vue
 - Backend : Spring boot
-
 
 - Features
   - Submit Flink job via jar
