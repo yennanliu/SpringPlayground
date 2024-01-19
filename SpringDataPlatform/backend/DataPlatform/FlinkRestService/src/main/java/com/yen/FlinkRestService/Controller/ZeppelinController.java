@@ -6,6 +6,7 @@ import com.yen.FlinkRestService.model.Notebook;
 import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.ExecuteParagraphDto;
+import org.apache.zeppelin.client.ParagraphResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,15 +49,15 @@ public class ZeppelinController {
     }
 
     @PostMapping("/addParagraph")
-    public void addParagraph(@RequestBody AddParagraphDto addParagraphDTO) throws Exception {
+    public String addParagraph(@RequestBody AddParagraphDto addParagraphDTO) throws Exception {
 
-        zeppelinService.addParagraph(addParagraphDTO);
+        return zeppelinService.addParagraph(addParagraphDTO);
     }
 
     @PostMapping("/execute_paragraph")
-    public void executeParagraph(@RequestBody ExecuteParagraphDto executeParagraphDto){
+    public ParagraphResult executeParagraph(@RequestBody ExecuteParagraphDto executeParagraphDto){
 
-        zeppelinService.executeParagraph(executeParagraphDto);
+        return zeppelinService.executeParagraph(executeParagraphDto);
     }
 
 }
