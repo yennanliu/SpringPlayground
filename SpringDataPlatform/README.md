@@ -2,6 +2,26 @@
 > Data platform for Apache Flink job management
 
 
+- Frontend : Vue
+- Backend : Spring boot
+
+
+- Features
+  - Submit Flink job via jar
+  - Submit Flink job via SQL
+  - Work with Flink in interaction mode with Zeppelin notebook
+  - Jar status monitor
+  - Cluster status monitor
+
+
+<p align="center"><img src ="./doc/pic/dataplatform_1.png"></p>
+
+<p align="center"><img src ="./doc/pic/dataplatform_2.png"></p>
+
+<p align="center"><img src ="./doc/pic/dataplatform_3.png"></p>
+
+<p align="center"><img src ="./doc/pic/dataplatform_4.png"></p>
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
