@@ -17,9 +17,12 @@
 mvn package  
   
 # run  
-java -jar <built_jar>  
-  
 
+# springBank/springBankApp/target/springBankApp-0.0.1-SNAPSHOT.jar
+
+java -jar target/springBankApp-0.0.1-SNAPSHOT.jar --server.port=9999
+java -jar target/springBankApp-0.0.1-SNAPSHOT.jar --server.port=9998
+  
 # cehck run services  
 brew services list
 

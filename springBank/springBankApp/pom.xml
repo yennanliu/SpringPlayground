@@ -27,7 +27,6 @@
 		<java.version>11</java.version>
 	</properties>
 
-
 	<dependencies>
 
 		<dependency>
@@ -96,6 +95,7 @@
 	</dependencies>
 
 	<build>
+
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -107,6 +107,33 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<resources>
+			<!--
+            打包所有resources下的檔案
+            https://www.uj5u.com/houduan/253468.html
+            -->
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+
+			<!-- https://blog.csdn.net/qq_41389354/article/details/112008695 -->
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+		</resources>
+
 	</build>
 
 </project>
