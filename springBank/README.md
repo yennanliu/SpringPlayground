@@ -1,8 +1,108 @@
 # Spring Bank
 > Build Bank via Spring boot
 
+## Build
 
-## Todo
+## Run
+
+<details>  
+<summary>App</summary>  
+
+```bash  
+#---------------------------  
+# Run app  
+#---------------------------  
+  
+# build  
+mvn package  
+  
+# run  
+java -jar <built_jar>  
+  
+  
+#---------------------------  
+# Run nginx  
+#---------------------------  
+  
+# https://github.com/yennanliu/utility_shell/blob/master/nginx/install_nginx.sh  
+  
+# http://localhost:8080/  
+  
+# start  
+brew services start nginx  
+  
+# stop  
+brew services stop nginx  
+  
+#---------------------------  
+# Run jmeter  
+#---------------------------  
+  
+# https://youtu.be/-EeTUjNlkN0?si=llNkPSRd2j5hvvsl&t=108  
+# https://github.com/yennanliu/utility_shell/blob/master/jmeter/install_%20jmeter.sh  
+  
+cd apache-jmeter-5.6.2  
+bash bin/jmeter  
+  
+# reload config  
+nginx -s reload 
+
+#---------------------------  
+# Run redis  
+#--------------------------- 
+
+brew services start redis
+ 
+brew services stop redis
+
+
+#---------------------------  
+# Run zookeeper  
+#--------------------------- 
+
+# https://husterxsp.github.io/2018/10/08/zookeeper%E5%AE%89%E8%A3%85/
+# https://github.com/yennanliu/utility_shell/blob/master/zookeeper/zk_cmd.sh
+
+brew services run zookeeper
+
+brew services stop zookeeper
+
+# file path
+# /usr/local/etc/zookeeper
+
+cd /usr/local/etc/zookeeper
+
+zkCli
+
+#---------------------------  
+# Intellij  
+#---------------------------  
+  
+# https://github.com/yennanliu/utility_shell/blob/master/intellij/intellij_command.sh  
+# 30) Allow run app in parallel (multiple instances)  
+# https://intellij-support.jetbrains.com/hc/en-us/community/posts/360010505820-Why-my-2020-3-2-IntelliJ-IDEA-Allow-parallel-run-check-box-is-missing  
+# configuration -> select main app name -> "Modify options"  -> click "allow multiple instances check box  
+```  
+
+</details>  
+
+
+## API
+
+| API | Type | Purpose | Example cmd | Comment|
+| ----- | -------- | ---- | ----- | ---- |
+| http://localhost:9999/swagger-ui.html | API page (BE) | | |
+| http://localhost:9999/balance/ | Balance List | | |
+
+## Ref
+
+- code
+	- source
+		- https://github.com/ohbus/retail-banking
+	- mirror
+		- https://github.com/yennanliu/retail-banking
+
+## TODO
 
 - Endpoints
 	- GET /user/<user_id> : use balance
@@ -12,10 +112,3 @@
 - Requirement
 	- Cluster deployment
 	- Distributed lock implement (with Redis)
-
-## Ref
-- code
-	- source
-		- https://github.com/ohbus/retail-banking
-	- mirror
-		- https://github.com/yennanliu/retail-banking
