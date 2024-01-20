@@ -1,4 +1,4 @@
-package model;
+package com.yen.springBankApp.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,26 +9,26 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "transaction")
+@Table(name = "balance")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class Transaction {
+public class Balance {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
-    @Column(name = "sender_id")
-    private Integer senderId;
+    @Column(name = "user_id")
+    private Integer userId;
 
-    @Column(name = "receiver_id")
-    private Integer receiverId;
-
-    @Column(name = "amount")
-    private Integer amount;
+    @Column(name = "balance")
+    private Integer balance;
 
     @Column(name = "create_time")
     private Date createTime;
+
+    @Column(name = "update_time")
+    private Date updateTime;
 }

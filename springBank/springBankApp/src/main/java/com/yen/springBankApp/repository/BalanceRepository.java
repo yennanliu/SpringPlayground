@@ -1,6 +1,6 @@
-package repository;
+package com.yen.springBankApp.repository;
 
-import model.Balance;
+import com.yen.springBankApp.model.Balance;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

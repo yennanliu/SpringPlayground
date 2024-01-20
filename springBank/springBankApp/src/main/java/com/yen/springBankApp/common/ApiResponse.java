@@ -1,4 +1,4 @@
-package common;
+package com.yen.springBankApp.common;
 
 import java.time.LocalDateTime;
 

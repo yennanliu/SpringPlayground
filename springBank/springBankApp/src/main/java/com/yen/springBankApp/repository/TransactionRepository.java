@@ -1,6 +1,6 @@
-package repository;
+package com.yen.springBankApp.repository;
 
-import model.Transaction;
+import com.yen.springBankApp.model.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TransactionRepository extends JpaRepository<Transaction, String> {

@@ -1,10 +1,10 @@
-package service;
+package com.yen.springBankApp.service;
 
-import model.Balance;
-import model.dto.AddBalanceDto;
+import com.yen.springBankApp.model.Balance;
+import com.yen.springBankApp.model.dto.AddBalanceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import repository.BalanceRepository;
+import com.yen.springBankApp.repository.BalanceRepository;
 
 import java.util.Date;
 import java.util.List;

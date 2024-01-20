@@ -1,14 +1,14 @@
-package controller;
+package com.yen.springBankApp.controller;
 
-import common.ApiResponse;
+import com.yen.springBankApp.common.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
-import model.Balance;
-import model.dto.AddBalanceDto;
+import com.yen.springBankApp.model.Balance;
+import com.yen.springBankApp.model.dto.AddBalanceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import service.BalanceService;
+import com.yen.springBankApp.service.BalanceService;
 
 import java.util.List;
 

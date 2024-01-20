@@ -6,11 +6,11 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2 // Fix using Swagger 2.x : https://blog.51cto.com/u_15740726/5540690
 @SpringBootApplication
-public class SpringBankAppApplication {
+public class BankApplication {
 
 	public static void main(String[] args) {
 
-		SpringApplication.run(SpringBankAppApplication.class, args);
+		SpringApplication.run(BankApplication.class, args);
 	}
 
 }
