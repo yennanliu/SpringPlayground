@@ -97,6 +97,8 @@ zkCli
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:9999/swagger-ui.html | API page (BE) | | |
 | http://localhost:9999/balance/ | Balance List | | |
+| http://localhost:8080/balance/ | Balance List (Nginx) | | |
+
 
 ## Ref
 
