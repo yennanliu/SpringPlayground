@@ -1,9 +1,10 @@
 package com.yen.springBankApp.controller;
 
 import com.yen.springBankApp.common.ApiResponse;
+import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
 import lombok.extern.slf4j.Slf4j;
 import com.yen.springBankApp.model.Balance;
-import com.yen.springBankApp.model.dto.AddBalanceDto;
+import com.yen.springBankApp.model.dto.Balance.AddBalanceDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -47,5 +48,13 @@ public class BalanceController {
         balanceService.addBalance(addBalanceDto);
         return new ResponseEntity<>(new ApiResponse(true, "Balance has been added"), HttpStatus.CREATED);
     }
+
+    @PostMapping("/deduct")
+    public ResponseEntity<ApiResponse> deductBalance(@RequestBody DeductBalanceDto deductBalanceDto){
+
+        balanceService.deductBalance(deductBalanceDto);
+        return new ResponseEntity<>(new ApiResponse(true, "Balance has been deducted !!!"), HttpStatus.CREATED);
+    }
+
 
 }

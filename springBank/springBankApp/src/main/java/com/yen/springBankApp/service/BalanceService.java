@@ -1,7 +1,9 @@
 package com.yen.springBankApp.service;
 
 import com.yen.springBankApp.model.Balance;
-import com.yen.springBankApp.model.dto.AddBalanceDto;
+import com.yen.springBankApp.model.dto.Balance.AddBalanceDto;
+import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.yen.springBankApp.repository.BalanceRepository;
@@ -10,6 +12,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class BalanceService {
 
@@ -36,6 +39,20 @@ public class BalanceService {
         balance.setBalance(addBalanceDto.getAmount());
         balance.setCreateTime(new Date());
         balance.setUpdateTime(new Date());
+        balanceRepository.save(balance);
+    }
+
+    public void deductBalance(DeductBalanceDto deductBalanceDto) {
+
+        Balance balance = this.getBalanceByUserId(deductBalanceDto.getUserId());
+        if (balance == null || balance.getUserId() == null){
+            throw new RuntimeException("Balance NOT existed : " + deductBalanceDto);
+        }
+        int currentAmount = balance.getBalance();
+        int updatedAmount = currentAmount - deductBalanceDto.getAmount();
+        balance.setBalance(updatedAmount);
+        balance.setUpdateTime(new Date());
+        log.info("new balance : " + updatedAmount);
         balanceRepository.save(balance);
     }
 
