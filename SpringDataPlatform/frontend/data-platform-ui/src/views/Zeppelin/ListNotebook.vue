@@ -59,7 +59,8 @@ export default {
       if (!notebook) {
         return null;
       }
-      return "http://localhost:8082/next/#/notebook/" + notebook.zeppelinNoteId;
+      //return "http://localhost:8082/next/#/notebook/" + notebook.zeppelinNoteId;
+      return "http://localhost:8082/#/notebook/" + notebook.zeppelinNoteId;
     },
 
     async fetchData() {

@@ -29,12 +29,7 @@
         <strong>Execution Result:</strong>
         <pre>{{ cell.executionResult }}</pre>
       </div>
-      <!-- <div>
-        <strong>Execution Result:</strong>
-        <pre>{{ cell.executionResult }}</pre>
-      </div> -->
       <hr />
-
       <hr />
     </div>
   </div>
@@ -71,7 +66,7 @@ export default {
       console.log("new cell added !");
       this.cells.push({
         code: "",
-        result: undefined,
+        //result: undefined,
         executionResult: undefined, // Added result field for execution result
       });
     },
@@ -86,7 +81,9 @@ export default {
         text: this.cells[index].code,
       };
 
-      // Step 1) send "add paragraph" request to backend
+      /**
+       *  Step 1) send "add paragraph" request to backend
+       */
       await axios({
         method: "post",
         url: "http://localhost:9999/zeppelin/addParagraph",
@@ -96,25 +93,16 @@ export default {
         },
       })
         .then((res) => {
-          // console.log(res);
-          // // Handle the result as needed
-          // this.$set(this.cells, index, {
-          //   ...this.cells[index],
-          //   result: res.data.result, // Assuming the result is available in the response
-          // });
+          /**
+           *  Step 2) send "run paragraph" request to backend
+           */
           console.log("(addCell) res = " + JSON.stringify(res));
-
-          this.runCell(res);
-
-          this.$set(this.cells, index, {
-            ...this.cells[index],
-            result: res.data.result, // Assuming the result is available in the response
-            executionResult: "dummy result", //res.data.executionResult, // Assuming execution result is available in the response
-          });
+          this.runCell(res, index);
         })
         .catch((err) => console.log(err));
     },
-    async runCell(res) {
+
+    async runCell(res, index) {
       const runCmd = {
         noteId: this.selectedNotebook,
         paragraphId: res.data, //"paragraph_1705661212924_1271688536", //1// this.cells[index].code,
@@ -132,6 +120,11 @@ export default {
         },
       }).then((res) => {
         console.log("(runCell) res = " + JSON.stringify(res));
+        this.$set(this.cells, index, {
+          ...this.cells[index],
+          //result: res.data.result, // Assuming the result is available in the response
+          executionResult: res.data.resultInText, //"dummy result"
+        });
       });
     },
   },
