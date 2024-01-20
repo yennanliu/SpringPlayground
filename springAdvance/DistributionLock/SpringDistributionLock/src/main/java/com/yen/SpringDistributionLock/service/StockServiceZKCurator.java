@@ -3,14 +3,17 @@ package com.yen.SpringDistributionLock.service;
 import com.yen.SpringDistributionLock.lock.DistributedRedisLock;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
+import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 /**
- *  StockService with ZK Curator lock
- *
- *      - https://youtu.be/WRo8Fbfb0Ys?si=gHb_vMoDyvzMDIAS&t=159
+ * StockService with ZK Curator lock
+ * <p>
+ * - https://youtu.be/WRo8Fbfb0Ys?si=gHb_vMoDyvzMDIAS&t=159
  */
 @Service
 public class StockServiceZKCurator {
@@ -68,9 +71,9 @@ public class StockServiceZKCurator {
     }
 
     /**
-     *  Test Curator Lock reentrantLock feature
-     *
-     *  https://youtu.be/Zx-r9bKJ_Dk?si=KCr20aSLIRsa1CaM&t=15
+     * Test Curator Lock reentrantLock feature
+     * <p>
+     * https://youtu.be/Zx-r9bKJ_Dk?si=KCr20aSLIRsa1CaM&t=15
      */
     public void testCuratorReentrantLock(InterProcessMutex mutex) throws Exception {
 
@@ -80,6 +83,43 @@ public class StockServiceZKCurator {
         System.out.println("test testCuratorReentrantLock");
         // unlock
         mutex.release();
+    }
+
+
+    /**
+     * service method for ZK Curator - InterProcessReadWriteMutex : 可重入讀寫鎖
+     * <p>
+     * https://youtu.be/LCiEhaqyJ38?si=Dwih5Jqyd5DaEpiD&t=136
+     */
+    public void testZKCuratorReadLock() {
+
+        String zkPath = "/curator/rwlock";
+
+        try {
+            // init lock object
+            InterProcessReadWriteLock readWriteLock = new InterProcessReadWriteLock(curatorFramework, zkPath);
+            // get read lock
+            readWriteLock.readLock().acquire(10, TimeUnit.SECONDS); // auto release lock after 10 sec
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            // release lock
+            //readWriteLock.readLock().release();
+        }
+    }
+
+    public void testZKCuratorWriteLock() {
+
+        String zkPath = "/curator/rwlock";
+
+        try {
+            // init lock object
+            InterProcessReadWriteLock readWriteLock = new InterProcessReadWriteLock(curatorFramework, zkPath);
+            // get write lock
+            readWriteLock.writeLock().acquire(10, TimeUnit.SECONDS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

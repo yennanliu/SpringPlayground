@@ -151,4 +151,23 @@ public class StockController {
         return "stockServiceZKCurator  - deduct run ... ";
     }
 
+    /**
+     *  Test ZK Curator - InterProcessReadWriteMutex : 可重入讀寫鎖
+     *
+     *  https://youtu.be/LCiEhaqyJ38?si=HyOqykBq2cA9CFhv&t=82
+     */
+    @GetMapping("test/zk_curator/read/lock")
+    public String testZKCuratorReadLock(){
+
+        stockServiceZKCurator.testZKCuratorReadLock();
+        return "Test ZK Curator Read Lock";
+    }
+
+    @GetMapping("test/zk_curator/write/lock")
+    public String testZKCuratorWriteLock(){
+
+        stockServiceZKCurator.testZKCuratorWriteLock();
+        return "Test ZK Curator Write Lock";
+    }
+
 }
