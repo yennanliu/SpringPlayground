@@ -179,4 +179,22 @@ public class StockController {
         return "Test ZK Curator Write Lock";
     }
 
+    @GetMapping("test/zk_curator/semaphore")
+    public String testZKCuratorSemaphore(){
+
+        stockServiceZKCurator.testSemaphore();
+        return "Test ZK Curator Semaphore";
+    }
+
+    /**
+     *  Curator 共享计数器
+     *  https://youtu.be/GKdBxd0e7sI?si=MDn9SCYqdQJHLE_R&t=76
+     */
+    @GetMapping("test/zk_curator/share_count")
+    public String testZKCuratorShareCount(){
+
+        stockServiceZKCurator.testZKShareCount();
+        return "Test ZK Curator Share count";
+    }
+
 }

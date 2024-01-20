@@ -6,6 +6,7 @@ import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
 import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;
 import org.apache.curator.framework.recipes.locks.Lease;
+import org.apache.curator.framework.recipes.shared.SharedCount;
 import org.redisson.api.RSemaphore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -154,6 +155,25 @@ public class StockServiceZKCurator {
             // Need to manually release resource, so other thread can get resource
             interProcessSemaphoreV2.returnLease(lease);
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    // https://youtu.be/GKdBxd0e7sI?si=xVIEWT32J0BmE46m&t=127
+    public void testZKShareCount() {
+
+        try{
+            String zkPath = "/curator/share_count";
+            SharedCount shareCount = new SharedCount(curatorFramework, zkPath, 100);
+            // need to start first
+            shareCount.start();
+            int count = shareCount.getCount(); // get current count
+            System.out.println(">>> (before) shared count = " + count);
+            int random = new Random().nextInt(10);
+            shareCount.setCount(random);
+            System.out.println(">>> (after) shared count = " + random);
         }catch (Exception e){
             e.printStackTrace();
         }

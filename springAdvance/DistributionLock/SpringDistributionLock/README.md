@@ -102,21 +102,21 @@ zkCli
 
 ## API
 
-| API                                              | Type                                        | Purpose | Example cmd | Comment|  
-|--------------------------------------------------|---------------------------------------------| ---- | ----- | ---- |  
-| http://localhost:7777/stock/deduct               | lock test endpoint                          | | |
-| http://localhost:8080/stock/deduct               | Nginx endpoint                              | | |
-| http://localhost:8080/test/fair/lock/{id}        | test Redisson Fair lock (Nignx endpoint)    | | |
-| http://localhost:8080/test/read/lock             | test Redisson read lock (Nignx endpoint)    | | |
-| http://localhost:8080/test/write/lock            | test Redisson write lock (Nignx endpoint)   | | |
-| http://localhost:8080/test/semaphore             | test Redisson semaphore (Nignx endpoint)    | | |
-| http://localhost:8080/test/countdown             | test Redisson countdown (Nignx endpoint)    | | |
-| http://localhost:8080/test/latch                 | test Redisson latch (Nignx endpoint)        | | |
-| http://localhost:8080/test/zk                    | test ZK lock (Nignx endpoint)               | | |
-| http://localhost:8080/test/zk_curator            | test ZK Curator lock (Nignx endpoint)       | | |
-| http://localhost:8080/test/zk_curator/read/lock  | test ZK Curator read lock (Nignx endpoint)  | | |
-| http://localhost:8080/test/zk_curator/write/lock | test ZK Curator write lock (Nignx endpoint) | | |
-
+| API                                              | Type                                          | Purpose | Example cmd | Comment|  
+|--------------------------------------------------|-----------------------------------------------| ---- | ----- | ---- |  
+| http://localhost:7777/stock/deduct               | lock test endpoint                            | | |
+| http://localhost:8080/stock/deduct               | Nginx endpoint                                | | |
+| http://localhost:8080/test/fair/lock/{id}        | test Redisson Fair lock (Nignx endpoint)      | | |
+| http://localhost:8080/test/read/lock             | test Redisson read lock (Nignx endpoint)      | | |
+| http://localhost:8080/test/write/lock            | test Redisson write lock (Nignx endpoint)     | | |
+| http://localhost:8080/test/semaphore             | test Redisson semaphore (Nignx endpoint)      | | |
+| http://localhost:8080/test/countdown             | test Redisson countdown (Nignx endpoint)      | | |
+| http://localhost:8080/test/latch                 | test Redisson latch (Nignx endpoint)          | | |
+| http://localhost:8080/test/zk                    | test ZK lock (Nignx endpoint)                 | | |
+| http://localhost:8080/test/zk_curator            | test ZK Curator lock (Nignx endpoint)         | | |
+| http://localhost:8080/test/zk_curator/read/lock  | test ZK Curator read lock (Nignx endpoint)    | | |
+| http://localhost:8080/test/zk_curator/write/lock | test ZK Curator write lock (Nignx endpoint)   | | |
+| http://localhost:8080/test/zk_curator/share_count | test ZK Curator shared count (Nignx endpoint) | | |
 
 
 ## Important Concepts
@@ -412,6 +412,12 @@ zkCli
     - 寫寫 -> 不可並發
   
   - InterProcessSemaphoreV2:  分布式信號量
+
+  - 共享計數器 : 不同server可以共享數值
+    - ShareCount
+    - DistributedAtomicNumber: (interface)
+      - DistributedAtomicLong
+      - DistributedAtomicInteger
 
 ## 20) Ref
 
