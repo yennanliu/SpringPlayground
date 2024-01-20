@@ -120,7 +120,7 @@ export default {
       console.log("run cell !");
       const runCmd = {
         noteId: this.selectedNotebook,
-        paragraphId: "paragraph_1705661212924_1271688536", //1// this.cells[index].code,
+        paragraphId: this.data, //"paragraph_1705661212924_1271688536", //1// this.cells[index].code,
       };
 
       console.log(">>> runCell = " + JSON.stringify(runCmd));

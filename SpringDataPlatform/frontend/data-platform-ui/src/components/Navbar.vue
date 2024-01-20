@@ -61,9 +61,9 @@
               >Zeppelin Home</router-link
             >
             <!-- zeppelinApp -->
-            <router-link class="dropdown-item" :to="{ name: 'ZeppelinApp' }"
+            <!-- <router-link class="dropdown-item" :to="{ name: 'ZeppelinApp' }"
               >Zeppelin App</router-link
-            >
+            > -->
             <router-link class="dropdown-item" :to="{ name: 'ListNotebook' }"
               >Notebook List</router-link
             >
@@ -90,10 +90,10 @@
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <router-link class="dropdown-item" :to="{ name: 'ListJob' }"
-              >List Job</router-link
+              >Job List</router-link
             >
             <router-link class="dropdown-item" :to="{ name: 'AddJob' }"
-              >Submit new Job</router-link
+              >Submit new Jar Job</router-link
             >
             <router-link class="dropdown-item" :to="{ name: 'AddSqlJob' }"
               >Submit new SQL Job</router-link
