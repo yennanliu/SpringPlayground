@@ -25,11 +25,10 @@
       <button @click="addAndRunCell(index)">Run Code</button>
 
       <!-- Result Cell -->
-      <div v-if="cell.executionResult !== undefined">
+      <div v-if="cell.executionResult !== undefined" class="result-cell">
         <strong>Execution Result:</strong>
-        <pre>{{ cell.executionResult }}</pre>
+        <pre class="result-content">{{ cell.executionResult }}</pre>
       </div>
-      <hr />
       <hr />
     </div>
   </div>
@@ -139,5 +138,18 @@ export default {
 textarea {
   width: 100%;
   height: 100px;
+}
+
+.result-cell {
+  margin-top: 10px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.result-content {
+  font-size: 20px;
+  white-space: pre-wrap;
 }
 </style>
