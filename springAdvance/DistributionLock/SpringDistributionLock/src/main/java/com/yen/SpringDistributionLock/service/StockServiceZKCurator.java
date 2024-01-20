@@ -4,10 +4,14 @@ import com.yen.SpringDistributionLock.lock.DistributedRedisLock;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.locks.InterProcessMutex;
 import org.apache.curator.framework.recipes.locks.InterProcessReadWriteLock;
+import org.apache.curator.framework.recipes.locks.InterProcessSemaphoreV2;
+import org.apache.curator.framework.recipes.locks.Lease;
+import org.redisson.api.RSemaphore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -118,6 +122,39 @@ public class StockServiceZKCurator {
             // get write lock
             readWriteLock.writeLock().acquire(10, TimeUnit.SECONDS);
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    /** Curator InterProcessSemaphoreV2 demo
+     *
+     *  https://youtu.be/JgIsCOyzYJQ?si=fSH7O0LpujDM1Jyu&t=68
+     */
+    public void testSemaphore() {
+
+        String zkPath = "/curator/locks";
+
+        // init curator InterProcessSemaphoreV2, 5 : resource amount
+        InterProcessSemaphoreV2 interProcessSemaphoreV2 = new InterProcessSemaphoreV2(curatorFramework, zkPath, 5);
+
+        try{
+            //Semaphore semaphore = new Semaphore(3);
+
+            // get resource
+            Lease lease = interProcessSemaphoreV2.acquire();
+            System.out.println("#### (zk curator)" + Thread.currentThread().getName() + " get resource !");
+            TimeUnit.SECONDS.sleep(new Random().nextInt(10) + 10);
+            System.out.println("--------> (zk curator) " + Thread.currentThread().getName() + " release resource ==============");
+            // save log to redis
+            // <--- push from right : so we can view most early log from begin
+            stringRedisTemplate.opsForList().rightPush("log (zk curator) ", "#### " + Thread.currentThread().getName() + " get resource !");
+            stringRedisTemplate.opsForList().rightPush("log (zk curator) ", "--------> " + Thread.currentThread().getName() + " release resource ==============");
+
+            // Need to manually release resource, so other thread can get resource
+            interProcessSemaphoreV2.returnLease(lease);
+
+        }catch (Exception e){
             e.printStackTrace();
         }
     }

@@ -398,18 +398,20 @@ zkCli
 
 ## 14) Curator ZK lock
   
-  - InterProcessMutex : 類似ReentrantLock, 分布式版本
+  - InterProcessMutex: 類似ReentrantLock, 分布式版本
     - Main methods:
       - 構造方法: Public InterProcessMutex(CuratorFramework client, String path)
       - 加鎖: public void require()
       - 解鎖: public void release()
 
-  - InterProcessSemaphoreMutex : 不可重入鎖
+  - InterProcessSemaphoreMutex: 不可重入鎖
 
-  - InterProcessReadWriteMutex : 可重入讀寫鎖
+  - InterProcessReadWriteMutex: 可重入讀寫鎖
     - 讀讀 -> 可並發
     - 讀寫 -> 不可並發
     - 寫寫 -> 不可並發
+  
+  - InterProcessSemaphoreV2:  分布式信號量
 
 ## 20) Ref
 

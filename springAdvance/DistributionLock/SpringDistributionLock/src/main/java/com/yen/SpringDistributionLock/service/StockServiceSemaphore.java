@@ -58,7 +58,6 @@ public class StockServiceSemaphore {
         semaphore.trySetPermits(3);
 
         try{
-
             //Semaphore semaphore = new Semaphore(3);
 
             // get resource
@@ -77,7 +76,6 @@ public class StockServiceSemaphore {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
 }
