@@ -17,6 +17,9 @@ vue add router
 npm install --save axios
 
 npm install --save sweetalert
+
+# for code hightlight
+npm install highlight.js
 ```
 
 

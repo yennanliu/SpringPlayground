@@ -27,7 +27,7 @@
       <!-- Result Cell -->
       <div v-if="cell.executionResult !== undefined" class="result-cell">
         <strong>Execution Result:</strong>
-        <pre class="result-content">{{ cell.executionResult }}</pre>
+        <pre v-html="highlightCode(cell.executionResult)"></pre>
       </div>
       <hr />
     </div>
@@ -36,6 +36,9 @@
 
 <script>
 import axios from "axios";
+import hljs from "highlight.js";
+import "highlight.js/styles/github.css";
+
 export default {
   data() {
     return {
@@ -126,6 +129,10 @@ export default {
         });
       });
     },
+
+    highlightCode(code) {
+      return hljs.highlightAuto(code).value;
+    },
   },
 
   mounted() {
@@ -148,8 +155,9 @@ textarea {
   background-color: #f9f9f9;
 }
 
-.result-content {
-  font-size: 20px;
+.result-cell pre {
+  font-size: 14px;
   white-space: pre-wrap;
+  margin: 0;
 }
 </style>
