@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Notebook console</h1>
+    <h1>Notebook Console</h1>
     <label>Select Notebook:</label>
     <select v-model="selectedNotebook">
       <option
@@ -75,6 +75,7 @@ export default {
         executionResult: undefined, // Added result field for execution result
       });
     },
+
     async addAndRunCell(index) {
       console.log(
         "Run on cell ID = " + this.selectedNotebook + " index = " + index
@@ -84,8 +85,6 @@ export default {
         noteId: this.selectedNotebook,
         text: this.cells[index].code,
       };
-
-      console.log("codeCmd = " + JSON.stringify(addCellCmd));
 
       // Step 1) send "add paragraph" request to backend
       await axios({
@@ -104,9 +103,8 @@ export default {
           //   result: res.data.result, // Assuming the result is available in the response
           // });
           console.log("(addCell) res = " + JSON.stringify(res));
-          // Handle the result as needed
 
-          this.runCell();
+          this.runCell(res);
 
           this.$set(this.cells, index, {
             ...this.cells[index],
@@ -116,14 +114,15 @@ export default {
         })
         .catch((err) => console.log(err));
     },
-    async runCell() {
-      console.log("run cell !");
+    async runCell(res) {
       const runCmd = {
         noteId: this.selectedNotebook,
-        paragraphId: this.data, //"paragraph_1705661212924_1271688536", //1// this.cells[index].code,
+        paragraphId: res.data, //"paragraph_1705661212924_1271688536", //1// this.cells[index].code,
       };
 
+      console.log(">>> (runCell) res = " + JSON.stringify(res));
       console.log(">>> runCell = " + JSON.stringify(runCmd));
+
       await axios({
         method: "post",
         url: "http://localhost:9999/zeppelin/execute_paragraph",
