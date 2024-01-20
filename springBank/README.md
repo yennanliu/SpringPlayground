@@ -19,7 +19,11 @@ mvn package
 # run  
 java -jar <built_jar>  
   
-  
+
+# cehck run services  
+brew services list
+
+
 #---------------------------  
 # Run nginx  
 #---------------------------  
