@@ -20,6 +20,8 @@ mvn package
 
 # springBank/springBankApp/target/springBankApp-0.0.1-SNAPSHOT.jar
 
+cd SpringPlayground/springBank/springBankApp
+
 java -jar target/springBankApp-0.0.1-SNAPSHOT.jar --server.port=9999
 java -jar target/springBankApp-0.0.1-SNAPSHOT.jar --server.port=9998
   
@@ -40,6 +42,15 @@ brew services start nginx
   
 # stop  
 brew services stop nginx  
+
+
+# default config
+# /usr/local/etc/nginx
+# /usr/local/etc/nginx/nginx.conf 
+
+# macbook M1
+# /opt/homebrew/etc/nginx
+# /opt/homebrew/etc/nginx/nginx.conf
   
 #---------------------------  
 # Run jmeter  
