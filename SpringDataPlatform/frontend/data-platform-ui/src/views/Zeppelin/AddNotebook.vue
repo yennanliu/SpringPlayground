@@ -20,15 +20,16 @@
             />
           </div>
 
-          <div class="form-group">
-            <label>Interpreter Group</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="interpreterGroup"
-              required
-            />
-          </div>
+          <label>Interpreter</label>
+          <select class="form-control" v-model="interpreterGroup" required>
+            <option
+              v-for="schema of schemas"
+              :key="schema.id"
+              :value="schemas.id"
+            >
+              {{ schema.columnName }}
+            </option>
+          </select>
 
           <button type="button" class="btn btn-primary" @click="addNoteBook">
             Submit
@@ -39,8 +40,8 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import swal from "sweetalert";
 import axios from "axios";
 
@@ -50,6 +51,8 @@ export default {
       url: null,
       port: null,
       cluster: null,
+      schemas: [],
+      interpreterGroup: this.interpreterGroup,
     };
   },
   props: ["baseURL"],
@@ -80,17 +83,30 @@ export default {
         })
         .catch((err) => console.log(err));
     },
+    async getSchemas() {
+      // fetch users
+      await axios
+        .get("http://localhost:9999/schema/active/")
+        .then((res) => {
+          this.schemas = res.data.filter((x) => x.schemaName === "interpreter");
+          console.log(
+            ">>> (getSchemas) this.schemas = " + JSON.stringify(this.schemas)
+          );
+        })
+        .catch((err) => console.log(err));
+    },
   },
 
-  mounted() {},
+  mounted() {
+    this.getSchemas();
+  },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
 </style>
-  
