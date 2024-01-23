@@ -292,7 +292,12 @@ cd SpringPlayground/SpringDataPlatform/backend
 
 docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink --rm -v $(pwd)/zeppelin:/opt/zeppelin/conf:ro -e FLINK_HOME=/opt  --name zeppelin apache/zeppelin:0.10.0
 
-docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink -e FLINK_HOME=/opt  --name zeppelin apache/zeppelin:0.10.0
+
+docker run -u $(id -u) -p 8082:8080 -p 8081:8081 --rm \
+  -v /Users/yennanliu/flink-1.17.2:/opt/flink \
+  -e FLINK_HOME=/opt/flink \
+  --name zeppelin \
+  apache/zeppelin:0.10.0
 ```
 </details>
 
@@ -309,3 +314,7 @@ docker run  -p 8082:8080 --rm -v /Users/yennanliu/flink-1.17.2:/opt/flink -e FLI
 
 - Zeppelin client session
   - https://zeppelin.apache.org/docs/latest/usage/zeppelin_sdk/session_api.html
+
+
+- Setup Zeppelin with Flink
+  - https://zeppelin.apache.org/docs/latest/interpreter/flink.html
