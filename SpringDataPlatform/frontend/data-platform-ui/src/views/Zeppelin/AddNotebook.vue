@@ -25,12 +25,12 @@
             <option
               v-for="schema of schemas"
               :key="schema.id"
-              :value="schemas.id"
+              :value="schema.columnName"
             >
               {{ schema.columnName }}
             </option>
           </select>
-
+          
           <button type="button" class="btn btn-primary" @click="addNoteBook">
             Submit
           </button>
@@ -58,9 +58,10 @@ export default {
   props: ["baseURL"],
   methods: {
     async addNoteBook() {
+
       const newNoteBook = {
         notePath: this.notePath,
-        interpreterGroup: this.interpreterGroup,
+        interpreterGroup: this.interpreterGroup
       };
 
       await axios({
