@@ -15,7 +15,7 @@ public class MyZeppelinClient {
 
     // attr
     ZeppelinClient zeppelinClient;
-    private String ZeppelinURL = "http://localhost:8082";
+    private String ZeppelinURL = "http://localhost:9080"; //"http://localhost:8082";
 
     /**
      * @PostConstruct :

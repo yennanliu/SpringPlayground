@@ -298,6 +298,21 @@ docker run -u $(id -u) -p 8082:8080 -p 8081:8081 --rm \
   -e FLINK_HOME=/opt/flink \
   --name zeppelin \
   apache/zeppelin:0.10.0
+
+docker run -u $(id -u) -p 8082:8080 -p 8081:8081 --rm \
+  -v /Users/yennanliu/flink-1.18.0:/opt/flink \
+  -e FLINK_HOME=/opt/flink \
+  --name zeppelin \
+  apache/zeppelin:0.10.0
+
+
+# V2
+cd SpringPlayground/SpringDataPlatform/backend/DataPlatform/zeppelin-docker
+
+docker-compose up
+
+# restart
+docker restart zeppelin
 ```
 </details>
 

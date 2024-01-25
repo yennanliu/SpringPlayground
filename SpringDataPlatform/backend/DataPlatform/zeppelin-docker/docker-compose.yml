@@ -1,0 +1,38 @@
+version: "2.2"  # https://stackoverflow.com/questions/76199853/error-when-apache-zeppelin-connects-to-apache-flink-remote-cluster
+services:
+  jobmanager:
+    image: flink:1.14.6-scala_2.11-java11
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+
+  taskmanager:
+    image: flink:1.14.6-scala_2.11-java11
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    scale: 1
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2  
+
+  zeppelin:
+    image: apache/zeppelin:0.10.1
+    hostname: zeppelin
+    depends_on:
+      - taskmanager
+    container_name: zeppelin
+    ports:
+      - "9080:8080"
+      - "9081:8081"
+    volumes:
+      - /Users/yennanliu/flink-1.17.2:/opt/flink
+      - /Users/yennanliu/SpringPlayground/SpringDataPlatform/backend/DataPlatform/zeppelin-docker/shiro.ini:/opt/zeppelin/conf/shiro.ini
+    environment:
+      FLINK_HOME: /opt/flink
