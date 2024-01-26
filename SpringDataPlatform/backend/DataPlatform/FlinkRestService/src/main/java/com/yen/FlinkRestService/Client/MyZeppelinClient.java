@@ -16,7 +16,7 @@ public class MyZeppelinClient {
 
     // attr
     ZeppelinClient zeppelinClient;
-    
+
     @Value("${zeppelin.base_url}")
     private String ZeppelinURL; //private String ZeppelinURL = "http://localhost:9080"; //"http://localhost:8082";
 
