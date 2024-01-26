@@ -12,7 +12,7 @@
           "Notebook ID = " +
           notebook.zeppelinNoteId +
           ",     Interpreter = " +
-          notebook.interpreterGroup
+          notebook.interpreterGroup.toUpperCase()
         }}
       </option>
     </select>

@@ -27,7 +27,7 @@
               :key="schema.id"
               :value="schema.columnName"
             >
-              {{ schema.columnName }}
+              {{ schema.columnName.toUpperCase() }}
             </option>
           </select>
           

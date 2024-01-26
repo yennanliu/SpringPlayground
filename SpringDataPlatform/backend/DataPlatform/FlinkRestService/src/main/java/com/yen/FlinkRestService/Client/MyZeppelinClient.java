@@ -3,6 +3,7 @@ package com.yen.FlinkRestService.Client;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.zeppelin.client.ClientConfig;
 import org.apache.zeppelin.client.ZeppelinClient;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +16,9 @@ public class MyZeppelinClient {
 
     // attr
     ZeppelinClient zeppelinClient;
-    private String ZeppelinURL = "http://localhost:9080"; //"http://localhost:8082";
+    
+    @Value("${zeppelin.base_url}")
+    private String ZeppelinURL; //private String ZeppelinURL = "http://localhost:9080"; //"http://localhost:8082";
 
     /**
      * @PostConstruct :
