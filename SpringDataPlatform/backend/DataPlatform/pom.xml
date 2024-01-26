@@ -4,8 +4,8 @@
 	<modelVersion>4.0.0</modelVersion>
     <packaging>pom</packaging>
     <modules>
-        <module>SparkRunner</module>
-        <module>SparkRestService</module>
+<!--        <module>SparkRunner</module>-->
+<!--        <module>SparkRestService</module>-->
         <module>FlinkRestService</module>
     </modules>
     <parent>
@@ -15,10 +15,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.yen</groupId>
-	<artifactId>sparkPlatform</artifactId>
+	<artifactId>DataPlatform</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>sparkPlatform</name>
-	<description>Demo project sparkPlatform</description>
+	<name>DataPlatform</name>
+	<description>Demo project DataPlatform</description>
 
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
