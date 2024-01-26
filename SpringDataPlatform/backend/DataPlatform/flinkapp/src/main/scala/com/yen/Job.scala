@@ -37,8 +37,27 @@ import org.apache.flink.api.scala._
  */
 object Job {
   def main(args: Array[String]): Unit = {
+
+    // set up the execution environment
+    //val env = ExecutionEnvironment.getExecutionEnvironment
+
+    println("Flink app start ....")
+
     // set up the execution environment
     val env = ExecutionEnvironment.getExecutionEnvironment
+
+    // get input data
+    val text = env.fromElements("To be, or not to be,--that is the question:--",
+      "Whether 'tis nobler in the mind to suffer", "The slings and arrows of outrageous fortune",
+      "Or to take arms against a sea of troubles,")
+
+    val counts = text.flatMap { _.toLowerCase.split("\\W+") }
+      .map { (_, 1) }
+      .groupBy(0)
+      .sum(1)
+
+    // execute and print result
+    counts.print()
 
     /**
      * Here, you can start creating your execution plan for Flink.
@@ -66,6 +85,8 @@ object Job {
 
 
     // execute program
-    env.execute("Flink Scala API Skeleton")
+    //env.execute("Flink Scala API Skeleton")
+
+    println("Flink app end ....")
   }
 }

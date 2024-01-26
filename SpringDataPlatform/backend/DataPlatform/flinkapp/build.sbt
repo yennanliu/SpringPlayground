@@ -37,3 +37,14 @@ Global / cancelable := true
 
 // exclude Scala library from assembly
 assembly / assemblyOption  := (assembly / assemblyOption).value.copy(includeScala = false)
+
+assemblyShadeRules in assembly ++= Seq(
+  ShadeRule.rename("com.fasterxml.jackson.**" -> "tigris_jackson.@1")
+    .inAll
+)
+
+assemblyMergeStrategy in assembly := {
+  case PathList("META-INF", xs@_*) => MergeStrategy.discard
+  case "reference.conf" => MergeStrategy.concat
+  case x => MergeStrategy.first
+}
