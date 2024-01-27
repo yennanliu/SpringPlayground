@@ -13,7 +13,7 @@
             >
           </h3>
           <p id="content" class="lead mb-0 bg-dark p-1 rounded">
-            Apache Flink Jar, SQL Job submit, Jar upload, resource management.
+            Empower your data processing capabilities with Apache Flink, a cutting-edge platform that excels in handling data-intensive tasks. Seamlessly submit SQL jobs, upload JAR files, and efficiently manage resources to unlock the full potential of your data processing workflows. Elevate your data-driven applications to new heights with Flink's powerful features and robust resource management capabilities
           </p>
         </header>
       </div>
@@ -22,10 +22,10 @@
     <div id="start-shopping" class="container">
       <div class="row">
         <div class="col-12 text-left">
-          <h2 class="pt-3">Announcement</h2>
-          <h6>hackson timeline</h6>
-          <h6>2024 RTO plan</h6>
-          <h6>blblblbla</h6>
+          <h2 class="pt-3">Reference</h2>
+          <a href="https://github.com/yennanliu/SpringPlayground/tree/main/SpringDataPlatform" target="_blank">Project github</a><br>
+          <a href="https://flink.apache.org/" target="_blank">Apache Flink</a><br>
+          <a href="https://spark.apache.org/" target="_blank">pache Spark</a>
         </div>
       </div>
       <div class="row">
