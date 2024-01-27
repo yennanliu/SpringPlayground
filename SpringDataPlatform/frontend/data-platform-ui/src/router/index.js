@@ -35,6 +35,9 @@ import NotebookConsole from "../views/Zeppelin/NotebookConsole.vue";
 import Signup from "../views/Signup.vue";
 import Signin from "../views/Signin.vue";
 
+// admin
+import Admin from "../views/Admin/Admin.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -164,6 +167,12 @@ const routes = [
     path: "/admin/clusters/add",
     name: "AddCluster",
     component: AddCluster,
+  },
+  //Admin routes
+  {
+    path: "/admin",
+    name: "Admin",
+    component: Admin,
   },
 ];
 
