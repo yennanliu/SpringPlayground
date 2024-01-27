@@ -20,7 +20,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!--      DropDowns-->
-      <ul class="navbar-nav ml-auto">
+      <ul class="navbar-nav mx-auto">
         <li class="nav-item dropdown">
           <a
             class="nav-link text-light dropdown-toggle"

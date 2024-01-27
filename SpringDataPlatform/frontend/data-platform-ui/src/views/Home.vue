@@ -43,9 +43,10 @@
     <div class="container">
       <div class="row">
         <div class="col-12 text-left">
-          <h2 class="pt-3">News</h2>
-          <h6>news 123</h6>
-          <h6>blblblbla</h6>
+          <h2 class="pt-3">Links</h2>
+          <a href="http://localhost:8081/#/overview" target="_blank">Flink UI</a><br>
+          <a href="http://localhost:9080/#/" target="_blank">Zeppelin UI</a><br>
+          <a href="http://localhost:9999/swagger-ui.html" target="_blank">Swagger UI</a>
         </div>
       </div>
     </div>
