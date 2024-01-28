@@ -39,8 +39,8 @@
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 var axios = require("axios");
 
 export default {
@@ -65,7 +65,8 @@ export default {
 
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:9999/zeppelin/");
+        // http://localhost:9999/zeppelin/
+        const response = await axios.get(`${this.baseURL}/zeppelin/`);
         console.log(">>> response = " + JSON.stringify(response));
         this.notebooks = response.data;
       } catch (error) {
@@ -78,8 +79,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 h1,
 h5 {
   font-family: "Roboto", sans-serif;
@@ -99,4 +100,3 @@ h5 {
   border-top: 1px solid #dee2e6;
 }
 </style>
-  

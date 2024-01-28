@@ -19,8 +19,8 @@
 </template>
 
 <script>
-var axios = require("axios");
-import swal from "sweetalert";
+// var axios = require("axios");
+// import swal from "sweetalert";
 export default {
   name: "JarBox",
   props: ["jar"],
@@ -38,23 +38,6 @@ export default {
         name: "ShowJarDetails",
         arams: { id: this.$route.params.id },
       });
-    },
-
-    async EditDepartment() {
-      axios
-        .post("http://localhost:9999/jar/", this.jar)
-        .then((res) => {
-          console.log(res);
-          //sending the event to parent to handle
-          this.$emit("fetchData");
-          this.$router.push({ name: "AdminJar" });
-          swal({
-            text: "Jar Updated Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log("err", err));
     },
   },
 };

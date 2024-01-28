@@ -30,7 +30,7 @@
               {{ schema.columnName.toUpperCase() }}
             </option>
           </select>
-          
+
           <button type="button" class="btn btn-primary" @click="addNoteBook">
             Submit
           </button>
@@ -58,15 +58,15 @@ export default {
   props: ["baseURL"],
   methods: {
     async addNoteBook() {
-
       const newNoteBook = {
         notePath: this.notePath,
-        interpreterGroup: this.interpreterGroup
+        interpreterGroup: this.interpreterGroup,
       };
 
       await axios({
         method: "post",
-        url: "http://localhost:9999/zeppelin/add",
+        // http://localhost:9999/zeppelin/add
+        url: `${this.baseURL}/zeppelin/add`,
         data: JSON.stringify(newNoteBook),
         headers: {
           "Content-Type": "application/json",

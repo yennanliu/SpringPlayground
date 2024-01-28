@@ -42,7 +42,8 @@ export default {
 
     async EditJob() {
       axios
-        .post("http://localhost:9999/job/", this.jar)
+      // "http://localhost:9999/job/", this.jar
+        .post(`${this.baseURL}/job/${this.jar}`)
         .then((res) => {
           console.log(res);
           //sending the event to parent to handle

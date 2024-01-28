@@ -52,7 +52,8 @@ export default {
     async getCluster() {
       try {
         const response = await axios.get(
-          `http://localhost:9999/cluster/${this.$route.params.id}`
+          // `http://localhost:9999/cluster/${this.$route.params.id}`
+          `${this.baseURL}/cluster/${this.$route.params.id}`
         );
         this.cluster = response.data;
       } catch (error) {
@@ -67,7 +68,8 @@ export default {
       };
       await axios({
         method: "post",
-        url: "http://localhost:9999/cluster/ping",
+        // `http://localhost:9999/cluster/ping
+        url: `${this.baseURL}/cluster/ping`,
         data: JSON.stringify(toPingCluster),
         headers: {
           "Content-Type": "application/json",

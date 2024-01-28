@@ -5,14 +5,14 @@
         <router-link
           :to="{ name: 'ShowClusterDetails', params: { id: cluster.id } }"
         >
-          <h5 class="card-title">{{  cluster.url + cluster.port}}</h5>
+          <h5 class="card-title">{{ cluster.url + cluster.port }}</h5>
         </router-link>
       </div>
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 var axios = require("axios");
 import swal from "sweetalert";
 export default {
@@ -36,7 +36,8 @@ export default {
 
     async EditCluster() {
       axios
-        .post("http://localhost:9999/cluster/", this.cluster)
+        // "http://localhost:9999/cluster/", this.cluster
+        .post(`${this.baseURL}/cluster/${this.cluster}`)
         .then((res) => {
           console.log(res);
           //sending the event to parent to handle
@@ -53,8 +54,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .card-header {
   display: flex;
   justify-content: space-around;
@@ -91,4 +92,3 @@ a {
   background-color: #0056b3;
 }
 </style>
-  

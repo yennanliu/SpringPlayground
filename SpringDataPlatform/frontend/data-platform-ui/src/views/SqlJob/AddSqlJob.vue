@@ -49,7 +49,8 @@ export default {
 
       await axios({
         method: "post",
-        url: "http://localhost:9999" + "/sql_job/add",
+        // // http://localhost:9999/sql_job/add
+        url: `${this.baseURL}/sql_job/add`,
         data: JSON.stringify(newSQLJob),
         headers: {
           "Content-Type": "application/json",

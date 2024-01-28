@@ -57,7 +57,8 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:9999/cluster/");
+        // http://localhost:9999/cluster/
+        const response = await axios.get(`${this.baseURL}/cluster/`);
         this.clusters = response.data;
       } catch (error) {
         console.error(error);

@@ -52,11 +52,14 @@ export default {
       selectedNotebook: null,
     };
   },
+  props: ["baseURL"],
   methods: {
     async getNotebooks() {
       // fetch users
       await axios
-        .get("http://localhost:9999/zeppelin/")
+        // http://localhost:9999/zeppelin/
+        .get(`${this.baseURL}/zeppelin/`)
+        //.get("http://localhost:9999/zeppelin/")
         .then((res) => {
           this.notebooks = res.data;
           console.log("this.notebooks = " + JSON.stringify(this.notebooks));
@@ -88,7 +91,9 @@ export default {
        */
       await axios({
         method: "post",
-        url: "http://localhost:9999/zeppelin/addParagraph",
+        // `${this.baseURL}/zeppelin/addParagraph`
+        // http://localhost:9999/zeppelin/addParagraph
+        url: `${this.baseURL}/zeppelin/addParagraph`,
         data: JSON.stringify(addCellCmd),
         headers: {
           "Content-Type": "application/json",
@@ -115,7 +120,8 @@ export default {
 
       await axios({
         method: "post",
-        url: "http://localhost:9999/zeppelin/execute_paragraph",
+        // "http://localhost:9999/zeppelin/execute_paragraph",
+        url: `${this.baseURL}/zeppelin/execute_paragraph`,
         data: JSON.stringify(runCmd),
         headers: {
           "Content-Type": "application/json",

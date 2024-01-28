@@ -53,7 +53,8 @@ export default {
 
       await axios({
         method: "post",
-        url: "http://localhost:9999/" + "cluster/add_cluster",
+        // "http://localhost:9999/" + "cluster/add_cluster",
+        url: `${this.baseURL}/cluster/add_cluster`,
         data: JSON.stringify(newCluster),
         headers: {
           "Content-Type": "application/json",
