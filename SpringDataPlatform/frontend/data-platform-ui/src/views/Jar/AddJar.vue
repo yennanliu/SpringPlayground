@@ -12,16 +12,9 @@
         <form @submit.prevent="addJar">
           <div class="form-group">
             <label>Jar File</label>
-            <input
-              type="file"
-              ref="fileInput"
-              class="form-control"
-              required
-            />
+            <input type="file" ref="fileInput" class="form-control" required />
           </div>
-          <button type="submit" class="btn btn-primary">
-            Submit
-          </button>
+          <button type="submit" class="btn btn-primary">Submit</button>
         </form>
       </div>
       <div class="col-3"></div>
@@ -49,11 +42,13 @@ export default {
       formData.append("jarfile", file);
 
       // Make the multipart/form-data POST request
-      await axios.post(`http://localhost:9999/jar/add_jar`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      // `http://localhost:9999/jar/add_jar`
+      await axios
+        .post(`${this.baseURL}/jar/add_jar`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
         .then((res) => {
           // Sending the event to parent to handle
           console.log(res);

@@ -53,7 +53,8 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:9999/jar/");
+        // http://localhost:9999/jar/
+        const response = await axios.get(`${this.baseURL}/jar/`);
         this.jars = response.data;
       } catch (error) {
         console.error(error);

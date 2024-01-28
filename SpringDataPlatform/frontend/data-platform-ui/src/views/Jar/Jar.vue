@@ -38,14 +38,14 @@ export default {
 
   data() {
     return {
-      //baseURL: "http://localhost:9999/", // NOTE !! we read baseURL from App.vue
       jars: [],
     };
   },
   methods: {
     async getDepartments() {
       await axios
-        .get("http://localhost:9999/jar/")
+        // "http://localhost:9999/jar/"
+        .get(`${this.baseURL}/jar/`)
         .then((res) => (this.jars = res.data))
         .catch((err) => console.log(err));
     },

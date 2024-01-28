@@ -32,8 +32,8 @@
     </div>
   </div>
 </template>
-    
-    <script>
+
+<script>
 import axios from "axios";
 
 export default {
@@ -46,7 +46,8 @@ export default {
   methods: {
     async getJar() {
       await axios
-        .get(`http://localhost:9999/jar/${this.$route.params.id}`)
+        // http://localhost:9999/jar/${this.$route.params.id}
+        .get(`${this.baseURL}/jar/${this.$route.params.id}`)
         .then((res) => {
           console.log("${this.$route.params.id} = " + this.$route.params.id);
           this.jar = res.data;
@@ -60,8 +61,8 @@ export default {
   },
 };
 </script>
-    
-    <style>
+
+<style>
 .category {
   font-weight: 400;
 }
@@ -93,4 +94,3 @@ input[type="number"] {
   border-radius: 0;
 }
 </style>
-    

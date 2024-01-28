@@ -20,7 +20,7 @@ import Navbar from "./components/Navbar.vue";
 export default {
   data() {
     return {
-      baseURL: "http://localhost:9999/",
+      baseURL: "http://localhost:9999",
       users: null,
       departments: null,
       key: 0,
