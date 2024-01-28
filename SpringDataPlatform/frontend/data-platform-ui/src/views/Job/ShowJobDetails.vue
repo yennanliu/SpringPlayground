@@ -41,8 +41,8 @@
     </div>
   </div>
 </template>
-      
-      <script>
+
+<script>
 import axios from "axios";
 
 export default {
@@ -74,7 +74,8 @@ export default {
 
     async getJob() {
       await axios
-        .get(`http://localhost:9999/job/${this.$route.params.id}`)
+        // http://localhost:9999/job/${this.$route.params.id}
+        .get(`${this.baseURL}/job/${this.$route.params.id}`)
         .then((res) => {
           console.log("${this.$route.params.id} = " + this.$route.params.id);
           this.job = res.data;
@@ -88,8 +89,8 @@ export default {
   },
 };
 </script>
-      
-      <style>
+
+<style>
 .category {
   font-weight: 400;
 }
@@ -121,4 +122,3 @@ input[type="number"] {
   border-radius: 0;
 }
 </style>
-      

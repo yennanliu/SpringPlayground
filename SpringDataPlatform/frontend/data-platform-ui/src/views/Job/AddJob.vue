@@ -52,7 +52,8 @@ export default {
     async getJars() {
       // fetch users
       await axios
-        .get("http://localhost:9999/" + "jar/")
+        // http://localhost:9999/jar/
+        .get(`${this.baseURL}/jar/`)
         .then((res) => {
           this.jars = res.data;
         })

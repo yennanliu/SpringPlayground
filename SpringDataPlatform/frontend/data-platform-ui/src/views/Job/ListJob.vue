@@ -55,7 +55,8 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:9999/job/");
+        // "http://localhost:9999/job/"
+        const response = await axios.get(`${this.baseURL}/job/`);
         this.jobs = response.data;
       } catch (error) {
         console.error(error);
