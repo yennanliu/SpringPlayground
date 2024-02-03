@@ -12,6 +12,7 @@
   - Jar status monitor
   - Cluster status monitor
 
+<p align="center"><img src ="./doc/pic/arch_v1.png"></p>
 
 <p align="center"><img src ="./doc/pic/dataplatform_1.png"></p>
 
