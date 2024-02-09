@@ -20,6 +20,16 @@ services:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
 
+  vue:
+    restart: always
+    build: ./frontend/employee-system-ui
+    working_dir: /app
+    ports:
+      - "8080:8080"  # Map host port 8080 to container port 8080
+    volumes:
+      - ./frontend/employee-system-ui:/app  # Mount the current directory into the container
+    command: npm run serve
+
   mysql:
     image: mysql:5.7
     restart: always
