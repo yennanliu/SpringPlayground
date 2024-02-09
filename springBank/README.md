@@ -3,7 +3,7 @@
 
 ## Build
 
-## Run
+## Run (manually)
 
 <details>  
 <summary>App</summary>  
@@ -102,7 +102,19 @@ zkCli
 # configuration -> select main app name -> "Modify options"  -> click "allow multiple instances check box  
 ```  
 
-</details>  
+</details> 
+
+
+## Run (docker)
+
+<details>  
+<summary>App</summary>  
+
+```bash  
+docker-compose up
+```  
+
+</details> 
 
 
 ## API
