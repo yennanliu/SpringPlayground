@@ -44,7 +44,7 @@ ARCHITECTURE :
 - Stripe API ref
 	- https://stripe.com/docs/api?lang=node
 
-## Run
+## Run (manually)
 
 <details>
 <summary>App</summary>
@@ -74,6 +74,19 @@ npm run serve
 ```
 
 </details>
+
+
+## Run (docker)
+
+<details>
+<summary>App</summary>
+
+```bash
+docker-compose up
+```
+
+</details>
+
 
 ## API
 
