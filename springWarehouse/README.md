@@ -91,8 +91,12 @@ java -jar target/springWarehouse-0.0.1-SNAPSHOT.jar
 ```bash
 git clone https://github.com/yennanliu/SpringPlayground.git
 cd SpringPlayground/springWarehouse
-docker build -t spring-warehouse .
-docker run -p 7777:7777 spring-warehouse
+
+# run
+docker-compose up
+
+# restart
+docker-compose restart
 ```
 
 </details>
