@@ -1,6 +1,6 @@
 version: '3'
 services:
-  app:
+  app1:
     restart: always
     build: .
     working_dir: /app
@@ -16,16 +16,47 @@ services:
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
+      - SERVER_PORT=9999
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
+
+  app2:
+    restart: always
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "9998:9998"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/spring_bank
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
+      - SPRING_JPA_GENERATE_DDL=true
+      - SERVER_PORT=9998
+    depends_on:
+      - mysql
+    command: mvn clean spring-boot:run -DskipTests
+
+  nginx:
+    image: nginx
+    restart: always
+    ports:
+      - "8080:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app1
+      - app2
 
   mysql:
     image: mysql:5.7
     restart: always
     environment:
-      #https://stackoverflow.com/questions/66831863/mysql-docker-container-keeps-restarting
-      #MYSQL_USER: root # NO NEED to create root user, since it is created automatically
       MYSQL_DATABASE: spring_bank
       MYSQL_ROOT_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
