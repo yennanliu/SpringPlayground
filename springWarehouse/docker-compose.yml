@@ -1,27 +1,35 @@
 version: '3'
-
 services:
-  spring-warehouse:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  app:
+    restart: always
+    build: .
+    working_dir: /app
+    volumes:
+      - .:/app
     ports:
       - "7777:7777"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/warehouse_system
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_SHOW_SQL=true
     depends_on:
       - mysql
-    environment:
-      MYSQL_HOST: mysql
-      MYSQL_PORT: 3306
-      MYSQL_DATABASE: warehouse_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
+    command: mvn -DskipTests clean install && mvn clean spring-boot:run -DskipTests
 
   mysql:
-    image: mysql:latest
-    ports:
-      - "3306:3306"
+    image: mysql:5.7
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD:
       MYSQL_DATABASE: warehouse_system
       MYSQL_USER: root
       MYSQL_PASSWORD:
+      MYSQL_ROOT_PASSWORD:
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:
