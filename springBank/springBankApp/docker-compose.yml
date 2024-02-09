@@ -8,6 +8,8 @@ services:
       - .:/app
     ports:
       - "9999:9999"
+#    expose:
+#      - "9999"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/spring_bank
       - SPRING_DATASOURCE_USERNAME=root
@@ -29,6 +31,8 @@ services:
       - .:/app
     ports:
       - "9998:9998"
+#    expose:
+#      - "9998"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/spring_bank
       - SPRING_DATASOURCE_USERNAME=root
