@@ -46,6 +46,9 @@ cd springEmployeeSystem/frontend/employee-system-ui
 npm run serve
 ```
 
+</details>
+
+
 ## Run (Docker)
 
 <details>
