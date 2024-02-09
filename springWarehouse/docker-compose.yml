@@ -22,10 +22,11 @@ services:
     image: mysql:5.7
     restart: always
     environment:
+      #https://stackoverflow.com/questions/66831863/mysql-docker-container-keeps-restarting
+      #MYSQL_USER: root # NO NEED to create root user, since it is created automatically
       MYSQL_DATABASE: warehouse_system
-      MYSQL_USER: root
-      MYSQL_PASSWORD:
       MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "3306:3306"
     volumes:
