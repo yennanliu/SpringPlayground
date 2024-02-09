@@ -19,7 +19,7 @@
 ## Steps
 
 
-## Run
+## Run (manually)
 
 <details>
 <summary>App</summary>
@@ -44,6 +44,15 @@ java -jar target/springEmployeeSystem-0.0.1-SNAPSHOT.jar
 cd springEmployeeSystem/frontend/employee-system-ui
 
 npm run serve
+```
+
+## Run (Docker)
+
+<details>
+<summary>App</summary>
+
+```bash
+docker-compose up
 ```
 
 </details>
