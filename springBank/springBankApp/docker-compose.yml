@@ -46,16 +46,16 @@ services:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
 
-  nginx:
-    image: nginx
-    restart: always
-    ports:
-      - "8080:80"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - app1
-      - app2
+  # nginx:
+  #   image: nginx
+  #   restart: always
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+  #   depends_on:
+  #     - app1
+  #     - app2
 
   mysql:
     image: mysql:5.7
