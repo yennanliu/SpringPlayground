@@ -12,7 +12,11 @@
   - Jar status monitor
   - Cluster status monitor
 
-<p align="center"><img src ="./doc/pic/arch_v1.png"></p>
+
+ARCHITECTURE :
+
+- V2
+<p align="center"><img src ="./doc/pic/SpringDataPlatform V2.svg"></p>
 
 <p align="center"><img src ="./doc/pic/dataplatform_1.png"></p>
 
