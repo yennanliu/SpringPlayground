@@ -16,6 +16,7 @@ services:
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
+      #- JAVA_HOME=/usr/local/openjdk-11
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
