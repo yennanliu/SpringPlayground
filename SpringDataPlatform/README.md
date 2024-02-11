@@ -42,23 +42,51 @@
 
 ## Build
 
+## Run (docker)
 
-## Run
+<details>
+<summary>App</summary>
+
+```bash
+docker-compose up
+```
+
+</details>
+
+## Run (manually)
 
 <details>
 <summary>Run</summary>
 
 ```bash
 #---------------------------
-# Run app
+# Run app (backend)
 #---------------------------
+
+cd SpringDataPlatform/backend/DataPlatform
 
 # build
 mvn package
 
 # run
 java -jar <built_jar>
+
+#---------------------------
+# Run app (frontend)
+#---------------------------
+
+cd SpringDataPlatform/frontend/data-platform-ui
+
+# run
+npm run serve
 ```
+
+</details>
+
+## Commands
+
+<details>
+<summary>Commands</summary>
 
 ```bash
 
@@ -315,6 +343,7 @@ docker-compose up
 # restart
 docker restart zeppelin
 ```
+
 </details>
 
 
