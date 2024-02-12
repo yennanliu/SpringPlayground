@@ -50,10 +50,15 @@ public class BalanceService {
         }
         int currentAmount = balance.getBalance();
         int updatedAmount = currentAmount - deductBalanceDto.getAmount();
-        balance.setBalance(updatedAmount);
-        balance.setUpdateTime(new Date());
-        log.info("new balance : " + updatedAmount);
-        balanceRepository.save(balance);
+        if (updatedAmount >= 0){
+            balance.setBalance(updatedAmount);
+            balance.setUpdateTime(new Date());
+            log.info("new balance : " + updatedAmount);
+            balanceRepository.save(balance);
+        }
+        else{
+            log.info("updatedAmount smaller than 0");
+        }
     }
 
 }
