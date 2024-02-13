@@ -61,5 +61,11 @@ public class BalanceController {
         return new ResponseEntity<>(new ApiResponse(true, "Balance has been deducted !!!"), HttpStatus.CREATED);
     }
 
+    @PostMapping("/transfer")
+    public ResponseEntity<ApiResponse> transfer(@RequestBody DeductBalanceDto deductBalanceDto){
+
+        balanceServiceRedisson.transfer(deductBalanceDto);
+        return new ResponseEntity<>(new ApiResponse(true, "Balance has been transferred !!!"), HttpStatus.CREATED);
+    }
 
 }

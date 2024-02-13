@@ -6,6 +6,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
     ports:
       - "9999:9999"
     #    expose:
@@ -34,6 +35,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
+      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
     ports:
       - "9998:9998"
     #    expose:

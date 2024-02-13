@@ -72,8 +72,48 @@ public class BalanceServiceRedisson {
                 Integer balance = Integer.valueOf(redisBalance);
                 // 3) update stock to DB
                 if (balance > 0) {
-                    log.info("deduct OK");
                     stringRedisTemplate.opsForValue().set("balance", String.valueOf(balance - 1));
+                    log.info("deduct OK");
+                }
+            }else{
+                log.info("balance < 0 !!!");
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            lock.unlock();
+        }
+    }
+
+    public void transfer(DeductBalanceDto deductBalanceDto) {
+
+        log.info(">>> (BalanceServiceRedisson) transfer start ...");
+
+        // get lock
+        RLock lock = redissonClient.getLock("lock");
+
+        // lock
+        lock.lock();
+
+        try{
+            // 1) get stock amount
+            // set up "balance-1" as String type in Redis, with value = 5000
+            // set up "balance-2" as String type in Redis, with value = 5000
+            // https://github.com/yennanliu/SpringPlayground/blob/main/springBank/doc/pic/redis_key_setting.png
+            String redisBalance1 = stringRedisTemplate.opsForValue().get("balance-1").toString();
+            String redisBalance2 = stringRedisTemplate.opsForValue().get("balance-2").toString();
+
+            if (redisBalance1 != null && redisBalance1.length() != 0 && redisBalance2 != null && redisBalance2.length() != 0){
+
+                Integer balance1 = Integer.valueOf(redisBalance1);
+                Integer balance2 = Integer.valueOf(redisBalance2);
+                // 3) update stock to DB
+                if (balance1 > 0 && balance2 > 0) {
+                    stringRedisTemplate.opsForValue().set("balance-1", String.valueOf(balance1 - 1));
+                    stringRedisTemplate.opsForValue().set("balance-2", String.valueOf(balance2 + 1));
+                    log.info("transfer OK");
                 }
             }else{
                 log.info("balance < 0 !!!");
