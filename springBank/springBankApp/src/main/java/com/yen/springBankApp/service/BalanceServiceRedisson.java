@@ -3,13 +3,13 @@ package com.yen.springBankApp.service;
 import com.yen.springBankApp.model.Balance;
 import com.yen.springBankApp.model.dto.Balance.AddBalanceDto;
 import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
+import com.yen.springBankApp.repository.BalanceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import com.yen.springBankApp.repository.BalanceRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -64,6 +64,7 @@ public class BalanceServiceRedisson {
         try{
             // 1) get stock amount
             // set up "balance" as String type in Redis, with value = 5000
+            // https://github.com/yennanliu/SpringPlayground/blob/main/springBank/doc/pic/redis_key_setting.png
             String redisBalance = stringRedisTemplate.opsForValue().get("balance").toString();
 
             if (redisBalance != null && redisBalance.length() != 0){
