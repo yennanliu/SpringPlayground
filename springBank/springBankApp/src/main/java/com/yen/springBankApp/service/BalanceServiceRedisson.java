@@ -63,6 +63,7 @@ public class BalanceServiceRedisson {
 
         try{
             // 1) get stock amount
+            // set up "balance" as String type in Redis, with value = 5000
             String redisBalance = stringRedisTemplate.opsForValue().get("balance").toString();
 
             if (redisBalance != null && redisBalance.length() != 0){
