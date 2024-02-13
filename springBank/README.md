@@ -111,11 +111,21 @@ zkCli
 <summary>App</summary>  
 
 ```bash
-# Intel macbook
+#---------------------------  
+# Macbook Intel chip
+#---------------------------  
 docker-compose up
 
-# M1 macbook
+# restart
+docker-compose restart
+
+#---------------------------  
+# Macbook apple M1 chip
+#---------------------------  
 docker-compose -f docker-compose-m1.yml up
+
+# restart
+docker-compose -f docker-compose-m1.yml restart
 ```  
 
 </details> 
