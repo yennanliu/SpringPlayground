@@ -110,8 +110,12 @@ zkCli
 <details>  
 <summary>App</summary>  
 
-```bash  
+```bash
+# Intel macbook
 docker-compose up
+
+# M1 macbook
+docker-compose -f docker-compose-m1.yml up
 ```  
 
 </details> 
