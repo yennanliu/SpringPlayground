@@ -1,4 +1,4 @@
-package config;
+package com.yen.springBankApp.config;
 
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;

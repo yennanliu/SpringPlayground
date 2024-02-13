@@ -22,8 +22,10 @@ services:
       - SERVER_PORT=9999
       - SPRING_REDIS_HOST=redis  # Set Redis host
       - SPRING_REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - mysql
+      - redis
     command: mvn clean spring-boot:run -DskipTests
 
   app2:
@@ -48,8 +50,10 @@ services:
       - SERVER_PORT=9998
       - SPRING_REDIS_HOST=redis  # Set Redis host
       - SPRING_REDIS_PORT=6379
+      - REDIS_URL=redis://redis:6379
     depends_on:
       - mysql
+      - redis
     command: mvn clean spring-boot:run -DskipTests
 
   # nginx:

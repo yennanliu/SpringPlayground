@@ -2,6 +2,7 @@ package com.yen.springBankApp.controller;
 
 import com.yen.springBankApp.common.ApiResponse;
 import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
+import com.yen.springBankApp.service.BalanceServiceRedisson;
 import lombok.extern.slf4j.Slf4j;
 import com.yen.springBankApp.model.Balance;
 import com.yen.springBankApp.model.dto.Balance.AddBalanceDto;
@@ -20,6 +21,9 @@ public class BalanceController {
 
     @Autowired
     private BalanceService balanceService;
+
+    @Autowired
+    private BalanceServiceRedisson balanceServiceRedisson;
 
     @GetMapping("/")
     public ResponseEntity<List<Balance>> getBalanceList(){
@@ -52,7 +56,8 @@ public class BalanceController {
     @PostMapping("/deduct")
     public ResponseEntity<ApiResponse> deductBalance(@RequestBody DeductBalanceDto deductBalanceDto){
 
-        balanceService.deductBalance(deductBalanceDto);
+        //balanceService.deductBalance(deductBalanceDto);
+        balanceServiceRedisson.deductBalance(deductBalanceDto);
         return new ResponseEntity<>(new ApiResponse(true, "Balance has been deducted !!!"), HttpStatus.CREATED);
     }
 
