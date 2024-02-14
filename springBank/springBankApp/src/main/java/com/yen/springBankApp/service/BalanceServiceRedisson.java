@@ -51,6 +51,34 @@ public class BalanceServiceRedisson {
         balanceRepository.save(balance);
     }
 
+    public void topUpBalance(){
+
+        log.info(">>> (BalanceServiceRedisson) topUpBalance start ...");
+
+        // get lock
+        RLock lock = redissonClient.getLock("lock");
+
+        // lock
+        lock.lock();
+
+        try{
+            // V2 : Mysql
+            if (balanceRepository.findById(1).isPresent()){
+                Balance balance1 = balanceRepository.findById(1).get();
+                // update to DB
+                if (balance1.getBalance() > 0){
+                    balance1.setBalance(balance1.getBalance() + 1);
+                    balanceRepository.save(balance1);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            lock.unlock();
+        }
+    }
+
     public void deductBalance(DeductBalanceDto deductBalanceDto) {
 
         log.info(">>> (BalanceServiceRedisson) deductBalance start ...");
