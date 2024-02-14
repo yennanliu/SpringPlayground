@@ -87,9 +87,9 @@ public class BalanceServiceRedisson {
         }
     }
 
-    public void transfer(DeductBalanceDto deductBalanceDto) {
+    public void transferRedis(DeductBalanceDto deductBalanceDto) {
 
-        log.info(">>> (BalanceServiceRedisson) transfer start ...");
+        log.info(">>> (BalanceServiceRedisson) transferRedis start ...");
 
         // get lock
         RLock lock = redissonClient.getLock("lock");
@@ -125,6 +125,38 @@ public class BalanceServiceRedisson {
             // unlock
             lock.unlock();
         }
+    }
+
+    public void transferMysql(DeductBalanceDto deductBalanceDto) {
+
+        log.info(">>> (BalanceServiceRedisson) transferMysql start ...");
+
+        // get lock
+        RLock lock = redissonClient.getLock("lock");
+
+        // lock
+        lock.lock();
+
+        try{
+            // V2 : Mysql
+            if (balanceRepository.findById(1).isPresent() && balanceRepository.findById(2).isPresent()){
+                Balance balance1 = balanceRepository.findById(1).get();
+                Balance balance2 = balanceRepository.findById(2).get();
+                // update to DB
+                if (balance1.getBalance() > 0 && balance2.getBalance() > 0){
+                    balance1.setBalance(balance1.getBalance() - 1);
+                    balance2.setBalance(balance2.getBalance() + 1);
+                    balanceRepository.save(balance1);
+                    balanceRepository.save(balance2);
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            lock.unlock();
+        }
+
     }
 
 }
