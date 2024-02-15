@@ -17,7 +17,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
       - name: Build Docker images
-        run: cd ShoppingCart && docker-compose -f docker-compose.yml build
+        run: docker-compose --project-name springShoppingCart -f ShoppingCart/docker-compose.yml build
 
       - name: Push Docker images
-        run: cd ShoppingCart && docker-compose -f docker-compose.yml push
+        run: docker-compose -f ShoppingCart/docker-compose.yml push
