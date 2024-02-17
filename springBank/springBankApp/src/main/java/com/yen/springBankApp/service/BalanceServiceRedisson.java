@@ -35,6 +35,27 @@ public class BalanceServiceRedisson {
         return balanceRepository.findAll();
     }
 
+    public Balance getBalanceById(Integer id) {
+
+        Balance balance = new Balance();
+
+        // lock
+        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+        rwLock.readLock().lock();
+        try{
+            if (balanceRepository.findById(id).isPresent()){
+                return balanceRepository.findById(id).get();
+            }
+            throw new RuntimeException("can not get balance with ID = " + id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            rwLock.readLock().unlock();
+        }
+        return balance;
+    }
+
     public Balance getBalanceByUserId(Integer userId) {
 
         List<Balance> balanceList = balanceRepository.findAll();
@@ -167,10 +188,12 @@ public class BalanceServiceRedisson {
         log.info(">>> (BalanceServiceRedisson) transferMysql start ...");
 
         // get lock
-        RLock lock = redissonClient.getLock("lock");
+        //RLock lock = redissonClient.getLock("lock");
+        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
 
         // lock
-        lock.lock();
+        //lock.lock();
+        rwLock.writeLock().lock();
 
         try{
             // V2 : Mysql
@@ -178,8 +201,12 @@ public class BalanceServiceRedisson {
 
                 Thread.sleep(10000);
 
-                Balance balance1 = balanceRepository.findById(1).get();
-                Balance balance2 = balanceRepository.findById(2).get();
+//                Balance balance1 = balanceRepository.findById(1).get();
+//                Balance balance2 = balanceRepository.findById(2).get();
+                // getBalanceById
+                Balance balance1 = this.getBalanceById(1);
+                Balance balance2 = this.getBalanceById(2);
+
                 // update to DB
                 if (balance1.getBalance() > 0 && balance2.getBalance() > 0){
                     balance1.setBalance(balance1.getBalance() - 1);
@@ -192,7 +219,8 @@ public class BalanceServiceRedisson {
             e.printStackTrace();
         }finally {
             // unlock
-            lock.unlock();
+            //lock.unlock();
+            rwLock.writeLock().lock();
         }
 
     }
