@@ -121,8 +121,13 @@ docker-compose restart
 
 #---------------------------  
 # Macbook apple M1 chip
-#---------------------------  
+#--------------------------- 
+
+# run 
 docker-compose -f docker-compose-m1.yml up
+
+# rebuild (use updated java code) and run
+docker-compose -f docker-compose-m1.yml up --build
 
 # restart
 docker-compose -f docker-compose-m1.yml restart

@@ -6,6 +6,7 @@ import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
 import com.yen.springBankApp.repository.BalanceRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
+import org.redisson.api.RReadWriteLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -84,12 +85,17 @@ public class BalanceServiceRedisson {
         log.info(">>> (BalanceServiceRedisson) deductBalance start ...");
 
         // get lock
-        RLock lock = redissonClient.getLock("lock");
+        //RLock lock = redissonClient.getLock("lock");
+        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
 
         // lock
-        lock.lock();
+        //lock.lock();
+        rwLock.writeLock();
 
         try{
+            // sleep 10 sec
+            Thread.sleep(10000);
+
             // 1) get stock amount
             // set up "balance" as String type in Redis, with value = 5000
             // https://github.com/yennanliu/SpringPlayground/blob/main/springBank/doc/pic/redis_key_setting.png
@@ -111,7 +117,8 @@ public class BalanceServiceRedisson {
             e.printStackTrace();
         }finally {
             // unlock
-            lock.unlock();
+            //lock.unlock();
+            rwLock.writeLock().unlock();
         }
     }
 
@@ -168,6 +175,9 @@ public class BalanceServiceRedisson {
         try{
             // V2 : Mysql
             if (balanceRepository.findById(1).isPresent() && balanceRepository.findById(2).isPresent()){
+
+                Thread.sleep(10000);
+
                 Balance balance1 = balanceRepository.findById(1).get();
                 Balance balance2 = balanceRepository.findById(2).get();
                 // update to DB
