@@ -1,6 +1,6 @@
 
 # Spring Advance - Distribution Lock
-> Distribution Lock demo with Spring boot application
+> Distribution Lock demos with Spring boot application
 
 ## Dep
 
@@ -9,11 +9,10 @@
 - Pressure test
     - nginx
     - jmeter
-- Mysql
 - Redis
+  - Lua script
 - MySQL
 - Zookeeper
-- Lua script
 
 ## Build
 
