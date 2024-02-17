@@ -126,7 +126,11 @@ docker-compose -f docker-compose-m1.yml up
 
 # restart
 docker-compose -f docker-compose-m1.yml restart
-```  
+```
+
+```bash
+curl -X GET --header 'Accept: */*' 'http://localhost:8080/balance/'
+```
 
 </details> 
 
@@ -136,6 +140,7 @@ docker-compose -f docker-compose-m1.yml restart
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:9999/swagger-ui.html | API page (BE) | | |
+| http://localhost:8080/swagger-ui.html | API page (Nginx) | | |
 | http://localhost:9999/balance/ | Balance List | | |
 | http://localhost:8080/balance/ | Balance List (Nginx) | | |
 
@@ -151,8 +156,6 @@ docker-compose -f docker-compose-m1.yml restart
 ## TODO
 
 - Endpoints
-	- GET /user/<user_id> : use balance
-	- POST /user/deduct/<user_id> : deduct use balance
 	- POST /transfer/<user_id_1>/<user_id_2>/<amount> :  transfer amount of money from user_id_1 to user_id_2
 
 - Requirement
