@@ -157,3 +157,5 @@ springEcommerceGuli/backend/EcommerceGuli/*.ini
 
 springAssignmentSystem/frontend/frontend_app/package-lock.json
 springAssignmentSystem/frontend/frontend_app/package.json
+
+springBank/springBankApp/mvnw

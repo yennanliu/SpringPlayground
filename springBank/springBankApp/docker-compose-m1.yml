@@ -29,46 +29,47 @@ services:
       - redis
     command: mvn clean spring-boot:run -DskipTests
 
-  app2:
-    restart: always
-    build: .
-    working_dir: /app
-    volumes:
-      - .:/app
-      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
-    ports:
-      - "9998:9998"
-    #    expose:
-    #      - "9998"
-    platform: linux/amd64
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/spring_bank
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
-      - SPRING_JPA_GENERATE_DDL=true
-      - SERVER_PORT=9998
-      - SPRING_REDIS_HOST=redis  # Set Redis host
-      - SPRING_REDIS_PORT=6379
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      - mysql
-      - redis
-    command: mvn clean spring-boot:run -DskipTests
+#  app2:
+#    restart: always
+#    build: .
+#    working_dir: /app
+#    volumes:
+#      - .:/app
+#      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
+#    ports:
+#      - "9998:9998"
+#    #    expose:
+#    #      - "9998"
+#    platform: linux/amd64
+#    environment:
+#      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/spring_bank
+#      - SPRING_DATASOURCE_USERNAME=root
+#      - SPRING_DATASOURCE_PASSWORD=
+#      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+#      - SPRING_JPA_SHOW_SQL=true
+#      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
+#      - SPRING_JPA_GENERATE_DDL=true
+#      - SERVER_PORT=9998
+#      - SPRING_REDIS_HOST=redis  # Set Redis host
+#      - SPRING_REDIS_PORT=6379
+#      - REDIS_URL=redis://redis:6379
+#    depends_on:
+#      - mysql
+#      - redis
+#    command: mvn clean spring-boot:run -DskipTests
 
   nginx:
     image: nginx
     restart: always
     ports:
       #- "8080:80"
-      - "80:8080"
+      - "8080:8080"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/index.html:/app/html:ro
     depends_on:
       - app1
-      - app2
+      #- app2
 
   mysql:
     image: mysql:5.7
