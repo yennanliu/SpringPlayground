@@ -17,6 +17,7 @@ services:
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
+      - SERVER_PORT=9999
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
@@ -38,6 +39,7 @@ services:
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
+      - SERVER_PORT=9998
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
