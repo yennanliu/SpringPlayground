@@ -54,6 +54,12 @@ ARCHITECTURE :
 ```bash
 docker-compose up
 
+# rebuild (use updated java code) and run
+docker-compose up --build
+
+# restart
+docker-compose restart
+
 #--------------------------
 # Macbook m1
 #--------------------------

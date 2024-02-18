@@ -1,11 +1,12 @@
 version: '3'
 services:
-  app:
+  app1:
     restart: always
-    build: ./backend/DataPlatform
+    build: ./backend/DataPlatform/FlinkRestService # backend dockerfile
     working_dir: /app
     volumes:
       - ./backend/DataPlatform:/app
+      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
     ports:
       - "9999:9999"
     environment:
@@ -16,7 +17,29 @@ services:
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
-      #- JAVA_HOME=/usr/local/openjdk-11
+      - SERVER_PORT=9999
+    depends_on:
+      - mysql
+    command: mvn clean spring-boot:run -DskipTests
+
+  app2:
+    restart: always
+    build: ./backend/DataPlatform/FlinkRestService # backend dockerfile
+    working_dir: /app
+    volumes:
+      - ./backend/DataPlatform:/app
+      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
+    ports:
+      - "9998:9998"  # Port mapping for app2
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/data_platform
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_SHOW_SQL=true
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
+      - SPRING_JPA_GENERATE_DDL=true
+      - SERVER_PORT=9998
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
@@ -35,8 +58,6 @@ services:
     image: mysql:5.7
     restart: always
     environment:
-      #https://stackoverflow.com/questions/66831863/mysql-docker-container-keeps-restarting
-      #MYSQL_USER: root # NO NEED to create root user, since it is created automatically
       MYSQL_DATABASE: data_platform
       MYSQL_ROOT_PASSWORD:
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
@@ -49,14 +70,13 @@ services:
     image: nginx
     restart: always
     ports:
-      #- "8080:80"
       - "8081:8081"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/index.html:/app/html:ro
     depends_on:
-      - app
-      #- app2
+      - app1
+      - app2
 
 volumes:
   mysql-data:
