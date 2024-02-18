@@ -87,7 +87,8 @@ export default {
     async getSchemas() {
       // fetch users
       await axios
-        .get("http://localhost:9999/schema/active/")
+        //.get("http://localhost:9999/schema/active/")
+        .get(`${this.baseURL}/schema/active/`)
         .then((res) => {
           this.schemas = res.data.filter((x) => x.schemaName === "interpreter");
           console.log(
