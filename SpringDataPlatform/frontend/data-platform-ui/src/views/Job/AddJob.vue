@@ -72,7 +72,8 @@ export default {
 
       await axios({
         method: "post",
-        url: "http://localhost:9999/" + "job/add",
+        //url: "http://localhost:9999/" + "job/add",
+        url: `${this.baseURL}/job/add`,
         data: JSON.stringify(newJob),
         headers: {
           "Content-Type": "application/json",
