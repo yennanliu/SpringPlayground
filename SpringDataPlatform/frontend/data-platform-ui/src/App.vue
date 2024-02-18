@@ -20,7 +20,7 @@ import Navbar from "./components/Navbar.vue";
 export default {
   data() {
     return {
-      baseURL: "http://localhost:9999",
+      baseURL: "http://localhost:8081", //nginx port : 8081, BE port : 9999, 9998, "http://localhost:9999",
       users: null,
       departments: null,
       key: 0,
