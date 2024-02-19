@@ -18,6 +18,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
       - SERVER_PORT=9999
+      #- flink.base_url=http://jobmanager:8083
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
@@ -40,6 +41,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
       - SPRING_JPA_GENERATE_DDL=true
       - SERVER_PORT=9998
+      #- flink.base_url=http://jobmanager:8083
     depends_on:
       - mysql
     command: mvn clean spring-boot:run -DskipTests
@@ -77,6 +79,28 @@ services:
     depends_on:
       - app1
       - app2
+
+  # jobmanager:
+  #   image: flink:1.17-scala_2.12-java11
+  #   ports:
+  #     - "8083:8081"
+  #   command: jobmanager
+  #   environment:
+  #     - |
+  #       FLINK_PROPERTIES=
+  #       jobmanager.rpc.address: jobmanager
+
+  # taskmanager:
+  #   image: flink:1.17-scala_2.12-java11
+  #   depends_on:
+  #     - jobmanager
+  #   command: taskmanager
+  #   scale: 1
+  #   environment:
+  #     - |
+  #       FLINK_PROPERTIES=
+  #       jobmanager.rpc.address: jobmanager
+  #       taskmanager.numberOfTaskSlots: 2
 
 volumes:
   mysql-data:
