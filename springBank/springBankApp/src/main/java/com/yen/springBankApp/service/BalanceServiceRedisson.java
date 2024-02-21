@@ -29,6 +29,13 @@ public class BalanceServiceRedisson {
     @Autowired
     private RedissonClient redissonClient;
 
+    private final RReadWriteLock rwLock;
+
+    // constructor
+    public BalanceServiceRedisson(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
+        this.rwLock = redissonClient.getReadWriteLock("rwLock");
+    }
 
     public List<Balance> getBalances() {
 
@@ -42,8 +49,9 @@ public class BalanceServiceRedisson {
         Balance balance = new Balance();
 
         // lock
-        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
-        rwLock.readLock().lock();
+//        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//        rwLock.readLock().lock();
+        this.rwLock.readLock().lock();
         try{
             if (balanceRepository.findById(id).isPresent()){
                 return balanceRepository.findById(id).get();
@@ -53,7 +61,7 @@ public class BalanceServiceRedisson {
             e.printStackTrace();
         }finally {
             // unlock
-            rwLock.readLock().unlock();
+            this.rwLock.readLock().unlock();
         }
         return balance;
     }
@@ -191,17 +199,17 @@ public class BalanceServiceRedisson {
 
         // get lock
         //RLock lock = redissonClient.getLock("lock");
-        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+        //RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
 
         // lock
         //lock.lock();
-        rwLock.writeLock().lock();
+        this.rwLock.writeLock().lock();
 
         try{
             // V2 : Mysql
             if (balanceRepository.findById(1).isPresent() && balanceRepository.findById(2).isPresent()){
 
-                Thread.sleep(10000);
+                Thread.sleep(5000); // 5 sec
 
 //                Balance balance1 = balanceRepository.findById(1).get();
 //                Balance balance2 = balanceRepository.findById(2).get();
@@ -222,7 +230,7 @@ public class BalanceServiceRedisson {
         }finally {
             // unlock
             //lock.unlock();
-            rwLock.writeLock().lock();
+            this.rwLock.writeLock().unlock();
         }
 
     }
