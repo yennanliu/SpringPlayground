@@ -59,6 +59,19 @@ docker-compose up --build
 
 # restart
 docker-compose restart
+
+#--------------------------
+# Macbook m1
+#--------------------------
+
+# run 
+docker-compose -f docker-compose-m1.yml up
+
+# rebuild (use updated java code) and run
+docker-compose -f docker-compose-m1.yml up --build
+
+# restart
+docker-compose -f docker-compose-m1.yml restart
 ```
 
 </details>
