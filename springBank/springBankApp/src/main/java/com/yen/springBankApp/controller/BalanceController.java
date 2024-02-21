@@ -39,6 +39,13 @@ public class BalanceController {
         return new ResponseEntity<>(balance, HttpStatus.OK);
     }
 
+    @GetMapping("/v1/{userId}")
+    public ResponseEntity<Balance> getDepartmentByUserIdWithLock(@PathVariable("userId") Integer userId){
+
+        Balance balance = balanceServiceRedisson.getBalanceById(userId);
+        return new ResponseEntity<>(balance, HttpStatus.OK);
+    }
+
 //    @PostMapping("/update")
 //    public ResponseEntity<ApiResponse> updateDepartment(@RequestBody DepartmentDto departmentDto) {
 //

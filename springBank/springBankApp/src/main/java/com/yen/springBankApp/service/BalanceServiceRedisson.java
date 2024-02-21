@@ -37,6 +37,8 @@ public class BalanceServiceRedisson {
 
     public Balance getBalanceById(Integer id) {
 
+        System.out.println("(BalanceServiceRedisson) getBalanceById start ... Id = " + id);
+
         Balance balance = new Balance();
 
         // lock
