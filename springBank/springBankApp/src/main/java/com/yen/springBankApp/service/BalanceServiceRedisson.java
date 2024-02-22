@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -41,7 +42,7 @@ public class BalanceServiceRedisson {
 
         System.out.println("(BalanceServiceRedisson) getBalances");
         // lock
-        this.rwLock.readLock().lock();
+        this.rwLock.readLock().lock(3, TimeUnit.SECONDS); // default expire time : 3 sec
         try{
             return balanceRepository.findAll();
         }catch (Exception e){
@@ -52,6 +53,10 @@ public class BalanceServiceRedisson {
         return null; // return default val ?
     }
 
+
+    // retry if process can't get lock (?
+    // https://medium.com/@htyesilyurt/distributed-lock-with-redisson-rlock-and-spring-boot-redis-pub-sub-86d51fd83e8b
+    //@Retryable(value = org.redisson.client.RedisTimeoutException.class, maxAttempts = 2, backoff = @Backoff(delay = 2000))
     public Balance getBalanceById(Integer id) {
 
         System.out.println("(BalanceServiceRedisson) getBalanceById start ... Id = " + id);
