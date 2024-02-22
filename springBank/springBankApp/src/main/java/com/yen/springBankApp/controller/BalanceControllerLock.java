@@ -16,23 +16,23 @@ import java.util.List;
 
 @Slf4j
 @RestController
-@RequestMapping("/balance")
-public class BalanceController {
+@RequestMapping("/balance_lock")
+public class BalanceControllerLock {
 
     @Autowired
-    private BalanceService balanceService;
+    private BalanceServiceRedisson balanceServiceRedisson;
 
     @GetMapping("/")
     public ResponseEntity<List<Balance>> getBalanceList(){
 
-        List<Balance> balanceList = balanceService.getBalances();
+        List<Balance> balanceList = balanceServiceRedisson.getBalances();
         return new ResponseEntity<>(balanceList, HttpStatus.OK);
     }
 
     @GetMapping("/{userId}")
-    public ResponseEntity<Balance> getDepartmentByUserId(@PathVariable("userId") Integer userId){
+    public ResponseEntity<Balance> getDepartmentByUserIdWithLock(@PathVariable("userId") Integer userId){
 
-        Balance balance = balanceService.getBalanceByUserId(userId);
+        Balance balance = balanceServiceRedisson.getBalanceById(userId);
         return new ResponseEntity<>(balance, HttpStatus.OK);
     }
 
@@ -46,23 +46,23 @@ public class BalanceController {
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addBalance(@RequestBody AddBalanceDto addBalanceDto){
 
-        balanceService.addBalance(addBalanceDto);
+        balanceServiceRedisson.addBalance(addBalanceDto);
         return new ResponseEntity<>(new ApiResponse(true, "Balance has been added"), HttpStatus.CREATED);
     }
 
     @PostMapping("/deduct")
     public ResponseEntity<ApiResponse> deductBalance(@RequestBody DeductBalanceDto deductBalanceDto){
 
-        balanceService.deductBalance(deductBalanceDto);
+        balanceServiceRedisson.deductBalance(deductBalanceDto);
         return new ResponseEntity<>(new ApiResponse(true, "Balance has been deducted !!!"), HttpStatus.CREATED);
     }
 
-//    @PostMapping("/transfer")
-//    public ResponseEntity<ApiResponse> transfer(@RequestBody DeductBalanceDto deductBalanceDto){
-//
-//        //balanceServiceRedisson.transferRedis(deductBalanceDto);
-//        balanceService.transferMysql(deductBalanceDto);
-//        return new ResponseEntity<>(new ApiResponse(true, "Balance has been transferred !!!"), HttpStatus.CREATED);
-//    }
+    @PostMapping("/transfer")
+    public ResponseEntity<ApiResponse> transfer(@RequestBody DeductBalanceDto deductBalanceDto){
+
+        //balanceServiceRedisson.transferRedis(deductBalanceDto);
+        balanceServiceRedisson.transferMysql(deductBalanceDto);
+        return new ResponseEntity<>(new ApiResponse(true, "Balance has been transferred !!!"), HttpStatus.CREATED);
+    }
 
 }

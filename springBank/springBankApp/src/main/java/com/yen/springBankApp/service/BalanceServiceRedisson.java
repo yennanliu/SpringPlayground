@@ -39,7 +39,17 @@ public class BalanceServiceRedisson {
 
     public List<Balance> getBalances() {
 
-        return balanceRepository.findAll();
+        System.out.println("(BalanceServiceRedisson) getBalances");
+        // lock
+        this.rwLock.readLock().lock();
+        try{
+            return balanceRepository.findAll();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            this.rwLock.readLock().unlock();
+        }
+        return null; // return default val ?
     }
 
     public Balance getBalanceById(Integer id) {
@@ -68,30 +78,49 @@ public class BalanceServiceRedisson {
 
     public Balance getBalanceByUserId(Integer userId) {
 
-        List<Balance> balanceList = balanceRepository.findAll();
-        return balanceList.stream().filter(x -> {return x.getUserId().equals(userId);}
-        ).collect(Collectors.toList()).get(0);
+        // lock
+        this.rwLock.readLock().lock();
+        try{
+            List<Balance> balanceList = balanceRepository.findAll();
+            return balanceList.stream().filter(x -> {return x.getUserId().equals(userId);}
+            ).collect(Collectors.toList()).get(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            this.rwLock.readLock().unlock();
+        }
+        return null;
     }
 
     public void addBalance(AddBalanceDto addBalanceDto) {
-
-        Balance balance = new Balance();
-        balance.setUserId(addBalanceDto.getUserId());
-        balance.setBalance(addBalanceDto.getAmount());
-        balance.setCreateTime(new Date());
-        balance.setUpdateTime(new Date());
-        balanceRepository.save(balance);
+        // lock
+        this.rwLock.readLock().lock();
+        try{
+            Balance balance = new Balance();
+            balance.setUserId(addBalanceDto.getUserId());
+            balance.setBalance(addBalanceDto.getAmount());
+            balance.setCreateTime(new Date());
+            balance.setUpdateTime(new Date());
+            balanceRepository.save(balance);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            this.rwLock.readLock().unlock();
+        }
     }
 
     public void topUpBalance(){
 
         log.info(">>> (BalanceServiceRedisson) topUpBalance start ...");
-
-        // get lock
-        RLock lock = redissonClient.getLock("lock");
+//        // get lock
+//        RLock lock = redissonClient.getLock("lock");
+//        // lock
+//        lock.lock();
 
         // lock
-        lock.lock();
+        this.rwLock.writeLock().lock();
 
         try{
             // V2 : Mysql
@@ -107,7 +136,7 @@ public class BalanceServiceRedisson {
             e.printStackTrace();
         }finally {
             // unlock
-            lock.unlock();
+            this.rwLock.writeLock().unlock();
         }
     }
 
@@ -115,13 +144,16 @@ public class BalanceServiceRedisson {
 
         log.info(">>> (BalanceServiceRedisson) deductBalance start ...");
 
-        // get lock
-        //RLock lock = redissonClient.getLock("lock");
-        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//        // get lock
+//        //RLock lock = redissonClient.getLock("lock");
+//        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//
+//        // lock
+//        //lock.lock();
+//        rwLock.writeLock();
 
         // lock
-        //lock.lock();
-        rwLock.writeLock();
+        this.rwLock.writeLock().lock();
 
         try{
             // sleep 10 sec
@@ -149,7 +181,8 @@ public class BalanceServiceRedisson {
         }finally {
             // unlock
             //lock.unlock();
-            rwLock.writeLock().unlock();
+            //rwLock.writeLock().unlock();
+            this.rwLock.writeLock().unlock();
         }
     }
 
