@@ -4,6 +4,7 @@ import com.yen.springBankApp.model.Balance;
 import com.yen.springBankApp.model.dto.Balance.AddBalanceDto;
 import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
 import com.yen.springBankApp.repository.BalanceRepository;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RReadWriteLock;
@@ -13,7 +14,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -32,10 +36,14 @@ public class BalanceServiceRedisson {
 
     private final RReadWriteLock rwLock;
 
+    // lock for id level
+    private final Map<Integer, RLock> rwlocks;
+
     // constructor
     public BalanceServiceRedisson(RedissonClient redissonClient) {
         this.redissonClient = redissonClient;
         this.rwLock = redissonClient.getReadWriteLock("rwLock");
+        this.rwlocks = new ConcurrentHashMap<>();
     }
 
     public List<Balance> getBalances() {
@@ -64,9 +72,13 @@ public class BalanceServiceRedisson {
         Balance balance = new Balance();
 
         // lock
+        // lock with id level, TODO : validate if it works
+//        RLock lock = rwlocks.computeIfAbsent(id, k -> redissonClient.getLock("lock-" + k));
+//        lock.lock();
 //        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
 //        rwLock.readLock().lock();
         this.rwLock.readLock().lock();
+
         try{
             if (balanceRepository.findById(id).isPresent()){
                 return balanceRepository.findById(id).get();
@@ -235,11 +247,22 @@ public class BalanceServiceRedisson {
 
         log.info(">>> (BalanceServiceRedisson) transferMysql start ...");
 
-        // get lock
-        //RLock lock = redissonClient.getLock("lock");
-        //RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//        // lock
+//        this.rwlocks.computeIfAbsent(1, k -> redissonClient.getLock("lock-" + k));
+//        this.rwlocks.computeIfAbsent(2, k -> redissonClient.getLock("lock-" + k));
+//        if (lock1.tryLock() && lock2.tryLock()) {
+//            try {
+//                // Your transfer logic here
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                lock2.unlock();
+//                lock1.unlock();
+//            }
+//        } else {
+//            // Handle if locks cannot be acquired
+//        }
 
-        // lock
         //lock.lock();
         this.rwLock.writeLock().lock();
 
