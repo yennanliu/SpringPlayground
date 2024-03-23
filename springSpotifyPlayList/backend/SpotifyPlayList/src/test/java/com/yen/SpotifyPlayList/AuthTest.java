@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Test;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
+import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
@@ -96,9 +98,55 @@ public class AuthTest {
             System.out.println("uri = " + uri);
 
         }catch (Exception e){
+            System.out.println("(AuthorizationCodeUriRequest) Auth failed : " + e);
+            e.printStackTrace();
+        }
+    }
+
+    // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/master/examples/authorization/authorization_code/AuthorizationCodeExample.java
+    @Test
+    public void testAuthRedirectGetRefreshToken(){
+
+        final String clientId = "";
+        final String clientSecret = "";
+        final String redirectURI = "http://localhost:8080/hello"; //"https://google.com/";
+        final URI redirectUri = SpotifyHttpManager.makeUri(redirectURI);
+
+        // TODO : validate below
+        //final String code = "BQBDlJ4IqBE3aYowwZkKNExMR2_KUblZ2EDPqzW4luZIWy3rx7kFj2THwe-x-hyS814fW4q_DrVBCR7MBPcODszAnZHeF1sJE4MWC9osqcPnDDTmTkE";
+        final String code = "AQBDNjnsAc6sytg1cXAA4JVF9Dezt_ArBAJ-Biez8HyEJWx0SdsC8EOFGCMvTw85XXrwkcRX1dWhRitZ6jbPGPoahvYaSVo9uFcQW6MKh55ly8cPokDnbwyMlWuXuwMFvTjjzmq7-0y14pfzYW9dL3jWVIAuQLc3LnWj6SR";
+
+        try{
+
+            final SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                    .setClientId(clientId)
+                    .setClientSecret(clientSecret)
+                    .setRedirectUri(redirectUri)
+                    .build();
+
+            final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi.authorizationCode(code)
+                    .build();
+
+            System.out.println("Auth OK !!");
+
+            AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
+
+            // Set access and refresh token for further "spotifyApi" object usage
+            System.out.println("set token with token and refresh token");
+            System.out.println("token = " + authorizationCodeCredentials.getAccessToken());
+            System.out.println("refresh token = " + authorizationCodeCredentials.getRefreshToken());
+
+            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+
+            System.out.println("Expires in: " + authorizationCodeCredentials.getExpiresIn());
+
+        }catch (IOException | SpotifyWebApiException | ParseException e){
             System.out.println("Auth failed : " + e);
             e.printStackTrace();
         }
+
+
     }
 
 }
