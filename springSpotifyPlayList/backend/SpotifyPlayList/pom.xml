@@ -56,6 +56,14 @@
 <!--			<version>2.7.0</version>-->
 <!--		</dependency>-->
 
+
+		<!-- Spotify Libraray -->
+		<dependency>
+			<groupId>se.michaelthelin.spotify</groupId>
+			<artifactId>spotify-web-api-java</artifactId>
+			<version>8.3.6</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

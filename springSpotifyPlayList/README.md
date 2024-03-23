@@ -16,7 +16,7 @@ Steps:
 
 ## Quick start
 
-## ASrchitecture
+## Architecture
 
 ## Technology
 
@@ -43,15 +43,19 @@ Steps:
 - Libaray
 	- https://github.com/spotify-web-api-java/spotify-web-api-java
 
-- ecommendations API
+- Recommendations API
 	- https://developer.spotify.com/documentation/web-api/reference/get-recommendations
+
 - get song feature
 	- https://developer.spotify.com/documentation/web-api/reference/get-audio-features
+
 - Java client
 	- https://github.com/spotify-web-api-java/spotify-web-api-java
+
 - Code example
 	- https://jitpack.io/p/lbengzon/spotify-web-api-java
 	- https://github.com/yennanliu/nelson/blob/master/server.js#L88
+
 - Other project
 	- https://nelson.glitch.me/#
 	- https://github.com/hardikSinghBehl/spotifyApiSpring/tree/master
