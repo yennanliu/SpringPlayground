@@ -2,9 +2,11 @@
 
 Generate a Spotify playlist based on input values or recommendations using the Spotify API.
 
-Pain point : `Spotify continues to recommend similar songs, but users want to explore new genres or styles.`
+Pain point
+	- `Spotify continues to recommend similar songs, but users want to explore new genres or styles.`
 
-Solution: Create a new playlist and use the Spotify API to fetch song parameters. Then, use the recommendation API to get a new playlist of recommended songs.
+Solution
+	- Create a new playlist and use the Spotify API to fetch song parameters. Then, use the recommendation API to get a new playlist of recommended songs.
 
 Steps:
 
@@ -59,6 +61,11 @@ Steps:
 - Other project
 	- https://nelson.glitch.me/#
 	- https://github.com/hardikSinghBehl/spotifyApiSpring/tree/master
+
+
+- ML ref notebook
+	- https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/doc/Spotify_ApI_call_demo.ipynb?fbclid=IwAR1ZhL081euAUCeB54kaMMNqCHBN1HnuLLTYpnpjNHAf4MMFW8VkgdP5N1o
+
 
 </details>
 
