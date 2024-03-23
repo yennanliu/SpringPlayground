@@ -1,25 +1,30 @@
 # SpringSpotify PlayList
 
-Generate spotify playlist based on input values / recommendation with Spotify API
+Generate a Spotify playlist based on input values or recommendations using the Spotify API.
 
-解決痛點: Spotify持續推薦類似歌曲, 想要換口味 但還是被推播舊的風格歌曲
+Pain point : `Spotify continues to recommend similar songs, but users want to explore new genres or styles.`
 
-解決構想: 透過新創立的歌單, 讓Spotify獲取歌曲參數, 透過推薦API 取得新的推薦歌單
+Solution: Create a new playlist and use the Spotify API to fetch song parameters. Then, use the recommendation API to get a new playlist of recommended songs.
+
+Steps:
+
+1. Manually create a new playlist.
+2. Use the get-audio-features API to retrieve parameters.
+3. Use the get-recommendations API to get a new playlist of recommended songs.
+4. Repeat the process as needed.
 
 
-步驟: 
+## Quick start
 
-```
-手動創立新歌單 -> get-audio-features API 取得參數 -> get-recommendations 取得推薦歌單 -> 持續步驟 ...
-```
+## ASrchitecture
 
 ## Technology
-- Java
+
+- Backend : Java
+- Frontend : Vue
+
 
 ## Data Model
-
-
-## Run (local)
 
 
 ## API
@@ -30,10 +35,10 @@ Generate spotify playlist based on input values / recommendation with Spotify AP
 
 ## Important Concepts
 
-## Ref
+## Reference
 
 <details>
-<summary>Structure</summary>
+<summary>Reference</summary>
 
 - Libaray
 	- https://github.com/spotify-web-api-java/spotify-web-api-java
