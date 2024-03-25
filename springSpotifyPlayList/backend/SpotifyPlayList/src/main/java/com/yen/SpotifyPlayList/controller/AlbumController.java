@@ -1,6 +1,7 @@
 package com.yen.SpotifyPlayList.controller;
 
 import com.yen.SpotifyPlayList.service.AlbumService;
+import com.yen.SpotifyPlayList.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,9 @@ public class AlbumController {
 
     @Autowired
     private AlbumService albumService;
+
+//    @Autowired
+//    private AuthService authService;
 
     @GetMapping("/{albumId}")
     public ResponseEntity<Album> getAlbumWithId(@PathVariable("albumId") String albumId){
