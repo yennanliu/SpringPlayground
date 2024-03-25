@@ -145,8 +145,6 @@ public class AuthTest {
             System.out.println("Auth failed : " + e);
             e.printStackTrace();
         }
-
-
     }
 
 }
