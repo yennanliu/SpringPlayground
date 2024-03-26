@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.michaelthelin.spotify.model_objects.specification.Album;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 import java.util.List;
 
@@ -29,5 +31,13 @@ public class AlbumController {
         Album album = albumService.getAlbum(albumId);
         return new ResponseEntity<>(album, HttpStatus.OK);
     }
+
+    @GetMapping("/track/{albumId}")
+    public ResponseEntity<Paging<TrackSimplified>> getAlbumTrackWithId(@PathVariable("albumId") String albumId){
+
+        Paging<TrackSimplified> trackSimplifiedPaging = albumService.getAlbumTrack(albumId);
+        return new ResponseEntity<>(trackSimplifiedPaging, HttpStatus.OK);
+    }
+
 
 }

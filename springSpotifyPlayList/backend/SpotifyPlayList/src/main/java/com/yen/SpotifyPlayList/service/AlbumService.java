@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Album;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
+import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
+import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
 
 import java.io.IOException;
 
@@ -39,6 +42,7 @@ public class AlbumService {
         Album album = null;
         // TODO : move below to controller / config
         this.spotifyApi = this.getSpotifyApi();
+
         final GetAlbumRequest getAlbumRequest = this.spotifyApi
                 .getAlbum(albumId)
                 .build();
@@ -51,6 +55,27 @@ public class AlbumService {
         return album;
     }
 
+
+    public Paging<TrackSimplified> getAlbumTrack(String albumId){
+
+        Paging<TrackSimplified> trackSimplifiedPaging = null;
+
+        // TODO : move below to controller / config
+        this.spotifyApi = this.getSpotifyApi();
+
+        final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
+                .getAlbumsTracks(albumId)
+                .build();
+
+        try {
+            trackSimplifiedPaging = getAlbumsTracksRequest.execute();
+            log.info("Track count: " + trackSimplifiedPaging.getTotal());
+            TrackSimplified[] items = trackSimplifiedPaging.getItems();
+        } catch (IOException | SpotifyWebApiException | ParseException e) {
+            log.error("getAlbumTrack Error: " + e.getMessage());
+        }
+        return trackSimplifiedPaging;
+    }
 
     public SpotifyApi getSpotifyApi() {
         log.info(">>> (getSpotifyApi) this.accessToken = " + this.accessToken);
@@ -65,16 +90,5 @@ public class AlbumService {
         return this.spotifyApi;
     }
 
-//    public void setAuthService(AuthService authService) {
-//        this.authService = authService;
-//    }
-//
-//    public void setAccessToken(String accessToken) {
-//        this.accessToken = accessToken;
-//    }
-//
-//    public void setSpotifyApi(SpotifyApi spotifyApi) {
-//        this.spotifyApi = spotifyApi;
-//    }
 
 }
