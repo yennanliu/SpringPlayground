@@ -21,21 +21,10 @@ public class AlbumService {
     @Autowired
     private AuthService authService;
 
-    private String accessToken;
-    //private String accessToken = "BQDIiCYIHV5g1LI98m4HwuMRZJleQZxVvJ8yzvtk8qMcwjHMGQOXrd7Lq-oMwHwQcJ3s6QOfNlOiZ8OerLUSjr69qVNkSnXE7egzmpbN-YNbrhxym6o";
-
     private SpotifyApi spotifyApi;
 
     public AlbumService(){
     }
-
-//    public AlbumService(){
-//        //this.accessToken = accessToken;
-//        this.accessToken = this.authService.getToken();
-//        this.spotifyApi = new SpotifyApi.Builder()
-//                .setAccessToken(this.accessToken)
-//                .build();
-//    }
 
     public Album getAlbum(String albumId) throws SpotifyWebApiException {
 
