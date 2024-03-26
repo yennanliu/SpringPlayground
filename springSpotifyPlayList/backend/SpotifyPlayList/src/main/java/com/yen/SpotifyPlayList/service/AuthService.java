@@ -21,6 +21,10 @@ public class AuthService {
     @Value("${spotify.clientSecret}")
     private String clientSecret;
 
+    private String accessToken;
+
+    private SpotifyApi spotifyApi;
+
     public AuthService(){
     }
 
@@ -53,6 +57,20 @@ public class AuthService {
             log.error(">>> Error: " + e.getMessage());
         }
         return token;
+    }
+
+    public SpotifyApi getSpotifyApi() {
+
+        log.info(">>> (getSpotifyApi) accessToken = " + this.accessToken);
+        // lazy approach
+        if (this.accessToken == null) {
+            this.accessToken = this.getToken();
+            log.info(">>> (getSpotifyApi) new accessToken = " + accessToken);
+            this.spotifyApi = new SpotifyApi.Builder()
+                    .setAccessToken(this.accessToken)
+                    .build();
+        }
+        return this.spotifyApi;
     }
 
 }

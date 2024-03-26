@@ -42,7 +42,7 @@ public class AlbumService {
         Album album = null;
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = this.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyApi();
             final GetAlbumRequest getAlbumRequest = this.spotifyApi
                     .getAlbum(albumId)
                     .build();
@@ -60,7 +60,7 @@ public class AlbumService {
 
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = this.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyApi();
             final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
                     .getAlbumsTracks(albumId)
                     .build();
@@ -70,20 +70,6 @@ public class AlbumService {
             throw new SpotifyWebApiException("getAlbumTrack error: " + e.getMessage());
         }
         return trackSimplifiedPaging;
-    }
-
-    public SpotifyApi getSpotifyApi() {
-
-        log.info(">>> (getSpotifyApi) accessToken = " + this.accessToken);
-        // lazy approach
-        if (this.accessToken == null) {
-            this.accessToken = this.authService.getToken();
-            log.info(">>> (getSpotifyApi) new accessToken = " + accessToken);
-            this.spotifyApi = new SpotifyApi.Builder()
-                    .setAccessToken(this.accessToken)
-                    .build();
-        }
-        return this.spotifyApi;
     }
 
 }
