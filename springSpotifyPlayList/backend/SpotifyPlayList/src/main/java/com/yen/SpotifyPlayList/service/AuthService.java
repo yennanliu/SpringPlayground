@@ -27,20 +27,19 @@ public class AuthService {
     public String getToken(){
 
         log.info(">>> getToken ...");
-
         String token = "";
 
-        final SpotifyApi spotifyApi = new SpotifyApi
-                .Builder()
-                .setClientId(clientId)
-                .setClientSecret(clientSecret)
-                .build();
-
-        final ClientCredentialsRequest clientCredentialsRequest = spotifyApi
-                .clientCredentials()
-                .build();
-
         try {
+            final SpotifyApi spotifyApi = new SpotifyApi
+                    .Builder()
+                    .setClientId(clientId)
+                    .setClientSecret(clientSecret)
+                    .build();
+
+            final ClientCredentialsRequest clientCredentialsRequest = spotifyApi
+                    .clientCredentials()
+                    .build();
+
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
             token = clientCredentials.getAccessToken();
             log.info(">>> token = " + token);

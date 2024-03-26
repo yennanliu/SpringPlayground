@@ -37,58 +37,53 @@ public class AlbumService {
 //                .build();
 //    }
 
-    public Album getAlbum(String albumId){
+    public Album getAlbum(String albumId) throws SpotifyWebApiException {
 
         Album album = null;
-        // TODO : move below to controller / config
-        this.spotifyApi = this.getSpotifyApi();
-
-        final GetAlbumRequest getAlbumRequest = this.spotifyApi
-                .getAlbum(albumId)
-                .build();
         try {
+            // TODO : move below to controller / config
+            this.spotifyApi = this.getSpotifyApi();
+            final GetAlbumRequest getAlbumRequest = this.spotifyApi
+                    .getAlbum(albumId)
+                    .build();
             album = getAlbumRequest.execute();
             log.info("album = " + album);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            log.error("getAlbum error: " + e.getMessage());
+            throw new SpotifyWebApiException("getAlbum error: " + e.getMessage());
         }
         return album;
     }
 
-
-    public Paging<TrackSimplified> getAlbumTrack(String albumId){
+    public Paging<TrackSimplified> getAlbumTrack(String albumId) throws SpotifyWebApiException {
 
         Paging<TrackSimplified> trackSimplifiedPaging = null;
 
-        // TODO : move below to controller / config
-        this.spotifyApi = this.getSpotifyApi();
-
-        final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
-                .getAlbumsTracks(albumId)
-                .build();
-
         try {
+            // TODO : move below to controller / config
+            this.spotifyApi = this.getSpotifyApi();
+            final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
+                    .getAlbumsTracks(albumId)
+                    .build();
             trackSimplifiedPaging = getAlbumsTracksRequest.execute();
             log.info("Track count: " + trackSimplifiedPaging.getTotal());
-            TrackSimplified[] items = trackSimplifiedPaging.getItems();
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            log.error("getAlbumTrack Error: " + e.getMessage());
+            throw new SpotifyWebApiException("getAlbumTrack error: " + e.getMessage());
         }
         return trackSimplifiedPaging;
     }
 
     public SpotifyApi getSpotifyApi() {
-        log.info(">>> (getSpotifyApi) this.accessToken = " + this.accessToken);
+
+        log.info(">>> (getSpotifyApi) accessToken = " + this.accessToken);
         // lazy approach
         if (this.accessToken == null) {
             this.accessToken = this.authService.getToken();
-            log.info(">>> (getSpotifyApi) accessToken = " + accessToken);
+            log.info(">>> (getSpotifyApi) new accessToken = " + accessToken);
             this.spotifyApi = new SpotifyApi.Builder()
                     .setAccessToken(this.accessToken)
                     .build();
         }
         return this.spotifyApi;
     }
-
 
 }
