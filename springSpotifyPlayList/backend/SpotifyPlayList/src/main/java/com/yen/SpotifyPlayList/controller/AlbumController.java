@@ -1,7 +1,6 @@
 package com.yen.SpotifyPlayList.controller;
 
 import com.yen.SpotifyPlayList.service.AlbumService;
-import com.yen.SpotifyPlayList.service.AuthService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +13,6 @@ import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -23,9 +21,6 @@ public class AlbumController {
 
     @Autowired
     private AlbumService albumService;
-
-//    @Autowired
-//    private AuthService authService;
 
     @GetMapping("/{albumId}")
     public ResponseEntity getAlbumWithId(@PathVariable("albumId") String albumId){
