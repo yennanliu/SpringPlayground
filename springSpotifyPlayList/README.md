@@ -45,6 +45,9 @@ Steps:
 
 - Libaray
 	- https://github.com/spotify-web-api-java/spotify-web-api-java
+	- Recommendation
+		- https://github.com/spotify-web-api-java/spotify-web-api-java/blob/76d69b152cb17e7b8d7ea56b58f0a9b078774708/examples/data/browse/GetRecommendationsExample.java#L5
+		- https://spotify-web-api-java.github.io/spotify-web-api-java/se/michaelthelin/spotify/model_objects/specification/Recommendations.html
 
 - Recommendations API
 	- https://developer.spotify.com/documentation/web-api/reference/get-recommendations
