@@ -47,8 +47,10 @@ public class PlayListService {
 
         Playlist playlist = null;
         try {
+            // auth with redirect
+            this.spotifyApi =  authService.authRedirect();
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
+            //this.spotifyApi = authService.getSpotifyApi();
 
             // TODO : get userId from auth ?
             final CreatePlaylistRequest createPlaylistRequest = spotifyApi.createPlaylist(createPlayListDto.getUserId(), createPlayListDto.getName())
