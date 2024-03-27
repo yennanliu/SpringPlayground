@@ -42,6 +42,14 @@ public class AuthService {
 
             final ClientCredentialsRequest clientCredentialsRequest = spotifyApi
                     .clientCredentials()
+                    // TODO : implement redirect method with scope, ref : testAuthRedirect_1
+//                    /**
+//                     * scope ?
+//                     *
+//                     *  https://developer.spotify.com/documentation/web-api/concepts/scopes
+//                     *  https://bret-gibson.medium.com/spotify-api-authentication-with-spring-boot-and-react-23a68f4e79bb
+//                     */
+//                    .setScheme("user-read-private, user-read-email")
                     .build();
 
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
