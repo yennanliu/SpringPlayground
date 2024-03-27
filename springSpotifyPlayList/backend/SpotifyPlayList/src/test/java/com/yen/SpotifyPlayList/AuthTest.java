@@ -71,7 +71,7 @@ public class AuthTest {
          *      - or even a local url http://localhost:8080/hello
          *
          */
-        final String redirectURI = "http://localhost:8080/hello"; //"https://google.com/";
+        final String redirectURI = "http://localhost:8888/hello"; //"https://google.com/";
         final URI redirectUri = SpotifyHttpManager.makeUri(redirectURI);
 
         try{
