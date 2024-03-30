@@ -3,13 +3,12 @@ package com.yen.SpotifyPlayList.controller;
 import com.yen.SpotifyPlayList.model.dto.RedirectResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
@@ -30,7 +29,7 @@ public class SpotifyOAuthController {
 //    @Value("${spotify.redirectURL}")
 //    private String redirectURL;
 
-    private String redirectURL = "http://localhost:8888/callback";
+    private String redirectURL = "http://localhost:8888/authorized-url"; // "http://localhost:8888/callback";
 
     @GetMapping("/authorize")
     public ResponseEntity authorize() {
@@ -72,10 +71,10 @@ public class SpotifyOAuthController {
     }
 
     // get authorized result
-    @GetMapping("/authorized-endpoint")
-    public String authorizedEndpoint(Principal principal) {
-        // Principal contains information about the authenticated user
-        String username = principal.getName();
+    @GetMapping("/authorized-url")
+    public String authorizedEndpoint(Authentication authentication) {
+        log.info("authentication = " + authentication.toString());
+        String username = authentication.getUsername();
         return "Hello, " + username + "! You have access to this authorized endpoint.";
     }
 
