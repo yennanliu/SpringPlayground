@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
 
@@ -49,6 +51,22 @@ public class PlayListService {
         try {
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyApi();
+
+            // ------------
+            // TODO : get Auth code from Spotify Auth redirect resp
+            String code = "AQA1dvPZRXinCRzrG3Sec9dz8rkpkPY95NB0gc7ICSGQD-X27IhM-y6hmdWqRwsQ4_nbqWziJRX-eMys66LMcoq2UdQZHjAjgRXZmYpvL0PW9KhKkPY4eQaB9-Iu7UA1NoE8Q1Ik6kX3EZtSRrVF_3Fn-Hl5azrBsk2wt4KXkOcndRKbikZ97YZSzOFE03LGp4Q3n6geLGkv60cAp9HRkw";
+            final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi
+                    .authorizationCode(code)
+                    .build();
+
+            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
+                    .execute();
+
+            // Set access and refresh token for further "spotifyApi" object usage
+            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+
+            // ------------
 
             // TODO : get userId from auth ?
             final CreatePlaylistRequest createPlaylistRequest = spotifyApi.createPlaylist(createPlayListDto.getUserId(), createPlayListDto.getName())

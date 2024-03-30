@@ -5,11 +5,13 @@ import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import se.michaelthelin.spotify.SpotifyApi;
+import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
 import java.io.IOException;
+import java.net.URI;
 
 @Service
 @Slf4j
@@ -69,13 +71,22 @@ public class AuthService {
 
     public SpotifyApi getSpotifyApi() {
 
+        final String redirectURL = "http://localhost:8888/authorized-url";
+        final URI redirectUri = SpotifyHttpManager
+                .makeUri(redirectURL);
+
         log.info(">>> (getSpotifyApi) accessToken = " + this.accessToken);
         // lazy approach
         if (this.accessToken == null) {
             this.accessToken = this.getToken();
             log.info(">>> (getSpotifyApi) new accessToken = " + accessToken);
-            this.spotifyApi = new SpotifyApi.Builder()
-                    .setAccessToken(this.accessToken)
+//            this.spotifyApi = new SpotifyApi.Builder()
+//                    .setAccessToken(this.accessToken)
+//                    .build();
+            this.spotifyApi  = new SpotifyApi.Builder()
+                    .setClientId(clientId)
+                    .setClientSecret(clientSecret)
+                    .setRedirectUri(redirectUri)
                     .build();
         }
         return this.spotifyApi;

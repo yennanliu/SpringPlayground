@@ -53,6 +53,7 @@ public class SpotifyOAuthController {
                     .build();
 
             uri = authorizationCodeUriRequest.execute();
+
         }catch (Exception e){
             log.error("authorize failed : " + e);
         }
