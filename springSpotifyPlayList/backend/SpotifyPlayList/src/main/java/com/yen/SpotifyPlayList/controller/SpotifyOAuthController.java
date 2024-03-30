@@ -1,10 +1,14 @@
 package com.yen.SpotifyPlayList.controller;
 
+import com.yen.SpotifyPlayList.model.dto.RedirectResp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
@@ -29,7 +33,7 @@ public class SpotifyOAuthController {
     private String redirectURL = "http://localhost:8888/callback";
 
     @GetMapping("/authorize")
-    public String authorize() {
+    public ResponseEntity authorize() {
 
         log.info("authorize start");
         URI uri = null;
@@ -55,7 +59,9 @@ public class SpotifyOAuthController {
         }
         //return "redirect:" + uri.toString();
         log.info("redirect URL = " + uri.toString());
-        return uri.toString();
+        RedirectResp redirectResp = new RedirectResp();
+        redirectResp.setUrl(uri.toString());
+        return ResponseEntity.status(HttpStatus.OK).body(redirectResp);
     }
 
     // This is your callback URL where Spotify will redirect the user after authorization
