@@ -1,8 +1,9 @@
 <template>
     <div>
-      <h1>Create a new PlayList</h1>
-      <pre v-if="album">{{ JSON.stringify(album, null, 2) }}</pre>
-      <div v-else>Loading...</div>
+      <h1>Spotify Authorization</h1>
+      <button @click="authorize">Authorize with Spotify</button>
+      <div v-if="authorizationInProgress">Authorization in progress...</div>
+      <div v-if="authorizationComplete">Authorization complete! Redirecting...</div>
     </div>
   </template>
   
@@ -10,27 +11,25 @@
   export default {
     data() {
       return {
-        album: null,
+        authorizationInProgress: false,
+        authorizationComplete: false,
       };
     },
-    mounted() {
-      this.fetchAlbum();
-    },
     methods: {
-      async fetchAlbum() {
+      async authorize() {
         try {
-            
-         const resp1 = await fetch('http://localhost:8888/authorize');
-         console.log("resp1 = {}", JSON.stringify(resp1))
-
-          const response = await fetch('http://localhost:8888/album/5zT1JLIj9E57p3e1rFm9Uq');
+          this.authorizationInProgress = true;
+          const response = await fetch('http://localhost:8888/authorize');
+          console.log(">>> response = {}", JSON.stringify(response))
           if (!response.ok) {
-            throw new Error('Failed to fetch album');
+            throw new Error('Failed to authorize with Spotify');
           }
-          const data = await response.json();
-          this.album = data;
+          this.authorizationComplete = true;
+          window.location.href = 'http://localhost:8080/callback'; // Redirect to your frontend callback page
         } catch (error) {
           console.error(error);
+          this.authorizationInProgress = false;
+          this.authorizationComplete = false;
         }
       },
     },

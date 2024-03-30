@@ -1,9 +1,11 @@
 package com.yen.SpotifyPlayList.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import org.springframework.web.bind.annotation.RestController;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
@@ -11,7 +13,8 @@ import se.michaelthelin.spotify.requests.authorization.authorization_code.Author
 import java.net.URI;
 import java.security.Principal;
 
-@Controller
+@Slf4j
+@RestController
 public class SpotifyOAuthController {
 
     @Value("${spotify.clientId}")
@@ -25,24 +28,34 @@ public class SpotifyOAuthController {
 
     private String redirectURL = "http://localhost:8888/callback";
 
-    private final URI redirectUri = SpotifyHttpManager
-            .makeUri(redirectURL);
-
-    private final SpotifyApi spotifyApi = new SpotifyApi.Builder()
-            .setClientId(clientId)
-            .setClientSecret(clientSecret)
-            .setRedirectUri(redirectUri)
-            .build();
-    private final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi
-            .authorizationCodeUri()
-            .scope("playlist-modify-public")
-            .show_dialog(true)
-            .build();
-
     @GetMapping("/authorize")
     public String authorize() {
-        final URI uri = authorizationCodeUriRequest.execute();
-        return "redirect:" + uri.toString();
+
+        log.info("authorize start");
+        URI uri = null;
+        try{
+
+            final URI redirectUri = SpotifyHttpManager
+                    .makeUri(redirectURL);
+
+            final SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                    .setClientId(clientId)
+                    .setClientSecret(clientSecret)
+                    .setRedirectUri(redirectUri)
+                    .build();
+            final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi
+                    .authorizationCodeUri()
+                    .scope("playlist-modify-public")
+                    .show_dialog(true)
+                    .build();
+
+            uri = authorizationCodeUriRequest.execute();
+        }catch (Exception e){
+            log.error("authorize failed : " + e);
+        }
+        //return "redirect:" + uri.toString();
+        log.info("redirect URL = " + uri.toString());
+        return uri.toString();
     }
 
     // This is your callback URL where Spotify will redirect the user after authorization
