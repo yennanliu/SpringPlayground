@@ -34,7 +34,6 @@ public class PlayListController {
     public ResponseEntity CreatePlayList(CreatePlayListDto createPlayListDto){
 
         try{
-
             log.info("received createPlayListDto = " + createPlayListDto);
             createPlayListDto.setName("name");
             createPlayListDto.setUserId("62kytpy7jswykfjtnjn9zv3ou");

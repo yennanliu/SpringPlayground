@@ -1,19 +1,26 @@
 <template>
   <div>
     <h1>Spotify Authorization</h1>
-    <button @click="authorize">Authorize with Spotify</button>
+    <button v-if="!authorized" @click="authorize">
+      Authorize with Spotify
+    </button>
     <button v-if="authorized" @click="createPlaylist">Create Playlist</button>
     <div v-if="playlistCreated">Playlist created successfully!</div>
   </div>
 </template>
 
 <script>
+var axios = require("axios");
+//import swal from "sweetalert";
+
 export default {
   data() {
     return {
       authorized: false,
       playlistCreated: false,
       accessToken: null,
+      spotifyAuthCode: null,
+      newPlayList: { userId: "someId", name: "someName" },
     };
   },
   methods: {
@@ -25,10 +32,8 @@ export default {
         }
         const data = await response.json();
         if (data.url) {
+          console.log(">>> data.url = {}", data.url);
           window.location.href = data.url; // Redirect to the Spotify authorization page
-
-          // create a playlist
-          this.createPlaylist();
         } else {
           throw new Error("Redirect URI not found in response");
         }
@@ -38,50 +43,55 @@ export default {
       }
     },
 
+    // async exchangeCodeForToken() {
+    //   try {
+    //     const response = await axios.post("http://localhost:8888/exchange", {
+    //       code: this.spotifyAuthCode,
+    //     });
+    //     if (response.data.access_token) {
+    //       this.accessToken = response.data.access_token;
+    //       this.authorized = true;
+    //     } else {
+    //       throw new Error("Access token not found in response");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     // Handle error
+    //   }
+    // },
+
     async createPlaylist() {
       try {
         console.log("createPlaylist start");
-        console.log(">>> this.accessToken = " + this.accessToken);
-        //await sleep(3000);
-
-        const response = await fetch("http://localhost:8888/playlist/create", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + this.accessToken, // Use the accessToken obtained after authorization
-          },
-          body: JSON.stringify({
-            userId: "someId",
-            name: "someName",
-          }),
-        });
-        if (!response.ok) {
-          throw new Error("Failed to create playlist");
-        }
+        await axios.post(
+          "http://localhost:8888/playlist/create",
+          this.newPlayList
+        );
+        console.log("Playlist created successfully!");
         this.playlistCreated = true;
       } catch (error) {
         console.error(error);
+        console.log("createPlaylist error : {}", error);
         // Handle error
       }
     },
-
   },
+
   mounted() {
-    // Check if the URL contains an access token (after the Spotify authorization redirect)
+    this.authorize();
+    this.createPlaylist();
     const urlParams = new URLSearchParams(window.location.search);
-    /** 
-     *  Auth code can be received after redirect successfully 
-     * 
-     *  e.g. :
-     *  http://localhost:8888/authorized-url?code=AQCh8TjtviCMIV_jMym59siQGiC_FcuoAjvPQmzgu2jrfv542QS9ftfwZEnYi3cacXfQVoq-QEk4nwKmdt3d3EjXEu3Dw7i6poRcM3_uj-CFhMbV80qwqjv4LZyvufzMk1VcyuBZi2B6qgUsaQD8EGcuzSlB2vAhT2qjGskaEEJsCE1IZMMXI58wK2UDL0B1pFsjqhDV861B0HWN-PGUIA
-     * 
-     */
-    const accessToken = urlParams.get("access_token");
-    if (accessToken) {
-      this.accessToken = accessToken;
-      console.log(">>> accessToken = " + accessToken)
-      this.authorized = true;
+    const code = urlParams.get("code");
+    if (code) {
+      // Do something with the code
+      console.log("Authorization code:", code);
     }
+
+    // const urlParams = new URLSearchParams(window.location.search);
+    // this.spotifyAuthCode = urlParams.get("code");
+    // if (this.spotifyAuthCode) {
+    //   this.exchangeCodeForToken();
+    // }
   },
 };
 </script>
