@@ -5,6 +5,9 @@ import HomeView from '../views/HomeView.vue'
 // album
 import GetAlbum from "../views/Album/GetAlbum.vue"; 
 
+// playlist
+import CreatePlayList from "../views/PlayList/CreatePlayList.vue"; 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -27,6 +30,13 @@ const routes = [
     path: "/album",
     name: "GetAlbum",
     component: GetAlbum,
+  },
+
+  // PlayList
+  {
+    path: "/playlist",
+    name: "CreatePlayList",
+    component: CreatePlayList,
   },
 ]
 
