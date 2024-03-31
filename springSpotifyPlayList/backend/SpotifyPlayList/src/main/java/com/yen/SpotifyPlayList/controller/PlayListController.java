@@ -31,12 +31,11 @@ public class PlayListController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity CreatePlayList(CreatePlayListDto createPlayListDto){
+    public ResponseEntity CreatePlayList(@RequestBody CreatePlayListDto createPlayListDto){
 
         try{
-
             log.info("received createPlayListDto = " + createPlayListDto);
-            createPlayListDto.setName("name");
+//            createPlayListDto.setName("name");
             createPlayListDto.setUserId("62kytpy7jswykfjtnjn9zv3ou");
             log.info("updated createPlayListDto = " + createPlayListDto);
 

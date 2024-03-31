@@ -49,14 +49,16 @@ public class PlayListService {
 
         Playlist playlist = null;
         try {
+            log.info("(PlayListService) createPlayList start ... ");
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyApi();
+            log.info("(PlayListService) redirect URI " + spotifyApi.getRedirectURI());
 
             // ------------
             // TODO : get Auth code from Spotify Auth redirect resp
-            String code = "AQA1dvPZRXinCRzrG3Sec9dz8rkpkPY95NB0gc7ICSGQD-X27IhM-y6hmdWqRwsQ4_nbqWziJRX-eMys66LMcoq2UdQZHjAjgRXZmYpvL0PW9KhKkPY4eQaB9-Iu7UA1NoE8Q1Ik6kX3EZtSRrVF_3Fn-Hl5azrBsk2wt4KXkOcndRKbikZ97YZSzOFE03LGp4Q3n6geLGkv60cAp9HRkw";
+            //String code = "AQC9S5RJDdy5DnkQEeCe10TXxQokM6pHLbEVMXihbXobGyLLAR54tj_ppouURX4L6647uP7u_yR-g9LdtRD_07JDs1gbKpvwy-qKOKUymsZ55cI2JCJVRzMhFEs6OYzMf9t0uD6tMjXMCKL4f70Dh0jbvK63ZJByLber4VDzQX6j9-66BS8LTFLrxKO_-1-7guyyM2De9tjDE4KmIORadw";
             final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi
-                    .authorizationCode(code)
+                    .authorizationCode(createPlayListDto.getAuthCode())
                     .build();
 
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
@@ -77,6 +79,8 @@ public class PlayListService {
 
             playlist = createPlaylistRequest.execute();
             log.info("playlist is created !  " + playlist + " name = " + playlist.getName());
+
+            log.info("(PlayListService) createPlayList end ... ");
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyWebApiException("createPlayList error: " + e.getMessage());
         }
