@@ -42,16 +42,13 @@ export default {
 
     async createPlaylist() {
       try {
-        console.log("createPlaylist start")
-        // this.authorize()
+        console.log("createPlaylist start");
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get("code");
         if (!code) {
           throw new Error("Authorization code not found");
         }
-
         this.newPlayList.authCode = code;
-
         const response = await axios.post(
           "http://localhost:8888/playlist/create",
           this.newPlayList
@@ -67,12 +64,6 @@ export default {
       }
     },
   },
-  mounted() {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const code = urlParams.get("code");
-    // if (code) {
-    //   this.createPlaylist(code); // If code is present, create playlist
-    // }
-  },
+  mounted() {},
 };
 </script>

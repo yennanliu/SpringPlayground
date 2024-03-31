@@ -26,10 +26,8 @@ public class SpotifyOAuthController {
     @Value("${spotify.clientSecret}")
     private String clientSecret;
 
-//    @Value("${spotify.redirectURL}")
-//    private String redirectURL;
-
-    private String redirectURL = "http://localhost:8080/playlist";//"http://localhost:8888/authorized-url"; //"http://localhost:8080/playlist"; //"http://localhost:8888/authorized-url"; // "http://localhost:8888/callback";
+    @Value("${spotify.redirectURL}")
+    private String redirectURL;
 
     @GetMapping("/authorize")
     public ResponseEntity authorize() {
