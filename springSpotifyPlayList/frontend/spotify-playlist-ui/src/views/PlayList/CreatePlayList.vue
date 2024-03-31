@@ -20,7 +20,7 @@ export default {
       playlistCreated: false,
       accessToken: null,
       spotifyAuthCode: null,
-      newPlayList: { userId: "someId", name: "someName" },
+      newPlayList: { userId: "someId", name: "someName", authCode: "code" },
     };
   },
   methods: {
@@ -32,7 +32,6 @@ export default {
         }
         const data = await response.json();
         if (data.url) {
-          console.log(">>> data.url = {}", data.url);
           window.location.href = data.url; // Redirect to the Spotify authorization page
         } else {
           throw new Error("Redirect URI not found in response");
@@ -43,25 +42,9 @@ export default {
       }
     },
 
-    // async exchangeCodeForToken() {
-    //   try {
-    //     const response = await axios.post("http://localhost:8888/exchange", {
-    //       code: this.spotifyAuthCode,
-    //     });
-    //     if (response.data.access_token) {
-    //       this.accessToken = response.data.access_token;
-    //       this.authorized = true;
-    //     } else {
-    //       throw new Error("Access token not found in response");
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     // Handle error
-    //   }
-    // },
-
-    async createPlaylist() {
+    async createPlaylist(code) {
       try {
+        this.newPlayList.authCode = code; //"new-code"
         console.log("createPlaylist start");
         await axios.post(
           "http://localhost:8888/playlist/create",
@@ -79,13 +62,13 @@ export default {
 
   mounted() {
     this.authorize();
-    this.createPlaylist();
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     if (code) {
       // Do something with the code
       console.log("Authorization code:", code);
     }
+    this.createPlaylist(code);
 
     // const urlParams = new URLSearchParams(window.location.search);
     // this.spotifyAuthCode = urlParams.get("code");
@@ -93,5 +76,6 @@ export default {
     //   this.exchangeCodeForToken();
     // }
   },
+  
 };
 </script>

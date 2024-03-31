@@ -31,7 +31,7 @@ public class PlayListController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity CreatePlayList(CreatePlayListDto createPlayListDto){
+    public ResponseEntity CreatePlayList(@RequestBody CreatePlayListDto createPlayListDto){
 
         try{
             log.info("received createPlayListDto = " + createPlayListDto);
