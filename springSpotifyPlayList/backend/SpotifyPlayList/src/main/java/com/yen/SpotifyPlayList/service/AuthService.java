@@ -71,7 +71,8 @@ public class AuthService {
 
     public SpotifyApi getSpotifyApi() {
 
-        final String redirectURL = "http://localhost:8888/authorized-url";
+        final String redirectURL = "http://localhost:8080/playlist"; //"http://localhost:8888/authorized-url"; //"http://localhost:8888/authorized-url"; //"http://localhost:8080/playlist"; // "http://localhost:8888/authorized-url";
+
         final URI redirectUri = SpotifyHttpManager
                 .makeUri(redirectURL);
 

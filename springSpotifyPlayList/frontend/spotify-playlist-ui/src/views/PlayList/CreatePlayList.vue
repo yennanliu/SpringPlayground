@@ -4,14 +4,13 @@
     <button v-if="!authorized" @click="authorize">
       Authorize with Spotify
     </button>
-    <button v-if="authorized" @click="createPlaylist">Create Playlist</button>
+    <button v-if="!authorized" @click="createPlaylist">Create Playlist</button>
     <div v-if="playlistCreated">Playlist created successfully!</div>
   </div>
 </template>
 
 <script>
-var axios = require("axios");
-//import swal from "sweetalert";
+import axios from "axios";
 
 export default {
   data() {
@@ -19,7 +18,6 @@ export default {
       authorized: false,
       playlistCreated: false,
       accessToken: null,
-      spotifyAuthCode: null,
       newPlayList: { userId: "someId", name: "someName", authCode: "code" },
     };
   },
@@ -42,40 +40,39 @@ export default {
       }
     },
 
-    async createPlaylist(code) {
+    async createPlaylist() {
       try {
-        this.newPlayList.authCode = code; //"new-code"
-        console.log("createPlaylist start");
-        await axios.post(
+        console.log("createPlaylist start")
+        // this.authorize()
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        if (!code) {
+          throw new Error("Authorization code not found");
+        }
+
+        this.newPlayList.authCode = code;
+
+        const response = await axios.post(
           "http://localhost:8888/playlist/create",
           this.newPlayList
         );
-        console.log("Playlist created successfully!");
-        this.playlistCreated = true;
+        if (response.status === 200) {
+          this.playlistCreated = true;
+        } else {
+          throw new Error("Failed to create playlist");
+        }
       } catch (error) {
         console.error(error);
-        console.log("createPlaylist error : {}", error);
         // Handle error
       }
     },
   },
-
   mounted() {
-    this.authorize();
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    if (code) {
-      // Do something with the code
-      console.log("Authorization code:", code);
-    }
-    this.createPlaylist(code);
-
     // const urlParams = new URLSearchParams(window.location.search);
-    // this.spotifyAuthCode = urlParams.get("code");
-    // if (this.spotifyAuthCode) {
-    //   this.exchangeCodeForToken();
+    // const code = urlParams.get("code");
+    // if (code) {
+    //   this.createPlaylist(code); // If code is present, create playlist
     // }
   },
-  
 };
 </script>

@@ -35,7 +35,7 @@ public class PlayListController {
 
         try{
             log.info("received createPlayListDto = " + createPlayListDto);
-            createPlayListDto.setName("name");
+//            createPlayListDto.setName("name");
             createPlayListDto.setUserId("62kytpy7jswykfjtnjn9zv3ou");
             log.info("updated createPlayListDto = " + createPlayListDto);
 
