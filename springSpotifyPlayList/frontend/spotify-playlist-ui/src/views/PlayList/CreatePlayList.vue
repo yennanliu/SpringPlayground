@@ -76,7 +76,7 @@ export default {
         if (!code) {
           throw new Error("Authorization code not found");
         }
-        this.newPlayList.authCode = code;
+        this.newSongToList.authCode = code;
         const response = await axios.post(
           "http://localhost:8888/playlist/addSong",
           this.newSongToList

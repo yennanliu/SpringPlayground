@@ -96,13 +96,15 @@ public class PlayListService {
         String authCode = null;
         SnapshotResult snapshotResult = null;
 
-        final String accessToken = "BQBZi1FrY15l2dgIzlFw1EiLEIka9wHwG0vWFHCrULeeOZujlk982wwW0-DOxyu9x7BBsgKH6Vtaklut095LxOW3DanaY-CvCwEGXw94V1ayHJum-tU";
+        //final String accessToken = "BQBZi1FrY15l2dgIzlFw1EiLEIka9wHwG0vWFHCrULeeOZujlk982wwW0-DOxyu9x7BBsgKH6Vtaklut095LxOW3DanaY-CvCwEGXw94V1ayHJum-tU";
         // playList ID can be received from create playList resp
-        final String playlistId = "3eJtMC1cB1qStcsN5GXFSK";
-        final String[] uris = new String[]{"spotify:track:01iyCAUm8EvOFqVWYJ3dVX", "spotify:episode:4GI3dxEafwap1sFiTGPKd1"};
+        final String playlistId = "3KeUl6NsicnERPuMmgOSqr";
+        final String[] uris = new String[]{"spotify:track:0Sxq05leQaZXCktX05Kr7b"};
 
         addSongToPlayListDto.setPlaylistId(playlistId);
         addSongToPlayListDto.setSongUris(uris);
+
+        log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
 
         try {
 
