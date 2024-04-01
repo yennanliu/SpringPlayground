@@ -35,6 +35,7 @@ Steps:
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:8888/swagger-ui.html |  BE API | | |
+| http://localhost:8080 |  FE App UI | | |
 
 ## Important Concepts
 
