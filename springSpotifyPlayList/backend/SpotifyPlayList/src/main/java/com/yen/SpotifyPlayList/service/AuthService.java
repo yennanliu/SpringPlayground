@@ -69,14 +69,11 @@ public class AuthService {
         final URI redirectUri = SpotifyHttpManager
                 .makeUri(redirectURL);
 
-        log.info(">>> (getSpotifyApi) accessToken = " + this.accessToken);
+        log.info("(getSpotifyApi) current accessToken = " + this.accessToken);
         // lazy approach
         if (this.accessToken == null) {
             this.accessToken = this.getToken();
-            log.info(">>> (getSpotifyApi) new accessToken = " + accessToken);
-//            this.spotifyApi = new SpotifyApi.Builder()
-//                    .setAccessToken(this.accessToken)
-//                    .build();
+            log.info("(getSpotifyApi) new accessToken = " + accessToken);
             this.spotifyApi  = new SpotifyApi.Builder()
                     .setClientId(clientId)
                     .setClientSecret(clientSecret)

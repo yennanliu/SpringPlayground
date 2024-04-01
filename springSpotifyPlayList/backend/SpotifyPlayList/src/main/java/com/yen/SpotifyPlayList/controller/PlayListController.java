@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
-import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 
 @Slf4j
 @RestController
@@ -38,9 +37,7 @@ public class PlayListController {
 //            createPlayListDto.setName("name");
             createPlayListDto.setUserId("62kytpy7jswykfjtnjn9zv3ou");
             log.info("updated createPlayListDto = " + createPlayListDto);
-
             Playlist playlist = playListService.createPlayList(createPlayListDto);
-
             return ResponseEntity.status(HttpStatus.OK).body(playlist);
         }catch (Exception e){
             log.error("CreatePlayList error : " + e);
