@@ -26,10 +26,8 @@ public class SpotifyOAuthController {
     @Value("${spotify.clientSecret}")
     private String clientSecret;
 
-//    @Value("${spotify.redirectURL}")
-//    private String redirectURL;
-
-    private String redirectURL = "http://localhost:8080/playlist";//"http://localhost:8888/authorized-url"; //"http://localhost:8080/playlist"; //"http://localhost:8888/authorized-url"; // "http://localhost:8888/callback";
+    @Value("${spotify.redirectURL}")
+    private String redirectURL;
 
     @GetMapping("/authorize")
     public ResponseEntity authorize() {
@@ -48,7 +46,11 @@ public class SpotifyOAuthController {
                     .build();
             final AuthorizationCodeUriRequest authorizationCodeUriRequest = spotifyApi
                     .authorizationCodeUri()
-                    .scope("playlist-modify-public")
+                    /**
+                     *  Scope doc : https://developer.spotify.com/documentation/web-api/concepts/scopes
+                     *  code ref : https://github.com/spotify-web-api-java/spotify-web-api-java/tree/master/examples
+                     */
+                    .scope("playlist-modify-public,playlist-modify-private")
                     .show_dialog(true)
                     .build();
 

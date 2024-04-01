@@ -23,6 +23,9 @@ public class AuthService {
     @Value("${spotify.clientSecret}")
     private String clientSecret;
 
+    @Value("${spotify.redirectURL}")
+    private String redirectURL;
+
     private String accessToken;
 
     private SpotifyApi spotifyApi;
@@ -44,14 +47,6 @@ public class AuthService {
 
             final ClientCredentialsRequest clientCredentialsRequest = spotifyApi
                     .clientCredentials()
-                    // TODO : implement redirect method with scope, ref : testAuthRedirect_1
-//                    /**
-//                     * scope ?
-//                     *
-//                     *  https://developer.spotify.com/documentation/web-api/concepts/scopes
-//                     *  https://bret-gibson.medium.com/spotify-api-authentication-with-spring-boot-and-react-23a68f4e79bb
-//                     */
-//                    .setScheme("user-read-private, user-read-email")
                     .build();
 
             final ClientCredentials clientCredentials = clientCredentialsRequest.execute();
@@ -71,19 +66,14 @@ public class AuthService {
 
     public SpotifyApi getSpotifyApi() {
 
-        final String redirectURL = "http://localhost:8080/playlist"; //"http://localhost:8888/authorized-url"; //"http://localhost:8888/authorized-url"; //"http://localhost:8080/playlist"; // "http://localhost:8888/authorized-url";
-
         final URI redirectUri = SpotifyHttpManager
                 .makeUri(redirectURL);
 
-        log.info(">>> (getSpotifyApi) accessToken = " + this.accessToken);
+        log.info("(getSpotifyApi) current accessToken = " + this.accessToken);
         // lazy approach
         if (this.accessToken == null) {
             this.accessToken = this.getToken();
-            log.info(">>> (getSpotifyApi) new accessToken = " + accessToken);
-//            this.spotifyApi = new SpotifyApi.Builder()
-//                    .setAccessToken(this.accessToken)
-//                    .build();
+            log.info("(getSpotifyApi) new accessToken = " + accessToken);
             this.spotifyApi  = new SpotifyApi.Builder()
                     .setClientId(clientId)
                     .setClientSecret(clientSecret)

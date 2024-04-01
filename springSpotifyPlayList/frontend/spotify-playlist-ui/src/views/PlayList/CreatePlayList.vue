@@ -6,6 +6,8 @@
     </button>
     <button v-if="!authorized" @click="createPlaylist">Create Playlist</button>
     <div v-if="playlistCreated">Playlist created successfully!</div>
+    <button v-if="!authorized" @click="addSongToPlayList">Add Song To Playlist</button>
+    <div v-if="newSongsAdded">Song added to Playlist successfully!</div>
   </div>
 </template>
 
@@ -17,8 +19,10 @@ export default {
     return {
       authorized: false,
       playlistCreated: false,
+      newSongsAdded: false,
       accessToken: null,
       newPlayList: { userId: "someId", name: "someName", authCode: "code" },
+      newSongToList: { playlistId: "playlistId", songUris: ["url_1", "url_2"], authCode: "code" },
     };
   },
   methods: {
@@ -42,16 +46,13 @@ export default {
 
     async createPlaylist() {
       try {
-        console.log("createPlaylist start")
-        // this.authorize()
+        console.log("createPlaylist start");
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get("code");
         if (!code) {
           throw new Error("Authorization code not found");
         }
-
         this.newPlayList.authCode = code;
-
         const response = await axios.post(
           "http://localhost:8888/playlist/create",
           this.newPlayList
@@ -66,13 +67,32 @@ export default {
         // Handle error
       }
     },
+
+    async addSongToPlayList() {
+      try {
+        console.log("addSongToPlayList start");
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        if (!code) {
+          throw new Error("Authorization code not found");
+        }
+        this.newSongToList.authCode = code;
+        const response = await axios.post(
+          "http://localhost:8888/playlist/addSong",
+          this.newSongToList
+        );
+        if (response.status === 200) {
+          this.newSongsAdded = true;
+        } else {
+          throw new Error("Failed to add song to playlist");
+        }
+      } catch (error) {
+        console.error(error);
+        // Handle error
+      }
+    },
+
   },
-  mounted() {
-    // const urlParams = new URLSearchParams(window.location.search);
-    // const code = urlParams.get("code");
-    // if (code) {
-    //   this.createPlaylist(code); // If code is present, create playlist
-    // }
-  },
+  mounted() {},
 };
 </script>
