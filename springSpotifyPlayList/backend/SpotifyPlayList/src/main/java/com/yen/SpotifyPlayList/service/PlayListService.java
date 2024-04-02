@@ -53,28 +53,13 @@ public class PlayListService {
     public Playlist createPlayList(CreatePlayListDto createPlayListDto) throws SpotifyWebApiException {
 
         Playlist playlist = null;
-        String authCode = null;
 
         try {
-            log.info("(PlayListService) createPlayList start ... ");
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
-            log.info("(PlayListService) redirect URI " + spotifyApi.getRedirectURI());
-            /**
-             *  authCode can be retrieved when auth success (by Spotify)
-             *  , get from spotify response
-             */
-            authCode = createPlayListDto.getAuthCode();
-            final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi
-                    .authorizationCode(authCode)
-                    .build();
-
-            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
-                    .execute();
-
-            // Set access and refresh token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+            this.spotifyApi  = authService.authClientWithAuthCode(
+                    authService.getSpotifyApi(),
+                    createPlayListDto.getAuthCode()
+            );
 
             // TODO : get userId from auth ?
             final CreatePlaylistRequest createPlaylistRequest = spotifyApi
@@ -86,7 +71,6 @@ public class PlayListService {
 
             playlist = createPlaylistRequest.execute();
             log.info("playlist is created !  " + playlist + " name = " + playlist.getName());
-            log.info("(PlayListService) createPlayList end ... ");
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyWebApiException("createPlayList error: " + e.getMessage());
         }
@@ -95,37 +79,24 @@ public class PlayListService {
 
     public SnapshotResult addSongToPlayList(AddSongToPlayListDto addSongToPlayListDto){
 
-        String authCode = null;
         SnapshotResult snapshotResult = null;
 
         //final String accessToken = "BQBZi1FrY15l2dgIzlFw1EiLEIka9wHwG0vWFHCrULeeOZujlk982wwW0-DOxyu9x7BBsgKH6Vtaklut095LxOW3DanaY-CvCwEGXw94V1ayHJum-tU";
         // playList ID can be received from create playList resp
-        final String playlistId = "3KeUl6NsicnERPuMmgOSqr";
+        final String playlistId = "7KP94mNZB4goH7bwjplrsH";
         final String[] uris = new String[]{"spotify:track:0Sxq05leQaZXCktX05Kr7b"};
 
         addSongToPlayListDto.setPlaylistId(playlistId);
         addSongToPlayListDto.setSongUris(uris);
-
         log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
 
         try {
+            this.spotifyApi  = authService.authClientWithAuthCode(
+                    authService.getSpotifyApi(),
+                    addSongToPlayListDto.getAuthCode()
+            );
 
-            this.spotifyApi = authService.getSpotifyApi();
-
-            authCode = addSongToPlayListDto.getAuthCode();
-
-            final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi
-                    .authorizationCode(authCode)
-                    .build();
-
-            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
-                    .execute();
-
-            // Set access and refresh token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-
-            final AddItemsToPlaylistRequest addItemsToPlaylistRequest = spotifyApi
+            final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
                     .addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())
                     //.position(0)
                     .build();
