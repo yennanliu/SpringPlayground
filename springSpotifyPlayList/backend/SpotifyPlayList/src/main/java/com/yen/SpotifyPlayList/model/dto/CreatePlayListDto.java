@@ -1,6 +1,7 @@
 package com.yen.SpotifyPlayList.model.dto;
 
-import lombok.*;
+import lombok.Data;
+import lombok.ToString;
 
 @ToString
 @Data
