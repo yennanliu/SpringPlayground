@@ -2,8 +2,10 @@ package com.yen.SpotifyPlayList.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.Album;
@@ -50,11 +52,13 @@ public class AlbumService {
         try {
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyApi();
+
             final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
                     .getAlbumsTracks(albumId)
                     .build();
             trackSimplifiedPaging = getAlbumsTracksRequest.execute();
             log.info("Track count: " + trackSimplifiedPaging.getTotal());
+
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyWebApiException("getAlbumTrack error: " + e.getMessage());
         }

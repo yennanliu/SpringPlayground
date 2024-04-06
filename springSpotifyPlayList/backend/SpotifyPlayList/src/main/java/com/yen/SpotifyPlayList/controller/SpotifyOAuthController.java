@@ -1,7 +1,7 @@
 package com.yen.SpotifyPlayList.controller;
 
-import com.yen.SpotifyPlayList.model.dto.RedirectResp;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
 import org.springframework.http.HttpStatus;
@@ -9,12 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.yen.SpotifyPlayList.model.dto.Response.RedirectResp;
+
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
 
 import java.net.URI;
-import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -50,7 +51,7 @@ public class SpotifyOAuthController {
                      *  Scope doc : https://developer.spotify.com/documentation/web-api/concepts/scopes
                      *  code ref : https://github.com/spotify-web-api-java/spotify-web-api-java/tree/master/examples
                      */
-                    .scope("playlist-modify-public,playlist-modify-private")
+                    .scope("playlist-modify-public,playlist-modify-private,user-read-private,user-read-email")
                     .show_dialog(true)
                     .build();
 

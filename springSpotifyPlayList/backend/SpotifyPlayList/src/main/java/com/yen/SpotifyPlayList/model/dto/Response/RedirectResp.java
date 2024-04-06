@@ -1,4 +1,4 @@
-package com.yen.SpotifyPlayList.model.dto;
+package com.yen.SpotifyPlayList.model.dto.Response;
 
 import lombok.Data;
 import lombok.ToString;
