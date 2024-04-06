@@ -13,6 +13,7 @@ import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
+import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfileRequest;
 
 import java.io.IOException;
 
@@ -52,11 +53,18 @@ public class AlbumService {
         try {
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyApi();
+
             final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
                     .getAlbumsTracks(albumId)
                     .build();
             trackSimplifiedPaging = getAlbumsTracksRequest.execute();
             log.info("Track count: " + trackSimplifiedPaging.getTotal());
+
+            GetCurrentUsersProfileRequest profile = spotifyApi.getCurrentUsersProfile().build();
+            String json = profile.getJson();
+            log.info(">>> profile json = " + profile.getJson());
+            log.info(">>>profile getBody = " + profile.getBody());
+
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyWebApiException("getAlbumTrack error: " + e.getMessage());
         }
