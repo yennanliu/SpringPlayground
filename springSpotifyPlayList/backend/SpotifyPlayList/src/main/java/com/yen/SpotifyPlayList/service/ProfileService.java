@@ -34,14 +34,34 @@ public class ProfileService {
             GetCurrentUsersProfileRequest profile = spotifyApi
                     .getCurrentUsersProfile()
                     .build();
-            UserProfileResp userProfileResp = this.gson.fromJson(profile.getJson(), UserProfileResp.class);
+            UserProfileResp userProfileResp = this.gson.fromJson(
+                    profile.getJson(), UserProfileResp.class
+            );
             log.info("userProfileResp = " + userProfileResp);
-            userId =  userProfileResp.getId();
+            userId = userProfileResp.getId();
         }catch (Exception e){
             log.error("getCurrentUserId error,  " + e);
         }
 
         return userId;
+    }
+
+    public UserProfileResp getUserProfile(){
+
+        UserProfileResp resp = null;
+        try{
+            GetCurrentUsersProfileRequest profile = spotifyApi
+                    .getCurrentUsersProfile()
+                    .build();
+            UserProfileResp userProfileResp = this.gson.fromJson(
+                    profile.getJson(), UserProfileResp.class
+            );
+            log.info("getUserProfile = " + userProfileResp);
+            resp = userProfileResp;
+        }catch (Exception e){
+            log.error("getUserProfile error,  " + e);
+        }
+        return resp;
     }
 
 }
