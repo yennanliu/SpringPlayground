@@ -8,6 +8,9 @@ import GetAlbum from "../views/Album/GetAlbum.vue";
 // playlist
 import CreatePlayList from "../views/PlayList/CreatePlayList.vue"; 
 
+// profile
+import GetProfile from "../views/Profile/GetProfile.vue"; 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -38,6 +41,13 @@ const routes = [
     name: "CreatePlayList",
     component: CreatePlayList,
   },
+
+    // Profile
+    {
+      path: "/profile",
+      name: "GetProfile",
+      component: GetProfile,
+    },
 ]
 
 const router = new VueRouter({
