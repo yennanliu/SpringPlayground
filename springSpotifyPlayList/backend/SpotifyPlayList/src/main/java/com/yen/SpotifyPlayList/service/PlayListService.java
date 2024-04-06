@@ -27,7 +27,11 @@ public class PlayListService {
     @Autowired
     private AuthService authService;
 
+    @Autowired
+    private ProfileService profileService;
+
     private SpotifyApi spotifyApi;
+
 
     public PlayListService(){
 
@@ -61,14 +65,34 @@ public class PlayListService {
                     createPlayListDto.getAuthCode()
             );
 
-            // TODO : get userId from auth ?
+            /** NOTE !!! use the same client (spotifyApi)
+             *  for getting current user id and create playlist
+             */
+            // get current user profile
+            String userId = profileService.getCurrentUserId(this.spotifyApi); //"62kytpy7jswykfjtnjn9zv3ou";
+
+            /**
+             * NOTE !!! via refresh token,
+             *   we CAN REUSE same Auth code make multiple requests
+             *   that need "user redirect auth"
+             *
+             *   Flow:
+             *    step 1) auth with redirect (with defined scope)
+             *    step 2) make a first request (e.g. get current user ID)
+             *    step 3) update client with refresh token
+             *    step 4) make the other request (e.g. create playlist)
+             *
+             *    Code ref :
+             *     - https://github.com/spotify-web-api-java/spotify-web-api-java/blob/cfd0dae1262bd7f95f90c37b28d27b9c944d471a/examples/authorization/authorization_code/AuthorizationCodeRefreshExample.java#L22
+             */
+            String refreshToken = this.spotifyApi.getRefreshToken();
+            spotifyApi.setRefreshToken(refreshToken);
+
             final CreatePlaylistRequest createPlaylistRequest = spotifyApi
-                    .createPlaylist(createPlayListDto.getUserId(), createPlayListDto.getName())
-//          .collaborative(false)
-//          .public_(false)
-//          .description("Amazing music.")
+                    .createPlaylist(userId, createPlayListDto.getName())
                     .build();
 
+            // create new playList
             playlist = createPlaylistRequest.execute();
             log.info("playlist is created !  " + playlist + " name = " + playlist.getName());
         } catch (IOException | SpotifyWebApiException | ParseException e) {

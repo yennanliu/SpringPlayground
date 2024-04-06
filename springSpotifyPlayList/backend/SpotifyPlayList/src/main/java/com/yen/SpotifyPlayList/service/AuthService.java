@@ -110,4 +110,12 @@ public class AuthService {
         return spotifyApi;
     }
 
+    public SpotifyApi refreshSpotifyApi(SpotifyApi spotifyApi, String authCode) throws SpotifyWebApiException, IOException, ParseException{
+
+        SpotifyApi spotifyApi1 = this.authClientWithAuthCode(spotifyApi, authCode);
+        // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/cfd0dae1262bd7f95f90c37b28d27b9c944d471a/examples/authorization/authorization_code/AuthorizationCodeRefreshExample.java#L22
+        spotifyApi1.setRefreshToken(spotifyApi1.getRefreshToken());
+        return spotifyApi1;
+    }
+
 }

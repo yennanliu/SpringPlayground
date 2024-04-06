@@ -22,15 +22,11 @@ public class ProfileService {
 
     }
 
-    public String getCurrentUserId(String authCode){
-        String userId = null;
-        try{
-            //this.spotifyApi = authService.getSpotifyApi();
-            this.spotifyApi  = authService.authClientWithAuthCode(
-                    authService.getSpotifyApi(),
-                    authCode
-            );
+    public String getCurrentUserId(SpotifyApi spotifyApi){
 
+        String userId = null;
+
+        try{
             GetCurrentUsersProfileRequest profile = spotifyApi.getCurrentUsersProfile().build();
             String profileString = profile.getJson();
             GsonBuilder builder = new GsonBuilder();

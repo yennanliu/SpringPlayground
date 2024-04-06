@@ -43,11 +43,6 @@ public class PlayListController {
 
         try{
             log.info("received createPlayListDto = " + createPlayListDto);
-            createPlayListDto.setUserId("62kytpy7jswykfjtnjn9zv3ou");
-            //String userId = profileService.getCurrentUserId(createPlayListDto.getAuthCode());
-//            log.info("userId = " + userId);
-//            createPlayListDto.setUserId(userId);
-            log.info("updated createPlayListDto = " + createPlayListDto);
             Playlist playlist = playListService.createPlayList(createPlayListDto);
             return ResponseEntity.status(HttpStatus.OK).body(playlist);
         }catch (Exception e){
