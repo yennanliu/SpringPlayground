@@ -119,16 +119,13 @@ public class PlayListService {
                     authService.getSpotifyApi(),
                     addSongToPlayListDto.getAuthCode()
             );
-
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
                     .addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())
                     //.position(0)
                     .build();
-
             snapshotResult = addItemsToPlaylistRequest.execute();
             log.info("Snapshot ID: " + snapshotResult.getSnapshotId());
             log.info("addSongToPlayList OK");
-
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             log.error("addSongToPlayList Error: " + e.getMessage());
         }

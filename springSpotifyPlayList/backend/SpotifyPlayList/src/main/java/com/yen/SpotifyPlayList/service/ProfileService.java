@@ -13,13 +13,17 @@ import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfi
 @Slf4j
 public class ProfileService {
 
+    private Gson gson;
+
     @Autowired
     private AuthService authService;
 
     private SpotifyApi spotifyApi;
 
     public ProfileService(){
-
+        GsonBuilder builder = new GsonBuilder();
+        builder.setPrettyPrinting();
+        this.gson = builder.create();
     }
 
     public String getCurrentUserId(SpotifyApi spotifyApi){
@@ -27,12 +31,10 @@ public class ProfileService {
         String userId = null;
 
         try{
-            GetCurrentUsersProfileRequest profile = spotifyApi.getCurrentUsersProfile().build();
-            String profileString = profile.getJson();
-            GsonBuilder builder = new GsonBuilder();
-            builder.setPrettyPrinting();
-            Gson gson = builder.create();
-            UserProfileResp userProfileResp = gson.fromJson(profileString, UserProfileResp.class);
+            GetCurrentUsersProfileRequest profile = spotifyApi
+                    .getCurrentUsersProfile()
+                    .build();
+            UserProfileResp userProfileResp = this.gson.fromJson(profile.getJson(), UserProfileResp.class);
             log.info("userProfileResp = " + userProfileResp);
             userId =  userProfileResp.getId();
         }catch (Exception e){
