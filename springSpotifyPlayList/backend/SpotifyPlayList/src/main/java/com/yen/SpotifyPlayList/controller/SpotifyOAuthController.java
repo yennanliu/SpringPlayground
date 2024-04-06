@@ -51,7 +51,7 @@ public class SpotifyOAuthController {
                      *  Scope doc : https://developer.spotify.com/documentation/web-api/concepts/scopes
                      *  code ref : https://github.com/spotify-web-api-java/spotify-web-api-java/tree/master/examples
                      */
-                    .scope("playlist-modify-public,playlist-modify-private")
+                    .scope("playlist-modify-public,playlist-modify-private,user-read-private,user-read-email")
                     .show_dialog(true)
                     .build();
 

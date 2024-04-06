@@ -82,6 +82,7 @@ public class AuthService {
                     .setClientId(clientId)
                     .setClientSecret(clientSecret)
                     .setRedirectUri(redirectUri)
+                    //.setAccessToken(accessToken) // use accessToken here
                     .build();
         }
         return this.spotifyApi;

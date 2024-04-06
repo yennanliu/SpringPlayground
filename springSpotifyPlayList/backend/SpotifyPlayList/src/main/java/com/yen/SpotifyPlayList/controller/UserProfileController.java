@@ -22,10 +22,10 @@ public class UserProfileController {
     private ProfileService profileService;
 
     @GetMapping("/userId")
-    public ResponseEntity getCurrentUserId(){
+    public ResponseEntity getCurrentUserId(@PathVariable String authCode){
         String userId = null;
         try{
-            userId = profileService.getCurrentUserId();
+            userId = profileService.getCurrentUserId(authCode);
             return ResponseEntity.status(HttpStatus.OK).body(userId);
         }catch (Exception e){
             log.error("getCurrentUserId error : " + e);

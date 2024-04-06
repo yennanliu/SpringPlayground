@@ -4,6 +4,7 @@ import com.yen.SpotifyPlayList.model.dto.AddSongToPlayListDto;
 import com.yen.SpotifyPlayList.model.dto.CreatePlayListDto;
 import com.yen.SpotifyPlayList.service.PlayListService;
 
+import com.yen.SpotifyPlayList.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,9 @@ public class PlayListController {
 
     @Autowired
     private PlayListService playListService;
+
+    @Autowired
+    private ProfileService profileService;
 
     @GetMapping("/{playListId}")
     public ResponseEntity getPlayListWithId(@PathVariable("playListId") String playListId){
@@ -40,6 +44,9 @@ public class PlayListController {
         try{
             log.info("received createPlayListDto = " + createPlayListDto);
             createPlayListDto.setUserId("62kytpy7jswykfjtnjn9zv3ou");
+            //String userId = profileService.getCurrentUserId(createPlayListDto.getAuthCode());
+//            log.info("userId = " + userId);
+//            createPlayListDto.setUserId(userId);
             log.info("updated createPlayListDto = " + createPlayListDto);
             Playlist playlist = playListService.createPlayList(createPlayListDto);
             return ResponseEntity.status(HttpStatus.OK).body(playlist);

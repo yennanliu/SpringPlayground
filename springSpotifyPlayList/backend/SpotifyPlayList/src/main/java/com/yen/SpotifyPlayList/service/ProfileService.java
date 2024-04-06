@@ -22,10 +22,15 @@ public class ProfileService {
 
     }
 
-    public String getCurrentUserId(){
+    public String getCurrentUserId(String authCode){
         String userId = null;
         try{
-            this.spotifyApi = authService.getSpotifyApi();
+            //this.spotifyApi = authService.getSpotifyApi();
+            this.spotifyApi  = authService.authClientWithAuthCode(
+                    authService.getSpotifyApi(),
+                    authCode
+            );
+
             GetCurrentUsersProfileRequest profile = spotifyApi.getCurrentUsersProfile().build();
             String profileString = profile.getJson();
             GsonBuilder builder = new GsonBuilder();
@@ -33,8 +38,7 @@ public class ProfileService {
             Gson gson = builder.create();
             UserProfileResp userProfileResp = gson.fromJson(profileString, UserProfileResp.class);
             log.info("userProfileResp = " + userProfileResp);
-            log.info("userProfileResp ID = " + userProfileResp.getId());
-
+            userId =  userProfileResp.getId();
         }catch (Exception e){
             log.error("getCurrentUserId error,  " + e);
         }
