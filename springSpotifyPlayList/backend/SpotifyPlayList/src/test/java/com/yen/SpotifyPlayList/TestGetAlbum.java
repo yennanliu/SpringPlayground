@@ -9,10 +9,6 @@ import se.michaelthelin.spotify.requests.data.albums.GetAlbumRequest;
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-
 
 import org.junit.jupiter.api.Test;
 import se.michaelthelin.spotify.requests.data.albums.GetAlbumsTracksRequest;
