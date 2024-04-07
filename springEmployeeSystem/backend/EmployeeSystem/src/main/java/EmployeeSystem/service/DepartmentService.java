@@ -36,7 +36,7 @@ public class DepartmentService {
         // get current department
         Department department = departmentRepository.findById(departmentDto.getId()).get();
 
-        // copy user to updated department
+        // copy attr to new department as updated department
         BeanUtils.copyProperties(departmentDto, department);
 
         // save to DB
