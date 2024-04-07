@@ -1,11 +1,12 @@
 <template>
   <div>
-    <h1>Album Details</h1>
+    <h1>Album</h1>
     <div v-if="album">
-      <h2>{{ album.name }}</h2>
+      <h2>Name: {{ album.name }}</h2>
+      <img :src="album.images[0].url" :alt="album.name" style="max-width: 300px; max-height: 300px;">
       <div v-for="track in album.tracks.items" :key="track.id">
-        <p>Track Name: {{ track.name }}</p>
-        <p>External URL: <a :href="track.externalUrls.externalUrls.spotify " target="_blank">{{ track.externalUrls.externalUrls.spotify }}</a></p>
+        <p>Track: {{ track.name }}</p>
+        <p>URL: <a :href="track.externalUrls.externalUrls.spotify " target="_blank">{{ track.externalUrls.externalUrls.spotify }}</a></p>
         <hr>
       </div>
     </div>
