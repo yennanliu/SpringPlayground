@@ -11,6 +11,9 @@ import CreatePlayList from "../views/PlayList/CreatePlayList.vue";
 // profile
 import GetProfile from "../views/Profile/GetProfile.vue"; 
 
+// Recommendation
+import GetRecommendation from "../views/Recommendation/GetRecommendation.vue"; 
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -47,6 +50,13 @@ const routes = [
       path: "/profile",
       name: "GetProfile",
       component: GetProfile,
+    },
+
+    // Recommendation
+    {
+      path: "/recommendation",
+      name: "GetRecommendation",
+      component: GetRecommendation,
     },
 ]
 
