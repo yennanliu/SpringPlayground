@@ -1,7 +1,14 @@
 <template>
   <div>
     <h1>Album Details</h1>
-    <pre v-if="album">{{ JSON.stringify(album, null, 2) }}</pre>
+    <div v-if="album">
+      <h2>{{ album.name }}</h2>
+      <div v-for="track in album.tracks.items" :key="track.id">
+        <p>Track Name: {{ track.name }}</p>
+        <p>External URL: <a :href="track.externalUrls.externalUrls.spotify " target="_blank">{{ track.externalUrls.externalUrls.spotify }}</a></p>
+        <hr>
+      </div>
+    </div>
     <div v-else>Loading...</div>
   </div>
 </template>
@@ -25,6 +32,8 @@ export default {
         }
         const data = await response.json();
         this.album = data;
+        console.log("this.album = {}", JSON.stringify(this.album))
+        // console.log("external url = {}", JSON.stringify(this.album.externalUrls.spotify))
       } catch (error) {
         console.error(error);
       }
