@@ -27,7 +27,7 @@ public class TicketService {
         if(ticketRepository.findById(ticketId).isPresent()){
             return ticketRepository.findById(ticketId).get();
         }
-        log.warn("No ticket with ticketId = " + ticketId);
+        log.warn("No ticket found with ticketId = " + ticketId);
         return null;
     }
 
