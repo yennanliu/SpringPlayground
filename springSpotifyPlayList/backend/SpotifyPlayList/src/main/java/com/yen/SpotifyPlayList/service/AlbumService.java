@@ -52,13 +52,11 @@ public class AlbumService {
         try {
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyApi();
-
             final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
                     .getAlbumsTracks(albumId)
                     .build();
             trackSimplifiedPaging = getAlbumsTracksRequest.execute();
             log.info("Track count: " + trackSimplifiedPaging.getTotal());
-
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyWebApiException("getAlbumTrack error: " + e.getMessage());
         }

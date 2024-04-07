@@ -21,7 +21,7 @@ public class RecommendationsController {
     @Autowired
     private RecommendationsService recommendationsService;
 
-    @GetMapping("/{playListId}")
+    @GetMapping("/")
     public ResponseEntity getRecommendation(){
 
         try{
