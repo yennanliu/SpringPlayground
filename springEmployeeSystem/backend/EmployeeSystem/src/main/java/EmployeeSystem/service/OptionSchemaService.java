@@ -23,11 +23,11 @@ public class OptionSchemaService {
 
     public List<OptionSchema> getAllActiveOptions() {
 
-        List<OptionSchema> activeOptionSchemaList = optionSchemaRepository.findAll().stream().filter(x -> {
-            return x.getActive() == true;
-        }).collect(Collectors.toList());
+        List<OptionSchema> activeOptionSchemaList = optionSchemaRepository
+                .findAll()
+                .stream().filter(x -> {return x.getActive() == true;})
+                .collect(Collectors.toList());
         return activeOptionSchemaList;
-
     }
 
 }
