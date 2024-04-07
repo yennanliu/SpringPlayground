@@ -27,12 +27,20 @@
         style="max-width: 300px; max-height: 300px"
       /> -->
       <div v-for="track in tracks.tracks" :key="track.id">
-        <p>Track: {{ track.name }}</p>
+        <p>Track: {{ track.name }} | Artist: {{ track.artists[0].name }}</p>
         <p>
           URL:
           <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
             track.externalUrls.externalUrls.spotify
           }}</a>
+        </p>
+
+        <p>
+          Preview URL:
+          <audio controls>
+            <source :src="track.previewUrl" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
         </p>
         <hr />
       </div>

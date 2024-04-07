@@ -70,10 +70,6 @@ export default {
         console.error(error);
       }
     },
-    async searchAlbum() {
-      console.log("searchAlbum start");
-      console.log("albumId =  " + this.albumId);
-    },
   },
 };
 </script>
