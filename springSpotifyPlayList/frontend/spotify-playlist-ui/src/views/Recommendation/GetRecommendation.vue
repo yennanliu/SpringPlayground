@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form>
+    <form @submit.prevent="getRecommend">
       <div class="form-group">
         <label>Amount</label>
         <input type="number" class="form-control" v-model="amount" required />
@@ -11,30 +11,15 @@
       </div>
       <div class="form-group">
         <label>Max Popularity</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="maxPopularity"
-          required
-        />
+        <input type="number" class="form-control" v-model="maxPopularity" required />
       </div>
       <div class="form-group">
         <label>Min Popularity</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="minPopularity"
-          required
-        />
+        <input type="number" class="form-control" v-model="minPopularity" required />
       </div>
       <div class="form-group">
         <label>Seed Artist ID</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="seedArtistId"
-          required
-        />
+        <input type="text" class="form-control" v-model="seedArtistId" required />
       </div>
       <div class="form-group">
         <label>Seed Genres</label>
@@ -46,14 +31,9 @@
       </div>
       <div class="form-group">
         <label>Target Popularity</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="targetPopularity"
-          required
-        />
+        <input type="number" class="form-control" v-model="targetPopularity" required />
       </div>
-      <button type="button" class="btn btn-primary" @click="getRecommend">
+      <button type="submit" class="btn btn-primary">
         Submit
       </button>
     </form>
@@ -87,12 +67,12 @@ export default {
   data() {
     return {
       amount: 10,
-      market: "JP",
+      market: 'JP',
       maxPopularity: 100,
       minPopularity: 0,
-      seedArtistId: "",
-      seedGenres: "",
-      seedTrack: "",
+      seedArtistId: '',
+      seedGenres: '',
+      seedTrack: '',
       targetPopularity: 50,
       tracks: null,
     };
@@ -100,10 +80,22 @@ export default {
   methods: {
     async getRecommend() {
       try {
-        const response = await fetch(
-          // `http://localhost:8888/recommend?amount=${this.amount}&market=${this.market}&maxPopularity=${this.maxPopularity}&minPopularity=${this.minPopularity}&seedArtistId=${this.seedArtistId}&seedGenres=${this.seedGenres}&seedTrack=${this.seedTrack}&targetPopularity=${this.targetPopularity}`
-          "http://localhost:8888/recommend/"
-        );
+        const response = await fetch('http://localhost:8888/recommend/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            amount: this.amount,
+            market: this.market,
+            maxPopularity: this.maxPopularity,
+            minPopularity: this.minPopularity,
+            seedArtistId: this.seedArtistId,
+            seedGenres: this.seedGenres,
+            seedTrack: this.seedTrack,
+            targetPopularity: this.targetPopularity,
+          }),
+        });
         if (!response.ok) {
           throw new Error("Failed to fetch recommendations");
         }
