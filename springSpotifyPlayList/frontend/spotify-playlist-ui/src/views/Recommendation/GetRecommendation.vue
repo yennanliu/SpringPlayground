@@ -11,15 +11,30 @@
       </div>
       <div class="form-group">
         <label>Max Popularity</label>
-        <input type="number" class="form-control" v-model="maxPopularity" required />
+        <input
+          type="number"
+          class="form-control"
+          v-model="maxPopularity"
+          required
+        />
       </div>
       <div class="form-group">
         <label>Min Popularity</label>
-        <input type="number" class="form-control" v-model="minPopularity" required />
+        <input
+          type="number"
+          class="form-control"
+          v-model="minPopularity"
+          required
+        />
       </div>
       <div class="form-group">
         <label>Seed Artist ID</label>
-        <input type="text" class="form-control" v-model="seedArtistId" required />
+        <input
+          type="text"
+          class="form-control"
+          v-model="seedArtistId"
+          required
+        />
       </div>
       <div class="form-group">
         <label>Seed Genres</label>
@@ -31,10 +46,17 @@
       </div>
       <div class="form-group">
         <label>Target Popularity</label>
-        <input type="number" class="form-control" v-model="targetPopularity" required />
+        <input
+          type="number"
+          class="form-control"
+          v-model="targetPopularity"
+          required
+        />
       </div>
-      <button type="submit" class="btn btn-primary">
-        Submit
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+      <button class="btn btn-success" @click="addToPlaylist(track.id)">
+        Add to Playlist
       </button>
     </form>
 
@@ -67,12 +89,12 @@ export default {
   data() {
     return {
       amount: 10,
-      market: 'JP',
+      market: "JP",
       maxPopularity: 100,
       minPopularity: 0,
-      seedArtistId: '4sJCsXNYmUMeumUKVz4Abm',
-      seedGenres: 'electric',
-      seedTrack: '1ZFQgnAwHaAhAn1o2bkwVs',
+      seedArtistId: "4sJCsXNYmUMeumUKVz4Abm",
+      seedGenres: "electric",
+      seedTrack: "1ZFQgnAwHaAhAn1o2bkwVs",
       targetPopularity: 50,
       tracks: null,
     };
@@ -80,10 +102,10 @@ export default {
   methods: {
     async getRecommend() {
       try {
-        const response = await fetch('http://localhost:8888/recommend/', {
-          method: 'POST',
+        const response = await fetch("http://localhost:8888/recommend/", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             amount: this.amount,
@@ -102,6 +124,28 @@ export default {
         const data = await response.json();
         this.tracks = data;
         console.log("this.tracks = {}", JSON.stringify(this.tracks));
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async addToPlaylist(trackId) {
+      try {
+        console.log("addToPlaylist trackId = " + trackId);
+        // const response = await fetch('http://localhost:8888/add-to-playlist/', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify({
+        //     trackId: trackId,
+        //     playlistId: 'your_playlist_id_here', // Replace with your playlist ID
+        //   }),
+        // });
+        // if (!response.ok) {
+        //   throw new Error("Failed to add track to playlist");
+        // }
+        // // Optionally, you can handle success here
       } catch (error) {
         console.error(error);
       }
