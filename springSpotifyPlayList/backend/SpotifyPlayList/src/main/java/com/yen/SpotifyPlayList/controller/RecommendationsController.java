@@ -1,5 +1,6 @@
 package com.yen.SpotifyPlayList.controller;
 
+import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import com.yen.SpotifyPlayList.service.RecommendationsService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -7,9 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 
@@ -21,11 +20,12 @@ public class RecommendationsController {
     @Autowired
     private RecommendationsService recommendationsService;
 
-    @GetMapping("/")
-    public ResponseEntity getRecommendation(){
+    @PostMapping("/")
+    public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto){
 
         try{
-            Recommendations recommendations = recommendationsService.getRecommendation();
+            log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
+            Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
             return ResponseEntity.status(HttpStatus.OK).body(recommendations);
         }catch (Exception e){
             log.error("getRecommendation error : " + e);
