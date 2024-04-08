@@ -70,9 +70,9 @@ export default {
       market: 'JP',
       maxPopularity: 100,
       minPopularity: 0,
-      seedArtistId: '',
-      seedGenres: '',
-      seedTrack: '',
+      seedArtistId: '4sJCsXNYmUMeumUKVz4Abm',
+      seedGenres: 'electric',
+      seedTrack: '1ZFQgnAwHaAhAn1o2bkwVs',
       targetPopularity: 50,
       tracks: null,
     };
