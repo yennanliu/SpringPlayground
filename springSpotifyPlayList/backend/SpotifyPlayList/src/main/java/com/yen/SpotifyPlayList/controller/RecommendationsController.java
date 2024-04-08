@@ -21,11 +21,11 @@ public class RecommendationsController {
     private RecommendationsService recommendationsService;
 
     @PostMapping("/")
-    public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto recommendationsDto){
+    public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto){
 
         try{
-            log.info("(getRecommendation) recommendationsDto = " + recommendationsDto.toString());
-            Recommendations recommendations = recommendationsService.getRecommendation();
+            log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
+            Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
             return ResponseEntity.status(HttpStatus.OK).body(recommendations);
         }catch (Exception e){
             log.error("getRecommendation error : " + e);

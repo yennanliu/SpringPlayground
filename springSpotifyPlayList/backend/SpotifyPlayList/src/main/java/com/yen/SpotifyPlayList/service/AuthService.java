@@ -85,7 +85,7 @@ public class AuthService {
                     .setAccessToken(accessToken) // use accessToken here
                     .build();
         }
-        
+
         return this.spotifyApi;
     }
 
