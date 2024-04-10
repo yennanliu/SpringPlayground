@@ -55,7 +55,7 @@
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>
 
-      <button class="btn btn-success" @click="addToPlaylist(track.id)">
+      <button class="btn btn-success" @click="addToPlaylist()">
         Add to Playlist
       </button>
     </form>
@@ -129,23 +129,44 @@ export default {
       }
     },
 
-    async addToPlaylist(trackId) {
+    async addToPlaylist() {
       try {
-        console.log("addToPlaylist trackId = " + trackId);
-        // const response = await fetch('http://localhost:8888/add-to-playlist/', {
-        //   method: 'POST',
+        if (!this.tracks) {
+          throw new Error("No tracks to add");
+        }
+
+        console.log(">>> this.tracks = " + JSON.stringify(this.tracks));
+
+        // console.log("addToPlaylist start");
+
+        if (Array.isArray(this.tracks.tracks)) {
+          const trackURIs = this.tracks.tracks.map((track) => track.album.uri);
+          console.log("trackURIs = " + trackURIs);
+
+          // Now you can use trackURIs as needed
+        } else {
+          console.error("this.tracks is not an array");
+        }
+
+        // console.log(
+        //   "addToPlayList  this.tracks = {}",
+        //   JSON.stringify(this.tracks)
+        // );
+
+        // const response = await fetch("http://localhost:8888/add-to-playlist/", {
+        //   method: "POST",
         //   headers: {
-        //     'Content-Type': 'application/json',
+        //     "Content-Type": "application/json",
         //   },
         //   body: JSON.stringify({
-        //     trackId: trackId,
-        //     playlistId: 'your_playlist_id_here', // Replace with your playlist ID
+        //     trackIds: trackIds,
+        //     playlistId: this.playlistId,
         //   }),
         // });
         // if (!response.ok) {
-        //   throw new Error("Failed to add track to playlist");
+        //   throw new Error("Failed to add tracks to playlist");
         // }
-        // // Optionally, you can handle success here
+        // Optionally, you can handle success here
       } catch (error) {
         console.error(error);
       }
