@@ -97,6 +97,7 @@ export default {
       seedTrack: "1ZFQgnAwHaAhAn1o2bkwVs",
       targetPopularity: 50,
       tracks: null,
+      trackURIs: null,
     };
   },
   methods: {
@@ -137,36 +138,25 @@ export default {
 
         console.log(">>> this.tracks = " + JSON.stringify(this.tracks));
 
-        // console.log("addToPlaylist start");
+        console.log("addToPlaylist start");
 
-        if (Array.isArray(this.tracks.tracks)) {
-          const trackURIs = this.tracks.tracks.map((track) => track.album.uri);
-          console.log("trackURIs = " + trackURIs);
+        this.trackURIs = this.tracks.tracks.map((track) => track.uri);
+        console.log("this.trackURIs = " + this.trackURIs);
 
-          // Now you can use trackURIs as needed
-        } else {
-          console.error("this.tracks is not an array");
+        const response = await fetch("http://localhost:8888/playlist/addSong", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            trackIds: this.trackURIs,
+            playlistId: this.playlistId,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to add tracks to playlist");
         }
-
-        // console.log(
-        //   "addToPlayList  this.tracks = {}",
-        //   JSON.stringify(this.tracks)
-        // );
-
-        // const response = await fetch("http://localhost:8888/add-to-playlist/", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify({
-        //     trackIds: trackIds,
-        //     playlistId: this.playlistId,
-        //   }),
-        // });
-        // if (!response.ok) {
-        //   throw new Error("Failed to add tracks to playlist");
-        // }
-        // Optionally, you can handle success here
+        //Optionally, you can handle success here
       } catch (error) {
         console.error(error);
       }
