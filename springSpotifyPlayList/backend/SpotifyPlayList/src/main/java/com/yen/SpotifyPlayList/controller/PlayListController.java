@@ -57,16 +57,13 @@ public class PlayListController {
     public ResponseEntity addSongToList(@RequestBody AddSongToPlayListDto addSongToPlayListDto){
 
         try{
-
             log.info("received addSongToPlayListDto = " + addSongToPlayListDto);
             addSongToPlayListDto.setPlaylistId("2cUyRMtc9AsinCLXFy0gcC");
-
             String[] trackList = addSongToPlayListDto.getSongUris().split(",");
             log.info("received trackList = " + trackList.toString());
             for (String x : trackList){
                 System.out.println(x);
             }
-
             log.info("updated addSongToPlayListDto = " + addSongToPlayListDto);
             SnapshotResult snapshotResult = playListService.addSongToPlayList(addSongToPlayListDto);
             return ResponseEntity.status(HttpStatus.OK).body(snapshotResult);
