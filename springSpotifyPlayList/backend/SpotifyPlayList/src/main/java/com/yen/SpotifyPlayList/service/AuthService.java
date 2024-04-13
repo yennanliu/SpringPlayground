@@ -32,6 +32,8 @@ public class AuthService {
 
     private String accessToken;
 
+    private String refreshCode;
+
     private SpotifyApi spotifyApi;
 
     public AuthService(){
@@ -104,17 +106,22 @@ public class AuthService {
         final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
                 .execute();
 
+        log.info("RefreshToken = " + authorizationCodeCredentials.getRefreshToken());
+
         // Set access and refresh token for further "spotifyApi" object usage
         spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
         spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
 
+        // save refreshCode
+        this.refreshCode = authorizationCodeCredentials.getRefreshToken();
+
         return spotifyApi;
     }
 
-    public SpotifyApi refreshSpotifyApi(SpotifyApi spotifyApi, String refreshCode) throws SpotifyWebApiException, IOException, ParseException{
+    public SpotifyApi refreshSpotifyApi(SpotifyApi spotifyApi) throws SpotifyWebApiException, IOException, ParseException{
 
         // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/cfd0dae1262bd7f95f90c37b28d27b9c944d471a/examples/authorization/authorization_code/AuthorizationCodeRefreshExample.java#L22
-        spotifyApi.setRefreshToken(refreshCode);
+        spotifyApi.setRefreshToken(this.refreshCode);
         return spotifyApi;
     }
 

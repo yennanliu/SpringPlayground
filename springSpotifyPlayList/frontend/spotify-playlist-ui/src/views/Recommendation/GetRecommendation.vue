@@ -97,7 +97,7 @@ export default {
       seedTrack: "1ZFQgnAwHaAhAn1o2bkwVs",
       targetPopularity: 50,
       tracks: null,
-      trackURIs: null,
+      trackURIs: "",
     };
   },
   methods: {
@@ -140,7 +140,7 @@ export default {
 
         console.log("addToPlaylist start");
 
-        this.trackURIs = this.tracks.tracks.map((track) => track.uri);
+        this.trackURIs = await this.tracks.tracks.map((track) => track.uri);
         console.log("this.trackURIs = " + this.trackURIs);
 
         const response = await fetch("http://localhost:8888/playlist/addSong", {
@@ -149,8 +149,8 @@ export default {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            trackIds: this.trackURIs,
-            playlistId: this.playlistId,
+            songUris: this.trackURIs.toString(), //"xxx", //this.trackURIs,
+            playlistId: "yyy" // this.playlistId,
           }),
         });
         if (!response.ok) {
