@@ -60,7 +60,7 @@ public class PlayListController {
 
         try{
             log.info("received addSongToPlayListDto = " + addSongToPlayListDto);
-            addSongToPlayListDto.setPlaylistId("2cUyRMtc9AsinCLXFy0gcC");
+            //addSongToPlayListDto.setPlaylistId("2cUyRMtc9AsinCLXFy0gcC");
             String[] trackList = addSongToPlayListDto.getSongUris().split(",");
             log.info("received trackList = " + trackList.toString());
             for (String x : trackList){
