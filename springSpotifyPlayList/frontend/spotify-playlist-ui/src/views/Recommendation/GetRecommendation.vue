@@ -11,15 +11,30 @@
       </div>
       <div class="form-group">
         <label>Max Popularity</label>
-        <input type="number" class="form-control" v-model="maxPopularity" required />
+        <input
+          type="number"
+          class="form-control"
+          v-model="maxPopularity"
+          required
+        />
       </div>
       <div class="form-group">
         <label>Min Popularity</label>
-        <input type="number" class="form-control" v-model="minPopularity" required />
+        <input
+          type="number"
+          class="form-control"
+          v-model="minPopularity"
+          required
+        />
       </div>
       <div class="form-group">
         <label>Seed Artist ID</label>
-        <input type="text" class="form-control" v-model="seedArtistId" required />
+        <input
+          type="text"
+          class="form-control"
+          v-model="seedArtistId"
+          required
+        />
       </div>
       <div class="form-group">
         <label>Seed Genres</label>
@@ -31,10 +46,22 @@
       </div>
       <div class="form-group">
         <label>Target Popularity</label>
-        <input type="number" class="form-control" v-model="targetPopularity" required />
+        <input
+          type="number"
+          class="form-control"
+          v-model="targetPopularity"
+          required
+        />
       </div>
-      <button type="submit" class="btn btn-primary">
-        Submit
+
+      <button v-if="!authorized" @click="authorize">
+        Authorize with Spotify
+      </button>
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+      <button class="btn btn-success" @click="addToPlaylist()">
+        Add to Playlist
       </button>
     </form>
 
@@ -66,24 +93,43 @@
 export default {
   data() {
     return {
+      authorized: false,
       amount: 10,
-      market: 'JP',
+      market: "JP",
       maxPopularity: 100,
       minPopularity: 0,
-      seedArtistId: '4sJCsXNYmUMeumUKVz4Abm',
-      seedGenres: 'electric',
-      seedTrack: '1ZFQgnAwHaAhAn1o2bkwVs',
+      seedArtistId: "4sJCsXNYmUMeumUKVz4Abm",
+      seedGenres: "electric",
+      seedTrack: "1ZFQgnAwHaAhAn1o2bkwVs",
       targetPopularity: 50,
       tracks: null,
+      trackURIs: "",
     };
   },
   methods: {
+    async authorize() {
+      try {
+        const response = await fetch("http://localhost:8888/authorize");
+        if (!response.ok) {
+          throw new Error("Failed to authorize with Spotify");
+        }
+        const data = await response.json();
+        if (data.url) {
+          window.location.href = data.url; // Redirect to the Spotify authorization page
+        } else {
+          throw new Error("Redirect URI not found in response");
+        }
+      } catch (error) {
+        console.error(error);
+        // Handle error
+      }
+    },
     async getRecommend() {
       try {
-        const response = await fetch('http://localhost:8888/recommend/', {
-          method: 'POST',
+        const response = await fetch("http://localhost:8888/recommend/", {
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             amount: this.amount,
@@ -102,6 +148,38 @@ export default {
         const data = await response.json();
         this.tracks = data;
         console.log("this.tracks = {}", JSON.stringify(this.tracks));
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async addToPlaylist() {
+      try {
+        if (!this.tracks) {
+          throw new Error("No tracks to add");
+        }
+
+        console.log(">>> this.tracks = " + JSON.stringify(this.tracks));
+
+        console.log("addToPlaylist start");
+
+        this.trackURIs = await this.tracks.tracks.map((track) => track.uri);
+        console.log("this.trackURIs = " + this.trackURIs);
+
+        const response = await fetch("http://localhost:8888/playlist/addSong", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            songUris: this.trackURIs.toString(), //"xxx", //this.trackURIs,
+            playlistId: "yyy", // this.playlistId,
+          }),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to add tracks to playlist");
+        }
+        //Optionally, you can handle success here
       } catch (error) {
         console.error(error);
       }

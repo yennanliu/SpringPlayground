@@ -32,7 +32,7 @@ public class PersonalizationService {
         Paging<Track> trackPaging = null;
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyClient();
             final GetUsersTopTracksRequest getUsersTopTracksRequest = spotifyApi
                     .getUsersTopTracks()
                     .build();

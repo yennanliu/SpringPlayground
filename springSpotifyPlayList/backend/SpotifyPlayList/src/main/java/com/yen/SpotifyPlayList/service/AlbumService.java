@@ -33,7 +33,7 @@ public class AlbumService {
         Album album = null;
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyClient();
             final GetAlbumRequest getAlbumRequest = this.spotifyApi
                     .getAlbum(albumId)
                     .build();
@@ -51,7 +51,7 @@ public class AlbumService {
 
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyClient();
             final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
                     .getAlbumsTracks(albumId)
                     .build();

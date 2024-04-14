@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
 
+import java.util.Arrays;
+
 @Slf4j
 @RestController
 @RequestMapping("/playlist")
@@ -56,7 +58,12 @@ public class PlayListController {
 
         try{
             log.info("received addSongToPlayListDto = " + addSongToPlayListDto);
-            addSongToPlayListDto.setPlaylistId("7E6QGOTX5fQ2kzfDYP2FzS");
+            addSongToPlayListDto.setPlaylistId("2cUyRMtc9AsinCLXFy0gcC");
+            String[] trackList = addSongToPlayListDto.getSongUris().split(",");
+            log.info("received trackList = " + trackList.toString());
+            for (String x : trackList){
+                System.out.println(x);
+            }
             log.info("updated addSongToPlayListDto = " + addSongToPlayListDto);
             SnapshotResult snapshotResult = playListService.addSongToPlayList(addSongToPlayListDto);
             return ResponseEntity.status(HttpStatus.OK).body(snapshotResult);
