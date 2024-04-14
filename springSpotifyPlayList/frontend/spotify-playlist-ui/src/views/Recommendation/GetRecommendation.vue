@@ -64,7 +64,7 @@
         Add to Playlist
       </button>
 
-      <select class="form-control" v-model="playListId" required>
+      <select class="form-control" v-model="playListId">
         <option
           v-for="playList of userPlayList"
           :key="playList.id"
@@ -201,7 +201,7 @@ export default {
           },
           body: JSON.stringify({
             songUris: this.trackURIs.toString(), //"xxx", //this.trackURIs,
-            playlistId: "yyy", // this.playlistId,
+            playlistId: this.playListId,
           }),
         });
         if (!response.ok) {

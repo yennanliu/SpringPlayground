@@ -119,7 +119,8 @@ public class PlayListService {
         final String playlistId = "7r3ntST7zTXRiTOFhkweIQ";
         final String[] uris = new String[]{"spotify:track:0Sxq05leQaZXCktX05Kr7b"};
 
-        addSongToPlayListDto.setPlaylistId(playlistId);
+        //addSongToPlayListDto.setPlaylistId(playlistId);
+        addSongToPlayListDto.setPlaylistId(addSongToPlayListDto.getPlaylistId());
         //addSongToPlayListDto.setSongUris(addSongToPlayListDto.getSongUris());
         log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
 
