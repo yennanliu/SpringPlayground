@@ -119,14 +119,12 @@ public class PlayListService {
         try {
 
             // TODO : optimize below
-            this.spotifyApi =  authService.authClientWithAuthCode(
-                    authService.getSpotifyClient(),
-                    addSongToPlayListDto.getAuthCode()
-            );
+//            this.spotifyApi =  authService.authClientWithAuthCode(
+//                    authService.getSpotifyClient(),
+//                    addSongToPlayListDto.getAuthCode()
+//            );
 
-            //this.spotifyApi.authorizationCodeRefresh();
-
-            //this.spotifyApi = authService.refreshSpotifyApi(authService.getSpotifyApi());
+            this.spotifyApi =  authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
 
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
                     //.addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())
