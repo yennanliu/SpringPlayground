@@ -63,6 +63,16 @@
       <button class="btn btn-success" @click="addToPlaylist()">
         Add to Playlist
       </button>
+
+      <select class="form-control" v-model="playListId" required>
+        <option
+          v-for="playList of userPlayList"
+          :key="playList.id"
+          :value="playList.id"
+        >
+          ID : {{ playList.id }} Name : {{ playList.name }}
+        </option>
+      </select>
     </form>
 
     <div v-if="tracks">
@@ -90,6 +100,8 @@
 </template>
 
 <script>
+var axios = require("axios");
+
 export default {
   data() {
     return {
@@ -104,6 +116,8 @@ export default {
       targetPopularity: 50,
       tracks: null,
       trackURIs: "",
+      playListId: null,
+      userPlayList: [],
     };
   },
   methods: {
@@ -153,6 +167,20 @@ export default {
       }
     },
 
+    async getUserPlayList() {
+      // fetch users
+      await axios
+        .get("http://localhost:8888/playlist/userPlayList")
+        .then((res) => {
+          this.userPlayList = res.data.items;
+          console.log(
+            ">>> (getUserPlayList) this.userPlayList = " +
+              JSON.stringify(this.userPlayList)
+          );
+        })
+        .catch((err) => console.log(err));
+    },
+
     async addToPlaylist() {
       try {
         if (!this.tracks) {
@@ -184,6 +212,10 @@ export default {
         console.error(error);
       }
     },
+  },
+
+  mounted() {
+    this.getUserPlayList();
   },
 };
 </script>
