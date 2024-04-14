@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
 
 import java.util.Arrays;
 
@@ -69,6 +71,18 @@ public class PlayListController {
             return ResponseEntity.status(HttpStatus.OK).body(snapshotResult);
         }catch (Exception e){
             log.error("addSongToList error : " + e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/userPlayList")
+    public ResponseEntity getUserPlayList(){
+
+        try{
+            Paging<PlaylistSimplified> userPlayList = playListService.getUserPlayList();
+            return ResponseEntity.status(HttpStatus.OK).body(userPlayList);
+        }catch (Exception e){
+            log.error("getUserPlayList error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
