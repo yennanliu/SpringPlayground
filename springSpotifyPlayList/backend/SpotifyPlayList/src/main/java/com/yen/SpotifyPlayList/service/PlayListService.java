@@ -44,7 +44,7 @@ public class PlayListService {
         Playlist playlist = null;
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyClient();
             final GetPlaylistRequest getPlaylistRequest = spotifyApi
                     .getPlaylist(playlistId)
                     .build();
@@ -63,7 +63,7 @@ public class PlayListService {
         try {
             // TODO : move below to controller / config
             this.spotifyApi  = authService.authClientWithAuthCode(
-                    authService.getSpotifyApi(),
+                    authService.getSpotifyClient(),
                     createPlayListDto.getAuthCode()
             );
 
@@ -120,9 +120,11 @@ public class PlayListService {
 
             // TODO : optimize below
             this.spotifyApi =  authService.authClientWithAuthCode(
-                    authService.getSpotifyApi(),
+                    authService.getSpotifyClient(),
                     addSongToPlayListDto.getAuthCode()
             );
+
+            //this.spotifyApi.authorizationCodeRefresh();
 
             //this.spotifyApi = authService.refreshSpotifyApi(authService.getSpotifyApi());
 

@@ -34,7 +34,7 @@ public class RecommendationsService {
         Recommendations recommendations = null;
         try {
             // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyApi();
+            this.spotifyApi = authService.getSpotifyClient();
 
             // TODO : enable param and update request logic
 //            final GetRecommendationsRequest getRecommendationsRequest = spotifyApi.getRecommendations()
