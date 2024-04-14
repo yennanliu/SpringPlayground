@@ -27,6 +27,7 @@ public class RecommendationsController {
             log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
             Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
             return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+
         }catch (Exception e){
             log.error("getRecommendation error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

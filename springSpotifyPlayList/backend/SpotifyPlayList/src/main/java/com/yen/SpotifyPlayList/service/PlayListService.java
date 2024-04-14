@@ -6,16 +6,20 @@ import com.yen.SpotifyPlayList.model.dto.CreatePlayListDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
+import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
 
 import java.io.IOException;
@@ -33,6 +37,9 @@ public class PlayListService {
     private ProfileService profileService;
 
     private SpotifyApi spotifyApi;
+
+    @Value("${spotify.userId}")
+    private String userId;
 
 
     public PlayListService(){
@@ -112,7 +119,8 @@ public class PlayListService {
         final String playlistId = "7r3ntST7zTXRiTOFhkweIQ";
         final String[] uris = new String[]{"spotify:track:0Sxq05leQaZXCktX05Kr7b"};
 
-        addSongToPlayListDto.setPlaylistId(playlistId);
+        //addSongToPlayListDto.setPlaylistId(playlistId);
+        addSongToPlayListDto.setPlaylistId(addSongToPlayListDto.getPlaylistId());
         //addSongToPlayListDto.setSongUris(addSongToPlayListDto.getSongUris());
         log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
 
@@ -139,6 +147,30 @@ public class PlayListService {
             log.error("addSongToPlayList Error: " + e.getMessage());
         }
         return snapshotResult;
+    }
+
+    public Paging<PlaylistSimplified> getUserPlayList(){
+
+        this.spotifyApi = authService.getSpotifyClient();
+        Paging<PlaylistSimplified> playlistSimplifiedPaging = null;
+        final GetListOfUsersPlaylistsRequest getListOfUsersPlaylistsRequest = spotifyApi
+                .getListOfUsersPlaylists(userId)
+//          .limit(10)
+//          .offset(0)
+                .build();
+
+        try {
+            playlistSimplifiedPaging = getListOfUsersPlaylistsRequest.execute();
+            PlaylistSimplified[] items = playlistSimplifiedPaging.getItems();
+            for (PlaylistSimplified item : items){
+                log.info("playList =  " + item.getName() + " id = " + item.getId());
+            }
+            log.info("getUserPlayList OK");
+        } catch (IOException | SpotifyWebApiException | org.apache.hc.core5.http.ParseException e) {
+            log.error("getUserPlayList Error: " + e.getMessage());
+        }
+
+        return playlistSimplifiedPaging;
     }
 
 }
