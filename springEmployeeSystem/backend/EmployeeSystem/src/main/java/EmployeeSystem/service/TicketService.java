@@ -34,6 +34,7 @@ public class TicketService {
     public void updateTicket(TicketDto ticketDto) {
 
         Ticket ticket = new Ticket();
+        ticketRepository.deleteById(ticketDto.getId());
         BeanUtils.copyProperties(ticketDto, ticket);
         ticketRepository.save(ticket);
     }
