@@ -5,8 +5,6 @@ import EmployeeSystem.model.NotificationEmail;
 import EmployeeSystem.model.Vacation;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.repository.VacationRepository;
-import EmployeeSystem.service.MailService;
-import EmployeeSystem.service.VacationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

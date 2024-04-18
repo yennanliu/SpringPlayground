@@ -12,19 +12,19 @@ import EmployeeSystem.model.dto.SignupDto;
 import EmployeeSystem.model.dto.ResponseDto;
 import EmployeeSystem.enums.ResponseStatus;
 import EmployeeSystem.repository.UserRepository;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 import static org.mockito.Mockito.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class UserServiceTest {
 
