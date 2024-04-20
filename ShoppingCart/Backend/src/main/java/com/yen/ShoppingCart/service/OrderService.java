@@ -114,7 +114,7 @@ public class OrderService {
 
         // first get user's cart items
         CartDto cartDto = cartService.listCartItems(user);
-        List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
+        List<CartItemDto> cartItemDtoList = cartDto.getCartItems();
 
         // TODO : need to wrap with try-catch ?
         // create order and save

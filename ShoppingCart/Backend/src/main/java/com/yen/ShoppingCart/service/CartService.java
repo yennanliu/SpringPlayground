@@ -42,17 +42,15 @@ public class CartService {
 
         List<Cart> cartList = cartRepository.findAllByUserOrderByCreatedDateDesc(user);
         List<CartItemDto> cartItems = new ArrayList<>();
+        double totalCost = 0;
+
         // TODO : change to functional style
         for (Cart cart:cartList){
             CartItemDto cartItemDto = getDtoFromCart(cart);
             cartItems.add(cartItemDto);
-        }
-        double totalCost = 0;
-        // TODO : change to functional style
-        for (CartItemDto cartItemDto :cartItems){
             totalCost += (cartItemDto.getProduct().getPrice() * cartItemDto.getQuantity());
         }
-        return new CartDto(cartItems,totalCost);
+        return new CartDto(cartItems, totalCost);
     }
 
     // local method
@@ -72,10 +70,9 @@ public class CartService {
     public void deleteCartItem(int id,int userId) throws CartItemNotExistException {
 
         if (!cartRepository.existsById(id)){
-            throw new CartItemNotExistException("Cart id is invalid : " + id);
+            throw new CartItemNotExistException("Cart id is invalid, id = " + id + ", userId = " + userId);
         }
         cartRepository.deleteById(id);
-
     }
 
     public void deleteCartItems(int userId) {
