@@ -56,6 +56,9 @@ npm run serve
 
 ```bash
 docker-compose up
+
+# m1
+docker-compose -f docker-compose-m1.yml up
 ```
 
 </details>
