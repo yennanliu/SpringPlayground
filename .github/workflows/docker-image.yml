@@ -1,0 +1,18 @@
+name: Docker Image CI - springEmployeeSystem
+
+on:
+  push:
+    branches: [ "dev-020-fix-vue-docker-build" ]
+  pull_request:
+    branches: [ "dev-020-fix-vue-docker-build" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the Docker image
+      run: cd springEmployeeSystem && docker build . --file Dockerfile --tag my-image-name:$(date +%s)
