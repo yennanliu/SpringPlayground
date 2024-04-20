@@ -45,6 +45,7 @@ class ProductServiceTest {
         System.out.println("setup ...");
         Category category = new Category();
         product = new Product("prod_name","img_url", 100.0, "some desp", category);
+
         product.setId(1);
         productDto = new ProductDto(product);
 
