@@ -106,5 +106,4 @@ class CartServiceTest {
         assertEquals(cart.getQuantity(), cartItemDto.getQuantity());
     }
 
-
 }

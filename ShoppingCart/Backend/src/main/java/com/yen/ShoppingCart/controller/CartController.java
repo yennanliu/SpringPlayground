@@ -44,6 +44,7 @@ public class CartController {
         Product product = productService.getProductById(addToCartDto.getProductId());
 
         log.info("(addToCart) addToCartDto = " + addToCartDto);
+        log.info("(addToCart) product = " + product);
         log.info("(addToCart) add " +  product.toString() + " to Cart");
 
         cartService.addToCart(addToCartDto, product, user);
