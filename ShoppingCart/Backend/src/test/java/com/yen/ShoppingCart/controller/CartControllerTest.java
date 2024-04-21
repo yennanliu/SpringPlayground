@@ -110,7 +110,7 @@ public class CartControllerTest {
         String token = "token";
 
         AddToCartDto addToCartDto = new AddToCartDto(1,1,1);
-        
+
         when(productService.getProductById(anyInt())).thenReturn(product);
         when(authenticationService.getUser(token)).thenReturn(user1);
 
