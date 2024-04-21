@@ -2,7 +2,7 @@ package com.yen.ShoppingCart.controller;
 
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
-import com.stripe.param.checkout.SessionCreateParams;
+
 import com.yen.ShoppingCart.common.ApiResponse;
 import com.yen.ShoppingCart.exception.AuthenticationFailException;
 import com.yen.ShoppingCart.exception.OrderNotFoundException;
@@ -12,7 +12,9 @@ import com.yen.ShoppingCart.model.dto.checkout.CheckoutItemDto;
 import com.yen.ShoppingCart.model.dto.checkout.StripeResponse;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.OrderService;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +42,10 @@ public class OrderController {
 
     // stripe create session API
     @PostMapping("/create-checkout-session")
-    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws  StripeException {
+    public ResponseEntity<StripeResponse> checkoutList(@RequestBody List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
         log.info("(checkoutList) checkoutItemDtoList = ");
         checkoutItemDtoList.forEach(x -> {System.out.println(x.toString());});
-
         // create the stripe session
         Session session = orderService.createSession(checkoutItemDtoList);
         log.info("Stripe session = " + session.toString());
@@ -84,7 +85,7 @@ public class OrderController {
         return new ResponseEntity<>(orderDtoList, HttpStatus.OK);
     }
 
-    // get orderitems for an order
+    // get order items for an order
     @GetMapping("/{id}")
     public ResponseEntity<Object> getOrderById(@PathVariable("id") Integer id, @RequestParam("token") String token)
             throws AuthenticationFailException {
