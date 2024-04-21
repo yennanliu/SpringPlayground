@@ -20,6 +20,7 @@ public class CategoryController {
 
     @GetMapping("/")
     public ResponseEntity<List<Category>> getCategories() {
+
         List<Category> body = categoryService.listCategories();
         return new ResponseEntity<>(body, HttpStatus.OK);
     }
@@ -37,13 +38,13 @@ public class CategoryController {
 
     @PostMapping("/update/{categoryID}")
     public ResponseEntity<ApiResponse> updateCategory(@PathVariable("categoryID") Integer categoryID, @RequestBody Category category) {
+
         // Check to see if the category exists.
         if (Objects.nonNull(categoryService.readCategory(categoryID))) {
             // If the category exists then update it.
             categoryService.updateCategory(categoryID, category);
             return new ResponseEntity<ApiResponse>(new ApiResponse(true, "updated the category"), HttpStatus.OK);
         }
-
         // If the category doesn't exist then return a response of unsuccessful.
         return new ResponseEntity<>(new ApiResponse(false, "category does not exist"), HttpStatus.NOT_FOUND);
     }

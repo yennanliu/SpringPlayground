@@ -22,15 +22,18 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.springframework.test.context.TestPropertySource;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
+@TestPropertySource(properties = { "Stripe.apiKey=my_api_key" })
 class OrderServiceTest {
 
     @Mock
@@ -59,7 +62,7 @@ class OrderServiceTest {
     @BeforeEach
     public void setUp(){
 
-        System.out.println("setup ...");
+        MockitoAnnotations.initMocks(this);
 
         checkoutItemDto_1 = new CheckoutItemDto("prod_1", 1, 100, 1, 1);
         checkoutItemDto_2 = new CheckoutItemDto();
@@ -85,13 +88,40 @@ class OrderServiceTest {
 
     // TODO : revise this test
     @Test
-    public void testCreateSessionLineItem(){
+    public void testCreateSessionLineItem() throws StripeException {
 
         SessionCreateParams.LineItem item1  = orderService.createSessionLineItem(checkoutItemDto_1);
         assertEquals(item1.getCurrency(), null);
 
         SessionCreateParams.LineItem item2  = orderService.createSessionLineItem(checkoutItemDto_2);
         assertEquals(item1.getCurrency(), null);
+
+//        // Set the API key
+//        String apiKey = "your_test_api_key_here";
+//        //orderService.setApiKey(apiKey);
+//
+//        // Given
+//        List<CheckoutItemDto> checkoutItemDtoList = new ArrayList<>();
+//        checkoutItemDtoList.add(new CheckoutItemDto("Product 1", 10, 1.0, 1, 1));
+//        checkoutItemDtoList.add(new CheckoutItemDto("Product 2", 20, 2.0, 2, 2));
+//
+//        // When
+//        MockitoAnnotations.openMocks(this);
+//        Session session = orderService.createSession(checkoutItemDtoList);
+//
+//        session.getLineItems().getData().size();
+//
+//        // Then
+//        assertNotNull(session);
+//        assertEquals("payment", session.getMode());
+//        assertEquals("usd", session.getCurrency());
+//        assertEquals(2, session.getLineItems());
+//        assertEquals("Product 1", session.getLineItems().get(0).getPrice().getProductData().getName());
+//        assertEquals(1000, (long) session.getLineItems().get(0).getPrice().getUnitAmount());
+//        assertEquals(1, (long) session.getLineItems().get(0).getQuantity());
+//        assertEquals("Product 2", session.getLineItems().get(1).getPrice().getProductData().getName());
+//        assertEquals(2000, (long) session.getLineItems().get(1).getPrice().getUnitAmount());
+//        assertEquals(2, (long) session.getLineItems().get(1).getQuantity());
     }
 
     // TODO : fix this

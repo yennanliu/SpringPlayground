@@ -7,20 +7,20 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ApiResponseTest {
 
-    ApiResponse sucessResponse;
+    ApiResponse successResponse;
     ApiResponse failResponse;
 
     @BeforeEach
     public void setUp(){
 
-        sucessResponse = new ApiResponse(true, "success msg");
+        successResponse = new ApiResponse(true, "success msg");
         failResponse = new ApiResponse(false, "fail msg");
     }
 
     @Test
     public void shouldReturnTrueIfSuccess(){
 
-        assertEquals(sucessResponse.isSuccess(), true);
+        assertEquals(successResponse.isSuccess(), true);
     }
 
     @Test

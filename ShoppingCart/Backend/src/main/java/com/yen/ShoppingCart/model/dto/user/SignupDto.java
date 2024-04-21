@@ -1,5 +1,15 @@
 package com.yen.ShoppingCart.model.dto.user;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@ToString
 public class SignupDto {
     private String firstName;
     private String lastName;

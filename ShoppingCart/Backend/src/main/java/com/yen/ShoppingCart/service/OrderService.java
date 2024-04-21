@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-
 @Slf4j
 @Service
 @Transactional
@@ -45,13 +44,14 @@ public class OrderService {
     @Value("${STRIPE_SECRET_KEY}")
     private String apiKey;
 
-    // get total price
-    // package com.stripe.param.checkout;
+    private String DEFAULT_CURRENCY = "usd"; // TODO : move to enums
+
+    // get total price : package com.stripe.param.checkout;
     SessionCreateParams.LineItem.PriceData createPriceData(CheckoutItemDto checkoutItemDto) {
 
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
-                        .setCurrency("usd")
+                        .setCurrency(DEFAULT_CURRENCY)
                         .setUnitAmount((long)(checkoutItemDto.getPrice() * 100)) // TODO : double check ?
                         .setProductData(
                                 SessionCreateParams.LineItem.PriceData.ProductData
@@ -83,9 +83,7 @@ public class OrderService {
         // supply success and failure url for stripe
         String successURL = baseURL + "payment/success";
         String failedURL = baseURL + "payment/failed";
-
-        log.info("successURL = " + successURL);
-        log.info("failedURL = " + failedURL);
+        log.info("successURL = " + successURL + ", failedURL = " + failedURL);
 
         // set the private key
         Stripe.apiKey = apiKey;
@@ -97,10 +95,8 @@ public class OrderService {
         for (CheckoutItemDto checkoutItemDto : checkoutItemDtoList) {
             sessionItemsList.add(createSessionLineItem(checkoutItemDto));
         }
-
-        log.info("sessionItemsList = " + sessionItemsList);
-        sessionItemsList.forEach(x -> {System.out.println(x.toString());});
-
+        //log.info("sessionItemsList = " + sessionItemsList);
+        //sessionItemsList.forEach(x -> {System.out.println(x.toString());});
         // build the session param
         log.info("build Stripe session start");
         SessionCreateParams params = SessionCreateParams.builder()
@@ -110,7 +106,6 @@ public class OrderService {
                 .addAllLineItem(sessionItemsList)
                 .setSuccessUrl(successURL)
                 .build();
-
         log.info("build Stripe session end");
         return Session.create(params);
     }
@@ -119,7 +114,7 @@ public class OrderService {
 
         // first get user's cart items
         CartDto cartDto = cartService.listCartItems(user);
-        List<CartItemDto> cartItemDtoList = cartDto.getcartItems();
+        List<CartItemDto> cartItemDtoList = cartDto.getCartItems();
 
         // TODO : need to wrap with try-catch ?
         // create order and save

@@ -11,9 +11,12 @@ import com.yen.ShoppingCart.model.AuthenticationToken;
 import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.ResponseDto;
 import com.yen.ShoppingCart.model.dto.user.*;
+import com.yen.ShoppingCart.repository.TokenRepository;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.util.Helper;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +26,6 @@ import java.security.NoSuchAlgorithmException;
 
 import static com.yen.ShoppingCart.config.MessageStrings.USER_CREATED;
 
-//import static com.webtutsplus.ecommerce.config.MessageStrings.USER_CREATED;
 
 @Service
 @Slf4j
@@ -33,10 +35,26 @@ public class UserService {
     UserRepository userRepository;
 
     @Autowired
-    AuthenticationService authenticationService;
+    TokenRepository tokenRepository;
 
     @Autowired
-    UserService userService;
+    AuthenticationService authenticationService;
+
+    // constructor
+    public UserService(){
+
+    }
+
+    public UserService(UserRepository userRepository, AuthenticationService authenticationService) {
+        this.userRepository = userRepository;
+        this.authenticationService = authenticationService;
+    }
+
+    public UserService(UserRepository userRepository, TokenRepository tokenRepository, AuthenticationService authenticationService) {
+        this.userRepository = userRepository;
+        this.tokenRepository = tokenRepository;
+        this.authenticationService = authenticationService;
+    }
 
     public ResponseDto signUp(SignupDto signupDto)  throws CustomException {
 
@@ -91,10 +109,9 @@ public class UserService {
             // check if password is correct
             if (!user.getPassword().equals(hashPassword(signInDto.getPassword()))){
                 // password NOT match
-                throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD);
+                throw new AuthenticationFailException("password NOT match" + MessageStrings.WRONG_PASSWORD);
             }
         } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
             log.error("hashing password failed {}", e.getMessage());
             throw new CustomException(e.getMessage());
         }
@@ -117,8 +134,7 @@ public class UserService {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
         byte[] digest = md.digest();
-        String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
-        return myHash;
+        return DatatypeConverter.printHexBinary(digest).toUpperCase();
     }
 
     public ResponseDto createUser(String token, UserCreateDto userCreateDto) throws CustomException, AuthenticationFailException {
@@ -147,9 +163,11 @@ public class UserService {
             final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser);
             // save token to DB
             authenticationService.saveConfirmationToken(authenticationToken);
+            log.info("createUser OK");
             return new ResponseDto(ResponseStatus.SUCCESS.toString(), USER_CREATED);
         } catch (Exception e) {
             // handle user creation fail error
+            log.info("createUser failed");
             throw new CustomException(e.getMessage());
         }
 

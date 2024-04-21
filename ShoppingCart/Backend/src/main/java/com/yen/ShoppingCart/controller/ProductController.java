@@ -29,7 +29,6 @@ public class ProductController {
         return new ResponseEntity<List<ProductDto>>(body, HttpStatus.OK);
     }
 
-
     @PostMapping("/add")
     public ResponseEntity<ApiResponse> addProduct(@RequestBody ProductDto productDto) {
 
