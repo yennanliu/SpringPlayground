@@ -5,7 +5,9 @@ import com.yen.FlinkRestService.model.Cluster;
 import com.yen.FlinkRestService.model.dto.cluster.AddClusterDto;
 import com.yen.FlinkRestService.model.dto.cluster.UpdateClusterDto;
 import com.yen.FlinkRestService.model.response.ClusterPingResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -54,7 +56,6 @@ public class ClusterService {
         }
 
         Cluster curCluster = clusterRepository.findById(updateClusterDto.getId()).get();
-
         curCluster.setUrl(updateClusterDto.getUrl());
         curCluster.setPort(updateClusterDto.getPort());
         curCluster.setStatus("Updated"); // TODO : replace with enums
