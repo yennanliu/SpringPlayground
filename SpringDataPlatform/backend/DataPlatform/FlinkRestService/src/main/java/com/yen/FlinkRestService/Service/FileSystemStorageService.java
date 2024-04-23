@@ -52,9 +52,7 @@ public class FileSystemStorageService implements StorageService {
                             Paths.get(file.getOriginalFilename()))
                     .normalize().toAbsolutePath();
             if (!destinationFile.getParent().equals(this.rootLocation.toAbsolutePath())) {
-                // This is a security check
-                throw new StorageException(
-                        "Cannot store file outside current directory.");
+                throw new StorageException("Cannot store file outside current directory.");
             }
             try (InputStream inputStream = file.getInputStream()) {
                 Files.copy(inputStream, destinationFile,
@@ -96,9 +94,7 @@ public class FileSystemStorageService implements StorageService {
                 return resource;
             }
             else {
-                throw new StorageFileNotFoundException(
-                        "Could not read file: " + filename);
-
+                throw new StorageFileNotFoundException("Could not read file: " + filename);
             }
         }
         catch (MalformedURLException e) {
