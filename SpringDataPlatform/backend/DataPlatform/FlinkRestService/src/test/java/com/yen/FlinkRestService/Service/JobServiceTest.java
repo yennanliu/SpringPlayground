@@ -20,8 +20,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.*;
 
@@ -38,6 +40,9 @@ public class JobServiceTest {
 
     @Mock
     private JobRepository jobRepository;
+
+    @Mock
+    private RestTemplate restTemplate;
 
     @Mock
     private RestTemplateService restTemplateService;
@@ -132,16 +137,26 @@ public class JobServiceTest {
 
 //    @Test
 //    public void testCancelJob() {
+//
+//        String url = "http://example.com/jobs/jobID/stop"; // Use a valid URI for testing
+//
 //        // Mock restTemplateService
+//        //ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"message\":\"Job was cancelled.\"}", HttpStatus.OK);
+//        //when(restTemplate.postForEntity(Mockito.anyString(), Mockito.any(), Mockito.eq(String.class))).thenReturn(responseEntity);
+//        //when(restTemplate.postForEntity(url, Mockito.any(), Mockito.eq(String.class))).thenReturn(responseEntity);
 //        ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"message\":\"Job was cancelled.\"}", HttpStatus.OK);
-//        when(restTemplateService.postForEntity(Mockito.anyString(), Mockito.any(), Mockito.eq(String.class))).thenReturn(responseEntity);
+//        when(restTemplate.postForEntity(
+//                url, // Use eq() for exact string matching
+//                HttpEntity.class, // Use any() for any HttpEntity
+//                String.class // Use eq() for exact class matching
+//        )).thenReturn(responseEntity);
 //
 //        // Call cancelJob method
 //        jobService.cancelJob("jobID");
 //
 //        // Verify that cancelJob was successful
-//        Mockito.verify(restTemplateService).postForEntity(Mockito.anyString(), Mockito.any(), Mockito.eq(String.class));
+//        //Mockito.verify(restTemplate).postForEntity(Mockito.anyString(), Mockito.any(), Mockito.eq(String.class));
+//        Mockito.verify(restTemplate).postForEntity(url, Mockito.any(), Mockito.eq(String.class));
 //    }
-
 
 }
