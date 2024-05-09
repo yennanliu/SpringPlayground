@@ -123,8 +123,11 @@ public class JobService {
         ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
         // gson transform with json string name with dash (e.g. start-time) to java object
         // https://github.com/google/gson/blob/main/UserGuide.md#json-field-naming-support
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-        JobOverviewResponse jobOverviewResponse = gson.fromJson(responseEntity.getBody(), JobOverviewResponse.class);
+//        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+//        JobOverviewResponse jobOverviewResponse = gson.fromJson(responseEntity.getBody(), JobOverviewResponse.class);
+
+        JobOverviewResponse jobOverviewResponse = parseJobOverviewResponse(responseEntity.getBody());
+
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
 
         log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
@@ -157,7 +160,7 @@ public class JobService {
     }
 
     // TODO : optimize below with mapper (SQL)
-    private Job getJobByJid(String jid) {
+    public Job getJobByJid(String jid) {
 
         List<Job> jobs = jobRepository.findAll();
         for (Job job : jobs) {
@@ -198,6 +201,12 @@ public class JobService {
 
         log.info("Response Status Code: " + responseEntity.getStatusCode());
         System.out.println("resp : " + resp);
+    }
+
+    public JobOverviewResponse parseJobOverviewResponse(String responseBody) {
+
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create()
+                .fromJson(responseBody, JobOverviewResponse.class);
     }
 
 }
