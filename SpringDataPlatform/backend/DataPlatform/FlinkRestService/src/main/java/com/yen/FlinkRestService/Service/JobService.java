@@ -1,9 +1,9 @@
 package com.yen.FlinkRestService.Service;
 
-//import com.alibaba.fastjson2.JSON;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.Repository.JobRepository;
 import com.yen.FlinkRestService.model.Job;
@@ -13,7 +13,9 @@ import com.yen.FlinkRestService.model.dto.job.JobUpdateDto;
 import com.yen.FlinkRestService.model.response.JobOverview;
 import com.yen.FlinkRestService.model.response.JobOverviewResponse;
 import com.yen.FlinkRestService.model.response.JobSubmitResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -40,7 +41,7 @@ public class JobService {
     private RestTemplateService restTemplateService;
 
     @Value("${flink.base_url}")
-    private String BASE_URL; //private String BASE_URL = "http://localhost:8081/";
+    private String BASE_URL; // "http://localhost:8081/";
 
     public List<Job> getJobs() {
 
@@ -66,7 +67,7 @@ public class JobService {
          *
          *  1) POST: /jars/MyProgram.jar/run?savepointPath=/my-savepoints/savepoint-1bae02a80464&allowNonRestoredState=true
          *
-         *  1) "http://localhost:8081/jars/{projectId}/run";
+         *  2) "http://localhost:8081/jars/{projectId}/run";
          */
         String baseUrl = BASE_URL + "/jars/";
         // TODO : fix below to send entry-class, parallelism to flink
@@ -122,8 +123,11 @@ public class JobService {
         ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
         // gson transform with json string name with dash (e.g. start-time) to java object
         // https://github.com/google/gson/blob/main/UserGuide.md#json-field-naming-support
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-        JobOverviewResponse jobOverviewResponse = gson.fromJson(responseEntity.getBody(), JobOverviewResponse.class);
+//        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
+//        JobOverviewResponse jobOverviewResponse = gson.fromJson(responseEntity.getBody(), JobOverviewResponse.class);
+
+        JobOverviewResponse jobOverviewResponse = parseJobOverviewResponse(responseEntity.getBody());
+
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
 
         log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
@@ -156,7 +160,7 @@ public class JobService {
     }
 
     // TODO : optimize below with mapper (SQL)
-    private Job getJobByJid(String jid) {
+    public Job getJobByJid(String jid) {
 
         List<Job> jobs = jobRepository.findAll();
         for (Job job : jobs) {
@@ -197,6 +201,12 @@ public class JobService {
 
         log.info("Response Status Code: " + responseEntity.getStatusCode());
         System.out.println("resp : " + resp);
+    }
+
+    public JobOverviewResponse parseJobOverviewResponse(String responseBody) {
+
+        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create()
+                .fromJson(responseBody, JobOverviewResponse.class);
     }
 
 }

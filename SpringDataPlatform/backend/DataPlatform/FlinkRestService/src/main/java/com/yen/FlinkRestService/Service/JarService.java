@@ -1,15 +1,17 @@
 package com.yen.FlinkRestService.Service;
 
-//import com.alibaba.fastjson2.JSON;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 import com.yen.FlinkRestService.model.dto.jar.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.model.JobJar;
 import com.yen.FlinkRestService.model.response.JarUploadResponse;
 import com.yen.FlinkRestService.util.JarUtil;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
@@ -36,7 +38,7 @@ public class JarService {
     private final RestTemplate restTemplate;
 
     @Value("${flink.base_url}")
-    private String BASE_URL; //private String BASE_URL = "http://localhost:8081/";
+    private String BASE_URL; // "http://localhost:8081/";
 
     private final JarUtil jarUtil = new JarUtil();
 
@@ -49,14 +51,12 @@ public class JarService {
     // https://github.com/thestyleofme/flink-api-spring-boot-starter/blob/master/src/main/java/com/github/codingdebugallday/client/app/service/jars/FlinkJarService.java
     public void addJobJar(UploadJarDto uploadJarDto) {
 
-        System.out.println(">>> uploadJarDto = " + uploadJarDto.toString());
-
+        log.info("(addJobJar) uploadJarDto = " + uploadJarDto.toString());
         // Set the URL
         String url = BASE_URL + "/jars/upload";
         log.info("url = " + url);
 
         // Set the file path
-
         // Create a MultiValueMap to hold the file and headers
         MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
         bodyMap.add("jarfile", new FileSystemResource(uploadJarDto.getJarFile()));
@@ -73,14 +73,12 @@ public class JarService {
 
         // Make the HTTP POST request
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-        //JarUploadResponse jarUploadResponse = JSON.parseObject(responseEntity.getBody(), JarUploadResponse.class);
         JarUploadResponse jarUploadResponse = gson.fromJson(responseEntity.getBody(), JarUploadResponse.class);
 
         // Print the response status code and body
-        System.out.println("Response Status Code: " + responseEntity.getStatusCode());
-        System.out.println("Response Body: " + responseEntity.getBody());
+        log.info("Response Status Code: " + responseEntity.getStatusCode());
+        log.info("Response Body: " + responseEntity.getBody());
 
         // save jar info to DB
         JobJar jobjar = new JobJar();
@@ -101,7 +99,7 @@ public class JarService {
         if (jobJarRepository.findById(jobJarId).isPresent()){
             return jobJarRepository.findById(jobJarId).get();
         }
-        log.warn("No Job jar with jobJarId = " + jobJarId);
+        log.warn("No Job jar found with jobJarId = " + jobJarId);
         return null;
     }
 
