@@ -43,10 +43,12 @@ public class SqlJobService {
         //String sqlCMD = "{\"statement\": \"SELECT 1, 2, 3\"}";
         String sqlCMD = sqlJobSubmitDto.toString(); //sqlJobSubmitDto.getStatement();
         log.info("sqlCMD = " + sqlCMD);
+
         ResponseEntity<String> jobResponseEntity = restTemplateService.sendPostRequest(jobSubmitUrl, sqlCMD, null);
         SqlJobSubmitResponse sqlJobSubmitResponse2 = JSON.parseObject(jobResponseEntity.getBody(), SqlJobSubmitResponse.class);
         log.info(">>> OperationHandle = " + sqlJobSubmitResponse2.getOperationHandle());
-        return null;
+
+        return jobSubmitUrl;
     }
 
 }
