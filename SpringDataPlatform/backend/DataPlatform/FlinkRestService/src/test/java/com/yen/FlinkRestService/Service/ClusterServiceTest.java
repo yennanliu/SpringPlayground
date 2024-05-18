@@ -35,6 +35,7 @@ class ClusterServiceTest {
 
     @BeforeEach
     void setUp() {
+
         MockitoAnnotations.openMocks(this);
     }
 

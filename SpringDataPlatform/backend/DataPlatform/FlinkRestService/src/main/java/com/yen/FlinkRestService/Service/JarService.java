@@ -63,7 +63,6 @@ public class JarService {
 
         // Create headers with "Expect" set to an empty string
         HttpHeaders headers = new HttpHeaders();
-        //headers.set("Expect", "");
 
         // Create the request entity with headers and body
         HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
@@ -77,8 +76,7 @@ public class JarService {
         JarUploadResponse jarUploadResponse = gson.fromJson(responseEntity.getBody(), JarUploadResponse.class);
 
         // Print the response status code and body
-        log.info("Response Status Code: " + responseEntity.getStatusCode());
-        log.info("Response Body: " + responseEntity.getBody());
+        log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + "Response Body: " + responseEntity.getBody());
 
         // save jar info to DB
         JobJar jobjar = new JobJar();

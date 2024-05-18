@@ -76,7 +76,7 @@ public class JobService {
         }
         JobJar jobJar = jobJarRepository.findById(jobSubmitDto.getJarId()).get();
         String url = baseUrl + jobJar.getSavedJarName() + "/run"; // + "entry-class=" + jobSubmitDto.getEntryClass();
-        System.out.println("url = " + url);
+        log.info("url = " + url);
 
         // Set request body
         String requestBody = "";
@@ -87,8 +87,7 @@ public class JobService {
         // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
         JobSubmitResponse jobSubmitResponse  = gson.fromJson(responseEntity.getBody(), JobSubmitResponse.class);
-        log.info("Response Status Code: " + responseEntity.getStatusCode());
-        log.info("jobSubmitResponse : " + jobSubmitResponse.toString());
+        log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + "jobSubmitResponse : " + jobSubmitResponse.toString());
 
         // save to DB
         Job job = new Job();
@@ -130,9 +129,7 @@ public class JobService {
 
         List<JobOverview> jobs = jobOverviewResponse.getJobs();
 
-        log.info(">>> jobOverviewResponse = " + jobOverviewResponse);
-        log.info(">>> jobOverviewResponse.getJobOverviewList() = " + jobOverviewResponse.getJobs());
-
+        log.info(">>> jobOverviewResponse = " + jobOverviewResponse + "\n" + ">>> jobOverviewResponse.getJobOverviewList() = " + jobOverviewResponse.getJobs());
         if (jobs == null || jobs.size() == 0) {
             log.warn("NO job to update");
             return;
@@ -168,7 +165,7 @@ public class JobService {
                 return job;
             }
         }
-        log.warn("No Job with jid = " + jid);
+        log.warn("No Job found, jid = " + jid);
         return null;
     }
 
@@ -199,13 +196,13 @@ public class JobService {
         // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
         String resp = gson.fromJson(responseEntity.getBody(), String.class);
 
-        log.info("Response Status Code: " + responseEntity.getStatusCode());
-        System.out.println("resp : " + resp);
+        log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + ", Resp : " + resp);
     }
 
     public JobOverviewResponse parseJobOverviewResponse(String responseBody) {
 
-        return new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create()
+        return new GsonBuilder()
+                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create()
                 .fromJson(responseBody, JobOverviewResponse.class);
     }
 

@@ -2,7 +2,9 @@ package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Repository.OptionSchemaRepository;
 import com.yen.FlinkRestService.model.OptionSchema;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +29,6 @@ public class OptionSchemaService {
             return x.getActive() == true;
         }).collect(Collectors.toList());
         return activeOptionSchemaList;
-
     }
 
 }

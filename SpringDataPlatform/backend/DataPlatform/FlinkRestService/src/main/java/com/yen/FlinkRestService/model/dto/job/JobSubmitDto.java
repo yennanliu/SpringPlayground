@@ -44,5 +44,4 @@ public class JobSubmitDto {
     private String programArgs;
     private String savePointPath;
     private Boolean allowNonRestoredState;
-
 }

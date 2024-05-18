@@ -12,9 +12,11 @@ public class SqlJobSubmitDto {
 
     private String statement;
 
-    // "{\"statement\": \"SELECT 1, 2, 3\"}";
     @Override
     public String toString() {
+
+        // "{\"statement\": \"SELECT 1, 2, 3\"}";
         return "{\"statement\": " + '"' + statement + '"' + "}";
     }
+
 }

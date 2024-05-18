@@ -1,10 +1,13 @@
 package com.yen.FlinkRestService.Service;
 
 import com.alibaba.fastjson2.JSON;
+
 import com.yen.FlinkRestService.Repository.SqlJobRepository;
 import com.yen.FlinkRestService.model.dto.job.SqlJobSubmitDto;
 import com.yen.FlinkRestService.model.response.SqlJobSubmitResponse;
+
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
@@ -29,12 +32,12 @@ public class SqlJobService {
         log.info("url = " + url);
 
         ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", null);
-        log.info(">>> responseEntity = " + responseEntity.toString());
+        log.info("responseEntity = " + responseEntity.toString());
 
         // TODO : replace with gson
         SqlJobSubmitResponse sqlJobSubmitResponse = JSON.parseObject(responseEntity.getBody(), SqlJobSubmitResponse.class);
         String sessionHandle = sqlJobSubmitResponse.getSessionHandle();
-        log.info(">>> sessionHandle = " + sessionHandle);
+        log.info("sessionHandle = " + sessionHandle);
 
         String jobSubmitUrl = url + "/" + sessionHandle + "/statements/"; //"http://localhost:8083/v1/sessions/${sessionHandle}/statements/"
         log.info("jobSubmitUrl = " + jobSubmitUrl);
@@ -43,10 +46,12 @@ public class SqlJobService {
         //String sqlCMD = "{\"statement\": \"SELECT 1, 2, 3\"}";
         String sqlCMD = sqlJobSubmitDto.toString(); //sqlJobSubmitDto.getStatement();
         log.info("sqlCMD = " + sqlCMD);
+
         ResponseEntity<String> jobResponseEntity = restTemplateService.sendPostRequest(jobSubmitUrl, sqlCMD, null);
         SqlJobSubmitResponse sqlJobSubmitResponse2 = JSON.parseObject(jobResponseEntity.getBody(), SqlJobSubmitResponse.class);
-        log.info(">>> OperationHandle = " + sqlJobSubmitResponse2.getOperationHandle());
-        return null;
+        log.info("OperationHandle = " + sqlJobSubmitResponse2.getOperationHandle());
+
+        return jobSubmitUrl;
     }
 
 }

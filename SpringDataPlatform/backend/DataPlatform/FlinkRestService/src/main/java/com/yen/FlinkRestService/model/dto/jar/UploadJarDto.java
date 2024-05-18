@@ -14,6 +14,4 @@ import java.util.Date;
 public class UploadJarDto {
 
     private String jarFile;
-//    private String fileName;
-//    private Date uploadTime;
 }
