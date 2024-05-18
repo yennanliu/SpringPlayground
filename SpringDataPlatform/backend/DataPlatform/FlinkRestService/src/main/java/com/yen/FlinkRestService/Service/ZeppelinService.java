@@ -300,7 +300,6 @@ public class ZeppelinService {
     }
 
     /**
-     *
      *      public ParagraphResult executeParagraph(String noteId, String paragraphId) throws Exception {
      *         return this.executeParagraph(noteId, paragraphId, "", new HashMap());
      *     }

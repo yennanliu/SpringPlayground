@@ -35,7 +35,7 @@ public class ClusterService {
         if (clusterRepository.findById(clusterId).isPresent()){
             return clusterRepository.findById(clusterId).get();
         }
-        log.warn("No Cluster with clusterId = " + clusterId);
+        log.warn("No Cluster found, clusterId = " + clusterId);
         return null;
     }
 
@@ -66,7 +66,6 @@ public class ClusterService {
     public ClusterPingResponse pingCluster(Integer clusterId){
 
         ClusterPingResponse clusterPingResponse = new ClusterPingResponse();
-
         if (!clusterRepository.findById(clusterId).isPresent()){
             String msg = "failed, No saved cluster with id : " + clusterId;
             log.warn(msg);
@@ -76,7 +75,6 @@ public class ClusterService {
 
         Cluster cluster = clusterRepository.findById(clusterId).get();
         ResponseEntity<String> resp =  restTemplateService.pingServer(cluster.getUrl(), cluster.getPort());
-
         // if null resp (restTemplate can't access cluster)
         if (resp == null || resp.toString().equals(null)){
             cluster.setStatus("not_connected");

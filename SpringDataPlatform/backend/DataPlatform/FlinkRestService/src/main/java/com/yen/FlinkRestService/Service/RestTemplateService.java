@@ -61,7 +61,6 @@ public class RestTemplateService {
 
         ResponseEntity<String> responseEntity = null;
         log.info("url = " + url);
-
         try{
             // Make the HTTP GET request
             responseEntity = this.restTemplate.getForEntity(url, String.class);

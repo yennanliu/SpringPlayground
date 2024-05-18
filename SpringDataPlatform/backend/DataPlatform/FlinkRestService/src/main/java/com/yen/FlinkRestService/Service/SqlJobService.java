@@ -32,12 +32,12 @@ public class SqlJobService {
         log.info("url = " + url);
 
         ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", null);
-        log.info(">>> responseEntity = " + responseEntity.toString());
+        log.info("responseEntity = " + responseEntity.toString());
 
         // TODO : replace with gson
         SqlJobSubmitResponse sqlJobSubmitResponse = JSON.parseObject(responseEntity.getBody(), SqlJobSubmitResponse.class);
         String sessionHandle = sqlJobSubmitResponse.getSessionHandle();
-        log.info(">>> sessionHandle = " + sessionHandle);
+        log.info("sessionHandle = " + sessionHandle);
 
         String jobSubmitUrl = url + "/" + sessionHandle + "/statements/"; //"http://localhost:8083/v1/sessions/${sessionHandle}/statements/"
         log.info("jobSubmitUrl = " + jobSubmitUrl);
@@ -49,7 +49,7 @@ public class SqlJobService {
 
         ResponseEntity<String> jobResponseEntity = restTemplateService.sendPostRequest(jobSubmitUrl, sqlCMD, null);
         SqlJobSubmitResponse sqlJobSubmitResponse2 = JSON.parseObject(jobResponseEntity.getBody(), SqlJobSubmitResponse.class);
-        log.info(">>> OperationHandle = " + sqlJobSubmitResponse2.getOperationHandle());
+        log.info("OperationHandle = " + sqlJobSubmitResponse2.getOperationHandle());
 
         return jobSubmitUrl;
     }
