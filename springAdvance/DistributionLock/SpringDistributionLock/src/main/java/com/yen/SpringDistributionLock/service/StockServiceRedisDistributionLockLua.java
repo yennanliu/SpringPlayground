@@ -1,7 +1,5 @@
 package com.yen.SpringDistributionLock.service;
 
-import com.yen.SpringDistributionLock.lock.DistributedRedisLock;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -13,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Implement Redis ATOM Distribution lock with Lua script
- *
  *
  *   - https://youtu.be/ZLNbNbfVXEw?si=EchNpe781yLP7mwu&t=651
  *   - https://github.com/yennanliu/SpringPlayground/blob/main/springAdvance/DistributionLock/SpringDistributionLock/sql/lua_redos_lock_atom.lua

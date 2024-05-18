@@ -112,7 +112,6 @@ public class DistributedRedisLock implements Lock {
         // if false, means can't get lock successfully, sleep
         System.out.println(">>> (tryLock) lockName = " + lockName + " uuid = " + this.uuid + " expire time = " + this.expire + " ID = " + this.uuid) ;
         Boolean res = stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), this.uuid, String.valueOf(this.expire));
-
         System.out.println("--------> (tryLock) res = " + res);
 
         while (!stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), this.uuid, String.valueOf(this.expire))){
@@ -194,13 +193,11 @@ public class DistributedRedisLock implements Lock {
                 // if renew faled, means lock NOT existed anymore, so need to renew, no need to call method again
                 //stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), getId(), String.valueOf(expire));
                 if (stringRedisTemplate.execute(new DefaultRedisScript<>(luaScript, Boolean.class), Arrays.asList(lockName), uuid, String.valueOf(expire))) {
-
                     renewExpireTime();
                 }
             }
         }, this.expire * 1000 / 3);
 
     }
-
 
 }

@@ -3,11 +3,12 @@ package com.yen.SpringDistributionLock.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+
 import com.yen.SpringDistributionLock.mapper.StockMapper;
 import com.yen.SpringDistributionLock.pojo.Stock;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.concurrent.locks.ReentrantLock;
@@ -42,8 +43,9 @@ public class StockServiceWithOptimisticLock { // default : Singleton (@Scope("Si
 
             //stockMapper.update(stock, new UpdateWrapper<Stock>().eq("id", stock.getId()).eq("version", version));
             if (stockMapper.update(stock, new UpdateWrapper<Stock>().eq("id", stock.getId()).eq("version", version)) == 0){
+
                 // if result == 0, means update FAIL, retry (recursion call)
-                System.out.println(">>> update failed, retry (sleep 20 millisecond) ...");
+                System.out.println(">>> update failed, recursion retry (sleep 20 millisecond) ...");
 
                 /** NOTE 2) : sleep a few seconds to avoid freq retry cause OOP */
                 // sleep 20 millisecond, then retry : https://youtu.be/rVgQP4NR_H8?si=Xt97oJqWWonnils7&t=155
@@ -54,8 +56,8 @@ public class StockServiceWithOptimisticLock { // default : Singleton (@Scope("Si
                 }
                 this.deduct();
             }
-
         }
+
     }
 
 }

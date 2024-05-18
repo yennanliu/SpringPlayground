@@ -3,14 +3,16 @@ package com.yen.SpringDistributionLock.config;
 import com.yen.SpringDistributionLock.zookeeper.ZKBlockingLock;
 import com.yen.SpringDistributionLock.zookeeper.ZKDistributionLock;
 import com.yen.SpringDistributionLock.zookeeper.ZKReentrantLock;
+
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
 import org.apache.zookeeper.ZooKeeper;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+
 import java.util.concurrent.CountDownLatch;
 
 /**

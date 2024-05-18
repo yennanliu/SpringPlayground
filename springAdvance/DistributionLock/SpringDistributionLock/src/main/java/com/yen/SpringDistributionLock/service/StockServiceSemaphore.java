@@ -2,13 +2,12 @@ package com.yen.SpringDistributionLock.service;
 
 import org.redisson.api.RSemaphore;
 import org.redisson.api.RedissonClient;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
-import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
 /**

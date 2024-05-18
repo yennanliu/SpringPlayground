@@ -5,8 +5,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.concurrent.CountDownLatch;
-
 /**
  *
  *  Redisson CountDownLatch demo

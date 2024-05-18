@@ -29,7 +29,6 @@ public class StockServiceRedisDistributionLock {
         // use UUID as lock ID : https://youtu.be/uF3sVyB9Dx0?si=8FFJEytdcqEu8Xyz&t=524
         String uuid = UUID.randomUUID().toString();
 
-
         /** add lock
          *
          *  lock : setnx
@@ -124,7 +123,6 @@ public class StockServiceRedisDistributionLock {
             }else{
                 System.out.println("will NOT unlock, uuid are different");
             }
-
         }
     }
 

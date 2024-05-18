@@ -1,25 +1,20 @@
 package com.yen.SpringDistributionLock.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.yen.SpringDistributionLock.mapper.StockMapper;
-import com.yen.SpringDistributionLock.pojo.Stock;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.concurrent.locks.ReentrantLock;
 
 // https://youtu.be/O3ROb-vTd_o?si=XAw0KIHJCQC4ufHf&t=535
 
 /**
- *  Pure SQL deal with thread safety demo
+ *  Pure SQL deals with thread safety demo
  *
  *   - table lock (表級別鎖) for multi thread data safety
  *   - update ... set ...
  */
-
 
 /**
  *  prototype (多例模式) make JVM local lock failed
@@ -46,7 +41,7 @@ public class StockServiceWithSQL { // default : Singleton (@Scope("Singleton"))
         int count = 0;
         try{
             /**
-             *   Ideas for solving data inconsistency in cluster deployment (集群部署)
+             *   Ideas for solving data inconsistency in cluster (集群部署) mode
              *
              *   Idea 1) solve with SQL (pure SQL)
              *     // https://youtu.be/vOQqh8WucVA?si=LvA2QBVIQ_mkxjT0&t=315
@@ -55,10 +50,9 @@ public class StockServiceWithSQL { // default : Singleton (@Scope("Singleton"))
              *     -> pros
              *
              *     -> cons
-             *          1. 鎖的範圍
+             *          1. 鎖的範圍 -> table lock (表級別鎖)
              *          2. ㄧ個商品有多個庫存紀錄(same product id) if multiple records with same "product id", then all records will be locked, affected
              *          3. CAN'T track record change history
-             *
              */
 
             // Idea 1) solve with SQL

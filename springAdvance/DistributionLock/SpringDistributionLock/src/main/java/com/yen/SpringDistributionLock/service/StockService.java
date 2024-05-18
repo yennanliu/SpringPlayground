@@ -45,7 +45,6 @@ public class StockService { // default : Singleton (@Scope("Singleton"))
                 stock.setCount(count-1);
                 stockMapper.updateById(stock);
             }
-
             System.out.println("Stock count = " + count);
         }catch (Exception e){
             e.printStackTrace();

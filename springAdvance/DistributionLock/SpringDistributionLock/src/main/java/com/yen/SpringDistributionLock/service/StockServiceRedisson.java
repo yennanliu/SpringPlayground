@@ -38,7 +38,6 @@ public class StockServiceRedisson {
         //lock.lock(10, TimeUnit.SECONDS);
 
         try {
-
             // 1) get stock amount
             String stock = stringRedisTemplate.opsForValue().get("stock").toString();
 

@@ -114,7 +114,6 @@ public class StockServiceRedisOptimisticLock { // default : Singleton (@Scope("S
                         return res;
                     }
                 }
-
                 return null;
             }
         });

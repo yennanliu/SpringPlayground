@@ -2,6 +2,7 @@ package com.yen.SpringDistributionLock.service;
 
 import com.yen.SpringDistributionLock.mapper.StockMapper;
 import com.yen.SpringDistributionLock.pojo.Stock;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,6 @@ import java.util.concurrent.locks.ReentrantLock;
  *         - e.g.:
  *            a) "select ... from" VS b) "select from ... for update"
  *            不能有些用a) 有些用b)
- *
  */
 
 @Service
