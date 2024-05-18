@@ -11,8 +11,10 @@ import java.util.UUID;
  *
  *   - Factory design pattern
  *
- *   - DistributedLockFactory is registered to service class, then get different DistributedLock per case
- *      - avoid hardcode
+ *   - DistributedLockFactory is registered to service class,
+ *     then get different DistributedLock per case
+ *
+ *   - avoid hardcode
  *
  *   - https://youtu.be/V5iKz8HPiI4?si=nBdyK2oOizuIxAlI&t=503
  *
@@ -20,7 +22,7 @@ import java.util.UUID;
  *
  *   - DistributedLockFactory is a singleton (單例對象),
  *     -> only init once (only 1 instance) in spring boot container
- *     -> we can use it create a single uuid used by all threads !!!
+ *     -> can use it to create a single uuid used by all threads !!!
  *
  *   - https://youtu.be/vGSAzGKI2H4?si=_3wRaffdTzypmQ6c&t=468
  */
@@ -40,6 +42,7 @@ public class DistributedLockFactory {
      *  https://youtu.be/vGSAzGKI2H4?si=v4LeAii0IP7DVj4s&t=495
      */
     public DistributedLockFactory(){
+
         this.uuid = UUID.randomUUID().toString();
     }
 

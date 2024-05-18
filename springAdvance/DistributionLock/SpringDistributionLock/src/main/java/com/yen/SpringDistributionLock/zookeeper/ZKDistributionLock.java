@@ -56,9 +56,8 @@ public class ZKDistributionLock implements Lock {
 
     }
 
-
     /**
-     *  create ZK node, if can't create, keep retrying
+     *  create ZK node, if can't, keep retrying
      *  https://youtu.be/rw6jIVHirvQ?si=fbGVH9knZ38uPFa4
      *
      */
@@ -67,9 +66,13 @@ public class ZKDistributionLock implements Lock {
 
         try {
             /**
-             *  here we create EPHEMERAL node (臨時節點) (to avoid permanent node -> avoid dead lock)
+             *  here we create EPHEMERAL node (臨時節點)
+             *  (to avoid permanent node -> avoid dead lock)
              */
-            this.zooKeeper.create(ROOT_PATH + "/" + this.lockName, null, ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL);
+            this.zooKeeper.create(
+                    ROOT_PATH + "/" + this.lockName,
+                    null, ZooDefs.Ids.OPEN_ACL_UNSAFE,
+                    CreateMode.EPHEMERAL);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

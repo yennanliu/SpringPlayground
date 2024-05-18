@@ -66,7 +66,6 @@ public class ZKReentrantLock implements Lock {
 
     }
 
-
     /**
      * create ZK node, if can't create, keep retrying
      * https://youtu.be/rw6jIVHirvQ?si=fbGVH9knZ38uPFa4
@@ -75,7 +74,6 @@ public class ZKReentrantLock implements Lock {
     public boolean tryLock() {
 
         try {
-
             /**
              *  Check first if ThreadLocal already has lock, if true, 重入 (+1)
              *
@@ -91,7 +89,6 @@ public class ZKReentrantLock implements Lock {
                 THREAD_LOCAL.set(flag + 1);
                 return true;
             }
-
 
             /**
              *  NOTE !!!

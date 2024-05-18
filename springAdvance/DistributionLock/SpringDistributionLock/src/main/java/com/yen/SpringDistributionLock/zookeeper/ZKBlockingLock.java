@@ -171,7 +171,6 @@ public class ZKBlockingLock implements Lock {
 
         // get all nodes under root path
         try {
-
             // get all nodes under root path
             List<String> children = this.zooKeeper.getChildren(ROOT_PATH, false);
 
@@ -192,7 +191,7 @@ public class ZKBlockingLock implements Lock {
                  *           /locks/locky
                  *           /locks/lockxy-
                  *           ...
-                 *      so we should collect /locks/lock-, /locks/lock-
+                 *      so /locks/lock-, /locks/lock- should be collected
                  */
                 return StringUtils.startsWith(node, lockName + "-");
             }).collect(Collectors.toList());
