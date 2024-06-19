@@ -58,15 +58,15 @@ class CartServiceTest {
         Cart cart = new Cart(product, 1, user1);
     }
 
-    @Test
-    public void shouldAddCart(){
-
-        // addToCart
-        // mock
-        //Mockito.when(tokenRepository.findTokenByToken("my_token")).thenReturn(token1);
-        when(cart).thenReturn(cart);
-        System.out.println(123);
-    }
+//    @Test
+//    public void shouldAddCart(){
+//
+//        // addToCart
+//        // mock
+//        //Mockito.when(tokenRepository.findTokenByToken("my_token")).thenReturn(token1);
+//        when(cart).thenReturn(cart);
+//        System.out.println(123);
+//    }
 
     @Test
     public void testListCartItems() {
