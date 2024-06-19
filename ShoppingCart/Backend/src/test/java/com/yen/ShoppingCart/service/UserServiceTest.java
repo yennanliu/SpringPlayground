@@ -209,26 +209,4 @@ public class UserServiceTest {
         assertEquals("testToken", response.getToken());
     }
 
-
-//    @Test
-//    public void testCreateUser() throws CustomException, NoSuchAlgorithmException, AuthenticationFailException {
-//
-//        // Given
-//        UserCreateDto userCreateDto = new UserCreateDto("Jane", "Doe", "jane.doe@example.com", Role.USER, "password");
-//        //String encryptedPassword = hashPassword(userCreateDto.getPassword());
-//        String encryptedPassword = "encryptedPassword";
-//        User user = new User(userCreateDto.getFirstName(), userCreateDto.getLastName(), userCreateDto.getEmail(), userCreateDto.getRole(), encryptedPassword);
-//
-//        // mock
-//        when(authenticationService.getUser(anyString())).thenReturn(new User("Admin", "User", "admin@example.com", Role.ADMIN, "password"));
-//        when(userRepository.save(any(User.class))).thenReturn(user);
-//
-//        ResponseDto response = userService.createUser("token", userCreateDto);
-//
-//        // Then
-//        assertNotNull(response);
-//        assertEquals(ResponseStatus.SUCCESS.toString(), response.getStatus());
-//        assertEquals(MessageStrings.USER_CREATED, response.getMessage());
-//    }
-
 }

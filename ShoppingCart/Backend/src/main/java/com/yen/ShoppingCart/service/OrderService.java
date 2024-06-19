@@ -4,6 +4,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import com.stripe.param.checkout.SessionCreateParams;
+import com.yen.ShoppingCart.enums.currency;
 import com.yen.ShoppingCart.exception.OrderNotFoundException;
 import com.yen.ShoppingCart.model.Order;
 import com.yen.ShoppingCart.model.OrderItem;
@@ -44,7 +45,7 @@ public class OrderService {
     @Value("${STRIPE_SECRET_KEY}")
     private String apiKey;
 
-    private String DEFAULT_CURRENCY = "usd"; // TODO : move to enums
+    private String DEFAULT_CURRENCY = currency.USD.toString();
 
     // get total price : package com.stripe.param.checkout;
     SessionCreateParams.LineItem.PriceData createPriceData(CheckoutItemDto checkoutItemDto) {
@@ -95,10 +96,7 @@ public class OrderService {
         for (CheckoutItemDto checkoutItemDto : checkoutItemDtoList) {
             sessionItemsList.add(createSessionLineItem(checkoutItemDto));
         }
-        //log.info("sessionItemsList = " + sessionItemsList);
-        //sessionItemsList.forEach(x -> {System.out.println(x.toString());});
         // build the session param
-        log.info("build Stripe session start");
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
                 .setMode(SessionCreateParams.Mode.PAYMENT)
@@ -106,7 +104,6 @@ public class OrderService {
                 .addAllLineItem(sessionItemsList)
                 .setSuccessUrl(successURL)
                 .build();
-        log.info("build Stripe session end");
         return Session.create(params);
     }
 
