@@ -45,23 +45,37 @@ public class UserServiceTest {
 
     /**
      *
-     * The main difference between MockitoAnnotations.initMocks(this);
-     * and MockitoAnnotations.openMocks(this); lies in their behavior and usage:
+     * --> The main difference between
      *
-     * - MockitoAnnotations.initMocks(this);:
-     *  This method initializes objects annotated with Mockito annotations (such as @Mock, @InjectMocks, etc.) for the given test class (this).
-     *  It should be called in a setup method annotated with @BeforeEach or @Before to initialize the mocks before each test method is executed.
-     *  This method has been deprecated in recent versions of Mockito in favor of MockitoAnnotations.openMocks(this);.
+     *  MockitoAnnotations.initMocks(this);
+     *   and
+     *  MockitoAnnotations.openMocks(this)
+     *
+     * - 1) MockitoAnnotations.initMocks(this)
+     *
+     *  This method initializes objects annotated with Mockito annotations
+     *  (such as @Mock, @InjectMocks, etc.) for the given test class (this).
+     *  It should be called in a setup method annotated
+     *  with @BeforeEach or @Before to initialize the mocks before each test method is executed.
+     *  This method has been deprecated in recent versions
+     *  of Mockito in favor of MockitoAnnotations.openMocks(this);.
      *
      *
-     * - MockitoAnnotations.openMocks(this);:
-     *  This method also initializes objects annotated with Mockito annotations for the given test class (this), similar to initMocks(this).
-     *  It replaces initMocks(this) and is the recommended way to initialize mocks in newer versions of Mockito.
-     *  It not only initializes mocks but also validates the correct usage of Mockito annotations, providing better diagnostics for potential issues.
+     * - 2) MockitoAnnotations.openMocks(this)
+     *
+     *  This method also initializes objects annotated with Mockito
+     *  annotations for the given test class (this), similar to initMocks(this).
+     *  It replaces initMocks(this) and is the recommended way to
+     *  initialize mocks in newer versions of Mockito.
+     *  It not only initializes mocks but also validates
+     *  the correct usage of Mockito annotations, providing
+     *  better diagnostics for potential issues.
      *
      *
-     * In summary, while both methods are used to initialize Mockito annotations, openMocks(this) is the newer and preferred method, offering improved validation and error reporting. If you are using a newer version of Mockito,
-     * it's recommended to use openMocks(this) instead of initMocks(this).
+     * *** In summary, while both methods are used to initialize Mockito annotations,
+     *  openMocks(this) is the newer and preferred method, offering improved validation and error reporting.
+     *  If you are using a newer version of Mockito,
+     *  it's recommended to use openMocks(this) instead of initMocks(this).
      *
      */
     @BeforeEach
@@ -127,7 +141,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void testSignIn_NoToken() throws NoSuchAlgorithmException {
+    void testSignInNoToken() throws NoSuchAlgorithmException {
         User user = new User();
         user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99"); // 5F4DCC3B5AA765D61D8327DEB882CF99 is hash password
 
@@ -144,48 +158,25 @@ public class UserServiceTest {
         assertEquals("token NOT present", exception.getMessage());
     }
 
-    // not yet
-//    @Test
-//    public void testSignIn_Success() throws NoSuchAlgorithmException, CustomException {
-//        User user = new User();
-//        user.setPassword("hashedPassword");
-//
-//        AuthenticationToken token = new AuthenticationToken();
-//        token.setToken("testToken");
-//
-//        SignInDto signInDto = new SignInDto("test@example.com", "password");
-//        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(user);
-//        //when(userService.hashPassword(signInDto.getPassword())).thenReturn("hashedPassword");
-//        when(authenticationService.getToken(user)).thenReturn(token);
-//
-//        SignInResponseDto response = userService.signIn(signInDto);
-//
-//        assertEquals("success", response.getStatus());
-//        assertEquals("testToken", response.getToken());
-//    }
+    @Test
+    public void testSignInSuccess() throws NoSuchAlgorithmException, CustomException {
+        User user = new User();
+        user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99");
 
+        AuthenticationToken token = new AuthenticationToken();
+        token.setToken("testToken");
 
-//    @Test
-//    public void testSignIn() throws CustomException, NoSuchAlgorithmException {
-//
-//        // Given
-//        SignInDto signInDto = new SignInDto("john.doe@example.com", "password");
-//        //String encryptedPassword = hashPassword(signInDto.getPassword());
-//        String encryptedPassword =  "encryptedPassword";
-//        User user = new User("John", "Doe", "john.doe@example.com", Role.USER, encryptedPassword);
-//        AuthenticationToken authenticationToken = new AuthenticationToken(user);
-//
-//        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(user);
-//        when(authenticationService.getToken(user)).thenReturn(authenticationToken);
-//
-//        // When
-//        SignInResponseDto response = userService.signIn(signInDto);
-//
-//        // Then
-//        assertNotNull(response);
-//        assertEquals("success", response.getStatus());
-//        assertEquals(authenticationToken.getToken(), response.getToken());
-//    }
+        SignInDto signInDto = new SignInDto("test@example.com", "password");
+        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(user);
+        //when(userService.hashPassword(signInDto.getPassword())).thenReturn("hashedPassword");
+        when(authenticationService.getToken(user)).thenReturn(token);
+
+        SignInResponseDto response = userService.signIn(signInDto);
+
+        assertEquals("success", response.getStatus());
+        assertEquals("testToken", response.getToken());
+    }
+
 
 //    @Test
 //    public void testCreateUser() throws CustomException, NoSuchAlgorithmException, AuthenticationFailException {
