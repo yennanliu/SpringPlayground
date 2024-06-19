@@ -100,22 +100,23 @@ public class UserService {
 
     public SignInResponseDto signIn(SignInDto signInDto) throws CustomException{
 
-        // first find User by email
+        // find User by email
         User user = userRepository.findByEmail(signInDto.getEmail());
         if(!Helper.notNull(user)){
             throw new AuthenticationFailException("user NOT existed");
         }
         try {
-            // check if password is correct
+            // check password is correct
             if (!user.getPassword().equals(hashPassword(signInDto.getPassword()))){
                 // password NOT match
-                throw new AuthenticationFailException("password NOT match" + MessageStrings.WRONG_PASSWORD);
+                throw new AuthenticationFailException("password NOT match, " + MessageStrings.WRONG_PASSWORD);
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("hashing password failed {}", e.getMessage());
             throw new CustomException(e.getMessage());
         }
 
+        // get token
         AuthenticationToken token = authenticationService.getToken(user);
 
         if(!Helper.notNull(token)) {

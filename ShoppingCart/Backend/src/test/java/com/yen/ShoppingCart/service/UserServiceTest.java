@@ -21,11 +21,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
 
 import java.security.NoSuchAlgorithmException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 public class UserServiceTest {
@@ -39,6 +39,7 @@ public class UserServiceTest {
     @InjectMocks
     private AuthenticationService authenticationService;
 
+    @Spy // NOTE here
     @InjectMocks
     private UserService userService;
 
@@ -48,28 +49,24 @@ public class UserServiceTest {
      * and MockitoAnnotations.openMocks(this); lies in their behavior and usage:
      *
      * - MockitoAnnotations.initMocks(this);:
-     * This method initializes objects annotated with Mockito annotations (such as @Mock, @InjectMocks, etc.) for the given test class (this).
-     * It should be called in a setup method annotated with @BeforeEach or @Before to initialize the mocks before each test method is executed.
-     * This method has been deprecated in recent versions of Mockito in favor of MockitoAnnotations.openMocks(this);.
+     *  This method initializes objects annotated with Mockito annotations (such as @Mock, @InjectMocks, etc.) for the given test class (this).
+     *  It should be called in a setup method annotated with @BeforeEach or @Before to initialize the mocks before each test method is executed.
+     *  This method has been deprecated in recent versions of Mockito in favor of MockitoAnnotations.openMocks(this);.
      *
      *
      * - MockitoAnnotations.openMocks(this);:
-     * This method also initializes objects annotated with Mockito annotations for the given test class (this), similar to initMocks(this).
-     * It replaces initMocks(this) and is the recommended way to initialize mocks in newer versions of Mockito.
-     * It not only initializes mocks but also validates the correct usage of Mockito annotations, providing better diagnostics for potential issues.
+     *  This method also initializes objects annotated with Mockito annotations for the given test class (this), similar to initMocks(this).
+     *  It replaces initMocks(this) and is the recommended way to initialize mocks in newer versions of Mockito.
+     *  It not only initializes mocks but also validates the correct usage of Mockito annotations, providing better diagnostics for potential issues.
      *
      *
-     * In summary, while both methods are used to initialize Mockito annotations, openMocks(this) is the newer and preferred method, offering improved validation and error reporting. If you are using a newer version of Mockito, it's recommended to use openMocks(this) instead of initMocks(this).
+     * In summary, while both methods are used to initialize Mockito annotations, openMocks(this) is the newer and preferred method, offering improved validation and error reporting. If you are using a newer version of Mockito,
+     * it's recommended to use openMocks(this) instead of initMocks(this).
      *
      */
-
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.initMocks(this);
-//    }
-
     @BeforeEach
     public void setUp() {
+        //  MockitoAnnotations.initMocks(this);
         MockitoAnnotations.openMocks(this);
         userService = new UserService(userRepository, tokenRepository, authenticationService);
     }
@@ -94,6 +91,78 @@ public class UserServiceTest {
         assertEquals(ResponseStatus.SUCCESS.toString(), response.getStatus());
         assertEquals(MessageStrings.USER_CREATED, response.getMessage());
     }
+
+    @Test
+    public void testSignInUserNotFound() {
+
+        SignInDto signInDto = new SignInDto("test@example.com", "password");
+        // mock
+        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(null);
+
+        Exception exception = assertThrows(AuthenticationFailException.class, () -> {
+            userService.signIn(signInDto);
+        });
+
+        assertEquals("user NOT existed", exception.getMessage());
+    }
+
+    @Test
+    public void testSignInWrongPassword() throws NoSuchAlgorithmException {
+
+        User user = new User();
+        user.setPassword("hashedPassword");
+
+        SignInDto signInDto = new SignInDto("test@example.com", "wrongPassword");
+
+        // mock
+        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(user);
+        // TODO : check if need to mock hashPassword
+        //when(userService.hashPassword(anyString())).thenReturn("wrongHashedPassword");
+
+        Exception exception = assertThrows(AuthenticationFailException.class, () -> {
+            userService.signIn(signInDto);
+        });
+
+        assertEquals("password NOT match, please check the password", exception.getMessage());
+    }
+
+    @Test
+    void testSignIn_NoToken() throws NoSuchAlgorithmException {
+        User user = new User();
+        user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99"); // 5F4DCC3B5AA765D61D8327DEB882CF99 is hash password
+
+        SignInDto signInDto = new SignInDto("test@example.com", "password");
+        // mock
+        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(user);
+        //doReturn("hashedPassword").when(userService).hashPassword(signInDto.getPassword());
+        when(authenticationService.getToken(user)).thenReturn(null);
+
+        Exception exception = assertThrows(CustomException.class, () -> {
+            userService.signIn(signInDto);
+        });
+
+        assertEquals("token NOT present", exception.getMessage());
+    }
+
+    // not yet
+//    @Test
+//    public void testSignIn_Success() throws NoSuchAlgorithmException, CustomException {
+//        User user = new User();
+//        user.setPassword("hashedPassword");
+//
+//        AuthenticationToken token = new AuthenticationToken();
+//        token.setToken("testToken");
+//
+//        SignInDto signInDto = new SignInDto("test@example.com", "password");
+//        when(userRepository.findByEmail(signInDto.getEmail())).thenReturn(user);
+//        //when(userService.hashPassword(signInDto.getPassword())).thenReturn("hashedPassword");
+//        when(authenticationService.getToken(user)).thenReturn(token);
+//
+//        SignInResponseDto response = userService.signIn(signInDto);
+//
+//        assertEquals("success", response.getStatus());
+//        assertEquals("testToken", response.getToken());
+//    }
 
 
 //    @Test

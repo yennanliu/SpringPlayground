@@ -21,6 +21,7 @@ public class WishListService {
     }
 
     public void createWishlist(WishList wishList) {
+
         wishListRepository.save(wishList);
     }
 
