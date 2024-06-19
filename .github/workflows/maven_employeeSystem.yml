@@ -28,4 +28,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: rm -rf ~/.m2 && cd springEmployeeSystem/backend/EmployeeSystem && mvn -DskipTests=true package
+      run: rm -rf ~/.m2 && cd springEmployeeSystem/backend/EmployeeSystem && mvn package
