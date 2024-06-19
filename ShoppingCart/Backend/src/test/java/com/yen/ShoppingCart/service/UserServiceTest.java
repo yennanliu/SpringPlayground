@@ -39,7 +39,7 @@ public class UserServiceTest {
     @InjectMocks
     private AuthenticationService authenticationService;
 
-    @Spy // NOTE here
+    //@Spy // TODO : double check
     @InjectMocks
     private UserService userService;
 
@@ -48,7 +48,7 @@ public class UserServiceTest {
      * --> The main difference between
      *
      *  MockitoAnnotations.initMocks(this);
-     *   and
+     *   VS
      *  MockitoAnnotations.openMocks(this)
      *
      * - 1) MockitoAnnotations.initMocks(this)
@@ -86,7 +86,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void testSignUp() throws CustomException {
+    public void testSignUpOK() throws CustomException {
 
         // Given
         SignupDto signupDto = new SignupDto("John", "Doe", "john.doe@example.com", "password");
@@ -104,6 +104,38 @@ public class UserServiceTest {
         // Then
         assertEquals(ResponseStatus.SUCCESS.toString(), response.getStatus());
         assertEquals(MessageStrings.USER_CREATED, response.getMessage());
+    }
+
+    @Test
+    public void testSignUpUserAlreadyExists() {
+
+        SignupDto signupDto = new SignupDto("John", "Doe", "test@example.com", "password");
+        // mock
+        when(userRepository.findByEmail(signupDto.getEmail())).thenReturn(new User());
+
+        CustomException exception = assertThrows(CustomException.class, () -> {
+            userService.signUp(signupDto);
+        });
+
+        assertEquals("User already exists", exception.getMessage());
+    }
+
+    @Test
+    public void testSignUp_OtherException() {
+
+        SignupDto signupDto = new SignupDto("John", "Doe", "test@example.com", "password");
+        // mock
+        when(userRepository.findByEmail(signupDto.getEmail())).thenReturn(null);
+        //doReturn("hashedPassword").when(userService).hashPassword(signupDto.getPassword());
+
+        //User user = new User(signupDto.getFirstName(), signupDto.getLastName(), signupDto.getEmail(), Role.USER, "hashedPassword");
+        when(userRepository.save(any(User.class))).thenThrow(new RuntimeException("some other error"));
+
+        CustomException exception = assertThrows(CustomException.class, () -> {
+            userService.signUp(signupDto);
+        });
+
+        assertEquals("some other error", exception.getMessage());
     }
 
     @Test
