@@ -15,7 +15,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class WishListServiceTest {
 
@@ -25,15 +25,21 @@ public class WishListServiceTest {
     @InjectMocks
     private WishListService wishListService;
 
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//        wishListService = new WishListService(wishListRepository);
-//    }
-
     @BeforeEach
     public void setUp() {
+
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    public void testCreateWishList(){
+
+        WishList wishList = new WishList();
+        // Set any necessary fields in wishList here
+
+        wishListService.createWishlist(wishList);
+
+        verify(wishListRepository, times(1)).save(wishList);
     }
 
     @Test

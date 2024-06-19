@@ -74,11 +74,9 @@ public class UserService {
         }
 
         // Step 2) save to DB, generate token
-        // prepare user instance
         User user = new User(signupDto.getFirstName(), signupDto.getLastName(), signupDto.getEmail(), Role.USER, encryptedPassword);
         User createdUser = null;
         try{
-
             // save the User
             createdUser = userRepository.save(user);
 
@@ -89,7 +87,6 @@ public class UserService {
             authenticationService.saveConfirmationToken(authenticationToken);
 
             // return success msg
-            // success in creating
             return new ResponseDto(ResponseStatus.SUCCESS.toString(), USER_CREATED);
 
         }catch (Exception e){
@@ -100,22 +97,23 @@ public class UserService {
 
     public SignInResponseDto signIn(SignInDto signInDto) throws CustomException{
 
-        // first find User by email
+        // find User by email
         User user = userRepository.findByEmail(signInDto.getEmail());
         if(!Helper.notNull(user)){
             throw new AuthenticationFailException("user NOT existed");
         }
         try {
-            // check if password is correct
+            // check password is correct
             if (!user.getPassword().equals(hashPassword(signInDto.getPassword()))){
                 // password NOT match
-                throw new AuthenticationFailException("password NOT match" + MessageStrings.WRONG_PASSWORD);
+                throw new AuthenticationFailException("password NOT match, " + MessageStrings.WRONG_PASSWORD);
             }
         } catch (NoSuchAlgorithmException e) {
             log.error("hashing password failed {}", e.getMessage());
             throw new CustomException(e.getMessage());
         }
 
+        // get token
         AuthenticationToken token = authenticationService.getToken(user);
 
         if(!Helper.notNull(token)) {
@@ -127,7 +125,6 @@ public class UserService {
     }
 
     // local method
-
     // TODO !!! double check below logic
     String hashPassword(String password) throws NoSuchAlgorithmException {
 
