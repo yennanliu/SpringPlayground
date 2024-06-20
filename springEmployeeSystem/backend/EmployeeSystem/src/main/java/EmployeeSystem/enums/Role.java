@@ -1,7 +1,7 @@
 package EmployeeSystem.enums;
 
 public enum Role {
-    USER,
-    MANAGER,
-    ADMIN
+  USER,
+  MANAGER,
+  ADMIN
 }

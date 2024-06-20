@@ -13,15 +13,15 @@ import java.time.LocalDate;
 @ToString
 public class VacationDto {
 
-    //private String period; // e.g. 20230101-20230102
+  // private String period; // e.g. 20230101-20230102
 
-    private LocalDate startDate;
+  private LocalDate startDate;
 
-    private LocalDate endDate;
+  private LocalDate endDate;
 
-    private Integer userId;
+  private Integer userId;
 
-    private String type;
+  private String type;
 
-    private String status;
+  private String status;
 }

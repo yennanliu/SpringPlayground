@@ -1,12 +1,11 @@
 package EmployeeSystem.model;
 
+import java.util.Date;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Table(name = "check_in")
@@ -16,13 +15,13 @@ import java.util.Date;
 @ToString
 public class Checkin {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @Column(name = "user_id")
-    private Integer userId;
+  @Column(name = "user_id")
+  private Integer userId;
 
-    @Column(name = "create_time")
-    private Date createTime;
+  @Column(name = "create_time")
+  private Date createTime;
 }

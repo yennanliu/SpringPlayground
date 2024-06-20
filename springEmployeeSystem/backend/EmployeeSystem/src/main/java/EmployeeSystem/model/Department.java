@@ -17,16 +17,15 @@ import java.util.Set;
 @ToString
 public class Department {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @Column(name = "name")
-    private String name;
+  @Column(name = "name")
+  private String name;
 
-    @Column(name = "users")
-    @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(name = "departement_id", referencedColumnName = "id")
-    private Set<User> users = new HashSet<>();
-
+  @Column(name = "users")
+  @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
+  @JoinColumn(name = "departement_id", referencedColumnName = "id")
+  private Set<User> users = new HashSet<>();
 }

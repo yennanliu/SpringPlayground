@@ -15,25 +15,25 @@ import javax.persistence.*;
 @ToString
 public class Ticket {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @Column(name = "subject")
-    private String subject;
+  @Column(name = "subject")
+  private String subject;
 
-    @Column(name = "description")
-    private String description;
+  @Column(name = "description")
+  private String description;
 
-    @Column(name = "user_id")
-    private Integer userId;
+  @Column(name = "user_id")
+  private Integer userId;
 
-    @Column(name = "assigned_to")
-    private Integer assignedTo; // assigned user id
+  @Column(name = "assigned_to")
+  private Integer assignedTo; // assigned user id
 
-    @Column(name = "status")
-    private String status;
+  @Column(name = "status")
+  private String status;
 
-    @Column(name = "tag")
-    private String tag;
+  @Column(name = "tag")
+  private String tag;
 }

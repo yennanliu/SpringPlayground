@@ -11,11 +11,11 @@ import lombok.ToString;
 @ToString
 public class TicketDto {
 
-    private Integer id;
-    private String subject;
-    private String description;
-    private Integer userId;
-    private Integer assignedTo; // assigned user id
-    private String status;
-    private String tag;
+  private Integer id;
+  private String subject;
+  private String description;
+  private Integer userId;
+  private Integer assignedTo; // assigned user id
+  private String status;
+  private String tag;
 }

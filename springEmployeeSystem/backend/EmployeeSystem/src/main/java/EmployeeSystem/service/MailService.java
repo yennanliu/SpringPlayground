@@ -16,27 +16,28 @@ import org.springframework.stereotype.Service;
 @Slf4j
 class MailService {
 
-    private final JavaMailSender mailSender;
-    private final MailContentBuilder mailContentBuilder;
-    private final String adminEmail = "employee_admin@dev.com";
+  private final JavaMailSender mailSender;
+  private final MailContentBuilder mailContentBuilder;
+  private final String adminEmail = "employee_admin@dev.com";
 
-    @Async
-    void sendMail(NotificationEmail notificationEmail) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(adminEmail);
-            messageHelper.setTo(notificationEmail.getRecipient());
-            messageHelper.setSubject(notificationEmail.getSubject());
-            messageHelper.setText(notificationEmail.getBody());
+  @Async
+  void sendMail(NotificationEmail notificationEmail) {
+    MimeMessagePreparator messagePreparator =
+        mimeMessage -> {
+          MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+          messageHelper.setFrom(adminEmail);
+          messageHelper.setTo(notificationEmail.getRecipient());
+          messageHelper.setSubject(notificationEmail.getSubject());
+          messageHelper.setText(notificationEmail.getBody());
         };
-        try {
-            mailSender.send(messagePreparator);
-            log.info("email sent!!");
-        } catch (MailException e) {
-            log.error("Exception occurred when sending mail", e);
-            e.printStackTrace();
-            throw new CustomException("Exception occurred when sending mail to " + notificationEmail.getRecipient() + e);
-        }
+    try {
+      mailSender.send(messagePreparator);
+      log.info("email sent!!");
+    } catch (MailException e) {
+      log.error("Exception occurred when sending mail", e);
+      e.printStackTrace();
+      throw new CustomException(
+          "Exception occurred when sending mail to " + notificationEmail.getRecipient() + e);
     }
-
+  }
 }

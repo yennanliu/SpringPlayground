@@ -16,25 +16,25 @@ import java.time.LocalDate;
 @ToString
 public class Vacation {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-//    @Column(name = "period")
-//    private String period; // e.g. 20230101-20230102
+  //    @Column(name = "period")
+  //    private String period; // e.g. 20230101-20230102
 
-    @Column(name = "start_date")
-    private LocalDate startDate;
+  @Column(name = "start_date")
+  private LocalDate startDate;
 
-    @Column(name = "end_date")
-    private LocalDate endDate;
+  @Column(name = "end_date")
+  private LocalDate endDate;
 
-    @Column(name = "user_id")
-    private Integer userId;
+  @Column(name = "user_id")
+  private Integer userId;
 
-    @Column(name = "type")
-    private String type;
+  @Column(name = "type")
+  private String type;
 
-    @Column(name = "status")
-    private String status;
+  @Column(name = "status")
+  private String status;
 }

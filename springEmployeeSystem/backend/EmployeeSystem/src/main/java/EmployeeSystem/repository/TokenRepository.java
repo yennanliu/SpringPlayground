@@ -8,7 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TokenRepository extends JpaRepository<AuthenticationToken, Integer> {
 
-    // TODO : check if need implement ?
-    AuthenticationToken findTokenByUser(User user);
-    AuthenticationToken findTokenByToken(String token);
+  // TODO : check if need implement ?
+  AuthenticationToken findTokenByUser(User user);
+
+  AuthenticationToken findTokenByToken(String token);
 }

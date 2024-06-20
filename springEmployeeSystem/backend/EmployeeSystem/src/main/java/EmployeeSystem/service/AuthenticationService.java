@@ -14,38 +14,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthenticationService {
 
-    @Autowired
-    TokenRepository repository;
+  @Autowired TokenRepository repository;
 
-    public void saveConfirmationToken(AuthenticationToken authenticationToken) {
+  public void saveConfirmationToken(AuthenticationToken authenticationToken) {
 
-        repository.save(authenticationToken);
+    repository.save(authenticationToken);
+  }
+
+  public AuthenticationToken getToken(User user) {
+
+    return repository.findTokenByUser(user);
+  }
+
+  public User getUser(String token) {
+
+    AuthenticationToken authenticationToken = repository.findTokenByToken(token);
+    if (Helper.notNull(authenticationToken)) {
+      if (Helper.notNull(authenticationToken.getUser())) {
+        return authenticationToken.getUser();
+      }
     }
+    return null;
+  }
 
-    public AuthenticationToken getToken(User user) {
+  public void authenticate(String token) throws AuthenticationFailException {
 
-        return repository.findTokenByUser(user);
+    if (!Helper.notNull(token)) {
+      throw new AuthenticationFailException(MessageStrings.AUTH_TOKEN_NOT_PRESENT);
     }
-
-    public User getUser(String token) {
-
-        AuthenticationToken authenticationToken = repository.findTokenByToken(token);
-        if (Helper.notNull(authenticationToken)) {
-            if (Helper.notNull(authenticationToken.getUser())) {
-                return authenticationToken.getUser();
-            }
-        }
-        return null;
+    if (!Helper.notNull(getUser(token))) {
+      throw new AuthenticationFailException(MessageStrings.AUTH_TOKEN_NOT_VALID);
     }
-
-    public void authenticate(String token) throws AuthenticationFailException {
-
-        if (!Helper.notNull(token)) {
-            throw new AuthenticationFailException(MessageStrings.AUTH_TOKEN_NOT_PRESENT);
-        }
-        if (!Helper.notNull(getUser(token))) {
-            throw new AuthenticationFailException(MessageStrings.AUTH_TOKEN_NOT_VALID);
-        }
-    }
-
+  }
 }

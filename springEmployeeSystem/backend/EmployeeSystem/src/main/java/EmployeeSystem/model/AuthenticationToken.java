@@ -10,68 +10,65 @@ import java.util.UUID;
 @Table(name = "tokens")
 public class AuthenticationToken {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Integer id;
 
+  private String token;
 
-    private String token;
+  @Column(name = "created_date")
+  private Date createdDate;
 
-    @Column(name = "created_date")
-    private Date createdDate;
+  @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+  @JoinColumn(nullable = false, name = "user_id")
+  private User user;
 
-    @OneToOne(targetEntity = User.class, fetch = FetchType.EAGER)
-    @JoinColumn(nullable = false, name = "user_id")
-    private User user;
+  // generate token
+  public AuthenticationToken(User user) {
+    this.user = user;
+    this.createdDate = new Date();
+    this.token = UUID.randomUUID().toString();
+  }
 
-    // generate token
-    public AuthenticationToken(User user) {
-        this.user = user;
-        this.createdDate = new Date();
-        this.token = UUID.randomUUID().toString();
-    }
+  public AuthenticationToken(Integer id, String Token, Date createdDate, User user) {
+    this.id = id;
+    this.token = Token;
+    this.createdDate = createdDate;
+    this.user = user;
+  }
 
-    public Integer getId() {
-        return id;
-    }
+  public AuthenticationToken() {}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+  public Integer getId() {
+    return id;
+  }
 
-    public String getToken() {
-        return token;
-    }
+  public void setId(Integer id) {
+    this.id = id;
+  }
 
-    public void setToken(String Token) {
-        this.token = Token;
-    }
+  public String getToken() {
+    return token;
+  }
 
-    public Date getCreatedDate() {
-        return createdDate;
-    }
+  public void setToken(String Token) {
+    this.token = Token;
+  }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
+  public Date getCreatedDate() {
+    return createdDate;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public void setCreatedDate(Date createdDate) {
+    this.createdDate = createdDate;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public AuthenticationToken(Integer id, String Token, Date createdDate, User user) {
-        this.id = id;
-        this.token = Token;
-        this.createdDate = createdDate;
-        this.user = user;
-    }
-
-    public AuthenticationToken() {
-    }
-
+  public void setUser(User user) {
+    this.user = user;
+  }
 }

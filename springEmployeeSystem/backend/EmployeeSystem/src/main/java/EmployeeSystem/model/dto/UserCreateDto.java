@@ -12,19 +12,19 @@ import lombok.ToString;
 @ToString
 public class UserCreateDto {
 
-    private Integer id;
+  private Integer id;
 
-    private String firstName;
+  private String firstName;
 
-    private String lastName;
+  private String lastName;
 
-    private Role role;
+  private Role role;
 
-    private String email;
+  private String email;
 
-    private String password;
+  private String password;
 
-    private Integer managerId;
+  private Integer managerId;
 
-    private Integer departementId;
+  private Integer departementId;
 }

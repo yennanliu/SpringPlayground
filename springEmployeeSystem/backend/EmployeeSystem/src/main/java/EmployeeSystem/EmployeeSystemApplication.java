@@ -8,9 +8,8 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @SpringBootApplication
 public class EmployeeSystemApplication {
 
-	public static void main(String[] args) {
+  public static void main(String[] args) {
 
-		SpringApplication.run(EmployeeSystemApplication.class, args);
-	}
-
+    SpringApplication.run(EmployeeSystemApplication.class, args);
+  }
 }

@@ -10,6 +10,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class SignInResponseDto {
-    private String status;
-    private String token;
+  private String status;
+  private String token;
 }

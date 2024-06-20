@@ -11,6 +11,6 @@ import lombok.ToString;
 @ToString
 public class DepartmentDto {
 
-    private Integer id;
-    private String name;
+  private Integer id;
+  private String name;
 }

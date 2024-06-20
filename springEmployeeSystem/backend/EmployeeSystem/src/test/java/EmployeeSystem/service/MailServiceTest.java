@@ -1,26 +1,26 @@
-//package EmployeeSystem.service;
+// package EmployeeSystem.service;
 //
-//import EmployeeSystem.model.NotificationEmail;
+// import EmployeeSystem.model.NotificationEmail;
 //
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
+// import org.junit.jupiter.api.Test;
+// import org.junit.jupiter.api.BeforeEach;
+// import org.mockito.InjectMocks;
+// import org.mockito.Mock;
+// import org.mockito.MockitoAnnotations;
 //
-//import org.springframework.mail.javamail.JavaMailSender;
-//import org.springframework.mail.javamail.MimeMessageHelper;
-//import org.springframework.mail.javamail.MimeMessagePreparator;
+// import org.springframework.mail.javamail.JavaMailSender;
+// import org.springframework.mail.javamail.MimeMessageHelper;
+// import org.springframework.mail.javamail.MimeMessagePreparator;
 //
-//import javax.mail.internet.MimeMessage;
-//import java.util.*;
+// import javax.mail.internet.MimeMessage;
+// import java.util.*;
 //
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.mockito.Mockito.*;
+// import static org.junit.jupiter.api.Assertions.*;
+// import static org.mockito.Mockito.*;
 //
-//import static org.junit.jupiter.api.Assertions.*;
+// import static org.junit.jupiter.api.Assertions.*;
 //
-//class MailServiceTest {
+// class MailServiceTest {
 //
 //    @Mock
 //    private JavaMailSender mailSender;
@@ -45,7 +45,8 @@
 //        notificationEmail.setSubject("Test Subject");
 //        notificationEmail.setBody("Test Body");
 //
-//        when(mailContentBuilder.build(notificationEmail.getBody())).thenReturn(notificationEmail.getBody());
+//
+// when(mailContentBuilder.build(notificationEmail.getBody())).thenReturn(notificationEmail.getBody());
 //
 //        // Test
 //        mailService.sendMail(notificationEmail);
@@ -71,4 +72,4 @@
 //    }
 //
 //
-//}
+// }

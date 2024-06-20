@@ -3,51 +3,48 @@ package EmployeeSystem.service;
 import EmployeeSystem.model.Department;
 import EmployeeSystem.model.dto.DepartmentDto;
 import EmployeeSystem.repository.DepartmentRepository;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Slf4j
 @Service
 public class DepartmentService {
 
-    @Autowired
-    DepartmentRepository departmentRepository;
+  @Autowired DepartmentRepository departmentRepository;
 
-    public List<Department> getDepartments() {
+  public List<Department> getDepartments() {
 
-        return departmentRepository.findAll();
+    return departmentRepository.findAll();
+  }
+
+  public Department getDepartmentById(Integer departmentId) {
+
+    if (departmentRepository.findById(departmentId).isPresent()) {
+      return departmentRepository.findById(departmentId).get();
     }
+    log.warn("No department with departmentId = " + departmentId);
+    return null;
+  }
 
-    public Department getDepartmentById(Integer departmentId) {
+  public void updateDepartment(DepartmentDto departmentDto) {
 
-        if (departmentRepository.findById(departmentId).isPresent()){
-            return departmentRepository.findById(departmentId).get();
-        }
-        log.warn("No department with departmentId = " + departmentId);
-        return null;
-    }
+    // get current department
+    Department department = departmentRepository.findById(departmentDto.getId()).get();
 
-    public void updateDepartment(DepartmentDto departmentDto) {
+    // copy attr to new department as updated department
+    BeanUtils.copyProperties(departmentDto, department);
 
-        // get current department
-        Department department = departmentRepository.findById(departmentDto.getId()).get();
+    // save to DB
+    departmentRepository.save(department);
+  }
 
-        // copy attr to new department as updated department
-        BeanUtils.copyProperties(departmentDto, department);
+  public void addDepartment(DepartmentDto departmentDto) {
 
-        // save to DB
-        departmentRepository.save(department);
-    }
-
-    public void addDepartment(DepartmentDto departmentDto) {
-
-        Department department = new Department();
-        BeanUtils.copyProperties(departmentDto, department);
-        departmentRepository.save(department);
-    }
-
+    Department department = new Department();
+    BeanUtils.copyProperties(departmentDto, department);
+    departmentRepository.save(department);
+  }
 }

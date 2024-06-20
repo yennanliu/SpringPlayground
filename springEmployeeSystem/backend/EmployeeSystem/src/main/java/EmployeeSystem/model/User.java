@@ -1,12 +1,11 @@
 package EmployeeSystem.model;
 
 import EmployeeSystem.enums.Role;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
-import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
@@ -16,38 +15,37 @@ import javax.persistence.*;
 @ToString
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private Integer id;
 
-    @Column(name = "first_name")
-    private String firstName;
+  @Column(name = "first_name")
+  private String firstName;
 
-    @Column(name = "last_name")
-    private String lastName;
+  @Column(name = "last_name")
+  private String lastName;
 
-    @Column(name = "email")
-    private String email;
+  @Column(name = "email")
+  private String email;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "role")
-    private Role role;
+  @Enumerated(EnumType.STRING)
+  @Column(name = "role")
+  private Role role;
 
-    @Column(name = "password")
-    private String password;
+  @Column(name = "password")
+  private String password;
 
-    @Column(name = "departement_id")
-    private Integer departementId;
+  @Column(name = "departement_id")
+  private Integer departementId;
 
-    @Column(name = "manager_id")
-    private Integer managerId;
+  @Column(name = "manager_id")
+  private Integer managerId;
 
-    public User(String firstName, String lastName, String email, Role role, String password) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.role = role;
-        this.password = password;
-    }
-
+  public User(String firstName, String lastName, String email, Role role, String password) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.role = role;
+    this.password = password;
+  }
 }

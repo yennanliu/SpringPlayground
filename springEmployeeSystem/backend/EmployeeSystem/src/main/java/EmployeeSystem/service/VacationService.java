@@ -5,64 +5,70 @@ import EmployeeSystem.model.NotificationEmail;
 import EmployeeSystem.model.Vacation;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.repository.VacationRepository;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 public class VacationService {
 
-    @Autowired
-    VacationRepository vacationRepository;
+  private final String adminEmail = "employee_admin@dev.com";
+  @Autowired VacationRepository vacationRepository;
+  @Autowired MailService mailService;
 
-    @Autowired
-    MailService mailService;
+  public List<Vacation> getVacations() {
 
-    private final String adminEmail = "employee_admin@dev.com";
+    return vacationRepository.findAll();
+  }
 
-    public List<Vacation> getVacations() {
+  public Vacation getVacationById(Integer vacationId) {
 
-        return vacationRepository.findAll();
+    if (vacationRepository.findById(vacationId).isPresent()) {
+      return vacationRepository.findById(vacationId).get();
     }
+    log.warn("No vacation with vacationId = " + vacationId);
+    return null;
+  }
 
-    public Vacation getVacationById(Integer vacationId) {
+  public List<Vacation> getVacationByUserId(Integer userId) {
 
-        if (vacationRepository.findById(vacationId).isPresent()){
-            return vacationRepository.findById(vacationId).get();
-        }
-        log.warn("No vacation with vacationId = " + vacationId);
-        return null;
-    }
+    List<Vacation> vacations = vacationRepository.findAll();
+    return vacations.stream()
+        .filter(
+            x -> {
+              return x.getUserId().equals(userId);
+            })
+        .collect(Collectors.toList());
+  }
 
-    public List<Vacation> getVacationByUserId(Integer userId) {
+  public void addVacation(VacationDto vacationDto) {
 
-        List<Vacation> vacations = vacationRepository.findAll();
-        return vacations.stream().filter(x -> {return x.getUserId().equals(userId);}
-        ).collect(Collectors.toList());
-    }
+    Vacation vacation = new Vacation();
+    BeanUtils.copyProperties(vacationDto, vacation);
+    // set default status as pending
+    vacation.setStatus(VacationStatus.PENDING.getName());
 
-
-    public void addVacation(VacationDto vacationDto) {
-
-        Vacation vacation = new Vacation();
-        BeanUtils.copyProperties(vacationDto, vacation);
-        // set default status as pending
-        vacation.setStatus(VacationStatus.PENDING.getName());
-
-        // TODO : fix/check why async send email seems NOT working
-        log.info("send vacation email start ... " + vacation);
-        mailService.sendMail(new NotificationEmail("Vacation created",
-                adminEmail, "Hi, " + vacation.getUserId() + "\n" +
-                "Your vacation is received," + "\n" +
-                "Start date = " + vacation.getStartDate() + " End date = " + vacation.getEndDate() + "\n" +
-                "We will review and back to you ASAP !!"));
-        vacationRepository.save(vacation);
-    }
-
+    // TODO : fix/check why async send email seems NOT working
+    log.info("send vacation email start ... " + vacation);
+    mailService.sendMail(
+        new NotificationEmail(
+            "Vacation created",
+            adminEmail,
+            "Hi, "
+                + vacation.getUserId()
+                + "\n"
+                + "Your vacation is received,"
+                + "\n"
+                + "Start date = "
+                + vacation.getStartDate()
+                + " End date = "
+                + vacation.getEndDate()
+                + "\n"
+                + "We will review and back to you ASAP !!"));
+    vacationRepository.save(vacation);
+  }
 }
