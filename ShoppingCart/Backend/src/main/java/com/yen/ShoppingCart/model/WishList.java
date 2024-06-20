@@ -2,11 +2,9 @@ package com.yen.ShoppingCart.model;
 
 
 
+import java.util.Date;
 import javax.persistence.*;
 //import javax.validation.constraints.NotBlank;
-import java.sql.Timestamp;
-import java.util.Date;
-
 
 @Entity
 @Table(name = "wishlist")

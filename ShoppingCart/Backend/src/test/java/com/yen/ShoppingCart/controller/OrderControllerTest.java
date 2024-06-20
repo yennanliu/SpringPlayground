@@ -1,8 +1,10 @@
 package com.yen.ShoppingCart.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
-
 import com.yen.ShoppingCart.common.ApiResponse;
 import com.yen.ShoppingCart.exception.AuthenticationFailException;
 import com.yen.ShoppingCart.exception.OrderNotFoundException;
@@ -12,22 +14,15 @@ import com.yen.ShoppingCart.model.dto.checkout.CheckoutItemDto;
 import com.yen.ShoppingCart.model.dto.checkout.StripeResponse;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.OrderService;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class OrderControllerTest {
 

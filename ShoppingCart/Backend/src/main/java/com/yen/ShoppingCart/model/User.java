@@ -3,9 +3,8 @@ package com.yen.ShoppingCart.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yen.ShoppingCart.enums.Role;
-
-import javax.persistence.*;
 import java.util.List;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "users")

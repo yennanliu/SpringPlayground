@@ -3,33 +3,28 @@ package com.yen.ShoppingCart.service;
 import static org.junit.jupiter.api.Assertions.*;
 //import static spark.Spark.post;
 //import static spark.Spark.port;
-import com.google.gson.JsonSyntaxException;
+
 import com.stripe.Stripe;
-import com.stripe.exception.SignatureVerificationException;
 import com.stripe.exception.StripeException;
 import com.stripe.model.*;
-import com.stripe.model.checkout.Session;
-import com.stripe.net.Webhook;
 import com.stripe.param.checkout.SessionCreateParams;
 import com.yen.ShoppingCart.enums.Role;
 import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.checkout.CheckoutItemDto;
 import com.yen.ShoppingCart.repository.OrderItemsRepository;
 import com.yen.ShoppingCart.repository.OrderRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.springframework.test.context.TestPropertySource;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

@@ -5,12 +5,11 @@ import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
 import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
