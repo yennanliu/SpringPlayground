@@ -8,18 +8,15 @@ import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.ProductService;
 import com.yen.ShoppingCart.service.WishListService;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
@@ -35,9 +32,8 @@ public class WishListController {
     @Autowired
     private ProductService productService;
 
-
-    @GetMapping("/{token}")
-    public ResponseEntity<List<ProductDto>> getWishList(@PathVariable("token") String token) {
+  @GetMapping("/{token}")
+  public ResponseEntity<List<ProductDto>> getWishList(@PathVariable("token") String token) {
 
         log.info("(getWishList) token = " + token);
         int user_id = authenticationService.getUser(token).getId();

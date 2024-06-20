@@ -11,15 +11,12 @@ import com.yen.ShoppingCart.model.dto.user.SignupDto;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.UserService;
-
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /** Controller for signIn/singUp */
 // https://github.com/webtutsplus/ecommerce-backend/blob/master/src/main/java/com/webtutsplus/ecommerce/controller/UserController.java

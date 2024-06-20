@@ -1,35 +1,21 @@
 package com.yen.ShoppingCart.controller;
 
-import com.yen.ShoppingCart.common.ApiResponse;
+import static com.yen.ShoppingCart.config.MessageStrings.USER_CREATED;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
+
 import com.yen.ShoppingCart.enums.ResponseStatus;
-import com.yen.ShoppingCart.enums.Role;
-import com.yen.ShoppingCart.exception.AuthenticationFailException;
 import com.yen.ShoppingCart.exception.CustomException;
-import com.yen.ShoppingCart.model.Category;
-import com.yen.ShoppingCart.model.Product;
-import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.dto.ResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignupDto;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.UserService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static com.yen.ShoppingCart.config.MessageStrings.USER_CREATED;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
 
 public class UserControllerTest {
 

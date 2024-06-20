@@ -2,6 +2,8 @@ package com.yen.ShoppingCart.service;
 
 // https://github.com/webtutsplus/ecommerce-backend/blob/master/src/main/java/com/webtutsplus/ecommerce/service/UserService.java
 
+import static com.yen.ShoppingCart.config.MessageStrings.USER_CREATED;
+
 import com.yen.ShoppingCart.config.MessageStrings;
 import com.yen.ShoppingCart.enums.ResponseStatus;
 import com.yen.ShoppingCart.enums.Role;
@@ -14,18 +16,12 @@ import com.yen.ShoppingCart.model.dto.user.*;
 import com.yen.ShoppingCart.repository.TokenRepository;
 import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.util.Helper;
-
-import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.xml.bind.DatatypeConverter;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
-import static com.yen.ShoppingCart.config.MessageStrings.USER_CREATED;
-
+import javax.xml.bind.DatatypeConverter;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j

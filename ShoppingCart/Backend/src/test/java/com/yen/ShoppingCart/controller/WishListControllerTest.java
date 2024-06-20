@@ -1,31 +1,27 @@
 package com.yen.ShoppingCart.controller;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
+
 import com.yen.ShoppingCart.common.ApiResponse;
 import com.yen.ShoppingCart.enums.Role;
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
 import com.yen.ShoppingCart.model.User;
 import com.yen.ShoppingCart.model.WishList;
-import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.service.AuthenticationService;
 import com.yen.ShoppingCart.service.ProductService;
 import com.yen.ShoppingCart.service.WishListService;
-
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
 
 public class WishListControllerTest {
 

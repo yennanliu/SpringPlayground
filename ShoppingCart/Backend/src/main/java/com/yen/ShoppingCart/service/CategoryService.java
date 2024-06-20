@@ -2,12 +2,10 @@ package com.yen.ShoppingCart.service;
 
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.repository.Categoryrepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CategoryService {

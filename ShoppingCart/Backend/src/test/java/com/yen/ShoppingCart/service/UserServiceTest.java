@@ -192,6 +192,7 @@ public class UserServiceTest {
 
     @Test
     public void testSignInSuccess() throws NoSuchAlgorithmException, CustomException {
+
         User user = new User();
         user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99");
 

@@ -1,10 +1,15 @@
 package com.yen.ShoppingCart.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.yen.ShoppingCart.exception.ProductNotExistException;
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
 import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.repository.ProductRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,12 +19,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

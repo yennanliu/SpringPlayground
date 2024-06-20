@@ -1,10 +1,9 @@
 package com.yen.ShoppingCart.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
+import java.util.Date;
 import javax.persistence.*;
 //import javax.validation.constraints.NotNull;
-import java.util.Date;
 
 @Entity
 @Table(name = "orderitems")

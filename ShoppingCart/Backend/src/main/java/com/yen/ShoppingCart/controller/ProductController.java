@@ -5,13 +5,12 @@ import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.dto.product.ProductDto;
 import com.yen.ShoppingCart.service.CategoryService;
 import com.yen.ShoppingCart.service.ProductService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/product")

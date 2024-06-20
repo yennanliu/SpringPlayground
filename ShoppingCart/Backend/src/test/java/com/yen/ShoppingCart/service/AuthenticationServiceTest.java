@@ -1,5 +1,9 @@
 package com.yen.ShoppingCart.service;
 
+import static org.assertj.core.util.DateUtil.now;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
+
 import com.yen.ShoppingCart.config.MessageStrings;
 import com.yen.ShoppingCart.enums.Role;
 import com.yen.ShoppingCart.exception.AuthenticationFailException;
@@ -11,14 +15,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-import static org.assertj.core.util.DateUtil.now;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)

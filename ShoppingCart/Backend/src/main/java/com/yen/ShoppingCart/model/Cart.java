@@ -1,9 +1,8 @@
 package com.yen.ShoppingCart.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
 import java.util.Date;
+import javax.persistence.*;
 
 @Entity
 @Table(name="cart")

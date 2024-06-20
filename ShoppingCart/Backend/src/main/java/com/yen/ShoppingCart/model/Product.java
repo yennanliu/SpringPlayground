@@ -2,7 +2,6 @@ package com.yen.ShoppingCart.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
-
 import javax.persistence.*;
 
 @Entity

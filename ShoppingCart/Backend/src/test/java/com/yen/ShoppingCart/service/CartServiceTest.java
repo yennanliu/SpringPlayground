@@ -1,5 +1,9 @@
 package com.yen.ShoppingCart.service;
 
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
+
 import com.yen.ShoppingCart.enums.Role;
 import com.yen.ShoppingCart.exception.CartItemNotExistException;
 import com.yen.ShoppingCart.model.*;
@@ -7,25 +11,17 @@ import com.yen.ShoppingCart.model.dto.cart.AddToCartDto;
 import com.yen.ShoppingCart.model.dto.cart.CartDto;
 import com.yen.ShoppingCart.model.dto.cart.CartItemDto;
 import com.yen.ShoppingCart.repository.CartRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static org.assertj.core.util.DateUtil.now;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
