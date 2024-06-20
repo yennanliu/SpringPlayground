@@ -1,7 +1,9 @@
 package com.yen.ShoppingCart.service;
 
 import com.yen.ShoppingCart.enums.Role;
+import com.yen.ShoppingCart.exception.CartItemNotExistException;
 import com.yen.ShoppingCart.model.*;
+import com.yen.ShoppingCart.model.dto.cart.AddToCartDto;
 import com.yen.ShoppingCart.model.dto.cart.CartDto;
 import com.yen.ShoppingCart.model.dto.cart.CartItemDto;
 import com.yen.ShoppingCart.repository.CartRepository;
@@ -23,7 +25,7 @@ import java.util.List;
 import static org.assertj.core.util.DateUtil.now;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -58,15 +60,18 @@ class CartServiceTest {
         Cart cart = new Cart(product, 1, user1);
     }
 
-//    @Test
-//    public void shouldAddCart(){
-//
-//        // addToCart
-//        // mock
-//        //Mockito.when(tokenRepository.findTokenByToken("my_token")).thenReturn(token1);
-//        when(cart).thenReturn(cart);
-//        System.out.println(123);
-//    }
+    @Test
+    public void addToCart() {
+
+        AddToCartDto addToCartDto = new AddToCartDto();
+        addToCartDto.setQuantity(1);
+        Product product = new Product();
+        User user = new User();
+
+        cartService.addToCart(addToCartDto, product, user);
+
+        verify(cartRepository, times(1)).save(any(Cart.class));
+    }
 
     @Test
     public void testListCartItems() {
@@ -81,6 +86,7 @@ class CartServiceTest {
         cartList.add(new Cart(prod1, 2, user));
         cartList.add(new Cart(prod2, 1, user));
 
+        // mock
         when(cartRepository.findAllByUserOrderByCreatedDateDesc(any(User.class))).thenReturn(cartList);
 
         // When
@@ -89,6 +95,69 @@ class CartServiceTest {
         // Then
         assertEquals(2, cartDto.getCartItems().size());
         assertEquals(300.0, cartDto.getTotalCost());
+    }
+
+    @Test
+    public void updateCartItem() {
+
+        AddToCartDto addToCartDto = new AddToCartDto();
+        addToCartDto.setId(1);
+        addToCartDto.setQuantity(2);
+        User user = new User();
+        Product product = new Product();
+        Cart cart = new Cart();
+
+        // mock
+        when(cartRepository.getOne(addToCartDto.getId())).thenReturn(cart);
+
+        cartService.updateCartItem(addToCartDto, user, product);
+
+        assertEquals(addToCartDto.getQuantity(), cart.getQuantity());
+        verify(cartRepository, times(1)).save(cart);
+    }
+
+    @Test
+    public void deleteCartItem() {
+        int cartId = 1;
+        int userId = 1;
+
+        // mock
+        when(cartRepository.existsById(cartId)).thenReturn(true);
+
+        assertDoesNotThrow(() -> cartService.deleteCartItem(cartId, userId));
+
+        verify(cartRepository, times(1)).deleteById(cartId);
+    }
+
+    @Test
+    public void deleteCartItem_NotExist() {
+
+        int cartId = 1;
+        int userId = 1;
+
+        // mock
+        when(cartRepository.existsById(cartId)).thenReturn(false);
+
+        assertThrows(CartItemNotExistException.class, () -> cartService.deleteCartItem(cartId, userId));
+    }
+
+    @Test
+    public void deleteCartItems() {
+
+        int userId = 1;
+
+        cartService.deleteCartItems(userId);
+
+        verify(cartRepository, times(1)).deleteAll();
+    }
+
+    @Test
+    public void deleteUserCartItems() {
+        User user = new User();
+
+        cartService.deleteUserCartItems(user);
+
+        verify(cartRepository, times(1)).deleteByUser(user);
     }
 
     @Test
