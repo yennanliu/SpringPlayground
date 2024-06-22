@@ -1,20 +1,25 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!--    <meta charset="UTF-8">-->
-    <meta charset="UTF-8" name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
+    <!--    <meta charset="UTF-8">-->
+    <meta charset="UTF-8" content=”width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5,
+          name=”viewport” user-scalable=yes”/>
     <title>Pre Edit</title>
 </head>
 <div th:insert="header"></div>
 <body>
 <div class="container">
-    <div th:each="post : ${posts}" class="card">
+    <div class="card" th:each="post : ${posts}">
         <div class="card-body">
-            <h5 style="color:#0404B4;" class="card-title" th:utext="${post.title}">Post title</h5>
+            <h5 class="card-title" style="color:#0404B4;" th:utext="${post.title}">Post title</h5>
             <h5 class="card-title" th:utext="${LoginRequest.userName}">Author</h5>
-            <h6 class="card-subtitle mb-2" th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
-            <p class="card-text" th:style="'font-size: ' + ${post.fontSize} + '; color: ' + ${post.fontColor} + '; font-family: ' + ${post.fontStyle}" th:text="${post.synopsis} + '...'">Post synopsis</p>
-            <a href="#" th:href="'/posts/edit/' + ${post.id}" th:text="${'Edit'}" class="card-link">Edit</a>
+            <h6 class="card-subtitle mb-2"
+                th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">
+                LocalDateTime</h6>
+            <p class="card-text"
+               th:style="'font-size: ' + ${post.fontSize} + '; color: ' + ${post.fontColor} + '; font-family: ' + ${post.fontStyle}"
+               th:text="${post.synopsis} + '...'">Post synopsis</p>
+            <a class="card-link" href="#" th:href="'/posts/edit/' + ${post.id}" th:text="${'Edit'}">Edit</a>
         </div>
     </div>
 </div>
@@ -32,8 +37,10 @@
         </li>
         <!--遍歷條數-->
         <li th:each="nav:${pageInfo.navigatepageNums}">
-            <a th:href="'/posts/edit/pre_edit?pageNum='+${nav}" th:text=" ${nav} " th:if="${nav != pageInfo.pageNum}"></a>
-            <span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} " th:text=" ${nav} "></span>
+            <a th:href="'/posts/edit/pre_edit?pageNum='+${nav}" th:if="${nav != pageInfo.pageNum}"
+               th:text=" ${nav} "></a>
+            <span style="font-weight: bold;background: #6faed9;" th:if=" ${nav == pageInfo.pageNum} "
+                  th:text=" ${nav} "></span>
         </li>
         <li class="next" th:if="${pageInfo.hasNextPage}">
             <a th:href="'/posts/edit/pre_edit?pageNum='+${pageInfo.nextPage}">

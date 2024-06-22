@@ -1,13 +1,13 @@
-//package com.yen.mdblog;
+// package com.yen.mdblog;
 //
-//import org.junit.jupiter.api.Test;
-//import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 //
-//@SpringBootTest
-//class BlogApplicationTests {
+// @SpringBootTest
+// class BlogApplicationTests {
 //
 //	@Test
 //	void contextLoads() {
 //	}
 //
-//}
+// }

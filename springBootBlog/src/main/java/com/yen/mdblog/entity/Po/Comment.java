@@ -1,11 +1,11 @@
 package com.yen.mdblog.entity.Po;
 
+import java.util.*;
+import javax.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import javax.persistence.*;
-import java.util.*;
 
 @Data
 @Entity
@@ -15,23 +15,19 @@ import java.util.*;
 @Table(name = "comment")
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column
-    private Integer id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column
+  private Integer id;
 
-    @Column
-    private String userName;
+  @Column private String userName;
 
-    @Column
-    private Long postId;
+  @Column private Long postId;
 
-    @Column(columnDefinition = "TEXT")
-    private String commentContent;
+  @Column(columnDefinition = "TEXT")
+  private String commentContent;
 
-    @Column
-    private Date createTime;
+  @Column private Date createTime;
 
-    @Column
-    private Date updateTime;
+  @Column private Date updateTime;
 }

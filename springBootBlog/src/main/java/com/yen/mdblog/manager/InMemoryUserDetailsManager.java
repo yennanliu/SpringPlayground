@@ -10,34 +10,35 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class InMemoryUserDetailsManager {
 
-    public InMemoryUserDetailsManager(UserDetails user1, UserDetails user2, UserDetails admin) {
-    }
+  public InMemoryUserDetailsManager(UserDetails user1, UserDetails user2, UserDetails admin) {}
 
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
+  @Bean
+  public InMemoryUserDetailsManager userDetailsService() {
 
-        UserDetails user1 = User.withUsername("user1")
-                .password(passwordEncoder().encode("user1Pass"))
-                .roles("USER")
-                .build();
+    UserDetails user1 =
+        User.withUsername("user1")
+            .password(passwordEncoder().encode("user1Pass"))
+            .roles("USER")
+            .build();
 
-        UserDetails user2 = User.withUsername("user2")
-                .password(passwordEncoder().encode("user2Pass"))
-                .roles("USER")
-                .build();
+    UserDetails user2 =
+        User.withUsername("user2")
+            .password(passwordEncoder().encode("user2Pass"))
+            .roles("USER")
+            .build();
 
-        UserDetails admin = User.withUsername("admin")
-                .password(passwordEncoder().encode("adminPass"))
-                .roles("ADMIN")
-                .build();
+    UserDetails admin =
+        User.withUsername("admin")
+            .password(passwordEncoder().encode("adminPass"))
+            .roles("ADMIN")
+            .build();
 
-        return new InMemoryUserDetailsManager(user1, user2, admin);
-    }
+    return new InMemoryUserDetailsManager(user1, user2, admin);
+  }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
+  @Bean
+  public PasswordEncoder passwordEncoder() {
 
-        return new BCryptPasswordEncoder();
-    }
-
+    return new BCryptPasswordEncoder();
+  }
 }

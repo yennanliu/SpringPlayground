@@ -1,18 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!--    <meta charset="UTF-8">-->
-    <meta charset="UTF-8" name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
+    <!--    <meta charset="UTF-8">-->
+    <meta charset="UTF-8" content=”width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5,
+          name=”viewport” user-scalable=yes”/>
     <div th:insert="header"></div>
     <title>Register As New User</title>
     <h1 align="center">Register A New User</h1>
     <hr/>
 </head>
 <body>
-<form action="#" th:action="@{/register/create}" th:object="${CreateAuthor}" method="post" align="center">
-    <p>User name: <input type="text" th:field="*{name}" required minlength="1" /></p>
-    <p>Email: <input type="text" th:field="*{email}" required minlength="1" /></p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+<form action="#" align="center" method="post" th:action="@{/register/create}" th:object="${CreateAuthor}">
+    <p>User name: <input minlength="1" required th:field="*{name}" type="text"/></p>
+    <p>Email: <input minlength="1" required th:field="*{email}" type="text"/></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
 </form>
 </body>
 </html>

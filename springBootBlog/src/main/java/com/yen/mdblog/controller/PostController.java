@@ -15,6 +15,13 @@ import com.yen.mdblog.service.AuthorService;
 import com.yen.mdblog.service.CommentService;
 import com.yen.mdblog.service.PostService;
 import com.yen.mdblog.util.PostUtil;
+import java.security.Principal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +32,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 // TODO : refactor : move all main logic to service
 @Controller
@@ -39,178 +39,171 @@ import java.util.stream.Collectors;
 @Log4j2
 public class PostController {
 
-	@Autowired
-	PostRepository postRepository;
+  private final int PAGINATIONSIZE =
+      3; // how many posts show in a http://localhost:8080/posts/ page
+  @Autowired PostRepository postRepository;
+  @Autowired PostService postService;
 
-	private final int PAGINATIONSIZE = 3; // how many posts show in a http://localhost:8080/posts/ page
+  @Autowired AuthorService authorService;
 
-	@Autowired
-	PostService postService;
+  @Autowired PostMapper postMapper;
 
-	@Autowired
-	AuthorService authorService;
+  @Autowired CommentService commentService;
 
-	@Autowired
-	PostMapper postMapper;
+  @Autowired AuthorMapper authorMapper;
 
-	@Autowired
-	CommentService commentService;
+  @GetMapping("/all")
+  public String getPaginatedPosts(
+      @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+      @RequestParam(value = "pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+      Principal principal,
+      Model model) {
 
-	@Autowired
-	AuthorMapper authorMapper;
+    // Use pageHelper : https://www.796t.com/article.php?id=200769
+    Pageable pageRequest =
+        PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
+    Page<Post> postsPage = postRepository.findAll(pageRequest);
+    List<Post> posts = postsPage.toList();
+    log.info(">>> posts length = {}", posts.toArray().length);
+    PageInfo<Post> pageInfo = null;
+    // 為了程式的嚴謹性，判斷非空：
+    if (pageNum <= 0) {
+      pageNum = 0;
+    }
+    log.info("當前頁是：" + pageNum + "顯示條數是：" + pageSize);
+    // 1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
+    PageHelper.startPage(pageNum, pageSize);
+    // 2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
+    try {
+      // Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
+      List<Post> postList = postMapper.getAllPosts(); // service查詢所有的資料的介面
+      log.info(">>> 分頁資料：" + postList.get(0).toString());
+      // 3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list型別是Page<E>
+      pageInfo = new PageInfo<Post>(postList, pageSize);
+      // 4.使用model/map/modelandview等帶回前端
+      model.addAttribute("pageInfo", pageInfo);
+    } finally {
+      PageHelper.clearPage(); // 清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
+    }
 
-	@GetMapping("/all")
-	public String getPaginatedPosts(
-			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-			@RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
-			Principal principal,
-			Model model) {
+    log.info(">>> all posts count = " + posts.size());
+    model.addAttribute("posts", posts);
+    // get current user login via spring security
+    model.addAttribute("user", principal.getName());
+    Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
+    model.addAttribute("user", principal.getName());
 
-		// Use pageHelper : https://www.796t.com/article.php?id=200769
-		Pageable pageRequest = PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
-		Page<Post> postsPage = postRepository.findAll(pageRequest);
-		List<Post> posts = postsPage.toList();
-		log.info(">>> posts length = {}", posts.toArray().length);
-		PageInfo<Post> pageInfo = null;
-		//為了程式的嚴謹性，判斷非空：
-		if (pageNum <= 0) {
-			pageNum = 0;
-		}
-		log.info("當前頁是：" + pageNum + "顯示條數是：" + pageSize);
-		//1.引入分頁外掛,pageNum是第幾頁，pageSize是每頁顯示多少條,預設查詢總數count
-		PageHelper.startPage(pageNum, pageSize);
-		//2.緊跟的查詢就是一個分頁查詢-必須緊跟.後面的其他查詢不會被分頁，除非再次呼叫PageHelper.startPage
-		try {
-			//Page<Post> postList = postRepository.findAll(pageRequest);//service查詢所有的資料的介面
-			List<Post> postList = postMapper.getAllPosts();//service查詢所有的資料的介面
-			log.info(">>> 分頁資料：" + postList.get(0).toString());
-			//3.使用PageInfo包裝查詢後的結果,5是連續顯示的條數,結果list型別是Page<E>
-			pageInfo = new PageInfo<Post>(postList, pageSize);
-			//4.使用model/map/modelandview等帶回前端
-			model.addAttribute("pageInfo",pageInfo);
-		}finally {
-			PageHelper.clearPage(); //清理 ThreadLocal 儲存的分頁引數,保證執行緒安全
-		}
+    return "post/posts";
+  }
 
-		log.info(">>> all posts count = " + posts.size());
-		model.addAttribute("posts", posts);
-		// get current user login via spring security
-		model.addAttribute("user", principal.getName());
-		Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
-		model.addAttribute("user", principal.getName());
+  @GetMapping("/{id}")
+  public String getPostById(@PathVariable long id, Model model, Principal principal) {
 
-		return "post/posts";
-	}
+    Optional<Post> postOptional = postRepository.findById(id);
+    if (postOptional.isPresent()) {
+      model.addAttribute("post", postOptional.get());
+      model.addAttribute("comment", new CreateComment());
+      // load comment
+      List<Comment> commentList = commentService.getCommentsByPostId(id);
+      // only add to model when comment size > 0
+      if (commentList.size() > 0) {
+        model.addAttribute("comments", commentList);
+      }
+    } else {
+      model.addAttribute("error", "no-post");
+    }
+    model.addAttribute("user", principal.getName());
+    return "post/post";
+  }
 
-	@GetMapping("/{id}")
-	public String getPostById(@PathVariable long id, Model model, Principal principal) {
+  @GetMapping("/create")
+  public String createPostForm(Model model, Principal principal) {
 
-		Optional<Post> postOptional = postRepository.findById(id);
-		if (postOptional.isPresent()) {
-			model.addAttribute("post", postOptional.get());
-			model.addAttribute("comment", new CreateComment());
-			// load comment
-			List<Comment> commentList = commentService.getCommentsByPostId(id);
-			// only add to model when comment size > 0
-			if (commentList.size() > 0){
-				model.addAttribute("comments", commentList);
-			}
-		} else {
-			model.addAttribute("error", "no-post");
-		}
-		model.addAttribute("user", principal.getName());
-		return "post/post";
-	}
+    model.addAttribute("CreatePost", new CreatePost());
+    model.addAttribute("user", principal.getName());
+    return "post/create_post";
+  }
 
-	@GetMapping("/create")
-	public String createPostForm(Model model, Principal principal){
+  @RequestMapping(value = "/create", method = RequestMethod.POST)
+  public String createPost(CreatePost request, Model model, Principal principal) {
 
-		model.addAttribute("CreatePost", new CreatePost());
-		model.addAttribute("user", principal.getName());
-		return "post/create_post";
-	}
+    log.info(">>> create post start ...");
+    Post post = new Post();
+    Author author = new Author();
+    String authorName = principal.getName();
+    List<Author> authors = authorService.getAllAuthors();
 
-	@RequestMapping(value="/create", method= RequestMethod.POST)
-	public String createPost(CreatePost request, Model model, Principal principal){
+    // TODO : do below with ids instead
+    List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
+    Boolean authorExisted = names.contains(authorName);
 
-		log.info(">>> create post start ...");
-		Post post = new Post();
-		Author author = new Author();
-		String authorName = principal.getName();
-		List<Author> authors = authorService.getAllAuthors();
+    if (!authorExisted) {
+      author.setCreateTime(new Date());
+      author.setUpdateTime(new Date());
+      author.setName(authorName);
+      authorMapper.insertAuthor(author);
+      Integer id = authorService.getByName(authorName).getId();
+      author.setId(id);
+    } else {
+      Integer id = authorService.getByName(authorName).getId();
+      author.setId(id);
+    }
+    BeanUtils.copyProperties(request, post);
+    post.setId(postService.getTotalPost() + 1);
+    post.setDateTime(LocalDateTime.now());
+    post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
+    post.setAuthorId(author.getId());
 
-		// TODO : do below with ids instead
-		List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
-		Boolean authorExisted = names.contains(authorName);
+    post.setFontSize(request.getFontSize());
+    post.setFontStyle(request.getFontStyle());
+    post.setFontColor(request.getFontColor());
 
-		if (!authorExisted){
-			author.setCreateTime(new Date());
-			author.setUpdateTime(new Date());
-			author.setName(authorName);
-			authorMapper.insertAuthor(author);
-			Integer id = authorService.getByName(authorName).getId();
-			author.setId(id);
-		}else{
-			Integer id = authorService.getByName(authorName).getId();
-			author.setId(id);
-		}
-		BeanUtils.copyProperties(request, post);
-		post.setId(postService.getTotalPost() + 1);
-		post.setDateTime(LocalDateTime.now());
-		post.setSynopsis(PostUtil.getSynopsis(request.getContent()));
-		post.setAuthorId(author.getId());
+    post.setDateTime(LocalDateTime.now());
+    log.info(">>> request = " + request + " post = " + post + " author = " + author);
+    log.info(">>>> create post end ...");
+    postService.savePost(post);
+    model.addAttribute("user", principal.getName());
+    return "post/success";
+  }
 
-		post.setFontSize(request.getFontSize());
-		post.setFontStyle(request.getFontStyle());
-		post.setFontColor(request.getFontColor());
+  @GetMapping("/mypost")
+  public String getMyPost(
+      @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
+      @RequestParam(value = "pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+      Principal principal,
+      Model model) {
 
-		post.setDateTime(LocalDateTime.now());
-		log.info(">>> request = " + request + " post = " + post + " author = " + author);
-		log.info(">>>> create post end ...");
-		postService.savePost(post);
-		model.addAttribute("user", principal.getName());
-		return "post/success";
-	}
+    Author author = authorService.getByName(principal.getName());
+    // if there is current user has no any post
+    if (author == null) {
+      model.addAttribute("user", principal.getName());
+      log.info("use null_my_post");
+      return "post/null_my_post";
+    }
 
-	@GetMapping("/mypost")
-	public String getMyPost(
-			@RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-			@RequestParam(value="pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
-			Principal principal,
-			Model model) {
+    // filter posts with authorId
+    List<Post> posts = postService.getPostsById(author.getId());
+    model.addAttribute("posts", posts);
+    // get current user login via spring security
+    model.addAttribute("user", principal.getName());
+    model.addAttribute("user", principal.getName());
+    return "post/my_post";
+  }
 
-		Author author = authorService.getByName(principal.getName());
-		// if there is current user has no any post
-		if (author == null){
-			model.addAttribute("user", principal.getName());
-			log.info("use null_my_post");
-			return "post/null_my_post";
-		}
+  @GetMapping("/pre_search")
+  public String preSearchPost(Model model, Principal principal) {
 
-		// filter posts with authorId
-		List<Post> posts = postService.getPostsById(author.getId());
-		model.addAttribute("posts", posts);
-		// get current user login via spring security
-		model.addAttribute("user", principal.getName());
-		model.addAttribute("user", principal.getName());
-		return "post/my_post";
-	}
+    model.addAttribute("SearchRequest", new SearchRequest());
+    model.addAttribute("user", principal.getName());
+    return "post/post_presearch";
+  }
 
-	@GetMapping("/pre_search")
-	public String preSearchPost(Model model, Principal principal){
+  @PostMapping("/search")
+  public String searchPost(Model model, Principal principal, SearchRequest request) {
 
-		model.addAttribute("SearchRequest", new SearchRequest());
-		model.addAttribute("user", principal.getName());
-		return "post/post_presearch";
-	}
-
-	@PostMapping("/search")
-	public String searchPost(Model model, Principal principal, SearchRequest request){
-
-		List<Post> posts = postService.getPostByKeyword(request);
-		model.addAttribute("user", principal.getName());
-		model.addAttribute("posts", posts);
-		return "post/post_search_result";
-	}
-
+    List<Post> posts = postService.getPostByKeyword(request);
+    model.addAttribute("user", principal.getName());
+    model.addAttribute("posts", posts);
+    return "post/post_search_result";
+  }
 }

@@ -7,16 +7,15 @@ import java.util.List;
 
 public interface PostService {
 
-    List<Post> getPostsById(Integer id);
+  List<Post> getPostsById(Integer id);
 
-    List<Post> getAllPost();
+  List<Post> getAllPost();
 
-    List<Post> getPostByKeyword(SearchRequest request);
+  List<Post> getPostByKeyword(SearchRequest request);
 
-    int getTotalPost();
+  int getTotalPost();
 
-    void savePost(Post post);
+  void savePost(Post post);
 
-    void updatePost(Post post);
-
+  void updatePost(Post post);
 }

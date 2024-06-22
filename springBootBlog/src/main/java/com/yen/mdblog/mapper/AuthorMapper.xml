@@ -28,7 +28,7 @@
     <!-- public void insertAuthor(Author author); -->
     <insert id="insertAuthor">
         INSERT INTO authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)
-        values(#{id}, #{email},  #{name}, #{url}, #{createTime}, #{updateTime})
+        values(#{id}, #{email}, #{name}, #{url}, #{createTime}, #{updateTime})
     </insert>
 
     <!-- public void updateAuthor(Author author); -->

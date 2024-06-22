@@ -1,13 +1,13 @@
-//package com.yen.mdblog.mapper;
+// package com.yen.mdblog.mapper;
 //
-//import com.yen.mdblog.entity.Po.Post;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
-//import java.util.List;
+// import com.yen.mdblog.entity.Po.Post;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.context.SpringBootTest;
+// import java.util.List;
 //
-//@SpringBootTest
-//public class TestPostMapper {
+// @SpringBootTest
+// public class TestPostMapper {
 //
 //    @Autowired
 //    PostMapper postMapper;
@@ -37,4 +37,4 @@
 //        postMapper.updatePost(newPost);
 //    }
 //
-//}
+// }

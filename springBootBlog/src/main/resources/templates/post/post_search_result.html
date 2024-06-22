@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!--    <meta charset="UTF-8">-->
-    <meta charset="UTF-8" name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
+    <!--    <meta charset="UTF-8">-->
+    <meta charset="UTF-8" content=”width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5,
+          name=”viewport” user-scalable=yes”/>
     <title>Post Search Result</title>
 </head>
 <!--
@@ -17,19 +18,21 @@ https://tedliou.com/css-horizontal-center-vertical-middle/
       .section-block {
       width: 50%;
       height: 200px;
-   </style>
+
+</style>
 <body>
 <div th:insert="header"></div>
 <div class="container">
-    <div th:each="post : ${posts}" class="card">
+    <div class="card" th:each="post : ${posts}">
         <div class="card-body">
-            <h5 style="color:#0404B4;" class="card-title" th:utext="${post.title}">Post title</h5>
+            <h5 class="card-title" style="color:#0404B4;" th:utext="${post.title}">Post title</h5>
             <!-- <p class="card-text" th:text="${post.author} + '...'">author</p> -->
             <h6 class="card-subtitle mb-2"
-                th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</h6>
+                th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">
+                LocalDateTime</h6>
             <p class="card-text" th:text="${post.synopsis} + '...'">Post synopsis</p>
             <h6 class="card-text" th:utext="${post.authorId}">Author</h6>
-            <a href="#" th:href="'/posts/' + ${post.id}" th:text="${'Read more'}" class="card-link">Read more</a>
+            <a class="card-link" href="#" th:href="'/posts/' + ${post.id}" th:text="${'Read more'}">Read more</a>
         </div>
     </div>
 </div>

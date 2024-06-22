@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-	<meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
-	<title th:if="${error}"> Error | Yen </title>
-	<title th:unless="${error}" th:text="${post.title + ' | Yen'}"> | Yen </title>
-	<!-- Add the following style block -->
-	<style>
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes"
+          name="viewport"/>
+    <title th:if="${error}"> Error | Yen </title>
+    <title th:text="${post.title + ' | Yen'}" th:unless="${error}"> | Yen </title>
+    <!-- Add the following style block -->
+    <style>
          body {
          font-family: 'Arial', sans-serif;
          background-color: #f8f9fa;
@@ -57,41 +58,46 @@
          padding: 8px;
          margin-right: 5px;
          }
-      </style>
+
+    </style>
 </head>
 <body>
 <!-- Rest of your HTML content -->
 <div th:insert="header"></div>
 <div class="d-flex justify-content-center" style="margin: 10px;">
-	<div th:if="${error}" class="alert alert-danger" role="alert">
-		Sorry, the post you requested doesn't exist!
-	</div>
-	<article th:unless="${error}">
-		<h1 th:utext="${post.title}">Title</h1>
-		<p class="card-subtitle mb-2"
-		   th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">LocalDateTime</p>
-		<p th:utext="${post.content}" th:style="'font-size: ' + ${post.fontSize} + '; color: ' + ${post.fontColor} + '; font-family: ' + ${post.fontStyle}">Content</p>
-	</article>
+    <div class="alert alert-danger" role="alert" th:if="${error}">
+        Sorry, the post you requested doesn't exist!
+    </div>
+    <article th:unless="${error}">
+        <h1 th:utext="${post.title}">Title</h1>
+        <p class="card-subtitle mb-2"
+           th:text="${#temporals.monthName(post.dateTime) + ' ' + #temporals.day(post.dateTime) + ', ' + #temporals.year(post.dateTime)}">
+            LocalDateTime</p>
+        <p th:style="'font-size: ' + ${post.fontSize} + '; color: ' + ${post.fontColor} + '; font-family: ' + ${post.fontStyle}"
+           th:utext="${post.content}">
+            Content</p>
+    </article>
 </div>
 <!-- create comment -->
 <body>
 <!--<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post" align="left">-->
-<form action="#" th:action="@{/comment/create}"  th:object="${comment}" method="post" align="left">
-	<p>Content: <textarea name="commentContent" rows="3" cols="50" th:field="*{commentContent}">your content</textarea></p>
-	<input type="text" name="postId" th:value="${post.id}">
-	<p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+<form action="#" align="left" method="post" th:action="@{/comment/create}" th:object="${comment}">
+    <p>Content: <textarea cols="50" name="commentContent" rows="3" th:field="*{commentContent}">your content</textarea>
+    </p>
+    <input name="postId" th:value="${post.id}" type="text">
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
 </form>
 </body>
 <!-- view comment -->
 <h3>Comment</h3>
-<div th:if="${not #lists.isEmpty(comments)}" th:each="comment : ${comments}" class="card">
-	<div class="card-body">
-		<!-- <p th:text="'id: ' + ${greeting.id}" />-->
-		<p class="card-text" th:text="'ID: ' + ${comment.id}">Id</p>
-		<p class="card-text" th:text="'Author: ' + ${comment.userName}">commentor name</p>
-		<p class="card-text" th:text="'Content: ' + ${comment.commentContent}">content</p>
-		<p class="card-text" th:text="'Time: ' + ${comment.createTime}">comment time</p>
-	</div>
+<div class="card" th:each="comment : ${comments}" th:if="${not #lists.isEmpty(comments)}">
+    <div class="card-body">
+        <!-- <p th:text="'id: ' + ${greeting.id}" />-->
+        <p class="card-text" th:text="'ID: ' + ${comment.id}">Id</p>
+        <p class="card-text" th:text="'Author: ' + ${comment.userName}">commentor name</p>
+        <p class="card-text" th:text="'Content: ' + ${comment.commentContent}">content</p>
+        <p class="card-text" th:text="'Time: ' + ${comment.createTime}">comment time</p>
+    </div>
 </div>
 </body>
 </html>

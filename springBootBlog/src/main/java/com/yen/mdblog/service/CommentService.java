@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface CommentService {
 
-    List<Comment> getCommentsByPostId(Long postId);
+  List<Comment> getCommentsByPostId(Long postId);
 
-    Boolean insertComment(String userName, Long postId, String commentContent);
+  Boolean insertComment(String userName, Long postId, String commentContent);
 }

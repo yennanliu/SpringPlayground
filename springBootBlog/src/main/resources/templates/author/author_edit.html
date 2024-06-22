@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
-    <meta name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
+    <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+    <meta content=”width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5, name=”viewport”
+          user-scalable=yes”/>
     <title>This is the title of the Spring Boot POC!</title>
 </head>
 <body>
@@ -10,22 +11,22 @@
 <h1 align="center">Edit Author</h1>
 <hr/>
 <div class="d-flex justify-content-center" style="margin: 10px;">
-    <div th:if="${error}" class="alert alert-danger" role="alert">
+    <div class="alert alert-danger" role="alert" th:if="${error}">
         Sorry, the author you requested doesn't exist!
     </div>
 </div>
-<form th:action="@{/author/edit/update}" method="post"  enctype="multipart/form-data" th:object="${author}">
-    <input type="hidden" name="id" th:value="*{id}" />
+<form enctype="multipart/form-data" method="post" th:action="@{/author/edit/update}" th:object="${author}">
+    <input name="id" th:value="*{id}" type="hidden"/>
     <div>
         <span>Author ID: [[${id}]]</span>
     </div>
     <div>
         <span>Name:</span>
-        <input type="text" name="name" th:value="*{name}" >
+        <input name="name" th:value="*{name}" type="text">
     </div>
     <div>
         <span>Email:</span>
-        <input type="text" name="email" th:value="*{email}" >
+        <input name="email" th:value="*{email}" type="text">
     </div>
     <div>
         <input type="submit" value="Submit"/>

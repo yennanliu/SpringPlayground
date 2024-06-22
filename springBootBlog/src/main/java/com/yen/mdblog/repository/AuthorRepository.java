@@ -5,7 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface AuthorRepository extends CrudRepository<Author, Integer> {
 
-//    @Modifying
-//    @Query("SELECT * FROM authors")
-//    List<Author> getaAllAuthors();
+  //    @Modifying
+  //    @Query("SELECT * FROM authors")
+  //    List<Author> getaAllAuthors();
 }

@@ -1,17 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!--    <meta charset="UTF-8">-->
-    <meta charset="UTF-8" name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
+    <!--    <meta charset="UTF-8">-->
+    <meta charset="UTF-8" content=”width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5,
+          name=”viewport” user-scalable=yes”/>
     <div th:insert="header"></div>
     <title>Search Post</title>
     <h1 align="center">Search Post</h1>
     <hr/>
 </head>
 <body>
-<form action="#" th:action="@{/posts/search}" th:object="${SearchRequest}" method="post" align="center">
-    <p>Keyword: <input type="text" th:field="*{keyword}" required minlength="1" /></p>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+<form action="#" align="center" method="post" th:action="@{/posts/search}" th:object="${SearchRequest}">
+    <p>Keyword: <input minlength="1" required th:field="*{keyword}" type="text"/></p>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
 </form>
 </body>
 </html>

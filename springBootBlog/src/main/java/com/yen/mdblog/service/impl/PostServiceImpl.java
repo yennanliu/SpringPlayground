@@ -1,57 +1,54 @@
 package com.yen.mdblog.service.impl;
 
 import com.yen.mdblog.entity.Dto.SearchRequest;
+import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.mapper.PostMapper;
 import com.yen.mdblog.service.PostService;
-import com.yen.mdblog.entity.Po.Post;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Slf4j
 public class PostServiceImpl implements PostService {
 
-    @Autowired
-    PostMapper postMapper;
+  @Autowired PostMapper postMapper;
 
-    @Override
-    public List<Post> getPostsById(Integer authorId) {
+  @Override
+  public List<Post> getPostsById(Integer authorId) {
 
-        return postMapper.findById(authorId);
-    }
+    return postMapper.findById(authorId);
+  }
 
-    @Override
-    public List<Post> getAllPost() {
+  @Override
+  public List<Post> getAllPost() {
 
-        return postMapper.getAllPosts();
-    }
+    return postMapper.getAllPosts();
+  }
 
-    @Override
-    public List<Post> getPostByKeyword(SearchRequest request) {
+  @Override
+  public List<Post> getPostByKeyword(SearchRequest request) {
 
-        return  postMapper.findByKeyword(request);
-    }
+    return postMapper.findByKeyword(request);
+  }
 
-    @Override
-    public int getTotalPost() {
+  @Override
+  public int getTotalPost() {
 
-        return postMapper.getPostCount();
-    }
+    return postMapper.getPostCount();
+  }
 
-    @Override
-    public void savePost(Post post) {
+  @Override
+  public void savePost(Post post) {
 
-        postMapper.insertPost(post);
-    }
+    postMapper.insertPost(post);
+  }
 
-    @Override
-    public void updatePost(Post post) {
+  @Override
+  public void updatePost(Post post) {
 
-        //log.info(">>> updatePost : post = {}", post);
-        postMapper.updatePost(post);
-    }
-
+    // log.info(">>> updatePost : post = {}", post);
+    postMapper.updatePost(post);
+  }
 }

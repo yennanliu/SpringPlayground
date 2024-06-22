@@ -1,22 +1,22 @@
 package com.yen.mdblog.mapper;
 
 import com.yen.mdblog.entity.Po.Author;
+import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import java.util.List;
 
 @Mapper
 public interface AuthorMapper {
 
-    public Author getById(@Param("id") Integer id);
+  Author getById(@Param("id") Integer id);
 
-    public Author getByName(@Param("name") String name);
+  Author getByName(@Param("name") String name);
 
-    public List<Author> getAllAuthors();
+  List<Author> getAllAuthors();
 
-    public int getAuthorCount();
+  int getAuthorCount();
 
-    public void insertAuthor(Author author);
+  void insertAuthor(Author author);
 
-    public void updateAuthor(Author author);
+  void updateAuthor(Author author);
 }

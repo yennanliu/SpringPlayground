@@ -11,5 +11,5 @@ import lombok.ToString;
 @ToString
 public class SearchRequest {
 
-    private String keyword;
+  private String keyword;
 }

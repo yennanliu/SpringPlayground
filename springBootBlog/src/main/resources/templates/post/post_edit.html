@@ -1,8 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
-    <meta charset="UTF-8" name=”viewport” content=”width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes” />
+    <!--    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />-->
+    <meta charset="UTF-8" content=”width=device-width, initial-scale=1.0, maximum-scale=2.0, minimum-scale=0.5,
+          name=”viewport” user-scalable=yes”/>
     <title>Edit post</title>
     <style>
          body {
@@ -56,25 +57,26 @@
          padding: 8px;
          margin-right: 5px;
          }
-      </style>
+
+    </style>
 </head>
 <body>
 <div th:insert="header"></div>
 <h1 align="center">Edit Post</h1>
 <hr/>
 <div class="d-flex justify-content-center" style="margin: 10px;">
-    <div th:if="${error}" class="alert alert-danger" role="alert">
+    <div class="alert alert-danger" role="alert" th:if="${error}">
         Sorry, the post you requested doesn't exist!
     </div>
 </div>
-<form th:action="@{/posts/edit/update}" method="post"  enctype="multipart/form-data" th:object="${post}">
-    <input type="hidden" name="id" th:value="*{id}" />
+<form enctype="multipart/form-data" method="post" th:action="@{/posts/edit/update}" th:object="${post}">
+    <input name="id" th:value="*{id}" type="hidden"/>
     <div>
         <span>Post ID: [[${id}]]</span>
     </div>
     <div>
         <span>Title:</span>
-        <input type="text" name="title" th:value="*{title}" >
+        <input name="title" th:value="*{title}" type="text">
     </div>
     <div>
         <label for="font-size">Font Size:</label>
@@ -91,16 +93,16 @@
             <option value="Courier New, monospace">Courier New</option>
         </select>
         <label for="font-color">Font Color:</label>
-        <input type="color" id="font-color" onchange="changeStyle()">
+        <input id="font-color" onchange="changeStyle()" type="color">
     </div>
 
-    <input type="hidden" th:value="20px" name="selectedFontSize" id="selectedFontSize"  th:field="*{FontSize}" />
-    <input type="hidden" th:value="Ariel" name="selectedFontStyle" id="selectedFontStyle" th:field="*{FontStyle}" />
-    <input type="hidden" th:value="red" name="selectedFontColor" id="selectedFontColor" th:field="*{FontColor}" />
+    <input id="selectedFontSize" name="selectedFontSize" th:field="*{FontSize}" th:value="20px" type="hidden"/>
+    <input id="selectedFontStyle" name="selectedFontStyle" th:field="*{FontStyle}" th:value="Ariel" type="hidden"/>
+    <input id="selectedFontColor" name="selectedFontColor" th:field="*{FontColor}" th:value="red" type="hidden"/>
 
     <div>
         <span>Content:</span>
-        <textarea id="content" name="content" rows="6" cols="60" oninput="changeStyle()">[[${post.content}]]</textarea>
+        <textarea cols="60" id="content" name="content" oninput="changeStyle()" rows="6">[[${post.content}]]</textarea>
     </div>
     <div>
         <input type="submit" value="Submit"/>
@@ -126,6 +128,7 @@
 
             //console.log(">>> content = " + JSON.stringify(content));
         }
-    </script>
+
+</script>
 </body>
 </html>

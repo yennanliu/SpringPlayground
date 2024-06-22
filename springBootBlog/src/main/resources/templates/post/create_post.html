@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes" />
+    <meta charset="UTF-8" content="width=device-width, initial-scale=1.0, minimum-scale=0.5, maximum-scale=2.0, user-scalable=yes"
+          name="viewport"/>
     <title>Create A New Post</title>
     <style>
         #content {
@@ -15,14 +16,15 @@
         #font-size, #font-style, #font-color {
             margin-right: 10px;
         }
+
     </style>
 </head>
 <body>
 <div th:insert="header"></div>
 <h1 align="center">Create A New Post</h1>
 <hr/>
-<form action="#" th:action="@{/posts/create}" th:object="${CreatePost}" method="post" align="center">
-    <p>Title: <input type="text" th:field="*{title}" required minlength="1" /></p>
+<form action="#" align="center" method="post" th:action="@{/posts/create}" th:object="${CreatePost}">
+    <p>Title: <input minlength="1" required th:field="*{title}" type="text"/></p>
     <p>Content:</p>
     <div>
         <label for="font-size">Font Size:</label>
@@ -39,15 +41,15 @@
             <option value="Courier New, monospace">Courier New</option>
         </select>
         <label for="font-color">Font Color:</label>
-        <input type="color" id="font-color" onchange="changeStyle()">
+        <input id="font-color" onchange="changeStyle()" type="color">
     </div>
 
-    <input type="hidden" th:value="20px" name="selectedFontSize" id="selectedFontSize"  th:field="*{FontSize}" />
-    <input type="hidden" th:value="Ariel" name="selectedFontStyle" id="selectedFontStyle" th:field="*{FontStyle}" />
-    <input type="hidden" th:value="red" name="selectedFontColor" id="selectedFontColor" th:field="*{FontColor}" />
-    
-    <textarea id="content" name="courseMemo" th:field="*{content}" oninput="changeStyle()">blog content</textarea>
-    <p><input type="submit" value="Submit" /> <input type="reset" value="Reset" /></p>
+    <input id="selectedFontSize" name="selectedFontSize" th:field="*{FontSize}" th:value="20px" type="hidden"/>
+    <input id="selectedFontStyle" name="selectedFontStyle" th:field="*{FontStyle}" th:value="Ariel" type="hidden"/>
+    <input id="selectedFontColor" name="selectedFontColor" th:field="*{FontColor}" th:value="red" type="hidden"/>
+
+    <textarea id="content" name="courseMemo" oninput="changeStyle()" th:field="*{content}">blog content</textarea>
+    <p><input type="submit" value="Submit"/> <input type="reset" value="Reset"/></p>
 </form>
 
 <script>
@@ -69,6 +71,7 @@
 
             //console.log(">>> content = " + JSON.stringify(content));
         }
-    </script>
+
+</script>
 </body>
 </html>
