@@ -5,5 +5,5 @@ import com.yen.springWarehouse.bean.ProductType;
 
 public interface ProductTypeService extends IService<ProductType> {
 
-    void deleteProductType(Integer typeId);
+  void deleteProductType(Integer typeId);
 }

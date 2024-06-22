@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Add New Order</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 </head>
 <body style="padding:8px;">
 <h3 class="title">Add New Order</h3>
-<form th:action="@{/order/create}" method="post" th:object="${Order}">
+<form method="post" th:action="@{/order/create}" th:object="${Order}">
 
     <div>
         <span>merchant:</span>
         <select name="merchantId">
             <option>=Select merchant name=</option>
-            <option th:each="list:${merchantList}" th:value="${list.id}" th:text="${list.name}"></option>
+            <option th:each="list:${merchantList}" th:text="${list.name}" th:value="${list.id}"></option>
         </select>
     </div>
 
@@ -22,13 +22,13 @@
         <span>Product:</span>
         <select name="productId">
             <option>=Select product name=</option>
-            <option th:each="list:${productList}" th:value="${list.id}" th:text="${list.name}"></option>
+            <option th:each="list:${productList}" th:text="${list.name}" th:value="${list.id}"></option>
         </select>
     </div>
 
     <div>
         <span>Amount:</span>
-        <input type="value" value="0" name="amount" >
+        <input name="amount" type="value" value="0">
     </div>
     <div>
         <input type="submit" value=" confirm "/>

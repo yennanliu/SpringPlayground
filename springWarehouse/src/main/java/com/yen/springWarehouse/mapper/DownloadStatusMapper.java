@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface DownloadStatusMapper extends BaseMapper<DownloadStatus> {
 
-    List<DownloadStatus> getAllDownloadStatus();
+  List<DownloadStatus> getAllDownloadStatus();
 }

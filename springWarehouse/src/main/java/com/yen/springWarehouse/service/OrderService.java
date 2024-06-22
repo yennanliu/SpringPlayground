@@ -11,9 +11,9 @@ import java.util.List;
 
 public interface OrderService extends IService<Order> {
 
-    Page<Order> getOrderPage(OrderQueryHelper helper, Integer pageNo, Integer pageSize);
+  Page<Order> getOrderPage(OrderQueryHelper helper, Integer pageNo, Integer pageSize);
 
-    Boolean updateProductWithOrder(Order order);
+  Boolean updateProductWithOrder(Order order);
 
-    List<Order> getAllOrders();
+  List<Order> getAllOrders();
 }

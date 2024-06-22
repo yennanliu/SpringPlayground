@@ -9,15 +9,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report> implements ReportService  {
+public class ReportServiceImpl extends ServiceImpl<ReportMapper, Report> implements ReportService {
 
-    @Autowired
-    ReportMapper reportMapper;
+  @Autowired ReportMapper reportMapper;
 
-    @Override
-    public List<Report> getReport() {
+  @Override
+  public List<Report> getReport() {
 
-        return reportMapper.getReport();
-    }
-
+    return reportMapper.getReport();
+  }
 }

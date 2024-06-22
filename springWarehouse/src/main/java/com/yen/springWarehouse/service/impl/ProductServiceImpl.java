@@ -14,84 +14,81 @@ import com.yen.springWarehouse.service.MerchantService;
 import com.yen.springWarehouse.service.ProductService;
 import com.yen.springWarehouse.service.ProductTypeService;
 import com.yen.springWarehouse.util.ProductQueryHelper;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.BeanUtils;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product> implements ProductService {
+public class ProductServiceImpl extends ServiceImpl<ProductMapper, Product>
+    implements ProductService {
 
-    @Autowired
-    ProductTypeMapper productTypeMapper;
+  @Autowired ProductTypeMapper productTypeMapper;
 
-    @Autowired
-    MerchantService merchantService;
+  @Autowired MerchantService merchantService;
 
-    @Autowired
-    ProductTypeService productTypeService;
+  @Autowired ProductTypeService productTypeService;
 
-    @Override
-    public Page<Product> getProductPage(ProductQueryHelper helper, Integer pageNo, Integer pageSize) {
+  @Override
+  public Page<Product> getProductPage(ProductQueryHelper helper, Integer pageNo, Integer pageSize) {
 
-        Page<Product> page = new Page<>(pageNo,pageSize);
-        QueryWrapper<Product> productWrapper = new QueryWrapper<>();
+    Page<Product> page = new Page<>(pageNo, pageSize);
+    QueryWrapper<Product> productWrapper = new QueryWrapper<>();
 
-        if(StringUtils.isNotEmpty(helper.getQryProductName())){
-            productWrapper.like("product_name", helper.getQryProductName());
-        }
-
-        if(helper.getQryStartPrice()!=null){
-            productWrapper.lambda().ge(Product::getPrice, helper.getQryStartPrice());
-        }
-
-        if(helper.getQryEndPrice()!=null){
-            productWrapper.lambda().le(Product::getPrice, helper.getQryEndPrice());
-        }
-
-        if(StringUtils.isNotEmpty(helper.getQryProductType())){
-            productWrapper.like("type_id", Integer.parseInt(helper.getQryProductType()));
-        }
-
-        List<Product> productList = baseMapper.getProductList(page, productWrapper);
-
-        // TODO : fix below
-//        productList.forEach(_prod ->
-//                //product.setproductType(productTypeMapper.selectById(product.getTypeId()))
-//                _prod.setTypeId(productTypeMapper.selectById(_prod.getTypeId()))
-//        );
-
-        if(CollectionUtils.isNotEmpty(productList)){
-            //List<ProductDto> productDtoList = getProductDtoListFromProductList(productList);
-            page.setRecords(productList);
-            return page;
-        }
-
-        return new Page<>();
-
+    if (StringUtils.isNotEmpty(helper.getQryProductName())) {
+      productWrapper.like("product_name", helper.getQryProductName());
     }
 
-    @Override
-    public List<ProductDto> getProductDtoListFromProductList(List<Product> productList) {
+    if (helper.getQryStartPrice() != null) {
+      productWrapper.lambda().ge(Product::getPrice, helper.getQryStartPrice());
+    }
 
-        List<ProductDto> productDtoList = productList.stream().map(
+    if (helper.getQryEndPrice() != null) {
+      productWrapper.lambda().le(Product::getPrice, helper.getQryEndPrice());
+    }
+
+    if (StringUtils.isNotEmpty(helper.getQryProductType())) {
+      productWrapper.like("type_id", Integer.parseInt(helper.getQryProductType()));
+    }
+
+    List<Product> productList = baseMapper.getProductList(page, productWrapper);
+
+    // TODO : fix below
+    //        productList.forEach(_prod ->
+    //                //product.setproductType(productTypeMapper.selectById(product.getTypeId()))
+    //                _prod.setTypeId(productTypeMapper.selectById(_prod.getTypeId()))
+    //        );
+
+    if (CollectionUtils.isNotEmpty(productList)) {
+      // List<ProductDto> productDtoList = getProductDtoListFromProductList(productList);
+      page.setRecords(productList);
+      return page;
+    }
+
+    return new Page<>();
+  }
+
+  @Override
+  public List<ProductDto> getProductDtoListFromProductList(List<Product> productList) {
+
+    List<ProductDto> productDtoList =
+        productList.stream()
+            .map(
                 product -> {
-                    ProductDto productDto = new ProductDto();
-                    Merchant merchant = merchantService.getById(product.getMerchantId());
-                    ProductType productType = productTypeService.getById(product.getTypeId());
-                    BeanUtils.copyProperties(productDto, product);
-                    productDto.setMerchantName(merchant.getName());
-                    productDto.setProductTypeName(productType.getTypeName());
-                    return productDto;
-                }
-        ).collect(Collectors.toList());
+                  ProductDto productDto = new ProductDto();
+                  Merchant merchant = merchantService.getById(product.getMerchantId());
+                  ProductType productType = productTypeService.getById(product.getTypeId());
+                  BeanUtils.copyProperties(productDto, product);
+                  productDto.setMerchantName(merchant.getName());
+                  productDto.setProductTypeName(productType.getTypeName());
+                  return productDto;
+                })
+            .collect(Collectors.toList());
 
-        return productDtoList;
-    }
-
+    return productDtoList;
+  }
 }

@@ -7,21 +7,14 @@ import java.io.Serializable;
 @Data
 public class MerchantQueryHelper implements Serializable {
 
-    private static final long serialVersionUID = -977205069L;
+  private static final long serialVersionUID = -977205069L;
 
-    /**
-     * query with merchant name
-     */
-    private String qryMerchantName;
+  /** query with merchant name */
+  private String qryMerchantName;
 
-    /**
-     * query with merchant city
-     */
-    private String qryMerchantCity;
+  /** query with merchant city */
+  private String qryMerchantCity;
 
-    /**
-     * query with merchant type
-     */
-    private String qryMerchantType;
-
+  /** query with merchant type */
+  private String qryMerchantType;
 }

@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ReportMapper extends BaseMapper<Report> {
 
-    List<Report> getReport();
+  List<Report> getReport();
 }

@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>Product List</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
 </head>
 <body style="padding:8px;">
 <h3 class="title">Product List</h3>
 
 <form action="" method="POST">
-    <input type="hidden" name="_method" value="DELETE"/>
+    <input name="_method" type="hidden" value="DELETE"/>
 </form>
 
 <table border="0" cellspacing="0">
@@ -23,15 +23,15 @@
         <th>Status</th>
     </tr>
     <tr class="type" th:each="Product : ${page.records}">
-        <td th:text="${Product.id}" nowrap></td>
-        <td id="name" th:text="${Product.name}" nowrap></td>
-        <td id="merchant_id" th:text="${Product.merchantId}" nowrap></td>
-        <td id="id" th:text="${Product.typeId}" nowrap></td>
-        <td id="price" th:text="${Product.price}" nowrap></td>
-        <td id="amount" th:text="${Product.amount}" nowrap></td>
-        <td id="status" th:text="${Product.productStatus}" nowrap></td>
+        <td nowrap th:text="${Product.id}"></td>
+        <td id="name" nowrap th:text="${Product.name}"></td>
+        <td id="merchant_id" nowrap th:text="${Product.merchantId}"></td>
+        <td id="id" nowrap th:text="${Product.typeId}"></td>
+        <td id="price" nowrap th:text="${Product.price}"></td>
+        <td id="amount" nowrap th:text="${Product.amount}"></td>
+        <td id="status" nowrap th:text="${Product.productStatus}"></td>
         <td nowrap>
-            <button class="update" th:href="@{/product/preUpdate/{id}(id=${Product.id})}" >Modify</button>
+            <button class="update" th:href="@{/product/preUpdate/{id}(id=${Product.id})}">Modify</button>
             <button class="delete" th:href="@{/product/remove/{id}(id=${Product.id})}">Delete</button>
         </td>
     </tr>
@@ -55,17 +55,19 @@
     |
     <a href="#" th:if="${page.current > 1}"><span class="linkspan" id="one">首页</span>&nbsp;</a>
     <a href="#" th:if="${page.current > 1}"><span class="linkspan" id="two">上一页</span>&nbsp;</a>
-    <a href="#" th:if="${page.current < ((page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1))}">
+    <a href="#"
+       th:if="${page.current < ((page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1))}">
         <span class="linkspan" id="three">下一页</span>&nbsp;
     </a>
-    <a href="#" th:if="${page.current != ((page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1))}">
+    <a href="#"
+       th:if="${page.current != ((page.total % page.size == 0) ? (page.total / page.size) : (page.total / page.size + 1))}">
         <span class="linkspan" id="four">末页</span>&nbsp;
     </a>
     |
-    到 <input type="text" id="pageNo" size=4 style="text-align:right;"/> 页
-    <button class="linkspan" id="five" style="color:black;text-decoration:none;"> Visit </button>
+    到 <input id="pageNo" size=4 style="text-align:right;" type="text"/> 页
+    <button class="linkspan" id="five" style="color:black;text-decoration:none;"> Visit</button>
 </div>
-<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 <script th:inline="javascript">
 
     $(function() {
@@ -124,6 +126,7 @@
 
         });
     });
+
 
 </script>
 </body>

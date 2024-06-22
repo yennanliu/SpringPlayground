@@ -3,42 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Update product</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 </head>
 <body style="padding:8px;">
 <h3 class="title">Modify product</h3>
-<form th:action="@{/product/update}" method="post"  enctype="multipart/form-data" th:object="${product}">
-    <input type="hidden" name="id" th:value="*{id}" />
+<form enctype="multipart/form-data" method="post" th:action="@{/product/update}" th:object="${product}">
+    <input name="id" th:value="*{id}" type="hidden"/>
     <div>
         <span>Product ID: [[${id}]]</span>
     </div>
     <div>
         <span>Name:</span>
-        <input type="text" name="name" th:value="*{name}" >
+        <input name="name" th:value="*{name}" type="text">
     </div>
     <div>
         <span>Type Id:</span>
-        <input type="text" name="typeId" th:value="*{typeId}" >
+        <input name="typeId" th:value="*{typeId}" type="text">
     </div>
     <div>
         <span>Price:</span>
-        <input type="text" name="price" th:value="*{price}" >
+        <input name="price" th:value="*{price}" type="text">
     </div>
     <div>
         <span>Amount:</span>
-        <input type="text" name="amount" th:value="*{amount}" >
+        <input name="amount" th:value="*{amount}" type="text">
     </div>
     <div>
         <span>Merchant Id:</span>
-        <input type="text" name="merchantId" th:value="*{merchantId}" >
+        <input name="merchantId" th:value="*{merchantId}" type="text">
     </div>
     <div>
         <input type="submit" value="Submit"/>
     </div>
 </form>
 </body>
-<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 <script th:inline="javascript">
 </script>
 </html>

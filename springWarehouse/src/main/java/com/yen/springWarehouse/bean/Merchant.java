@@ -4,11 +4,10 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.io.Serializable;
 
 @Data
 @AllArgsConstructor
@@ -16,20 +15,20 @@ import java.io.Serializable;
 @TableName("merchant")
 public class Merchant implements Serializable {
 
-    private static final long serialVersionUID = 234345356533250815L;
+  private static final long serialVersionUID = 234345356533250815L;
 
-    @TableId(type = IdType.AUTO)
-    private int id;
+  @TableId(type = IdType.AUTO)
+  private int id;
 
-    @TableField("name")
-    private String name;
+  @TableField("name")
+  private String name;
 
-    @TableField("city")
-    private String city;
+  @TableField("city")
+  private String city;
 
-    @TableField("type")
-    private String type;
+  @TableField("type")
+  private String type;
 
-    @TableField("status")
-    private String status;
+  @TableField("status")
+  private String status;
 }

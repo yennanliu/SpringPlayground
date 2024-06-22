@@ -9,21 +9,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductDto {
 
-    private int id;
+  private int id;
 
-    private String name;
+  private String name;
 
-    private int typeId;
+  private int typeId;
 
-    private int price;
+  private int price;
 
-    private int merchantId;
+  private int merchantId;
 
-    private String productStatus;
+  private String productStatus;
 
-    private int amount;
+  private int amount;
 
-    private String productTypeName;
+  private String productTypeName;
 
-    private String merchantName;
+  private String merchantName;
 }

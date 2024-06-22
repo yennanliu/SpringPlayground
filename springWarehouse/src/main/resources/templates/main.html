@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>WareHouse System</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
 </head>
 <body>
 <div id="header">
@@ -13,47 +13,48 @@
 <div>
     <div id="navigator">
         <div class="menuitem">
-            <a th:href="@{/productType/toInput}" target="contentFrame">New Product Type</a>
+            <a target="contentFrame" th:href="@{/productType/toInput}">New Product Type</a>
         </div>
         <div class="menuitem">
-            <a th:href="@{/productType/list}"  target="contentFrame">Product Type List</a>
-        </div>
-        <div class="seperator"></div>
-        <div class="menuitem">
-            <a th:href="@{/product/toInput}"  target="contentFrame">New Product</a>
-        </div>
-        <div class="menuitem">
-            <a th:href="@{/product/list}" target="contentFrame">Product List</a>
+            <a target="contentFrame" th:href="@{/productType/list}">Product Type List</a>
         </div>
         <div class="seperator"></div>
         <div class="menuitem">
-            <a th:href="@{/merchant/toInput}"  target="contentFrame">New Merchant</a>
+            <a target="contentFrame" th:href="@{/product/toInput}">New Product</a>
         </div>
         <div class="menuitem">
-            <a th:href="@{/merchant/list}" target="contentFrame">Merchant List</a>
-        </div>
-        <div class="seperator"></div>
-        <div class="menuitem">
-            <a th:href="@{/order/toInput}"  target="contentFrame">New Order</a>
-        </div>
-        <div class="menuitem">
-            <a th:href="@{/order/list}" target="contentFrame">Order List</a>
+            <a target="contentFrame" th:href="@{/product/list}">Product List</a>
         </div>
         <div class="seperator"></div>
         <div class="menuitem">
-            <a th:href="@{/download/list}" target="contentFrame">Download</a>
+            <a target="contentFrame" th:href="@{/merchant/toInput}">New Merchant</a>
+        </div>
+        <div class="menuitem">
+            <a target="contentFrame" th:href="@{/merchant/list}">Merchant List</a>
+        </div>
+        <div class="seperator"></div>
+        <div class="menuitem">
+            <a target="contentFrame" th:href="@{/order/toInput}">New Order</a>
+        </div>
+        <div class="menuitem">
+            <a target="contentFrame" th:href="@{/order/list}">Order List</a>
+        </div>
+        <div class="seperator"></div>
+        <div class="menuitem">
+            <a target="contentFrame" th:href="@{/download/list}">Download</a>
         </div>
     </div>
     <div id="content">
-        <iframe id="contentFrame" width="100%" scrolling="yes" height="480px" frameborder="0" name="contentFrame" allowtransparency="true" th:src="@{/welcome.html}">
+        <iframe allowtransparency="true" frameborder="0" height="480px" id="contentFrame" name="contentFrame" scrolling="yes"
+                th:src="@{/welcome.html}" width="100%">
         </iframe>
     </div>
 </div>
 <div id="footer">
     Warehouse System - V 1.0.0
 </div>
-<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
-<script  th:inline="javascript">
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
+<script th:inline="javascript">
 
     $("#logout").click(function () {
 
@@ -62,6 +63,7 @@
         }
         return false;
     });
+
 
 </script>
 </body>

@@ -9,6 +9,5 @@ import com.yen.springWarehouse.util.ProductQueryHelper;
 
 public interface MerchantService extends IService<Merchant> {
 
-    Page<Merchant> getMerchantPage(MerchantQueryHelper helper, Integer pageNo, Integer pageSize);
-
+  Page<Merchant> getMerchantPage(MerchantQueryHelper helper, Integer pageNo, Integer pageSize);
 }

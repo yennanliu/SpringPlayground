@@ -1,24 +1,25 @@
-//package com.yen.springWarehouse.util;
+// package com.yen.springWarehouse.util;
 //
-//import com.yen.springWarehouse.controller.DownloadController;
-//import org.junit.jupiter.api.Test;
+// import com.yen.springWarehouse.controller.DownloadController;
+// import org.junit.jupiter.api.Test;
 //
-//import java.io.File;
-//import java.net.URI;
-//import java.net.URISyntaxException;
-//import java.net.URL;
-//import java.util.HashMap;
-//import java.util.Map;
+// import java.io.File;
+// import java.net.URI;
+// import java.net.URISyntaxException;
+// import java.net.URL;
+// import java.util.HashMap;
+// import java.util.Map;
 //
-//import static org.junit.jupiter.api.Assertions.*;
+// import static org.junit.jupiter.api.Assertions.*;
 //
-//class FileUtilTest {
+// class FileUtilTest {
 //
 //    @Test
 //    public void testWriteJsonFile() throws URISyntaxException {
 //
 //        String userDirectory = new File("").getAbsolutePath();
-//        System.out.println(">>> current path = " + userDirectory); // >>> crrent path = /Users/yennanliu/SpringPlayground/springWarehouse
+//        System.out.println(">>> current path = " + userDirectory); // >>> crrent path =
+// /Users/yennanliu/SpringPlayground/springWarehouse
 //        String prefix = userDirectory + "/src/main/resources/report";
 //
 //        FileUtil fileUtil = new FileUtil();
@@ -43,4 +44,4 @@
 //
 //    }
 //
-//}
+// }

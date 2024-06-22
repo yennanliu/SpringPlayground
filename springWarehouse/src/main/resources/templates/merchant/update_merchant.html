@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>modify merchant</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 </head>
 <body style="padding:8px;">
 <h3 class="title">modify merchant</h3>
-<form th:action="@{/merchant/update}" method="post" th:object="${merchant}">
-    <input type="hidden" name="_method" value="PUT"/>
-    <input type="hidden" name="id" th:value="*{id}">
+<form method="post" th:action="@{/merchant/update}" th:object="${merchant}">
+    <input name="_method" type="hidden" value="PUT"/>
+    <input name="id" th:value="*{id}" type="hidden">
     <div>
         <span>Merchant name:</span>
-        <input type="text" name="name" th:value="*{name}" placeholder="Merchant name">
+        <input name="name" placeholder="Merchant name" th:value="*{name}" type="text">
     </div>
     <div>
         <span>Merchant city:</span>
-        <input type="text" name="city" th:value="*{city}" placeholder="Merchant city">
+        <input name="city" placeholder="Merchant city" th:value="*{city}" type="text">
     </div>
     <div>
         <input type="submit" value=" 确定 "/>

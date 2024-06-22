@@ -11,9 +11,8 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 public class WarehouseApplication {
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        SpringApplication.run(WarehouseApplication.class, args);
-    }
-
+    SpringApplication.run(WarehouseApplication.class, args);
+  }
 }

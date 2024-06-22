@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>modify order</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 </head>
 <body style="padding:8px;">
 <h3 class="title">modify order</h3>
-<form th:action="@{/order/update}" method="post" th:object="${order}">
-    <input type="hidden" name="_method" value="PUT"/>
-    <input type="hidden" name="id" th:value="*{id}">
+<form method="post" th:action="@{/order/update}" th:object="${order}">
+    <input name="_method" type="hidden" value="PUT"/>
+    <input name="id" th:value="*{id}" type="hidden">
     <div>
         <span>Order merchantId:</span>
-        <input type="text" name="merchantId" th:value="*{merchantId}" placeholder="merchantId">
+        <input name="merchantId" placeholder="merchantId" th:value="*{merchantId}" type="text">
     </div>
     <!--     <div>
             <span>Order city:</span>

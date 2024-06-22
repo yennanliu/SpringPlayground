@@ -1,28 +1,25 @@
 package com.yen.springWarehouse.enums;
 
 public enum OrderStatus {
+  Completed(10000, "completed"),
 
-    Completed(10000, "completed"),
+  Pending(10001, "pending"),
 
-    Pending(10001, "pending"),
+  Cancelled(10002, "cancelled");
 
-    Cancelled(10002, "cancelled");
+  private final int code;
+  private final String msg;
 
+  OrderStatus(int code, String msg) {
+    this.code = code;
+    this.msg = msg;
+  }
 
-    private int code;
-    private String msg;
+  public int getCode() {
+    return this.code;
+  }
 
-    OrderStatus(int code, String msg){
-        this.code = code;
-        this.msg = msg;
-    }
-
-    public int getCode(){
-        return this.code;
-    }
-
-    public String getMsg(){
-        return this.msg;
-    }
-
+  public String getMsg() {
+    return this.msg;
+  }
 }

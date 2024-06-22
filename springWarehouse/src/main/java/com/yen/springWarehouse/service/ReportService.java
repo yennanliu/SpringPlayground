@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface ReportService extends IService<Report> {
 
-    List<Report> getReport();
+  List<Report> getReport();
 }

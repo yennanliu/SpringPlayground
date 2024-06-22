@@ -1,16 +1,16 @@
-//package com.yen.springWarehouse;
+// package com.yen.springWarehouse;
 //
-//import com.yen.springWarehouse.bean.ProductType;
-//import com.yen.springWarehouse.mapper.ProductTypeMapper;
-//import com.yen.springWarehouse.service.ProductTypeService;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.context.SpringBootTest;
+// import com.yen.springWarehouse.bean.ProductType;
+// import com.yen.springWarehouse.mapper.ProductTypeMapper;
+// import com.yen.springWarehouse.service.ProductTypeService;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.boot.test.context.SpringBootTest;
 //
-//import java.util.List;
+// import java.util.List;
 //
-//@SpringBootTest
-//class WarehouseApplicationTests {
+// @SpringBootTest
+// class WarehouseApplicationTests {
 //
 ////	@Test
 ////	void contextLoads() {
@@ -35,4 +35,4 @@
 //        System.out.println(">>> pt_list_1 = " + pt_list_1);
 //    }
 //
-//}
+// }

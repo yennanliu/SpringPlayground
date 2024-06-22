@@ -10,9 +10,8 @@ import java.util.List;
 
 public interface ProductService extends IService<Product> {
 
-    /** Pagination */
-    Page<Product> getProductPage(ProductQueryHelper helper, Integer pageNo, Integer pageSize);
+  /** Pagination */
+  Page<Product> getProductPage(ProductQueryHelper helper, Integer pageNo, Integer pageSize);
 
-    List<ProductDto> getProductDtoListFromProductList(List<Product> productList);
-
+  List<ProductDto> getProductDtoListFromProductList(List<Product> productList);
 }

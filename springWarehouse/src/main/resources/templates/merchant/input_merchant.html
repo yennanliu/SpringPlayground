@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Add New Merchant</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 </head>
 <body style="padding:8px;">
 
 <h3 class="title">Add New Merchant</h3>
 
 <h4 class="sub-title">Add single</h4>
-<form th:action="@{/merchant/create}" method="post" th:object="${Merchant}">
+<form method="post" th:action="@{/merchant/create}" th:object="${Merchant}">
     <div>
         <span>Merchant Name:</span>
-        <input type="text" name="name" placeholder="Merchant Name">
+        <input name="name" placeholder="Merchant Name" type="text">
     </div>
     <div>
         <span>Merchant city:</span>
-        <input type="text" name="city" placeholder="Merchant city">
+        <input name="city" placeholder="Merchant city" type="text">
     </div>
     <div>
         <input type="submit" value=" confirm "/>
@@ -26,15 +26,16 @@
 </form>
 
 <h4 class="sub-title">Add multiple</h4>
-<form method="post" th:action="@{/merchant/create_batch}" enctype="multipart/form-data">
+<form enctype="multipart/form-data" method="post" th:action="@{/merchant/create_batch}">
     <div class="form-group mt-3">
         <label for="file">Select a CSV file</label>
         <p></p>
-        <a th:href="@{https://github.com/yennanliu/SpringPlayground/blob/warehouse-dev-001-batch-import/springWarehouse/data/merchant_sample.csv}">CSV example</a>
+        <a th:href="@{https://github.com/yennanliu/SpringPlayground/blob/warehouse-dev-001-batch-import/springWarehouse/data/merchant_sample.csv}">CSV
+            example</a>
         <p></p>
-        <input type="file" name="file" class="form-control-file" id="file" accept=".csv">
+        <input accept=".csv" class="form-control-file" id="file" name="file" type="file">
     </div>
-    <button type="submit" class="btn btn-primary">Import</button>
+    <button class="btn btn-primary" type="submit">Import</button>
 </form>
 
 </body>

@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>New product Type</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
 </head>
 <!-- <body style="padding:8px;">
     <h3 class="title">New product Type</h3>
@@ -14,18 +12,18 @@
          width="300"
          height="250"
          style="float:right" th:src="@{/pics/default.jpg}" /><br/> -->
-<form th:action="@{/product/create}" method="post"  enctype="multipart/form-data" th:object="${product}">
-<!--    <div>-->
-<!--        <span>product Id:</span>-->
-<!--        <input type="text" name="id" >-->
-<!--    </div>-->
+<form enctype="multipart/form-data" method="post" th:action="@{/product/create}" th:object="${product}">
+    <!--    <div>-->
+    <!--        <span>product Id:</span>-->
+    <!--        <input type="text" name="id" >-->
+    <!--    </div>-->
     <div>
         <span>product price:</span>
-        <input type="number" name="price" >
+        <input name="price" type="number">
     </div>
     <div>
         <span>product name:</span>
-        <input type="text" name="name" >
+        <input name="name" type="text">
     </div>
     <!--         <div>
                 <span>product pic:</span>
@@ -35,24 +33,24 @@
         <span>typeId:</span>
         <select name="typeId">
             <option>=Select type=</option>
-            <option th:each="list:${productTypeList}" th:value="${list.typeId}" th:text="${list.typeName}"></option>
+            <option th:each="list:${productTypeList}" th:text="${list.typeName}" th:value="${list.typeId}"></option>
         </select>
     </div>
     <div>
         <span>product Status:</span>
-        <input type="radio" name="productStatus" th:value="new" checked>New&nbsp;&nbsp;
-        <input type="radio" name="productStatus" th:value="on_board">on board&nbsp;&nbsp;
-        <input type="radio" name="productStatus" th:value="off_board">off board
+        <input checked name="productStatus" th:value="new" type="radio">New&nbsp;&nbsp;
+        <input name="productStatus" th:value="on_board" type="radio">on board&nbsp;&nbsp;
+        <input name="productStatus" th:value="off_board" type="radio">off board
     </div>
     <div>
         <span>product amount:</span>
-        <input type="text" name="amount" >
+        <input name="amount" type="text">
     </div>
     <div>
         <span>merchant:</span>
         <select name="merchantId">
             <option>=Select merchant name=</option>
-            <option th:each="list:${merchantList}" th:value="${list.id}" th:text="${list.name}"></option>
+            <option th:each="list:${merchantList}" th:text="${list.name}" th:value="${list.id}"></option>
         </select>
     </div>
     <div>
@@ -60,7 +58,7 @@
     </div>
 </form>
 </body>
-<script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+<script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 <!-- <script th:inline="javascript">
     $(function() {
         $("#producttextbookpic").change(function (e) {

@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Report {
 
-    String dataTime;
-    String merchantName;
-    String productName;
-    Integer count;
+  String dataTime;
+  String merchantName;
+  String productName;
+  Integer count;
 }

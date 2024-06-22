@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>modify product type</title>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}" />
-    <script type="text/javascript" th:src="@{/js/jquery-3.1.1.min.js}"></script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css"/>
+    <script th:src="@{/js/jquery-3.1.1.min.js}" type="text/javascript"></script>
 </head>
 <body style="padding:8px;">
 <h3 class="title">modify product type</h3>
-<form th:action="@{/productType/update}" method="post" th:object="${productType}">
-    <input type="hidden" name="_method" value="PUT"/>
-    <input type="hidden" name="typeId" th:value="*{typeId}">
+<form method="post" th:action="@{/productType/update}" th:object="${productType}">
+    <input name="_method" type="hidden" value="PUT"/>
+    <input name="typeId" th:value="*{typeId}" type="hidden">
     <div>
         <span>Product type name:</span>
-        <input type="text" name="typeName" th:value="*{typeName}" placeholder="Product type name">
+        <input name="typeName" placeholder="Product type name" th:value="*{typeName}" type="text">
     </div>
     <div>
         <input type="submit" value=" 确定 "/>

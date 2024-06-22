@@ -12,25 +12,22 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 // NOTE below !!!
-// -> we don't implement every abstract method in  ProductTypeService, but we extend ServiceImpl first
+// -> we don't implement every abstract method in  ProductTypeService, but we extend ServiceImpl
+// first
 // then implement rest of the abstract methods
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProductTypeServiceImpl extends ServiceImpl<ProductTypeMapper, ProductType> implements ProductTypeService {
+public class ProductTypeServiceImpl extends ServiceImpl<ProductTypeMapper, ProductType>
+    implements ProductTypeService {
 
-    @Autowired
-    ProductMapper productMapper;
+  @Autowired ProductMapper productMapper;
 
-    @Override
-    public void deleteProductType(Integer typeId) {
+  @Override
+  public void deleteProductType(Integer typeId) {
 
-        // delete product
-        productMapper.delete(
-                new LambdaQueryWrapper<Product>()
-                        .eq(Product::getTypeId, typeId)
-        );
-        // delete product type
-        baseMapper.deleteById(typeId);
-    }
-
+    // delete product
+    productMapper.delete(new LambdaQueryWrapper<Product>().eq(Product::getTypeId, typeId));
+    // delete product type
+    baseMapper.deleteById(typeId);
+  }
 }
