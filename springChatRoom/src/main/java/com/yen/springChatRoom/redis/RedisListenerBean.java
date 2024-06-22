@@ -10,12 +10,10 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.stereotype.Component;
 
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import org.springframework.stereotype.Component;
 
-
-/** Class for Redis channel conn */
+/**
+ * Class for Redis channel conn
+ */
 @Component
 public class RedisListenerBean {
 
@@ -31,13 +29,14 @@ public class RedisListenerBean {
     @Value("${redis.channel.userStatus}")
     private String userStatus;
 
-    /** Redis channel bean
-     *
-     *   1. listen Redis channel via binding (for example : container.addMessageListener)
-     *   2. can do further biz logic in method
+    /**
+     * Redis channel bean
+     * <p>
+     * 1. listen Redis channel via binding (for example : container.addMessageListener)
+     * 2. can do further biz logic in method
      */
     @Bean
-    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter){
+    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory, MessageListenerAdapter listenerAdapter) {
 
         RedisMessageListenerContainer container = new RedisMessageListenerContainer();
         container.setConnectionFactory(connectionFactory);

@@ -1,7 +1,7 @@
 package com.yen.springChatRoom.listener;
 
-import com.yen.springChatRoom.controller.ChatController;
 import com.yen.springChatRoom.bean.ChatMessage;
+import com.yen.springChatRoom.controller.ChatController;
 import com.yen.springChatRoom.util.JsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -65,7 +65,7 @@ public class WebSocketEventListener {
 
         String username = (String) headerAccessor.getSessionAttributes().get("username");
 
-        if(username != null) {
+        if (username != null) {
             LOGGER.info("User Disconnected : " + username);
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);

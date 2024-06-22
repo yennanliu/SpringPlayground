@@ -5,12 +5,6 @@ public class ChatMessage {
     private String content;
     private String sender;
 
-    public enum MessageType {
-        CHAT,
-        JOIN,
-        LEAVE
-    }
-
     public MessageType getType() {
         return type;
     }
@@ -42,6 +36,12 @@ public class ChatMessage {
                 ", content='" + content + '\'' +
                 ", sender='" + sender + '\'' +
                 '}';
+    }
+
+    public enum MessageType {
+        CHAT,
+        JOIN,
+        LEAVE
     }
 
 }

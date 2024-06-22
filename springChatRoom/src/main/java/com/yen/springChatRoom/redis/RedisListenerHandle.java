@@ -12,10 +12,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.stereotype.Component;
 
-/** Class for Redis channel msg handling */
+/**
+ * Class for Redis channel msg handling
+ */
 
 @Component
-public class RedisListenerHandle extends MessageListenerAdapter{
+public class RedisListenerHandle extends MessageListenerAdapter {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisListenerHandle.class);
 
@@ -60,7 +62,7 @@ public class RedisListenerHandle extends MessageListenerAdapter{
             if (chatMessage != null) {
                 chatService.alertUserStatus(chatMessage);
             }
-        }else {
+        } else {
             LOGGER.warn("No further operation with this topic!");
         }
     }

@@ -1,7 +1,7 @@
 package com.yen.springChatRoom.service;
 
-import com.yen.springChatRoom.controller.ChatController;
 import com.yen.springChatRoom.bean.ChatMessage;
+import com.yen.springChatRoom.controller.ChatController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class ChatService {
     @Autowired
     private SimpMessageSendingOperations simpMessageSendingOperations;
 
-    public void sendMsg(@Payload ChatMessage chatMessage){
+    public void sendMsg(@Payload ChatMessage chatMessage) {
 
         LOGGER.info("Send msg by simpMessageSendingOperations:" + chatMessage.toString());
         simpMessageSendingOperations.convertAndSend("/topic/public", chatMessage);

@@ -1,19 +1,17 @@
 package com.yen.springChatRoom.bean;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class OnlineUser {
 
-    public OnlineUser(){
+    private List<String> users;
+
+    public OnlineUser() {
     }
 
-    public OnlineUser(List<String> users){
+    public OnlineUser(List<String> users) {
         this.users = users;
     }
-
-    private List<String> users;
 
     public List<String> getUsers() {
         return users;
