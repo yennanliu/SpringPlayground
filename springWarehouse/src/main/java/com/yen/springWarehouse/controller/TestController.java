@@ -1,5 +1,6 @@
 package com.yen.springWarehouse.controller;
 
+import com.yen.springWarehouse.bean.Product;
 import com.yen.springWarehouse.service.TestService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,18 @@ public class TestController {
     @ResponseBody
     public String getValueAndLock() throws Exception {
 
+        /** test getValue V1 */
         //System.out.println(testService.getValue("some param"));
-        System.out.println(testService.getValue("sleep"));
+        //System.out.println(testService.getValue("sleep"));
+
+        /** test getValue V2 */
+        //System.out.println(testService.getValue("sleep", 1));
+
+        /** test getValue V3 */
+        Product product = new Product();
+        product.setId(77);
+        System.out.println(testService.getValue(product));
+
         return "getValueAndLock done";
     }
 
