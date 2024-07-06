@@ -22,7 +22,8 @@ public class TestController {
     @ResponseBody
     public String getValueAndLock() throws Exception {
 
-        System.out.println(testService.getValue("some param"));
+        //System.out.println(testService.getValue("some param"));
+        System.out.println(testService.getValue("sleep"));
         return "getValueAndLock done";
     }
 
