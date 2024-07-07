@@ -33,7 +33,10 @@ public class TestController {
         /** test getValue V3 */
         Product product = new Product();
         product.setId(77);
-        System.out.println(testService.getValue(product));
+        //System.out.println(testService.getValue(product));
+
+        /** test getValue with multi-thread */
+        System.out.println(testService.getValueWithMultiThread("sleep"));
 
         return "getValueAndLock done";
     }
