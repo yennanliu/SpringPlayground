@@ -9,12 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Map;
-
 @Controller
-@RequestMapping("/test")
+@RequestMapping("/test_lock")
 @Slf4j
-public class TestController {
+public class TestLockController {
 
     @Autowired
     TestService testService;
