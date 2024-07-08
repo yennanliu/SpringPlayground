@@ -18,11 +18,48 @@ public class AsyncTestService {
     private ThreadPoolTaskExecutor taskExecutor;
 
     public void executeAsyncTask(Runnable task){
-        taskExecutor.execute(task);
+
+        /** V1 */
+//        System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+//        taskExecutor.execute(task);
+
+        /** V2 */
+        /**
+         * (gpt)
+         * 
+         * Ensure that your print statements (Thread.currentThread().getName() and
+         * Thread.currentThread().getId()) are placed within the
+         * execution context of tasks submitted to ThreadPoolTaskExecutor.
+         * This will accurately reflect the thread names from the
+         * thread pool configuration (custom-thread-x-1, etc.)
+         * rather than the container-managed thread names (http-nio-7777-exec-1).
+         * This adjustment should align your logging with the threads managed
+         * by your custom thread pool in Spring boot.
+         *
+         */
+         taskExecutor.execute(() -> {
+            System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+            task.run();
+        });
     }
 
     public Future<String> submitAsyncTask(Callable<String> task){
-        return taskExecutor.submit(task);
+
+        /** V1 */
+//        System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+//        return taskExecutor.submit(task);
+
+
+        /** V2 */
+        return taskExecutor.submit(() -> {
+            System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+            return task.call();
+        });
+
+    }
+
+    public void printThreadInfo(){
+        System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
     }
 
 }

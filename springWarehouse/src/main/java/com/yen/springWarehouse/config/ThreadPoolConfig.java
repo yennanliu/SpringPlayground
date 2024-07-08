@@ -20,6 +20,7 @@ public class ThreadPoolConfig {
     @Bean(name="customThreadPool")
     public ThreadPoolTaskExecutor threadPoolExecutor(){
 
+        System.out.println(">>>> ThreadPoolConfig init");
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
 
         executor.setCorePoolSize(CORE_POOL_SIZE);

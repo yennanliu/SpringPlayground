@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
 public class TestAsyncController {
 
     @Autowired
-    AsyncTestService asyncTestService;
+    private AsyncTestService asyncTestService;
 
     @GetMapping("/run_task")
     @ResponseBody
