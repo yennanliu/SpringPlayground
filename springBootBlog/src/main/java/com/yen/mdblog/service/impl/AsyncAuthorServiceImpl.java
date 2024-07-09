@@ -29,11 +29,14 @@ public class AsyncAuthorServiceImpl implements AuthorService {
     @Override
     public Author getById(Integer id) throws ExecutionException, InterruptedException {
 
-        Future<?> author = threadPoolTaskExecutor.submit(() -> {
-            authorMapper.getById(id);
+        Future<Author> futureAuthor = threadPoolTaskExecutor.submit(() -> {
+
+            System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+
+            return authorMapper.getById(id);  // Assuming authorMapper.getById(id) returns Author
         });
-        //return authorMapper.getById(id);
-        return (Author) author.get();
+
+        return futureAuthor.get();  // This will block until the result is available
     }
 
     @Override
@@ -42,14 +45,19 @@ public class AsyncAuthorServiceImpl implements AuthorService {
         return authorMapper.getByName(name);
     }
 
+
     @Override
     public List<Author> getAllAuthors() throws ExecutionException, InterruptedException {
 
-        Future<?> allAuthors = threadPoolTaskExecutor.submit(() -> {
-            authorMapper.getAllAuthors();
-        });
+        Future<List<Author>> allAuthors = threadPoolTaskExecutor.submit(() -> {
 
-        return (List<Author>) allAuthors.get();
+                    System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+
+                    return  authorMapper.getAllAuthors();
+                }
+        );
+
+        return allAuthors.get();
     }
 
     @Override
