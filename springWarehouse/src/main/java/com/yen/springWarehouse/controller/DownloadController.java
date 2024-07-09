@@ -127,4 +127,5 @@ public class DownloadController {
 
     return ResponseEntity.ok().headers(headers).body(resource);
   }
+
 }

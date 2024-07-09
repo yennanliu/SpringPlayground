@@ -26,7 +26,7 @@ public class AsyncTestService {
         /** V2 */
         /**
          * (gpt)
-         * 
+         *
          * Ensure that your print statements (Thread.currentThread().getName() and
          * Thread.currentThread().getId()) are placed within the
          * execution context of tasks submitted to ThreadPoolTaskExecutor.
