@@ -22,12 +22,13 @@ public class TestService {
     //@MyRLock(name = "MyRLock-1", lockType = Reentrant, waitTime = Long.MAX_VALUE, leaseTime = 1000L, keys = {}, lockTimeoutStrategy = NO_OPERATION, customLockTimeoutStrategy = "", releaseTimeoutStrategy = FAIL_FAST, customReleaseTimeoutStrategy = "")
     //@MyRLock(keys = {"#userId"})
     //@MyRLock()
-    @MyRLock(waitTime = Long.MAX_VALUE)
+    @MyRLock(name = "myRlock", waitTime = Long.MAX_VALUE, lockType = Reentrant)
     public String getValue(String param) throws Exception {
         System.out.println("param = " + param);
-        if ("sleep".equals(param)) {//线程休眠或者断点阻塞，达到一直占用锁的测试效果
-            System.out.println("(getValue) sleep 5 sec ...");
-            Thread.sleep(1000 * 5); // 5 sec
+        if ("sleep".equals(param)) { //线程休眠或者断点阻塞，达到一直占用锁的测试效果
+            System.out.println("--> Thread name : " + Thread.currentThread().getName() + ", id = " + Thread.currentThread().getId());
+            System.out.println("(getValue) sleep 50 sec ...");
+            Thread.sleep(1000 * 50); // 50 sec
         }
         return "success";
     }

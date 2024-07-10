@@ -179,10 +179,15 @@
 <!--			<artifactId>myRLock</artifactId>-->
 <!--			<version>1.0-SNAPSHOT</version>-->
 <!--		</dependency>-->
+<!--		<dependency>-->
+<!--			<groupId>com.yen</groupId>-->
+<!--			<artifactId>myrlock</artifactId>-->
+<!--			<version>1.0.2-SNAPSHOT</version>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.yen</groupId>
 			<artifactId>myrlock</artifactId>
-			<version>1.0.2-SNAPSHOT</version>
+			<version>1.0.3-TEST</version>
 		</dependency>
 
 	</dependencies>
