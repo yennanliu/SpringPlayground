@@ -23,7 +23,7 @@ public class TestLockController {
 
         /** test getValue V1 */
         //System.out.println(testService.getValue("some param"));
-        System.out.println(testService.getValue("sleep"));
+        //System.out.println(testService.getValue("sleep"));
 
         /** test getValue V2 */
         //System.out.println(testService.getValue("sleep", 1));
@@ -34,7 +34,7 @@ public class TestLockController {
         //System.out.println(testService.getValue(product));
 
         /** test getValue with multi-thread */
-        //System.out.println(testService.getValueWithMultiThread("sleep"));
+        System.out.println(testService.getValueWithMultiThread("sleep"));
 
         return "getValueAndLock done";
     }

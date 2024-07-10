@@ -49,6 +49,8 @@ public class TestService {
         return "success";
     }
 
+    // https://github.com/yennanliu/myRLock/blob/main/myRLock/src/test/java/MyRLock/MyRLockTests.java#L38
+    @MyRLock(name = "myRlock", waitTime = Long.MAX_VALUE, lockType = Reentrant)
     public String getValueWithMultiThread(String param) throws Exception {
 
         int THREAD_COUNT = 10; // Number of threads
@@ -61,7 +63,9 @@ public class TestService {
 
         IntStream.range(0, 30).forEach(i-> executorService.submit(() -> {
             try {
-                String result = this.getValue(param);
+                Thread.sleep(1000 * 50); // 50 sec
+                //String result = this.getValue(param);
+                String result = "xxx";
                 System.err.println("---> Thread :[" + Thread.currentThread().getName() + "] get result =>" + result + " " + new Date().toString());
             } catch (Exception e) {
                 System.out.println("thread execution error");
