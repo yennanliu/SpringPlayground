@@ -3,47 +3,50 @@
     <div class="row pt-5">
       <div class="col-md-1"></div>
       <div class="col-md-10 col-12">
-        <!-- <h6 class="font-weight-bold">Id: {{ department.id }}</h6> -->
-        <h1 class="font-weight-bold">Ticket: {{ ticket.subject }}</h1>
+        <h1 class="font-weight-bold">Ticket: {{ ticket.id }}</h1>
+        <h2 class="font-weight-bold">Subject: {{ ticket.subject }}</h2>
 
-        <h2 class="font-weight-bold mt-3">Detail:</h2>
+        <h2 class="font-weight-bold mt-3">Details:</h2>
 
-        <table class="table">
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Subject</th>
-              <th>User</th>
-              <th>Assgined User</th>
-              <th>Description</th>
-              <th>Status</th>
-              <th>Tag</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- <tr v-for="ticket in ticket" :key="ticket.id"> -->
-            <td>{{ ticket.id }}</td>
-            <td>{{ ticket.subject }}</td>
-            <td>{{ ticket.userId }}</td>
-            <td>{{ ticket.assignedTo }}</td>
-            <td>{{ ticket.description }}</td>
-            <td>{{ ticket.status }}</td>
-            <td>{{ ticket.tag }}</td>
-          </tbody>
-        </table>
+        <div class="ticket-details">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>User</th>
+                <th>Assigned User</th>
+                <th>Status</th>
+                <th>Tag</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>{{ ticket.id }}</td>
+                <td>{{ ticket.userId }}</td>
+                <td>{{ ticket.assignedTo }}</td>
+                <td>{{ ticket.status }}</td>
+                <td>{{ ticket.tag }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 class="font-weight-bold mt-4">Description:</h2>
+        <div class="description-box">
+          <p>{{ ticket.description }}</p>
+        </div>
       </div>
       <div class="col-md-1"></div>
     </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
 import axios from "axios";
 
 export default {
   data() {
     return {
-      //tickets: {},
       id: null,
       token: null,
       ticket: null,
@@ -56,7 +59,9 @@ export default {
         .get(`http://localhost:9998/ticket/${this.$route.params.id}`)
         .then((res) => {
           this.ticket = res.data;
-          console.log(">>> (getTicket) this.ticket = " + JSON.stringify());
+          console.log(
+            ">>> (getTicket) this.ticket = " + JSON.stringify(this.ticket)
+          );
         })
         .catch((err) => console.log(err));
     },
@@ -66,10 +71,37 @@ export default {
   },
 };
 </script>
-  
-  <style>
+
+<style>
 .category {
   font-weight: 400;
+}
+
+.ticket-details {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 15px;
+  background-color: #f9f9f9;
+}
+
+.table {
+  width: 100%;
+}
+
+.table th,
+.table td {
+  text-align: left;
+}
+
+.description-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  margin-top: 15px;
+  background-color: #e9ecef;
+  font-size: 1.2em; /* Increased font size for description */
+  line-height: 1.5; /* Improved line spacing */
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -99,4 +131,3 @@ input[type="number"] {
   border-radius: 0;
 }
 </style>
-  
