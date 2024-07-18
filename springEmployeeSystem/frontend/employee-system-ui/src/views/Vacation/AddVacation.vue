@@ -19,40 +19,23 @@
 
           <div class="form-group">
             <label>Start date</label>
-            <date-picker
-              v-model="startDate"
-              :format="datePickerFormat"
-              required
-            ></date-picker>
+            <date-picker v-model="startDate" :format="datePickerFormat" required></date-picker>
           </div>
           <div class="form-group">
             <label>End date</label>
-            <date-picker
-              v-model="endDate"
-              :format="datePickerFormat"
-              required
-            ></date-picker>
+            <date-picker v-model="endDate" :format="datePickerFormat" required></date-picker>
           </div>
 
-          <!-- <div class="form-group">
+          <div class="form-group">
             <label>Type</label>
-            <input type="text" class="form-control" v-model="type" required />
-          </div> -->
+            <select class="form-control" v-model="type" required>
+              <option v-for="schema in schemas" :key="schema.id" :value="schema.columnName">
+                {{ schema.columnName }}
+              </option>
+            </select>
+          </div>
 
-          <label>Type</label>
-          <select class="form-control" v-model="type" required>
-            <option
-              v-for="schema of schemas"
-              :key="schema.id"
-              :value="schemas.id"
-            >
-              {{ schema.columnName }}
-            </option>
-          </select>
-
-          <button type="button" class="btn btn-primary" @click="addVacation">
-            Submit
-          </button>
+          <button type="button" class="btn btn-primary" @click="addVacation">Submit</button>
         </form>
       </div>
       <div class="col-3"></div>
@@ -62,10 +45,7 @@
 
 <script>
 import DatePicker from "vue2-datepicker";
-// import 'vue2-datepicker/index.css';
-// Add the above imports for date picker
-
-var axios = require("axios");
+import axios from "axios";
 import swal from "sweetalert";
 
 export default {
@@ -79,7 +59,7 @@ export default {
       endDate: null,
       type: null,
       token: null,
-      datePickerFormat: "YYYY-MM-DD", // Set the desired date format
+      datePickerFormat: "YYYY-MM-DD",
       users: [],
       schemas: [],
     };
@@ -95,49 +75,35 @@ export default {
 
       const baseURL = "http://localhost:9998/";
 
-      await axios({
-        method: "post",
-        url: baseURL + "vacation/add",
-        data: JSON.stringify(newVacation),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then(() => {
-          this.$router.push({ name: "Vacation" });
-          swal({
-            text: "Vacation Added and email sent Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      try {
+        await axios.post(baseURL + "vacation/add", newVacation);
+        this.$router.push({ name: "Vacation" });
+        swal({
+          text: "Vacation Added and email sent Successfully!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        console.error("Error adding vacation:", error);
+      }
     },
 
     async getUsers() {
-      // fetch users
-      await axios
-        .get("http://localhost:9998/" + "users/")
-        .then((res) => {
-          this.users = res.data;
-          console.log(
-            ">>> (getUsers) this.users = " + JSON.stringify(this.users)
-          );
-        })
-        .catch((err) => console.log(err));
+      try {
+        const res = await axios.get("http://localhost:9998/users/");
+        this.users = res.data;
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      }
     },
 
     async getSchemas() {
-      // fetch users
-      await axios
-        .get("http://localhost:9998/" + "/schema/active/")
-        .then((res) => {
-          this.schemas = res.data.filter((x) => x.schemaName === "vacation");
-          console.log(
-            ">>> (getSchemas) this.schemas = " + JSON.stringify(this.schemas)
-          );
-        })
-        .catch((err) => console.log(err));
+      try {
+        const res = await axios.get("http://localhost:9998/schema/active/");
+        this.schemas = res.data.filter((x) => x.schemaName === "vacation");
+      } catch (error) {
+        console.error("Error fetching schemas:", error);
+      }
     },
   },
   mounted() {
