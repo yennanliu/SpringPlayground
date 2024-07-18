@@ -9,13 +9,19 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
+        <form @submit.prevent="addCheckin">
           <div class="form-group">
             <label>User Id</label>
-            <input type="text" class="form-control" v-model="userId" required />
+            <input
+              type="text"
+              class="form-control"
+              v-model="userId"
+              required
+              @input="validateUserId"
+            />
           </div>
-          <button type="button" class="btn btn-primary" @click="addCheckin">
-            checkin
+          <button type="submit" class="btn btn-primary" :disabled="!isUserIdValid">
+            Check In
           </button>
         </form>
       </div>
@@ -23,60 +29,75 @@
     </div>
   </div>
 </template>
-    
-    <script>
+
+<script>
 import swal from "sweetalert";
 import axios from "axios";
 
 export default {
   data() {
     return {
-      id: null,
       userId: null,
-      createTime: null,
+      isUserIdValid: false,
     };
   },
-  props: ["baseURL"],
   methods: {
+    validateUserId() {
+      // Check if userId is a valid integer
+      this.isUserIdValid = Number.isInteger(Number(this.userId));
+      if (!this.isUserIdValid) {
+        swal({
+          text: "User ID must be a valid integer.",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      }
+    },
     async addCheckin() {
+      // Proceed only if userId is valid
+      if (!this.isUserIdValid) {
+        return;
+      }
+
       const newCheckin = {
         id: null,
         userId: this.userId,
         createTime: null,
       };
 
-      await axios({
-        method: "post",
-        url: "http://localhost:9998/" + "checkin/add",
-        data: JSON.stringify(newCheckin),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "Home" });
-          swal({
-            text: "User id = " + this.userId + " Checkin OK !",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      try {
+        const res = await axios.post("http://localhost:9998/checkin/add", newCheckin, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        console.log(res);
+        this.$emit("fetchData");
+        this.$router.push({ name: "Home" });
+        swal({
+          text: "User ID = " + this.userId + " Check-in OK!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (err) {
+        // Handle error when user ID does not exist or other errors
+        swal({
+          text: "Error: " + err.response.data.message || "Check-in failed!",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+        console.error(err);
+      }
     },
   },
-
-  mounted() {},
 };
 </script>
-    
-    <style scoped>
+
+<style scoped>
 h4 {
   font-family: "Roboto", sans-serif;
   color: #484848;
   font-weight: 700;
 }
 </style>
-    

@@ -8,7 +8,9 @@
           :to="{ name: 'AddDepartment' }"
           v-show="$route.name == 'AdminDepartment'"
         >
-          <button class="btn">Add a new Department</button>
+          <button class="btn" style="background-color: gray; color: white">
+            Add a new Department
+          </button>
         </router-link>
       </div>
     </div>

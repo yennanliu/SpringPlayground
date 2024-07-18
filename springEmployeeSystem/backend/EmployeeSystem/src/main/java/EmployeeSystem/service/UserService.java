@@ -87,22 +87,17 @@ public class UserService {
     if (!Helper.notNull(user)) {
       throw new AuthenticationFailException("user NOT existed");
     }
-    try {
-      // check if password is correct
-      if (!user.getPassword().equals(hashPassword(signInDto.getPassword()))) {
-        // password NOT match
-        //                log.info("user.getPassword() = " + user.getPassword());
-        //                log.info("hashPassword(signInDto.getPassword()) = " +
-        // hashPassword(signInDto.getPassword()));
-        log.error("password not match");
-        throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD);
-      }
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-      log.error("hashing password failed {}", e.getMessage());
-      throw new CustomException(e.getMessage());
+    // check if password is correct
+    if (!user.getPassword().equals(signInDto.getPassword())) {
+      // password NOT match
+      //                log.info("user.getPassword() = " + user.getPassword());
+      //                log.info("hashPassword(signInDto.getPassword()) = " +
+      // hashPassword(signInDto.getPassword()));
+      log.error("password not match");
+      throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD + " wrong password");
     }
 
+    log.info(">>> (authenticationService.getToken) user = {}", user);
     AuthenticationToken token = authenticationService.getToken(user);
 
     if (!Helper.notNull(token)) {

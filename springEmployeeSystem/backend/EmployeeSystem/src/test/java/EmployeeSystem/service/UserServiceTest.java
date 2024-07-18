@@ -52,8 +52,8 @@ class UserServiceTest {
 
     User user = new User();
     user.setEmail("test@example.com");
-    // user.setPassword("password");
-    user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99"); // hashed password
+    user.setPassword("password");
+    //user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99"); // hashed password
 
     when(userRepository.findByEmail("test@example.com")).thenReturn(user);
     when(authenticationService.getToken(user)).thenReturn(new AuthenticationToken(user));
@@ -65,7 +65,8 @@ class UserServiceTest {
     SignInResponseDto signInResponseDto = userService.signIn(signInDto);
 
     assertEquals("success", signInResponseDto.getStatus());
-    // assertEquals("bfe0f0b4-388c-40e6-a5e9-f4a4008e3f73", signInResponseDto.getToken());
+    // TODO : fix
+    //assertEquals("0d2c02c9-f29d-4b7e-b733-1d15b53da5d4", signInResponseDto.getToken());
   }
 
   @Test

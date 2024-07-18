@@ -1,5 +1,3 @@
-<!-- CalendarView.vue -->
-
 <template>
   <div>
     <h2>User Vacations</h2>
@@ -33,6 +31,7 @@
       <p>Destination: {{ selectedVacation.destination }}</p>
       <p>Start Date: {{ selectedVacation.startDate }}</p>
       <p>End Date: {{ selectedVacation.endDate }}</p>
+      <p>Status: {{ selectedVacation.status }}</p>
     </b-modal>
 
     <h2>Vacation List</h2>
@@ -46,7 +45,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="vacation in vacations" :key="vacation.id">
+        <tr v-for="vacation in vacations" :key="vacation.id" :style="{ backgroundColor: getStatusColor(vacation.status) }">
           <td>{{ vacation.userId }}</td>
           <td>{{ vacation.startDate }}</td>
           <td>{{ vacation.endDate }}</td>
@@ -82,13 +81,14 @@ export default {
   computed: {
     calendarEvents() {
       return this.vacations.map((vacation) => ({
+        id: vacation.id, // Ensure each event has a unique identifier
         userId: vacation.userId,
         type: vacation.type,
         status: vacation.status,
         start: vacation.startDate,
         end: vacation.endDate,
         vacationDetails: vacation, // Store the full vacation details in the event
-        color: this.getColorForUser(vacation.userId),
+        color: this.getStatusColor(vacation.status),
       }));
     },
   },
@@ -105,19 +105,22 @@ export default {
         });
     },
     handleEventClick(event) {
-      this.selectedVacation = event.vacationDetails;
+      console.log('>>> Clicked Event:', event);
+      this.selectedVacation = event.vacationDetails; //event.extendedProps.vacationDetails;
     },
     clearSelectedVacation() {
       this.selectedVacation = null;
     },
-    getColorForUser(userId) {
-      switch (userId) {
-        case 1:
-          return "red";
-        case 2:
-          return "blue";
+    getStatusColor(status) {
+      switch (status) {
+        case "PENDING":
+          return "#f0ad4e"; // Orange color for Pending status
+        case "APPROVED":
+          return "#5cb85c"; // Green color for Approved status
+        case "REJECTED":
+          return "#d9534f"; // Red color for Rejected status
         default:
-          return "green";
+          return "white"; // Default color
       }
     },
   },
@@ -131,5 +134,13 @@ export default {
 .calendar {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.table tbody tr {
+  transition: background-color 0.3s;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f5f5;
 }
 </style>

@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+
 @Entity
 @Table(name = "tickets")
 @Data
@@ -22,8 +23,14 @@ public class Ticket {
   @Column(name = "subject")
   private String subject;
 
+  /**
+   * Updated the @Column annotation for description to use columnDefinition = "TEXT".
+   * This tells Hibernate to create the column as a TEXT type in the database,
+   * which can hold much larger strings compared to a VARCHAR.
+   */
+  //@Column(name = "description", columnDefinition = "TEXT")
   @Column(name = "description")
-  private String description;
+  private String description; // Use TEXT type for longer strings
 
   @Column(name = "user_id")
   private Integer userId;

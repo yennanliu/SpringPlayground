@@ -76,6 +76,8 @@ docker-compose up
     - Video
         - Fake SMTP turtorial (mailtrap)
             - https://youtu.be/kpKUMmAmcj0?si=nerpvQP-35bLdoeK&t=777
+- Email testing system
+    - https://mailtrap.io/
 
 
 ## TODO:
