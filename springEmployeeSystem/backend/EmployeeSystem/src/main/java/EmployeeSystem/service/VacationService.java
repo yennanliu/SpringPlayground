@@ -56,7 +56,7 @@ public class VacationService {
     log.info("send vacation email start ... " + vacation);
     mailService.sendMail(
         new NotificationEmail(
-            "Vacation created",
+            "Vacation created - " + vacation.getUserId() + " - " + vacation.getType(),
             adminEmail,
             "Hi, "
                 + vacation.getUserId()
@@ -65,7 +65,7 @@ public class VacationService {
                 + "\n"
                 + "Start date = "
                 + vacation.getStartDate()
-                + " End date = "
+                + ", End date = "
                 + vacation.getEndDate()
                 + "\n"
                 + "We will review and back to you ASAP !!"));
