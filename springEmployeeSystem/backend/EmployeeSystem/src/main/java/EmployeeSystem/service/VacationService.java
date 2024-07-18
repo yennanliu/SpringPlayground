@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -45,6 +46,7 @@ public class VacationService {
         .collect(Collectors.toList());
   }
 
+  @Async
   public void addVacation(VacationDto vacationDto) {
 
     Vacation vacation = new Vacation();
