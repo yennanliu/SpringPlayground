@@ -94,7 +94,7 @@ public class UserService {
       //                log.info("hashPassword(signInDto.getPassword()) = " +
       // hashPassword(signInDto.getPassword()));
       log.error("password not match");
-      throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD);
+      throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD + " wrong password");
     }
 
     log.info(">>> (authenticationService.getToken) user = {}", user);
