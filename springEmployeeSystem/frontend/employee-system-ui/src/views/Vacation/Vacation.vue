@@ -1,5 +1,3 @@
-<!-- CalendarView.vue -->
-
 <template>
   <div>
     <h2>User Vacations</h2>
@@ -46,7 +44,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="vacation in vacations" :key="vacation.id">
+        <tr v-for="vacation in vacations" :key="vacation.id" :style="{ backgroundColor: getStatusColor(vacation.status) }">
           <td>{{ vacation.userId }}</td>
           <td>{{ vacation.startDate }}</td>
           <td>{{ vacation.endDate }}</td>
@@ -88,7 +86,7 @@ export default {
         start: vacation.startDate,
         end: vacation.endDate,
         vacationDetails: vacation, // Store the full vacation details in the event
-        color: this.getColorForUser(vacation.userId),
+        color: "red", //this.getColorForUser(vacation.userId),
       }));
     },
   },
@@ -110,14 +108,16 @@ export default {
     clearSelectedVacation() {
       this.selectedVacation = null;
     },
-    getColorForUser(userId) {
-      switch (userId) {
-        case 1:
-          return "red";
-        case 2:
-          return "blue";
+    getStatusColor(status) {
+      switch (status) {
+        case "PENDING":
+          return "#f0ad4e"; // Orange color for Pending status
+        case "APPROVED":
+          return "#5cb85c"; // Green color for Approved status
+        case "REJECTED":
+          return "#d9534f"; // Red color for Rejected status
         default:
-          return "green";
+          return "white"; // Default color
       }
     },
   },
@@ -131,5 +131,13 @@ export default {
 .calendar {
   max-width: 800px;
   margin: 0 auto;
+}
+
+.table tbody tr {
+  transition: background-color 0.3s;
+}
+
+.table tbody tr:hover {
+  background-color: #f5f5f5;
 }
 </style>
