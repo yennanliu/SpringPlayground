@@ -31,6 +31,7 @@
       <p>Destination: {{ selectedVacation.destination }}</p>
       <p>Start Date: {{ selectedVacation.startDate }}</p>
       <p>End Date: {{ selectedVacation.endDate }}</p>
+      <p>Status: {{ selectedVacation.status }}</p>
     </b-modal>
 
     <h2>Vacation List</h2>
@@ -80,13 +81,14 @@ export default {
   computed: {
     calendarEvents() {
       return this.vacations.map((vacation) => ({
+        id: vacation.id, // Ensure each event has a unique identifier
         userId: vacation.userId,
         type: vacation.type,
         status: vacation.status,
         start: vacation.startDate,
         end: vacation.endDate,
         vacationDetails: vacation, // Store the full vacation details in the event
-        color: "red", //this.getColorForUser(vacation.userId),
+        color: this.getStatusColor(vacation.status),
       }));
     },
   },
@@ -103,7 +105,8 @@ export default {
         });
     },
     handleEventClick(event) {
-      this.selectedVacation = event.vacationDetails;
+      console.log('>>> Clicked Event:', event);
+      this.selectedVacation = event.vacationDetails; //event.extendedProps.vacationDetails;
     },
     clearSelectedVacation() {
       this.selectedVacation = null;
