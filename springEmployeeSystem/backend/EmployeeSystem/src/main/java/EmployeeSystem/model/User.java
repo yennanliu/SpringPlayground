@@ -41,6 +41,11 @@ public class User {
   @Column(name = "manager_id")
   private Integer managerId;
 
+  @Lob
+  @Column(name = "photo")
+  // @Column(name = "photo", columnDefinition = "BLOB") // TODO : fix this
+  private byte[] photo; // Binary data for storing the user photo
+
   public User(String firstName, String lastName, String email, Role role, String password) {
     this.firstName = firstName;
     this.lastName = lastName;
@@ -48,4 +53,15 @@ public class User {
     this.role = role;
     this.password = password;
   }
+
+
+  public User(String firstName, String lastName, String email, Role role, String password, byte[] photo) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.email = email;
+    this.role = role;
+    this.password = password;
+    this.photo = photo;
+  }
+
 }
