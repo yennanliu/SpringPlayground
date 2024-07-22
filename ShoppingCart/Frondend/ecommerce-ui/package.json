@@ -8,8 +8,8 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@stripe/stripe-js": "^2.2.0",
-    "axios": "^1.6.2",
+    "@stripe/stripe-js": "^2.4.0",
+    "axios": "^1.7.2",
     "core-js": "^3.8.3",
     "sweetalert": "^2.1.2",
     "vue": "^2.6.14",
