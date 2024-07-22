@@ -40,8 +40,8 @@ class DepartmentServiceTest {
 
     List<Department> departments = new ArrayList<>();
 
-    User u1 = new User(1, "abby", "mary", "abby@google.com", Role.USER, "pwd", 1, 1);
-    User u2 = new User(2, "stacy", "lin", "stacy@google.com", Role.USER, "pwd", 2, 2);
+    User u1 = new User(1, "abby", "mary", "abby@google.com", Role.USER, "pwd", 1, 1, null);
+    User u2 = new User(2, "stacy", "lin", "stacy@google.com", Role.USER, "pwd", 2, 2, null);
 
     HashSet<User> users = new HashSet<>();
     users.add(u1);
