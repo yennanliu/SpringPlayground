@@ -8,10 +8,13 @@ import com.yen.ShoppingCart.repository.ProductRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ProductService {
 
     @Autowired
@@ -68,5 +71,11 @@ public class ProductService {
         return optionalProduct.get();
     }
 
+    public List<Product> searchProducts(String query) {
+
+        log.info(">>> (searchProducts) query = {}", query);
+        return productRepository.findByNameContainingIgnoreCase("toy");
+        //return null;
+    }
 }
 

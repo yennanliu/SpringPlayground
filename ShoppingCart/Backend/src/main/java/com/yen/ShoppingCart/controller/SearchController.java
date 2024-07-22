@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -34,8 +35,22 @@ public class SearchController {
     public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam("query") String query) {
         log.info(">>>> query = {}", query);
         //return productService.searchProducts(query);
-        List<ProductDto> body = productService.listProducts();
-        return new ResponseEntity<List<ProductDto>>(body, HttpStatus.OK);
+        //List<ProductDto> body = productService.listProducts();
+        List<Product> products = productService.searchProducts(query);
+        return new ResponseEntity<List<ProductDto>>(getProductDtoFromProduct(products), HttpStatus.OK);
+    }
+
+    private List<ProductDto> getProductDtoFromProduct(List<Product> products){
+        List<ProductDto> body = new ArrayList<>();
+        for (Product product : products){
+            ProductDto dto = new ProductDto();
+            dto.setId(product.getId());
+            dto.setName(product.getName());
+            dto.setImageURL(product.getImageURL());
+            dto.setPrice(product.getPrice());
+            dto.setCategoryId(product.getCategory().getId());
+        }
+        return body;
     }
 
 }
