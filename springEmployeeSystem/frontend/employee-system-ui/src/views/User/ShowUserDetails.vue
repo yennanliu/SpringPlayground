@@ -8,10 +8,23 @@
         <h2 class="font-weight-bold">
           Name: {{ user.firstName + " " + user.lastName }}
         </h2>
-        <h6 class="font-weight">ID: {{ user.id }}</h6>
+
+        <h6 class="font-weight">ID: 
+          <router-link :to="`/users/show/${user.id}`">
+            {{ user.id }}
+          </router-link>
+        </h6>
         <h6 class="font-weight">Email: {{ user.email }}</h6>
-        <h6 class="font-weight">Department: {{ user.departmentId }}</h6>
-        <h6 class="font-weight">Manager: {{ user.managerId }}</h6>
+        <h6 class="font-weight">Department: 
+          <router-link :to="`/departments/show/${user.departmentId}`">
+            {{ user.departmentId }}
+          </router-link>
+        </h6>
+        <h6 class="font-weight">Manager: 
+          <router-link :to="`/users/show/${user.managerId}`">
+            {{ user.managerId }}
+          </router-link>
+        </h6>
         <h6 class="font-weight">Role: {{ user.role }}</h6>
 
         <h3 class="font-weight mt-3">Vacations:</h3>
@@ -35,9 +48,7 @@
               <td>{{ vacation.status }}</td>
               <td>{{ vacation.type }}</td>
               <td>
-                <router-link :to="`/vacation`">
-                  View vacation
-                </router-link>
+                <router-link :to="`/vacation`"> View vacation </router-link>
               </td>
             </tr>
           </tbody>
@@ -63,7 +74,11 @@
               <td>{{ subordinate.email }}</td>
               <td>{{ subordinate.role }}</td>
               <td>{{ subordinate.departmentId }}</td>
-              <td>{{ subordinate.managerId }}</td>
+              <td>
+                <router-link :to="`/users/show/${subordinate.managerId}`">
+                  {{ subordinate.managerId }}
+                </router-link>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -74,7 +89,7 @@
         <img
           :src="user.photoUrl || 'https://via.placeholder.com/300'"
           alt="User Photo"
-          style="max-width: 100%; max-height: 300px;"
+          style="max-width: 100%; max-height: 300px"
         />
       </div>
 
@@ -105,7 +120,9 @@ export default {
     async getSubordinates() {
       // Fetch subordinates details
       await axios
-        .get(`http://localhost:9998/users/subordinates/${this.$route.params.id}`)
+        .get(
+          `http://localhost:9998/users/subordinates/${this.$route.params.id}`
+        )
         .then((res) => (this.subordinates = res.data))
         .catch((err) => console.log(err));
     },
