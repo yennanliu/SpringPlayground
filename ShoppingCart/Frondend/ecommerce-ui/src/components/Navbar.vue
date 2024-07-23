@@ -32,7 +32,11 @@
             aria-describedby="basic-addon1"
           />
           <div class="input-group-prepend">
-            <button class="input-group-text" id="search-button-navbar" type="submit">
+            <button
+              class="input-group-text"
+              id="search-button-navbar"
+              type="submit"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -65,12 +69,27 @@
             Browse
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Home' }">Home</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Product' }">Product</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Category' }">Category</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Cart' }">Cart</router-link>
-            <router-link class="dropdown-item" v-if="!token" :to="{ name: 'Signin' }">Wishlist</router-link>
-            <router-link class="dropdown-item" v-else :to="{ name: 'Wishlist' }">Wishlist</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Home' }"
+              >Home</router-link
+            >
+            <router-link class="dropdown-item" :to="{ name: 'Product' }"
+              >Product</router-link
+            >
+            <router-link class="dropdown-item" :to="{ name: 'Category' }"
+              >Category</router-link
+            >
+            <router-link class="dropdown-item" :to="{ name: 'Cart' }"
+              >Cart</router-link
+            >
+            <router-link
+              class="dropdown-item"
+              v-if="!token"
+              :to="{ name: 'Signin' }"
+              >Wishlist</router-link
+            >
+            <router-link class="dropdown-item" v-else :to="{ name: 'Wishlist' }"
+              >Wishlist</router-link
+            >
           </div>
         </li>
 
@@ -87,16 +106,34 @@
             LogIn/SignUp
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Admin' }">Admin</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'User' }">User</router-link>
-            <router-link class="dropdown-item" v-if="!token" :to="{ name: 'Signin' }">Log In</router-link>
-            <router-link class="dropdown-item" v-if="!token" :to="{ name: 'Signup' }">Sign Up</router-link>
-            <a class="dropdown-item" v-if="token" href="" @click="signout">Sign Out</a>
+            <router-link class="dropdown-item" :to="{ name: 'Admin' }"
+              >Admin</router-link
+            >
+            <router-link class="dropdown-item" :to="{ name: 'User' }"
+              >User</router-link
+            >
+            <router-link
+              class="dropdown-item"
+              v-if="!token"
+              :to="{ name: 'Signin' }"
+              >Log In</router-link
+            >
+            <router-link
+              class="dropdown-item"
+              v-if="!token"
+              :to="{ name: 'Signup' }"
+              >Sign Up</router-link
+            >
+            <a class="dropdown-item" v-if="token" href="" @click="signout"
+              >Sign Out</a
+            >
           </div>
         </li>
 
         <li class="nav-item">
-          <router-link class="nav-link text-light" :to="{ name: 'Order' }">Orders</router-link>
+          <router-link class="nav-link text-light" :to="{ name: 'Order' }"
+            >Orders</router-link
+          >
         </li>
 
         <li class="nav-item">
@@ -113,45 +150,57 @@
 </template>
 
 <script>
-import axios from 'axios';
-import swal from 'sweetalert';
+import axios from "axios";
+import swal from "sweetalert";
 
 export default {
-  name: 'Navbar',
-  props: ['cartCount'],
+  name: "Navbar",
+  props: ["cartCount"],
   data() {
     return {
       token: null,
-      searchQuery: ''
+      searchQuery: "",
     };
   },
   methods: {
     signout() {
-      localStorage.removeItem('token');
+      localStorage.removeItem("token");
       this.token = null;
-      this.$emit('resetCartCount');
-      this.$router.push({ name: 'Home' });
+      this.$emit("resetCartCount");
+      this.$router.push({ name: "Home" });
       swal({
-        text: 'Logged you out. Visit Again',
-        icon: 'success',
+        text: "Logged you out. Visit Again",
+        icon: "success",
         closeOnClickOutside: false,
       });
     },
     async searchProduct() {
       try {
-        console.log(">>> (searchProduct) this.searchQuery = " + this.searchQuery)
-        const response = await axios.get("http://localhost:9999" + `/search/api/?query=${this.searchQuery}`);
+        console.log(
+          ">>> (searchProduct) this.searchQuery = " + this.searchQuery
+        );
+        const response = await axios.get(
+          "http://localhost:9999" + `/search/api/?query=${this.searchQuery}`
+        );
         // Handle the search results here
         console.log(">>> response.data = " + JSON.stringify(response.data));
-        this.$emit('searchResults', response.data); // Emitting the results to the parent component
+        this.$emit("searchResults", response.data); // Emitting the results to the parent component
+        // Redirect to the home page with search results
+        this.$router
+          .push({ name: "Home", query: { search: this.searchQuery } })
+          .catch((err) => {
+            if (err.name !== "NavigationDuplicated") {
+              throw err;
+            }
+          });
       } catch (error) {
-        console.error('Error searching for products:', error);
+        console.error("Error searching for products:", error);
       }
-    }
+    },
   },
   mounted() {
-    this.token = localStorage.getItem('token');
-  }
+    this.token = localStorage.getItem("token");
+  },
 };
 </script>
 

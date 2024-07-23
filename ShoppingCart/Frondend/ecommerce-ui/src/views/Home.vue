@@ -44,9 +44,8 @@
         </div>
       </div>
 
-
       <hr>
-      <div id="start-shopping" class="container">
+      <!-- <div id="start-shopping" class="container">
         <div class="row">
           <div class="col-12 text-left">
             <h2 class="pt-3">Search Results</h2>
@@ -58,7 +57,21 @@
             </CategoryBox>
           </div>
         </div>
+      </div> -->
+
+      <div class="container">
+      <div class="row">
+        <div class="col-12 text-left">
+          <h2 class="pt-3">Search Results</h2>
+        </div>
       </div>
+      <div class="row">
+        <div v-for="(product, index) in []" :key="index" class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex">
+          <ProductBox :product="product">
+          </ProductBox>
+        </div>
+      </div>
+    </div>
 
     </div>
   </template>

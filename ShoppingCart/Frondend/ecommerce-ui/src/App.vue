@@ -38,6 +38,7 @@ export default {
       key: 0,
       token: null,
       cartCount: 0,
+      searchResults: []
     };
   },
 
@@ -74,6 +75,11 @@ export default {
     resetCartCount() {
       this.cartCount = 0;
     },
+
+    setSearchResults(results) {
+      this.searchResults = results;
+    }
+
   },
   mounted() {
     /**
