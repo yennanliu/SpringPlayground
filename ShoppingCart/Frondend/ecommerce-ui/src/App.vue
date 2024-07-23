@@ -18,6 +18,7 @@
         :products="products"
         :categories="categories"
         @fetchData="fetchData"
+        :searchResults="searchResults"
       >
       </router-view>
     </div>
@@ -77,6 +78,7 @@ export default {
     },
 
     setSearchResults(results) {
+      console.log(">>> (setSearchResults) results = " + JSON.stringify(results))
       this.searchResults = results;
     }
 

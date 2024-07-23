@@ -59,16 +59,16 @@
         </div>
       </div> -->
 
-      <div class="container">
+      <hr>
+    <div id="search-results" class="container">
       <div class="row">
         <div class="col-12 text-left">
           <h2 class="pt-3">Search Results</h2>
         </div>
       </div>
       <div class="row">
-        <div v-for="(product, index) in []" :key="index" class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex">
-          <ProductBox :product="product">
-          </ProductBox>
+        <div v-for="product in searchResults" :key="product.id" class="col-md-6 col-xl-4 col-12 pt-3 justify-content-around d-flex">
+          <ProductBox :product="product"></ProductBox>
         </div>
       </div>
     </div>
@@ -82,7 +82,7 @@
     export default {
       name: 'Home',
       components : { ProductBox, CategoryBox},
-      props : ["baseURL", "products", "categories"],
+      props : ["baseURL", "products", "categories","searchResults"],
       data(){
         return{
           category_size:0,
