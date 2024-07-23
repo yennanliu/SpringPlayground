@@ -43,6 +43,23 @@
           </div>
         </div>
       </div>
+
+
+      <hr>
+      <div id="start-shopping" class="container">
+        <div class="row">
+          <div class="col-12 text-left">
+            <h2 class="pt-3">Search Results</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div v-for="index in this.category_size" :key="index" class="col-md-6 col-xl-4 col-12 pt-3  justify-content-around d-flex">
+            <CategoryBox :category="categories[index-1]">
+            </CategoryBox>
+          </div>
+        </div>
+      </div>
+
     </div>
   </template>
   
