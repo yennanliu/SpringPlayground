@@ -3,6 +3,7 @@
     <Navbar
       :cartCount="cartCount"
       @resetCartCount="resetCartCount"
+      @searchResults="setSearchResults"
       v-if="!['Signup', 'Signin'].includes($route.name)"
     />
     <div style="min-height: 60vh">
