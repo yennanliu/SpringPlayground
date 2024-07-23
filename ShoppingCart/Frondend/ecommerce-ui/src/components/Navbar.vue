@@ -27,7 +27,7 @@
             size="100"
             type="text"
             class="form-control"
-            placeholder="Search Items"
+            placeholder="Search Product Name"
             aria-label="Search"
             aria-describedby="basic-addon1"
           />
