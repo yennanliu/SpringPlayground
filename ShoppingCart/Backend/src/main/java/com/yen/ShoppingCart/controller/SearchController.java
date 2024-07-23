@@ -21,12 +21,8 @@ public class SearchController {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    CategoryService categoryService;
-
     @GetMapping("/api")
     public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam("query") String query) {
-        log.info(">>>> query = {}", query);
         List<Product> products = productService.searchProducts(query);
         return new ResponseEntity<List<ProductDto>>(getProductDtoFromProduct(products), HttpStatus.OK);
     }

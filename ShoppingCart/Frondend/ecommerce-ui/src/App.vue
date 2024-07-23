@@ -7,7 +7,7 @@
       v-if="!['Signup', 'Signin'].includes($route.name)"
     />
     <div style="min-height: 60vh">
-       <!-- 
+      <!-- 
       https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
 
       delcare global variable via router view
@@ -40,7 +40,7 @@ export default {
       key: 0,
       token: null,
       cartCount: 0,
-      searchResults: []
+      searchResults: [],
     };
   },
 
@@ -79,10 +79,11 @@ export default {
     },
 
     setSearchResults(results) {
-      console.log(">>> (setSearchResults) results = " + JSON.stringify(results))
+      console.log(
+        ">>> (setSearchResults) results = " + JSON.stringify(results)
+      );
       this.searchResults = results;
-    }
-
+    },
   },
   mounted() {
     /**

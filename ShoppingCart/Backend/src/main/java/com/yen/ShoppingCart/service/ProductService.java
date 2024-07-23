@@ -75,8 +75,6 @@ public class ProductService {
 
         log.info(">>> (searchProducts) query = {}", query);
         List<Product> products = productRepository.searchProductsByName(query);
-        System.out.println("---> products = " + products);
-        System.out.println("---> products size = " + products.size());
         return productRepository.searchProductsByName(query);
     }
 }
