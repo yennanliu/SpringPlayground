@@ -104,6 +104,13 @@
 			<artifactId>lombok</artifactId>
 		</dependency>
 
+		<!-- for repository unit test -->
+<!--		<dependency>-->
+<!--			<groupId>com.h2database</groupId>-->
+<!--			<artifactId>h2</artifactId>-->
+<!--			<scope>test</scope>-->
+<!--		</dependency>-->
+
 	</dependencies>
 
 	<build>
