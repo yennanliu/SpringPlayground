@@ -24,18 +24,9 @@ public class SearchController {
     @Autowired
     CategoryService categoryService;
 
-//    @GetMapping("/{keyWord}")
-//    public ResponseEntity<List<ProductDto>> searchProducts(@PathVariable("keyWord") String keyWord) {
-//        log.info(">>>> keyWord = {}", keyWord);
-//        List<ProductDto> body = productService.listProducts();
-//        return new ResponseEntity<List<ProductDto>>(body, HttpStatus.OK);
-//    }
-
     @GetMapping("/api")
     public ResponseEntity<List<ProductDto>> searchProducts(@RequestParam("query") String query) {
         log.info(">>>> query = {}", query);
-        //return productService.searchProducts(query);
-        //List<ProductDto> body = productService.listProducts();
         List<Product> products = productService.searchProducts(query);
         return new ResponseEntity<List<ProductDto>>(getProductDtoFromProduct(products), HttpStatus.OK);
     }
@@ -49,6 +40,7 @@ public class SearchController {
             dto.setImageURL(product.getImageURL());
             dto.setPrice(product.getPrice());
             dto.setCategoryId(product.getCategory().getId());
+            body.add(dto);
         }
         return body;
     }

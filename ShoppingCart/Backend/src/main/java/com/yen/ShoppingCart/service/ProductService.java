@@ -74,12 +74,10 @@ public class ProductService {
     public List<Product> searchProducts(String query) {
 
         log.info(">>> (searchProducts) query = {}", query);
-        //return productRepository.findByNameContainingIgnoreCase("toy");
         List<Product> products = productRepository.searchProductsByName(query);
         System.out.println("---> products = " + products);
         System.out.println("---> products size = " + products.size());
         return productRepository.searchProductsByName(query);
-        //return null;
     }
 }
 

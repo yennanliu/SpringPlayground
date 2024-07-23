@@ -142,7 +142,7 @@ export default {
         console.log(">>> (searchProduct) this.searchQuery = " + this.searchQuery)
         const response = await axios.get("http://localhost:9999" + `/search/api/?query=${this.searchQuery}`);
         // Handle the search results here
-        console.log(response.data);
+        console.log(">>> response.data = " + JSON.stringify(response.data));
         this.$emit('searchResults', response.data); // Emitting the results to the parent component
       } catch (error) {
         console.error('Error searching for products:', error);
