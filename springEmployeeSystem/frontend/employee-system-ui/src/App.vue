@@ -11,12 +11,14 @@
       <router-view :baseURL="baseURL" @fetchData="fetchData"> </router-view>
     </div>
     <!-- <Footer v-if="!['Signup', 'Signin'].includes($route.name)" /> -->
+    <Footer v-if="!['Signup', 'Signin'].includes($route.name)" />
   </div>
 </template>
 
 <script>
 var axios = require("axios");
 import Navbar from "./components/Navbar.vue";
+import Footer from "./components/Footer.vue";
 export default {
   data() {
     return {
@@ -29,7 +31,7 @@ export default {
     };
   },
 
-  components: { Navbar },
+  components: { Footer, Navbar },
   methods: {
     async fetchData() {
       // get users
