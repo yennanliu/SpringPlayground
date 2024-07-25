@@ -9,18 +9,21 @@
           Name: {{ user.firstName + " " + user.lastName }}
         </h2>
 
-        <h6 class="font-weight">ID: 
+        <h6 class="font-weight">
+          ID:
           <router-link :to="`/users/show/${user.id}`">
             {{ user.id }}
           </router-link>
         </h6>
         <h6 class="font-weight">Email: {{ user.email }}</h6>
-        <h6 class="font-weight">Department: 
+        <h6 class="font-weight">
+          Department:
           <router-link :to="`/departments/show/${user.departmentId}`">
             {{ user.departmentId }}
           </router-link>
         </h6>
-        <h6 class="font-weight">Manager: 
+        <h6 class="font-weight">
+          Manager:
           <router-link :to="`/users/show/${user.managerId}`">
             {{ user.managerId }}
           </router-link>
@@ -84,18 +87,13 @@
         </table>
       </div>
 
-      <!-- <div class="col-md-5 col-12 pt-3 pt-md-0 text-center">
-        <img
-          :src="user.photoUrl || 'https://via.placeholder.com/300'"
-          alt="User Photo"
-          style="max-width: 100%; max-height: 300px"
-        />
-      </div> -->
-
       <div class="col-md-5 col-12 pt-3 pt-md-0 text-center">
         <!-- User photo -->
         <img
-          :src="user.photoUrl || require('./default_user_photo.png')"
+          :src="
+            user.photoUrl ||
+            require('./../../../public/images/default_user_photo.png')
+          "
           alt="User Photo"
           style="max-width: 100%; max-height: 300px"
         />
