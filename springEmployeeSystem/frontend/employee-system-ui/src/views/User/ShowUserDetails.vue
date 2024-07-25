@@ -84,10 +84,18 @@
         </table>
       </div>
 
+      <!-- <div class="col-md-5 col-12 pt-3 pt-md-0 text-center">
+        <img
+          :src="user.photoUrl || 'https://via.placeholder.com/300'"
+          alt="User Photo"
+          style="max-width: 100%; max-height: 300px"
+        />
+      </div> -->
+
       <div class="col-md-5 col-12 pt-3 pt-md-0 text-center">
         <!-- User photo -->
         <img
-          :src="user.photoUrl || 'https://via.placeholder.com/300'"
+          :src="user.photoUrl || require('./default_user_photo.png')"
           alt="User Photo"
           style="max-width: 100%; max-height: 300px"
         />
