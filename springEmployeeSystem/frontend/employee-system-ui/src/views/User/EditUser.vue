@@ -11,43 +11,33 @@
       <div class="col-md-6 px-5 px-md-0">
         <form v-if="user">
           <div class="form-group">
-            <label>firstName</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="user.firstName"
-              required
-            />
+            <label>First Name</label>
+            <input type="text" class="form-control" v-model="user.firstName" required />
           </div>
           <div class="form-group">
-            <label>lastName</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="user.lastName"
-              required
-            />
+            <label>Last Name</label>
+            <input type="text" class="form-control" v-model="user.lastName" required />
           </div>
           <div class="form-group">
             <label>Email</label>
-            <input
-              type="text"
-              class="form-control"
-              v-model="user.email"
-              required
-            />
+            <input type="text" class="form-control" v-model="user.email" required />
           </div>
 
-          <label>Department</label>
-          <select class="form-control" v-model="user.departementId" required>
-            <option
-              v-for="department of departments"
-              :key="department.id"
-              :value="department.id"
-            >
-              ID : {{ department.id }} Name : {{ department.name }}
-            </option>
-          </select>
+          <div class="form-group">
+            <label>Department</label>
+            <select class="form-control" v-model="user.departmentId" required>
+              <option v-for="department of departments" :key="department.id" :value="department.id">
+                ID : {{ department.id }} Name : {{ department.name }}
+              </option>
+            </select>
+          </div>
+
+          <!-- File input for user photo -->
+          <div class="form-group">
+            <label>Upload User Photo</label>
+            <input type="file" ref="fileInput" @change="handleFileUpload($event)" accept="image/*" />
+            <!-- <input type="text" class="form-control" v-model="user.firstName" required />-->
+          </div>
 
           <button type="button" class="btn btn-primary" @click="editUser">
             Submit
@@ -60,25 +50,42 @@
 </template>
 
 <script>
-var axios = require("axios");
+import axios from "axios";
 import swal from "sweetalert";
 
 export default {
   data() {
     return {
       user: null,
-      users: [],
       departments: [],
+      photoFile: null, // To store selected photo file
     };
   },
-  props: ["baseURL"],
   methods: {
     async editUser() {
+      // Create form data to send both user data and photo file
+      const formData = new FormData();
+      formData.append("user", JSON.stringify(this.user)); // Convert user object to JSON string
+      this.photoFile = "r34evgergre";
+      if (this.photoFile) {
+        formData.append("photo", this.photoFile); // Append photo file
+      }
+
+      console.log(">>> (editUser) formData = " + JSON.stringify(formData))
+
       axios
-        .post("http://localhost:9998/users/update/", this.user)
+        // .post(`http://localhost:9998/users/update/${this.user.id}`, formData, {
+        //   headers: {
+        //     "Content-Type": "multipart/form-data",
+        //   },
+        // })
+        .post("http://localhost:9998/users/update/", this.user, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          }
+        })
         .then((res) => {
           console.log(res);
-          //sending the event to parent to handle
           this.$emit("fetchData");
           this.$router.push({ name: "AdminUser" });
           swal({
@@ -87,41 +94,44 @@ export default {
             closeOnClickOutside: false,
           });
         })
-        .catch((err) => console.log("err", err));
+        .catch((err) => {
+          console.error("Error updating user:", err);
+        });
     },
 
     async getUser() {
-      //fetch categories
       await axios
-        .get("http://localhost:9998/" + "users/")
+        .get(`http://localhost:9998/users/${this.$route.params.id}`)
         .then((res) => {
-          // use this approach for now
-          this.user = res.data.find((user) => user.id == this.$route.params.id);
+          this.user = res.data;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.error("Error fetching user:", err);
+        });
     },
 
     async getDepartments() {
-      //fetch categories
       await axios
-        .get("http://localhost:9998/" + "dep/")
+        .get("http://localhost:9998/dep/")
         .then((res) => {
-          // use this approach for now
           this.departments = res.data;
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.error("Error fetching departments:", err);
+        });
+    },
+
+    // Method to handle file selection and update v-model
+    handleFileUpload(event) {
+      console.log(">>> handleFileUpload, event = {}", JSON.stringify(event));
+      console.log(">>> handleFileUpload, event.target.files[0] = {}", event.target.files[0]);
+      this.photoFile = event.target.files[0];
     },
   },
+
   mounted() {
     this.getDepartments();
     this.getUser();
-    this.id = this.$route.params.id;
-    console.log("this.id  = " + this.id);
-    console.log("this.users  = " + JSON.stringify(this.users));
-
-    // TODO : fix why can filter product via id
-    //this.product = this.products.find((product) => product.id == this.id);
-    //console.log(">>> this.product  = " + JSON.stringify(this.product));
   },
 };
 </script>

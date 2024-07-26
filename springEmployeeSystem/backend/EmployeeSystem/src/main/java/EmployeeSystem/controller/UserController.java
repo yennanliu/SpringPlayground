@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @RestController
@@ -52,7 +53,9 @@ public class UserController {
   }
 
   @PostMapping("/update")
-  public ResponseEntity<ApiResponse> updateUser(@RequestBody UserCreateDto userCreateDto) {
+  public ResponseEntity<ApiResponse> updateUser(
+      @RequestBody UserCreateDto userCreateDto,
+      @RequestParam(value = "photo", required = false) MultipartFile photo) {
 
     //        Optional<Category> optionalCategory =
     // categoryService.readCategory(productDto.getCategoryId());
@@ -61,6 +64,10 @@ public class UserController {
     // invalid"), HttpStatus.CONFLICT);
     //        }
     //        Category category = optionalCategory.get();
+
+    log.info(">>> photo = {}", photo);
+    log.info(">>> photo size = {}", photo.getSize());
+
     userService.updateUser(userCreateDto);
     return new ResponseEntity<ApiResponse>(
         new ApiResponse(true, "User has been updated"), HttpStatus.OK);

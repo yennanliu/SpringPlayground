@@ -27,4 +27,6 @@ public class UserCreateDto {
   private Integer managerId;
 
   private Integer departementId;
+
+  private byte[] photo;
 }
