@@ -54,4 +54,16 @@ public class BookServiceImpl implements BookService {
         });
     }
 
+    @Override
+    public Mono<Void> delete(Integer id) {
+        System.out.println("delete id = " + id);
+        return null;
+    }
+
+    @Override
+    public Mono<Book> update(Integer id, Book book) {
+        System.out.println("to update id = " + id + ", book = " + book);
+        return null;
+    }
+
 }

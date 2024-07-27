@@ -29,9 +29,14 @@ public class BookController {
         return this.bookService.findById(id);
     }
 
-//    @PutMapping("/{id}")
-//    public Mono<Book> update(@PathVariable("id") Integer id){
-//        return this.bookService.up()
-//    }
+    @PutMapping("/{id}")
+    public Mono<Book> update(@PathVariable("id") Integer id, @RequestBody Book book){
+        return this.bookService.update(id, book);
+    }
+
+    @DeleteMapping("/{id}")
+    public Mono<Void> delete(@PathVariable("id") Integer id){
+        return this.bookService.delete(id);
+    }
 
 }
