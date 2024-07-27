@@ -53,32 +53,38 @@ public class BookServiceImpl implements BookService {
     return Mono.just(book);
   }
 
-    @Override
-    public Mono<Book> findById(Integer id) {
-        //return null;
-        return Mono.create(callBack -> {
-            Book newBook = new Book();
-            newBook.setId(id);
-            newBook.setName("book-" + id);
-            newBook.setAuthor("author-" + id);
+  @Override
+  public Mono<Book> findById(Integer id) {
+    // return null;
+    //        return Mono.create(callBack -> {
+    //            Book newBook = new Book();
+    //            newBook.setId(id);
+    //            newBook.setName("book-" + id);
+    //            newBook.setAuthor("author-" + id);
+    //
+    //            /** NOTE !!!
+    //             *
+    //             *  if success, return result
+    //             *  can also setup "error -> {} ..." for error handling
+    //             */
+    //            callBack.success(newBook);
+    //        });
+    return bookData
+        .filter(book -> book.getId().equals(id))
+        .next()
+        .switchIfEmpty(Mono.empty()); // Returns an empty Mono if no book is found;
+  }
 
-            /** NOTE !!!
-             *
-             *  if success, return result
-             *  can also setup "error -> {} ..." for error handling
-             */
-            callBack.success(newBook);
-        });
-    }
-
-    @Override
-    public Mono<Void> delete(Integer id) {
+  @Override
+  public Mono<Void> delete(Integer id) {
+    // TODO : implement it
     System.out.println("delete id = " + id);
     return null;
   }
 
   @Override
   public Mono<Book> update(Integer id, Book book) {
+    // TODO : implement it
     System.out.println("to update id = " + id + ", book = " + book);
     return null;
   }
