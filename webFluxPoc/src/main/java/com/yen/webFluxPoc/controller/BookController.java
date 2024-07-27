@@ -1,7 +1,7 @@
-package com.yen.webFluxPoc.webFluxPoc.controller;
+package com.yen.webFluxPoc.controller;
 
-import com.yen.webFluxPoc.webFluxPoc.model.Book;
-import com.yen.webFluxPoc.webFluxPoc.service.BookService;
+import com.yen.webFluxPoc.model.Book;
+import com.yen.webFluxPoc.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;

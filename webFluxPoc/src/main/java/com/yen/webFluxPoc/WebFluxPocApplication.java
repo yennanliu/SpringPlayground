@@ -1,4 +1,4 @@
-package com.yen.webFluxPoc.webFluxPoc;
+package com.yen.webFluxPoc;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

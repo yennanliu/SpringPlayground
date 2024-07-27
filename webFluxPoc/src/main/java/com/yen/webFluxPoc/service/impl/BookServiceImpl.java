@@ -1,7 +1,7 @@
-package com.yen.webFluxPoc.webFluxPoc.service.impl;
+package com.yen.webFluxPoc.service.impl;
 
-import com.yen.webFluxPoc.webFluxPoc.model.Book;
-import com.yen.webFluxPoc.webFluxPoc.service.BookService;
+import com.yen.webFluxPoc.model.Book;
+import com.yen.webFluxPoc.service.BookService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;

@@ -1,4 +1,4 @@
-package com.yen.webFluxPoc.webFluxPoc.model;
+package com.yen.webFluxPoc.model;
 
 
 public class Book {

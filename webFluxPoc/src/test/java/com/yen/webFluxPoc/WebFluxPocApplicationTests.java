@@ -1,4 +1,4 @@
-package com.yen.webFluxPoc.webFluxPoc;
+package com.yen.webFluxPoc;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

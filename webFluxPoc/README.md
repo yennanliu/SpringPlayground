@@ -2,6 +2,8 @@
 
 ## End points
 
+- http://localhost:8888/swagger-ui/ (Swagger UI)
+
 - http://localhost:8888/books (GET)
 - http://localhost:8888/books/{id} (GET)
   - http://localhost:8888/books/1
