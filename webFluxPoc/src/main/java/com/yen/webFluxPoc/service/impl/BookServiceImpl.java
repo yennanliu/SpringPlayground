@@ -1,5 +1,6 @@
 package com.yen.webFluxPoc.service.impl;
 
+import com.yen.webFluxPoc.data.BookDataSource;
 import com.yen.webFluxPoc.model.Book;
 import com.yen.webFluxPoc.service.BookService;
 import org.springframework.stereotype.Service;
@@ -11,30 +12,46 @@ import reactor.core.publisher.Mono;
 @Service
 public class BookServiceImpl implements BookService {
 
-    @Override
-    public Flux<Book> findAll() {
-        //return null;
-        return Flux.create(fluxSink -> {
-            for (int i = 0; i < 10; i++){
-                Book newBook = new Book();
-                newBook.setId(i);
-                newBook.setName("book-" + i);
-                newBook.setAuthor("author-" + i);
-                // add to sink (?)
-                fluxSink.next(newBook);
-            }
+  /**
+   * NOTE !!!
+   *
+   * We simulate DB data source via below static instance
+   */
+  private static Flux<Book> bookData = null;
 
-            // call complete method after iteration end
-            fluxSink.complete();
-        });
-    }
+  static {
+    bookData = BookDataSource.bookFlux();
+  }
 
-    @Override
-    public Mono<Book> save(Book book) {
-        //return null;
-        // return instance directly, via just() method
-        return Mono.just(book);
-    }
+  @Override
+  public Flux<Book> findAll() {
+
+    return bookData;
+    // return BookDataSource.bookFlux();
+
+    // return null;
+    //        return Flux.create(fluxSink -> {
+    //            for (int i = 0; i < 10; i++){
+    //                Book newBook = new Book();
+    //                newBook.setId(i);
+    //                newBook.setName("book-" + i);
+    //                newBook.setAuthor("author-" + i);
+    //                // add to sink (?)
+    //                fluxSink.next(newBook);
+    //            }
+    //
+    //            // call complete method after iteration end
+    //            fluxSink.complete();
+    //        });
+  }
+
+  @Override
+  public Mono<Book> save(Book book) {
+    Flux<Book> newFlux = this.createFlux(book);
+    bookData = Flux.concat(bookData, newFlux);
+    System.out.println("book saved, " + book);
+    return Mono.just(book);
+  }
 
     @Override
     public Mono<Book> findById(Integer id) {
@@ -56,14 +73,26 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Mono<Void> delete(Integer id) {
-        System.out.println("delete id = " + id);
-        return null;
-    }
+    System.out.println("delete id = " + id);
+    return null;
+  }
 
-    @Override
-    public Mono<Book> update(Integer id, Book book) {
-        System.out.println("to update id = " + id + ", book = " + book);
-        return null;
-    }
+  @Override
+  public Mono<Book> update(Integer id, Book book) {
+    System.out.println("to update id = " + id + ", book = " + book);
+    return null;
+  }
 
+  // help method create Flux
+  private Flux<Book> createFlux(Book book) {
+    return Flux.create(
+        fluxSink -> {
+          Book newBook = new Book();
+          newBook.setId(book.getId());
+          newBook.setName(book.getName());
+          newBook.setAuthor(book.getAuthor());
+          fluxSink.next(newBook);
+          fluxSink.complete();
+        });
+  }
 }

@@ -13,8 +13,8 @@
 curl -X POST http://localhost:8888/books \
 -H "Content-Type: application/json" \
 -d '{
-    "id": "1",
-    "title": "Spring WebFlux",
+    "id": "100",
+    "name": "Spring WebFlux",
     "author": "John Doe"
 }'
 ```
