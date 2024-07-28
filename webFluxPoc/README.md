@@ -18,7 +18,7 @@ curl -X POST http://localhost:8888/books \
 ```
 
 - http://localhost:8888/test/delay (GET)
-
+- http://localhost:8888/test/delay_zip (GET)
 
 ## Ref
 - https://juejin.cn/post/7129076913951211557
