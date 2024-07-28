@@ -5,7 +5,12 @@ import com.yen.webFluxPoc.model.Book;
 import com.yen.webFluxPoc.service.BookService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.UnicastProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 // https://juejin.cn/post/7129076913951211557
 
@@ -18,6 +23,11 @@ public class BookServiceImpl implements BookService {
    * We simulate DB data source via below static instance
    */
   private static Flux<Book> bookData = null;
+
+  private static List<Book> books = new ArrayList<>();
+  private static final UnicastProcessor<Book> processor = UnicastProcessor.create();
+  private static final FluxSink<Book> sink = processor.sink();
+  //private static final Flux<Book> bookData = processor.publish().autoConnect();
 
   static {
     bookData = BookDataSource.bookFlux();
@@ -86,7 +96,12 @@ public class BookServiceImpl implements BookService {
   public Mono<Book> update(Integer id, Book book) {
     // TODO : implement it
     System.out.println("to update id = " + id + ", book = " + book);
-    return null;
+    Mono<Book> res = bookData.filter(x -> x.getId().equals(id)).next();
+    if (res.equals(null)){
+      System.out.println("id not found");
+      return null;
+    }
+    return res;
   }
 
   // help method create Flux
