@@ -27,9 +27,18 @@ public class Ticket {
    * Updated the @Column annotation for description to use columnDefinition = "TEXT".
    * This tells Hibernate to create the column as a TEXT type in the database,
    * which can hold much larger strings compared to a VARCHAR.
+   *
+   *
+   *  NOTE !!!
+   *    if app failed to start, comment out "@Column(name = "description", columnDefinition = "TEXT")"
+   *    start app, then modify table attr type manually via below cmd :
+   *
+   *    ALTER TABLE tickets MODIFY COLUMN description TEXT;
+   *
+   *  -> then run app again
    */
-  //@Column(name = "description", columnDefinition = "TEXT")
-  @Column(name = "description")
+  //@Column(name = "description")
+  @Column(name = "description", columnDefinition = "TEXT")
   private String description; // Use TEXT type for longer strings
 
   @Column(name = "user_id")
