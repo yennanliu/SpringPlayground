@@ -2,25 +2,19 @@ package com.yen.SpotifyPlayList.service;
 
 import com.yen.SpotifyPlayList.model.dto.AddSongToPlayListDto;
 import com.yen.SpotifyPlayList.model.dto.CreatePlayListDto;
-
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.credentials.AuthorizationCodeCredentials;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
-import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 
 @Service
 @Slf4j
@@ -35,7 +29,7 @@ public class PlayListService {
     private SpotifyApi spotifyApi;
 
 
-    public PlayListService(){
+    public PlayListService() {
 
     }
 
@@ -62,7 +56,7 @@ public class PlayListService {
 
         try {
             // TODO : move below to controller / config
-            this.spotifyApi  = authService.authClientWithAuthCode(
+            this.spotifyApi = authService.authClientWithAuthCode(
                     authService.getSpotifyClient(),
                     createPlayListDto.getAuthCode()
             );
@@ -103,19 +97,10 @@ public class PlayListService {
         return playlist;
     }
 
-    public SnapshotResult addSongToPlayList(AddSongToPlayListDto addSongToPlayListDto){
+    public SnapshotResult addSongToPlayList(AddSongToPlayListDto addSongToPlayListDto) {
 
         SnapshotResult snapshotResult = null;
-
-        //final String accessToken = "BQBZi1FrY15l2dgIzlFw1EiLEIka9wHwG0vWFHCrULeeOZujlk982wwW0-DOxyu9x7BBsgKH6Vtaklut095LxOW3DanaY-CvCwEGXw94V1ayHJum-tU";
-        // playList ID can be received from create playList resp
-        final String playlistId = "7r3ntST7zTXRiTOFhkweIQ";
-        final String[] uris = new String[]{"spotify:track:0Sxq05leQaZXCktX05Kr7b"};
-
-        addSongToPlayListDto.setPlaylistId(playlistId);
-        //addSongToPlayListDto.setSongUris(addSongToPlayListDto.getSongUris());
         log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
-
         try {
 
             // TODO : optimize below
@@ -124,7 +109,7 @@ public class PlayListService {
 //                    addSongToPlayListDto.getAuthCode()
 //            );
 
-            this.spotifyApi =  authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
+            this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
 
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
                     //.addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())

@@ -1,7 +1,6 @@
 package com.yen.SpotifyPlayList.controller;
 
 import com.yen.SpotifyPlayList.model.dto.Response.UserProfileResp;
-import com.yen.SpotifyPlayList.service.AlbumService;
 import com.yen.SpotifyPlayList.service.ProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import se.michaelthelin.spotify.model_objects.specification.Paging;
-import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
 @Slf4j
 @RestController
@@ -23,13 +20,13 @@ public class ProfileController {
     private ProfileService profileService;
 
     @GetMapping("/")
-    public ResponseEntity getCurrentUserId(@PathVariable String authCode){
+    public ResponseEntity getCurrentUserId(@PathVariable String authCode) {
         UserProfileResp profile = null;
-        try{
+        try {
             //userId = profileService.getCurrentUserId(authCode);
             profile = profileService.getUserProfile();
             return ResponseEntity.status(HttpStatus.OK).body(profile);
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("getCurrentUserId error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
