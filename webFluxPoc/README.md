@@ -1,4 +1,5 @@
 # webFluxPoc
+> POC project with spring boot web flux (reactive java)
 
 ## Concept
 
@@ -15,6 +16,13 @@
   - 2. has input param, has output param (多功能函數) : `function.apply`
   - 3. no input param, no output param (普通函數): `runnable`
   - 4. no input param, has output param (`supplier` 生產者): `supplier.get()`
+
+- Reactive Streams
+  - JVM module for handling stream use cases
+  - handle infinite amount of elements
+  - ordering
+  - synchronous process element within modules
+  - no blocking (back pressure 背壓)
 
 ## API
 

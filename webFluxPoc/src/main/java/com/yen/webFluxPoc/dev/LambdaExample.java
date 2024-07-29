@@ -58,16 +58,23 @@ public class LambdaExample {
     Supplier<String> supplier = () -> UUID.randomUUID().toString();
     System.out.println(supplier.get());
 
-    // Example 5 : define custom bi function
+    /**
+     * Example 5 : define custom bi function
+     *
+     */
     BiFunction<String, Integer, Long> biFunc = (a, b) -> 8L;
 
-    // Example 6 : predicate
+    /**
+     *  Example 6 : predicate
+     */
     Predicate<Integer> even = (t) -> t % 2 == 0;
     System.out.println(even.test(3));
     System.out.println(even.test(2));
     System.out.println(even.negate().test(2)); // negate : inverse
 
-    // Example 7 : sequence op
+    /**
+     *  Example 7 : sequence op
+     */
     myMethod(
         () -> "777",
         str -> str.matches("-?\\d+(\\.\\d+)?"),
