@@ -29,7 +29,7 @@ public class PlayListService {
     private SpotifyApi spotifyApi;
 
 
-    public PlayListService(){
+    public PlayListService() {
 
     }
 
@@ -56,7 +56,7 @@ public class PlayListService {
 
         try {
             // TODO : move below to controller / config
-            this.spotifyApi  = authService.authClientWithAuthCode(
+            this.spotifyApi = authService.authClientWithAuthCode(
                     authService.getSpotifyClient(),
                     createPlayListDto.getAuthCode()
             );
@@ -97,7 +97,7 @@ public class PlayListService {
         return playlist;
     }
 
-    public SnapshotResult addSongToPlayList(AddSongToPlayListDto addSongToPlayListDto){
+    public SnapshotResult addSongToPlayList(AddSongToPlayListDto addSongToPlayListDto) {
 
         SnapshotResult snapshotResult = null;
         log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
@@ -109,7 +109,7 @@ public class PlayListService {
 //                    addSongToPlayListDto.getAuthCode()
 //            );
 
-            this.spotifyApi =  authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
+            this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
 
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
                     //.addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())
