@@ -1,6 +1,15 @@
 # webFluxPoc
 
-## End points
+## Concept
+
+- Lambda expression
+  - https://youtu.be/H-ijsS-pfgQ?si=AO-ypUVuF78VLywy&t=194
+  - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/main/java/com/yen/webFluxPoc/dev/LambdaExample.java
+
+  - 1. has input param, no output param (`publisher` 消費者, 只消費, 不輸出) :`function.accept`
+  - 2. has input param, has output param (多功能函數) : `function.apply`
+  - 3. no input param, no output param (普通函數): `runnable`
+  - 4. no input param, has output param (`supplier` 生產者): `supplier.get()`
 
 ## API
 
@@ -23,17 +32,6 @@ curl -X POST http://localhost:8888/books \
     "author": "John Doe"
 }'
 ```
-
-## Concept
-
-- Lambda expression
-  - https://youtu.be/H-ijsS-pfgQ?si=AO-ypUVuF78VLywy&t=194
-  - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/main/java/com/yen/webFluxPoc/dev/LambdaExample.java
-  
-  - 1. has input param, no output param : `function.accept`
-  - 2. has input param, has output param: `function.apply`
-  - 3. no input param, no output param: `runnable`
-  - 4. no input param, has output param: `supplier.get()`
 
 ## Ref
 - https://juejin.cn/post/7129076913951211557
