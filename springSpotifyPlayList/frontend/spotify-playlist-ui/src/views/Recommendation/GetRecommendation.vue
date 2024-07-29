@@ -75,6 +75,13 @@
           }}</a>
         </p>
 
+        <img
+          v-if="track.album.images && track.album.images.length > 0"
+          :src="track.album.images[0].url"
+          :alt="track.name"
+          style="max-width: 300px; max-height: 300px"
+        />
+
         <p>
           Preview URL:
           <audio controls>
