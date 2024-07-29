@@ -50,6 +50,13 @@ public class AuthService {
                 .build();
     }
 
+    public SpotifyApi getBasicSpotifyClientWithToken(){
+
+        return new SpotifyApi.Builder()
+                .setAccessToken(accessToken)
+                .build();
+    }
+
     public SpotifyApi getSpotifyClient(){
 
         final URI redirectUri = SpotifyHttpManager
