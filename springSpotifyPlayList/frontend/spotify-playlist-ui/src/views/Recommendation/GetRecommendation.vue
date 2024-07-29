@@ -180,7 +180,8 @@ export default {
           },
           body: JSON.stringify({
             songUris: this.trackURIs.toString(), //"xxx", //this.trackURIs,
-            playlistId: "yyy", // this.playlistId,
+            // TODO : get to-add playList id from UI
+            playlistId: "1qqdpj9tiE2Fhob6QItPDP", // this.playlistId,
           }),
         });
         if (!response.ok) {

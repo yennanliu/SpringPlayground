@@ -101,6 +101,7 @@ export default {
           throw new Error("Authorization code not found");
         }
         this.newSongToList.authCode=code;
+        // TODO : instead of hardcode trace uris, get them from UI
         this.newSongToList.trackURIs=
           "spotify:track:1wHrcMSpzIbNk4CipbKft0,spotify:track:69TMjHuBaLNRtMPopKWbdC,spotify:track:2Ugyo7kjFFli9gHf9KfK5A,spotify:track:3xsFZOyd6mfrjZT1Sf4nXR,spotify:track:6gWRznlX7vaUW0r8KF9iMZ,spotify:track:4kuKGST6Pj4iMZBpO6BYl4,spotify:track:1dO38CsQliftngGVX2NwI2,spotify:track:4KU4UDuuZEjiFGP01OkF9H";
 
