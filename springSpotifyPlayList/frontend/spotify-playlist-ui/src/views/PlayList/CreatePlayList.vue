@@ -4,12 +4,22 @@
     <button v-if="!authorized" @click="authorize">
       Authorize with Spotify
     </button>
-    <button v-if="!authorized" @click="createPlaylist">Create Playlist</button>
-    <div v-if="playlistCreated">Playlist created successfully!</div>
-    <button v-if="!authorized" @click="addSongToPlayList">
-      Add Song To Playlist
-    </button>
-    <div v-if="newSongsAdded">Song added to Playlist successfully!</div>
+    <div v-if="!authorized">
+      <div>
+        <label for="playlistName">New Playlist Name:</label>
+        <input
+          type="text"
+          id="playlistName"
+          v-model="newPlayList.name"
+          placeholder="Enter playlist name"
+        />
+        <br>
+        <button @click="createPlaylist">Create Playlist</button>
+      </div>
+      <div v-if="playlistCreated">Playlist created successfully!</div>
+      <button @click="addSongToPlayList">Add Song To Playlist</button>
+      <div v-if="newSongsAdded">Song added to Playlist successfully!</div>
+    </div>
   </div>
 </template>
 
@@ -23,7 +33,7 @@ export default {
       playlistCreated: false,
       newSongsAdded: false,
       accessToken: null,
-      newPlayList: { userId: "someId", name: "someName", authCode: "code" },
+      newPlayList: { userId: "someId", name: "", authCode: "code" },
       newSongToList: {
         playlistId: "playlistId",
         trackURIs: "",
@@ -85,16 +95,6 @@ export default {
         this.newSongToList.authCode = code;
         this.newSongToList.trackURIs =
           "spotify:track:1wHrcMSpzIbNk4CipbKft0,spotify:track:69TMjHuBaLNRtMPopKWbdC,spotify:track:2Ugyo7kjFFli9gHf9KfK5A,spotify:track:3xsFZOyd6mfrjZT1Sf4nXR,spotify:track:6gWRznlX7vaUW0r8KF9iMZ,spotify:track:4kuKGST6Pj4iMZBpO6BYl4,spotify:track:1dO38CsQliftngGVX2NwI2,spotify:track:4KU4UDuuZEjiFGP01OkF9H";
-
-        // const response = await axios.post(
-        //   "http://localhost:8888/playlist/addSong",
-        //   this.newSongToList
-        // );
-        // if (response.status === 200) {
-        //   this.newSongsAdded = true;
-        // } else {
-        //   throw new Error("Failed to add song to playlist");
-        // }
 
         const response = await fetch("http://localhost:8888/playlist/addSong", {
           method: "POST",
