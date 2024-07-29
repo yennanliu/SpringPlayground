@@ -10,6 +10,7 @@
     - supplier : 生產者
     - predicate : 斷言 (accept val, return boolean)
 
+- Lambda input, output Types
   - 1. has input param, no output param (`publisher` 消費者, 只消費, 不輸出) :`function.accept`
   - 2. has input param, has output param (多功能函數) : `function.apply`
   - 3. no input param, no output param (普通函數): `runnable`
