@@ -3,8 +3,8 @@ package com.yen.SpotifyPlayList.controller;
 import com.yen.SpotifyPlayList.model.dto.AddSongToPlayListDto;
 import com.yen.SpotifyPlayList.model.dto.CreatePlayListDto;
 import com.yen.SpotifyPlayList.service.PlayListService;
-
 import com.yen.SpotifyPlayList.service.ProfileService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -58,13 +58,16 @@ public class PlayListController {
 
         try{
             log.info("received addSongToPlayListDto = " + addSongToPlayListDto);
-            addSongToPlayListDto.setPlaylistId("2cUyRMtc9AsinCLXFy0gcC");
+            String playListId = addSongToPlayListDto.getPlaylistId();
+            if (playListId == null || playListId.length() == 0){
+                throw new RuntimeException("not a valid playList id : " + playListId);
+            }
             String[] trackList = addSongToPlayListDto.getSongUris().split(",");
             log.info("received trackList = " + trackList.toString());
             for (String x : trackList){
                 System.out.println(x);
             }
-            log.info("updated addSongToPlayListDto = " + addSongToPlayListDto);
+
             SnapshotResult snapshotResult = playListService.addSongToPlayList(addSongToPlayListDto);
             return ResponseEntity.status(HttpStatus.OK).body(snapshotResult);
         }catch (Exception e){
