@@ -48,6 +48,7 @@ curl -X POST http://localhost:8888/books \
 
 ## Ref
 - https://juejin.cn/post/7129076913951211557
+- https://ithelp.ithome.com.tw/users/20141418/ironman/4617
 - https://youtube.com/playlist?list=PLmOn9nNkQxJGZOf_WLh7FYNKXg44qLPg7&si=3jrdt9lyq84p4vKe
 
 - RX Java
