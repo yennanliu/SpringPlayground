@@ -5,6 +5,10 @@
 - Lambda expression
   - https://youtu.be/H-ijsS-pfgQ?si=AO-ypUVuF78VLywy&t=194
   - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/main/java/com/yen/webFluxPoc/dev/LambdaExample.java
+  - `java.util.function`
+    - consumer : 消費者
+    - supplier : 生產者
+    - predicate : 斷言 (accept val, return boolean)
 
   - 1. has input param, no output param (`publisher` 消費者, 只消費, 不輸出) :`function.accept`
   - 2. has input param, has output param (多功能函數) : `function.apply`
@@ -38,4 +42,4 @@ curl -X POST http://localhost:8888/books \
 - https://youtube.com/playlist?list=PLmOn9nNkQxJGZOf_WLh7FYNKXg44qLPg7&si=3jrdt9lyq84p4vKe
 
 - RX Java
- - https://github.com/yennanliu/JavaHelloWorld/tree/main/dev_projects/RxJava
+  - https://github.com/yennanliu/JavaHelloWorld/tree/main/dev_projects/RxJava
