@@ -4,7 +4,7 @@
     <button @click="authorize">
       Authorize with Spotify
     </button>
-    <div v-if="authorized">
+    <div>
       <div>
         <label for="playlistName">New Playlist Name:</label>
         <input

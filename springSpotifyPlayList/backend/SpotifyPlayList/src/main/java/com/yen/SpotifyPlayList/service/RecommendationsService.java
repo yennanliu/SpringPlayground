@@ -32,18 +32,6 @@ public class RecommendationsService {
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyClient();
 
-            // TODO : enable param and update request logic
-//            final GetRecommendationsRequest getRecommendationsRequest = spotifyApi.getRecommendations()
-//                      .limit(10)
-//            //          .market(CountryCode.SE)
-//                      .max_popularity(50)
-//                      .min_popularity(10)
-//            //          .seed_artists("0LcJLqbBmaGUft1e9Mm8HV")
-//            //          .seed_genres("electro")
-//                      .seed_tracks("01iyCAUm8EvOFqVWYJ3dVX")
-//            //          .target_popularity(20)
-//            .build();
-
             final GetRecommendationsRequest getRecommendationsRequest = spotifyApi.getRecommendations()
                     .limit(getRecommendationsDto.getAmount())
                     .market(getRecommendationsDto.getMarket())
