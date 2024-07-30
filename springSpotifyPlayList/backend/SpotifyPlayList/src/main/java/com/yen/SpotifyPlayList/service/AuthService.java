@@ -30,7 +30,25 @@ public class AuthService {
     @Value("${spotify.redirectURL}")
     private String redirectURL;
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
     private String accessToken;
+
+    private String refreshToken;
 
     public String getAuthCode() {
         return authCode;
@@ -41,8 +59,6 @@ public class AuthService {
     }
 
     private String authCode;
-
-    private String refreshCode;
 
     private SpotifyApi spotifyApi;
 
@@ -79,12 +95,12 @@ public class AuthService {
         return this.spotifyApi;
     }
 
-    public SpotifyApi getSpotifyClientWithRefreshCode(String refreshCode) {
+    public SpotifyApi getSpotifyClientWithRefreshCode(String refreshToken) {
 
         return new SpotifyApi.Builder()
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
-                .setRefreshToken(refreshCode)
+                .setRefreshToken(refreshToken)
                 .build();
     }
 
@@ -127,14 +143,14 @@ public class AuthService {
             final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
                     .execute();
 
-            log.info("---> RefreshToken = " + authorizationCodeCredentials.getRefreshToken());
-
             // Set access and refresh token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+            this.accessToken = authorizationCodeCredentials.getAccessToken();
+            this.refreshToken = authorizationCodeCredentials.getRefreshToken();
+            log.info("---> this.accessToken = " + this.accessToken);
+            log.info("---> this.refreshToken = " + this.refreshToken);
+            spotifyApi.setAccessToken(this.accessToken);
+            spotifyApi.setRefreshToken(this.refreshToken);
 
-            // save refreshCode
-            this.refreshCode = authorizationCodeCredentials.getRefreshToken();
         }
 //        catch (BadRequestException | UnauthorizedException e) {
 //            log.error("Error during authorization. Invalid authorization code or other issue: {}", e.getMessage());
@@ -161,23 +177,33 @@ public class AuthService {
         // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/master/examples/authorization/authorization_code/AuthorizationCodeExample.java
 
         log.info("refreshSpotifyApi start ... authCode = {}", authCode);
-        this.spotifyApi = this.getSpotifyClient();
-
-        try {
-            final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi
-                    .authorizationCode(authCode)
-                    .build();
-
-            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
-                    .execute();
-
-            // Set access and refresh token for further "spotifyApi" object usage
-            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-            log.info("refreshSpotifyApi OK");
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            log.error(">>> refreshSpotifyApi Error: " + e.getMessage());
+        //this.spotifyApi = this.getSpotifyClient();
+        if (this.spotifyApi == null || this.accessToken == null || this.refreshToken == null){
+            this.spotifyApi = this.getSpotifyClient();
         }
+
+        try{
+            spotifyApi.setAccessToken(this.accessToken);
+            spotifyApi.setRefreshToken(this.refreshToken);
+        }catch (Exception e){
+            log.error("refreshSpotifyClient error : " + e.getMessage());
+        }
+
+//        try {
+//            final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi
+//                    .authorizationCode(authCode)
+//                    .build();
+//
+//            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
+//                    .execute();
+//
+//            // Set access and refresh token for further "spotifyApi" object usage
+//            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
+//            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
+//            log.info("refreshSpotifyApi OK");
+//        } catch (IOException | SpotifyWebApiException | ParseException e) {
+//            log.error(">>> refreshSpotifyApi Error: " + e.getMessage());
+//        }
 
         return this.spotifyApi;
     }
