@@ -1,6 +1,9 @@
 package com.yen.webFluxPoc.dev;
 
-/** Publisher, subscriber example (觀察者模式) */
+/** Publisher, subscriber example (觀察者模式)
+ *
+ *  ReactiveStream
+ */
 
 // https://youtu.be/Z_P08XLnQ8E?si=PVRkHWCrzdMAl7Vg
 // https://youtu.be/_3oFXO7crcE?si=G10cGW-J3bvc22WE
@@ -58,6 +61,7 @@ public class PublishSubscribeExample {
              *  https://youtu.be/_3oFXO7crcE?si=ODmQ6oS17RLGdFun&t=566
              */
               this.subscription.request(1);
+              
           }
 
           // when next item comes (e.g. receive new data)
@@ -74,6 +78,7 @@ public class PublishSubscribeExample {
                *
                */
               this.subscription.request(1);
+
               System.out.println(
                 Thread.currentThread().getName() + "----> subscriber receive item ..." + item);
           }
@@ -110,6 +115,7 @@ public class PublishSubscribeExample {
     // publisher 10 records
     // NOTE !!! data is saved to buffer (緩衝區)
     for (int i = 0; i < 10; i++) {
+      System.out.println(Thread.currentThread().getName() + " ---> publish data");
       publisher.submit("data = " + i);
     }
 
