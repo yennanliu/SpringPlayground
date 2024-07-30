@@ -60,7 +60,7 @@
 
       <button type="submit" class="btn btn-primary">Submit</button>
 
-      <button class="btn btn-success" @click="addToPlaylist()">
+      <button class="btn btn-success" @click="addSongToPlayList()">
         Add to Playlist
       </button>
     </form>
@@ -160,17 +160,11 @@ export default {
       }
     },
 
-    async addToPlaylist() {
+    async addSongToPlayList() {
       try {
-        if (!this.tracks) {
-          throw new Error("No tracks to add");
-        }
-
-        console.log(">>> this.tracks = " + JSON.stringify(this.tracks));
-
-        console.log("addToPlaylist start");
-
+        console.log("addSongToPlayList start");
         this.trackURIs = await this.tracks.tracks.map((track) => track.uri);
+
         console.log("this.trackURIs = " + this.trackURIs);
 
         const response = await fetch("http://localhost:8888/playlist/addSong", {
@@ -179,17 +173,19 @@ export default {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            songUris: this.trackURIs.toString(), //"xxx", //this.trackURIs,
-            // TODO : get to-add playList id from UI
-            playlistId: "1qqdpj9tiE2Fhob6QItPDP", // this.playlistId,
+            songUris: this.trackURIs.toString(),
+            authCode: "code", // no need auth code for now
+            playlistId: "1qqdpj9tiE2Fhob6QItPDP", //this.newSongToList.playlistId,
           }),
         });
-        if (!response.ok) {
-          throw new Error("Failed to add tracks to playlist");
+        if (response.status === 200) {
+          this.newSongsAdded = true;
+        } else {
+          throw new Error("Failed to add song to playlist");
         }
-        //Optionally, you can handle success here
       } catch (error) {
         console.error(error);
+        // Handle error
       }
     },
   },

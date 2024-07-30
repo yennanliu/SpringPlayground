@@ -111,16 +111,21 @@ public class PlayListService {
 
             log.info(">>> before refreshSpotifyClient");
             log.info(">>> auth code = " + addSongToPlayListDto.getAuthCode());
-            //this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
+
+            String refreshToken = this.spotifyApi.getRefreshToken();
+            spotifyApi.setRefreshToken(refreshToken);
+
+//            //this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
+//            this.spotifyApi = authService.refreshSpotifyClient(authService.getAuthCode());
+
             log.info(">>> end refreshSpotifyClient");
 
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
-                    //.addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())
                     .addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris().split(","))
-                    //.addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), uris)
-                    //.position(0)
                     .build();
+
             snapshotResult = addItemsToPlaylistRequest.execute();
+
             log.info("Snapshot ID: " + snapshotResult.getSnapshotId());
             log.info("addSongToPlayList OK");
         }catch (Exception e){
