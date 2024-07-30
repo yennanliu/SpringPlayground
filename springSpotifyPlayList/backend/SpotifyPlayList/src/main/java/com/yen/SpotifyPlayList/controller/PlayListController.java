@@ -58,7 +58,7 @@ public class PlayListController {
                 throw new RuntimeException("not a valid playList id : " + playListId);
             }
             String[] trackList = addSongToPlayListDto.getSongUris().split(",");
-            log.info("received trackList = " + trackList.toString());
+            log.info("received trackList = ");
             for (String x : trackList) {
                 System.out.println(x);
             }

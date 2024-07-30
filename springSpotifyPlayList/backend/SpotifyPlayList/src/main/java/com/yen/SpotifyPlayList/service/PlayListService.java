@@ -103,13 +103,16 @@ public class PlayListService {
         log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
         try {
 
-            // TODO : optimize below
-//            this.spotifyApi =  authService.authClientWithAuthCode(
-//                    authService.getSpotifyClient(),
-//                    addSongToPlayListDto.getAuthCode()
-//            );
+            log.info(">>> (addSongToPlayList) authService.getAuthCode() = " + authService.getAuthCode());
 
-            this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
+            this.spotifyApi = authService.authClientWithAuthCode(
+                    authService.getSpotifyClient(),
+                    authService.getAuthCode());
+
+            log.info(">>> before refreshSpotifyClient");
+            log.info(">>> auth code = " + addSongToPlayListDto.getAuthCode());
+            //this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
+            log.info(">>> end refreshSpotifyClient");
 
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
                     //.addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris())
@@ -120,9 +123,12 @@ public class PlayListService {
             snapshotResult = addItemsToPlaylistRequest.execute();
             log.info("Snapshot ID: " + snapshotResult.getSnapshotId());
             log.info("addSongToPlayList OK");
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
+        }catch (Exception e){
             log.error("addSongToPlayList Error: " + e.getMessage());
         }
+//        catch (IOException | SpotifyWebApiException | ParseException e) {
+//            log.error("addSongToPlayList Error: " + e.getMessage());
+//        }
         return snapshotResult;
     }
 
