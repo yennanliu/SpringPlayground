@@ -52,7 +52,8 @@ public class PublishSubscribeExample {
             this.subscription = subscription;
             /** NOTE !!!
              *
-             *  need to make subscription can request item, so subscriber can read data
+             *
+             *  NEED to make subscription can request item, so subscriber can read data
              *  (request data from upstream)
              *  https://youtu.be/_3oFXO7crcE?si=ODmQ6oS17RLGdFun&t=566
              */
@@ -62,6 +63,16 @@ public class PublishSubscribeExample {
           // when next item comes (e.g. receive new data)
           @Override
           public void onNext(String item) {
+              /**
+               *  NOTE !!!
+               *
+               *   WE NEED TO REQUEST 1 NEW RECORD when every onNext happened,
+               *   so subscriber has new data to read
+               *
+               *   SO, we need to add "this.subscription.request(1);"
+               *   on "onSubscribe" and "onNext"
+               *
+               */
               this.subscription.request(1);
               System.out.println(
                 Thread.currentThread().getName() + "----> subscriber receive item ..." + item);
