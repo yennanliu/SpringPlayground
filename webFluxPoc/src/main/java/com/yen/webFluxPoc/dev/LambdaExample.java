@@ -32,7 +32,7 @@ public class LambdaExample {
      * <p>function.apply
      */
     Function<String, Integer> function = (String x) -> Integer.parseInt(x);
-    // NOTE !!! funciton.apply
+    // NOTE !!! function.apply
     System.out.println(function.apply("1"));
     // System.out.println(function.apply("1abc"));
 

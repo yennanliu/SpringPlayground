@@ -24,6 +24,13 @@
   - synchronous process element within modules
   - no blocking (back pressure 背壓)
 
+- 觀察者模式
+  - Subscriber : 訂閱者
+  - publisher: 發布者
+  - Subscription: 訂閱關係 (綁定發布者, 訂閱者)
+  - https://youtu.be/_3oFXO7crcE?si=NhVFpNJp1K6BFJ7e&t=154
+  <p><img src ="./doc/pic/PublishSubscribeExample.png" ></p>
+
 ## API
 
 | API | Type | Purpose | Example cmd | Comment|
