@@ -35,6 +35,15 @@
           }}</a>
         </p>
         <hr />
+
+        <p>
+          Preview URL:
+          <audio controls>
+            <source :src="track.previewUrl" type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </p>
+
       </div>
     </div>
     <div v-else>Loading...</div>
