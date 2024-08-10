@@ -43,7 +43,7 @@ public class ReactiveStreamsExample2 {
         }
     }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws InterruptedException {
 
     /** Step 1) define publisher */
     SubmissionPublisher<String> publisher = new SubmissionPublisher<>();
@@ -131,6 +131,28 @@ public class ReactiveStreamsExample2 {
             System.out.println(Thread.currentThread().getName() + "----> subscriber completed ...");
           }
         };
+
+      /** Step 4) binding publisher, intermedia operator, and subscriber
+       *
+       *   e.g. :
+       *    publisher <-- processor
+       *    processor <-- subscriber
+       *
+       */
+      publisher.subscribe(myProcessor);
+      myProcessor.subscribe(subscriber);
+
+      // run
+      for (int i = 0; i < 10; i++){
+          if (i==5){
+        //publisher.closeExceptionally(new RuntimeException("some exception"));
+          }else{
+              publisher.submit("record --" + i);
+          }
+      }
+
+      // delay main thread termination, so publisher, subscriber thread can work
+      Thread.sleep(20000);
 
   }
 

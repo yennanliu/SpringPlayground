@@ -31,6 +31,10 @@
   - https://youtu.be/_3oFXO7crcE?si=NhVFpNJp1K6BFJ7e&t=154
   <p><img src ="./doc/pic/PublishSubscribeExample.png" ></p>
 
+  - intermedia operator : 中間操作
+    - publisher -> intermedia operator -> Subscriber
+  <p><img src ="./doc/pic/PublishSubscribeExample2.png" ></p>
+
  - Reactive stream
   - <p align="center"><img src ="./doc/pic/reactive_stream.png"></p>
  
