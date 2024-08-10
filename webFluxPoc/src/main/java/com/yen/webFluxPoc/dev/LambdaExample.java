@@ -51,7 +51,7 @@ public class LambdaExample {
     /**
      * Example 4
      *
-     * <p>no no param, has output param
+     * <p>no input param, has output param
      *
      * <p>supplier
      */

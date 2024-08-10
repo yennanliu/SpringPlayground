@@ -17,7 +17,7 @@ public class ReactiveStreamsExample {
        *
        *  1. decrease consumer pressure via buffer (e.g. publisher send msg too fast, consumer can't catch up)
        *  2. use "cache array" as buffer (緩衝區)
-       *    - (instead of letting consumer read msg directly, put msg first to buffer, then consumer read from buffer)
+       *    - (instead of letting consumer read msg directly, put msg to buffer first, then consumer read from buffer)
        *  3. once consumer has capability to consume, it will send a msg to publisher, then consumer continue process data
        *
        */
