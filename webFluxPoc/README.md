@@ -24,6 +24,13 @@
   - synchronous process element within modules
   - no blocking (back pressure 背壓)
 
+  - <p align="center"><img src ="./doc/pic/reactive_stream.png"></p>
+
+  - summary
+    - low level: buffer data model, event driven, async call back
+    - coding : stream programming + chain operation + declarative API
+    - affect: whole async, process event in real-time, high IO, less resources cost
+
 - 觀察者模式
   - Subscriber : 訂閱者
   - publisher: 發布者
@@ -35,9 +42,6 @@
     - publisher -> intermedia operator -> Subscriber
   <p><img src ="./doc/pic/PublishSubscribeExample2.png" ></p>
 
- - Reactive stream
-  - <p align="center"><img src ="./doc/pic/reactive_stream.png"></p>
- 
 
 ## API
 

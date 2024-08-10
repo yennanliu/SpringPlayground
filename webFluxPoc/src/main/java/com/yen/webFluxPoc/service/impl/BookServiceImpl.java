@@ -3,31 +3,30 @@ package com.yen.webFluxPoc.service.impl;
 import com.yen.webFluxPoc.data.BookDataSource;
 import com.yen.webFluxPoc.model.Book;
 import com.yen.webFluxPoc.service.BookService;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.UnicastProcessor;
 
-import java.util.ArrayList;
-import java.util.List;
-
 // https://juejin.cn/post/7129076913951211557
 
 @Service
 public class BookServiceImpl implements BookService {
 
+  private static final UnicastProcessor<Book> processor = UnicastProcessor.create();
+  private static final FluxSink<Book> sink = processor.sink();
   /**
    * NOTE !!!
    *
-   * We simulate DB data source via below static instance
+   * <p>We simulate DB data source via below static instance
    */
   private static Flux<Book> bookData = null;
+  private static final List<Book> books = new ArrayList<>();
 
-  private static List<Book> books = new ArrayList<>();
-  private static final UnicastProcessor<Book> processor = UnicastProcessor.create();
-  private static final FluxSink<Book> sink = processor.sink();
-  //private static final Flux<Book> bookData = processor.publish().autoConnect();
+  // private static final Flux<Book> bookData = processor.publish().autoConnect();
 
   static {
     bookData = BookDataSource.bookFlux();
@@ -97,7 +96,7 @@ public class BookServiceImpl implements BookService {
     // TODO : implement it
     System.out.println("to update id = " + id + ", book = " + book);
     Mono<Book> res = bookData.filter(x -> x.getId().equals(id)).next();
-    if (res.equals(null)){
+    if (res.equals(null)) {
       System.out.println("id not found");
       return null;
     }

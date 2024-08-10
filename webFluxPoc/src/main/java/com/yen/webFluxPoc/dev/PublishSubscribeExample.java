@@ -1,8 +1,9 @@
 package com.yen.webFluxPoc.dev;
 
-/** Publisher, subscriber example (觀察者模式)
+/**
+ * Publisher, subscriber example (觀察者模式)
  *
- *  ReactiveStream
+ * <p>ReactiveStream
  */
 
 // https://youtu.be/Z_P08XLnQ8E?si=PVRkHWCrzdMAl7Vg
@@ -53,33 +54,29 @@ public class PublishSubscribeExample {
             System.out.println(
                 Thread.currentThread().getName() + "----> Subscribe start ..." + subscription);
             this.subscription = subscription;
-            /** NOTE !!!
+            /**
+             * NOTE !!!
              *
-             *
-             *  NEED to make subscription can request item, so subscriber can read data
-             *  (request data from upstream)
-             *  https://youtu.be/_3oFXO7crcE?si=ODmQ6oS17RLGdFun&t=566
+             * <p>NEED to make subscription can request item, so subscriber can read data (request
+             * data from upstream) https://youtu.be/_3oFXO7crcE?si=ODmQ6oS17RLGdFun&t=566
              */
-              this.subscription.request(1);
-              
+            this.subscription.request(1);
           }
 
           // when next item comes (e.g. receive new data)
           @Override
           public void onNext(String item) {
-              /**
-               *  NOTE !!!
-               *
-               *   WE NEED TO REQUEST 1 NEW RECORD when every onNext happened,
-               *   so subscriber has new data to read
-               *
-               *   SO, we need to add "this.subscription.request(1);"
-               *   on "onSubscribe" and "onNext"
-               *
-               */
-              this.subscription.request(1);
+            /**
+             * NOTE !!!
+             *
+             * <p>WE NEED TO REQUEST 1 NEW RECORD when every onNext happened, so subscriber has new
+             * data to read
+             *
+             * <p>SO, we need to add "this.subscription.request(1);" on "onSubscribe" and "onNext"
+             */
+            this.subscription.request(1);
 
-              System.out.println(
+            System.out.println(
                 Thread.currentThread().getName() + "----> subscriber receive item ..." + item);
           }
 
@@ -102,15 +99,14 @@ public class PublishSubscribeExample {
           public void subscribe(Flow.Subscriber<? super Object> subscriber) {}
         };
 
-
-      /**
-       * NOTE !!! binding publisher and subscriber
-       *
-       *  (NEED TO bind publisher, subscriber first, then publish data
-       *
-       * <p>記憶法: publisher <---subscribe-- subscriber
-       */
-      publisher.subscribe(subscriber);
+    /**
+     * NOTE !!! binding publisher and subscriber
+     *
+     * <p>(NEED TO bind publisher, subscriber first, then publish data
+     *
+     * <p>記憶法: publisher <---subscribe-- subscriber
+     */
+    publisher.subscribe(subscriber);
 
     // publisher 10 records
     // NOTE !!! data is saved to buffer (緩衝區)
@@ -119,10 +115,7 @@ public class PublishSubscribeExample {
       publisher.submit("data = " + i);
     }
 
-
     // delay main thread termination, so publisher, subscriber thread can work
     Thread.sleep(20000);
-
   }
-
 }

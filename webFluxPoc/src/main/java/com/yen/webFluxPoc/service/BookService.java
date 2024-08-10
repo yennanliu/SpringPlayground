@@ -6,13 +6,13 @@ import reactor.core.publisher.Mono;
 
 public interface BookService {
 
-    public Flux<Book> findAll();
+  Flux<Book> findAll();
 
-    public Mono<Book> save(Book book);
+  Mono<Book> save(Book book);
 
-    public Mono<Book> findById(Integer id);
+  Mono<Book> findById(Integer id);
 
-    public Mono<Void> delete(Integer id);
+  Mono<Void> delete(Integer id);
 
-    Mono<Book> update(Integer id, Book book);
+  Mono<Book> update(Integer id, Book book);
 }
