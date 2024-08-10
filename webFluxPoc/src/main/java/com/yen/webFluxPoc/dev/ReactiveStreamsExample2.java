@@ -5,7 +5,6 @@ package com.yen.webFluxPoc.dev;
 import java.util.concurrent.Flow;
 import java.util.concurrent.SubmissionPublisher;
 
-
 public class ReactiveStreamsExample2 {
 
     /** define flow intermedia operation (only need to implement subscribe interface, since we extend SubmissionPublisher already */
@@ -16,6 +15,10 @@ public class ReactiveStreamsExample2 {
         @Override
         public void onSubscribe(Flow.Subscription subscription) {
             System.out.println("--> processor subscribe OK");
+
+            /** NOTE !!! below */
+            this.subscription = subscription;
+
             // request 1 new record from upstream
             this.subscription.request(1);
         }
@@ -46,7 +49,7 @@ public class ReactiveStreamsExample2 {
   public static void main(String[] args) throws InterruptedException {
 
     /** Step 1) define publisher */
-    SubmissionPublisher<String> publisher = new SubmissionPublisher<>();
+    SubmissionPublisher publisher = new SubmissionPublisher();
 
     /** Step 2) define intermedia operation (V1)
      *
@@ -142,13 +145,12 @@ public class ReactiveStreamsExample2 {
       publisher.subscribe(myProcessor);
       myProcessor.subscribe(subscriber);
 
+      //publisher.subscribe(subscriber);
+
       // run
-      for (int i = 0; i < 10; i++){
-          if (i==5){
-        //publisher.closeExceptionally(new RuntimeException("some exception"));
-          }else{
-              publisher.submit("record --" + i);
-          }
+      for (int i = 0; i < 10; i++) {
+          System.out.println(Thread.currentThread().getName() + " ---> publish data");
+          publisher.submit("data = " + i);
       }
 
       // delay main thread termination, so publisher, subscriber thread can work
