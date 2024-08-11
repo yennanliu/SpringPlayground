@@ -17,12 +17,27 @@ public class GenerateCreateSequence {
   // sink : accept record, source : data source
   public void generate() {
 
+    /** V1 : will cause "java.lang.IllegalStateException: More than one call to onNext" error */
+    //    Flux<Object> flux =
+    //        Flux.generate(
+    //            sink -> {
+    //              for (int i = 0; i < 100; i++) {
+    //                sink.next("record " + i); // send record, may throw run time exception
+    //              }
+    //            });
+
+    /** V2 */
     Flux<Object> flux =
         Flux.generate(
-            sink -> {
-              for (int i = 0; i < 100; i++) {
-                sink.next("record " + i); // send record, may throw run time exception
+            () -> 0, // initial value
+            (state, sink) -> {
+              // ONLY send element when state <= 10
+              if (state <= 10) {
+                sink.next(sink); // send element out
+              } else {
+                sink.complete();
               }
+              return state + 1; // return init value + 1
             });
 
     flux.log().subscribe();
