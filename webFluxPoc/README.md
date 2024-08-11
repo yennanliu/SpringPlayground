@@ -72,3 +72,9 @@ curl -X POST http://localhost:8888/books \
 
 - RX Java
   - https://github.com/yennanliu/JavaHelloWorld/tree/main/dev_projects/RxJava
+
+- Course
+  - https://www.youtube.com/watch?v=miCNCdcmTE8&list=PLmOn9nNkQxJGZOf_WLh7FYNKXg44qLPg7
+  - code
+    - https://github.com/yennanliu/SpringPlayground/tree/main/courses/reactor-programming
+    - https://zzvcom-my.sharepoint.cn/personal/atguigu2008_sunteacher_cn/_layouts/15/onedrive.aspx?id=%2Fpersonal%2Fatguigu2008%5Fsunteacher%5Fcn%2FDocuments%2F%E5%B0%9A%E7%A1%85%E8%B0%B7SpringBoot3%E5%93%8D%E5%BA%94%E5%BC%8F%E7%BC%96%E7%A8%8B%E7%B2%BE%E8%AE%B2&ga=1
