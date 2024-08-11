@@ -13,12 +13,13 @@ public class ReformRequestAndBuffer {
   public void buffer(){
 
       Flux<List<Integer>> flux = Flux.range(1, 10)
-              /** NOTE !!! set buffer can only buffer 2 elements  */
+              /** NOTE !!! set buffer size, so can only buffer 2 elements  */
               .buffer(2);
               //.subscribe(System.out::println);
 
       flux.subscribe(x -> System.out.println(x + ", data type = " + x.getClass()));
 
+      // NOTE: here we use BaseSubscriber, and override hookOnSubscribe, hookOnNext method
       flux.subscribe(new BaseSubscriber<List<Integer>>() {
           @Override
           protected void hookOnSubscribe(Subscription subscription) {

@@ -95,7 +95,7 @@ public class ReactiveStreamsExample2 {
     /**
      * Step 4) binding publisher, intermedia operator, and subscriber
      *
-     * <p>e.g. : publisher <-- processor processor <-- subscriber
+     * <p>e.g. : publisher <-- processor <-- subscriber
      */
     publisher.subscribe(myProcessor);
     myProcessor.subscribe(subscriber);
