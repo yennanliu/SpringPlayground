@@ -1,8 +1,9 @@
 package com.yen.webFluxPoc.dev;
 
-/** Create sequence demo */
+/** Generate, Create sequence demo */
 // https://youtu.be/yQvK2PvRuNM?si=IE9D2kDxttNRLtty
 
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 
 public class GenerateCreateSequence {
@@ -13,11 +14,11 @@ public class GenerateCreateSequence {
       Thread.sleep(20000);
   }
 
-  // create sequence via programming way
+  /** generate : create sequence via programming way */
   // sink : accept record, source : data source
   public void generate() {
 
-    /** V1 : will cause "java.lang.IllegalStateException: More than one call to onNext" error */
+    /** V1 (generate) : will cause "java.lang.IllegalStateException: More than one call to onNext" error */
     //    Flux<Object> flux =
     //        Flux.generate(
     //            sink -> {
@@ -26,9 +27,9 @@ public class GenerateCreateSequence {
     //              }
     //            });
 
-    /** V2 */
+    /** V2 (generate) */
     Flux<Object> flux =
-        Flux.generate(
+        Flux.generate( // NOTE !!! : Flux.generate
             () -> 0, // initial value
             (state, sink) -> {
               // ONLY send element when state <= 10
@@ -37,10 +38,12 @@ public class GenerateCreateSequence {
               } else {
                 sink.complete();
               }
-              return state + 1; // return init value + 1
+              return state + 1; // return new val
             });
 
-    flux.log().subscribe();
+      // subscriber implements disposable (可取消)
+      //Disposable disposable = flux.log().subscribe();
+      flux.log().subscribe();
   }
 
 }
