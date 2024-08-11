@@ -3,6 +3,8 @@
 
 ## Concept
 
+<p><img src ="./doc/pic/mvc_vs_webflux.png" ></p>
+
 - Lambda expression
   - https://youtu.be/H-ijsS-pfgQ?si=AO-ypUVuF78VLywy&t=194
   - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/main/java/com/yen/webFluxPoc/dev/LambdaExample.java
