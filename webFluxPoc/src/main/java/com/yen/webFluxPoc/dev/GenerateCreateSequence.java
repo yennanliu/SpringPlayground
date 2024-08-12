@@ -2,13 +2,16 @@ package com.yen.webFluxPoc.dev;
 
 /** Generate, Create sequence demo */
 // https://youtu.be/yQvK2PvRuNM?si=IE9D2kDxttNRLtty
+// https://youtu.be/yQvK2PvRuNM?si=fN0mXU4wIPzURQ0P
 
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.FluxSink;
 
 public class GenerateCreateSequence {
   public static void main(String[] args) throws InterruptedException {
 
-    new GenerateCreateSequence().generate();
+    // new GenerateCreateSequence().generate();
+    new GenerateCreateSequence().create();
 
     Thread.sleep(20000);
   }
@@ -59,31 +62,45 @@ public class GenerateCreateSequence {
    */
   public void create() throws InterruptedException {
 
-    MyListener listener = new MyListener();
+    // MyListener listener = new MyListener();
+    // AtomicReference<MyListener> listener  = null;
 
     Flux.create(
-        fluxSink -> {
-          for (int i = 0; i < 10; i++) {
-            int finalI = i;
-            new Thread(
-                    () -> {
-                      listener.online("user " + finalI);
-                    })
-                .start();
-            try {
-              Thread.sleep(1000);
-            } catch (InterruptedException e) {
-              throw new RuntimeException(e);
-            }
-          }
-          fluxSink.next("record zz");
-        });
+            fluxSink -> {
+              MyListener listener = new MyListener(fluxSink);
+              // listener.set(new MyListener(fluxSink));
+              for (int i = 0; i < 100; i++) {
+                listener.online("Iori Yagami " + i);
+                //            int finalI = i;
+                //            new Thread(
+                //                    () -> {
+                //                      //listener.get().online("user " + finalI);
+                //                    })
+                //                .start();
+                //            try {
+                //              Thread.sleep(1000);
+                //            } catch (InterruptedException e) {
+                //              throw new RuntimeException(e);
+                //            }
+              }
+              fluxSink.next("record zz");
+            })
+        .log()
+        .subscribe();
   }
 
   class MyListener {
     // use login, trigger online event
-    public void online(String userName) {
+    FluxSink<Object> sink;
+
+    // constructor
+    public MyListener(FluxSink<Object> sink) {
+      this.sink = sink;
+    }
+
+    public void online(Object userName) {
       System.out.println("user login : " + userName);
+      sink.next(userName); // send userName out
     }
   }
 }
