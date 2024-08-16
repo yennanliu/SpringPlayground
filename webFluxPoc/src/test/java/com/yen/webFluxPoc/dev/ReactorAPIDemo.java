@@ -5,7 +5,7 @@ package com.yen.webFluxPoc.dev;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
-public class APITest {
+public class ReactorAPIDemo {
 
   /** Common Reactor API test (demo) */
 
