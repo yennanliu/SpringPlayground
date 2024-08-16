@@ -5,6 +5,8 @@ package com.yen.webFluxPoc.dev;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class ReactorAPIDemo {
 
   /** Common Reactor API test (demo) */
@@ -52,18 +54,82 @@ public class ReactorAPIDemo {
         .subscribe();
   }
 
-  // concatMap
+  /** concatMap : elements can concat with other elements */
   /** Mono, Flux are publisher */
   @Test
   public void concatMap() {
 
+    // V1
     Flux.just(1, 2)
         .concatMap(
             x -> {
-              return Flux.just(x + "--a");
+              return Flux.just(x + "--a", 1, 2);
             })
         .log()
         .subscribe();
+
+    // V2
+    Flux.concat(Flux.just(1, 2), Flux.just("a", "b"), Flux.just("c", "d")).log().subscribe();
+
+    // V3
+    Flux.just(1, 2)
+        .concatWith(Flux.just(4, 5, 6)) // NOTE ! needs to use same type (within two streams)
+        .log()
+        .subscribe();
+  }
+
+  /**
+   * transform VS transformDeferred
+   *
+   *  -> external val is shared or not
+   *
+   *  -> transform : NO status transformed
+   *  -> transformDeferred : has status transformed
+   */
+  @Test
+  public void transform() {
+
+      AtomicInteger atomic = new AtomicInteger(0);
+
+      Flux<String> flux =  Flux.just("a", "b", "c")
+              // transform
+              .transformDeferred(x -> {
+                  // ++ atomic
+                  // if 1st call, transform elements in stream to upper case
+                  if (atomic.incrementAndGet() == 1){
+                      return x.map(String::toUpperCase);
+                  }else{
+                      return x;
+                  }
+              });
+
+
+      /**
+       * NOTE !!!
+       *
+       *  transform (without defer (延遲))
+       *  -> external val (atomic in this example) will NOT be shared
+       *
+       * Sub 1 A
+       * Sub 1 B
+       * Sub 1 C
+       * Sub 2 a
+       * Sub 2 b
+       * Sub 2 c
+       *
+       *
+       * VS
+       *
+       * Sub 1 A
+       * Sub 1 B
+       * Sub 1 C
+       * Sub 2 A
+       * Sub 2 B
+       * Sub 2 C
+       */
+      flux.subscribe(y->System.out.println("Sub 1 " + y));
+      flux.subscribe(y->System.out.println("Sub 2 " + y));
+
   }
 
 }
