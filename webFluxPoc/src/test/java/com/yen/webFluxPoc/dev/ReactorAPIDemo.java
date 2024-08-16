@@ -121,7 +121,13 @@ public class ReactorAPIDemo {
   }
 
   /**
-   * NOTE !!
+   * defaultIfEmpty VS switchIfEmpty
+   *
+   *  defaultIfEmpty : static default val
+   *  switchIfEmpty : dynamic default val (return new data)
+   *
+   *
+   * <p>NOTE !!
    *
    * <p>- Mono.just(null) : NOT null stream, means stream has a "null" element - Mono.empty() : null
    * stream
@@ -135,6 +141,10 @@ public class ReactorAPIDemo {
 
     // if subscribed elements is null, use default val
     MyMethod().defaultIfEmpty("default val").subscribe(v -> System.out.println("v = " + v));
+
+    MyMethod()
+        .switchIfEmpty(Mono.just("default val V2"))
+        .subscribe(v -> System.out.println("v = " + v));
   }
 
   Mono<String> MyMethod() {
@@ -143,8 +153,27 @@ public class ReactorAPIDemo {
     return Mono.empty(); // NOTE !!! use this way define null stream
   }
 
+
+  /**
+   *  merge
+   *
+   *
+   *  merge VS mergeWith
+   */
   @Test
-  public void merge() {}
+  public void merge() {
+
+      Flux.just(1,2,3)
+              .merge(Flux.just(4,5,6), Flux.just(9,10,11))
+              .log()
+              .subscribe();
+
+      Flux.just(1,2,3)
+              .mergeWith(Flux.just(4,5,6))
+              .log()
+              .subscribe();
+
+  }
 
   @Test
   public void zip() {}
