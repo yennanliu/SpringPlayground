@@ -2,10 +2,10 @@ package com.yen.webFluxPoc.dev;
 
 // https://youtu.be/ripK1QwyOJ4?si=KhKvJ6cRsWmm-uZo
 
+import java.util.concurrent.atomic.AtomicInteger;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
-
-import java.util.concurrent.atomic.AtomicInteger;
+import reactor.core.publisher.Mono;
 
 public class ReactorAPIDemo {
 
@@ -91,45 +91,61 @@ public class ReactorAPIDemo {
 
       AtomicInteger atomic = new AtomicInteger(0);
 
-      Flux<String> flux =  Flux.just("a", "b", "c")
-              // transform
-              .transformDeferred(x -> {
+    Flux<String> flux =
+        Flux.just("a", "b", "c")
+            // transform
+            .transformDeferred(
+                x -> {
                   // ++ atomic
                   // if 1st call, transform elements in stream to upper case
-                  if (atomic.incrementAndGet() == 1){
-                      return x.map(String::toUpperCase);
-                  }else{
-                      return x;
+                  if (atomic.incrementAndGet() == 1) {
+                    return x.map(String::toUpperCase);
+                  } else {
+                    return x;
                   }
-              });
+                });
 
-
-      /**
-       * NOTE !!!
-       *
-       *  transform (without defer (延遲))
-       *  -> external val (atomic in this example) will NOT be shared
-       *
-       * Sub 1 A
-       * Sub 1 B
-       * Sub 1 C
-       * Sub 2 a
-       * Sub 2 b
-       * Sub 2 c
-       *
-       *
-       * VS
-       *
-       * Sub 1 A
-       * Sub 1 B
-       * Sub 1 C
-       * Sub 2 A
-       * Sub 2 B
-       * Sub 2 C
-       */
-      flux.subscribe(y->System.out.println("Sub 1 " + y));
-      flux.subscribe(y->System.out.println("Sub 2 " + y));
-
+    /**
+     * NOTE !!!
+     *
+     * <p>transform (without defer (延遲)) -> external val (atomic in this example) will NOT be shared
+     *
+     * <p>Sub 1 A Sub 1 B Sub 1 C Sub 2 a Sub 2 b Sub 2 c
+     *
+     * <p>VS
+     *
+     * <p>Sub 1 A Sub 1 B Sub 1 C Sub 2 A Sub 2 B Sub 2 C
+     */
+    flux.subscribe(y -> System.out.println("Sub 1 " + y));
+    flux.subscribe(y -> System.out.println("Sub 2 " + y));
   }
 
+  /**
+   * NOTE !!
+   *
+   * <p>- Mono.just(null) : NOT null stream, means stream has a "null" element - Mono.empty() : null
+   * stream
+   */
+  @Test
+  public void empty() {
+
+    //    Mono.just("a")
+    //            //.log()
+    //            .subscribe(v -> System.out.println("v = " + v));
+
+    // if subscribed elements is null, use default val
+    MyMethod().defaultIfEmpty("default val").subscribe(v -> System.out.println("v = " + v));
+  }
+
+  Mono<String> MyMethod() {
+    // return Mono.just("yooooo");
+    // return Mono.just("");
+    return Mono.empty(); // NOTE !!! use this way define null stream
+  }
+
+  @Test
+  public void merge() {}
+
+  @Test
+  public void zip() {}
 }
