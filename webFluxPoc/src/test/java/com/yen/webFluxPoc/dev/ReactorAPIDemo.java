@@ -190,5 +190,5 @@ public class ReactorAPIDemo {
 
     // x.subscribe(y->System.out.println(y));
   }
-  
+
 }
