@@ -153,28 +153,42 @@ public class ReactorAPIDemo {
     return Mono.empty(); // NOTE !!! use this way define null stream
   }
 
-
   /**
-   *  merge
+   * merge
    *
+   * <p>merge VS mergeWith
    *
-   *  merge VS mergeWith
+   * <p>concat : merge stream A and stream B merge : merge stream A and stream B (with time
+   * sequence) mergeWith mergeSequential : merge based on stream start time
    */
   @Test
   public void merge() {
 
-      Flux.just(1,2,3)
-              .merge(Flux.just(4,5,6), Flux.just(9,10,11))
-              .log()
-              .subscribe();
+    Flux.just(1, 2, 3).merge(Flux.just(4, 5, 6), Flux.just(9, 10, 11)).log().subscribe();
 
-      Flux.just(1,2,3)
-              .mergeWith(Flux.just(4,5,6))
-              .log()
-              .subscribe();
-
+    Flux.just(1, 2, 3).mergeWith(Flux.just(4, 5, 6)).log().subscribe();
   }
 
+  /**
+   * Zip
+   *
+   * <p>Zip VS ZipWith
+   */
   @Test
-  public void zip() {}
+  public void zip() {
+
+    Flux.just(1, 2, 3)
+        .zipWith(Flux.just(4, 5, 6, 7))
+        .map(
+            tuple -> {
+              Integer t1 = tuple.getT1(); // get 1st element from tuple
+              Integer t2 = tuple.getT2(); // get 2nd element from tuple
+              return t1 + "-->" + t2;
+            })
+        .subscribe(x -> System.out.println(x));
+    // .log();
+
+    // x.subscribe(y->System.out.println(y));
+  }
+  
 }
