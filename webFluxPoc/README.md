@@ -7,7 +7,6 @@
 
 - Lambda expression
   - https://youtu.be/H-ijsS-pfgQ?si=AO-ypUVuF78VLywy&t=194
-  - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/main/java/com/yen/webFluxPoc/dev/LambdaExample.java
   - `java.util.function`
     - consumer : 消費者
     - supplier : 生產者
@@ -48,6 +47,11 @@
   -   - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/test/java/com/yen/webFluxPoc/dev/ReactorAPIDemo.java
 
 
+- Core API demo
+  - Lambda expression
+  - flatMap
+    - https://github.com/yennanliu/JavaHelloWorld/tree/main/dev_projects/RxJava/RxJava/src/main/java/com/yen/dev
+    - https://github.com/yennanliu/SpringPlayground/blob/main/webFluxPoc/src/main/java/com/yen/webFluxPoc/dev/LambdaExample.java
 
 ## API
 
