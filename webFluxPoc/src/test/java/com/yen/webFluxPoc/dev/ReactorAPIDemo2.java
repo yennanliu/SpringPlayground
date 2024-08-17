@@ -34,7 +34,7 @@ public class ReactorAPIDemo2 {
    * <p>Sinks.many(); // send a flux data Sinks.one(); // send a Mono data
    */
   @Test
-  public void sinkDemo() throws InterruptedException {
+  public void sinkDemo1() throws InterruptedException {
 
     //    Sinks.many(); // send a flux data
     //    Sinks.one(); // send a Mono data
@@ -53,11 +53,75 @@ public class ReactorAPIDemo2 {
              */
             .onBackpressureBuffer(new LinkedBlockingDeque<>(5));
 
-    // many.asFlux().delayElements(Duration.ofSeconds(1)).subscribe();
+    //    for (int i = 0; i < 10; i++) {
+    //      many.tryEmitNext("record = " + i);
+    //      Thread.sleep(1000);
+    //    }
 
-    for (int i = 0; i < 10; i++) {
-      many.tryEmitNext("record = " + i);
-      Thread.sleep(1000);
-    }
+    // use a new thread
+    new Thread(
+            () -> {
+              for (int i = 0; i < 10; i++) {
+                many.tryEmitNext("record = " + i);
+                try {
+                  Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+                }
+              }
+            })
+        .start();
+
+    many.asFlux().subscribe(x -> System.out.println("sub 1 = " + x));
+    /**
+     * exception : (since unicast(單播) can ONLY have ONE subscriber)
+     *
+     * <p>reactor.core.Exceptions$ErrorCallbackNotImplemented: java.lang.IllegalStateException:
+     * Sinks.many().unicast() sinks only allow a single Subscriber Caused by:
+     * java.lang.IllegalStateException: Sinks.many().unicast() sinks only allow a single Subscriber
+     */
+    many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
+
+    Thread.sleep(20000);
   }
+
+  @Test
+  public void sinkDemo2() throws InterruptedException {
+
+    Sinks.Many<Object> many =
+        Sinks.many()
+            .multicast() // 多播
+            .onBackpressureBuffer();
+
+    // use a new thread
+    new Thread(
+            () -> {
+              for (int i = 0; i < 10; i++) {
+                many.tryEmitNext("record = " + i);
+                try {
+                  Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                  throw new RuntimeException(e);
+                }
+              }
+            })
+        .start();
+
+    many.asFlux().subscribe(x -> System.out.println("sub 1 = " + x));
+    //many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
+
+    // or, can simulate subscriber 2 start consume after 5 sec
+    new Thread(() -> {
+      try {
+        Thread.sleep(5000);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
+    });
+
+    many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
+
+    Thread.sleep(20000);
+  }
+
 }
