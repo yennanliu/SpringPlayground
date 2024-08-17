@@ -97,14 +97,35 @@ public class ErrorApiDemo {
   }
 
   @Test
-  public void continueWhenError() {
+  public void onErrorContinue() {
 
     Flux.just(1, 2, 0, 3, 5)
         .map(x -> 10 / x)
         // NOTE !!! continue execution even error happened
-        .onErrorContinue((err, val)->{
-          System.out.println("err = " + err + ", val = " + val);
-        })
+        .onErrorContinue(
+            (err, val) -> {
+              System.out.println("err = " + err + ", val = " + val);
+            })
+        .subscribe(x -> System.out.println(x), err -> System.out.println(err));
+  }
+
+  /** when face error, stream terminated, but REPLACE error msg as normal completed msg */
+  @Test
+  public void onErrorComplete() {
+
+    Flux.just(1, 2, 0, 3, 5)
+        .map(x -> 10 / x)
+        .onErrorComplete()
+        .subscribe(x -> System.out.println(x), err -> System.out.println(err));
+  }
+
+  /** when face error, stream terminated directly (stream is then canceled) */
+  @Test
+  public void onErrorStop() {
+
+    Flux.just(1, 2, 0, 3, 5)
+        .map(x -> 10 / x)
+        .onErrorStop()
         .subscribe(x -> System.out.println(x), err -> System.out.println(err));
   }
 
@@ -123,4 +144,5 @@ public class ErrorApiDemo {
       super(">>> BusinessException " + msg);
     }
   }
+
 }
