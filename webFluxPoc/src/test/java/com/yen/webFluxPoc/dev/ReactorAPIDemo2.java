@@ -121,6 +121,12 @@ public class ReactorAPIDemo2 {
 
     many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
 
+
+    // can replay as well
+    //Sinks.many().replay();
+    //Sinks.many().replay().latest(); // replay later
+    //Sinks.many().replay().limit(5); // only replay 5 elements
+
     Thread.sleep(20000);
   }
 
