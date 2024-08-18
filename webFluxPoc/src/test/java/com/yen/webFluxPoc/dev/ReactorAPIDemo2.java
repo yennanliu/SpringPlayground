@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
 import reactor.core.scheduler.Schedulers;
+import reactor.util.context.Context;
 
 public class ReactorAPIDemo2 {
 
@@ -200,7 +201,7 @@ public class ReactorAPIDemo2 {
         .publishOn(Schedulers.newParallel("xx--"))
         .parallel(8)
         .runOn(Schedulers.newParallel("yy--"))
-        //.log()
+        // .log()
         .flatMap(list -> Flux.fromIterable(list))
         .collectSortedList(Integer::compareTo)
         .subscribe(x -> System.out.println(x));
@@ -208,4 +209,35 @@ public class ReactorAPIDemo2 {
     Thread.sleep(20000);
   }
 
+  /**
+   * contextAPI demo
+   *
+   * <p>1. threadLocal CAN'T be used in reactor API 2. use contextAPI share data within context -
+   * Context : read, write - ContextView : read
+   */
+  @Test
+  public void contextAPI() {
+
+    /** NOTE !!! have to use API that support context */
+    Flux.just(1, 2, 3)
+        .transformDeferredContextual(
+            (flux, context) -> {
+              System.out.println("flux = " + flux);
+              System.out.println("context = " + context);
+              //return Flux.just(2, 3, 4);
+                return flux.map(i -> i + " ==> " + context.get("prefix"));
+            })
+        .map(
+            x -> {
+              System.out.println("x = " + 1);
+              return x + 10;
+            })
+        // upstream can get the newest data from downstream****
+        .contextWrite(Context.of("prefix", " lol "))
+        /**
+         * ThreadLocal share data, upstream can see data, Context send data from upstream to
+         * downstream
+         */
+        .subscribe(x -> System.out.println(x));
+  }
 }
