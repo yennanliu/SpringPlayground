@@ -200,9 +200,12 @@ public class ReactorAPIDemo2 {
         .publishOn(Schedulers.newParallel("xx--"))
         .parallel(8)
         .runOn(Schedulers.newParallel("yy--"))
-        .log()
+        //.log()
+        .flatMap(list -> Flux.fromIterable(list))
+        .collectSortedList(Integer::compareTo)
         .subscribe(x -> System.out.println(x));
 
     Thread.sleep(20000);
   }
+
 }
