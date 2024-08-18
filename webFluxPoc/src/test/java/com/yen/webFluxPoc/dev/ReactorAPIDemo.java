@@ -129,8 +129,9 @@ public class ReactorAPIDemo {
    *
    * <p>NOTE !!
    *
-   * <p>- Mono.just(null) : NOT null stream, means stream has a "null" element - Mono.empty() : null
-   * stream
+   * <p>
+   *     - Mono.just(null) : NOT null stream, means stream has a "null" element
+   *     - Mono.empty() : null stream
    */
   @Test
   public void empty() {
@@ -150,7 +151,7 @@ public class ReactorAPIDemo {
   Mono<String> MyMethod() {
     // return Mono.just("yooooo");
     // return Mono.just("");
-    return Mono.empty(); // NOTE !!! use this way define null stream
+    return Mono.empty(); // NOTE !!! use "Mono.empty()" to define null stream
   }
 
   /**
@@ -158,8 +159,10 @@ public class ReactorAPIDemo {
    *
    * <p>merge VS mergeWith
    *
-   * <p>concat : merge stream A and stream B merge : merge stream A and stream B (with time
-   * sequence) mergeWith mergeSequential : merge based on stream start time
+   * <p>
+   *     concat : merge stream A and stream B
+   *     merge : merge stream A and stream B (with time sequence)
+   *     mergeWith mergeSequential : merge based on stream start time
    */
   @Test
   public void merge() {

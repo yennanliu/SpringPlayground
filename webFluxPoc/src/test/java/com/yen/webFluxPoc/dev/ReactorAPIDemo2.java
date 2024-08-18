@@ -31,7 +31,10 @@ public class ReactorAPIDemo2 {
   /**
    * Sinks : stream pipeline (tunnel) data flows with sink
    *
-   * <p>Sinks.many(); // send a flux data Sinks.one(); // send a Mono data
+   * <p>
+   *     Sinks.many(); // send a flux data
+   *     Sinks.one(); // send a Mono data
+   *
    */
   @Test
   public void sinkDemo1() throws InterruptedException {
@@ -49,7 +52,7 @@ public class ReactorAPIDemo2 {
             /**
              * 背壓隊列:
              *
-             * <p>(onBackpressureBuffer) : max can have 5 elements (similar as limit)
+             * <p>(onBackpressureBuffer) : can have 5 elements at most (similar as limit)
              */
             .onBackpressureBuffer(new LinkedBlockingDeque<>(5));
 
@@ -110,7 +113,7 @@ public class ReactorAPIDemo2 {
     many.asFlux().subscribe(x -> System.out.println("sub 1 = " + x));
     //many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
 
-    // or, can simulate subscriber 2 start consume after 5 sec
+    // or, can simulate that subscriber 2 start consume after 5 sec (delay with 5 sec)
     new Thread(() -> {
       try {
         Thread.sleep(5000);
