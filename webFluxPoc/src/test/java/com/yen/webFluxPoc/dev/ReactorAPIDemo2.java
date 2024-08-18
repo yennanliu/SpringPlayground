@@ -3,10 +3,12 @@ package com.yen.webFluxPoc.dev;
 // https://youtu.be/E-9UjhOu8Ps?si=_r5uf7guFVxGWm8s
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.LinkedBlockingDeque;
 import org.junit.jupiter.api.Test;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Sinks;
+import reactor.core.scheduler.Schedulers;
 
 public class ReactorAPIDemo2 {
 
@@ -111,26 +113,96 @@ public class ReactorAPIDemo2 {
         .start();
 
     many.asFlux().subscribe(x -> System.out.println("sub 1 = " + x));
-    //many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
+    // many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
 
     // or, can simulate that subscriber 2 start consume after 5 sec (delay with 5 sec)
-    new Thread(() -> {
-      try {
-        Thread.sleep(5000);
-      } catch (InterruptedException e) {
-        throw new RuntimeException(e);
-      }
-    });
+    new Thread(
+        () -> {
+          try {
+            Thread.sleep(5000);
+          } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+          }
+        });
 
     many.asFlux().subscribe(x -> System.out.println("sub 2 = " + x));
 
-
     // can replay as well
-    //Sinks.many().replay();
-    //Sinks.many().replay().latest(); // replay later
-    //Sinks.many().replay().limit(5); // only replay 5 elements
+    // Sinks.many().replay();
+    // Sinks.many().replay().latest(); // replay later
+    // Sinks.many().replay().limit(5); // only replay 5 elements
 
     Thread.sleep(20000);
   }
 
+  /** Cache demo */
+  @Test
+  public void cache() throws InterruptedException {
+
+    Flux<Integer> cache =
+        Flux.range(1, 10)
+            .delayElements(Duration.ofSeconds(1))
+            /** Can cache 3 elements */
+            .cache(3);
+    // .subscribe(x-> System.out.println(x));
+
+    cache.subscribe();
+
+    new Thread(
+            () -> {
+              // start process after 7 sec
+              try {
+                Thread.sleep(7000);
+              } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+              }
+              cache.subscribe(x -> System.out.println(x));
+            })
+        .start();
+
+    Thread.sleep(20000);
+  }
+
+  @Test
+  public void blockAPI() {
+
+    List<Integer> integerList =
+        Flux.just(1, 2, 3)
+            .map(x -> x + 10)
+            .collectList()
+            .block(); // block here (one of the subscribers)
+
+    System.out.println("integerList = " + integerList);
+  }
+
+  /** parallel demo */
+  @Test
+  public void parallelFlux() throws InterruptedException {
+
+    /**
+     * V1
+     *
+     * <p>log :
+     *
+     * <p>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10] [11, 12, 13, 14, 15, 16, 17, 18, 19, 20] [21, 22, 23, 24,
+     * 25, 26, 27, 28, 29, 30] [31, 32, 33, 34, 35, 36, 37, 38, 39, 40] [41, 42, 43, 44, 45, 46, 47,
+     * 48, 49, 50] [51, 52, 53, 54, 55, 56, 57, 58, 59, 60] [61, 62, 63, 64, 65, 66, 67, 68, 69, 70]
+     * [71, 72, 73, 74, 75, 76, 77, 78, 79, 80] [81, 82, 83, 84, 85, 86, 87, 88, 89, 90] [91, 92,
+     * 93, 94, 95, 96, 97, 98, 99, 100]
+     */
+    //    Flux.range(1, 100)
+    //            .buffer(10)
+    //            .subscribe(x->System.out.println(x));
+
+    /** V2 */
+    Flux.range(1, 100)
+        .buffer(10)
+        .publishOn(Schedulers.newParallel("xx--"))
+        .parallel(8)
+        .runOn(Schedulers.newParallel("yy--"))
+        .log()
+        .subscribe(x -> System.out.println(x));
+
+    Thread.sleep(20000);
+  }
 }
