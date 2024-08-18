@@ -8,10 +8,12 @@ import java.util.Map;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 //import org.springframework.http.server.ServerHttpResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
@@ -61,6 +63,23 @@ public class HelloController {
 
     return Mono.just("world !!!!");
   }
+
+
+  // ResponseEntity demo
+  // https://youtu.be/xUux3Ycjh7U?si=8LV0Spxhj5dXwRJ9&t=897
+  @GetMapping("/dev5")
+  public ResponseEntity<String> hello5() {
+
+    ResponseEntity.status(305)
+            .header("aaa", "bbb")
+            .contentType(MediaType.APPLICATION_JSON)
+            .body("xxx");
+
+   // return new ResponseEntity.
+    return null;
+  }
+
+
 
   /**
    * SSE demo
