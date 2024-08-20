@@ -55,14 +55,15 @@
 
 ## API
 
-| API | Type | Purpose | Example cmd | Comment|
-| ----- | -------- | ---- | ----- | ---- |
-| http://localhost:8888/books | GET | | |
-| http://localhost:8888/books/{id} | GET | | `http://localhost:8888/books/1`|
-| http://localhost:8888/books| POST | | |
-| http://localhost:8888/test/delay | GET | | |
+| API                                  | Type | Purpose | Example cmd | Comment|
+|--------------------------------------| -------- | ---- | ----- | ---- |
+| http://localhost:8888/books          | GET | | |
+| http://localhost:8888/books/{id}     | GET | | `http://localhost:8888/books/1`|
+| http://localhost:8888/books          | POST | | |
+| http://localhost:8888/test/delay     | GET | | |
 | http://localhost:8888/test/delay_zip | GET | | |
-| http://localhost:8888/hello/sse | GET | | |
+| http://localhost:8888/hello/sse      | GET | | |
+| http://localhost:8888/hello/redirect | GET | | |
 
 
 - http://localhost:8888/books (POST)

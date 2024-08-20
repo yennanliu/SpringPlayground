@@ -12,7 +12,7 @@ import reactor.netty.http.server.HttpServer;
 
 // https://youtu.be/K1etTHjgJSQ?si=rwDnmu4gNeFJYX_3&t=143
 
-@EnableWebFlux
+@EnableWebFlux // all default setting by @WebFluxAutoConfiguration will be disabled : https://youtu.be/xUux3Ycjh7U?si=YCYzEiMo7vQTiotv&t=2068
 @SpringBootApplication
 public class WebFluxPocApplication {
 

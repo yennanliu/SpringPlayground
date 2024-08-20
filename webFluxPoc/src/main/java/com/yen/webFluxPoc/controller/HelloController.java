@@ -4,7 +4,6 @@ package com.yen.webFluxPoc.controller;
 
 import java.time.Duration;
 import java.util.Map;
-
 import org.springframework.http.HttpEntity;
 import org.springframework.http.MediaType;
 //import org.springframework.http.server.ServerHttpResponse;
@@ -13,8 +12,8 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.reactive.result.view.Rendering;
 import org.springframework.web.server.ServerWebExchange;
 import org.springframework.web.server.WebSession;
 import reactor.core.publisher.Flux;
@@ -95,5 +94,17 @@ public class HelloController {
             .map(x -> "hey - " + x)
             .delayElements(Duration.ofMillis(500));
   }
+
+  // https://youtu.be/xUux3Ycjh7U?si=mwR9Dsha1XONVtF3&t=1287
+  // need to run with @Controller
+  @GetMapping("/redirect")
+  public Rendering render(){
+    //return Rendering.redirectTo("/xxx").build(); // redirect to current root path /xxx
+    return Rendering.redirectTo("http://google.com").build(); // redirect to http://google.com
+  }
+
+  // https://youtu.be/xUux3Ycjh7U?si=S2yC0JWqa35yotnY&t=1611
+  // file upload
+
 
 }
