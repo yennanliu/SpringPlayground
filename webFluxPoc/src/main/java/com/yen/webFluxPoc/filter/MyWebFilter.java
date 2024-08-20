@@ -13,19 +13,31 @@ import reactor.core.publisher.Mono;
 @Component
 public class MyWebFilter implements WebFilter {
 
-    @Override
-    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        ServerHttpRequest request = exchange.getRequest();
-        ServerHttpResponse response = exchange.getResponse();
-        System.out.println("before filter ...");
-        Mono<Void> mono = chain.filter(exchange).doFinally(x -> {
-            // NOTE !!! since with doFinally, we are sure that below code runs after chain.filter
-            System.out.println("after filter ...");
-        });
+  @Override
+  public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
+    ServerHttpRequest request = exchange.getRequest();
+    ServerHttpResponse response = exchange.getResponse();
 
-        // NOTE !!! since RX java run asynchronous, so it's NOT guarantee that below code run after chain.filter
-        //System.out.println("after filter ...");
-        return mono;
-    }
+    System.out.println("before filter ...");
 
+    Mono<Void> filter = chain.filter(exchange);
+
+    Mono<Void> voidMono =
+        filter
+            .doOnError(
+                err -> {
+                  System.out.println("after target method execution err = " + err);
+                })
+            .doFinally(
+                x -> {
+                  // NOTE !!! since with doFinally, we are sure that below code runs after
+                  // chain.filter
+                  System.out.println("after filter ...");
+                });
+
+    // NOTE !!! since RX java run asynchronous, so it's NOT guarantee that below code run after
+    // chain.filter
+    // System.out.println("after filter ...");
+    return voidMono;
+  }
 }
