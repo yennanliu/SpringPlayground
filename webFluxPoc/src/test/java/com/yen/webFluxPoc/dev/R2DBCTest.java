@@ -57,4 +57,11 @@ public class R2DBCTest {
               System.out.println(authorMono);
             });
   }
+
+  // https://youtu.be/_1HwzpWx5UM?si=GGMfn3s_0uoN2Eq5&t=156
+  @Test
+  public void test2() {
+
+  }
+
 }
