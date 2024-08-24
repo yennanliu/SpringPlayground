@@ -33,4 +33,7 @@ public interface AuthorRepository extends R2dbcRepository<Author, Integer> {
     @Query("SELECT * FROM author WHERE id IN (:ids) AND name LIKE :name")
     Flux<Author> findAllByIdAndNameLike(List<Integer> ids, String name);
 
+    // complex sql (join)
+    // https://youtu.be/42MTtF44XAs?si=WA40AKSXFGxSHk9P&t=727
+
 }

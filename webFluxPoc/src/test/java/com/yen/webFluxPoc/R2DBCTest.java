@@ -5,6 +5,7 @@ package com.yen.webFluxPoc;
 // import com.jayway.jsonpath.Criteria;
 import com.yen.webFluxPoc.model.Author;
 import com.yen.webFluxPoc.repository.AuthorRepository;
+import com.yen.webFluxPoc.repository.UserInfoRepository;
 import io.asyncer.r2dbc.mysql.MySqlConnectionConfiguration;
 import io.asyncer.r2dbc.mysql.MySqlConnectionFactory;
 
@@ -45,8 +46,9 @@ public class R2DBCTest {
   @Autowired DatabaseClient databaseClient; // DB client (can get DB conn directly)
 
   /** option 3 : use repository (similar as mybatis plus */
-  @Autowired
-  AuthorRepository authorRepository;
+  @Autowired AuthorRepository authorRepository;
+
+  @Autowired UserInfoRepository userInfoRepository;
 
   @Test
   public void test1() {
@@ -158,15 +160,26 @@ public class R2DBCTest {
   @Test
   public void test4() throws InterruptedException {
 
-      // example 1
-      authorRepository.findAll()
-              .subscribe(author -> System.out.println(">>> author = " + author));
+    // example 1
+    authorRepository.findAll().subscribe(author -> System.out.println(">>> author = " + author));
 
-      // example 2 : run with custom SQL
-      authorRepository.findAllByIdAndNameLike(Arrays.asList(1,2), "jack")
-              .subscribe(author -> System.out.println(">>> filter author = " + author));
+    // example 2 : run with custom SQL
+    authorRepository
+        .findAllByIdAndNameLike(Arrays.asList(1, 2), "jack")
+        .subscribe(author -> System.out.println(">>> filter author = " + author));
 
-      Thread.sleep(20000);
+    Thread.sleep(20000);
+  }
+
+  @Test
+  public void test5() throws InterruptedException {
+
+    // example 1
+    userInfoRepository
+        .findUserByAuthorId(1)
+        .subscribe(x -> System.out.println(">>> userinfo = " + x));
+
+    Thread.sleep(20000);
   }
 
 }
