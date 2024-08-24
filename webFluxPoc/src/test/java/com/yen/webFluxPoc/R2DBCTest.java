@@ -1,4 +1,4 @@
-package com.yen.webFluxPoc.dev;
+package com.yen.webFluxPoc;
 
 // https://youtu.be/anguDoWURus?si=soqM6UrLcqB3td_i&t=580
 
@@ -11,6 +11,7 @@ import io.asyncer.r2dbc.mysql.MySqlConnectionFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.data.relational.core.query.Query;
@@ -18,6 +19,8 @@ import org.springframework.r2dbc.core.DatabaseClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+// https://youtu.be/hGgf-rTpvJ8?si=I95pXhaxKxKlyKKF&t=604
+@SpringBootTest
 public class R2DBCTest {
 
   // spring data module test
@@ -87,10 +90,10 @@ public class R2DBCTest {
 
     // step 3) run SQL
     r2dbcEntityTemplate.select(query, Author.class)
-            .subscribe(author -> System.out.println(author));
+            .subscribe(author -> System.out.println(">>> author = " + author));
 
     Thread.sleep(20000);
   }
 
-  
+
 }
