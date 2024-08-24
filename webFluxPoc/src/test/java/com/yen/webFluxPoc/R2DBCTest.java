@@ -16,16 +16,30 @@ import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.data.relational.core.query.Criteria;
 import org.springframework.data.relational.core.query.Query;
 import org.springframework.r2dbc.core.DatabaseClient;
+import org.springframework.r2dbc.core.FetchSpec;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 // https://youtu.be/hGgf-rTpvJ8?si=I95pXhaxKxKlyKKF&t=604
 @SpringBootTest
 public class R2DBCTest {
 
   // spring data module test
+
+  /**
+   * option 1 : R2dbcEntityTemplate
+   *
+   * <p>1. not good for join query (single table query) 2. CRUD API
+   */
   @Autowired R2dbcEntityTemplate r2dbcEntityTemplate; // CRUD API
 
+  /**
+   * option 2 : DatabaseClient
+   *
+   * <p>1. low level API 2. can do complex query op (e.g. join ..)
+   */
   @Autowired DatabaseClient databaseClient; // DB client (can get DB conn directly)
 
   @Test
@@ -75,9 +89,9 @@ public class R2DBCTest {
             });
   }
 
+  /** R2dbcEntityTemplate test */
   // https://youtu.be/_1HwzpWx5UM?si=GGMfn3s_0uoN2Eq5&t=156
   // https://youtu.be/hGgf-rTpvJ8?si=7joaGY4QaE3KoREg&t=22
-  //  r2dbcEntityTemplate test
   @Test
   public void test2() throws InterruptedException {
 
@@ -89,11 +103,46 @@ public class R2DBCTest {
     Query query = Query.query(criteria);
 
     // step 3) run SQL
-    r2dbcEntityTemplate.select(query, Author.class)
-            .subscribe(author -> System.out.println(">>> author = " + author));
+    r2dbcEntityTemplate
+        .select(query, Author.class)
+        .subscribe(author -> System.out.println(">>> author = " + author));
 
     Thread.sleep(20000);
   }
 
+  /** DatabaseClient test */
+  @Test
+  public void test3() throws InterruptedException {
+
+    /**
+     * public interface RowsFetchSpec<T> { Mono<T> one();
+     *
+     * <p>Mono<T> first();
+     *
+     * <p>Flux<T> all(); }
+     */
+    String sql = "SELECT * FROM author WHERE id = ?";
+    //      FetchSpec<Map<String, Object>> res = databaseClient.sql(sql)
+    //              .bind(0, 1)
+    //              .fetch(); // get data, can get one or first, or all (RowsFetchSpec interface)
+    //
+    //      Flux<Map<String, Object>> data = res.all();
+    //
+    //      data.subscribe(x->System.out.println(">>> data = " + data));
+
+    databaseClient
+        .sql(sql)
+        .bind(0, 1)
+        .fetch()
+        .all()
+        .map(
+            map -> {
+              System.out.println(">>> map = " + map);
+              return new Author();
+            })
+        .subscribe(author -> System.out.println(">>> author = " + author));
+
+    Thread.sleep(20000);
+  }
 
 }
