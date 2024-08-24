@@ -4,6 +4,7 @@ package com.yen.webFluxPoc;
 
 // import com.jayway.jsonpath.Criteria;
 import com.yen.webFluxPoc.model.Author;
+import com.yen.webFluxPoc.repository.AuthorRepository;
 import io.asyncer.r2dbc.mysql.MySqlConnectionConfiguration;
 import io.asyncer.r2dbc.mysql.MySqlConnectionFactory;
 
@@ -20,6 +21,7 @@ import org.springframework.r2dbc.core.FetchSpec;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Arrays;
 import java.util.Map;
 
 // https://youtu.be/hGgf-rTpvJ8?si=I95pXhaxKxKlyKKF&t=604
@@ -41,6 +43,10 @@ public class R2DBCTest {
    * <p>1. low level API 2. can do complex query op (e.g. join ..)
    */
   @Autowired DatabaseClient databaseClient; // DB client (can get DB conn directly)
+
+  /** option 3 : use repository (similar as mybatis plus */
+  @Autowired
+  AuthorRepository authorRepository;
 
   @Test
   public void test1() {
@@ -145,6 +151,22 @@ public class R2DBCTest {
         .subscribe(author -> System.out.println(">>> author = " + author));
 
     Thread.sleep(20000);
+  }
+
+    /** Repository test (preferable !!!) */
+  // https://youtu.be/42MTtF44XAs?si=W1sTgqE3UeCqENNd&t=332
+  @Test
+  public void test4() throws InterruptedException {
+
+      // example 1
+      authorRepository.findAll()
+              .subscribe(author -> System.out.println(">>> author = " + author));
+
+      // example 2 : run with custom SQL
+//      authorRepository.findAllByIdAndNameLike(Arrays.asList(1,2), "jack")
+//              .subscribe(author -> System.out.println(">>> filter author = " + author));
+
+      Thread.sleep(20000);
   }
 
 }
