@@ -36,7 +36,7 @@ public class R2DBCTest {
   @Autowired R2dbcEntityTemplate r2dbcEntityTemplate; // CRUD API
 
   /**
-   * option 2 : DatabaseClient
+   * option 2 : DatabaseClient (BETTER !!!)
    *
    * <p>1. low level API 2. can do complex query op (e.g. join ..)
    */
@@ -110,7 +110,7 @@ public class R2DBCTest {
     Thread.sleep(20000);
   }
 
-  /** DatabaseClient test */
+  /** DatabaseClient test (preferable !!!) */
   @Test
   public void test3() throws InterruptedException {
 
@@ -138,7 +138,9 @@ public class R2DBCTest {
         .map(
             map -> {
               System.out.println(">>> map = " + map);
-              return new Author();
+              Integer id = (Integer) map.get("id");
+              String name = map.get("name").toString();
+              return new Author(id+10, name);
             })
         .subscribe(author -> System.out.println(">>> author = " + author));
 
