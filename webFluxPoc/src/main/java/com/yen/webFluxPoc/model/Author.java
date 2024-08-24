@@ -2,6 +2,9 @@ package com.yen.webFluxPoc.model;
 
 // https://youtu.be/anguDoWURus?si=vLLY-9mKD2V5eztw&t=1762
 
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("author")
 public class Author {
 
     //private Long id;

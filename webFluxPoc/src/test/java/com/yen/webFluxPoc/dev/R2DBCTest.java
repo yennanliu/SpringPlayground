@@ -2,14 +2,28 @@ package com.yen.webFluxPoc.dev;
 
 // https://youtu.be/anguDoWURus?si=soqM6UrLcqB3td_i&t=580
 
+// import com.jayway.jsonpath.Criteria;
 import com.yen.webFluxPoc.model.Author;
 import io.asyncer.r2dbc.mysql.MySqlConnectionConfiguration;
 import io.asyncer.r2dbc.mysql.MySqlConnectionFactory;
+
+// import io.asyncer.r2dbc.mysql.Query;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration;
+import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.data.relational.core.query.Criteria;
+import org.springframework.data.relational.core.query.Query;
+import org.springframework.r2dbc.core.DatabaseClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 public class R2DBCTest {
+
+  // spring data module test
+  @Autowired R2dbcEntityTemplate r2dbcEntityTemplate; // CRUD API
+
+  @Autowired DatabaseClient databaseClient; // DB client (can get DB conn directly)
 
   @Test
   public void test1() {
@@ -59,9 +73,24 @@ public class R2DBCTest {
   }
 
   // https://youtu.be/_1HwzpWx5UM?si=GGMfn3s_0uoN2Eq5&t=156
+  // https://youtu.be/hGgf-rTpvJ8?si=7joaGY4QaE3KoREg&t=22
+  //  r2dbcEntityTemplate test
   @Test
-  public void test2() {
+  public void test2() throws InterruptedException {
 
+    // Query by criteria (QBC)
+    // step 1) prepare query condition
+    Criteria criteria = Criteria.empty().and("id").is(1).and("name").is("jack");
+
+    // step 2) prepare SQL
+    Query query = Query.query(criteria);
+
+    // step 3) run SQL
+    r2dbcEntityTemplate.select(query, Author.class)
+            .subscribe(author -> System.out.println(author));
+
+    Thread.sleep(20000);
   }
 
+  
 }
