@@ -163,8 +163,8 @@ public class R2DBCTest {
               .subscribe(author -> System.out.println(">>> author = " + author));
 
       // example 2 : run with custom SQL
-//      authorRepository.findAllByIdAndNameLike(Arrays.asList(1,2), "jack")
-//              .subscribe(author -> System.out.println(">>> filter author = " + author));
+      authorRepository.findAllByIdAndNameLike(Arrays.asList(1,2), "jack")
+              .subscribe(author -> System.out.println(">>> filter author = " + author));
 
       Thread.sleep(20000);
   }
