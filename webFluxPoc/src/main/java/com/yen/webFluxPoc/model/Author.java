@@ -4,23 +4,24 @@ package com.yen.webFluxPoc.model;
 
 public class Author {
 
-    private Long id;
+    //private Long id;
+    private Integer id;
     private String name;
 
     public Author(){
 
     }
 
-    public Author(Long id, String name) {
+    public Author(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

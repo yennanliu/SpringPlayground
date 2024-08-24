@@ -40,14 +40,14 @@ public class R2DBCTest {
                 Flux.from(
                     connection
                         .createStatement("SELECT * FROM author WHERE id = ?")
-                        .bind(0, 2L)
+                        .bind(0, 2)
                         .execute()))
         .map(
             result -> {
               return Mono.from(
                   result.map(
                       readable -> {
-                        Long id = readable.get("id", Long.class);
+                          Integer id = readable.get("id", Integer.class);
                         String name = readable.get("name", String.class);
                         return new Author(id, name);
                       }));
