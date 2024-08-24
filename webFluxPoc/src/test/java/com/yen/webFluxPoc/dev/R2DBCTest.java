@@ -17,14 +17,14 @@ public class R2DBCTest {
     /** r2dbc is a async DB connection library 2) CAN NOT raise concurrent amount */
 
     // Step 0) mysql setting
-    final String mysqlUrl = "r2dbc:mysql://localhost:3306/test";
+    final String mysqlUrl = "r2dbc:mysql://localhost:3306/webflux_test";
     // ConnectionFactory connectionFactory = ConnectionFactories.get(mysqlUrl);
     // https://youtu.be/anguDoWURus?si=kKvC_BpiWANXqdtT&t=2323
     MySqlConnectionConfiguration conf =
         MySqlConnectionConfiguration.builder()
             .username("root")
             .host("localhost")
-            .database("test")
+            .database("webflux_test")
             .build();
 
     // Step 1) mysql connection factory
