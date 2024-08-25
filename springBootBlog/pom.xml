@@ -35,9 +35,15 @@
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.boot</groupId>-->
+<!--			<artifactId>spring-boot-starter-web</artifactId>-->
+<!--		</dependency>-->
+
+		<!-- Webflux  -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
 		</dependency>
 
 		<dependency>
@@ -123,6 +129,46 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+		<!--
+    R2DBC for mysql
+
+    https://mvnrepository.com/artifact/io.asyncer/r2dbc-mysql
+
+    https://youtu.be/_1HwzpWx5UM?si=LZsO06P998GAoVzp&t=81
+-->
+		<dependency>
+			<groupId>io.asyncer</groupId>
+			<artifactId>r2dbc-mysql</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+
+		<!--
+        https://youtu.be/_1HwzpWx5UM?si=LZsO06P998GAoVzp&t=81
+        https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-r2dbc
+        -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-r2dbc</artifactId>
+			<version>3.2.5</version>
+		</dependency>
+
+		<!--
+         fix R2DBC network issue (suggested by GPT)
+
+         The error you encountered is related to the Netty library,
+         which is used by R2DBC under the hood for network operations.
+         Specifically, the error suggests that a native library required by Netty for DNS resolution on macOS is missing.
+         This doesn’t directly affect the execution of your SQL query but can cause network-related issues.
+         Fixing the Issue To resolve this issue, you can add the necessary Netty dependency for macOS.
+         Update your pom.xml to include the following dependency:
+        -->
+<!--		<dependency>-->
+<!--			<groupId>io.netty</groupId>-->
+<!--			<artifactId>netty-resolver-dns-native-macos</artifactId>-->
+<!--			<version>${netty.version}</version>-->
+<!--			<classifier>osx-aarch_64</classifier>-->
+<!--		</dependency>-->
 
     </dependencies>
 
