@@ -6,6 +6,7 @@ spring:
     url: r2dbc:mysql://localhost:3306/webflux_test
     name: test
 # https://youtu.be/hGgf-rTpvJ8?si=Z2jYBgQ9odh0d487&t=1089
+# r2dbc logging level
 logging:
   level:
     org:
