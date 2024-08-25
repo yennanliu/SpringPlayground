@@ -52,7 +52,8 @@ public class AuthorEditController {
       request.setUserName("admin");
       model.addAttribute("authors", authorList);
       model.addAttribute("LoginRequest", request);
-      model.addAttribute("user", principal.getName());
+      //model.addAttribute("user", principal.getName());
+      model.addAttribute("user", "admin");
     }
     return "author/author_pre_edit";
   }
@@ -61,7 +62,8 @@ public class AuthorEditController {
   public String editAuthor(Model model, Principal principal) {
 
     model.addAttribute("CreateAuthor", new CreateAuthor());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/author_pre_edit";
   }
 
@@ -78,7 +80,8 @@ public class AuthorEditController {
 
     log.info(">>> update author : {}", author);
     authorService.updateAuthor(author);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "redirect:/author/all";
   }
 }

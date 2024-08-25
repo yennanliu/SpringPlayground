@@ -24,7 +24,8 @@ public class AuthorController {
 
     List<Author> authors = authorService.getAllAuthors();
     model.addAttribute("authors", authors);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/authors";
   }
 
@@ -33,7 +34,8 @@ public class AuthorController {
 
     Author author = authorService.getById(id);
     model.addAttribute("author", author);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/author";
   }
 }

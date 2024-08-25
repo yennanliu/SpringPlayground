@@ -25,7 +25,8 @@ public class AuthorRegisterController {
   public String register(Model model, Principal principal) {
 
     model.addAttribute("CreateAuthor", new CreateAuthor());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/register";
   }
 

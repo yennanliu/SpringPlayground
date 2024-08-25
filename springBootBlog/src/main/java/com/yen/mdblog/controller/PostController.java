@@ -89,9 +89,9 @@ public class PostController {
     log.info(">>> all posts count = " + posts.size());
     model.addAttribute("posts", posts);
     // get current user login via spring security
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
     Arrays.stream(pageInfo.getNavigatepageNums()).forEach(System.out::println);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
 
     return "post/posts";
   }
@@ -112,7 +112,8 @@ public class PostController {
     } else {
       model.addAttribute("error", "no-post");
     }
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/post";
   }
 
@@ -120,7 +121,8 @@ public class PostController {
   public String createPostForm(Model model, Principal principal) {
 
     model.addAttribute("CreatePost", new CreatePost());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/create_post";
   }
 
@@ -130,7 +132,8 @@ public class PostController {
     log.info(">>> create post start ...");
     Post post = new Post();
     Author author = new Author();
-    String authorName = principal.getName();
+    //String authorName = principal.getName();
+    String authorName = "admin";
     List<Author> authors = authorService.getAllAuthors();
 
     // TODO : do below with ids instead
@@ -162,7 +165,8 @@ public class PostController {
     log.info(">>> request = " + request + " post = " + post + " author = " + author);
     log.info(">>>> create post end ...");
     postService.savePost(post);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/success";
   }
 
@@ -176,7 +180,8 @@ public class PostController {
     Author author = authorService.getByName(principal.getName());
     // if there is current user has no any post
     if (author == null) {
-      model.addAttribute("user", principal.getName());
+      //model.addAttribute("user", principal.getName());
+      model.addAttribute("user", "admin");
       log.info("use null_my_post");
       return "post/null_my_post";
     }
@@ -185,8 +190,8 @@ public class PostController {
     List<Post> posts = postService.getPostsById(author.getId());
     model.addAttribute("posts", posts);
     // get current user login via spring security
-    model.addAttribute("user", principal.getName());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/my_post";
   }
 
@@ -194,7 +199,8 @@ public class PostController {
   public String preSearchPost(Model model, Principal principal) {
 
     model.addAttribute("SearchRequest", new SearchRequest());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/post_presearch";
   }
 
@@ -202,7 +208,8 @@ public class PostController {
   public String searchPost(Model model, Principal principal, SearchRequest request) {
 
     List<Post> posts = postService.getPostByKeyword(request);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     model.addAttribute("posts", posts);
     return "post/post_search_result";
   }

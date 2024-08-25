@@ -71,14 +71,16 @@ public class PostEditController {
       model.addAttribute("LoginRequest", request);
     }
 
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/post_pre_edit";
   }
 
   @GetMapping("/")
   public String EditPost(Model model, Principal principal) {
     model.addAttribute("CreatePost", new CreatePost());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/post_edit";
   }
 
@@ -92,7 +94,8 @@ public class PostEditController {
       model.addAttribute("error", "no-post");
     }
 
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "post/post_edit";
   }
 
@@ -103,7 +106,8 @@ public class PostEditController {
     log.info(">>> update post : {}", post);
     postService.updatePost(post);
     log.info(">>> update professor : return to professor/list page");
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "redirect:/posts/all";
   }
 }
