@@ -9,9 +9,11 @@ import org.springframework.http.server.reactive.ReactorHttpHandlerAdapter;
 import org.springframework.web.reactive.config.EnableWebFlux;
 import reactor.core.publisher.Mono;
 import reactor.netty.http.server.HttpServer;
+//import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 // https://youtu.be/K1etTHjgJSQ?si=rwDnmu4gNeFJYX_3&t=143
 
+//@EnableSwagger2
 @EnableWebFlux // all default setting by @WebFluxAutoConfiguration will be disabled : https://youtu.be/xUux3Ycjh7U?si=YCYzEiMo7vQTiotv&t=2068
 @SpringBootApplication
 public class WebFluxPocApplication {
