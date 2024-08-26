@@ -64,6 +64,9 @@
 | http://localhost:8888/test/delay_zip | GET | | |
 | http://localhost:8888/hello/sse      | GET | | |
 | http://localhost:8888/hello/redirect | GET | | |
+| http://localhost:8888/author         | GET | | |
+| http://localhost:8888/author/{id}     | GET | | `http://localhost:8888/author/1`|
+| http://localhost:8888/author          | POST | | |
 
 
 - http://localhost:8888/books (POST)
