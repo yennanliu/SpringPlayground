@@ -10,6 +10,8 @@ import com.yen.mdblog.entity.Vo.LoginRequest;
 import com.yen.mdblog.service.AuthorService;
 import java.security.Principal;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,6 +21,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Controller
 @Log4j2
@@ -33,15 +37,19 @@ public class AuthorEditController {
     log.info(">>> (Author) prePost start ...");
     User user = new User();
     PageInfo<Author> pageInfo = null;
-    List<Author> authorList = null;
+    //List<Author> authorList = null;
+    Flux<Author> authorList = null;
 
     user.setUserName("admin"); // TODO: get it from session
     if (!StringUtils.isEmpty(user.getUserName()) || user.getUserName().length() > 0) {
       try {
         // add blogs for editing blogs at admin-age
         PageHelper.startPage(PageConst.PAGE_NUM.getSize(), PageConst.PAGE_SIZE.getSize());
+
+        //authorList = authorService.getAllAuthors();
         authorList = authorService.getAllAuthors();
-        pageInfo = new PageInfo<Author>(authorList, PageConst.PAGE_SIZE.getSize());
+
+        pageInfo = new PageInfo<Author>(authorList.toStream().collect(Collectors.toList()), PageConst.PAGE_SIZE.getSize());
         model.addAttribute("pageInfo", pageInfo);
       } finally {
         PageHelper.clearPage();
@@ -70,7 +78,9 @@ public class AuthorEditController {
   @GetMapping("/{id}")
   public String getAuthorById(@PathVariable Integer id, Model model, Principal principal) {
 
-    Author author = authorService.getById(id);
+    //Author author = authorService.getById(id);
+    Mono<Author> author = authorService.getById(id);
+
     model.addAttribute("author", author);
     return "author/author_edit";
   }

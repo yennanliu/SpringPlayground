@@ -8,8 +8,9 @@ import com.yen.mdblog.entity.Po.Comment;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.entity.Vo.CreateComment;
 import com.yen.mdblog.entity.Vo.CreatePost;
-import com.yen.mdblog.mapper.AuthorMapper;
+//import com.yen.mdblog.mapper.AuthorMapper;
 import com.yen.mdblog.mapper.PostMapper;
+import com.yen.mdblog.repository.AuthorRepository;
 import com.yen.mdblog.repository.PostRepository;
 import com.yen.mdblog.service.AuthorService;
 import com.yen.mdblog.service.CommentService;
@@ -52,7 +53,10 @@ public class PostController {
 
   @Autowired CommentService commentService;
 
-  @Autowired AuthorMapper authorMapper;
+  //@Autowired AuthorMapper authorMapper;
+
+  @Autowired
+  AuthorRepository authorRepository;
 
   @GetMapping("/all")
   public String getPaginatedPosts(
@@ -158,21 +162,31 @@ public class PostController {
     Author author = new Author();
     //String authorName = principal.getName();
     String authorName = "admin";
-    List<Author> authors = authorService.getAllAuthors();
+    //List<Author> authors = authorService.getAllAuthors();
+    Flux<Author> authors = authorService.getAllAuthors();
 
     // TODO : do below with ids instead
-    List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
+    //List<String> names = authors.stream().map(x -> x.getName()).collect(Collectors.toList());
+    List<String> names = authors.toStream().map(x -> x.getName()).collect(Collectors.toList());
+
     Boolean authorExisted = names.contains(authorName);
 
     if (!authorExisted) {
       author.setCreateTime(new Date());
       author.setUpdateTime(new Date());
       author.setName(authorName);
-      authorMapper.insertAuthor(author);
-      Integer id = authorService.getByName(authorName).getId();
+
+      //authorMapper.insertAuthor(author);
+      authorRepository.save(author);
+
+      //Integer id = authorService.getByName(authorName).getId();
+      Integer id = authorService.getByName(authorName).block().getId();
+
       author.setId(id);
     } else {
-      Integer id = authorService.getByName(authorName).getId();
+      //Integer id = authorService.getByName(authorName).getId();
+      Integer id = authorService.getByName(authorName).block().getId();
+
       author.setId(id);
     }
     BeanUtils.copyProperties(request, post);
@@ -201,7 +215,9 @@ public class PostController {
       Principal principal,
       Model model) {
 
-    Author author = authorService.getByName(principal.getName());
+    //Author author = authorService.getByName(principal.getName());
+    Mono<Author> author = authorService.getByName(principal.getName());
+
     // if there is current user has no any post
     if (author == null) {
       //model.addAttribute("user", principal.getName());
@@ -211,7 +227,9 @@ public class PostController {
     }
 
     // filter posts with authorId
-    List<Post> posts = postService.getPostsById(author.getId());
+    //List<Post> posts = postService.getPostsById(author.getId());
+    List<Post> posts = postService.getPostsById(author.block().getId());
+
     model.addAttribute("posts", posts);
     // get current user login via spring security
     //model.addAttribute("user", principal.getName());
