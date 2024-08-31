@@ -25,13 +25,15 @@ import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.Disposable;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 // TODO : refactor : move all main logic to service
 @Controller
@@ -39,7 +41,7 @@ import org.springframework.web.bind.annotation.*;
 @Log4j2
 public class PostController {
 
-  private final int PAGINATIONSIZE =
+  private final int PAGINATION_SIZE =
       3; // how many posts show in a http://localhost:8080/posts/ page
   @Autowired PostRepository postRepository;
   @Autowired PostService postService;
@@ -55,15 +57,21 @@ public class PostController {
   @GetMapping("/all")
   public String getPaginatedPosts(
       @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-      @RequestParam(value = "pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+      @RequestParam(value = "pageSize", defaultValue = "0" + PAGINATION_SIZE) int pageSize,
       Principal principal,
       Model model) {
 
     // Use pageHelper : https://www.796t.com/article.php?id=200769
     Pageable pageRequest =
         PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "DateTime"));
-    Page<Post> postsPage = postRepository.findAll(pageRequest);
-    List<Post> posts = postsPage.toList();
+
+    //Page<Post> postsPage = postRepository.findAll(pageRequest);
+    Flux<Post> postsPage = postRepository.findAll();
+
+    // TODO : double check below
+    //List<Post> posts = postsPage.toList();
+    List<Post> posts = postsPage.toStream().collect(Collectors.toList());
+
     log.info(">>> posts length = {}", posts.toArray().length);
     PageInfo<Post> pageInfo = null;
     // 為了程式的嚴謹性，判斷非空：
@@ -99,19 +107,35 @@ public class PostController {
   @GetMapping("/{id}")
   public String getPostById(@PathVariable long id, Model model, Principal principal) {
 
-    Optional<Post> postOptional = postRepository.findById(id);
-    if (postOptional.isPresent()) {
-      model.addAttribute("post", postOptional.get());
+    //Optional<Post> postOptional = postRepository.findById(id);
+    Mono<Post> postOptional = postRepository.findById(id);
+    Disposable unused = postOptional.flatMap(post -> {
+      // if existed
+      model.addAttribute("post", postOptional.blockOptional().get());
       model.addAttribute("comment", new CreateComment());
       // load comment
       List<Comment> commentList = commentService.getCommentsByPostId(id);
       // only add to model when comment size > 0
-      if (commentList.size() > 0) {
-        model.addAttribute("comments", commentList);
-      }
-    } else {
+      return Mono.just(post);
+    }).switchIfEmpty(Mono.fromRunnable(() -> {
+      System.out.println("Post not found");
       model.addAttribute("error", "no-post");
-    }
+    })).subscribe();
+
+
+//    if (postOptional.isPresent()) {
+//      model.addAttribute("post", postOptional.get());
+//      model.addAttribute("comment", new CreateComment());
+//      // load comment
+//      List<Comment> commentList = commentService.getCommentsByPostId(id);
+//      // only add to model when comment size > 0
+//      if (commentList.size() > 0) {
+//        model.addAttribute("comments", commentList);
+//      }
+//    } else {
+//      model.addAttribute("error", "no-post");
+//    }
+
     //model.addAttribute("user", principal.getName());
     model.addAttribute("user", "admin");
     return "post/post";
@@ -173,7 +197,7 @@ public class PostController {
   @GetMapping("/mypost")
   public String getMyPost(
       @RequestParam(value = "pageNum", defaultValue = "0") int pageNum,
-      @RequestParam(value = "pageSize", defaultValue = "0" + PAGINATIONSIZE) int pageSize,
+      @RequestParam(value = "pageSize", defaultValue = "0" + PAGINATION_SIZE) int pageSize,
       Principal principal,
       Model model) {
 
