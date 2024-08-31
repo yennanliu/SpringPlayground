@@ -170,7 +170,17 @@
 <!--			<classifier>osx-aarch_64</classifier>-->
 <!--		</dependency>-->
 
-    </dependencies>
+
+		<!-- https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-resolver-dns-native-macos</artifactId>
+			<version>4.1.111.Final</version>
+			<scope>runtime</scope>
+		</dependency>
+
+
+	</dependencies>
 
 	<build>
 
