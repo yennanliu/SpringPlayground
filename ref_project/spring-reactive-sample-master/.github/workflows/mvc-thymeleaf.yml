@@ -1,0 +1,34 @@
+name: spring-reactive-mvc-thymeleaf
+
+on:
+  push:
+    paths:
+      - "mvc-thymeleaf/**"
+    branches: [ master ]
+  pull_request:
+    paths:
+      - "mvc-thymeleaf/**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'maven'
+    - name: Build with Maven
+      run: |
+        cd mvc-thymeleaf
+        mvn -B package --file pom.xml

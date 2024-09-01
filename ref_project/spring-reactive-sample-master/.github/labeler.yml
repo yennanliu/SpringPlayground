@@ -1,0 +1,10 @@
+# Add 'boot' label to any Spring boot projects
+boot:
+  - changed-files:
+      - any-glob-to-any-file:
+          - boot-*
+# Add 'kotlin' label to any Kotlin projects
+kotlin:
+  - changed-files:
+      - any-glob-to-any-file:
+          - src/**/*.kt  

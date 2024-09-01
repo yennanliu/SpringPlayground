@@ -1,0 +1,37 @@
+name: spring-reactive-boot-data-couchbase
+
+on:
+  push:
+    paths:
+      - "boot-data-couchbase/**"
+    branches: [ master ]
+  pull_request:
+    paths:
+      - "boot-data-couchbase/**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'maven'
+    - name: Build with Maven
+      # see: https://github.com/testcontainers/testcontainers-java/discussions/4676
+      run: |
+        cd boot-data-couchbase
+        mvn -q clean test -Dtest=PostRepositoryWithTestcontainresTest
+        docker rm $(docker ps -aq) -f
+        mvn -q clean test -Dtest=PostRepositoryTest

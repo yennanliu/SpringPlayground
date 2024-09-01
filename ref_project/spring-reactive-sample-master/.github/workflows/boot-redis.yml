@@ -1,0 +1,35 @@
+name: spring-reactive-boot-redis
+
+on:
+  push:
+    paths:
+      - "boot-redis/**"
+    branches: [ master ]
+  pull_request:
+    paths:
+      - "boot-redis/**"
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "boot-redis"
+
+    steps:
+    - uses: actions/checkout@v4
+      with:
+          fetch-depth: 0
+    - name: Set up JDK
+      uses: actions/setup-java@v4
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        cache: 'maven' 
+    - name: Build with Maven
+      run: ./mvnw clean verify

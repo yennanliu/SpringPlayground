@@ -1,0 +1,20 @@
+title: Spring WebFlux By Example
+lang: en
+description: A collection of code snippets and tips of using Spring WebFlux
+
+# theme
+remote_theme: rundocs/jekyll-rtd-theme
+
+# folders sort
+readme_index:
+  with_frontmatter: true
+  
+exclude:
+  - Gemfile
+  - Gemfile.lock
+
+plugins:
+  - jemoji
+  - jekyll-avatar
+  - jekyll-mentions  
+  
