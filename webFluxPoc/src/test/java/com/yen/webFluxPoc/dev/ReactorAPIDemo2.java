@@ -46,7 +46,7 @@ public class ReactorAPIDemo2 {
     //    Sinks.one(); // send a Mono data
 
     //    Sinks.many().unicast(); // 單播 : can only have one subscriber
-    //    Sinks.many().multicast(); // 多播 : can only have multiple subscribers
+    //    Sinks.many().multicast(); // 多播 : can have multiple subscribers
     //    Sinks.many().replay(); // 重放 : can replay (resend) elements
 
     Sinks.Many<Object> many =
