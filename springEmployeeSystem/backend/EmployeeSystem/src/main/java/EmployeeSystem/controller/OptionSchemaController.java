@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @RestController
@@ -19,9 +20,9 @@ public class OptionSchemaController {
   @Autowired OptionSchemaService optionSchemaService;
 
   @GetMapping("/")
-  public ResponseEntity<List<OptionSchema>> getSchemaOptions() {
+  public ResponseEntity<Flux<OptionSchema>> getSchemaOptions() {
 
-    List<OptionSchema> OptionsList = optionSchemaService.getAllOptions();
+    Flux<OptionSchema> OptionsList = optionSchemaService.getAllOptions();
     return new ResponseEntity<>(OptionsList, HttpStatus.OK);
   }
 

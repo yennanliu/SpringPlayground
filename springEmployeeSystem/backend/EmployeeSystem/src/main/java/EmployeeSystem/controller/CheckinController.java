@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/checkin")
@@ -16,9 +17,9 @@ public class CheckinController {
   @Autowired CheckinService checkinService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Checkin>> getCheckin() {
+  public ResponseEntity<Flux<Checkin>> getCheckin() {
 
-    List<Checkin> checkinList = checkinService.getCheckIns();
+    Flux<Checkin> checkinList = checkinService.getCheckIns();
     return new ResponseEntity<>(checkinList, HttpStatus.OK);
   }
 

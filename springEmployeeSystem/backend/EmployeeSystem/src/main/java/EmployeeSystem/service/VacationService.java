@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Service
@@ -21,15 +22,16 @@ public class VacationService {
   @Autowired VacationRepository vacationRepository;
   @Autowired MailService mailService;
 
-  public List<Vacation> getVacations() {
+  public Flux<Vacation> getVacations() {
 
     return vacationRepository.findAll();
   }
 
   public Vacation getVacationById(Integer vacationId) {
 
-    if (vacationRepository.findById(vacationId).isPresent()) {
-      return vacationRepository.findById(vacationId).get();
+    Vacation vacation = vacationRepository.findById(vacationId).block();
+    if (vacation != null) {
+      return vacation;
     }
     log.warn("No vacation with vacationId = " + vacationId);
     return null;
@@ -37,7 +39,7 @@ public class VacationService {
 
   public List<Vacation> getVacationByUserId(Integer userId) {
 
-    List<Vacation> vacations = vacationRepository.findAll();
+    List<Vacation> vacations = vacationRepository.findAll().toStream().collect(Collectors.toList());
     return vacations.stream()
         .filter(
             x -> {

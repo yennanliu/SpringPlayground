@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/ticket")
@@ -17,9 +18,9 @@ public class TicketController {
   @Autowired TicketService ticketService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Ticket>> getTicket() {
+  public ResponseEntity<Flux<Ticket>> getTicket() {
 
-    List<Ticket> tickets = ticketService.getTickets();
+    Flux<Ticket> tickets = ticketService.getTickets();
     return new ResponseEntity<>(tickets, HttpStatus.OK);
   }
 

@@ -3,6 +3,8 @@ package EmployeeSystem.service;
 import EmployeeSystem.model.Department;
 import EmployeeSystem.model.dto.DepartmentDto;
 import EmployeeSystem.repository.DepartmentRepository;
+
+import java.util.ArrayList;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -17,13 +19,17 @@ public class DepartmentService {
 
   public List<Department> getDepartments() {
 
-    return departmentRepository.findAll();
+    // TODO : fix below
+    //return departmentRepository.findAll();
+    return new ArrayList<>();
   }
 
   public Department getDepartmentById(Integer departmentId) {
 
-    if (departmentRepository.findById(departmentId).isPresent()) {
-      return departmentRepository.findById(departmentId).get();
+    Department dep = departmentRepository.findById(departmentId).block();
+    if (dep != null) {
+      //return departmentRepository.findById(departmentId).get();
+      return dep;
     }
     log.warn("No department with departmentId = " + departmentId);
     return null;
@@ -32,10 +38,14 @@ public class DepartmentService {
   public void updateDepartment(DepartmentDto departmentDto) {
 
     // get current department
-    Department department = departmentRepository.findById(departmentDto.getId()).get();
+    Department department = departmentRepository.findById(departmentDto.getId()).block();
 
-    // copy attr to new department as updated department
-    BeanUtils.copyProperties(departmentDto, department);
+    if (department != null){
+      // copy attr to new department as updated department
+      BeanUtils.copyProperties(departmentDto, department);
+    }else{
+      log.warn("department is null, id = " + departmentDto.getId());
+    }
 
     // save to DB
     departmentRepository.save(department);

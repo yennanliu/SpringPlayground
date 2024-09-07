@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
 
 @RestController
 @RequestMapping("/vacation")
@@ -19,7 +20,8 @@ public class VacationController {
   @GetMapping("/")
   public ResponseEntity<List<Vacation>> getVacations() {
 
-    List<Vacation> vacations = vacationService.getVacations();
+    Flux<Vacation> vacationFlux = vacationService.getVacations();
+    List<Vacation> vacations = vacationFlux.toStream().toList();
     return new ResponseEntity<>(vacations, HttpStatus.OK);
   }
 

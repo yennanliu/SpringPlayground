@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Service
@@ -16,15 +17,16 @@ public class TicketService {
 
   @Autowired TicketRepository ticketRepository;
 
-  public List<Ticket> getTickets() {
+  public Flux<Ticket> getTickets() {
 
     return ticketRepository.findAll();
   }
 
   public Ticket getTicketById(Integer ticketId) {
 
-    if (ticketRepository.findById(ticketId).isPresent()) {
-      return ticketRepository.findById(ticketId).get();
+    Ticket ticket = ticketRepository.findById(ticketId).block();
+    if (ticket != null) {
+      return ticket;
     }
     log.warn("No ticket found with ticketId = " + ticketId);
     return null;

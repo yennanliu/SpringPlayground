@@ -22,6 +22,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -57,7 +59,8 @@ public class UserService {
             signupDto.getEmail(),
             Role.USER,
             encryptedPassword);
-    User createdUser = null;
+
+    Mono<User> createdUser = null;
     try {
 
       // save the User
@@ -65,7 +68,7 @@ public class UserService {
       createdUser = userRepository.save(user);
 
       /** generate token for user */
-      final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser);
+      final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser.block());
 
       // save token to DB
       authenticationService.saveConfirmationToken(authenticationToken);
@@ -123,15 +126,16 @@ public class UserService {
     return myHash;
   }
 
-  public List<User> getUsers() {
+  public Flux<User> getUsers() {
 
     return userRepository.findAll();
   }
 
   public User getUserById(Integer id) {
 
-    if (userRepository.findById(id).isPresent()) {
-      return userRepository.findById(id).get();
+    User user = userRepository.findById(id).block();
+    if (user != null) {
+      return user;
     }
     log.warn("No user with id = " + id);
     return null;
@@ -163,7 +167,7 @@ public class UserService {
     // TODO : do select logic in repository
     // List<User> subordinates = userRepository.getSubordinates();
 
-    List<User> users = userRepository.findAll();
+    List<User> users = userRepository.findAll().toStream().collect(Collectors.toList());
     List<User> subordinates =
         users.stream()
             .filter(

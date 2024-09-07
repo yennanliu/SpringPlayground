@@ -7,12 +7,15 @@ import EmployeeSystem.model.dto.*;
 import EmployeeSystem.service.AuthenticationService;
 import EmployeeSystem.service.UserService;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @RestController
@@ -26,7 +29,9 @@ public class UserController {
   @GetMapping("/")
   public ResponseEntity<List<User>> getUsers() {
 
-    List<User> users = userService.getUsers();
+    // TODO : optimize below
+    Flux<User> usersFlux = userService.getUsers();
+    List<User> users = usersFlux.toStream().collect(Collectors.toList());
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 
