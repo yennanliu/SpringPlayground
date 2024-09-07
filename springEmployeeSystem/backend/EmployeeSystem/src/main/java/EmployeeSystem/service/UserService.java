@@ -17,7 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.xml.bind.DatatypeConverter;
+//import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,7 +116,10 @@ public class UserService {
     MessageDigest md = MessageDigest.getInstance("MD5");
     md.update(password.getBytes());
     byte[] digest = md.digest();
-    String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+
+    // TODO : fix below
+    //String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+    String myHash = "";
     return myHash;
   }
 

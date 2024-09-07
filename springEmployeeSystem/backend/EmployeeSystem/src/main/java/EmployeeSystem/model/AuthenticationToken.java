@@ -2,9 +2,14 @@ package EmployeeSystem.model;
 
 // https://github.com/webtutsplus/ecommerce-backend/blob/master/src/main/java/com/webtutsplus/ecommerce/model/AuthenticationToken.java
 
-import javax.persistence.*;
+//import javax.persistence.*;
 import java.util.Date;
 import java.util.UUID;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Entity
 @Table(name = "tokens")
