@@ -4,11 +4,14 @@ import EmployeeSystem.common.ApiResponse;
 import EmployeeSystem.model.Checkin;
 import EmployeeSystem.service.CheckinService;
 import java.util.List;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/checkin")
@@ -24,9 +27,9 @@ public class CheckinController {
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<List<Checkin>> getCheckinByUserId(@PathVariable("userId") Integer userId) {
+  public ResponseEntity<Mono<Stream<Checkin>>> getCheckinByUserId(@PathVariable("userId") Integer userId) {
 
-    List<Checkin> checkinList = checkinService.getCheckinByUserId(userId);
+    Mono<Stream<Checkin>> checkinList = checkinService.getCheckinByUserId(userId);
     return new ResponseEntity<>(checkinList, HttpStatus.OK);
   }
 

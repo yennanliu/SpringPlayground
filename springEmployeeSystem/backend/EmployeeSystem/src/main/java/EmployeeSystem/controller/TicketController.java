@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/ticket")
@@ -31,9 +32,9 @@ public class TicketController {
   }
 
   @GetMapping("/{ticketId}")
-  public ResponseEntity<Ticket> getTicketById(@PathVariable("ticketId") Integer ticketId) {
+  public ResponseEntity<Mono<Ticket>> getTicketById(@PathVariable("ticketId") Integer ticketId) {
 
-    Ticket ticket = ticketService.getTicketById(ticketId);
+    Mono<Ticket> ticket = ticketService.getTicketById(ticketId);
     return new ResponseEntity<>(ticket, HttpStatus.OK);
   }
 
@@ -49,6 +50,7 @@ public class TicketController {
   public ResponseEntity<ApiResponse> addDepartment(@RequestBody Ticket ticket) {
 
     ticketService.addTicket(ticket);
+    log.info("ticket is added");
     return new ResponseEntity<>(new ApiResponse(true, "Ticket has been added"), HttpStatus.CREATED);
   }
 }

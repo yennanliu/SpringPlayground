@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -22,14 +23,14 @@ public class TicketService {
     return ticketRepository.findAll();
   }
 
-  public Ticket getTicketById(Integer ticketId) {
+  public Mono<Ticket> getTicketById(Integer ticketId) {
 
-    Ticket ticket = ticketRepository.findById(ticketId).block();
-    if (ticket != null) {
-      return ticket;
-    }
-    log.warn("No ticket found with ticketId = " + ticketId);
-    return null;
+    Mono<Ticket> ticket = ticketRepository.findById(ticketId);
+//    if (ticket != null) {
+//      return ticket;
+//    }
+    //log.warn("No ticket found with ticketId = " + ticketId);
+    return ticket;
   }
 
   public void updateTicket(TicketDto ticketDto) {
@@ -43,6 +44,7 @@ public class TicketService {
   public void addTicket(Ticket ticket) {
 
     // create ticket with "PENDING" as default status
+    log.info("(addTicket) ticket = " + ticket);
     ticket.setStatus(TicketStatus.PENDING.getName());
     ticketRepository.save(ticket);
   }

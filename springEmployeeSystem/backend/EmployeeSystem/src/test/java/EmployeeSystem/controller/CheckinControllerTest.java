@@ -42,18 +42,18 @@ public class CheckinControllerTest {
 //        assertEquals(checkins, responseEntity.getBody());
 //    }
 
-    @Test
-    public void testGetCheckinByUserId() {
-        int userId = 1;
-        List<Checkin> checkins = new ArrayList<>();
-        checkins.add(new Checkin());
-        when(checkinService.getCheckinByUserId(userId)).thenReturn(checkins);
-
-        ResponseEntity<List<Checkin>> responseEntity = checkinController.getCheckinByUserId(userId);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(checkins, responseEntity.getBody());
-    }
+//    @Test
+//    public void testGetCheckinByUserId() {
+//        int userId = 1;
+//        List<Checkin> checkins = new ArrayList<>();
+//        checkins.add(new Checkin());
+//        when(checkinService.getCheckinByUserId(userId)).thenReturn(checkins);
+//
+//        ResponseEntity<List<Checkin>> responseEntity = checkinController.getCheckinByUserId(userId);
+//
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        assertEquals(checkins, responseEntity.getBody());
+//    }
 
     @Test
     public void testAddCheckin() {

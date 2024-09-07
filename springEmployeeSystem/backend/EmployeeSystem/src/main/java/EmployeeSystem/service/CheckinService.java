@@ -5,9 +5,12 @@ import EmployeeSystem.repository.CheckinRepository;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Service
 public class CheckinService {
@@ -19,15 +22,14 @@ public class CheckinService {
     return checkinRepository.findAll();
   }
 
-  public List<Checkin> getCheckinByUserId(Integer userId) {
+  public Mono<Stream<Checkin>> getCheckinByUserId(Integer userId) {
 
     Flux<Checkin> checkinList = checkinRepository.findAll();
-    return checkinList.toStream()
-        .filter(
-            x -> {
-              return x.getUserId().equals(userId);
-            })
-        .collect(Collectors.toList());
+    return Mono.just(checkinList.toStream()
+            .filter(
+                    x -> {
+                      return x.getUserId().equals(userId);
+                    }));
   }
 
   public void addCheckin(Integer userID) {
