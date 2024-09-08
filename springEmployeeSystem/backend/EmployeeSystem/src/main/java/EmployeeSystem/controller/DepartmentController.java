@@ -5,6 +5,8 @@ import EmployeeSystem.model.Department;
 import EmployeeSystem.model.dto.DepartmentDto;
 import EmployeeSystem.service.DepartmentService;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/dep")
+@Slf4j
 public class DepartmentController {
 
   @Autowired DepartmentService departmentService;
@@ -42,10 +45,12 @@ public class DepartmentController {
   }
 
   @PostMapping("/add")
-  public ResponseEntity<ApiResponse> addDepartment(@RequestBody DepartmentDto departmentDto) {
+  public ResponseEntity<Mono<Department>> addDepartment(@RequestBody DepartmentDto departmentDto) {
 
-    departmentService.addDepartment(departmentDto);
-    return new ResponseEntity<>(
-        new ApiResponse(true, "Department has been added"), HttpStatus.CREATED);
+    log.info("(controller) add new department, departmentDto = " + departmentDto);
+    Mono<Department> departmentMono = departmentService.addDepartment(departmentDto);
+//    return new ResponseEntity<>(
+//        new ApiResponse(true, "Department has been added"), HttpStatus.CREATED);
+    return new ResponseEntity<>(departmentMono, HttpStatus.CREATED);
   }
 }

@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -54,10 +55,26 @@ public class DepartmentService {
     departmentRepository.save(department);
   }
 
-  public void addDepartment(DepartmentDto departmentDto) {
+  //@Transactional
+  public Mono<Department> addDepartment(DepartmentDto departmentDto) {
 
     Department department = new Department();
-    BeanUtils.copyProperties(departmentDto, department);
-    departmentRepository.save(department);
+    //BeanUtils.copyProperties(departmentDto, department);
+    department.setId(departmentDto.getId());
+    department.setName(departmentDto.getName());
+
+//    log.info("(service) add new department start, departmentDto = " + departmentDto);
+//    //Mono<Department> departmentMono = departmentRepository.save(department);
+//    Flux<Department> departmentMono = departmentRepository.saveAll(Mono.just(department));
+//    log.info("(service) add new department end, departmentMono = " + departmentMono);
+//    return departmentMono;
+
+    // TODO : fix below
+    return departmentRepository.save(department)
+            .doOnSuccess(savedDepartment -> {
+              // You can log or perform any post-processing here
+              log.info("Department saved: " + savedDepartment.getName());
+            });
+
   }
 }
