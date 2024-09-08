@@ -14,9 +14,6 @@ import EmployeeSystem.repository.UserRepository;
 import EmployeeSystem.util.Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 //import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
@@ -163,22 +160,35 @@ public class UserService {
   }
 
   // get subordinates under manager
-  public Stream<User> getSubordinatesById(Integer managerId) {
+  public Flux<User> getSubordinatesById(Integer managerId) {
 
-    // TODO : do select logic in repository
     // List<User> subordinates = userRepository.getSubordinates();
-
-    List<User> users = userRepository.findAll().toStream().collect(Collectors.toList());
-    Stream<User> subordinates =
-        users.stream()
+    /**
+     * NOTE !!!
+     *
+     *  .toStream() is a blocking op,
+     *  we SHOULD NOT mix using block & unblocking op together,
+     *  which will break the reacting async model
+     *  -> below we use pure asyc logic instead
+     *
+     *
+     *   - toStream() is blocking because it waits for all elements in the reactive pipeline to be available before iterating over them.
+     * 	 - In reactive programming, blocking operations (like block(), toStream(), and Thread.sleep()) should be avoided as they break the asynchronous, non-blocking flow, reducing scalability and performance.
+     */
+    Flux<User> subordinates =
+        userRepository
+            .findAll()
+            //.toStream()
             .filter(
                 x -> {
                   return x.getManagerId().equals(managerId);
                 });
             //.collect(Collectors.toList());
 
+    //Flux<Stream<User>> subordinatesFlux = Flux.just(subordinates);
+
 //    if (subordinates != null && subordinates.size() > 0) {
-//      return subordinates;
+//      return subordinatesFlux;
 //    }
     return subordinates;
 

@@ -46,10 +46,10 @@ public class UserController {
 
   // TODO : check Stream<User> VS Flux<User> return type
   @GetMapping("/subordinates/{managerId}")
-  public ResponseEntity<Stream<User>> getSubordinatesById(
+  public ResponseEntity<Flux<User>> getSubordinatesById(
       @PathVariable("managerId") Integer managerId) {
 
-    Stream<User> userList = userService.getSubordinatesById(managerId);
+    Flux<User> userList = userService.getSubordinatesById(managerId);
     return new ResponseEntity<>(userList, HttpStatus.OK);
   }
 
