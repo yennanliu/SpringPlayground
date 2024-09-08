@@ -1,5 +1,6 @@
 package EmployeeSystem.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,13 +10,17 @@ import lombok.ToString;
 import java.util.HashSet;
 import java.util.Set;
 
-import jakarta.persistence.*;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+//import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+//@Entity
 @Table(name = "department")
 @Data
 @AllArgsConstructor
@@ -27,10 +32,10 @@ public class Department {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
-  @Column(name = "name")
+  //@Column(name = "name")
   private String name;
 
-  @Column(name = "users")
+  //@Column(name = "users")
   @OneToMany(targetEntity = User.class, fetch = FetchType.EAGER)
   @JoinColumn(name = "departement_id", referencedColumnName = "id")
   private Set<User> users = new HashSet<>();

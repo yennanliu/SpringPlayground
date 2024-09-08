@@ -10,6 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -17,22 +19,23 @@ public class DepartmentService {
 
   @Autowired DepartmentRepository departmentRepository;
 
-  public List<Department> getDepartments() {
+  public Flux<Department> getDepartments() {
 
     // TODO : fix below
-    //return departmentRepository.findAll();
-    return new ArrayList<>();
+    return departmentRepository.findAll();
+    //return new ArrayList<>();
   }
 
-  public Department getDepartmentById(Integer departmentId) {
+  public Mono<Department> getDepartmentById(Integer departmentId) {
 
-    Department dep = departmentRepository.findById(departmentId).block();
-    if (dep != null) {
-      //return departmentRepository.findById(departmentId).get();
-      return dep;
-    }
-    log.warn("No department with departmentId = " + departmentId);
-    return null;
+    Mono<Department> dep = departmentRepository.findById(departmentId);
+//    if (dep != null) {
+//      //return departmentRepository.findById(departmentId).get();
+//      return dep;
+//    }
+//    log.warn("No department with departmentId = " + departmentId);
+//    return null;
+    return dep;
   }
 
   public void updateDepartment(DepartmentDto departmentDto) {
