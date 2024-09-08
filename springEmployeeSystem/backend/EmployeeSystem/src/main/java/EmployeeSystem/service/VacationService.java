@@ -37,15 +37,14 @@ public class VacationService {
     return null;
   }
 
-  public List<Vacation> getVacationByUserId(Integer userId) {
+  public Flux<Vacation> getVacationByUserId(Integer userId) {
 
-    List<Vacation> vacations = vacationRepository.findAll().toStream().collect(Collectors.toList());
-    return vacations.stream()
+    //List<Vacation> vacations = vacationRepository.findAll().toStream().collect(Collectors.toList());
+    return vacationRepository.findAll()
         .filter(
             x -> {
               return x.getUserId().equals(userId);
-            })
-        .collect(Collectors.toList());
+            });
   }
 
   @Async
