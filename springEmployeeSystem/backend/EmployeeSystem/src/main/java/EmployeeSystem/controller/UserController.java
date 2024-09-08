@@ -8,6 +8,7 @@ import EmployeeSystem.service.AuthenticationService;
 import EmployeeSystem.service.UserService;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @RestController
@@ -27,26 +29,27 @@ public class UserController {
   @Autowired AuthenticationService authenticationService;
 
   @GetMapping("/")
-  public ResponseEntity<List<User>> getUsers() {
+  public ResponseEntity<Flux<User>> getUsers() {
 
     // TODO : optimize below
     Flux<User> usersFlux = userService.getUsers();
-    List<User> users = usersFlux.toStream().collect(Collectors.toList());
-    return new ResponseEntity<>(users, HttpStatus.OK);
+    //List<User> users = usersFlux.toStream().collect(Collectors.toList());
+    return new ResponseEntity<>(usersFlux, HttpStatus.OK);
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<User> getUserById(@PathVariable("userId") Integer userId) {
+  public ResponseEntity<Mono<User>> getUserById(@PathVariable("userId") Integer userId) {
 
-    User user = userService.getUserById(userId);
+    Mono<User> user = userService.getUserById(userId);
     return new ResponseEntity<>(user, HttpStatus.OK);
   }
 
+  // TODO : check Stream<User> VS Flux<User> return type
   @GetMapping("/subordinates/{managerId}")
-  public ResponseEntity<List<User>> getSubordinatesById(
+  public ResponseEntity<Stream<User>> getSubordinatesById(
       @PathVariable("managerId") Integer managerId) {
 
-    List<User> userList = userService.getSubordinatesById(managerId);
+    Stream<User> userList = userService.getSubordinatesById(managerId);
     return new ResponseEntity<>(userList, HttpStatus.OK);
   }
 

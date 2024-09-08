@@ -65,7 +65,7 @@ docker-compose up
 | API | Type | Purpose | Example cmd | Comment|
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:8080/ |  FE App | | |
-| http://localhost:9998/webjars/swagger-ui/index.html |  BE API | | |
+| http://localhost:9998/webjars/swagger-ui/index.html |  BE swagger API | | |
 
 
 ## Important Concepts

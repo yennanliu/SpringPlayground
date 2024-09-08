@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 //import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
@@ -131,14 +132,14 @@ public class UserService {
     return userRepository.findAll();
   }
 
-  public User getUserById(Integer id) {
+  public Mono<User> getUserById(Integer id) {
 
-    User user = userRepository.findById(id).block();
-    if (user != null) {
-      return user;
-    }
-    log.warn("No user with id = " + id);
-    return null;
+    Mono<User> user = userRepository.findById(id);
+//    if (user != null) {
+//      return user;
+//    }
+//    log.warn("No user with id = " + id);
+    return user;
   }
 
   public void addUser(UserCreateDto userCreateDto) {
@@ -162,25 +163,26 @@ public class UserService {
   }
 
   // get subordinates under manager
-  public List<User> getSubordinatesById(Integer managerId) {
+  public Stream<User> getSubordinatesById(Integer managerId) {
 
     // TODO : do select logic in repository
     // List<User> subordinates = userRepository.getSubordinates();
 
     List<User> users = userRepository.findAll().toStream().collect(Collectors.toList());
-    List<User> subordinates =
+    Stream<User> subordinates =
         users.stream()
             .filter(
                 x -> {
                   return x.getManagerId().equals(managerId);
-                })
-            .collect(Collectors.toList());
+                });
+            //.collect(Collectors.toList());
 
-    if (subordinates != null && subordinates.size() > 0) {
-      return subordinates;
-    }
+//    if (subordinates != null && subordinates.size() > 0) {
+//      return subordinates;
+//    }
+    return subordinates;
 
-    log.warn("No subordinates with managerId = " + managerId);
-    return new ArrayList<>();
+//    log.warn("No subordinates with managerId = " + managerId);
+//    return new ArrayList<>();
   }
 }
