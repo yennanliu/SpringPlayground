@@ -175,7 +175,7 @@ export default {
           body: JSON.stringify({
             songUris: this.trackURIs.toString(),
             authCode: "code", // no need auth code for now
-            playlistId: "1qqdpj9tiE2Fhob6QItPDP", //this.newSongToList.playlistId,
+            playlistId: "1nuqr1ialLUN5HJjjHYlGQ", //this.newSongToList.playlistId,
           }),
         });
         if (response.status === 200) {
