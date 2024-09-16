@@ -40,11 +40,13 @@ public class TicketController {
   }
 
   @PostMapping("/update")
-  public ResponseEntity<ApiResponse> updateTicket(@RequestBody TicketDto ticketDto) {
+  public ResponseEntity<Mono<Ticket>> updateTicket(@RequestBody TicketDto ticketDto) {
 
-    ticketService.updateTicket(ticketDto);
-    return new ResponseEntity<ApiResponse>(
-        new ApiResponse(true, "Ticket has been updated"), HttpStatus.OK);
+    Mono<Ticket> res = ticketService.updateTicket(ticketDto);
+//    return new ResponseEntity<ApiResponse>(
+//        new ApiResponse(true, "Ticket has been updated"), HttpStatus.OK);
+    log.info("ticket is updated");
+    return new ResponseEntity<>(res, HttpStatus.OK);
   }
 
   @PostMapping("/add")

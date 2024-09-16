@@ -33,12 +33,16 @@ public class TicketService {
     return ticket;
   }
 
-  public void updateTicket(TicketDto ticketDto) {
+  public Mono<Ticket> updateTicket(TicketDto ticketDto) {
 
     Ticket ticket = new Ticket();
-    ticketRepository.deleteById(ticketDto.getId());
+    //ticketRepository.deleteById(ticketDto.getId());
     BeanUtils.copyProperties(ticketDto, ticket);
-    ticketRepository.save(ticket);
+    //ticketRepository.save(ticket);
+    return ticketRepository.save(ticket)
+            .doOnSuccess(updatedTicket -> {
+              System.out.println("Ticket updated : " + updatedTicket);
+            });
   }
 
   public Mono<Ticket> addTicket(AddTicketDto addTicketDto) {
