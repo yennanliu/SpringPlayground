@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "check_in")
+//@Table(name = "check_in")
+@Table(schema = "checkin")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,7 +19,7 @@ import lombok.ToString;
 public class Checkin {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  //@GeneratedValue(strategy = GenerationType.AUTO)
   private Integer id;
 
   @Column(name = "user_id")

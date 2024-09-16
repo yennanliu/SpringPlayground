@@ -71,7 +71,14 @@ VALUES
 
 -- truncate check_in;
 
-INSERT INTO `check_in` (id, user_id, create_time)
+CREATE TABLE checkin (
+  id INT NOT NULL PRIMARY KEY,
+  create_time DATETIME DEFAULT NULL,
+  user_id INT DEFAULT NULL
+);
+
+
+INSERT INTO `checkin` (id, user_id, create_time)
 VALUES
 (1001, 1, now()),
 (1002, 2, now()),

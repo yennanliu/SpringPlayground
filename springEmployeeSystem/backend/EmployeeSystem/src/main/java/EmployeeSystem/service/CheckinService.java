@@ -1,6 +1,7 @@
 package EmployeeSystem.service;
 
 import EmployeeSystem.model.Checkin;
+import EmployeeSystem.model.dto.AddCheckinDto;
 import EmployeeSystem.repository.CheckinRepository;
 import java.util.Date;
 import java.util.List;
@@ -32,11 +33,15 @@ public class CheckinService {
                     }));
   }
 
-  public void addCheckin(Integer userID) {
+  public Mono<Checkin> addCheckin(AddCheckinDto addCheckinDto) {
 
     Checkin checkin = new Checkin();
-    checkin.setUserId(userID);
+    checkin.setUserId(addCheckinDto.getUserId());
     checkin.setCreateTime(new Date());
-    checkinRepository.save(checkin);
+    //return checkinRepository.save(checkin);
+    return checkinRepository.save(checkin)
+            .doOnSuccess(savedCheckin -> {
+              System.out.println("checkin saved: " + savedCheckin);
+            });
   }
 }
