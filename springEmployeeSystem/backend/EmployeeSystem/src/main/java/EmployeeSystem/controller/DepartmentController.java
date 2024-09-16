@@ -5,29 +5,34 @@ import EmployeeSystem.model.Department;
 import EmployeeSystem.model.dto.DepartmentDto;
 import EmployeeSystem.service.DepartmentService;
 import java.util.List;
+
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/dep")
+@Slf4j
 public class DepartmentController {
 
   @Autowired DepartmentService departmentService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Department>> getDepartment() {
+  public ResponseEntity<Flux<Department>> getDepartment() {
 
-    List<Department> departments = departmentService.getDepartments();
+    Flux<Department> departments = departmentService.getDepartments();
     return new ResponseEntity<>(departments, HttpStatus.OK);
   }
 
   @GetMapping("/{departmentId}")
-  public ResponseEntity<Department> getDepartmentById(
+  public ResponseEntity<Mono<Department>> getDepartmentById(
       @PathVariable("departmentId") Integer departmentId) {
 
-    Department department = departmentService.getDepartmentById(departmentId);
+    Mono<Department> department = departmentService.getDepartmentById(departmentId);
     return new ResponseEntity<>(department, HttpStatus.OK);
   }
 
@@ -40,10 +45,12 @@ public class DepartmentController {
   }
 
   @PostMapping("/add")
-  public ResponseEntity<ApiResponse> addDepartment(@RequestBody DepartmentDto departmentDto) {
+  public ResponseEntity<Mono<Department>> addDepartment(@RequestBody DepartmentDto departmentDto) {
 
-    departmentService.addDepartment(departmentDto);
-    return new ResponseEntity<>(
-        new ApiResponse(true, "Department has been added"), HttpStatus.CREATED);
+    log.info("(controller) add new department, departmentDto = " + departmentDto);
+    Mono<Department> departmentMono = departmentService.addDepartment(departmentDto);
+//    return new ResponseEntity<>(
+//        new ApiResponse(true, "Department has been added"), HttpStatus.CREATED);
+    return new ResponseEntity<>(departmentMono, HttpStatus.CREATED);
   }
 }

@@ -39,6 +39,16 @@ VALUES
 
 -- truncate tickets;
 
+CREATE TABLE tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subject VARCHAR(255),
+    description TEXT,
+    user_id INT,
+    assigned_to INT,
+    status VARCHAR(50),
+    tag VARCHAR(50)
+);
+
 INSERT INTO `tickets` (id, description, status, subject, tag, user_id, assigned_to)
 VALUES
 (1001, "this is a ticket ...", "PENDING", "subject 1", "tag1", 1001, 1001),
@@ -61,7 +71,14 @@ VALUES
 
 -- truncate check_in;
 
-INSERT INTO `check_in` (id, user_id, create_time)
+CREATE TABLE checkin (
+  id INT NOT NULL PRIMARY KEY,
+  create_time DATETIME DEFAULT NULL,
+  user_id INT DEFAULT NULL
+);
+
+
+INSERT INTO `checkin` (id, user_id, create_time)
 VALUES
 (1001, 1, now()),
 (1002, 2, now()),

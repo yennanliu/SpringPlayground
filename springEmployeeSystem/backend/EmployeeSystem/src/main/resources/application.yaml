@@ -1,0 +1,14 @@
+# https://youtu.be/_1HwzpWx5UM?si=Mzam_WclJ1IzSec0&t=253
+spring:
+  r2dbc:
+    password:
+    username: root
+    url: r2dbc:mysql://localhost:3306/employee_system
+    name: test
+# https://youtu.be/hGgf-rTpvJ8?si=Z2jYBgQ9odh0d487&t=1089
+# r2dbc logging level
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: debug

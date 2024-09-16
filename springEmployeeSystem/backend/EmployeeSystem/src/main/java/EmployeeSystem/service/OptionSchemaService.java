@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 @Slf4j
 @Service
@@ -14,7 +15,7 @@ public class OptionSchemaService {
 
   @Autowired OptionSchemaRepository optionSchemaRepository;
 
-  public List<OptionSchema> getAllOptions() {
+  public Flux<OptionSchema> getAllOptions() {
 
     return optionSchemaRepository.findAll();
   }
@@ -22,7 +23,7 @@ public class OptionSchemaService {
   public List<OptionSchema> getAllActiveOptions() {
 
     List<OptionSchema> activeOptionSchemaList =
-        optionSchemaRepository.findAll().stream()
+        optionSchemaRepository.findAll().toStream()
             .filter(
                 x -> {
                   return x.getActive() == true;

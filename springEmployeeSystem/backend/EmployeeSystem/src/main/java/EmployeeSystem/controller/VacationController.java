@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/vacation")
@@ -17,17 +19,18 @@ public class VacationController {
   @Autowired VacationService vacationService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Vacation>> getVacations() {
+  public ResponseEntity<Flux<Vacation>> getVacations() {
 
-    List<Vacation> vacations = vacationService.getVacations();
-    return new ResponseEntity<>(vacations, HttpStatus.OK);
+    Flux<Vacation> vacationFlux = vacationService.getVacations();
+    //List<Vacation> vacations = vacationFlux.toStream().toList();
+    return new ResponseEntity<>(vacationFlux, HttpStatus.OK);
   }
 
   @GetMapping("/{userId}")
-  public ResponseEntity<List<Vacation>> getDepartmentByUserId(
+  public ResponseEntity<Flux<Vacation>> getDepartmentByUserId(
       @PathVariable("userId") Integer userId) {
 
-    List<Vacation> vacationList = vacationService.getVacationByUserId(userId);
+    Flux<Vacation> vacationList = vacationService.getVacationByUserId(userId);
     return new ResponseEntity<>(vacationList, HttpStatus.OK);
   }
 

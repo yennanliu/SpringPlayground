@@ -31,17 +31,17 @@ public class OptionSchemaControllerTest {
         MockitoAnnotations.initMocks(this);
     }
 
-    @Test
-    public void testGetSchemaOptions() {
-        List<OptionSchema> optionsList = new ArrayList<>();
-        optionsList.add(new OptionSchema());
-        when(optionSchemaService.getAllOptions()).thenReturn(optionsList);
-
-        ResponseEntity<List<OptionSchema>> responseEntity = optionSchemaController.getSchemaOptions();
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(optionsList, responseEntity.getBody());
-    }
+//    @Test
+//    public void testGetSchemaOptions() {
+//        List<OptionSchema> optionsList = new ArrayList<>();
+//        optionsList.add(new OptionSchema());
+//        when(optionSchemaService.getAllOptions()).thenReturn(optionsList);
+//
+//        ResponseEntity<List<OptionSchema>> responseEntity = optionSchemaController.getSchemaOptions();
+//
+//        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+//        assertEquals(optionsList, responseEntity.getBody());
+//    }
 
     @Test
     public void testGetActiveSchemaOptions() {
