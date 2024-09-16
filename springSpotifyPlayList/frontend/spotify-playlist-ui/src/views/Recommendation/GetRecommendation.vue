@@ -54,6 +54,17 @@
         />
       </div>
 
+      <!-- New input field for Playlist ID -->
+      <div class="form-group">
+        <label>Playlist ID</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="playlistId"
+          placeholder="Enter Playlist ID"
+        />
+      </div>
+
       <button v-if="!authorized" @click="authorize">
         Authorize with Spotify
       </button>
@@ -111,6 +122,7 @@ export default {
       targetPopularity: 50,
       tracks: null,
       trackURIs: "",
+      playlistId: "",
     };
   },
   methods: {
@@ -175,7 +187,8 @@ export default {
           body: JSON.stringify({
             songUris: this.trackURIs.toString(),
             authCode: "code", // no need auth code for now
-            playlistId: "1nuqr1ialLUN5HJjjHYlGQ", //this.newSongToList.playlistId,
+            playlistId: this.playlistId,
+            //playlistId: "1nuqr1ialLUN5HJjjHYlGQ", //this.newSongToList.playlistId,
           }),
         });
         if (response.status === 200) {

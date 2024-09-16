@@ -131,31 +131,34 @@ public class AuthService {
 
     public SpotifyApi authClientWithAuthCode(SpotifyApi spotifyApi, String authCode) {
 
-        log.info("Authorize spotifyApi with Auth Code = " + authCode);
+        log.info("Authorize spotifyApi with Auth Code = {}", authCode);
         this.authCode = authCode;
 
-        try{
+        try {
+            // Build the authorization code request
             final AuthorizationCodeRequest authorizationCodeRequest = this.spotifyApi
-                    // authCode can be retrieved when auth success (by Spotify) , get from spotify response
                     .authorizationCode(authCode)
                     .build();
 
-            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
-                    .execute();
+            // Execute the request to get the credentials
+            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest.execute();
 
-            // Set access and refresh token for further "spotifyApi" object usage
+            // Retrieve tokens
             this.accessToken = authorizationCodeCredentials.getAccessToken();
             this.refreshToken = authorizationCodeCredentials.getRefreshToken();
-            log.info("---> this.accessToken = " + this.accessToken);
-            log.info("---> this.refreshToken = " + this.refreshToken);
+
+            log.info("Access Token = {}", this.accessToken);
+            log.info("Refresh Token = {}", this.refreshToken);
+
+            // Set tokens to Spotify API instance
             spotifyApi.setAccessToken(this.accessToken);
             spotifyApi.setRefreshToken(this.refreshToken);
 
-        }
-//        catch (BadRequestException | UnauthorizedException e) {
-//            log.error("Error during authorization. Invalid authorization code or other issue: {}", e.getMessage());
-//        }
-        catch (Exception e) {
+        } catch (BadRequestException e) {
+            log.error("Bad Request during authorization. Check the authorization code and parameters: {}", e.getMessage());
+        } catch (UnauthorizedException e) {
+            log.error("Unauthorized access. Check if the authorization code is valid and not expired: {}", e.getMessage());
+        } catch (Exception e) {
             log.error("Unexpected error during authorization: ", e);
         }
 
