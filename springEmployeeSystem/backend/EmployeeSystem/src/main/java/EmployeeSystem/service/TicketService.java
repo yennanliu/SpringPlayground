@@ -2,9 +2,9 @@ package EmployeeSystem.service;
 
 import EmployeeSystem.enums.TicketStatus;
 import EmployeeSystem.model.Ticket;
+import EmployeeSystem.model.dto.AddTicketDto;
 import EmployeeSystem.model.dto.TicketDto;
 import EmployeeSystem.repository.TicketRepository;
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,11 +41,19 @@ public class TicketService {
     ticketRepository.save(ticket);
   }
 
-  public void addTicket(Ticket ticket) {
+  public Mono<Ticket> addTicket(AddTicketDto addTicketDto) {
+    Ticket newTicket = new Ticket();
+    newTicket.setId(null);  // Ensure new entry
+    newTicket.setStatus(TicketStatus.PENDING.getName());  // Setting default status
+    newTicket.setDescription(addTicketDto.getDescription());
+    newTicket.setUserId(addTicketDto.getUserId());
+    newTicket.setSubject(addTicketDto.getSubject());  // Set subject
+    newTicket.setTag(addTicketDto.getTag());  // Set tag
 
-    // create ticket with "PENDING" as default status
-    log.info("(addTicket) ticket = " + ticket);
-    ticket.setStatus(TicketStatus.PENDING.getName());
-    ticketRepository.save(ticket);
+    return ticketRepository.save(newTicket)
+            .doOnSuccess(savedTicket -> {
+              System.out.println("Ticket saved: " + savedTicket);
+            });
   }
+
 }

@@ -2,6 +2,7 @@ package EmployeeSystem.controller;
 
 import EmployeeSystem.common.ApiResponse;
 import EmployeeSystem.model.Ticket;
+import EmployeeSystem.model.dto.AddTicketDto;
 import EmployeeSystem.model.dto.TicketDto;
 import EmployeeSystem.service.TicketService;
 import java.util.List;
@@ -47,10 +48,11 @@ public class TicketController {
   }
 
   @PostMapping("/add")
-  public ResponseEntity<ApiResponse> addDepartment(@RequestBody Ticket ticket) {
+  public ResponseEntity<Mono<Ticket>> addDepartment(@RequestBody AddTicketDto addTicketDto) {
 
-    ticketService.addTicket(ticket);
+    Mono<Ticket> res = ticketService.addTicket(addTicketDto);
     log.info("ticket is added");
-    return new ResponseEntity<>(new ApiResponse(true, "Ticket has been added"), HttpStatus.CREATED);
+    //return new ResponseEntity<>(new ApiResponse(true, "Ticket has been added"), HttpStatus.CREATED);
+    return new ResponseEntity<>(res, HttpStatus.CREATED);
   }
 }

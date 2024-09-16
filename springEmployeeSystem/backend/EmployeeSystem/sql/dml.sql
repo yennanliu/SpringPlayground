@@ -39,6 +39,16 @@ VALUES
 
 -- truncate tickets;
 
+CREATE TABLE tickets (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    subject VARCHAR(255),
+    description TEXT,
+    user_id INT,
+    assigned_to INT,
+    status VARCHAR(50),
+    tag VARCHAR(50)
+);
+
 INSERT INTO `tickets` (id, description, status, subject, tag, user_id, assigned_to)
 VALUES
 (1001, "this is a ticket ...", "PENDING", "subject 1", "tag1", 1001, 1001),

@@ -28,8 +28,10 @@ import lombok.ToString;
 @ToString
 public class Ticket {
 
+  //  @Id
+  //  @GeneratedValue(strategy = GenerationType.AUTO)
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  //@GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
   //@Column(name = "subject")
