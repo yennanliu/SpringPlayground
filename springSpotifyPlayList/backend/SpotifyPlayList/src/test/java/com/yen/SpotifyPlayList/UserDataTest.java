@@ -28,10 +28,16 @@ public class UserDataTest {
 
         try {
             final Paging<PlaylistSimplified> playlistSimplifiedPaging = getListOfUsersPlaylistsRequest.execute();
-            while (playlistSimplifiedPaging.getNext() != null) {
-                String playList = playlistSimplifiedPaging.getNext();
-                System.out.println(">>> playList = " + playList);
+
+            PlaylistSimplified[] playlistSimplifieds = playlistSimplifiedPaging.getItems();
+            for(PlaylistSimplified x : playlistSimplifieds){
+                System.out.println(">>> name = " + x.getName() + ", id = " + x.getId());
             }
+
+//            while (playlistSimplifiedPaging.getNext() != null) {
+//                String playList = playlistSimplifiedPaging.getNext();
+//                System.out.println(">>> playList = " + playList);
+//            }
 
 
             System.out.println("Total: " + playlistSimplifiedPaging.getTotal());
