@@ -1,64 +1,94 @@
 <template>
-  <div>
-    <h1>User Profile</h1>
-    <pre v-if="userProfile">{{ JSON.stringify(userProfile, null, 2) }}</pre>
-    <div v-else>Loading...</div>
+  <div class="container">
+    <div class="row">
+      <div class="col-12 text-center">
+        <h1>User Playlists</h1>
+        <h5>{{ msg }}</h5>
+      </div>
+    </div>
+
+    <div class="row">
+      <div
+        v-for="playList in playLists"
+        :key="playList.id"
+        class="col-md-6 col-xl-4 col-12 pt-3"
+      >
+        <div class="card">
+          <img
+            v-if="playList.images && playList.images.length > 0"
+            :src="playList.images[0].url"
+            class="card-img-top"
+            :alt="playList.name"
+            style="max-height: 200px; object-fit: cover"
+          />
+          <div class="card-body">
+            <h5 class="card-title">{{ playList.name }}</h5>
+            <p class="card-text">ID: {{ playList.id }}</p>
+            <a
+              :href="playList.externalUrls.externalUrls.spotify"
+              class="btn btn-primary"
+              target="_blank"
+            >
+              View on Spotify
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-  
-  <script>
+
+<script>
+var axios = require("axios");
 export default {
+  name: "ListPlaylists",
   data() {
     return {
-      userProfile: null,
-      authCode: null,
+      playLists: [],
+      msg: null,
     };
   },
-  mounted() {
-    this.getProfile();
-  },
   methods: {
-    async getProfile() {
+    async fetchData() {
       try {
-        // get auth code
-        console.log("auth start");
-        this.authorize();
-        const urlParams = new URLSearchParams(window.location.search);
-        const code = urlParams.get("code");
-        if (!code) {
-          throw new Error("Authorization code not found");
-        }
-        this.authCode = code;
-
-        const response = await fetch("http://localhost:8888/profile/");
-        if (!response.ok) {
-          throw new Error("Failed to fetch album");
-        }
-        const data = await response.json();
-        this.userProfile = data;
+        const response = await axios.get("http://localhost:8888/user_data/playlist/");
+        this.playLists = response.data;
+        console.log(">>> (fetchData) this.playLists =", JSON.stringify(this.playLists));
       } catch (error) {
         console.error(error);
+        this.msg = "Failed to fetch playlists";
       }
     },
-
-    async authorize() {
-      try {
-        const response = await fetch("http://localhost:8888/authorize");
-        if (!response.ok) {
-          throw new Error("Failed to authorize with Spotify");
-        }
-        const data = await response.json();
-        if (data.url) {
-          window.location.href = data.url; // Redirect to the Spotify authorization page
-        } else {
-          throw new Error("Redirect URI not found in response");
-        }
-      } catch (error) {
-        console.error(error);
-        // Handle error
-      }
-    },
+  },
+  mounted() {
+    this.fetchData();
   },
 };
 </script>
-  
+
+<style scoped>
+h1 {
+  font-family: "Roboto", sans-serif;
+  color: #484848;
+  font-weight: 700;
+}
+
+h5 {
+  font-family: "Roboto", sans-serif;
+  color: #686868;
+  font-weight: 300;
+}
+
+.card {
+  width: 100%;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.card-text {
+  font-size: 1rem;
+}
+</style>

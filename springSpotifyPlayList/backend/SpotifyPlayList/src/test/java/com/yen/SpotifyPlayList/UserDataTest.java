@@ -11,7 +11,8 @@ import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsR
 
 public class UserDataTest {
 
-    private static final String accessToken = "BQAT63uNMBH_hvzu5yHet8QIIWxcii2h8lld7aOP6R80ZUBC8OAmnAzE60M5FNrHdrxVDOmaaeaoKpR205MMnqVP_DaSMYV8vlLC2pFUzOquBPE-vmI";
+    private static final String accessToken = "BQDQivFxT2-VQLhIrDUdS8d0wIuz3Zqk17TsvlOtta1LxtVoIbR3AB2P6Qfd9ykw1UV6Qg8FPM12ZhvG1pIE2ViD6o2udUDEPE93CWqMmYVYvK4hJiU";
+
     private static final String userId = "62kytpy7jswykfjtnjn9zv3ou";
 
     @Test
