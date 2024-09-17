@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1>User Playlists</h1>
+        <h1>User Playlist</h1>
         <h5>{{ msg }}</h5>
       </div>
     </div>
@@ -41,7 +41,7 @@
 <script>
 var axios = require("axios");
 export default {
-  name: "ListPlaylists",
+  name: "ListUserPlayList",
   data() {
     return {
       playLists: [],
