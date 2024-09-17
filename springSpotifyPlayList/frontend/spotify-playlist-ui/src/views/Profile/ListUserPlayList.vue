@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 text-center">
-        <h1>User Playlist</h1>
+        <h1 class="main-heading">User Playlists</h1>
         <h5>{{ msg }}</h5>
       </div>
     </div>
@@ -11,22 +11,21 @@
       <div
         v-for="playList in playLists"
         :key="playList.id"
-        class="col-md-6 col-xl-4 col-12 pt-3"
+        class="col-md-6 col-xl-4 col-12 pt-4"
       >
-        <div class="card">
+        <div class="card playlist-card shadow-lg">
           <img
             v-if="playList.images && playList.images.length > 0"
             :src="playList.images[0].url"
-            class="card-img-top"
+            class="card-img-top playlist-image"
             :alt="playList.name"
-            style="max-height: 200px; object-fit: cover"
           />
           <div class="card-body">
-            <h5 class="card-title">{{ playList.name }}</h5>
-            <p class="card-text">ID: {{ playList.id }}</p>
+            <h3 class="card-title playlist-name">{{ playList.name }}</h3>
+            <p class="card-text playlist-id">ID: {{ playList.id }}</p>
             <a
               :href="playList.externalUrls.externalUrls.spotify"
-              class="btn btn-primary"
+              class="btn btn-outline-light playlist-btn"
               target="_blank"
             >
               View on Spotify
@@ -67,28 +66,63 @@ export default {
 </script>
 
 <style scoped>
-h1 {
+/* Main container and heading */
+.main-heading {
   font-family: "Roboto", sans-serif;
-  color: #484848;
+  color: #1db954; /* Spotify Green */
   font-weight: 700;
+  font-size: 2.5rem;
+  margin-top: 20px;
 }
 
-h5 {
-  font-family: "Roboto", sans-serif;
-  color: #686868;
-  font-weight: 300;
-}
-
+/* Playlist card styling */
 .card {
   width: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  background-color: #191414; /* Spotify dark theme */
 }
 
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+.playlist-card {
+  transition: transform 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
 }
 
-.card-text {
+.playlist-card:hover {
+  transform: scale(1.05);
+}
+
+/* Playlist image */
+.playlist-image {
+  max-height: 350px;
+  object-fit: cover;
+  border-bottom: 4px solid #1db954;
+}
+
+/* Playlist name and ID */
+.playlist-name {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #fff;
+}
+
+.playlist-id {
   font-size: 1rem;
+  color: #b3b3b3;
+}
+
+/* Button styling */
+.playlist-btn {
+  font-size: 1rem;
+  color: #1db954;
+  border-color: #1db954;
+  font-weight: bold;
+  margin-top: 15px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.playlist-btn:hover {
+  background-color: #1db954;
+  color: #191414;
 }
 </style>
