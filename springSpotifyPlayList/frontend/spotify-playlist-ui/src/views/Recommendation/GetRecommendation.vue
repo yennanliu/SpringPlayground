@@ -1,96 +1,87 @@
 <template>
-  <div>
-    <form @submit.prevent="getRecommend">
+  <div class="container">
+    <form @submit.prevent="getRecommend" class="recommendation-form">
+      <!-- Amount Input -->
       <div class="form-group">
         <label>Amount</label>
-        <input type="number" class="form-control" v-model="amount" required />
-      </div>
-      <div class="form-group">
-        <label>Market</label>
-        <input type="text" class="form-control" v-model="market" required />
-      </div>
-      <div class="form-group">
-        <label>Max Popularity</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="maxPopularity"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label>Min Popularity</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="minPopularity"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label>Seed Artist ID</label>
-        <input
-          type="text"
-          class="form-control"
-          v-model="seedArtistId"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <label>Seed Genres</label>
-        <input type="text" class="form-control" v-model="seedGenres" required />
-      </div>
-      <div class="form-group">
-        <label>Seed Track</label>
-        <input type="text" class="form-control" v-model="seedTrack" required />
-      </div>
-      <div class="form-group">
-        <label>Target Popularity</label>
-        <input
-          type="number"
-          class="form-control"
-          v-model="targetPopularity"
-          required
-        />
+        <input type="number" class="form-control large-input" v-model="amount" required />
       </div>
 
-      <!-- New input field for Playlist ID -->
+      <!-- Market Input -->
+      <div class="form-group">
+        <label>Market</label>
+        <input type="text" class="form-control large-input" v-model="market" required />
+      </div>
+
+      <!-- Max Popularity Slider -->
+      <div class="form-group">
+        <label>Max Popularity ({{ maxPopularity }})</label>
+        <input type="range" min="0" max="100" v-model="maxPopularity" class="slider" />
+      </div>
+
+      <!-- Min Popularity Slider -->
+      <div class="form-group">
+        <label>Min Popularity ({{ minPopularity }})</label>
+        <input type="range" min="0" max="100" v-model="minPopularity" class="slider" />
+      </div>
+
+      <!-- Seed Artist ID Input -->
+      <div class="form-group">
+        <label>Seed Artist ID</label>
+        <input type="text" class="form-control large-input" v-model="seedArtistId" required />
+      </div>
+
+      <!-- Seed Genres Input -->
+      <div class="form-group">
+        <label>Seed Genres</label>
+        <input type="text" class="form-control large-input" v-model="seedGenres" required />
+      </div>
+
+      <!-- Seed Track Input -->
+      <div class="form-group">
+        <label>Seed Track</label>
+        <input type="text" class="form-control large-input" v-model="seedTrack" required />
+      </div>
+
+      <!-- Target Popularity Slider -->
+      <div class="form-group">
+        <label>Target Popularity ({{ targetPopularity }})</label>
+        <input type="range" min="0" max="100" v-model="targetPopularity" class="slider" />
+      </div>
+
+      <!-- Playlist ID Input -->
       <div class="form-group">
         <label>Playlist ID</label>
         <input
           type="text"
-          class="form-control"
+          class="form-control large-input"
           v-model="playlistId"
           placeholder="Enter Playlist ID"
         />
       </div>
 
-      <!-- <button v-if="!authorized" @click="authorize">
-        Authorize with Spotify
-      </button> -->
-
-      <button type="submit" class="btn btn-primary">Submit</button>
-
-      <button class="btn btn-success" @click="addSongToPlayList()">
-        Add to Playlist
-      </button>
+      <div class="button-group">
+        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" class="btn btn-success" @click="addSongToPlayList">
+          Add to Playlist
+        </button>
+      </div>
     </form>
 
+    <!-- Display Tracks -->
     <div v-if="tracks">
-      <div v-for="track in tracks.tracks" :key="track.id">
+      <div v-for="track in tracks.tracks" :key="track.id" class="track-card">
         <p>Track: {{ track.name }} | Artist: {{ track.artists[0].name }}</p>
         <p>
           URL:
-          <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
-            track.externalUrls.externalUrls.spotify
-          }}</a>
+          <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{ track.externalUrls.externalUrls.spotify }}</a>
         </p>
 
         <img
           v-if="track.album.images && track.album.images.length > 0"
           :src="track.album.images[0].url"
           :alt="track.name"
-          style="max-width: 300px; max-height: 300px"
+          class="album-img"
         />
 
         <p>
@@ -111,7 +102,6 @@
 export default {
   data() {
     return {
-      //authorized: false,
       amount: 10,
       market: "JP",
       maxPopularity: 100,
@@ -126,23 +116,6 @@ export default {
     };
   },
   methods: {
-    // async authorize() {
-    //   try {
-    //     const response = await fetch("http://localhost:8888/authorize");
-    //     if (!response.ok) {
-    //       throw new Error("Failed to authorize with Spotify");
-    //     }
-    //     const data = await response.json();
-    //     if (data.url) {
-    //       window.location.href = data.url; // Redirect to the Spotify authorization page
-    //     } else {
-    //       throw new Error("Redirect URI not found in response");
-    //     }
-    //   } catch (error) {
-    //     console.error(error);
-    //     // Handle error
-    //   }
-    // },
     async getRecommend() {
       try {
         const response = await fetch("http://localhost:8888/recommend/", {
@@ -166,7 +139,6 @@ export default {
         }
         const data = await response.json();
         this.tracks = data;
-        console.log("this.tracks = {}", JSON.stringify(this.tracks));
       } catch (error) {
         console.error(error);
       }
@@ -174,10 +146,7 @@ export default {
 
     async addSongToPlayList() {
       try {
-        console.log("addSongToPlayList start");
-        this.trackURIs = await this.tracks.tracks.map((track) => track.uri);
-
-        console.log("this.trackURIs = " + this.trackURIs);
+        this.trackURIs = this.tracks.tracks.map((track) => track.uri);
 
         const response = await fetch("http://localhost:8888/playlist/addSong", {
           method: "POST",
@@ -186,21 +155,64 @@ export default {
           },
           body: JSON.stringify({
             songUris: this.trackURIs.toString(),
-            authCode: "code", // no need auth code for now
             playlistId: this.playlistId,
-            //playlistId: "1nuqr1ialLUN5HJjjHYlGQ", //this.newSongToList.playlistId,
           }),
         });
         if (response.status === 200) {
-          this.newSongsAdded = true;
+          console.log("Songs added successfully");
         } else {
-          throw new Error("Failed to add song to playlist");
+          throw new Error("Failed to add songs to playlist");
         }
       } catch (error) {
         console.error(error);
-        // Handle error
       }
     },
   },
 };
 </script>
+
+<style scoped>
+.container {
+  padding: 20px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.recommendation-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.large-input {
+  font-size: 1.25rem;
+  padding: 10px;
+}
+
+.slider {
+  width: 100%;
+  margin-top: 10px;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+}
+
+.track-card {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.album-img {
+  max-width: 300px;
+  max-height: 300px;
+  margin-top: 10px;
+}
+</style>
