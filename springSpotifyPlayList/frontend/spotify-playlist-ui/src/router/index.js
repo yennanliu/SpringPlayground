@@ -1,6 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import HomeView from "../views/HomeView.vue";
+//import HomeView from "../views/HomeView.vue";
+import Home from "../views/Home.vue";
 
 // album
 import GetAlbum from "../views/Album/GetAlbum.vue";
@@ -17,10 +18,15 @@ import GetRecommendation from "../views/Recommendation/GetRecommendation.vue";
 Vue.use(VueRouter);
 
 const routes = [
+  // {
+  //   path: "/",
+  //   name: "home",
+  //   component: HomeView,
+  // },
   {
     path: "/",
-    name: "home",
-    component: HomeView,
+    name: "Home",
+    component: Home,
   },
 
   // album
