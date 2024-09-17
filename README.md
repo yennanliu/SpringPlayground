@@ -13,6 +13,7 @@
 - [WareHouse system](https://github.com/yennanliu/SpringPlayground/tree/main/springWarehouse): WareHouse management tool
 - [Blog system](https://github.com/yennanliu/SpringPlayground/tree/main/springBootBlog) : Blog system
 - [ChatRoom](https://github.com/yennanliu/SpringPlayground/tree/main/springChatRoom) : Chat room service with webSocket
+- [Spotify PlayList](https://github.com/yennanliu/SpringPlayground/tree/main/springSpotifyPlayList) : App offers song recommendation, playList, album.. management
 - [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : Basic Spring project demo
 
 

@@ -4,7 +4,7 @@
       <div class="home-banner">
         <h1>Welcome to Spotify Playlist Manager</h1>
         <p>Manage and explore your Spotify playlists with ease.</p>
-        <router-link to="/playlists" class="btn btn-primary"
+        <router-link to="/profile" class="btn btn-primary"
           >View Your Playlists</router-link
         >
       </div>
@@ -18,9 +18,9 @@
           <p>Find albums, explore tracks, and listen to previews.</p>
         </div>
         <div class="feature">
-          <h2>Seamless Integration</h2>
+          <h2>Personalize Listening</h2>
           <p>
-            Connect with Spotify and manage your music collection effortlessly.
+            Song recommendation with ML, preference, create your own playList!
           </p>
         </div>
       </div>
