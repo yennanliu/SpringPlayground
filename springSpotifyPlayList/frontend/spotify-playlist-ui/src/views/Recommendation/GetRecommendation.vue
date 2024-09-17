@@ -54,9 +54,20 @@
         />
       </div>
 
-      <button v-if="!authorized" @click="authorize">
+      <!-- New input field for Playlist ID -->
+      <div class="form-group">
+        <label>Playlist ID</label>
+        <input
+          type="text"
+          class="form-control"
+          v-model="playlistId"
+          placeholder="Enter Playlist ID"
+        />
+      </div>
+
+      <!-- <button v-if="!authorized" @click="authorize">
         Authorize with Spotify
-      </button>
+      </button> -->
 
       <button type="submit" class="btn btn-primary">Submit</button>
 
@@ -100,7 +111,7 @@
 export default {
   data() {
     return {
-      authorized: false,
+      //authorized: false,
       amount: 10,
       market: "JP",
       maxPopularity: 100,
@@ -111,26 +122,27 @@ export default {
       targetPopularity: 50,
       tracks: null,
       trackURIs: "",
+      playlistId: "",
     };
   },
   methods: {
-    async authorize() {
-      try {
-        const response = await fetch("http://localhost:8888/authorize");
-        if (!response.ok) {
-          throw new Error("Failed to authorize with Spotify");
-        }
-        const data = await response.json();
-        if (data.url) {
-          window.location.href = data.url; // Redirect to the Spotify authorization page
-        } else {
-          throw new Error("Redirect URI not found in response");
-        }
-      } catch (error) {
-        console.error(error);
-        // Handle error
-      }
-    },
+    // async authorize() {
+    //   try {
+    //     const response = await fetch("http://localhost:8888/authorize");
+    //     if (!response.ok) {
+    //       throw new Error("Failed to authorize with Spotify");
+    //     }
+    //     const data = await response.json();
+    //     if (data.url) {
+    //       window.location.href = data.url; // Redirect to the Spotify authorization page
+    //     } else {
+    //       throw new Error("Redirect URI not found in response");
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //     // Handle error
+    //   }
+    // },
     async getRecommend() {
       try {
         const response = await fetch("http://localhost:8888/recommend/", {
@@ -175,7 +187,8 @@ export default {
           body: JSON.stringify({
             songUris: this.trackURIs.toString(),
             authCode: "code", // no need auth code for now
-            playlistId: "1qqdpj9tiE2Fhob6QItPDP", //this.newSongToList.playlistId,
+            playlistId: this.playlistId,
+            //playlistId: "1nuqr1ialLUN5HJjjHYlGQ", //this.newSongToList.playlistId,
           }),
         });
         if (response.status === 200) {
