@@ -17,17 +17,20 @@ public class SearchService {
     @Autowired
     private AuthService authService;
 
-    private SpotifyApi spotifyApi;
+    private SpotifyApi spotifyApi; // = authService.getSpotifyClient(); // TODO : fix this
 
     public SearchService() {
-
+        // TODO : fix below
+        //this.spotifyApi = authService.getSpotifyClient();
     }
 
     public AlbumSimplified[] searchAlbum(String keyword) {
 
+        this.spotifyApi = authService.getSpotifyClient();
+
         AlbumSimplified[] res = null;
 
-        SearchAlbumsRequest searchAlbumsRequest = spotifyApi.searchAlbums(keyword)
+        SearchAlbumsRequest searchAlbumsRequest = this.spotifyApi.searchAlbums(keyword)
                 .build();
         try {
             final Paging<AlbumSimplified> albumSimplifiedPaging = searchAlbumsRequest.execute();
@@ -44,19 +47,19 @@ public class SearchService {
 
     public Artist[] searchArtist(String keyword){
 
+        this.spotifyApi = authService.getSpotifyClient();
+
         Artist[] res = null;
 
-        final SearchArtistsRequest searchArtistsRequest = spotifyApi.searchArtists(keyword)
+        final SearchArtistsRequest searchArtistsRequest = this.spotifyApi.searchArtists(keyword)
                 .build();
         try {
             final Paging<Artist> artistPaging = searchArtistsRequest.execute();
             System.out.println("Total: " + artistPaging.getTotal());
-
             res = artistPaging.getItems();
             for (Artist artist : res){
                 System.out.println("name = " + artist.getName() + ", id = " + artist.getId() + ", url = " + artist.getExternalUrls());
             }
-
         } catch (Exception e) {
             System.out.println("Error: " + e.getMessage());
         }
