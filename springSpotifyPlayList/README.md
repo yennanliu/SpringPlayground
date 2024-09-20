@@ -44,6 +44,11 @@ Steps:
 <details>
 <summary>Reference</summary>
 
+- Java client
+	- https://github.com/spotify-web-api-java/spotify-web-api-java
+- Doc
+	- https://spotify-web-api-java.github.io/spotify-web-api-java/
+
 - Libaray
 	- https://github.com/spotify-web-api-java/spotify-web-api-java
 	- Recommendation
@@ -55,9 +60,6 @@ Steps:
 
 - get song feature
 	- https://developer.spotify.com/documentation/web-api/reference/get-audio-features
-
-- Java client
-	- https://github.com/spotify-web-api-java/spotify-web-api-java
 
 - Code example
 	- https://jitpack.io/p/lbengzon/spotify-web-api-java
