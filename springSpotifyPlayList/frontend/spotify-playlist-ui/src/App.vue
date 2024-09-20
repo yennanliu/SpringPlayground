@@ -5,6 +5,7 @@
       <router-link to="/album">Album</router-link> |
       <router-link to="/playlist">Playlist</router-link> |
       <router-link to="/profile">Profile</router-link> |
+      <router-link to="/search_album">Search Album</router-link> | 
       <router-link to="/recommendation">Recommendation</router-link>
     </nav>
     <router-view />
