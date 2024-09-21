@@ -78,7 +78,7 @@
 export default {
   data() {
     return {
-      albumId: null,
+      albumId: "1VuIx4XMmSs1hGZk2uCzvO", //  default val
       album: null,
     };
   },

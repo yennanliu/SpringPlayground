@@ -81,7 +81,7 @@
   export default {
     data() {
       return {
-        artistKeyword: null,
+        artistKeyword: "jay", // default val
         artists: [], // Array to hold multiple artists
         isLoading: false,
       };
