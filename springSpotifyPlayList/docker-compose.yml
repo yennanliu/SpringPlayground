@@ -9,6 +9,13 @@ services:
     ports:
       - "8888:8888"
     environment:
+      - SERVER_PORT=8888
+      - SPRING_APPLICATION_NAME=SpotifyPlayList
+      - SPOTIFY_CLIENT_ID=833e496a818d4dac926a00970ba4d725
+      - SPOTIFY_CLIENT_SECRET=
+      - SPOTIFY_REDIRECT_URL=http://localhost:8080/playlist
+      - SPOTIFY_AUTHORIZE_SCOPE=playlist-modify-public,playlist-modify-private,user-read-private,user-read-email
+      - SPOTIFY_USER_ID=62kytpy7jswykfjtnjn9zv3ou
     command: mvn clean spring-boot:run -DskipTests
 
   vue:
