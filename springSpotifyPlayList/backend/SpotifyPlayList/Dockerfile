@@ -1,1 +1,1 @@
-FROM maven:3.5-jdk-8
+FROM maven:3.8.6-jdk-11
