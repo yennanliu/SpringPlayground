@@ -17,6 +17,7 @@ import GetRecommendation from "../views/Recommendation/GetRecommendation.vue";
 
 // search
 import SearchAlbum from "../views/Search/SearchAlbum.vue";
+import SearchArtist from "../views/Search/SearchArtist.vue";
 
 Vue.use(VueRouter);
 
@@ -65,6 +66,13 @@ const routes = [
     path: "/search_album",
     name: "SearchAlbum",
     component: SearchAlbum,
+  },
+
+  // search artist
+  {
+    path: "/search_artist",
+    name: "SearchArtist",
+    component: SearchArtist,
   },
 ];
 
