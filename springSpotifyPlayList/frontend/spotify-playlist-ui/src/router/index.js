@@ -15,6 +15,10 @@ import UserPlayList from "../views/Profile/ListUserPlayList.vue";
 // Recommendation
 import GetRecommendation from "../views/Recommendation/GetRecommendation.vue";
 
+// search
+import SearchAlbum from "../views/Search/SearchAlbum.vue";
+import SearchArtist from "../views/Search/SearchArtist.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -55,6 +59,20 @@ const routes = [
     path: "/recommendation",
     name: "GetRecommendation",
     component: GetRecommendation,
+  },
+
+  // search album
+  {
+    path: "/search_album",
+    name: "SearchAlbum",
+    component: SearchAlbum,
+  },
+
+  // search artist
+  {
+    path: "/search_artist",
+    name: "SearchArtist",
+    component: SearchArtist,
   },
 ];
 

@@ -65,6 +65,7 @@
         <button type="button" class="btn btn-success" @click="addSongToPlayList">
           Add to Playlist
         </button>
+        <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
       </div>
     </form>
 
@@ -113,6 +114,7 @@ export default {
       tracks: null,
       trackURIs: "",
       playlistId: "",
+      addToPlayList: false,
     };
   },
   methods: {
@@ -160,6 +162,7 @@ export default {
         });
         if (response.status === 200) {
           console.log("Songs added successfully");
+          this.addToPlayList=true;
         } else {
           throw new Error("Failed to add songs to playlist");
         }
