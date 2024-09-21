@@ -82,7 +82,7 @@
 export default {
   data() {
     return {
-      albumKeyword: null,
+      albumKeyword: "funky", // default val
       albums: [], // Array to hold multiple albums
       isLoading: false,
     };
