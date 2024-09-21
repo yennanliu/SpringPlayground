@@ -10,11 +10,24 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install
 
+# Install Vue CLI service globally (optional, depending on your needs)
+RUN npm install -g @vue/cli-service
+
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Expose port 8080 to the outside world
-EXPOSE 8080
+# Build the application for production
+RUN npm run build
 
-# Command to run the application
-#CMD ["npm", "run", "serve"]
+# Use a lightweight web server to serve the built files
+# You can switch to another server if needed, like nginx
+FROM nginx:alpine
+
+# Copy built files from the previous stage
+COPY --from=0 /app/dist /usr/share/nginx/html
+
+# Expose port 80 for the web server
+EXPOSE 80
+
+# Start nginx when the container launches
+CMD ["nginx", "-g", "daemon off;"]
