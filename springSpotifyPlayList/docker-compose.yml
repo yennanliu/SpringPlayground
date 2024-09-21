@@ -1,0 +1,22 @@
+version: '3'
+services:
+  app:
+    restart: always
+    build: ./backend/SpotifyPlayList
+    working_dir: /app
+    volumes:
+      - ./backend/SpotifyPlayList:/app
+    ports:
+      - "8888:8888"
+    environment:
+    command: mvn clean spring-boot:run -DskipTests
+
+  vue:
+    restart: always
+    build: ./frontend/spotify-playlist-ui
+    working_dir: /app
+    ports:
+      - "8080:8080"  # Map host port 8080 to container port 8080
+    volumes:
+      - ./frontend/spotify-playlist-ui:/app  # Mount the current directory into the container
+    command: npm run serve
