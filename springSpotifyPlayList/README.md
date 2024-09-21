@@ -18,12 +18,12 @@ Steps:
 
 ## Run
 
-- Run via Docker
+### Run via Docker
 ```bash
 docker-compose up
 ```
 
-- Run manually
+### Run manually
 ```bash
 
 #------------------------
@@ -42,6 +42,17 @@ java -jar target/springSpotifyPlayList-0.0.1-SNAPSHOT.jar
 #------------------------
 cd /springSpotifyPlayList/frontend/spotify-playlist-ui
 npm run serve
+```
+
+- Clean docker data
+```bash
+docker rm -f $(docker ps -aq)
+# Remove all images
+docker rmi -f $(docker images -q)
+# remove all containers in docker
+docker rm -f $(docker ps -a -q)
+# remove all images in docker
+docker rmi -f $(docker images -q -a)
 ```
 
 ## Architecture
