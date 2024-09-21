@@ -11,16 +11,31 @@
       <div class="features-section">
         <div class="feature">
           <h2>Browse Playlists</h2>
-          <p>Access your personal playlists directly from Spotify.</p>
+          <p>
+            Access your personal
+            <router-link to="/profile" class="btn btn-primary"
+              >playlists</router-link
+            >
+            directly from Spotify.
+          </p>
         </div>
         <div class="feature">
           <h2>Search Albums</h2>
-          <p>Find albums, explore tracks, and listen to previews.</p>
+          <p>
+            Find
+            <router-link to="/search_album" class="btn btn-primary"
+              >albums</router-link
+            >, explore tracks, and listen to previews.
+          </p>
         </div>
         <div class="feature">
           <h2>Personalize Listening</h2>
           <p>
-            Song recommendation with ML, preference, create your own playList!
+            Song
+            <router-link to="/recommendation" class="btn btn-primary"
+              >recommendations</router-link
+            >
+            with ML, preference, create your own playList!
           </p>
         </div>
       </div>
