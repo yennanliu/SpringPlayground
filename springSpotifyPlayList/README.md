@@ -16,7 +16,44 @@ Steps:
 4. Repeat the process as needed.
 
 
-## Quick start
+## Run
+
+### Run via Docker
+```bash
+docker-compose up
+```
+
+### Run manually
+```bash
+
+#------------------------
+# BE
+#------------------------
+# build
+cd springSpotifyPlayList/backend/SpotifyPlayList
+mvn package
+
+# run
+java -jar target/springSpotifyPlayList-0.0.1-SNAPSHOT.jar
+
+
+#------------------------
+# FE
+#------------------------
+cd /springSpotifyPlayList/frontend/spotify-playlist-ui
+npm run serve
+```
+
+- Clean docker data
+```bash
+docker rm -f $(docker ps -aq)
+# Remove all images
+docker rmi -f $(docker images -q)
+# remove all containers in docker
+docker rm -f $(docker ps -a -q)
+# remove all images in docker
+docker rmi -f $(docker images -q -a)
+```
 
 ## Architecture
 
@@ -24,10 +61,6 @@ Steps:
 
 - Backend : Java
 - Frontend : Vue
-
-
-## Data Model
-
 
 
 ## API
