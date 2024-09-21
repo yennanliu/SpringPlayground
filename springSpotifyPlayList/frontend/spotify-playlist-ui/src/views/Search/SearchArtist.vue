@@ -30,14 +30,14 @@
           </h3>
   
           <!-- Album Image -->
-          <!-- <div class="text-center">
+          <div class="text-center">
             <img
-              v-if="album.images && album.images.length > 0"
-              :src="album.images[0].url"
+              v-if="artist.images && artist.images.length > 0"
+              :src="artist.images[0].url"
               class="album-cover"
-              :alt="album.name"
+              :alt="artist.name"
             />
-          </div> -->
+          </div>
   
           <!-- Album URL -->
           <!-- <p class="album-url text-center">
