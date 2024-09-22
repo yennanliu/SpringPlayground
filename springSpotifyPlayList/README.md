@@ -1,11 +1,19 @@
 # SpringSpotify PlayList
 
-Generate a Spotify playlist based on input values or recommendations using the Spotify API.
+<p align="center"><img src ="./doc/pic/spotify_app_1.png"></p>
 
-Pain point
+<p align="center"><img src ="./doc/pic/spotify_app_2.png"></p>
+
+<p align="center"><img src ="./doc/pic/spotify_app_3.png"></p>
+
+<p align="center"><img src ="./doc/pic/spotify_app_4.png"></p>
+
+> Generate a Spotify playlist based on input values or recommendations using the Spotify API.
+
+> Pain point
 	- `Spotify continues to recommend similar songs, but users want to explore new genres or styles.`
 
-Solution
+> Solution
 	- Create a new playlist and use the Spotify API to fetch song parameters. Then, use the recommendation API to get a new playlist of recommended songs.
 
 Steps:
@@ -17,6 +25,9 @@ Steps:
 
 
 ## Run
+
+<details>
+<summary>Run</summary>
 
 ### Run via Docker
 ```bash
@@ -55,6 +66,8 @@ docker rm -f $(docker ps -a -q)
 docker rmi -f $(docker images -q -a)
 ```
 
+</details>
+
 ## Architecture
 
 ## Technology
@@ -69,6 +82,7 @@ docker rmi -f $(docker images -q -a)
 | ----- | -------- | ---- | ----- | ---- |
 | http://localhost:8888/swagger-ui.html |  BE API | | |
 | http://localhost:8080 |  FE App UI | | |
+
 
 ## Important Concepts
 
