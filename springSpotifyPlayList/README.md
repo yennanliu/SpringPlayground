@@ -8,20 +8,24 @@
 
 <p align="center"><img src ="./doc/pic/spotify_app_4.png"></p>
 
-> Generate a Spotify playlist based on input values or recommendations using the Spotify API.
+What : 
+A full stack app (FE + BE) Spotify app. Features as below:
+1. Song recommendation based on ML and input values
+2. Artist/Song query : show artist/Song spotify data
+3. Album query : songs preview, show spotigy Album data
+4. Spotify API auth:
+	- OAuth with Spotify API platform, so can access Spotify API with received token
+	- Renew received token, so can keep using API without OAuth again
+	- Redirect when OAuth success
 
-> Pain point
-	- `Spotify continues to recommend similar songs, but users want to explore new genres or styles.`
+- Backend : Java
+- Frontend : Vue
 
-> Solution
-	- Create a new playlist and use the Spotify API to fetch song parameters. Then, use the recommendation API to get a new playlist of recommended songs.
+Why;
+Spotify continues to recommend similar songs, there is no way that users can "actively" ask Spotify to generate new song playList
 
-Steps:
-
-1. Manually create a new playlist.
-2. Use the get-audio-features API to retrieve parameters.
-3. Use the get-recommendations API to get a new playlist of recommended songs.
-4. Repeat the process as needed.
+How:
+Build this e2e app, so can offer above feature via API leverage.
 
 
 ## Run
@@ -69,11 +73,6 @@ docker rmi -f $(docker images -q -a)
 </details>
 
 ## Architecture
-
-## Technology
-
-- Backend : Java
-- Frontend : Vue
 
 
 ## API
