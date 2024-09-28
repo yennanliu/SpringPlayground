@@ -26,46 +26,54 @@ public class PlayListService {
     @Autowired
     private ProfileService profileService;
 
-    private SpotifyApi spotifyApi;
-
-
-    public PlayListService() {
-
-    }
-
+    /**
+     * Fetches a playlist by its ID.
+     *
+     * @param playlistId The Spotify playlist ID.
+     * @return Playlist object
+     * @throws SpotifyWebApiException In case of errors while fetching the playlist.
+     */
     public Playlist getPlaylistById(String playlistId) throws SpotifyWebApiException {
 
         Playlist playlist = null;
+
         try {
-            // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyClient();
-            final GetPlaylistRequest getPlaylistRequest = spotifyApi
+            // Get SpotifyApi instance from AuthService
+            SpotifyApi spotifyApi = authService.initializeSpotifyApi();
+
+            // Build and execute request to get the playlist
+            GetPlaylistRequest getPlaylistRequest = spotifyApi
                     .getPlaylist(playlistId)
                     .build();
             playlist = getPlaylistRequest.execute();
-            log.info("playlist = " + playlist);
+
+            log.info("Retrieved playlist: {}", playlist);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            throw new SpotifyWebApiException("getPlaylistById error: " + e.getMessage());
+            throw new SpotifyWebApiException("Error retrieving playlist: " + e.getMessage(), e);
         }
         return playlist;
     }
 
+    /**
+     * Creates a new playlist for the authenticated user.
+     *
+     * @param createPlayListDto Data Transfer Object (DTO) containing playlist details.
+     * @return Playlist object
+     * @throws SpotifyWebApiException In case of errors while creating the playlist.
+     */
     public Playlist createPlayList(CreatePlayListDto createPlayListDto) throws SpotifyWebApiException {
 
         Playlist playlist = null;
 
         try {
-            // TODO : move below to controller / config
-            this.spotifyApi = authService.authClientWithAuthCode(
+            // Initialize SpotifyApi with the provided auth code
+            SpotifyApi spotifyApi = authService.authClientWithAuthCode(
                     authService.getSpotifyClient(),
                     createPlayListDto.getAuthCode()
             );
 
-            /** NOTE !!! use the same client (spotifyApi)
-             *  for getting current user id and create playlist
-             */
-            // get current user profile
-            String userId = profileService.getCurrentUserId(this.spotifyApi); //"62kytpy7jswykfjtnjn9zv3ou";
+            // Fetch current user ID
+            String userId = profileService.getCurrentUserId(spotifyApi);
 
             /**
              * NOTE !!! via refresh token,
@@ -81,52 +89,54 @@ public class PlayListService {
              *    Code ref :
              *     - https://github.com/spotify-web-api-java/spotify-web-api-java/blob/cfd0dae1262bd7f95f90c37b28d27b9c944d471a/examples/authorization/authorization_code/AuthorizationCodeRefreshExample.java#L22
              */
-            String refreshToken = this.spotifyApi.getRefreshToken();
+            // Refresh token to handle multiple requests
+            String refreshToken = spotifyApi.getRefreshToken();
             spotifyApi.setRefreshToken(refreshToken);
 
-            final CreatePlaylistRequest createPlaylistRequest = spotifyApi
+            // Build and execute request to create playlist
+            CreatePlaylistRequest createPlaylistRequest = spotifyApi
                     .createPlaylist(userId, createPlayListDto.getName())
                     .build();
 
-            // create new playList
             playlist = createPlaylistRequest.execute();
-            log.info("playlist is created !  " + playlist + " name = " + playlist.getName());
+            log.info("Playlist created: {} (Name: {})", playlist.getId(), playlist.getName());
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            throw new SpotifyWebApiException("createPlayList error: " + e.getMessage());
+            throw new SpotifyWebApiException("Error creating playlist: " + e.getMessage(), e);
         }
         return playlist;
     }
 
+    /**
+     * Adds a song to a playlist.
+     *
+     * @param addSongToPlayListDto Data Transfer Object (DTO) containing song and playlist details.
+     * @return SnapshotResult object showing the status of the update.
+     */
     public SnapshotResult addSongToPlayList(AddSongToPlayListDto addSongToPlayListDto) {
 
         SnapshotResult snapshotResult = null;
-        log.info("(addSongToPlayList) addSongToPlayListDto = " + addSongToPlayListDto);
+        log.info("(addSongToPlayList) DTO: {}", addSongToPlayListDto);
+
         try {
-
-            log.info(">>> (addSongToPlayList) authService.getAuthCode() = " + authService.getAuthCode());
-
-            this.spotifyApi = authService.authClientWithAuthCode(
+            // Authenticate and initialize SpotifyApi with the provided auth code
+            SpotifyApi spotifyApi = authService.authClientWithAuthCode(
                     authService.getSpotifyClient(),
-                    authService.getAuthCode());
+                    authService.getAuthCode()
+            );
 
-            log.info(">>> before refreshSpotifyClient");
-            log.info(">>> auth code = " + addSongToPlayListDto.getAuthCode());
-
-            String refreshToken = this.spotifyApi.getRefreshToken();
+            // Refresh token to handle multiple requests
+            String refreshToken = spotifyApi.getRefreshToken();
             spotifyApi.setRefreshToken(refreshToken);
 
-            log.info(">>> end refreshSpotifyClient");
-
-            final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
+            // Build and execute request to add songs to the playlist
+            AddItemsToPlaylistRequest addItemsToPlaylistRequest = spotifyApi
                     .addItemsToPlaylist(addSongToPlayListDto.getPlaylistId(), addSongToPlayListDto.getSongUris().split(","))
                     .build();
 
             snapshotResult = addItemsToPlaylistRequest.execute();
-
-            log.info("Snapshot ID: " + snapshotResult.getSnapshotId());
-            log.info("addSongToPlayList OK");
-        }catch (Exception e){
-            log.error("addSongToPlayList Error: " + e.getMessage());
+            log.info("Snapshot ID: {}", snapshotResult.getSnapshotId());
+        } catch (Exception e) {
+            log.error("Error adding songs to playlist: {}", e.getMessage(), e);
         }
         return snapshotResult;
     }

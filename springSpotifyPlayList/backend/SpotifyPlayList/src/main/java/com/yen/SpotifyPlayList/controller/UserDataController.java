@@ -23,6 +23,6 @@ public class UserDataController {
     @GetMapping("/playlist")
     public PlaylistSimplified[] getUserPlayList(){
         //String userId = "62kytpy7jswykfjtnjn9zv3ou";
-        return userDataService.getUserAllPlayList(userId);
+        return userDataService.getUserAllPlaylists(userId);
     }
 }

@@ -122,8 +122,16 @@ docker rmi -f $(docker images -q -a)
 
 </details>
 
+
 ## TODO
 
+<details>
+<summary>TODO</summary>
 
 1. code refactor
+	- dep injection : `spotifyApi`
 2. integrate with chatGPT
+3. CICD, dockerize project
+4. UI redesign
+
+</details>
