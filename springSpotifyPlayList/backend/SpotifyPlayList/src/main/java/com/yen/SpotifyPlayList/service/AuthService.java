@@ -50,6 +50,10 @@ public class AuthService {
 
     private String refreshToken;
 
+    private String authCode;
+
+    private SpotifyApi spotifyApi;
+
     public String getAuthCode() {
         return authCode;
     }
@@ -58,14 +62,10 @@ public class AuthService {
         this.authCode = authCode;
     }
 
-    private String authCode;
-
-    private SpotifyApi spotifyApi;
-
     public AuthService() {
     }
 
-    public SpotifyApi getBasicSpotifyClient() {
+    public SpotifyApi getSpotifyClientWithIdAndSecret() {
 
         return new SpotifyApi
                 .Builder()
@@ -74,6 +74,18 @@ public class AuthService {
                 .build();
     }
 
+    public SpotifyApi getSpotifyClientWithIdAndSecretAndRedirectUrlAndToken() {
+
+        return new SpotifyApi
+                .Builder()
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRedirectUri(getRedirectURL(redirectURL))
+                .setAccessToken(accessToken) // use accessToken here
+                .build();
+    }
+
+
     public SpotifyApi getSpotifyClient() {
 
         log.info("(getSpotifyApi) current accessToken = " + this.accessToken);
@@ -81,33 +93,18 @@ public class AuthService {
         if (this.accessToken == null) {
             this.accessToken = this.getToken();
             log.info("(getSpotifyApi) new accessToken = " + accessToken);
-            this.spotifyApi = new SpotifyApi.Builder()
-                    .setClientId(clientId)
-                    .setClientSecret(clientSecret)
-                    .setRedirectUri(getRedirectURL(redirectURL))
-                    .setAccessToken(accessToken) // use accessToken here
-                    .build();
+            this.spotifyApi = this.getSpotifyClientWithIdAndSecretAndRedirectUrlAndToken();
         }
 
         return this.spotifyApi;
     }
-
-    public SpotifyApi getSpotifyClientWithRefreshCode(String refreshToken) {
-
-        return new SpotifyApi.Builder()
-                .setClientId(clientId)
-                .setClientSecret(clientSecret)
-                .setRefreshToken(refreshToken)
-                .build();
-    }
-
 
     public String getToken() {
 
         log.info("getToken ...");
         String token = "";
         try {
-            final SpotifyApi spotifyApi = this.getBasicSpotifyClient();
+            final SpotifyApi spotifyApi = this.getSpotifyClientWithIdAndSecret();
 
             final ClientCredentialsRequest clientCredentialsRequest = spotifyApi
                     .clientCredentials()
