@@ -29,8 +29,7 @@ public class RecommendationsService {
 
         Recommendations recommendations = null;
         try {
-            // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyClient();
+            this.spotifyApi = authService.initializeSpotifyApi();
             GetRecommendationsRequest getRecommendationsRequest = prepareRecommendationsRequest(getRecommendationsDto);
             recommendations = getRecommendationsRequest.execute();
             log.info("recommendations = " + recommendations);
