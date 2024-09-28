@@ -21,44 +21,46 @@ public class AlbumService {
     @Autowired
     private AuthService authService;
 
-    private SpotifyApi spotifyApi;
-
-    public AlbumService() {
-    }
-
+    /**
+     * Fetches the album by the given album ID.
+     *
+     * @param albumId The ID of the album to fetch.
+     * @return The album details.
+     * @throws SpotifyWebApiException If an error occurs during the API request.
+     */
     public Album getAlbum(String albumId) throws SpotifyWebApiException {
+        SpotifyApi spotifyApi = authService.initializeSpotifyApi();
 
-        Album album = null;
         try {
-            // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyClient();
-            final GetAlbumRequest getAlbumRequest = this.spotifyApi
-                    .getAlbum(albumId)
-                    .build();
-            album = getAlbumRequest.execute();
-            log.info("album = " + album);
+            final GetAlbumRequest getAlbumRequest = spotifyApi.getAlbum(albumId).build();
+            Album album = getAlbumRequest.execute();
+            log.info("Album fetched: {}", album);
+            return album;
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            throw new SpotifyWebApiException("getAlbum error: " + e.getMessage());
+            log.error("Error fetching album: {}", e.getMessage());
+            throw new SpotifyWebApiException("Error fetching album: " + e.getMessage(), e);
         }
-        return album;
     }
 
+    /**
+     * Fetches the tracks of the given album ID.
+     *
+     * @param albumId The ID of the album whose tracks are to be fetched.
+     * @return A Paging object containing the simplified tracks.
+     * @throws SpotifyWebApiException If an error occurs during the API request.
+     */
     public Paging<TrackSimplified> getAlbumTrack(String albumId) throws SpotifyWebApiException {
-
-        Paging<TrackSimplified> trackSimplifiedPaging = null;
+        SpotifyApi spotifyApi = authService.initializeSpotifyApi();
 
         try {
-            // TODO : move below to controller / config
-            this.spotifyApi = authService.getSpotifyClient();
-            final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi
-                    .getAlbumsTracks(albumId)
-                    .build();
-            trackSimplifiedPaging = getAlbumsTracksRequest.execute();
-            log.info("Track count: " + trackSimplifiedPaging.getTotal());
+            final GetAlbumsTracksRequest getAlbumsTracksRequest = spotifyApi.getAlbumsTracks(albumId).build();
+            Paging<TrackSimplified> trackSimplifiedPaging = getAlbumsTracksRequest.execute();
+            log.info("Fetched {} tracks for album {}", trackSimplifiedPaging.getTotal(), albumId);
+            return trackSimplifiedPaging;
         } catch (IOException | SpotifyWebApiException | ParseException e) {
-            throw new SpotifyWebApiException("getAlbumTrack error: " + e.getMessage());
+            log.error("Error fetching album tracks: {}", e.getMessage());
+            throw new SpotifyWebApiException("Error fetching album tracks: " + e.getMessage(), e);
         }
-        return trackSimplifiedPaging;
     }
 
 }

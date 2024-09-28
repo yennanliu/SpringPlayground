@@ -65,6 +65,18 @@ public class AuthService {
     public AuthService() {
     }
 
+    /**
+     * Initializes the SpotifyApi instance if not already initialized.
+     * @return the SpotifyApi instance.
+     */
+    public SpotifyApi initializeSpotifyApi() {
+        if (this.spotifyApi == null) {
+            this.spotifyApi = getSpotifyClient();
+            log.info("SpotifyApi initialized with access token: {}", this.spotifyApi.getAccessToken());
+        }
+        return this.spotifyApi;
+    }
+
     public SpotifyApi getSpotifyClientWithIdAndSecret() {
 
         return new SpotifyApi
