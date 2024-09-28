@@ -36,11 +36,12 @@ public class SearchService {
             final Paging<AlbumSimplified> albumSimplifiedPaging = searchAlbumsRequest.execute();
             System.out.println("Total: " + albumSimplifiedPaging.getTotal());
             res = albumSimplifiedPaging.getItems();
-            for (AlbumSimplified item : res) {
-                System.out.println("name = " + item.getName() + ", artist" + item.getArtists().toString() + ", id = " + item.getId() + ", url = " + item.getExternalUrls());
-            }
+//            for (AlbumSimplified item : res) {
+//                System.out.println("name = " + item.getName() + ", artist" + item.getArtists().toString() + ", id = " + item.getId() + ", url = " + item.getExternalUrls());
+//            }
+            log.info("Album search count: " + res.length);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Album search error: " + e.getMessage());
         }
         return res;
     }
@@ -55,17 +56,16 @@ public class SearchService {
                 .build();
         try {
             final Paging<Artist> artistPaging = searchArtistsRequest.execute();
-            System.out.println("Total: " + artistPaging.getTotal());
+            log.info("Search artist count: " + artistPaging.getTotal());
             res = artistPaging.getItems();
-            for (Artist artist : res){
-                System.out.println("name = " + artist.getName() + ", id = " + artist.getId() + ", url = " + artist.getExternalUrls());
-            }
+//            for (Artist artist : res){
+//                System.out.println("name = " + artist.getName() + ", id = " + artist.getId() + ", url = " + artist.getExternalUrls());
+//            }
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Artist search error: " + e.getMessage());
         }
 
         return res;
     }
-
 
 }

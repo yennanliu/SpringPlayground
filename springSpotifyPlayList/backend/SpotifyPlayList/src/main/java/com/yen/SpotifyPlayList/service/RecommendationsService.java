@@ -31,23 +31,26 @@ public class RecommendationsService {
         try {
             // TODO : move below to controller / config
             this.spotifyApi = authService.getSpotifyClient();
-
-            final GetRecommendationsRequest getRecommendationsRequest = spotifyApi.getRecommendations()
-                    .limit(getRecommendationsDto.getAmount())
-                    .market(getRecommendationsDto.getMarket())
-                    .max_popularity(getRecommendationsDto.getMaxPopularity())
-                    .min_popularity(getRecommendationsDto.getMinPopularity())
-                    .seed_artists(getRecommendationsDto.getSeedArtistId())
-                    .seed_genres(getRecommendationsDto.getSeedGenres())
-                    .seed_tracks(getRecommendationsDto.getSeedTrack())
-                    .target_popularity(getRecommendationsDto.getTargetPopularity())
-                    .build();
+            GetRecommendationsRequest getRecommendationsRequest = prepareRecommendationsRequest(getRecommendationsDto);
             recommendations = getRecommendationsRequest.execute();
             log.info("recommendations = " + recommendations);
         } catch (IOException | SpotifyWebApiException | ParseException e) {
             throw new SpotifyWebApiException("getRecommendation error: " + e.getMessage());
         }
         return recommendations;
+    }
+
+    private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto getRecommendationsDto){
+        return  spotifyApi.getRecommendations()
+                .limit(getRecommendationsDto.getAmount())
+                .market(getRecommendationsDto.getMarket())
+                .max_popularity(getRecommendationsDto.getMaxPopularity())
+                .min_popularity(getRecommendationsDto.getMinPopularity())
+                .seed_artists(getRecommendationsDto.getSeedArtistId())
+                .seed_genres(getRecommendationsDto.getSeedGenres())
+                .seed_tracks(getRecommendationsDto.getSeedTrack())
+                .target_popularity(getRecommendationsDto.getTargetPopularity())
+                .build();
     }
 
 }

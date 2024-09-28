@@ -115,9 +115,6 @@ public class PlayListService {
             String refreshToken = this.spotifyApi.getRefreshToken();
             spotifyApi.setRefreshToken(refreshToken);
 
-//            //this.spotifyApi = authService.refreshSpotifyClient(addSongToPlayListDto.getAuthCode());
-//            this.spotifyApi = authService.refreshSpotifyClient(authService.getAuthCode());
-
             log.info(">>> end refreshSpotifyClient");
 
             final AddItemsToPlaylistRequest addItemsToPlaylistRequest = this.spotifyApi
@@ -131,9 +128,6 @@ public class PlayListService {
         }catch (Exception e){
             log.error("addSongToPlayList Error: " + e.getMessage());
         }
-//        catch (IOException | SpotifyWebApiException | ParseException e) {
-//            log.error("addSongToPlayList Error: " + e.getMessage());
-//        }
         return snapshotResult;
     }
 

@@ -123,3 +123,7 @@ docker rmi -f $(docker images -q -a)
 </details>
 
 ## TODO
+
+
+1. code refactor
+2. integrate with chatGPT

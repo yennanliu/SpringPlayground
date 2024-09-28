@@ -28,11 +28,11 @@ public class UserDataService {
         try {
             final Paging<PlaylistSimplified> playlistSimplifiedPaging = getListOfUsersPlaylistsRequest.execute();
             playlistSimplifieds = playlistSimplifiedPaging.getItems();
-            for (PlaylistSimplified x : playlistSimplifieds) {
-                System.out.println(">>> name = " + x.getName() + ", id = " + x.getId());
-            }
+//            for (PlaylistSimplified x : playlistSimplifieds) {
+//                //System.out.println(">>> name = " + x.getName() + ", id = " + x.getId());
+//            }
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Error: " + e.getMessage());
             return playlistSimplifieds;
         }
         return playlistSimplifieds;
