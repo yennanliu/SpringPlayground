@@ -90,8 +90,9 @@ public class PlayListService {
              *     - https://github.com/spotify-web-api-java/spotify-web-api-java/blob/cfd0dae1262bd7f95f90c37b28d27b9c944d471a/examples/authorization/authorization_code/AuthorizationCodeRefreshExample.java#L22
              */
             // Refresh token to handle multiple requests
-            String refreshToken = spotifyApi.getRefreshToken();
-            spotifyApi.setRefreshToken(refreshToken);
+//            String refreshToken = spotifyApi.getRefreshToken();
+//            spotifyApi.setRefreshToken(refreshToken);
+            authService.refreshClient(spotifyApi);
 
             // Build and execute request to create playlist
             CreatePlaylistRequest createPlaylistRequest = spotifyApi
