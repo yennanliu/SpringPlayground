@@ -17,55 +17,52 @@ public class SearchService {
     @Autowired
     private AuthService authService;
 
-    private SpotifyApi spotifyApi; // = authService.getSpotifyClient(); // TODO : fix this
-
-    public SearchService() {
-        // TODO : fix below
-        //this.spotifyApi = authService.getSpotifyClient();
-    }
-
+    /**
+     * Searches for albums using a keyword.
+     *
+     * @param keyword The search keyword.
+     * @return An array of simplified album objects.
+     */
     public AlbumSimplified[] searchAlbum(String keyword) {
 
-        this.spotifyApi = authService.getSpotifyClient();
+        SpotifyApi spotifyApi = authService.initializeSpotifyApi();  // Get the Spotify API instance
 
-        AlbumSimplified[] res = null;
+        AlbumSimplified[] result = null;
 
-        SearchAlbumsRequest searchAlbumsRequest = this.spotifyApi.searchAlbums(keyword)
-                .build();
         try {
-            final Paging<AlbumSimplified> albumSimplifiedPaging = searchAlbumsRequest.execute();
-            System.out.println("Total: " + albumSimplifiedPaging.getTotal());
-            res = albumSimplifiedPaging.getItems();
-            for (AlbumSimplified item : res) {
-                System.out.println("name = " + item.getName() + ", artist" + item.getArtists().toString() + ", id = " + item.getId() + ", url = " + item.getExternalUrls());
-            }
+            SearchAlbumsRequest searchAlbumsRequest = spotifyApi.searchAlbums(keyword).build();
+            Paging<AlbumSimplified> albumPaging = searchAlbumsRequest.execute();
+            result = albumPaging.getItems();
+            log.info("Album search count: {}", result.length);
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-        }
-        return res;
-    }
-
-    public Artist[] searchArtist(String keyword){
-
-        this.spotifyApi = authService.getSpotifyClient();
-
-        Artist[] res = null;
-
-        final SearchArtistsRequest searchArtistsRequest = this.spotifyApi.searchArtists(keyword)
-                .build();
-        try {
-            final Paging<Artist> artistPaging = searchArtistsRequest.execute();
-            System.out.println("Total: " + artistPaging.getTotal());
-            res = artistPaging.getItems();
-            for (Artist artist : res){
-                System.out.println("name = " + artist.getName() + ", id = " + artist.getId() + ", url = " + artist.getExternalUrls());
-            }
-        } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
+            log.error("Error occurred during album search: {}", e.getMessage());
         }
 
-        return res;
+        return result;
     }
 
+    /**
+     * Searches for artists using a keyword.
+     *
+     * @param keyword The search keyword.
+     * @return An array of artist objects.
+     */
+    public Artist[] searchArtist(String keyword) {
+
+        SpotifyApi spotifyApi = authService.initializeSpotifyApi();  // Get the Spotify API instance
+
+        Artist[] result = null;
+
+        try {
+            SearchArtistsRequest searchArtistsRequest = spotifyApi.searchArtists(keyword).build();
+            Paging<Artist> artistPaging = searchArtistsRequest.execute();
+            result = artistPaging.getItems();
+            log.info("Artist search count: {}", result.length);
+        } catch (Exception e) {
+            log.error("Error occurred during artist search: {}", e.getMessage());
+        }
+
+        return result;
+    }
 
 }

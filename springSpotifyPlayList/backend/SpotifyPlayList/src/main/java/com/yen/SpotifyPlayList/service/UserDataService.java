@@ -15,27 +15,35 @@ public class UserDataService {
     @Autowired
     private AuthService authService;
 
-    private SpotifyApi spotifyApi;
+    /**
+     * Fetches all playlists for a given user.
+     *
+     * @param userId The Spotify user ID.
+     * @return An array of simplified playlist objects.
+     */
+    public PlaylistSimplified[] getUserAllPlaylists(String userId) {
 
-    public PlaylistSimplified[] getUserAllPlayList(String userId) {
+        PlaylistSimplified[] playlists = null;
 
-        PlaylistSimplified[] playlistSimplifieds = null;
-        this.spotifyApi = authService.getSpotifyClient();
-        final GetListOfUsersPlaylistsRequest getListOfUsersPlaylistsRequest = spotifyApi
-                .getListOfUsersPlaylists(userId)
-                //.limit(10).offset(0)
-                .build();
         try {
-            final Paging<PlaylistSimplified> playlistSimplifiedPaging = getListOfUsersPlaylistsRequest.execute();
-            playlistSimplifieds = playlistSimplifiedPaging.getItems();
-            for (PlaylistSimplified x : playlistSimplifieds) {
-                System.out.println(">>> name = " + x.getName() + ", id = " + x.getId());
-            }
+            // Get SpotifyApi instance from AuthService
+            SpotifyApi spotifyApi = authService.initializeSpotifyApi();
+
+            // Build request to get the user's playlists
+            GetListOfUsersPlaylistsRequest request = spotifyApi
+                    .getListOfUsersPlaylists(userId)
+                    .build();
+
+            // Execute the request and fetch the playlist data
+            Paging<PlaylistSimplified> playlistPaging = request.execute();
+            playlists = playlistPaging.getItems();
+            log.info("Retrieved {} playlists for user: {}", playlists.length, userId);
+
         } catch (Exception e) {
-            System.out.println("Error: " + e.getMessage());
-            return playlistSimplifieds;
+            log.error("Error fetching playlists for user {}: {}", userId, e.getMessage());
         }
-        return playlistSimplifieds;
+
+        return playlists;
     }
 
 }
