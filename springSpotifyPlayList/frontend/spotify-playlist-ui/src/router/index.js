@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 
 // album
-import GetAlbum from "../views/Album/GetAlbumWithId.vue";
+import GetAlbum from "../views/Search/GetAlbumWithId.vue";
 
 // playlist
 import CreatePlayList from "../views/PlayList/CreatePlayList.vue";
