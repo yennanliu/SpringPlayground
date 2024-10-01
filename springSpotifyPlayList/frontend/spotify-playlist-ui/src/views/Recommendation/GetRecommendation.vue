@@ -111,7 +111,7 @@
           class="btn btn-success"
           @click="addSongToPlayList"
         >
-          Add to Playlist
+          Add Songs to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
       </div>
