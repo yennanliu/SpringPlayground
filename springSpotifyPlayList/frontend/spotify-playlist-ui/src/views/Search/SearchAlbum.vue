@@ -159,6 +159,13 @@ export default {
   margin-bottom: 10px;
 }
 
+/* Error message styling */
+.error-message {
+  font-size: 1.2rem;
+  color: red;
+  margin-top: 10px;
+}
+
 /* Album image styling */
 .album-cover {
   max-width: 400px;

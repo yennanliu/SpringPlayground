@@ -57,7 +57,7 @@ export default {
 
 .home-banner {
   background-color: #1db954;
-  color: white;
+  color: rgb(17, 12, 12);
   padding: 100px 0;
 }
 
