@@ -3,11 +3,11 @@
     <header>
       <nav>
         <router-link to="/">Home</router-link> |
-        <router-link to="/album">Album</router-link> |
-        <router-link to="/playlist">Playlist</router-link> |
-        <router-link to="/profile">Profile</router-link> |
-        <router-link to="/search_album">Search Album</router-link> |
-        <router-link to="/search_artist">Search Artist</router-link> |
+        <router-link to="/profile">User Profile</router-link> |
+        <router-link to="/album">Get Album (Id)</router-link> |
+        <router-link to="/search_album">Get Album</router-link> |
+        <router-link to="/search_artist">Get Artist</router-link> |
+        <router-link to="/playlist">Create Playlist</router-link> |
         <router-link to="/recommendation">Recommendation</router-link>
       </nav>
     </header>
@@ -59,7 +59,7 @@ header {
 }
 
 nav {
-  font-size: 1rem;
+  font-size: 0.7rem;
   font-weight: bold;
   text-transform: uppercase;
   letter-spacing: 2px;

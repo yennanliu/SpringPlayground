@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>Search Album With Keyword</h1>
     <!-- Album Keyword Form -->
     <form class="album-form text-center">
       <div class="form-group">

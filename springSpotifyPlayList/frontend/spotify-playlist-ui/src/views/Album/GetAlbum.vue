@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>Search Album With ID</h1>
     <!-- Album ID Form -->
     <form class="album-form text-center">
       <div class="form-group">

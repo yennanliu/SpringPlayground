@@ -1,8 +1,9 @@
 <template>
   <div class="container">
+    <h1>User PlayList List</h1>
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="main-heading">User Playlists</h1>
+        <!-- <h1 class="main-heading">User Playlists</h1> -->
         <h5>{{ msg }}</h5>
       </div>
     </div>

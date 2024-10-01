@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <h1>Song Recommendation With ML</h1>
     <form @submit.prevent="getRecommend" class="recommendation-form">
       <!-- Amount Input -->
       <div class="form-group">

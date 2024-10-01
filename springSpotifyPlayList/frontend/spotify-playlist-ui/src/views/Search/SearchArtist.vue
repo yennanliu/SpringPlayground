@@ -1,5 +1,6 @@
 <template>
     <div class="container">
+      <h1>Search Artist With Keyword</h1>
       <!-- Artist Keyword Form -->
       <form class="album-form text-center">
         <div class="form-group">
