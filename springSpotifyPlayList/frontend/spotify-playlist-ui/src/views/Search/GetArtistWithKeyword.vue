@@ -1,13 +1,20 @@
 <template>
   <div class="container">
-    <!-- Album Keyword Form -->
+    <h1>Search Artist With Keyword</h1>
+    <!-- Artist Keyword Form -->
     <form class="album-form text-center">
       <div class="form-group">
-        <label for="albumKeyword" class="form-label">Enter Album keyword</label>
+        <p style="text-align: center">
+          Search Artist with keyword, example: jay
+        </p>
+        <br />
+        <label for="artistKeyword" class="form-label"
+          >Enter Artist keyword</label
+        >
         <input
           type="text"
           class="form-control form-control-lg"
-          v-model="albumKeyword"
+          v-model="artistKeyword"
           placeholder="Search keywords"
           required
         />
@@ -15,57 +22,28 @@
       <button
         type="button"
         class="btn btn-outline-light btn-lg"
-        @click="searchAlbum"
+        @click="searchArtist"
       >
         Submit
       </button>
     </form>
 
     <!-- Album Details -->
-    <div v-if="albums.length > 0" class="album-details mt-5">
+    <div v-if="artists.length > 0" class="album-details mt-5">
       <h2 class="text-center">Search Results</h2>
-      <div v-for="album in albums" :key="album.id" class="album-card mt-4">
+      <div v-for="artist in artists" :key="artist.id" class="album-card mt-4">
         <h3 class="album-title">
-          Album: {{ album.name }} | id : {{ album.id }} | Artist:
-          {{ album.artists[0].name }}
+          Artist: {{ artist.name }} | id : {{ artist.id }}
         </h3>
 
         <!-- Album Image -->
         <div class="text-center">
           <img
-            v-if="album.images && album.images.length > 0"
-            :src="album.images[0].url"
+            v-if="artist.images && artist.images.length > 0"
+            :src="artist.images[0].url"
             class="album-cover"
-            :alt="album.name"
+            :alt="artist.name"
           />
-        </div>
-
-        <!-- Album URL -->
-        <!-- <p class="album-url text-center">
-          Album URL:
-          <a :href="album.external_urls.spotify" target="_blank">
-            View on Spotify
-          </a>
-        </p> -->
-
-        <!-- Track List -->
-        <div
-          v-if="album.tracks && album.tracks.length > 0"
-          class="track-list mt-4"
-        >
-          <h4 class="text-center">Tracks</h4>
-          <ul>
-            <li v-for="track in album.tracks" :key="track.id">
-              <strong>{{ track.name }}</strong>
-              <a :href="track.external_urls.spotify" target="_blank">
-                Listen on Spotify
-              </a>
-              <audio v-if="track.preview_url" controls class="track-preview">
-                <source :src="track.preview_url" type="audio/mpeg" />
-                Your browser does not support the audio element.
-              </audio>
-            </li>
-          </ul>
         </div>
       </div>
     </div>
@@ -73,38 +51,37 @@
     <!-- Loading or No Albums Found -->
     <div v-else class="text-center mt-5">
       <p v-if="isLoading">Loading...</p>
-      <p v-else>No albums found. Please try a different keyword.</p>
+      <p v-else>No artist found. Please try a different keyword.</p>
     </div>
   </div>
 </template>
-  
-  <script>
+    
+    <script>
 export default {
+  props: ["baseURL"],
   data() {
     return {
-      albumKeyword: "funky", // default val
-      albums: [], // Array to hold multiple albums
+      artistKeyword: "jay", // default val
+      artists: [], // Array to hold multiple artists
       isLoading: false,
     };
   },
   methods: {
-    async searchAlbum() {
+    async searchArtist() {
       this.isLoading = true;
-      this.albums = []; // Reset the albums array for each new search
+      this.artists = []; // Reset the artists array for each new search
       try {
-        console.log("this.albumKeyword = " + this.albumKeyword);
+        console.log("this.artistKeyword = " + this.artistKeyword);
         const response = await fetch(
-          `http://localhost:8888/search/album/?keyword=${this.albumKeyword}`
+          `${this.baseURL}/search/artist/?keyword=${this.artistKeyword}`
         );
         if (!response.ok) {
-          throw new Error("Failed to search album");
+          throw new Error("Failed to search artist");
         }
-        //   const data = await response.json();
-        //   this.albums = data.albums; // Assume 'data.albums.items' holds an array of albums
         const data = await response.json();
-        this.albums = data;
-        console.log("this.albums length =  ", this.albums.length);
-        console.log("this.albums =", JSON.stringify(this.albums));
+        this.artists = data;
+        console.log("this.artists length =  ", this.artists.length);
+        console.log("this.artists =", JSON.stringify(this.artists));
       } catch (error) {
         console.error(error);
       } finally {
@@ -114,8 +91,8 @@ export default {
   },
 };
 </script>
-  
-  <style scoped>
+    
+    <style scoped>
 /* Main container and form styling */
 .container {
   max-width: 900px;

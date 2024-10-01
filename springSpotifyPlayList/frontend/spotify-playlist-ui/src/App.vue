@@ -1,25 +1,38 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/album">Album</router-link> |
-      <router-link to="/playlist">Playlist</router-link> |
-      <router-link to="/profile">Profile</router-link> |
-      <router-link to="/search_album">Search Album</router-link> |
-      <router-link to="/search_artist">Search Artist</router-link> |
-      <router-link to="/recommendation">Recommendation</router-link>
-    </nav>
+    <header>
+      <nav>
+        <router-link to="/">Home</router-link> |
+        <router-link to="/profile">User Profile</router-link> |
+        <router-link to="/album">Get Album (Id)</router-link> |
+        <router-link to="/search_album">Get Albums</router-link> |
+        <router-link to="/search_artist">Get Artists</router-link> |
+        <router-link to="/playlist">Create Playlist</router-link> |
+        <router-link to="/recommendation">Recommendation</router-link>
+      </nav>
+    </header>
     <div class="auth-button">
       <button @click="authorize" class="btn btn-outline-light">
         Authorize with Spotify
       </button>
     </div>
-    <router-view />
+    <!-- 
+      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
+
+      delcare global variable via router view
+      -> so baseURL, categories are visible to ALL views
+      -->
+    <router-view :baseURL="baseURL"> </router-view>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      baseURL: "http://localhost:8888/",
+    };
+  },
   methods: {
     async authorize() {
       try {
@@ -50,16 +63,40 @@ export default {
   color: #2c3e50;
 }
 
+header {
+  background-color: #022917;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
 nav {
-  padding: 30px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
 }
 
 nav a {
-  font-weight: bold;
-  color: #2c3e50;
+  color: #fff;
+  margin: 0 15px;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #000;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #ffeb3b;
+}
+
+.auth-button {
+  margin-top: 20px;
+}
+
+.auth-button .btn {
+  font-size: 1.2rem;
+  padding: 10px 20px;
 }
 </style>

@@ -1,8 +1,9 @@
 <template>
   <div class="container">
+    <h1>User PlayList List</h1>
     <div class="row">
       <div class="col-12 text-center">
-        <h1 class="main-heading">User Playlists</h1>
+        <!-- <h1 class="main-heading">User Playlists</h1> -->
         <h5>{{ msg }}</h5>
       </div>
     </div>
@@ -40,6 +41,7 @@
 <script>
 var axios = require("axios");
 export default {
+  props: ["baseURL"],
   name: "ListUserPlayList",
   data() {
     return {
@@ -50,9 +52,12 @@ export default {
   methods: {
     async fetchData() {
       try {
-        const response = await axios.get("http://localhost:8888/user_data/playlist/");
+        const response = await axios.get(`${this.baseURL}/user_data/playlist/`);
         this.playLists = response.data;
-        console.log(">>> (fetchData) this.playLists =", JSON.stringify(this.playLists));
+        console.log(
+          ">>> (fetchData) this.playLists =",
+          JSON.stringify(this.playLists)
+        );
       } catch (error) {
         console.error(error);
         this.msg = "Failed to fetch playlists";
