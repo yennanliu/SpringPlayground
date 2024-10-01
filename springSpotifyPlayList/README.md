@@ -8,7 +8,21 @@
 
 <p align="center"><img src ="./doc/pic/spotify_app_4.png"></p>
 
-What : 
+<p align="center"><img src ="./doc/pic/spotify_app_5.png"></p>
+
+## Motivations
+
+- Why
+
+Spotify continues to recommend similar songs, there is no way that users can "actively" ask Spotify to generate new song playList
+
+- How
+
+Build this e2e app, so can offer above feature via API leverage.
+
+
+- What
+
 A full stack app (FE + BE) Spotify app. Features as below:
 1. Song recommendation based on ML and input values
 2. Artist/Song query : show artist/Song spotify data
@@ -21,17 +35,14 @@ A full stack app (FE + BE) Spotify app. Features as below:
 - Backend : Java
 - Frontend : Vue
 
-Why;
-Spotify continues to recommend similar songs, there is no way that users can "actively" ask Spotify to generate new song playList
-
-How:
-Build this e2e app, so can offer above feature via API leverage.
-
-
 ## Run
 
 <details>
 <summary>Run</summary>
+
+### Prerequisite
+- Setup Spotify Api key
+	- Update `spotify.clientSecret` at [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L5)
 
 ### Run via Docker
 ```bash
