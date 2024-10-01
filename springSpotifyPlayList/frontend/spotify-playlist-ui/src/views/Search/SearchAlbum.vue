@@ -3,6 +3,7 @@
     <!-- Album Keyword Form -->
     <form class="album-form text-center">
       <div class="form-group">
+        <p style="text-align: center;">Search Album with keyword, example: funcky</p><br>
         <label for="albumKeyword" class="form-label">Enter Album keyword</label>
         <input
           type="text"

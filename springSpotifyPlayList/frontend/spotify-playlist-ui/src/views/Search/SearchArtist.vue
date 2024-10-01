@@ -3,6 +3,7 @@
       <!-- Artist Keyword Form -->
       <form class="album-form text-center">
         <div class="form-group">
+          <p style="text-align: center;">Search Artist with keyword, example: jay</p><br>
           <label for="artistKeyword" class="form-label">Enter Artist keyword</label>
           <input
             type="text"

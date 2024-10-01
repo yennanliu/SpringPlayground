@@ -3,6 +3,7 @@
     <!-- Album ID Form -->
     <form class="album-form text-center">
       <div class="form-group">
+        <p style="text-align: center;">Enter Album ID, example: 1VuIx4XMmSs1hGZk2uCzvO</p><br>
         <label for="albumId" class="form-label">Enter Album ID</label>
         <input
           type="text"
@@ -17,8 +18,13 @@
       </button>
     </form>
 
+    <!-- Error message -->
+    <div v-if="fetchAlbumError" class="error-message text-center" style="color: red;">
+      {{ fetchAlbumError }}
+    </div>
+
     <!-- Album Details -->
-    <div v-if="album" class="album-details mt-5">
+    <div v-if="album && !fetchAlbumError" class="album-details mt-5">
       <h1 class="album-title">
         Album: {{ album.name }} | Artist: {{ album.artists[0].name }}
       </h1>
@@ -70,7 +76,7 @@
     </div>
 
     <!-- Loading Placeholder -->
-    <div v-else class="loading-text text-center mt-5">Loading...</div>
+    <div v-else-if="!fetchAlbumError" class="loading-text text-center mt-5">Loading...</div>
   </div>
 </template>
 
@@ -78,13 +84,15 @@
 export default {
   data() {
     return {
-      albumId: "1VuIx4XMmSs1hGZk2uCzvO", //  default val
+      albumId: "1VuIx4XMmSs1hGZk2uCzvO", // default value
       album: null,
+      fetchAlbumError: null // Error message state
     };
   },
   methods: {
     async fetchAlbum() {
       try {
+        this.fetchAlbumError = null; // Reset error state
         const response = await fetch(
           `http://localhost:8888/album/${this.albumId}`
         );
@@ -96,6 +104,8 @@ export default {
         console.log("this.album =", JSON.stringify(this.album));
       } catch (error) {
         console.error(error);
+        this.fetchAlbumError = error.message; // Set error message
+        this.album = null; // Clear album data on error
       }
     },
   },
@@ -131,6 +141,13 @@ export default {
   font-size: 2.5rem;
   text-align: center;
   margin-top: 30px;
+}
+
+/* Error message styling */
+.error-message {
+  font-size: 1.2rem;
+  color: red;
+  margin-top: 10px;
 }
 
 /* Album image styling */
