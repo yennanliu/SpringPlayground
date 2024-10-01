@@ -5,8 +5,8 @@
         <router-link to="/">Home</router-link> |
         <router-link to="/profile">User Profile</router-link> |
         <router-link to="/album">Get Album (Id)</router-link> |
-        <router-link to="/search_album">Get Album</router-link> |
-        <router-link to="/search_artist">Get Artist</router-link> |
+        <router-link to="/search_album">Get Albums</router-link> |
+        <router-link to="/search_artist">Get Artists</router-link> |
         <router-link to="/playlist">Create Playlist</router-link> |
         <router-link to="/recommendation">Recommendation</router-link>
       </nav>
@@ -22,6 +22,11 @@
 
 <script>
 export default {
+  data() {
+    return {
+      baseURL: "http://localhost:8888/",
+    };
+  },
   methods: {
     async authorize() {
       try {
