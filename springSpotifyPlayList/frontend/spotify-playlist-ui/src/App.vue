@@ -16,7 +16,13 @@
         Authorize with Spotify
       </button>
     </div>
-    <router-view />
+    <!-- 
+      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
+
+      delcare global variable via router view
+      -> so baseURL, categories are visible to ALL views
+      -->
+    <router-view :baseURL="baseURL"> </router-view>
   </div>
 </template>
 

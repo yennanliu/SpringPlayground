@@ -82,6 +82,7 @@
   
   <script>
 export default {
+  props: ["baseURL"],
   data() {
     return {
       albumKeyword: "funky", // default val
@@ -96,7 +97,7 @@ export default {
       try {
         console.log("this.albumKeyword = " + this.albumKeyword);
         const response = await fetch(
-          `http://localhost:8888/search/album/?keyword=${this.albumKeyword}`
+          `${this.baseURL}/search/album/?keyword=${this.albumKeyword}`
         );
         if (!response.ok) {
           throw new Error("Failed to search album");
