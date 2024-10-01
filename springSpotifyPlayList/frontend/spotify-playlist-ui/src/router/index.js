@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 
 // album
-import GetAlbum from "../views/Album/GetAlbum.vue";
+import GetAlbum from "../views/Album/GetAlbumWithId.vue";
 
 // playlist
 import CreatePlayList from "../views/PlayList/CreatePlayList.vue";
@@ -16,8 +16,8 @@ import UserPlayList from "../views/Profile/ListUserPlayList.vue";
 import GetRecommendation from "../views/Recommendation/GetRecommendation.vue";
 
 // search
-import SearchAlbum from "../views/Search/SearchAlbum.vue";
-import SearchArtist from "../views/Search/SearchArtist.vue";
+import SearchAlbum from "../views/Search/GetAlbumWithKeyword.vue";
+import SearchArtist from "../views/Search/GetArtistWithKeyword.vue";
 
 Vue.use(VueRouter);
 
