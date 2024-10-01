@@ -14,7 +14,7 @@
         <!-- Success message -->
         <div v-if="playlistCreated">Playlist created successfully!</div>
         <!-- Error message -->
-        <div v-if="playlistCreationError" style="color: red;">
+        <div v-if="playlistCreationError" style="color: red">
           {{ playlistCreationError }}
         </div>
       </div>
@@ -26,11 +26,12 @@
 import axios from "axios";
 
 export default {
+  props: ["baseURL"],
   data() {
     return {
       playlistCreated: false,
       playlistCreationError: null, // To track errors
-      newPlayList: { userId: "someId", name: "", authCode: "code" }
+      newPlayList: { userId: "someId", name: "", authCode: "code" },
     };
   },
   methods: {
@@ -44,7 +45,7 @@ export default {
         }
         this.newPlayList.authCode = code;
         const response = await axios.post(
-          "http://localhost:8888/playlist/create",
+          `${this.baseURL}/playlist/create`,
           this.newPlayList
         );
         if (response.status === 200) {
@@ -57,7 +58,7 @@ export default {
         console.error(error);
         this.playlistCreationError = error.message; // Set error message
       }
-    }
-  }
+    },
+  },
 };
 </script>

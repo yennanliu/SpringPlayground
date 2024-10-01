@@ -112,9 +112,7 @@ export default {
     async fetchAlbum() {
       try {
         this.fetchAlbumError = null; // Reset error state
-        const response = await fetch(
-          `${this.baseURL}/album/${this.albumId}`
-        );
+        const response = await fetch(`${this.baseURL}/album/${this.albumId}`);
         if (!response.ok) {
           throw new Error("Failed to fetch album");
         }

@@ -5,49 +5,92 @@
       <!-- Amount Input -->
       <div class="form-group">
         <label>Amount</label>
-        <input type="number" class="form-control large-input" v-model="amount" required />
+        <input
+          type="number"
+          class="form-control large-input"
+          v-model="amount"
+          required
+        />
       </div>
 
       <!-- Market Input -->
       <div class="form-group">
         <label>Market</label>
-        <input type="text" class="form-control large-input" v-model="market" required />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="market"
+          required
+        />
       </div>
 
       <!-- Max Popularity Slider -->
       <div class="form-group">
         <label>Max Popularity ({{ maxPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="maxPopularity" class="slider" />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          v-model="maxPopularity"
+          class="slider"
+        />
       </div>
 
       <!-- Min Popularity Slider -->
       <div class="form-group">
         <label>Min Popularity ({{ minPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="minPopularity" class="slider" />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          v-model="minPopularity"
+          class="slider"
+        />
       </div>
 
       <!-- Seed Artist ID Input -->
       <div class="form-group">
         <label>Seed Artist ID</label>
-        <input type="text" class="form-control large-input" v-model="seedArtistId" required />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="seedArtistId"
+          required
+        />
       </div>
 
       <!-- Seed Genres Input -->
       <div class="form-group">
         <label>Seed Genres</label>
-        <input type="text" class="form-control large-input" v-model="seedGenres" required />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="seedGenres"
+          required
+        />
       </div>
 
       <!-- Seed Track Input -->
       <div class="form-group">
         <label>Seed Track</label>
-        <input type="text" class="form-control large-input" v-model="seedTrack" required />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="seedTrack"
+          required
+        />
       </div>
 
       <!-- Target Popularity Slider -->
       <div class="form-group">
         <label>Target Popularity ({{ targetPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="targetPopularity" class="slider" />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          v-model="targetPopularity"
+          class="slider"
+        />
       </div>
 
       <!-- Playlist ID Input -->
@@ -63,7 +106,11 @@
 
       <div class="button-group">
         <button type="submit" class="btn btn-primary">Submit</button>
-        <button type="button" class="btn btn-success" @click="addSongToPlayList">
+        <button
+          type="button"
+          class="btn btn-success"
+          @click="addSongToPlayList"
+        >
           Add to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
@@ -76,7 +123,9 @@
         <p>Track: {{ track.name }} | Artist: {{ track.artists[0].name }}</p>
         <p>
           URL:
-          <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{ track.externalUrls.externalUrls.spotify }}</a>
+          <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
+            track.externalUrls.externalUrls.spotify
+          }}</a>
         </p>
 
         <img
@@ -102,6 +151,7 @@
 
 <script>
 export default {
+  props: ["baseURL"],
   data() {
     return {
       amount: 10,
@@ -121,7 +171,7 @@ export default {
   methods: {
     async getRecommend() {
       try {
-        const response = await fetch("http://localhost:8888/recommend/", {
+        const response = await fetch(`${this.baseURL}/recommend/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -151,7 +201,7 @@ export default {
       try {
         this.trackURIs = this.tracks.tracks.map((track) => track.uri);
 
-        const response = await fetch("http://localhost:8888/playlist/addSong", {
+        const response = await fetch(`${this.baseURL}/playlist/addSong`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -163,7 +213,7 @@ export default {
         });
         if (response.status === 200) {
           console.log("Songs added successfully");
-          this.addToPlayList=true;
+          this.addToPlayList = true;
         } else {
           throw new Error("Failed to add songs to playlist");
         }
