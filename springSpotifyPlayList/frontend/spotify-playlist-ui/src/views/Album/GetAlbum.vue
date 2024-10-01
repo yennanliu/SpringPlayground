@@ -4,10 +4,7 @@
     <!-- Album ID Form -->
     <form class="album-form text-center">
       <div class="form-group">
-        <p style="text-align: center">
-          Enter Album ID, example: 1VuIx4XMmSs1hGZk2uCzvO
-        </p>
-        <br />
+        <p style="text-align: center;">Enter Album ID, example: 1VuIx4XMmSs1hGZk2uCzvO</p><br>
         <label for="albumId" class="form-label">Enter Album ID</label>
         <input
           type="text"
@@ -17,21 +14,13 @@
           required
         />
       </div>
-      <button
-        type="button"
-        class="btn btn-outline-light btn-lg"
-        @click="fetchAlbum"
-      >
+      <button type="button" class="btn btn-outline-light btn-lg" @click="fetchAlbum">
         Submit
       </button>
     </form>
 
     <!-- Error message -->
-    <div
-      v-if="fetchAlbumError"
-      class="error-message text-center"
-      style="color: red"
-    >
+    <div v-if="fetchAlbumError" class="error-message text-center" style="color: red;">
       {{ fetchAlbumError }}
     </div>
 
@@ -62,11 +51,7 @@
       <!-- Tracks List -->
       <div class="track-list mt-4">
         <h3 class="text-center">Tracks</h3>
-        <div
-          v-for="track in album.tracks.items"
-          :key="track.id"
-          class="track-card"
-        >
+        <div v-for="track in album.tracks.items" :key="track.id" class="track-card">
           <p class="track-name">Track: {{ track.name }}</p>
 
           <!-- Track URL -->
@@ -80,7 +65,7 @@
           <!-- Track Preview -->
           <p class="track-preview">
             Preview:
-            <audio controls>
+            <audio controls @play="playAudio($event)">
               <source :src="track.previewUrl" type="audio/mpeg" />
               Your browser does not support the audio element.
             </audio>
@@ -92,9 +77,7 @@
     </div>
 
     <!-- Loading Placeholder -->
-    <div v-else-if="!fetchAlbumError" class="loading-text text-center mt-5">
-      Loading...
-    </div>
+    <div v-else-if="!fetchAlbumError" class="loading-text text-center mt-5">Loading...</div>
   </div>
 </template>
 
@@ -106,13 +89,16 @@ export default {
       albumId: "1VuIx4XMmSs1hGZk2uCzvO", // default value
       album: null,
       fetchAlbumError: null, // Error message state
+      currentPlayingAudio: null // Track currently playing audio
     };
   },
   methods: {
     async fetchAlbum() {
       try {
         this.fetchAlbumError = null; // Reset error state
-        const response = await fetch(`${this.baseURL}/album/${this.albumId}`);
+        const response = await fetch(
+          `${this.baseURL}/album/${this.albumId}`
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch album");
         }
@@ -124,6 +110,13 @@ export default {
         this.fetchAlbumError = error.message; // Set error message
         this.album = null; // Clear album data on error
       }
+    },
+    playAudio(event) {
+      if (this.currentPlayingAudio && this.currentPlayingAudio !== event.target) {
+        this.currentPlayingAudio.pause();
+        this.currentPlayingAudio.currentTime = 0; // Reset the previous audio
+      }
+      this.currentPlayingAudio = event.target; // Set the new playing audio
     },
   },
 };
