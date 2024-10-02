@@ -1,0 +1,43 @@
+
+cd  SpringPlayground/springSpotifyPlayList
+
+
+# FE
+
+sudo snap install docker
+
+
+sudo docker build -t my-frontend .
+
+
+sudo docker run -d -p 8080:8080 my-frontend
+
+sudo docker run -it my-frontend /bin/sh
+
+
+sudo docker logs <container_id>
+
+
+
+sudo docker ps -a
+
+sudo docker images
+
+
+
+
+# clean 
+
+sudo docker rm -f $(sudo docker ps -aq)
+# Remove all images
+sudo docker rmi -f $(sudo docker images -q)
+# remove all containers in docker
+sudo docker rm -f $(sudo docker ps -a -q)
+# remove all images in docker
+sudo docker rmi -f $(sudo docker images -q -a)
+
+
+# BE
+
+
+# ALL
