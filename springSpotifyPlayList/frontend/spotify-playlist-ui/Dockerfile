@@ -8,8 +8,8 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install && npm install vue-cli-service
-
+RUN npm install && npm install vue-cli-service && npm install --save-dev @vue/cli-service
+ 
 # Output installed dependencies for debugging purposes
 RUN npm list
 
