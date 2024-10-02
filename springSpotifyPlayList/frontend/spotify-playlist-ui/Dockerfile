@@ -8,7 +8,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install && npm install vue-cli-service && npm install --save-dev @vue/cli-service
+ 
+# Output installed dependencies for debugging purposes
+RUN npm list
 
 # Copy the rest of the application code to the working directory
 COPY . .
@@ -16,5 +19,8 @@ COPY . .
 # Expose port 8080 to the outside world
 EXPOSE 8080
 
-# Command to run the application
+# Debugging step: Run a simple command to keep the container alive for inspection
 #CMD ["npm", "run", "serve"]
+#CMD ["tail", "-f", "/dev/null"]
+
+CMD ["npm", "run", "serve"]
