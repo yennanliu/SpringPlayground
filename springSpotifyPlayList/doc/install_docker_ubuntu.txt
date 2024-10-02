@@ -55,3 +55,5 @@ vi backend/SpotifyPlayList/src/main/resources/application.properties
 #--------------------------------------
 
 sudo docker-compose up
+
+sudo docker-compose down

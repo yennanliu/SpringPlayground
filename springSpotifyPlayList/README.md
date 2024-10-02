@@ -142,7 +142,12 @@ docker rmi -f $(docker images -q -a)
 1. code refactor
 	- dep injection : `spotifyApi`
 2. integrate with chatGPT
-3. CICD, dockerize project
+3. CICD
 4. UI redesign
-
+5. prepare config for ec2 deployment
+	- FE:
+		- BASE_URL
+	- BE:
+	 	- redirect_url
+6. fix FE auth_url
 </details>
