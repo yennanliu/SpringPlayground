@@ -1,8 +1,13 @@
 
+#--------------------------------------
+# PREV
+#--------------------------------------
+
 cd  SpringPlayground/springSpotifyPlayList
 
-
+#--------------------------------------
 # FE
+#--------------------------------------
 
 sudo snap install docker
 
@@ -27,8 +32,6 @@ sudo docker images
 sudo docker exec -it db0af846187a /bin/sh
 
 
-
-
 # clean 
 
 sudo docker rm -f $(sudo docker ps -aq)
@@ -40,7 +43,15 @@ sudo docker rm -f $(sudo docker ps -a -q)
 sudo docker rmi -f $(sudo docker images -q -a)
 
 
+#--------------------------------------
 # BE
+#--------------------------------------
+
+vi backend/SpotifyPlayList/src/main/resources/application.properties
 
 
+#--------------------------------------
 # ALL
+#--------------------------------------
+
+sudo docker-compose up
