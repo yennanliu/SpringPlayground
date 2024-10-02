@@ -24,6 +24,9 @@ sudo docker ps -a
 sudo docker images
 
 
+sudo docker exec -it db0af846187a /bin/sh
+
+
 
 
 # clean 

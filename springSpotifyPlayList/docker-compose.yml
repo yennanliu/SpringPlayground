@@ -26,4 +26,4 @@ services:
       - "8080:8080"  # Map host port 8080 to container port 8080
     volumes:
       - ./frontend/spotify-playlist-ui:/app  # Mount the current directory into the container
-    command: npm run serve
+    command: /bin/sh -c "npm install && npm install --save-dev @vue/cli-service && npm run serve"
