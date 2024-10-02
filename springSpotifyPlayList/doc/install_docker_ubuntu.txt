@@ -43,6 +43,10 @@ sudo docker rm -f $(sudo docker ps -a -q)
 sudo docker rmi -f $(sudo docker images -q -a)
 
 
+# prune the old images out:
+sudo docker system prune
+
+
 #--------------------------------------
 # BE
 #--------------------------------------
