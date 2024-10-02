@@ -8,26 +8,19 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install
+RUN npm install && npm install vue-cli-service
 
-# Install Vue CLI service globally (optional, depending on your needs)
-RUN npm install -g @vue/cli-service
+# Output installed dependencies for debugging purposes
+RUN npm list
 
 # Copy the rest of the application code to the working directory
 COPY . .
 
-# Build the application for production
-RUN npm run build
+# Expose port 8080 to the outside world
+EXPOSE 8080
 
-# Use a lightweight web server to serve the built files
-# You can switch to another server if needed, like nginx
-FROM nginx:alpine
+# Debugging step: Run a simple command to keep the container alive for inspection
+#CMD ["npm", "run", "serve"]
+#CMD ["tail", "-f", "/dev/null"]
 
-# Copy built files from the previous stage
-COPY --from=0 /app/dist /usr/share/nginx/html
-
-# Expose port 80 for the web server
-EXPOSE 80
-
-# Start nginx when the container launches
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["npm", "run", "serve"]
