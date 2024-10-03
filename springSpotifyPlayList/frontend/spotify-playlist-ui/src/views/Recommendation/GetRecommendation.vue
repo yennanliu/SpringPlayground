@@ -5,112 +5,60 @@
       <!-- Amount Input -->
       <div class="form-group">
         <label>Amount</label>
-        <input
-          type="number"
-          class="form-control large-input"
-          v-model="amount"
-          required
-        />
+        <input type="number" class="form-control large-input" v-model="amount" required />
       </div>
 
       <!-- Market Input -->
       <div class="form-group">
         <label>Market</label>
-        <input
-          type="text"
-          class="form-control large-input"
-          v-model="market"
-          required
-        />
+        <input type="text" class="form-control large-input" v-model="market" required />
       </div>
 
       <!-- Max Popularity Slider -->
       <div class="form-group">
         <label>Max Popularity ({{ maxPopularity }})</label>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          v-model="maxPopularity"
-          class="slider"
-        />
+        <input type="range" min="0" max="100" v-model="maxPopularity" class="slider" />
       </div>
 
       <!-- Min Popularity Slider -->
       <div class="form-group">
         <label>Min Popularity ({{ minPopularity }})</label>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          v-model="minPopularity"
-          class="slider"
-        />
+        <input type="range" min="0" max="100" v-model="minPopularity" class="slider" />
       </div>
 
       <!-- Seed Artist ID Input -->
       <div class="form-group">
         <label>Seed Artist ID</label>
-        <input
-          type="text"
-          class="form-control large-input"
-          v-model="seedArtistId"
-          required
-        />
+        <input type="text" class="form-control large-input" v-model="seedArtistId" required />
       </div>
 
       <!-- Seed Genres Input -->
       <div class="form-group">
         <label>Seed Genres</label>
-        <input
-          type="text"
-          class="form-control large-input"
-          v-model="seedGenres"
-          required
-        />
+        <input type="text" class="form-control large-input" v-model="seedGenres" required />
       </div>
 
       <!-- Seed Track Input -->
       <div class="form-group">
         <label>Seed Track</label>
-        <input
-          type="text"
-          class="form-control large-input"
-          v-model="seedTrack"
-          required
-        />
+        <input type="text" class="form-control large-input" v-model="seedTrack" required />
       </div>
 
       <!-- Target Popularity Slider -->
       <div class="form-group">
         <label>Target Popularity ({{ targetPopularity }})</label>
-        <input
-          type="range"
-          min="0"
-          max="100"
-          v-model="targetPopularity"
-          class="slider"
-        />
+        <input type="range" min="0" max="100" v-model="targetPopularity" class="slider" />
       </div>
 
       <!-- Playlist ID Input -->
       <div class="form-group">
         <label>Playlist ID</label>
-        <input
-          type="text"
-          class="form-control large-input"
-          v-model="playlistId"
-          placeholder="Enter Playlist ID"
-        />
+        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Enter Playlist ID" />
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-primary">Submit</button>
-        <button
-          type="button"
-          class="btn btn-success"
-          @click="addSongToPlayList"
-        >
+        <button type="submit" class="btn btn-outline-light">Submit</button>
+        <button type="button" class="btn btn-outline-light" @click="addSongToPlayList">
           Add Songs to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
@@ -125,15 +73,11 @@
           URL:
           <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
             track.externalUrls.externalUrls.spotify
-          }}</a>
+            }}</a>
         </p>
 
-        <img
-          v-if="track.album.images && track.album.images.length > 0"
-          :src="track.album.images[0].url"
-          :alt="track.name"
-          class="album-img"
-        />
+        <img v-if="track.album.images && track.album.images.length > 0" :src="track.album.images[0].url"
+          :alt="track.name" class="album-img" />
 
         <p>
           Preview URL:
@@ -268,5 +212,28 @@ export default {
   max-width: 300px;
   max-height: 300px;
   margin-top: 10px;
+}
+
+.btn-outline-light {
+  border-color: #1db954;
+  color: #1db954;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 30px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-outline-light:hover {
+  background-color: #1db954;
+  color: #fff;
+}
+
+.button-group {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
 }
 </style>
