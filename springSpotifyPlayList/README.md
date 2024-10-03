@@ -46,7 +46,7 @@ A full stack app (FE + BE) Spotify app. Features as below:
 - Step 2. Setup Spotify Api key
 	- Update `spotify.clientSecret`, `spotify.clientId` at [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L5)
 - Step 3. update Auth Redirect URL at [Spotify API platform](https://developer.spotify.com/documentation/web-api)
-- Step 4. update `baseURL` at FE app : App.vue](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/frontend/spotify-playlist-ui/src/App.vue#L33)
+- Step 4. update `baseURL` at FE app : [App.vue](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/frontend/spotify-playlist-ui/src/App.vue#L33)
 - Step 5. update `spotify.redirectURL` at BE app (same as the one setup as step 3):
 [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L6)
 
