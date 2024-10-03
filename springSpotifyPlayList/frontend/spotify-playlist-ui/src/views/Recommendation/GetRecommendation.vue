@@ -40,10 +40,26 @@
       </div>
 
       <!-- Seed Genres Input -->
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Seed Genres</label>
         <input type="text" class="form-control large-input" v-model="seedGenres" required />
+      </div> -->
+
+      <!-- Genres Dropdown -->
+      <div class="form-group">
+        <label>Genres</label>
+        <select v-model="seedGenres" class="form-control large-input" required>
+          <option value="rock">rock</option>
+          <option value="electro">electro</option>
+          <option value="hip-hop">hip-hop</option>
+          <option value="j-pop">j-pop</option>
+          <option value="k-pop">k-pop</option>
+          <option value="soul">soul</option>
+          <option value="house">house</option>
+          <option value="jazz">jazz</option>
+        </select>
       </div>
+
 
       <!-- Seed Track Input -->
       <div class="form-group">
@@ -80,7 +96,7 @@
           URL:
           <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
             track.externalUrls.externalUrls.spotify
-          }}</a>
+            }}</a>
         </p>
 
         <img v-if="track.album.images && track.album.images.length > 0" :src="track.album.images[0].url"
@@ -110,7 +126,7 @@ export default {
       maxPopularity: 100,
       minPopularity: 0,
       seedArtistId: "4sJCsXNYmUMeumUKVz4Abm",
-      seedGenres: "electric",
+      seedGenres: "electro",
       seedTrack: "1ZFQgnAwHaAhAn1o2bkwVs",
       targetPopularity: 50,
       tracks: null,
