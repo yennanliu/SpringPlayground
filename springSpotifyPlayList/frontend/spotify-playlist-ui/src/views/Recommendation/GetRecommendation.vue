@@ -8,10 +8,17 @@
         <input type="number" class="form-control large-input" v-model="amount" required />
       </div>
 
-      <!-- Market Input -->
+      <!-- Market Dropdown -->
       <div class="form-group">
         <label>Market</label>
-        <input type="text" class="form-control large-input" v-model="market" required />
+        <select v-model="market" class="form-control large-input" required>
+          <option value="JP">Japan (JP)</option>
+          <option value="TW">Taiwan (TW)</option>
+          <option value="US">United States (US)</option>
+          <option value="UK">United Kingdom (UK)</option>
+          <option value="FR">France (FR)</option>
+          <option value="TH">Thailand (TH)</option>
+        </select>
       </div>
 
       <!-- Max Popularity Slider -->
@@ -73,7 +80,7 @@
           URL:
           <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
             track.externalUrls.externalUrls.spotify
-            }}</a>
+          }}</a>
         </p>
 
         <img v-if="track.album.images && track.album.images.length > 0" :src="track.album.images[0].url"
