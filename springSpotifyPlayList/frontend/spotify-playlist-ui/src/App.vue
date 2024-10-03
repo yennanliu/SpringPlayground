@@ -36,7 +36,7 @@ export default {
   methods: {
     async authorize() {
       try {
-        const response = await fetch("http://localhost:8888/authorize");
+        const response = await fetch(`${this.baseURL}/authorize`);
         if (!response.ok) {
           throw new Error("Failed to authorize with Spotify");
         }
