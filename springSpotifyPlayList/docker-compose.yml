@@ -21,6 +21,8 @@ services:
   vue:
     restart: always
     build: ./frontend/spotify-playlist-ui
+    environment:
+      - VUE_APP_BASE_URL=http://localhost:8888/
     working_dir: /app
     ports:
       - "8080:8080"  # Map host port 8080 to container port 8080
