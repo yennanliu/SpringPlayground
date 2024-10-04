@@ -56,7 +56,7 @@ A full stack app (FE + BE) Spotify app. Features as below:
 # export env var
 # docker-compose
 export SPOTIFY_CLIENT_SECRET=<your_new_client_secret>
-export SPOTIFY_REDIRECT_URL=http://<server_ip>:3000/playlist
+export SPOTIFY_REDIRECT_URL=http://<server_ip>:8080/playlist
 
 # FE
 export VUE_APP_BASE_URL=http://localhost:8888/
