@@ -27,10 +27,14 @@
 </template>
 
 <script>
+console.log(">>> process.env.VUE_APP_BASE_URL = " + process.env.VUE_APP_BASE_URL)
+
 export default {
   data() {
     return {
-      baseURL: "http://localhost:8888/",
+      //baseURL: "http://localhost:8888/",
+      // NOTE : In Vue.js, environment variables need to be prefixed with VUE_APP_ to be accessible in your application
+      baseURL: process.env.VUE_APP_BASE_URL || "http://localhost:8888/", // Fallback to default
     };
   },
   methods: {

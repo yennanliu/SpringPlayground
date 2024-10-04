@@ -1,0 +1,9 @@
+
+
+export SPOTIFY_CLIENT_SECRET=<your_new_client_secret>
+export SPOTIFY_REDIRECT_URL=http://<server_ip>:3000/playlist
+
+# FE
+export VUE_APP_BASE_URL=http://localhost:9999/
+
+docker-compose up
