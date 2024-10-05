@@ -12,18 +12,23 @@ services:
       - SERVER_PORT=8888
       - SPRING_APPLICATION_NAME=SpotifyPlayList
       - SPOTIFY_CLIENT_ID=833e496a818d4dac926a00970ba4d725
-      - SPOTIFY_CLIENT_SECRET=
-      - SPOTIFY_REDIRECT_URL=http://localhost:8080/playlist
+      - SPOTIFY_CLIENT_SECRET=${SPOTIFY_CLIENT_SECRET}
+      - SPOTIFY_REDIRECT_URL=${SPOTIFY_REDIRECT_URL}
       - SPOTIFY_AUTHORIZE_SCOPE=playlist-modify-public,playlist-modify-private,user-read-private,user-read-email
       - SPOTIFY_USER_ID=62kytpy7jswykfjtnjn9zv3ou
     command: mvn clean spring-boot:run -DskipTests
 
   vue:
     restart: always
-    build: ./frontend/spotify-playlist-ui
+    build:
+      context: ./frontend/spotify-playlist-ui
+      args:
+        VUE_APP_BASE_URL: ${VUE_APP_BASE_URL}
+    environment:
+      - VUE_APP_BASE_URL=${VUE_APP_BASE_URL}
     working_dir: /app
     ports:
       - "8080:8080"  # Map host port 8080 to container port 8080
     volumes:
       - ./frontend/spotify-playlist-ui:/app  # Mount the current directory into the container
-    command: /bin/sh -c "npm install && npm install --save-dev @vue/cli-service && npm run serve"
+    command: /bin/sh -c "npm install && npm cache clean --force && npm install --save-dev @vue/cli-service && npm run build && npm run serve -- --mode production"

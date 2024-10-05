@@ -48,7 +48,7 @@ public class TestGetAlbum {
         final String albumId = "5zT1JLIj9E57p3e1rFm9Uq";
 
         // get token from testAuthGetToken_1
-        String accessToken = "BQDIiCYIHV5g1LI98m4HwuMRZJleQZxVvJ8yzvtk8qMcwjHMGQOXrd7Lq-oMwHwQcJ3s6QOfNlOiZ8OerLUSjr69qVNkSnXE7egzmpbN-YNbrhxym6o";
+        String accessToken = "BQCVX_9iFkOgTNsyrl2l3Xw7BczyFbmugxUUC5Lm0nhTyw02D9RNKzNixqbiEv7o8YK8N7VYH3MyUutbT_uHY6aFb5cAnsolKzOtjP2hgGbjEaMGGPE";
 
         final SpotifyApi spotifyApi = new SpotifyApi.Builder()
                 .setAccessToken(accessToken)

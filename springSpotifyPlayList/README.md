@@ -1,4 +1,4 @@
-# SpringSpotify PlayList
+# Spotify PlayList
 
 <p align="center"><img src ="./doc/pic/spotify_app_1.png"></p>
 
@@ -41,15 +41,32 @@ A full stack app (FE + BE) Spotify app. Features as below:
 <summary>Run</summary>
 
 ### Prerequisite
-- Setup Spotify Api key
-	- Update `spotify.clientSecret` at [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L5)
 
-### Run via Docker
+- Step 1. Register developer account at [Spotify API platform](https://developer.spotify.com/documentation/web-api)
+- Step 2. Setup Spotify Api key
+	- Update `spotify.clientSecret`, `spotify.clientId` at [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L5)
+- Step 3. update Auth Redirect URL at [Spotify API platform](https://developer.spotify.com/documentation/web-api)
+- Step 4. update `baseURL` at FE app : [App.vue](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/frontend/spotify-playlist-ui/src/App.vue#L33)
+- Step 5. update `spotify.redirectURL` at BE app (same as the one setup as step 3):
+[application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L6)
+
+### Run (Docker)
 ```bash
+
+# export env var
+# docker-compose
+
+# local
+export SPOTIFY_CLIENT_SECRET=<your_new_client_secret>
+export SPOTIFY_REDIRECT_URL=http://<server_ip>:8080/playlist
+
+# FE
+export VUE_APP_BASE_URL=http://localhost:8888/
+
 docker-compose up
 ```
 
-### Run manually
+### Run (manually)
 ```bash
 
 #------------------------
@@ -70,8 +87,11 @@ cd /springSpotifyPlayList/frontend/spotify-playlist-ui
 npm run serve
 ```
 
-- Clean docker data
+### Docker cmd
 ```bash
+#------------------------
+# CLEAN DOCKER DATA
+#------------------------
 docker rm -f $(docker ps -aq)
 # Remove all images
 docker rmi -f $(docker images -q)
@@ -79,6 +99,17 @@ docker rmi -f $(docker images -q)
 docker rm -f $(docker ps -a -q)
 # remove all images in docker
 docker rmi -f $(docker images -q -a)
+
+
+# remove all docker data
+docker system prune
+
+#------------------------
+# DOCKER LOGS
+#------------------------
+# check docker logs
+
+docker logs <container_id>
 ```
 
 </details>
@@ -129,6 +160,7 @@ docker rmi -f $(docker images -q -a)
 
 - ML ref notebook
 	- https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/doc/Spotify_ApI_call_demo.ipynb?fbclid=IwAR1ZhL081euAUCeB54kaMMNqCHBN1HnuLLTYpnpjNHAf4MMFW8VkgdP5N1o
+	- https://medium.com/@shruti.somankar/building-a-music-recommendation-system-using-spotify-api-and-python-f7418a21fa41
 
 
 </details>
