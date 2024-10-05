@@ -18,13 +18,13 @@ import java.net.URI;
 @RestController
 public class SpotifyOAuthController {
 
-    @Value("${spotify.clientId}")
+    @Value("${spotify.client.id}")
     private String clientId;
 
-    @Value("${spotify.clientSecret}")
+    @Value("${spotify.client.secret}")
     private String clientSecret;
 
-    @Value("${spotify.redirectURL}")
+    @Value("${spotify.redirect.url}")
     private String redirectURL;
 
     @Value("${spotify.authorize.scope}")

@@ -21,13 +21,13 @@ import java.net.URI;
 @Slf4j
 public class AuthService {
 
-    @Value("${spotify.clientId}")
+    @Value("${spotify.client.id}")
     private String clientId;
 
-    @Value("${spotify.clientSecret}")
+    @Value("${spotify.client.secret}")
     private String clientSecret;
 
-    @Value("${spotify.redirectURL}")
+    @Value("${spotify.redirect.url}")
     private String redirectURL;
 
     public String getAccessToken() {
