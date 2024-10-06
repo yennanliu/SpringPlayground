@@ -1,4 +1,4 @@
-package com.yen.SpotifyPlayList;
+package com.yen.SpotifyPlayList.dev;
 
 // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/master/examples/data/playlists/GetListOfUsersPlaylistsExample.java
 // https://spotify-web-api-java.github.io/spotify-web-api-java/se/michaelthelin/spotify/requests/data/library/package-summary.html

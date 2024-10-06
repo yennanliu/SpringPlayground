@@ -1,4 +1,4 @@
-package com.yen.SpotifyPlayList;
+package com.yen.SpotifyPlayList.dev;
 
 import org.apache.hc.core5.http.ParseException;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,6 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 
 
 import java.net.URI;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
 import java.io.IOException;
 

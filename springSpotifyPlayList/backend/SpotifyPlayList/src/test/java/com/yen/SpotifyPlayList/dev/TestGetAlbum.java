@@ -1,4 +1,4 @@
-package com.yen.SpotifyPlayList;
+package com.yen.SpotifyPlayList.dev;
 
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
