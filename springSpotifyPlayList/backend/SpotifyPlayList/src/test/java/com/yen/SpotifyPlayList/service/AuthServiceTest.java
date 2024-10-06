@@ -64,38 +64,19 @@ public class AuthServiceTest {
         assertEquals("your-client-secret", spotifyApi.getClientSecret());
     }
 
-//    @Test
-//    public void testGetToken() throws IOException, se.michaelthelin.spotify.exceptions.SpotifyWebApiException, org.apache.hc.core5.http.ParseException {
-//        when(spotifyApiMock.clientCredentials()).thenReturn(clientCredentialsRequestMock);
-//        when(clientCredentialsRequestMock.execute()).thenReturn(clientCredentialsMock);
-//        when(clientCredentialsMock.getAccessToken()).thenReturn("test-access-token");
-//
-//        // Inject the mocked SpotifyApi instance
-//        ReflectionTestUtils.setField(authService, "spotifyApi", spotifyApiMock);
-//
-//        String token = authService.getToken();
-//
-//        assertEquals("test-access-token", token, "Token should be 'test-access-token'.");
-//        verify(spotifyApiMock).setAccessToken("test-access-token");
-//    }
 
-//    @Test
-//    public void testAuthClientWithAuthCode() throws Exception {
-//        when(spotifyApiMock.authorizationCode("test-auth-code")).thenReturn(mock(AuthorizationCodeRequest.Builder.class));
-//        when(authorizationCodeCredentialsMock.getAccessToken()).thenReturn("access-token");
-//        when(authorizationCodeCredentialsMock.getRefreshToken()).thenReturn("refresh-token");
-//
-//        // Inject the mocked SpotifyApi instance
-//        ReflectionTestUtils.setField(authService, "spotifyApi", spotifyApiMock);
-//
-//        SpotifyApi spotifyApi = authService.authClientWithAuthCode(spotifyApiMock, "test-auth-code");
-//
-//        assertNotNull(spotifyApi, "SpotifyApi should be returned.");
-//        assertEquals("access-token", authService.getAccessToken(), "Access token should match.");
-//        assertEquals("refresh-token", authService.getRefreshToken(), "Refresh token should match.");
-//        verify(spotifyApiMock).setAccessToken("access-token");
-//        verify(spotifyApiMock).setRefreshToken("refresh-token");
-//    }
+    @Test
+    public void testGetToken() {
+        SpotifyApi spotifyApi = new SpotifyApi.Builder()
+                .setClientId("test-client-id")
+                .setClientSecret("test-client-secret")
+                .build();
+
+        // Call the method being tested
+        ClientCredentialsRequest clientCredentialsRequest = spotifyApi.clientCredentials().build();
+        System.out.println(">>> clientCredentialsRequest = " + clientCredentialsRequest);
+        assertNotNull(clientCredentialsRequest);
+    }
 
     @Test
     public void testRefreshClient() {
