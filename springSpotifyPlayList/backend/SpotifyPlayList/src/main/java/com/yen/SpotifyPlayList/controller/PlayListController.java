@@ -10,7 +10,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -31,6 +34,18 @@ public class PlayListController {
             return ResponseEntity.status(HttpStatus.OK).body(playlist);
         } catch (Exception e) {
             log.error("getPlayListWithId error : " + e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    @GetMapping("/songFeature/{playListId}")
+    public ResponseEntity getSongFeatureWithPlayListWithId(@PathVariable("playListId") String playListId) {
+
+        try {
+            List<AudioFeatures> audioFeaturesList = playListService.getSongFeatureByPlayList(playListId);
+            return ResponseEntity.status(HttpStatus.OK).body(audioFeaturesList);
+        } catch (Exception e) {
+            log.error("getSongFeatureByPlayList error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
