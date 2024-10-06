@@ -20,6 +20,7 @@ import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest
 import se.michaelthelin.spotify.requests.data.tracks.GetAudioFeaturesForTrackRequest;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -116,7 +117,7 @@ public class PlayListService {
 
     public List<AudioFeatures> getSongFeatureByPlayList(String playListId) {
 
-        List<AudioFeatures> audioFeaturesList = null;
+        List<AudioFeatures> audioFeaturesList = new ArrayList<>();
 
         try {
             SpotifyApi spotifyApi = authService.authClientWithAuthCode(
