@@ -1,4 +1,4 @@
-package com.yen.SpotifyPlayList;
+package com.yen.SpotifyPlayList.dev;
 
 import org.junit.jupiter.api.Test;
 
@@ -9,9 +9,6 @@ import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistReques
 import org.apache.hc.core5.http.ParseException;
 
 import java.io.IOException;
-import java.util.concurrent.CancellationException;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
 
 public class PlayListTest {
 
