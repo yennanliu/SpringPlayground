@@ -39,6 +39,20 @@ public class RecommendationsService {
         return recommendations;
     }
 
+    public Recommendations getRecommendationWithPlayList(String playListId) throws SpotifyWebApiException {
+
+//        Recommendations recommendations = null;
+//        try {
+//            this.spotifyApi = authService.initializeSpotifyApi();
+//            GetRecommendationsRequest getRecommendationsRequest = prepareRecommendationsRequest(getRecommendationsDto);
+//            recommendations = getRecommendationsRequest.execute();
+//            log.info("recommendations = " + recommendations);
+//        } catch (IOException | SpotifyWebApiException | ParseException e) {
+//            throw new SpotifyWebApiException("getRecommendation error: " + e.getMessage());
+//        }
+//        return recommendations;
+        return null;
+    }
     private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto getRecommendationsDto){
         return  spotifyApi.getRecommendations()
                 .limit(getRecommendationsDto.getAmount())
