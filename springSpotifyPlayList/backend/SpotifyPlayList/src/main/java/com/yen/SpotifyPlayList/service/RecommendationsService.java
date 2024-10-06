@@ -1,6 +1,7 @@
 package com.yen.SpotifyPlayList.service;
 
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
+import com.yen.SpotifyPlayList.model.dto.GetRecommendationsWithFeatureDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,7 @@ public class RecommendationsService {
 
     public Recommendations getRecommendationWithPlayList(String playListId) throws SpotifyWebApiException {
 
-        GetRecommendationsDto getRecommendationsDto = new GetRecommendationsDto();
+        GetRecommendationsWithFeatureDto getRecommendationsWithFeatureDto = new GetRecommendationsWithFeatureDto();
         Recommendations recommendations = null;
 
         try{
@@ -59,24 +60,33 @@ public class RecommendationsService {
             // get avg value of features
 
             // TODO : use functional way
-            Float energySum = null;
+            Float energy = null;
             Float acousticness = null;
             Float danceability = null;
+            Float liveness = null;
+            Float loudness = null;
+            Float speechiness = null;
 
             for (AudioFeatures audioFeatures : audioFeaturesList){
-                energySum += audioFeatures.getEnergy();
+                energy += audioFeatures.getEnergy();
                 acousticness += audioFeatures.getAcousticness();
                 danceability += audioFeatures.getDanceability();
+                liveness += audioFeatures.getLiveness();
+                loudness += audioFeatures.getLoudness();
+                speechiness += audioFeatures.getSpeechiness();
                 // TODO : implement others
             }
-
-            GetRecommendationsRequest recommendationsRequest =  spotifyApi.getRecommendations().build();
-            return recommendationsRequest.execute();
+            // getRecommendationsWithFeatureDto
+            GetRecommendationsRequest getRecommendationsRequest = prepareRecommendationsWithSongFeatureRequest(getRecommendationsWithFeatureDto);
+            recommendations = getRecommendationsRequest.execute();
+            return recommendations;
         }catch (Exception e){
 
         }
         return recommendations;
     }
+
+    // TODO : merge below
     private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto getRecommendationsDto){
         return  spotifyApi.getRecommendations()
                 .limit(getRecommendationsDto.getAmount())
@@ -87,6 +97,25 @@ public class RecommendationsService {
                 .seed_genres(getRecommendationsDto.getSeedGenres())
                 .seed_tracks(getRecommendationsDto.getSeedTrack())
                 .target_popularity(getRecommendationsDto.getTargetPopularity())
+                .build();
+    }
+
+    private GetRecommendationsRequest prepareRecommendationsWithSongFeatureRequest(GetRecommendationsWithFeatureDto getRecommendationsWithFeatureDto){
+        return  spotifyApi.getRecommendations()
+                .limit(getRecommendationsWithFeatureDto.getAmount())
+                .market(getRecommendationsWithFeatureDto.getMarket())
+                .max_popularity(getRecommendationsWithFeatureDto.getMaxPopularity())
+                .min_popularity(getRecommendationsWithFeatureDto.getMinPopularity())
+                .seed_artists(getRecommendationsWithFeatureDto.getSeedArtistId())
+                .seed_genres(getRecommendationsWithFeatureDto.getSeedGenres())
+                .seed_tracks(getRecommendationsWithFeatureDto.getSeedTrack())
+                .target_popularity(getRecommendationsWithFeatureDto.getTargetPopularity())
+                .target_danceability(getRecommendationsWithFeatureDto.getDanceability())
+                .target_energy(getRecommendationsWithFeatureDto.getEnergy())
+                .target_instrumentalness(getRecommendationsWithFeatureDto.getInstrumentalness())
+                .target_liveness(getRecommendationsWithFeatureDto.getLiveness())
+                .target_loudness(getRecommendationsWithFeatureDto.getLoudness())
+                .target_speechiness(getRecommendationsWithFeatureDto.getSpeechiness())
                 .build();
     }
 
