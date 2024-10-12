@@ -64,6 +64,11 @@ export SPOTIFY_REDIRECT_URL=http://<server_ip>:8080/playlist
 export VUE_APP_BASE_URL=http://localhost:8888/
 
 docker-compose up
+
+
+# NOTE !!!! (deploy on ec2)
+# if run cmd with sudo, then need to add -E flag, so export env var can be perserved
+sudo -E docker-compose up
 ```
 
 ### Run (manually)
