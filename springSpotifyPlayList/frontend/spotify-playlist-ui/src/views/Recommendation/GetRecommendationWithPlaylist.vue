@@ -145,8 +145,9 @@ export default {
   methods: {
     async getRecommendWithPlayList() {
       try {
+        this.playlistFeatureId = "55cG5ksYLV3x1gGe4VERL9"
         console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId)
-        const response = await fetch(`${this.baseURL}/recommend/platlist/${this.playlistFeatureId}`, {
+        const response = await fetch(`${this.baseURL}/recommend/playlist/${this.playlistFeatureId}`, {
           method: "GET",
         });
         if (!response.ok) {

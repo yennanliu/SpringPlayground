@@ -117,6 +117,7 @@ public class PlayListService {
 
     public List<AudioFeatures> getSongFeatureByPlayList(String playListId) {
 
+        log.debug("getSongFeatureByPlayList start, playListId = " + playListId);
         List<AudioFeatures> audioFeaturesList = new ArrayList<>();
 
         try {
@@ -137,7 +138,7 @@ public class PlayListService {
                 //System.out.println(">>> name = " + track.getTrack().getName() + ", id = " + songId + ", audioFeatures = " + audioFeatures);
             }
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("getSongFeatureByPlayList error: " + e);
         }
         return audioFeaturesList;
     }
