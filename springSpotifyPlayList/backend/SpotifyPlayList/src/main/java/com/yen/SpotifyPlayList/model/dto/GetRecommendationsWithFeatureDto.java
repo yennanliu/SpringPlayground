@@ -41,11 +41,11 @@ public class GetRecommendationsWithFeatureDto {
     private String seedGenres;
     private String seedTrack; // e.g. 01iyCAUm8EvOFqVWYJ3dVX
     private int targetPopularity = 50;
-    private float danceability = 0;
-    private float energy = 0;
-    private float instrumentalness = 0;
-    private float liveness = 0;
-    private float loudness = 0;
-    private float speechiness = 0;
-    private float tempo = 0;
+    private double danceability = 0;
+    private double energy = 0;
+    private double instrumentalness = 0;
+    private double liveness = 0;
+    private double loudness = 0;
+    private double speechiness = 0;
+    private double tempo = 0;
 }
