@@ -5,7 +5,7 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- *
+ * Example resp
  * {
  * acousticness: 0.359,
  * analysisUrl: "https://api.spotify.com/v1/audio-analysis/7FJC2pF6zMliU7Lvk0GBDV",
@@ -28,7 +28,6 @@ import lombok.ToString;
  * },
  *
  */
-
 @ToString
 @Data
 public class GetRecommendationsWithFeatureDto {

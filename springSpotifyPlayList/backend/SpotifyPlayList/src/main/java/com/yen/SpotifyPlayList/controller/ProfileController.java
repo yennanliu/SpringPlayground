@@ -23,7 +23,6 @@ public class ProfileController {
     public ResponseEntity getCurrentUserId(@PathVariable String authCode) {
         UserProfileResp profile = null;
         try {
-            //userId = profileService.getCurrentUserId(authCode);
             profile = profileService.getUserProfile();
             return ResponseEntity.status(HttpStatus.OK).body(profile);
         } catch (Exception e) {

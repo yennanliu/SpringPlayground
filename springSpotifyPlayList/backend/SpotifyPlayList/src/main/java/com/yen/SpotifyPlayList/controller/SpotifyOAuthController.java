@@ -60,7 +60,6 @@ public class SpotifyOAuthController {
         } catch (Exception e) {
             log.error("authorize failed : " + e);
         }
-        //return "redirect:" + uri.toString();
         log.info("redirect URL = " + uri.toString());
         RedirectResp redirectResp = new RedirectResp();
         redirectResp.setUrl(uri.toString());
