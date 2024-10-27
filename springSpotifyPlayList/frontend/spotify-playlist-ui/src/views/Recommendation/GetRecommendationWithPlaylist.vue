@@ -76,7 +76,7 @@
       <!-- Playlist ID for feature recommendation -->
       <div class="form-group">
         <label>Feature Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist ID feature" />
+        <input type="text" class="form-control large-input" v-model="playlistFeatureId" placeholder="Playlist ID feature" />
       </div>
 
       <!-- Playlist ID Input for adding new songs -->
@@ -145,7 +145,7 @@ export default {
   methods: {
     async getRecommendWithPlayList() {
       try {
-        this.playlistFeatureId = "55cG5ksYLV3x1gGe4VERL9"
+        this.playlistFeatureId = "1VxF9hsEnBWM1CAXjzecMU"
         console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId)
         const response = await fetch(`${this.baseURL}/recommend/playlist/${this.playlistFeatureId}`, {
           method: "GET",
