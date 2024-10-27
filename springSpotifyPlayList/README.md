@@ -139,6 +139,8 @@ docker logs <container_id>
 
 - Java client
 	- https://github.com/spotify-web-api-java/spotify-web-api-java
+- Python client
+	- https://github.com/spotipy-dev/spotipy
 - Doc
 	- https://spotify-web-api-java.github.io/spotify-web-api-java/
 

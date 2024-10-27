@@ -9,12 +9,20 @@ import org.springframework.stereotype.Service;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
+import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
+import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
+import se.michaelthelin.spotify.model_objects.specification.PlaylistTrack;
 import se.michaelthelin.spotify.requests.data.playlists.AddItemsToPlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.CreatePlaylistRequest;
 import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistRequest;
+import se.michaelthelin.spotify.requests.data.playlists.GetPlaylistsItemsRequest;
+import se.michaelthelin.spotify.requests.data.tracks.GetAudioFeaturesForTrackRequest;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -105,6 +113,29 @@ public class PlayListService {
             throw new SpotifyWebApiException("Error creating playlist: " + e.getMessage(), e);
         }
         return playlist;
+    }
+
+    public List<AudioFeatures> getSongFeatureByPlayList(String playListId) {
+
+        log.debug("getSongFeatureByPlayList start, playListId = " + playListId);
+        List<AudioFeatures> audioFeaturesList = new ArrayList<>();
+        try {
+            SpotifyApi spotifyApi = authService.initializeSpotifyApi();
+            final GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi
+                    .getPlaylistsItems(playListId)
+                    .build();
+            final CompletableFuture<Paging<PlaylistTrack>> pagingFuture = getPlaylistsItemsRequest.executeAsync();
+            final Paging<PlaylistTrack> playlistTrackPaging = pagingFuture.join();
+            for (PlaylistTrack track : playlistTrackPaging.getItems()) {
+                final GetAudioFeaturesForTrackRequest getAudioFeaturesForTrackRequest = spotifyApi
+                        .getAudioFeaturesForTrack(track.getTrack().getId())
+                        .build();
+                audioFeaturesList.add(getAudioFeaturesForTrackRequest.execute());
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("getSongFeatureByPlayList error: " + e);
+        }
+        return audioFeaturesList;
     }
 
     /**
