@@ -48,11 +48,8 @@ public class RecommendationsService {
       throws SpotifyWebApiException {
     try {
       this.spotifyApi = authService.initializeSpotifyApi();
-      log.info(">>> before playListService.getSongFeatureByPlayList");
       List<AudioFeatures> audioFeaturesList = playListService.getSongFeatureByPlayList(playListId);
-      log.info(">>> after playListService.getSongFeatureByPlayList");
       log.debug(">>> audioFeaturesList = " + audioFeaturesList);
-      System.out.println(">>> audioFeaturesList = " + audioFeaturesList);
 
       // Use functional programming to calculate the averages and cast Double to float
       // TODO : modify GetRecommendationsWithFeatureDto with attr as "float" type, and modify below
@@ -89,7 +86,6 @@ public class RecommendationsService {
 
       GetRecommendationsRequest getRecommendationsRequest =
               prepareRecommendationsRequestWithPlayList(featureDto);
-      log.info(">>> (getRecommendationWithPlayList) getRecommendationsRequest = " + getRecommendationsRequest.toString());
       Recommendations recommendations = getRecommendationsRequest.execute();
 
       return recommendations;
@@ -111,8 +107,7 @@ public class RecommendationsService {
         .seed_artists(featureDto.getSeedArtistId())
         .seed_genres(featureDto.getSeedGenres())
         .seed_tracks(featureDto.getSeedTrack())
-        // TODO : undo float cast once modify GetRecommendationsWithFeatureDto with attr as "float"
-        // type
+        // TODO : undo float cast once modify GetRecommendationsWithFeatureDto with attr as "float" type
         .target_danceability((float) featureDto.getDanceability())
         .target_energy((float) featureDto.getEnergy())
         .target_instrumentalness((float) featureDto.getInstrumentalness())
