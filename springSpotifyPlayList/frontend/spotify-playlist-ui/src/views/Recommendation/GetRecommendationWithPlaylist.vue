@@ -1,93 +1,39 @@
 <template>
   <div class="container">
     <h1>Song Recommendation With ML</h1>
-    <form @submit.prevent="getRecommendWithPlayList" class="recommendation-form">
-      <!-- Amount Input -->
-      <!-- <div class="form-group">
-        <label>Amount</label>
-        <input type="number" class="form-control large-input" v-model="amount" required />
-      </div> -->
-
-      <!-- Market Dropdown -->
-      <!-- <div class="form-group">
-        <label>Market</label>
-        <select v-model="market" class="form-control large-input" required>
-          <option value="JP">Japan (JP)</option>
-          <option value="TW">Taiwan (TW)</option>
-          <option value="US">United States (US)</option>
-          <option value="UK">United Kingdom (UK)</option>
-          <option value="FR">France (FR)</option>
-          <option value="TH">Thailand (TH)</option>
-        </select>
-      </div> -->
-
-      <!-- Max Popularity Slider -->
-      <!-- <div class="form-group">
-        <label>Max Popularity ({{ maxPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="maxPopularity" class="slider" />
-      </div> -->
-
-      <!-- Min Popularity Slider -->
-      <!-- <div class="form-group">
-        <label>Min Popularity ({{ minPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="minPopularity" class="slider" />
-      </div> -->
-
-      <!-- Seed Artist ID Input -->
-      <!-- <div class="form-group">
-        <label>Seed Artist ID</label>
-        <input type="text" class="form-control large-input" v-model="seedArtistId" required />
-      </div> -->
-
-      <!-- Seed Genres Input -->
-      <!-- <div class="form-group">
-        <label>Seed Genres</label>
-        <input type="text" class="form-control large-input" v-model="seedGenres" required />
-      </div> -->
-
-      <!-- Genres Dropdown -->
-      <!-- <div class="form-group">
-        <label>Genres</label>
-        <select v-model="seedGenres" class="form-control large-input" required>
-          <option value="rock">rock</option>
-          <option value="electro">electro</option>
-          <option value="hip-hop">hip-hop</option>
-          <option value="j-pop">j-pop</option>
-          <option value="k-pop">k-pop</option>
-          <option value="soul">soul</option>
-          <option value="house">house</option>
-          <option value="jazz">jazz</option>
-        </select>
-      </div> -->
-
-
-      <!-- Seed Track Input -->
-      <!-- <div class="form-group">
-        <label>Seed Track</label>
-        <input type="text" class="form-control large-input" v-model="seedTrack" required />
-      </div> -->
-
-      <!-- Target Popularity Slider -->
-      <!-- <div class="form-group">
-        <label>Target Popularity ({{ targetPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="targetPopularity" class="slider" />
-      </div> -->
-
+    <form
+      @submit.prevent="getRecommendWithPlayList"
+      class="recommendation-form"
+    >
       <!-- Playlist ID for feature recommendation -->
       <div class="form-group">
         <label>Feature Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistFeatureId" placeholder="Playlist ID feature" />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="playlistFeatureId"
+          placeholder="Playlist ID feature"
+        />
       </div>
 
       <!-- Playlist ID Input for adding new songs -->
       <div class="form-group">
         <label>To add Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist IDss adding new songs" />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="playlistId"
+          placeholder="Playlist IDss adding new songs"
+        />
       </div>
 
       <div class="button-group">
         <button type="submit" class="btn btn-outline-light">Submit</button>
-        <button type="button" class="btn btn-outline-light" @click="addSongToPlayList">
+        <button
+          type="button"
+          class="btn btn-outline-light"
+          @click="addSongToPlayList"
+        >
           Add Songs to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
@@ -105,8 +51,12 @@
           }}</a>
         </p>
 
-        <img v-if="track.album.images && track.album.images.length > 0" :src="track.album.images[0].url"
-          :alt="track.name" class="album-img" />
+        <img
+          v-if="track.album.images && track.album.images.length > 0"
+          :src="track.album.images[0].url"
+          :alt="track.name"
+          class="album-img"
+        />
 
         <p>
           Preview URL:
@@ -127,14 +77,6 @@ export default {
   props: ["baseURL"],
   data() {
     return {
-      // amount: 10,
-      // market: "JP",
-      // maxPopularity: 100,
-      // minPopularity: 0,
-      // seedArtistId: "4sJCsXNYmUMeumUKVz4Abm",
-      // seedGenres: "electro",
-      // seedTrack: "1ZFQgnAwHaAhAn1o2bkwVs",
-      // targetPopularity: 50,
       tracks: null,
       trackURIs: "",
       playlistFeatureId: "",
@@ -145,11 +87,14 @@ export default {
   methods: {
     async getRecommendWithPlayList() {
       try {
-        this.playlistFeatureId = "1VxF9hsEnBWM1CAXjzecMU"
-        console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId)
-        const response = await fetch(`${this.baseURL}/recommend/playlist/${this.playlistFeatureId}`, {
-          method: "GET",
-        });
+        //sthis.playlistFeatureId = "1VxF9hsEnBWM1CAXjzecMU"
+        console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId);
+        const response = await fetch(
+          `${this.baseURL}/recommend/playlist/${this.playlistFeatureId}`,
+          {
+            method: "GET",
+          }
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch recommendations");
         }
