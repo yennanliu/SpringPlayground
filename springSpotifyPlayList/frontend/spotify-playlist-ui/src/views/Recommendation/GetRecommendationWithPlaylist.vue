@@ -75,14 +75,14 @@
 
       <!-- Playlist ID for feature recommendation -->
       <div class="form-group">
-        <label>Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Enter Playlist ID for feature recommendation" />
+        <label>Feature Playlist ID</label>
+        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist ID feature" />
       </div>
 
       <!-- Playlist ID Input for adding new songs -->
       <div class="form-group">
-        <label>Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Enter Playlist ID for adding new songs" />
+        <label>To add Playlist ID</label>
+        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist IDss adding new songs" />
       </div>
 
       <div class="button-group">
