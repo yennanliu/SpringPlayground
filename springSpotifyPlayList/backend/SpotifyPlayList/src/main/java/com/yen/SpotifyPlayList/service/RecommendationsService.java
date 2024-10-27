@@ -45,10 +45,12 @@ public class RecommendationsService {
   public Recommendations getRecommendationWithPlayList(String playListId)
       throws SpotifyWebApiException {
     try {
-
       this.spotifyApi = authService.initializeSpotifyApi();
+      log.info(">>> before playListService.getSongFeatureByPlayList");
       List<AudioFeatures> audioFeaturesList = playListService.getSongFeatureByPlayList(playListId);
+      log.info(">>> after playListService.getSongFeatureByPlayList");
       log.debug(">>> audioFeaturesList = " + audioFeaturesList);
+      System.out.println(">>> audioFeaturesList = " + audioFeaturesList);
 
       // Use functional programming to calculate the averages and cast Double to float
       // TODO : modify GetRecommendationsWithFeatureDto with attr as "float" type, and modify below
@@ -78,9 +80,13 @@ public class RecommendationsService {
       featureDto.setLiveness(liveness);
       featureDto.setLoudness(loudness);
       featureDto.setSpeechiness(speechiness);
+      // TODO : get seed features from playList
+      featureDto.setSeedArtistId("4sJCsXNYmUMeumUKVz4Abm");
+      featureDto.setSeedTrack("1ZFQgnAwHaAhAn1o2bkwVs");
 
       GetRecommendationsRequest getRecommendationsRequest =
           prepareRecommendationsRequestWithPlayList(featureDto);
+      log.info(">>> (getRecommendationWithPlayList) getRecommendationsRequest = " + getRecommendationsRequest.toString());
       Recommendations recommendations = getRecommendationsRequest.execute();
 
       return recommendations;

@@ -117,17 +117,23 @@ public class PlayListService {
 
     public List<AudioFeatures> getSongFeatureByPlayList(String playListId) {
 
+        log.debug(">>> getSongFeatureByPlayList start");
         log.debug("getSongFeatureByPlayList start, playListId = " + playListId);
         List<AudioFeatures> audioFeaturesList = new ArrayList<>();
 
         try {
-            SpotifyApi spotifyApi = authService.authClientWithAuthCode(
-                    authService.getSpotifyClient(),
-                    authService.getAuthCode()
-            );
+
+//            SpotifyApi spotifyApi = authService.authClientWithAuthCode(
+//                    authService.getSpotifyClient(),
+//                    authService.getAuthCode()
+//            );
+
+            SpotifyApi spotifyApi = authService.initializeSpotifyApi();
+
             final GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi
                     .getPlaylistsItems(playListId)
                     .build();
+
             final CompletableFuture<Paging<PlaylistTrack>> pagingFuture = getPlaylistsItemsRequest.executeAsync();
             final Paging<PlaylistTrack> playlistTrackPaging = pagingFuture.join();
             for (PlaylistTrack track : playlistTrackPaging.getItems()) {
@@ -140,6 +146,7 @@ public class PlayListService {
         } catch (Exception e) {
             throw new RuntimeException("getSongFeatureByPlayList error: " + e);
         }
+        log.info(">>> (getSongFeatureByPlayList) audioFeaturesList = " + audioFeaturesList);
         return audioFeaturesList;
     }
 
