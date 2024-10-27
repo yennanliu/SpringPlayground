@@ -122,12 +122,6 @@ public class PlayListService {
         List<AudioFeatures> audioFeaturesList = new ArrayList<>();
 
         try {
-
-//            SpotifyApi spotifyApi = authService.authClientWithAuthCode(
-//                    authService.getSpotifyClient(),
-//                    authService.getAuthCode()
-//            );
-
             SpotifyApi spotifyApi = authService.initializeSpotifyApi();
 
             final GetPlaylistsItemsRequest getPlaylistsItemsRequest = spotifyApi

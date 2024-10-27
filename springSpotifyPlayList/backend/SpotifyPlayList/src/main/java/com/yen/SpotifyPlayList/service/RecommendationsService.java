@@ -2,9 +2,6 @@ package com.yen.SpotifyPlayList.service;
 
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsWithFeatureDto;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +11,11 @@ import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -80,12 +82,13 @@ public class RecommendationsService {
       featureDto.setLiveness(liveness);
       featureDto.setLoudness(loudness);
       featureDto.setSpeechiness(speechiness);
+
       // TODO : get seed features from playList
       featureDto.setSeedArtistId("4sJCsXNYmUMeumUKVz4Abm");
-      featureDto.setSeedTrack("1ZFQgnAwHaAhAn1o2bkwVs");
+      featureDto.setSeedTrack(getRandomSeedTrackId(audioFeaturesList));
 
       GetRecommendationsRequest getRecommendationsRequest =
-          prepareRecommendationsRequestWithPlayList(featureDto);
+              prepareRecommendationsRequestWithPlayList(featureDto);
       log.info(">>> (getRecommendationWithPlayList) getRecommendationsRequest = " + getRecommendationsRequest.toString());
       Recommendations recommendations = getRecommendationsRequest.execute();
 
@@ -122,15 +125,32 @@ public class RecommendationsService {
   private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto dto) {
     return spotifyApi
         .getRecommendations()
-        .limit(dto.getAmount())
-        .market(dto.getMarket())
-        .max_popularity(dto.getMaxPopularity())
-        .min_popularity(dto.getMinPopularity())
-        .seed_artists(dto.getSeedArtistId())
-        .seed_genres(dto.getSeedGenres())
-        .seed_tracks(dto.getSeedTrack())
-        .target_popularity(dto.getTargetPopularity())
-        .build();
+            .limit(dto.getAmount())
+            .market(dto.getMarket())
+            .max_popularity(dto.getMaxPopularity())
+            .min_popularity(dto.getMinPopularity())
+            .seed_artists(dto.getSeedArtistId())
+            .seed_genres(dto.getSeedGenres())
+            .seed_tracks(dto.getSeedTrack())
+            .target_popularity(dto.getTargetPopularity())
+            .build();
+  }
+
+  private String getRandomSeedTrackId(List<AudioFeatures> audioFeaturesList) {
+    if (audioFeaturesList == null || audioFeaturesList.size() == 0) {
+      throw new RuntimeException("audioFeaturesList can not be null");
+    }
+    Random random = new Random();
+    int randomInt = random.nextInt(audioFeaturesList.size());
+    String trackHref = audioFeaturesList.get(randomInt).getTrackHref();
+    return getTrackIdFromTrackUrl(trackHref);
+  }
+
+  private String getTrackIdFromTrackUrl(String trackUrl) {
+    if (trackUrl == null) {
+      throw new RuntimeException("trackUrl can not be null");
+    }
+    return trackUrl.split("tracks")[1].replace("/", "");
   }
 
 }
