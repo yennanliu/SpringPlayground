@@ -8,7 +8,8 @@
         <router-link to="/search_album">Get Albums</router-link> |
         <router-link to="/search_artist">Get Artists</router-link> |
         <router-link to="/playlist">Create Playlist</router-link> |
-        <router-link to="/recommendation">Recommendation</router-link>
+        <router-link to="/recommendation">Recommendation</router-link> |
+        <router-link to="/recommendationWithPlayList">RecommendationWithPlayList</router-link>
       </nav>
     </header>
     <div class="auth-button">
