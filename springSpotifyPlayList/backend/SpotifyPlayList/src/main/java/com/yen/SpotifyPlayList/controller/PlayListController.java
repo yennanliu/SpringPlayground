@@ -14,6 +14,8 @@ import se.michaelthelin.spotify.model_objects.special.SnapshotResult;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 import se.michaelthelin.spotify.model_objects.specification.Playlist;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequestMapping("/playlist")

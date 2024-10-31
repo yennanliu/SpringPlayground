@@ -15,7 +15,6 @@ import lombok.ToString;
 @ToString
 @Data
 public class GetRecommendationsWithFeatureDto {
-
   private int amount = 10;
   private CountryCode market = CountryCode.JP;
   private int maxPopularity = 100;
