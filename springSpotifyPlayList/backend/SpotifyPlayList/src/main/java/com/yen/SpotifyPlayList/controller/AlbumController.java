@@ -13,37 +13,34 @@ import se.michaelthelin.spotify.model_objects.specification.Album;
 import se.michaelthelin.spotify.model_objects.specification.Paging;
 import se.michaelthelin.spotify.model_objects.specification.TrackSimplified;
 
-
 @Slf4j
 @RestController
 @RequestMapping("/album")
 public class AlbumController {
 
-    @Autowired
-    private AlbumService albumService;
+  @Autowired private AlbumService albumService;
 
-    @GetMapping("/{albumId}")
-    public ResponseEntity getAlbumWithId(@PathVariable("albumId") String albumId) {
+  @GetMapping("/{albumId}")
+  public ResponseEntity getAlbumWithId(@PathVariable("albumId") String albumId) {
 
-        try {
-            Album album = albumService.getAlbum(albumId);
-            return ResponseEntity.status(HttpStatus.OK).body(album);
-        } catch (Exception e) {
-            log.error("getAlbumWithId error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+    try {
+      Album album = albumService.getAlbum(albumId);
+      return ResponseEntity.status(HttpStatus.OK).body(album);
+    } catch (Exception e) {
+      log.error("getAlbumWithId error : " + e);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+  }
 
-    @GetMapping("/track/{albumId}")
-    public ResponseEntity getAlbumTrackWithId(@PathVariable("albumId") String albumId) {
-        try {
+  @GetMapping("/track/{albumId}")
+  public ResponseEntity getAlbumTrackWithId(@PathVariable("albumId") String albumId) {
+    try {
 
-            Paging<TrackSimplified> trackSimplifiedPaging = albumService.getAlbumTrack(albumId);
-            return ResponseEntity.status(HttpStatus.OK).body(trackSimplifiedPaging);
-        } catch (Exception e) {
-            log.error("getAlbumTrackWithId error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+      Paging<TrackSimplified> trackSimplifiedPaging = albumService.getAlbumTrack(albumId);
+      return ResponseEntity.status(HttpStatus.OK).body(trackSimplifiedPaging);
+    } catch (Exception e) {
+      log.error("getAlbumTrackWithId error : " + e);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-
+  }
 }

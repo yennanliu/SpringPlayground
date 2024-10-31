@@ -9,29 +9,19 @@ import java.util.HashMap;
 @Data
 public class UserProfileResp {
 
-    /**
-     * {  "display_name" : "some_user_name",
-     * "external_urls" : {
-     * "spotify" : "https://open.spotify.com/user/some_id"
-     * },
-     * "href" : "https://api.spotify.com/v1/users/some_id",
-     * "id" : "some_id",
-     * "images" : [ ],
-     * "type" : "user",
-     * "uri" : "spotify:user:some_id",
-     * "followers" : {
-     * "href" : null,
-     * "total" : 2
-     * }
-     * }
-     */
+  /**
+   * { "display_name" : "some_user_name", "external_urls" : { "spotify" :
+   * "https://open.spotify.com/user/some_id" }, "href" : "https://api.spotify.com/v1/users/some_id",
+   * "id" : "some_id", "images" : [ ], "type" : "user", "uri" : "spotify:user:some_id", "followers"
+   * : { "href" : null, "total" : 2 } }
+   */
+  private String displayName;
 
-    private String displayName;
-    private HashMap<String, String> externalUrls;
-    private String href;
-    private String id;
-    private String[] images;
-    private String type;
-    private String uri;
-    private HashMap<String, Object> followers;
+  private HashMap<String, String> externalUrls;
+  private String href;
+  private String id;
+  private String[] images;
+  private String type;
+  private String uri;
+  private HashMap<String, Object> followers;
 }

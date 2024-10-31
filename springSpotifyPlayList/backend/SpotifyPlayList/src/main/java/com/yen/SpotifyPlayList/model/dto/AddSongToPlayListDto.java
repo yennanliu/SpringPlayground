@@ -1,9 +1,8 @@
 package com.yen.SpotifyPlayList.model.dto;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.ToString;
-
-import java.io.Serializable;
 
 @ToString
 @Data

@@ -13,55 +13,47 @@ import se.michaelthelin.spotify.requests.data.users_profile.GetCurrentUsersProfi
 @Slf4j
 public class ProfileService {
 
-    private final Gson gson;
+  private final Gson gson;
 
-    @Autowired
-    private AuthService authService;
+  @Autowired private AuthService authService;
 
-    private SpotifyApi spotifyApi;
+  private SpotifyApi spotifyApi;
 
-    public ProfileService() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.setPrettyPrinting();
-        this.gson = builder.create();
+  public ProfileService() {
+    GsonBuilder builder = new GsonBuilder();
+    builder.setPrettyPrinting();
+    this.gson = builder.create();
+  }
+
+  public String getCurrentUserId(SpotifyApi spotifyApi) {
+
+    String userId = null;
+
+    try {
+      GetCurrentUsersProfileRequest profile = spotifyApi.getCurrentUsersProfile().build();
+      UserProfileResp userProfileResp =
+          this.gson.fromJson(profile.getJson(), UserProfileResp.class);
+      log.info("userProfileResp = " + userProfileResp);
+      userId = userProfileResp.getId();
+    } catch (Exception e) {
+      log.error("getCurrentUserId error,  " + e);
     }
 
-    public String getCurrentUserId(SpotifyApi spotifyApi) {
+    return userId;
+  }
 
-        String userId = null;
+  public UserProfileResp getUserProfile() {
 
-        try {
-            GetCurrentUsersProfileRequest profile = spotifyApi
-                    .getCurrentUsersProfile()
-                    .build();
-            UserProfileResp userProfileResp = this.gson.fromJson(
-                    profile.getJson(), UserProfileResp.class
-            );
-            log.info("userProfileResp = " + userProfileResp);
-            userId = userProfileResp.getId();
-        } catch (Exception e) {
-            log.error("getCurrentUserId error,  " + e);
-        }
-
-        return userId;
+    UserProfileResp resp = null;
+    try {
+      GetCurrentUsersProfileRequest profile = spotifyApi.getCurrentUsersProfile().build();
+      UserProfileResp userProfileResp =
+          this.gson.fromJson(profile.getJson(), UserProfileResp.class);
+      log.info("getUserProfile = " + userProfileResp);
+      resp = userProfileResp;
+    } catch (Exception e) {
+      log.error("getUserProfile error,  " + e);
     }
-
-    public UserProfileResp getUserProfile() {
-
-        UserProfileResp resp = null;
-        try {
-            GetCurrentUsersProfileRequest profile = spotifyApi
-                    .getCurrentUsersProfile()
-                    .build();
-            UserProfileResp userProfileResp = this.gson.fromJson(
-                    profile.getJson(), UserProfileResp.class
-            );
-            log.info("getUserProfile = " + userProfileResp);
-            resp = userProfileResp;
-        } catch (Exception e) {
-            log.error("getUserProfile error,  " + e);
-        }
-        return resp;
-    }
-
+    return resp;
+  }
 }

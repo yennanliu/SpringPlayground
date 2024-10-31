@@ -1,5 +1,7 @@
 package com.yen.SpotifyPlayList.service;
 
+import java.io.IOException;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +16,6 @@ import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
-import java.io.IOException;
-import java.net.URI;
-
 @Service
 @Slf4j
 public class AuthService {
@@ -29,6 +28,13 @@ public class AuthService {
 
     @Value("${spotify.redirect.url}")
     private String redirectURL;
+    private String accessToken;
+    private String refreshToken;
+    private String authCode;
+    private SpotifyApi spotifyApi;
+
+    public AuthService() {
+    }
 
     public String getAccessToken() {
         return accessToken;
@@ -46,23 +52,12 @@ public class AuthService {
         this.refreshToken = refreshToken;
     }
 
-    private String accessToken;
-
-    private String refreshToken;
-
-    private String authCode;
-
-    private SpotifyApi spotifyApi;
-
     public String getAuthCode() {
         return authCode;
     }
 
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
-    }
-
-    public AuthService() {
     }
 
     /**

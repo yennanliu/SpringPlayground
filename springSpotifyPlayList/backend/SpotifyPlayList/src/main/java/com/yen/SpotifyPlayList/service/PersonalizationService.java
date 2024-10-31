@@ -1,20 +1,21 @@
-//package com.yen.SpotifyPlayList.service;
+// package com.yen.SpotifyPlayList.service;
 //
-//import lombok.extern.slf4j.Slf4j;
-//import org.apache.hc.core5.http.ParseException;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.stereotype.Service;
-//import se.michaelthelin.spotify.SpotifyApi;
-//import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-//import se.michaelthelin.spotify.model_objects.specification.Paging;
-//import se.michaelthelin.spotify.model_objects.specification.Track;
-//import se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
+// import lombok.extern.slf4j.Slf4j;
+// import org.apache.hc.core5.http.ParseException;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.stereotype.Service;
+// import se.michaelthelin.spotify.SpotifyApi;
+// import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+// import se.michaelthelin.spotify.model_objects.specification.Paging;
+// import se.michaelthelin.spotify.model_objects.specification.Track;
+// import
+// se.michaelthelin.spotify.requests.data.personalization.simplified.GetUsersTopTracksRequest;
 //
-//import java.io.IOException;
+// import java.io.IOException;
 //
-//@Service
-//@Slf4j
-//public class PersonalizationService {
+// @Service
+// @Slf4j
+// public class PersonalizationService {
 //
 //    @Autowired
 //    private AuthService authService;
@@ -42,4 +43,4 @@
 //        return trackPaging;
 //    }
 //
-//}
+// }

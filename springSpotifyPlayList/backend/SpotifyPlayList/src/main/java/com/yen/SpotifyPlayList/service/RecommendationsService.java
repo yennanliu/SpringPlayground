@@ -2,6 +2,10 @@ package com.yen.SpotifyPlayList.service;
 
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsWithFeatureDto;
+import java.io.IOException;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +15,6 @@ import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Random;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -85,7 +84,7 @@ public class RecommendationsService {
       featureDto.setSeedTrack(getRandomSeedTrackId(audioFeaturesList));
 
       GetRecommendationsRequest getRecommendationsRequest =
-              prepareRecommendationsRequestWithPlayList(featureDto);
+          prepareRecommendationsRequestWithPlayList(featureDto);
       Recommendations recommendations = getRecommendationsRequest.execute();
 
       return recommendations;
@@ -107,7 +106,8 @@ public class RecommendationsService {
         .seed_artists(featureDto.getSeedArtistId())
         .seed_genres(featureDto.getSeedGenres())
         .seed_tracks(featureDto.getSeedTrack())
-        // TODO : undo float cast once modify GetRecommendationsWithFeatureDto with attr as "float" type
+        // TODO : undo float cast once modify GetRecommendationsWithFeatureDto with attr as "float"
+        // type
         .target_danceability((float) featureDto.getDanceability())
         .target_energy((float) featureDto.getEnergy())
         .target_instrumentalness((float) featureDto.getInstrumentalness())
@@ -120,15 +120,15 @@ public class RecommendationsService {
   private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto dto) {
     return spotifyApi
         .getRecommendations()
-            .limit(dto.getAmount())
-            .market(dto.getMarket())
-            .max_popularity(dto.getMaxPopularity())
-            .min_popularity(dto.getMinPopularity())
-            .seed_artists(dto.getSeedArtistId())
-            .seed_genres(dto.getSeedGenres())
-            .seed_tracks(dto.getSeedTrack())
-            .target_popularity(dto.getTargetPopularity())
-            .build();
+        .limit(dto.getAmount())
+        .market(dto.getMarket())
+        .max_popularity(dto.getMaxPopularity())
+        .min_popularity(dto.getMinPopularity())
+        .seed_artists(dto.getSeedArtistId())
+        .seed_genres(dto.getSeedGenres())
+        .seed_tracks(dto.getSeedTrack())
+        .target_popularity(dto.getTargetPopularity())
+        .build();
   }
 
   private String getRandomSeedTrackId(List<AudioFeatures> audioFeaturesList) {
@@ -147,5 +147,4 @@ public class RecommendationsService {
     }
     return trackUrl.split("tracks")[1].replace("/", "");
   }
-
 }

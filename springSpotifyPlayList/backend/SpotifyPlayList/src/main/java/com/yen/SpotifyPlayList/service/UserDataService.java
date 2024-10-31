@@ -12,38 +12,34 @@ import se.michaelthelin.spotify.requests.data.playlists.GetListOfUsersPlaylistsR
 @Slf4j
 public class UserDataService {
 
-    @Autowired
-    private AuthService authService;
+  @Autowired private AuthService authService;
 
-    /**
-     * Fetches all playlists for a given user.
-     *
-     * @param userId The Spotify user ID.
-     * @return An array of simplified playlist objects.
-     */
-    public PlaylistSimplified[] getUserAllPlaylists(String userId) {
+  /**
+   * Fetches all playlists for a given user.
+   *
+   * @param userId The Spotify user ID.
+   * @return An array of simplified playlist objects.
+   */
+  public PlaylistSimplified[] getUserAllPlaylists(String userId) {
 
-        PlaylistSimplified[] playlists = null;
+    PlaylistSimplified[] playlists = null;
 
-        try {
-            // Get SpotifyApi instance from AuthService
-            SpotifyApi spotifyApi = authService.initializeSpotifyApi();
+    try {
+      // Get SpotifyApi instance from AuthService
+      SpotifyApi spotifyApi = authService.initializeSpotifyApi();
 
-            // Build request to get the user's playlists
-            GetListOfUsersPlaylistsRequest request = spotifyApi
-                    .getListOfUsersPlaylists(userId)
-                    .build();
+      // Build request to get the user's playlists
+      GetListOfUsersPlaylistsRequest request = spotifyApi.getListOfUsersPlaylists(userId).build();
 
-            // Execute the request and fetch the playlist data
-            Paging<PlaylistSimplified> playlistPaging = request.execute();
-            playlists = playlistPaging.getItems();
-            log.info("Retrieved {} playlists for user: {}", playlists.length, userId);
+      // Execute the request and fetch the playlist data
+      Paging<PlaylistSimplified> playlistPaging = request.execute();
+      playlists = playlistPaging.getItems();
+      log.info("Retrieved {} playlists for user: {}", playlists.length, userId);
 
-        } catch (Exception e) {
-            log.error("Error fetching playlists for user {}: {}", userId, e.getMessage());
-        }
-
-        return playlists;
+    } catch (Exception e) {
+      log.error("Error fetching playlists for user {}: {}", userId, e.getMessage());
     }
 
+    return playlists;
+  }
 }

@@ -16,20 +16,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/profile")
 public class ProfileController {
 
-    @Autowired
-    private ProfileService profileService;
+  @Autowired private ProfileService profileService;
 
-    @GetMapping("/")
-    public ResponseEntity getCurrentUserId(@PathVariable String authCode) {
-        UserProfileResp profile = null;
-        try {
-            //userId = profileService.getCurrentUserId(authCode);
-            profile = profileService.getUserProfile();
-            return ResponseEntity.status(HttpStatus.OK).body(profile);
-        } catch (Exception e) {
-            log.error("getCurrentUserId error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+  @GetMapping("/")
+  public ResponseEntity getCurrentUserId(@PathVariable String authCode) {
+    UserProfileResp profile = null;
+    try {
+      // userId = profileService.getCurrentUserId(authCode);
+      profile = profileService.getUserProfile();
+      return ResponseEntity.status(HttpStatus.OK).body(profile);
+    } catch (Exception e) {
+      log.error("getCurrentUserId error : " + e);
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
-
+  }
 }

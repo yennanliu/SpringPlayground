@@ -7,5 +7,5 @@ import lombok.ToString;
 @Data
 public class RedirectResp {
 
-    private String url;
+  private String url;
 }
