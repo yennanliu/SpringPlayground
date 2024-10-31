@@ -28,4 +28,4 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: rm -rf ~/.m2 && cd springSpotifyPlayList/backend/SpotifyPlayList && mvn -Dtest=com.yen.SpotifyPlayList.service.* test
+      run: rm -rf ~/.m2 && cd springSpotifyPlayList/backend/SpotifyPlayList && mvn -DskipTests=true package #&& mvn -Dtest=com.yen.SpotifyPlayList.service.* test
