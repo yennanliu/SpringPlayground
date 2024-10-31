@@ -14,15 +14,14 @@ import se.michaelthelin.spotify.model_objects.specification.PlaylistSimplified;
 @RequestMapping("/user_data")
 public class UserDataController {
 
-    @Value("${spotify.userId}")
-    private String userId;
+  @Value("${spotify.userId}")
+  private String userId;
 
-    @Autowired
-    private UserDataService userDataService;
+  @Autowired private UserDataService userDataService;
 
-    @GetMapping("/playlist")
-    public PlaylistSimplified[] getUserPlayList(){
-        //String userId = "62kytpy7jswykfjtnjn9zv3ou";
-        return userDataService.getUserAllPlaylists(userId);
-    }
+  @GetMapping("/playlist")
+  public PlaylistSimplified[] getUserPlayList() {
+    // String userId = "62kytpy7jswykfjtnjn9zv3ou";
+    return userDataService.getUserAllPlaylists(userId);
+  }
 }

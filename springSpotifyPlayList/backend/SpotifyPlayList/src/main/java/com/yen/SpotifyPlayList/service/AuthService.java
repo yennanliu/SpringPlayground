@@ -1,5 +1,7 @@
 package com.yen.SpotifyPlayList.service;
 
+import java.io.IOException;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,9 +16,6 @@ import se.michaelthelin.spotify.model_objects.credentials.ClientCredentials;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeRequest;
 import se.michaelthelin.spotify.requests.authorization.client_credentials.ClientCredentialsRequest;
 
-import java.io.IOException;
-import java.net.URI;
-
 @Service
 @Slf4j
 public class AuthService {
@@ -29,6 +28,13 @@ public class AuthService {
 
     @Value("${spotify.redirect.url}")
     private String redirectURL;
+    private String accessToken;
+    private String refreshToken;
+    private String authCode;
+    private SpotifyApi spotifyApi;
+
+    public AuthService() {
+    }
 
     public String getAccessToken() {
         return accessToken;
@@ -46,23 +52,12 @@ public class AuthService {
         this.refreshToken = refreshToken;
     }
 
-    private String accessToken;
-
-    private String refreshToken;
-
-    private String authCode;
-
-    private SpotifyApi spotifyApi;
-
     public String getAuthCode() {
         return authCode;
     }
 
     public void setAuthCode(String authCode) {
         this.authCode = authCode;
-    }
-
-    public AuthService() {
     }
 
     /**
@@ -184,42 +179,6 @@ public class AuthService {
      * Step 2) When the code has been retrieved, it can be used in another request to get an access token as well as a refresh token.
      * Step 3) Now, the refresh token in turn can be used in a loop to retrieve new access and refresh tokens.
      */
-//    public SpotifyApi refreshSpotifyClient(String authCode) throws SpotifyWebApiException, IOException, ParseException {
-//
-//        // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/cfd0dae1262bd7f95f90c37b28d27b9c944d471a/examples/authorization/authorization_code/AuthorizationCodeRefreshExample.java#L22
-//        // https://github.com/spotify-web-api-java/spotify-web-api-java/blob/master/examples/authorization/authorization_code/AuthorizationCodeExample.java
-//
-//        log.info("refreshSpotifyApi start ... authCode = {}", authCode);
-//        //this.spotifyApi = this.getSpotifyClient();
-//        if (this.spotifyApi == null || this.accessToken == null || this.refreshToken == null){
-//            this.spotifyApi = this.getSpotifyClient();
-//        }
-//
-//        try{
-//            spotifyApi.setAccessToken(this.accessToken);
-//            spotifyApi.setRefreshToken(this.refreshToken);
-//        }catch (Exception e){
-//            log.error("refreshSpotifyClient error : " + e.getMessage());
-//        }
-//
-////        try {
-////            final AuthorizationCodeRequest authorizationCodeRequest = spotifyApi
-////                    .authorizationCode(authCode)
-////                    .build();
-////
-////            final AuthorizationCodeCredentials authorizationCodeCredentials = authorizationCodeRequest
-////                    .execute();
-////
-////            // Set access and refresh token for further "spotifyApi" object usage
-////            spotifyApi.setAccessToken(authorizationCodeCredentials.getAccessToken());
-////            spotifyApi.setRefreshToken(authorizationCodeCredentials.getRefreshToken());
-////            log.info("refreshSpotifyApi OK");
-////        } catch (IOException | SpotifyWebApiException | ParseException e) {
-////            log.error(">>> refreshSpotifyApi Error: " + e.getMessage());
-////        }
-//
-//        return this.spotifyApi;
-//    }
 
     private URI getRedirectURL(String redirectURL){
         return SpotifyHttpManager

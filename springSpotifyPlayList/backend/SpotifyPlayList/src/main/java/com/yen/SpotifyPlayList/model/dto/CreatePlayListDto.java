@@ -7,8 +7,8 @@ import lombok.ToString;
 @Data
 public class CreatePlayListDto {
 
-    private String userId;
-    private String name;
-    // TODO : remove below
-    private String authCode;
+  private String userId;
+  private String name;
+  // TODO : remove below
+  private String authCode;
 }

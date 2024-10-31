@@ -1,19 +1,19 @@
-//package com.yen.SpotifyPlayList.controller;
+// package com.yen.SpotifyPlayList.controller;
 //
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.web.bind.annotation.GetMapping;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RestController;
+// import lombok.extern.slf4j.Slf4j;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.RequestMapping;
+// import org.springframework.web.bind.annotation.RestController;
 //
-///**
+/// **
 // *
 // *  https://developer.spotify.com/documentation/web-api/tutorials/code-flow
 // *  https://developer.spotify.com/documentation/web-api/concepts/apps
 // */
-//@Slf4j
-//@RestController
-//@RequestMapping("/")
-//public class RedirectController {
+// @Slf4j
+// @RestController
+// @RequestMapping("/")
+// public class RedirectController {
 //
 //    @GetMapping("/hello")
 //    public String hello(){
@@ -27,4 +27,4 @@
 //        return "redirect";
 //    }
 //
-//}
+// }

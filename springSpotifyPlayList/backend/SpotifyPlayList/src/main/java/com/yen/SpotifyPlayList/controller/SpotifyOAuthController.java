@@ -1,6 +1,7 @@
 package com.yen.SpotifyPlayList.controller;
 
 import com.yen.SpotifyPlayList.model.dto.Response.RedirectResp;
+import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
@@ -11,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.SpotifyHttpManager;
 import se.michaelthelin.spotify.requests.authorization.authorization_code.AuthorizationCodeUriRequest;
-
-import java.net.URI;
 
 @Slf4j
 @RestController

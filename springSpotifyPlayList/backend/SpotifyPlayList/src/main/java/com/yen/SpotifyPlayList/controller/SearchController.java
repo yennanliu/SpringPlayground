@@ -14,17 +14,15 @@ import se.michaelthelin.spotify.model_objects.specification.Artist;
 @RequestMapping("/search")
 public class SearchController {
 
-    @Autowired
-    private SearchService searchService;
+  @Autowired private SearchService searchService;
 
-    @GetMapping("/album")
-    public AlbumSimplified[] searchAlbum(String keyword){
-        return searchService.searchAlbum(keyword);
-    }
+  @GetMapping("/album")
+  public AlbumSimplified[] searchAlbum(String keyword) {
+    return searchService.searchAlbum(keyword);
+  }
 
-    @GetMapping("/artist")
-    public Artist[] searchArtist(String keyword){
-        return searchService.searchArtist(keyword);
-    }
-
+  @GetMapping("/artist")
+  public Artist[] searchArtist(String keyword) {
+    return searchService.searchArtist(keyword);
+  }
 }
