@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>User PlayList List</h1>
+    <h2>({{ playLists.length }} items)</h2>
     <div class="row">
       <div class="col-12 text-center">
         <!-- <h1 class="main-heading">User Playlists</h1> -->

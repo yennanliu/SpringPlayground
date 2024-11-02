@@ -15,6 +15,14 @@
 
         <!-- Dropdown for Search options with arrow indicator -->
         <div class="dropdown">
+          <span class="dropdown-label">Create ▼</span>
+          <div class="dropdown-content">
+            <router-link to="/playlist">Create Playlist</router-link>
+          </div>
+        </div>
+
+        <!-- Dropdown for Search options with arrow indicator -->
+        <div class="dropdown">
           <span class="dropdown-label">Search ▼</span>
           <div class="dropdown-content">
             <router-link to="/search_album">Search Album</router-link>
@@ -24,16 +32,12 @@
         </div>
         |
 
-        <router-link to="/playlist">Create Playlist</router-link> |
-
         <!-- Dropdown for Recommendations options with arrow indicator -->
         <div class="dropdown">
           <span class="dropdown-label">Recommendation ▼</span>
           <div class="dropdown-content">
             <router-link to="/recommendation">Recommendation</router-link>
-            <router-link to="/recommendationWithPlayList"
-              >Recommendation With Playlist</router-link
-            >
+            <router-link to="/recommendationWithPlayList">Recommendation With Playlist</router-link>
           </div>
         </div>
       </nav>
