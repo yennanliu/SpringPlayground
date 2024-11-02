@@ -80,9 +80,9 @@
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-outline-light">Submit</button>
+        <button type="submit" class="btn btn-outline-light">Get Recommend</button>
         <button type="button" class="btn btn-outline-light" @click="addSongToPlayList">
-          Add Songs to Playlist
+          Add to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
       </div>
