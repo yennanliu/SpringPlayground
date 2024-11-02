@@ -3,8 +3,16 @@
     <header>
       <nav>
         <router-link to="/">Home</router-link> |
-        <router-link to="/profile">User PlaytList</router-link> |
-        
+
+        <!-- Dropdown for User profile with arrow indicator -->
+        <div class="dropdown">
+          <span class="dropdown-label">User Profile ▼</span>
+          <div class="dropdown-content">
+            <router-link to="/profile">User PlaytList</router-link>
+          </div>
+        </div>
+        |
+
         <!-- Dropdown for Search options with arrow indicator -->
         <div class="dropdown">
           <span class="dropdown-label">Search ▼</span>
@@ -13,16 +21,19 @@
             <router-link to="/search_artist">Search Artist</router-link>
             <router-link to="/album">Search Album (by ID)</router-link>
           </div>
-        </div> |
+        </div>
+        |
 
         <router-link to="/playlist">Create Playlist</router-link> |
-        
+
         <!-- Dropdown for Recommendations options with arrow indicator -->
         <div class="dropdown">
           <span class="dropdown-label">Recommendation ▼</span>
           <div class="dropdown-content">
             <router-link to="/recommendation">Recommendation</router-link>
-            <router-link to="/recommendationWithPlayList">Recommendation With Playlist</router-link>
+            <router-link to="/recommendationWithPlayList"
+              >Recommendation With Playlist</router-link
+            >
           </div>
         </div>
       </nav>
