@@ -39,7 +39,13 @@
       </nav>
     </header>
 
-    <div class="auth-button">
+    <div class="auth-status">
+      <!-- Show ✅ or ❌ based on authorization status -->
+      <p>
+        <span v-if="isAuthorized">✅ Authorized</span>
+        <span v-else>❌ Not Authorized</span>
+      </p>
+      <!-- Always show the authorize button -->
       <button @click="authorize" class="btn btn-outline-light">
         Authorize with Spotify
       </button>
@@ -54,9 +60,14 @@ export default {
   data() {
     return {
       baseURL: process.env.VUE_APP_BASE_URL || "http://localhost:8888/",
+      isAuthorized: false,
     };
   },
   methods: {
+    checkAuthorization() {
+      // Check localStorage for authorization status
+      this.isAuthorized = localStorage.getItem("spotifyAuthorized") === "true";
+    },
     async authorize() {
       try {
         const response = await fetch(`${this.baseURL}/authorize`);
@@ -65,6 +76,8 @@ export default {
         }
         const data = await response.json();
         if (data.url) {
+          // Set localStorage flag before redirecting
+          localStorage.setItem("spotifyAuthorized", "true");
           window.location.href = data.url;
         } else {
           throw new Error("Redirect URI not found in response");
@@ -73,6 +86,9 @@ export default {
         console.error(error);
       }
     },
+  },
+  mounted() {
+    this.checkAuthorization();
   },
 };
 </script>
@@ -114,11 +130,11 @@ nav a.router-link-exact-active {
   color: #ffeb3b;
 }
 
-.auth-button {
+.auth-status {
   margin-top: 20px;
 }
 
-.auth-button .btn {
+.auth-status .btn {
   font-size: 1.2rem;
   padding: 10px 20px;
 }
@@ -138,7 +154,7 @@ nav a.router-link-exact-active {
 }
 
 .dropdown-label:hover {
-  color: #ffeb3b; /* Highlighted color for hover */
+  color: #ffeb3b;
 }
 
 .dropdown-content {
