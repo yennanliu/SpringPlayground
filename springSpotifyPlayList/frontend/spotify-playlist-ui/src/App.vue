@@ -3,42 +3,71 @@
     <header>
       <nav>
         <router-link to="/">Home</router-link> |
-        <router-link to="/profile">User Profile</router-link> |
-        <router-link to="/album">Get Album (Id)</router-link> |
-        <router-link to="/search_album">Get Albums</router-link> |
-        <router-link to="/search_artist">Get Artists</router-link> |
+
+        <!-- Dropdown for User profile with arrow indicator -->
+        <div class="dropdown">
+          <span class="dropdown-label">User Profile ▼</span>
+          <div class="dropdown-content">
+            <router-link to="/profile">User PlaytList</router-link>
+          </div>
+        </div>
+        |
+
+        <!-- Dropdown for Search options with arrow indicator -->
+        <div class="dropdown">
+          <span class="dropdown-label">Search ▼</span>
+          <div class="dropdown-content">
+            <router-link to="/search_album">Search Album</router-link>
+            <router-link to="/search_artist">Search Artist</router-link>
+            <router-link to="/album">Search Album (by ID)</router-link>
+          </div>
+        </div>
+        |
+
         <router-link to="/playlist">Create Playlist</router-link> |
-        <router-link to="/recommendation">Recommendation</router-link> |
-        <router-link to="/recommendationWithPlayList">RecommendationWithPlayList</router-link>
+
+        <!-- Dropdown for Recommendations options with arrow indicator -->
+        <div class="dropdown">
+          <span class="dropdown-label">Recommendation ▼</span>
+          <div class="dropdown-content">
+            <router-link to="/recommendation">Recommendation</router-link>
+            <router-link to="/recommendationWithPlayList"
+              >Recommendation With Playlist</router-link
+            >
+          </div>
+        </div>
       </nav>
     </header>
-    <div class="auth-button">
+
+    <div class="auth-status">
+      <!-- Show ✅ or ❌ based on authorization status -->
+      <p>
+        <span v-if="isAuthorized">✅ Authorized</span>
+        <span v-else>❌ Not Authorized</span>
+      </p>
+      <!-- Always show the authorize button -->
       <button @click="authorize" class="btn btn-outline-light">
         Authorize with Spotify
       </button>
     </div>
-    <!-- 
-      https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
 
-      delcare global variable via router view
-      -> so baseURL, categories are visible to ALL views
-      -->
-    <router-view :baseURL="baseURL"> </router-view>
+    <router-view :baseURL="baseURL"></router-view>
   </div>
 </template>
 
 <script>
-console.log(">>> process.env.VUE_APP_BASE_URL = " + process.env.VUE_APP_BASE_URL)
-
 export default {
   data() {
     return {
-      //baseURL: "http://localhost:8888/",
-      // NOTE : In Vue.js, environment variables need to be prefixed with VUE_APP_ to be accessible in your application
-      baseURL: process.env.VUE_APP_BASE_URL || "http://localhost:8888/", // Fallback to default
+      baseURL: process.env.VUE_APP_BASE_URL || "http://localhost:8888/",
+      isAuthorized: false,
     };
   },
   methods: {
+    checkAuthorization() {
+      // Check localStorage for authorization status
+      this.isAuthorized = localStorage.getItem("spotifyAuthorized") === "true";
+    },
     async authorize() {
       try {
         const response = await fetch(`${this.baseURL}/authorize`);
@@ -47,6 +76,8 @@ export default {
         }
         const data = await response.json();
         if (data.url) {
+          // Set localStorage flag before redirecting
+          localStorage.setItem("spotifyAuthorized", "true");
           window.location.href = data.url;
         } else {
           throw new Error("Redirect URI not found in response");
@@ -55,6 +86,9 @@ export default {
         console.error(error);
       }
     },
+  },
+  mounted() {
+    this.checkAuthorization();
   },
 };
 </script>
@@ -96,12 +130,56 @@ nav a.router-link-exact-active {
   color: #ffeb3b;
 }
 
-.auth-button {
+.auth-status {
   margin-top: 20px;
 }
 
-.auth-button .btn {
+.auth-status .btn {
   font-size: 1.2rem;
   padding: 10px 20px;
+}
+
+/* Dropdown Styling */
+.dropdown {
+  display: inline-block;
+  position: relative;
+}
+
+.dropdown-label {
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  padding: 0 15px;
+  display: inline-block;
+}
+
+.dropdown-label:hover {
+  color: #ffeb3b;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  min-width: 150px;
+  border-radius: 5px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  color: #000;
+  padding: 10px 15px;
+  display: block;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-content a:hover {
+  background-color: #f1f1f1;
 }
 </style>

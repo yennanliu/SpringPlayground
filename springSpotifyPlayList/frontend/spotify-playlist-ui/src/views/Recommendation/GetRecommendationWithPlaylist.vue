@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Song Recommendation With ML</h1>
+    <h1>Song Recommend via PlayList</h1>
     <form
       @submit.prevent="getRecommendWithPlayList"
       class="recommendation-form"
@@ -12,7 +12,7 @@
           type="text"
           class="form-control large-input"
           v-model="playlistFeatureId"
-          placeholder="Playlist ID feature"
+          placeholder="Playlist ID recommend from"
         />
       </div>
 
@@ -23,18 +23,18 @@
           type="text"
           class="form-control large-input"
           v-model="playlistId"
-          placeholder="Playlist IDss adding new songs"
+          placeholder="Playlist ID adding new songs"
         />
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-outline-light">Submit</button>
+        <button type="submit" class="btn btn-outline-light">Get Recommend</button>
         <button
           type="button"
           class="btn btn-outline-light"
           @click="addSongToPlayList"
         >
-          Add Songs to Playlist
+          Add to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
       </div>

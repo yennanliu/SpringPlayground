@@ -20,12 +20,15 @@
           </p>
         </div>
         <div class="feature">
-          <h2>Search Albums</h2>
+          <h2>Search</h2>
           <p>
             Find
             <router-link to="/search_album" class="btn btn-primary"
               >albums</router-link
-            >, explore tracks, and listen to previews.
+            >,
+            <router-link to="/search_artist" class="btn btn-primary"
+              >artist</router-link
+            >,explore tracks, artist and listen to previews.
           </p>
         </div>
         <div class="feature">
@@ -33,9 +36,11 @@
           <p>
             Song
             <router-link to="/recommendation" class="btn btn-primary"
-              >recommendations</router-link
+              >recommend</router-link
             >
-            with ML, preference, create your own playList!
+            with ML, <router-link to="/recommendationWithPlayList" class="btn btn-primary"
+              >recommend with playList</router-link
+            >, create your own playList!
           </p>
         </div>
       </div>
