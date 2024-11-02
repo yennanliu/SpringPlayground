@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <h1>Song Recommendation With ML</h1>
+    <h1>Song Recommend via PlayList</h1>
     <form
       @submit.prevent="getRecommendWithPlayList"
       class="recommendation-form"
