@@ -76,7 +76,8 @@
       <!-- Playlist ID Input -->
       <div class="form-group">
         <label>Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist Id Add songs to" />
+        <input type="text" class="form-control large-input" v-model="playlistId"
+          placeholder="Playlist Id Add songs to" />
       </div>
 
       <div class="button-group">
@@ -96,7 +97,7 @@
           URL:
           <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
             track.externalUrls.externalUrls.spotify
-            }}</a>
+          }}</a>
         </p>
 
         <img v-if="track.album.images && track.album.images.length > 0" :src="track.album.images[0].url"
@@ -117,6 +118,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   props: ["baseURL"],
   data() {
@@ -133,6 +135,11 @@ export default {
       trackURIs: "",
       playlistId: "",
       addToPlayList: false,
+      // create new playlist
+      playlistCreated: false,
+      playlistCreationError: null, // To track errors
+      newPlayList: { userId: "someId", name: "", authCode: "code" },
+      createdPlayListId: null,
     };
   },
   methods: {
@@ -166,6 +173,12 @@ export default {
 
     async addSongToPlayList() {
       try {
+
+        // step 1) create new playlist
+        //createdPlayListId = this.createPlaylist();
+        this.createPlaylist();
+
+        // step 2) add songs to the create playlist
         this.trackURIs = this.tracks.tracks.map((track) => track.uri);
 
         const response = await fetch(`${this.baseURL}/playlist/addSong`, {
@@ -175,7 +188,8 @@ export default {
           },
           body: JSON.stringify({
             songUris: this.trackURIs.toString(),
-            playlistId: this.playlistId,
+            //playlistId: this.playlistId,
+            playlistId: this.createdPlaylistId,
           }),
         });
         if (response.status === 200) {
@@ -186,6 +200,34 @@ export default {
         }
       } catch (error) {
         console.error(error);
+      }
+    },
+
+    async createPlaylist() {
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const code = urlParams.get("code");
+        if (!code) {
+          throw new Error("Authorization code not found");
+        }
+        this.newPlayList.authCode = code;
+        // auto gen new playList name
+        this.newPlayList.name = 'ml-recommend-xxx';
+        const response = await axios.post(
+          `${this.baseURL}/playlist/create`,
+          this.newPlayList
+        );
+        if (response.status === 200) {
+          this.playlistCreated = true;
+          this.playlistCreationError = null; // Clear error if successful
+          this.createdPlaylistId = response.data.id; // Store the playlist ID
+          console.log(">>> Created playlist ID =", this.createdPlaylistId);
+        } else {
+          throw new Error("Failed to create playlist");
+        }
+      } catch (error) {
+        console.error(error);
+        this.playlistCreationError = error.message; // Set error message
       }
     },
   },
