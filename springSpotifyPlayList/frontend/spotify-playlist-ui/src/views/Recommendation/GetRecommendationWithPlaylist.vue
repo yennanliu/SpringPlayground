@@ -12,7 +12,7 @@
           type="text"
           class="form-control large-input"
           v-model="playlistFeatureId"
-          placeholder="Playlist ID feature"
+          placeholder="Playlist ID recommend from"
         />
       </div>
 
@@ -23,7 +23,7 @@
           type="text"
           class="form-control large-input"
           v-model="playlistId"
-          placeholder="Playlist IDss adding new songs"
+          placeholder="Playlist ID adding new songs"
         />
       </div>
 

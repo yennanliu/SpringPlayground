@@ -76,7 +76,7 @@
       <!-- Playlist ID Input -->
       <div class="form-group">
         <label>Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Enter Playlist ID" />
+        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist Id Add songs to" />
       </div>
 
       <div class="button-group">
