@@ -81,7 +81,9 @@ public class RecommendationsService {
       featureDto.setSpeechiness(speechiness);
 
       // TODO : get seed features from playList
+      // 123
       featureDto.setSeedArtistId("4sJCsXNYmUMeumUKVz4Abm");
+      
       featureDto.setSeedTrack(getRandomSeedTrackId(audioFeaturesList));
 
       GetRecommendationsRequest getRecommendationsRequest =
