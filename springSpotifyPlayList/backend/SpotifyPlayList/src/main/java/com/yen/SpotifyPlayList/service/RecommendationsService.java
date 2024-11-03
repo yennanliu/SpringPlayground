@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
+import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
 import se.michaelthelin.spotify.model_objects.specification.Recommendations;
+import se.michaelthelin.spotify.model_objects.specification.Track;
 import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 
 import java.io.IOException;
@@ -24,6 +26,8 @@ public class RecommendationsService {
   @Autowired private AuthService authService;
 
   @Autowired private PlayListService playListService;
+
+  @Autowired private TrackService trackService;
 
   private SpotifyApi spotifyApi;
 
@@ -81,7 +85,8 @@ public class RecommendationsService {
       featureDto.setSpeechiness(speechiness);
 
       // TODO : get seed features from playList
-      featureDto.setSeedArtistId("4sJCsXNYmUMeumUKVz4Abm");
+      //featureDto.setSeedArtistId("4sJCsXNYmUMeumUKVz4Abm");
+      featureDto.setSeedArtistId(getRandomSeedArtistId(audioFeaturesList));
       featureDto.setSeedTrack(getRandomSeedTrackId(audioFeaturesList));
 
       GetRecommendationsRequest getRecommendationsRequest =
@@ -129,6 +134,18 @@ public class RecommendationsService {
             .seed_tracks(dto.getSeedTrack())
             .target_popularity(dto.getTargetPopularity())
             .build();
+  }
+
+  private String getRandomSeedArtistId(List<AudioFeatures> audioFeaturesList) {
+    if (audioFeaturesList == null || audioFeaturesList.size() == 0) {
+      throw new RuntimeException("getRandomSeedArtistId can not be null");
+    }
+    Random random = new Random();
+    int randomInt = random.nextInt(audioFeaturesList.size());
+    String trackId = audioFeaturesList.get(randomInt).getId();
+    Track track = trackService.getTrackInfo(trackId);
+    log.info(">>> track = " + track);
+    return track.getArtists()[0].getId();
   }
 
   private String getRandomSeedTrackId(List<AudioFeatures> audioFeaturesList) {
