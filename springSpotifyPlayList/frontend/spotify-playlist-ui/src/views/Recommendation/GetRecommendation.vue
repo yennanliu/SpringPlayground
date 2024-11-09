@@ -5,7 +5,12 @@
       <!-- Amount Input -->
       <div class="form-group">
         <label>Amount</label>
-        <input type="number" class="form-control large-input" v-model="amount" required />
+        <input
+          type="number"
+          class="form-control large-input"
+          v-model="amount"
+          required
+        />
       </div>
 
       <!-- Market Dropdown -->
@@ -24,19 +29,36 @@
       <!-- Max Popularity Slider -->
       <div class="form-group">
         <label>Max Popularity ({{ maxPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="maxPopularity" class="slider" />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          v-model="maxPopularity"
+          class="slider"
+        />
       </div>
 
       <!-- Min Popularity Slider -->
       <div class="form-group">
         <label>Min Popularity ({{ minPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="minPopularity" class="slider" />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          v-model="minPopularity"
+          class="slider"
+        />
       </div>
 
       <!-- Seed Artist ID Input -->
       <div class="form-group">
         <label>Seed Artist ID</label>
-        <input type="text" class="form-control large-input" v-model="seedArtistId" required />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="seedArtistId"
+          required
+        />
       </div>
 
       <!-- Seed Genres Input -->
@@ -60,34 +82,59 @@
         </select>
       </div>
 
-
       <!-- Seed Track Input -->
       <div class="form-group">
         <label>Seed Track</label>
-        <input type="text" class="form-control large-input" v-model="seedTrack" required />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="seedTrack"
+          required
+        />
       </div>
 
       <!-- Target Popularity Slider -->
       <div class="form-group">
         <label>Target Popularity ({{ targetPopularity }})</label>
-        <input type="range" min="0" max="100" v-model="targetPopularity" class="slider" />
+        <input
+          type="range"
+          min="0"
+          max="100"
+          v-model="targetPopularity"
+          class="slider"
+        />
       </div>
 
       <!-- Playlist ID Input -->
       <div class="form-group">
         <label>Playlist ID</label>
-        <input type="text" class="form-control large-input" v-model="playlistId" placeholder="Playlist Id Add songs to" />
+        <input
+          type="text"
+          class="form-control large-input"
+          v-model="playlistId"
+          placeholder="Playlist Id Add songs to"
+        />
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-outline-light">Get Recommend</button>
-        <button type="button" class="btn btn-outline-light" @click="addSongToPlayList">
+        <button type="submit" class="btn btn-outline-light">
+          Get Recommend
+        </button>
+        <button
+          type="button"
+          class="btn btn-outline-light"
+          @click="addSongToPlayList"
+        >
           Add to Playlist
         </button>
         <div v-if="addToPlayList">Songs added to Playlist successfully!</div>
       </div>
     </form>
 
+    <!-- Display Loading Indicator or Tracks -->
+    <div v-if="isLoading" class="loading-indicator">
+      Loading recommendations...
+    </div>
     <!-- Display Tracks -->
     <div v-if="tracks">
       <div v-for="track in tracks.tracks" :key="track.id" class="track-card">
@@ -96,11 +143,15 @@
           URL:
           <a :href="track.externalUrls.externalUrls.spotify" target="_blank">{{
             track.externalUrls.externalUrls.spotify
-            }}</a>
+          }}</a>
         </p>
 
-        <img v-if="track.album.images && track.album.images.length > 0" :src="track.album.images[0].url"
-          :alt="track.name" class="album-img" />
+        <img
+          v-if="track.album.images && track.album.images.length > 0"
+          :src="track.album.images[0].url"
+          :alt="track.name"
+          class="album-img"
+        />
 
         <p>
           Preview URL:
@@ -133,10 +184,12 @@ export default {
       trackURIs: "",
       playlistId: "",
       addToPlayList: false,
+      isLoading: false, // Loading state
     };
   },
   methods: {
     async getRecommend() {
+      this.isLoading = true; // Start loading
       try {
         const response = await fetch(`${this.baseURL}/recommend/`, {
           method: "POST",
@@ -161,6 +214,8 @@ export default {
         this.tracks = data;
       } catch (error) {
         console.error(error);
+      } finally {
+        this.isLoading = false; // End loading
       }
     },
 
