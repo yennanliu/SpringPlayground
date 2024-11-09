@@ -164,6 +164,10 @@
       </div>
     </div>
     <div v-else>Loading...</div>
+    <!-- Error message -->
+    <div v-if="getRecommendError" class="alert alert-danger mt-3">
+      {{ getRecommendError }}
+    </div>
   </div>
 </template>
 
@@ -185,6 +189,7 @@ export default {
       playlistId: "",
       addToPlayList: false,
       isLoading: false, // Loading state
+      getRecommendError: null, // To track errors
     };
   },
   methods: {
@@ -207,18 +212,22 @@ export default {
             targetPopularity: this.targetPopularity,
           }),
         });
-        if (!response.ok) {
+
+        if (response.status === 200) {
+          this.getRecommendError = null; // Clear any previous errors
+          const data = await response.json();
+          this.tracks = data;
+        } 
+        else {
           throw new Error("Failed to fetch recommendations");
         }
-        const data = await response.json();
-        this.tracks = data;
       } catch (error) {
+        this.getRecommendError = error.message; // Set error message
         console.error(error);
       } finally {
         this.isLoading = false; // End loading
       }
     },
-
     async addSongToPlayList() {
       try {
         this.trackURIs = this.tracks.tracks.map((track) => track.uri);
@@ -307,6 +316,19 @@ export default {
 .btn-outline-light:hover {
   background-color: #1db954;
   color: #fff;
+}
+
+.alert {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.alert-success {
+  color: #28a745;
+}
+
+.alert-danger {
+  color: #dc3545;
 }
 
 .button-group {
