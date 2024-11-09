@@ -28,7 +28,9 @@
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-outline-light">Get Recommend</button>
+        <button type="submit" class="btn btn-outline-light">
+          Get Recommend
+        </button>
         <button
           type="button"
           class="btn btn-outline-light"
@@ -69,6 +71,10 @@
       </div>
     </div>
     <div v-else>Loading...</div>
+    <!-- Display Loading Indicator or Tracks -->
+    <div v-if="isLoading" class="loading-indicator">
+      Loading recommendations...
+    </div>
   </div>
 </template>
 
@@ -82,10 +88,12 @@ export default {
       playlistFeatureId: "",
       playlistId: "",
       addToPlayList: false,
+      isLoading: false, // Loading state
     };
   },
   methods: {
     async getRecommendWithPlayList() {
+      this.isLoading = true; // Start loading
       try {
         //sthis.playlistFeatureId = "1VxF9hsEnBWM1CAXjzecMU"
         console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId);
@@ -102,6 +110,8 @@ export default {
         this.tracks = data;
       } catch (error) {
         console.error(error);
+      } finally {
+        this.isLoading = false; // End loading
       }
     },
 
