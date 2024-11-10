@@ -12,21 +12,19 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatService {
 
-    private final String PUBLIC_TOPIC = "/topic/public";
+  private final String PUBLIC_TOPIC = "/topic/public";
 
-    @Autowired
-    private SimpMessageSendingOperations simpMessageSendingOperations;
+  @Autowired private SimpMessageSendingOperations simpMessageSendingOperations;
 
-    public void sendMsg(@Payload ChatMessage chatMessage) {
+  public void sendMsg(@Payload ChatMessage chatMessage) {
 
-        log.info("Send msg by simpMessageSendingOperations:" + chatMessage.toString());
-        simpMessageSendingOperations.convertAndSend(PUBLIC_TOPIC, chatMessage);
-    }
+    log.info("Send msg by simpMessageSendingOperations:" + chatMessage.toString());
+    simpMessageSendingOperations.convertAndSend(PUBLIC_TOPIC, chatMessage);
+  }
 
-    public void alertUserStatus(@Payload ChatMessage chatMessage) {
+  public void alertUserStatus(@Payload ChatMessage chatMessage) {
 
-        log.info("Alert user online by simpMessageSendingOperations:" + chatMessage.toString());
-        simpMessageSendingOperations.convertAndSend(PUBLIC_TOPIC, chatMessage);
-    }
-
+    log.info("Alert user online by simpMessageSendingOperations:" + chatMessage.toString());
+    simpMessageSendingOperations.convertAndSend(PUBLIC_TOPIC, chatMessage);
+  }
 }

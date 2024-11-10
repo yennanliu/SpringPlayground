@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 public class Message {
 
-    private String sender;
-    private String content;
-    private String type;
+  private String sender;
+  private String content;
+  private String type;
 }
