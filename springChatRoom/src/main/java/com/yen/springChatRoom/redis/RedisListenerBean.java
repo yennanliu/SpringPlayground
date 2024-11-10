@@ -1,7 +1,6 @@
 package com.yen.springChatRoom.redis;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -10,14 +9,12 @@ import org.springframework.data.redis.listener.RedisMessageListenerContainer;
 import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
 import org.springframework.stereotype.Component;
 
-
 /**
  * Class for Redis channel conn
  */
+@Slf4j
 @Component
 public class RedisListenerBean {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RedisListenerBean.class);
 
     // read setting from config
     @Value("${server.port}")
@@ -44,7 +41,7 @@ public class RedisListenerBean {
         // listen msgToAll (Redis channel)
         container.addMessageListener(listenerAdapter, new PatternTopic(msgToAll));
         container.addMessageListener(listenerAdapter, new PatternTopic(userStatus));
-        LOGGER.info("Subscribe Redis channel : " + msgToAll);
+        log.info("Subscribe Redis channel : " + msgToAll);
         return container;
     }
 
