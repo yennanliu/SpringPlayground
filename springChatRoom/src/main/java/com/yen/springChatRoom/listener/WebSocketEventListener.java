@@ -1,10 +1,8 @@
 package com.yen.springChatRoom.listener;
 
 import com.yen.springChatRoom.bean.ChatMessage;
-import com.yen.springChatRoom.controller.ChatController;
 import com.yen.springChatRoom.util.JsonUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
@@ -18,10 +16,9 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 
+@Slf4j
 @Component
 public class WebSocketEventListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
     @Value("${server.port}")
     private String serverPort;
@@ -49,11 +46,10 @@ public class WebSocketEventListener {
         InetAddress localHost;
         try {
             localHost = Inet4Address.getLocalHost();
-            LOGGER.info("Received a new web socket connection from:" + localHost.getHostAddress() + ":" + serverPort);
+            log.info("Received a new web socket connection from:" + localHost.getHostAddress() + ":" + serverPort);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
-
     }
 
 
@@ -66,7 +62,7 @@ public class WebSocketEventListener {
         String username = (String) headerAccessor.getSessionAttributes().get("username");
 
         if (username != null) {
-            LOGGER.info("User Disconnected : " + username);
+            log.info("User Disconnected : " + username);
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
@@ -74,7 +70,7 @@ public class WebSocketEventListener {
                 redisTemplate.opsForSet().remove(onlineUsers, username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
             } catch (Exception e) {
-                LOGGER.error(e.getMessage(), e);
+                log.error(e.getMessage(), e);
             }
         }
     }

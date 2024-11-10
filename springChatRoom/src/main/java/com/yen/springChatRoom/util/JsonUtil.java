@@ -2,15 +2,13 @@ package com.yen.springChatRoom.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * JSON 转换
  */
+@Slf4j
 public final class JsonUtil {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(JsonUtil.class);
 
     /**
      * 把Java对象转换成json字符串
@@ -23,7 +21,7 @@ public final class JsonUtil {
         try {
             string = JSONObject.toJSONString(object);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return string;
     }
@@ -39,7 +37,7 @@ public final class JsonUtil {
             JSONObject jsonObject = JSON.parseObject(json);
             return JSON.toJavaObject(jsonObject, c);
         } catch (Exception e) {
-            LOGGER.error(e.getMessage());
+            log.error(e.getMessage());
         }
         return null;
     }

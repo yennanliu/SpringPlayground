@@ -10,6 +10,12 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    private final String APP_PRIFIX = "/app";
+    private final String TOPIC_PRIFIX = "/topic";
+    private final String PRIVATE_PRIFIX = "/private";
+
+    private final String WS_PATH = "ws";
+
     /**
      * Stomp : spring implement WebSocket via Stomp
      * <p>
@@ -20,16 +26,15 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 
         //WebSocketMessageBrokerConfigurer.super.registerStompEndpoints(registry);
-        registry.addEndpoint("ws").withSockJS(); // if browser not support websocket, use SockJS instead
+        registry.addEndpoint(WS_PATH).withSockJS(); // if browser not support websocket, use SockJS instead
     }
-
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
 
         //WebSocketMessageBrokerConfigurer.super.configureMessageBroker(registry);
-        registry.setApplicationDestinationPrefixes("/app"); // (client -> server)
-        registry.enableSimpleBroker("/topic", "/private"); // (server -> client)
+        registry.setApplicationDestinationPrefixes(APP_PRIFIX); // (client -> server)
+        registry.enableSimpleBroker(TOPIC_PRIFIX, PRIVATE_PRIFIX); // (server -> client)
     }
 
     //

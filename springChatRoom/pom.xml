@@ -17,7 +17,8 @@
 	<description>Demo project for Spring Boot</description>
 
 	<properties>
-		<java.version>11</java.version>
+		<!-- TODO : check if use JDK 11 or 17 -->
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>

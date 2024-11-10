@@ -1,7 +1,7 @@
 package com.yen.springChatRoom.controller;
 
-import com.yen.springChatRoom.bean.Message;
 import com.yen.springChatRoom.bean.ChatMessage;
+import com.yen.springChatRoom.bean.Message;
 import com.yen.springChatRoom.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,11 +10,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
@@ -43,7 +41,7 @@ public class ChatController {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
+    private final String USER_NAME = "username";
 
     /**
      *  single mode : read msg from FE, and send to
@@ -70,23 +68,21 @@ public class ChatController {
             //redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage)));
             redisTemplate.convertAndSend(msgToAll, JsonUtil.parseObjToJson(chatMessage));
         }catch (Exception e){
-            LOGGER.error("send msg error : " + e.getMessage(), e);
+            log.error("send msg error : " + e.getMessage(), e);
         }
     }
 
     @MessageMapping("/chat.addUser")
     public void addUser(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
 
-        LOGGER.info("User added in Chatroom:" + chatMessage.getSender());
+        log.info("User added in Chatroom:" + chatMessage.getSender());
         try {
-            headerAccessor.getSessionAttributes().put("username", chatMessage.getSender());
+            headerAccessor.getSessionAttributes().put(USER_NAME, chatMessage.getSender());
             redisTemplate.opsForSet().add(onlineUsers, chatMessage.getSender());
             redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-
-            // show online user
-
+            // TODO : show online user
         } catch (Exception e) {
-            LOGGER.error(e.getMessage(), e);
+            log.error(e.getMessage(), e);
         }
     }
 
@@ -96,10 +92,8 @@ public class ChatController {
 
         log.info("handlePrivateMessage : username = " + username + " message = " + message);
         // save to redis
-
         // redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
         redisTemplate.opsForSet().add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
-
         simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
     }
 

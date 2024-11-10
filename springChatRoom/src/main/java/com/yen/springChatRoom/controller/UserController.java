@@ -1,8 +1,7 @@
 package com.yen.springChatRoom.controller;
 
 import com.yen.springChatRoom.bean.OnlineUser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -15,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+@Slf4j
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -28,18 +28,16 @@ public class UserController {
     @Value("${redis.channel.userStatus}")
     private String userStatus;
 
-    final String onlineUserKey = "websocket.onlineUsers";
+    private final String onlineUserKey = "websocket.onlineUsers";
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChatController.class);
 
     @GetMapping("/online_user")
     public List<String> getOnlineUser(){
 
         Set<String> resultSet = redisTemplate.opsForSet().members(onlineUserKey);
-        System.out.println("(getOnlineUser) resultSet = " + resultSet);
+        log.info("(getOnlineUser) resultSet = " + resultSet);
         // TODO : optimize below
         OnlineUser onlineUser = new OnlineUser();
         List<String> users = new ArrayList<>();
