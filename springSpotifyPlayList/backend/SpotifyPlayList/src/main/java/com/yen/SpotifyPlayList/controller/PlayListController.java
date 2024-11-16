@@ -32,7 +32,8 @@ public class PlayListController {
 
         try {
             Playlist playlist = playListService.getPlaylistById(playListId);
-            return ResponseEntity.status(HttpStatus.OK).body(playlist);
+            //return ResponseEntity.status(HttpStatus.OK).body(playlist);
+            return ResponseEntity.status(HttpStatus.OK).body(playlist.getId());
         } catch (Exception e) {
             log.error("getPlayListWithId error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());

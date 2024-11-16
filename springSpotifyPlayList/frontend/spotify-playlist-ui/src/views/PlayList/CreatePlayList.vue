@@ -56,6 +56,8 @@ export default {
         if (response.status === 200) {
           this.playlistCreated = true;
           this.playlistCreationError = null; // Clear error if successful
+          this.createdPlaylistId = response.data.id; // Store the playlist ID
+          console.log(">>> Created playlist ID =", this.createdPlaylistId);
         } else {
           throw new Error("Failed to create playlist");
         }
