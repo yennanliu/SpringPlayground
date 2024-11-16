@@ -28,7 +28,9 @@
       </div>
 
       <div class="button-group">
-        <button type="submit" class="btn btn-outline-light">Get Recommend</button>
+        <button type="submit" class="btn btn-outline-light">
+          Get Recommend
+        </button>
         <button
           type="button"
           class="btn btn-outline-light"
@@ -69,6 +71,14 @@
       </div>
     </div>
     <div v-else>Loading...</div>
+    <!-- Display Loading Indicator or Tracks -->
+    <div v-if="isLoading" class="loading-indicator">
+      Loading recommendations...
+    </div>
+    <!-- Error message -->
+    <div v-if="getRecommendError" class="alert alert-danger mt-3">
+      {{ getRecommendError }}
+    </div>
   </div>
 </template>
 
@@ -82,10 +92,13 @@ export default {
       playlistFeatureId: "",
       playlistId: "",
       addToPlayList: false,
+      isLoading: false, // Loading state
+      getRecommendError: null,
     };
   },
   methods: {
     async getRecommendWithPlayList() {
+      this.isLoading = true; // Start loading
       try {
         //sthis.playlistFeatureId = "1VxF9hsEnBWM1CAXjzecMU"
         console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId);
@@ -101,7 +114,10 @@ export default {
         const data = await response.json();
         this.tracks = data;
       } catch (error) {
+        this.getRecommendError = error.message; // Set error message
         console.error(error);
+      } finally {
+        this.isLoading = false; // End loading
       }
     },
 
@@ -193,6 +209,19 @@ export default {
 .btn-outline-light:hover {
   background-color: #1db954;
   color: #fff;
+}
+
+.alert {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.alert-success {
+  color: #28a745;
+}
+
+.alert-danger {
+  color: #dc3545;
 }
 
 .button-group {
