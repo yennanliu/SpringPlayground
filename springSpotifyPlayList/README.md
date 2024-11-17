@@ -10,7 +10,15 @@
 
 <p align="center"><img src ="./doc/pic/spotify_app_5.png"></p>
 
+
+## Architecture
+
+<p align="center"><img src ="./doc/pic/Arch_v1.svg"></p>
+
 ## Motivations
+
+> [!NOTE]  
+> Here explain why build this app
 
 - Why
 
@@ -24,6 +32,7 @@ Build this e2e app, so can offer above feature via API leverage.
 - What
 
 A full stack app (FE + BE) Spotify app. Features as below:
+
 1. Song recommendation based on ML and input values
 2. Artist/Song query : show artist/Song spotify data
 3. Album query : songs preview, show spotigy Album data
@@ -49,6 +58,9 @@ A full stack app (FE + BE) Spotify app. Features as below:
 - Step 4. update `baseURL` at FE app : [App.vue](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/frontend/spotify-playlist-ui/src/App.vue#L33)
 - Step 5. update `spotify.redirectURL` at BE app (same as the one setup as step 3):
 [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L6)
+
+> [!TIP]
+> Steps run this app.
 
 ### Run (Docker)
 ```bash
@@ -118,8 +130,6 @@ docker logs <container_id>
 ```
 
 </details>
-
-## Architecture
 
 
 ## API
