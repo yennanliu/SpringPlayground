@@ -18,4 +18,5 @@
 
 ## Ref
 
-- todo
+- Uber ride API:
+	- https://developer.uber.com/docs/riders/ride-requests/tutorials/api/introduction
