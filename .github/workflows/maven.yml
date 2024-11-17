@@ -28,7 +28,7 @@ jobs:
     # - name: Build springBootBlog
     #   run: cd springBootBlog && mvn package
     - name: Build springCloud1
-      run: cd springAdvance/springCloud1 && mvn package
+      run: cd projects_advanced/springCloud1 && mvn package
     - name: Build springCourseSystem
       run: cd springCourseSystem && mvn package
     - name: Build EcommerceGuli
