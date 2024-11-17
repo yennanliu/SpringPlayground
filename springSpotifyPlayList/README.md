@@ -10,6 +10,9 @@
 
 <p align="center"><img src ="./doc/pic/spotify_app_5.png"></p>
 
+<p align="center"><img src ="./doc/pic/spotify_app_6.png"></p>
+
+<p align="center"><img src ="./doc/pic/spotify_app_7.png"></p>
 
 ## Architecture
 
@@ -59,8 +62,6 @@ A full stack app (FE + BE) Spotify app. Features as below:
 - Step 5. update `spotify.redirectURL` at BE app (same as the one setup as step 3):
 [application.properties](https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/backend/SpotifyPlayList/src/main/resources/application.properties#L6)
 
-> [!TIP]
-> Steps run this app.
 
 ### Run (Docker)
 ```bash
