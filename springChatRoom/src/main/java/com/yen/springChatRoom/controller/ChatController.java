@@ -1,19 +1,17 @@
 package com.yen.springChatRoom.controller;
 
 import com.yen.springChatRoom.bean.ChatMessage;
-import com.yen.springChatRoom.bean.Message;
 import com.yen.springChatRoom.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Slf4j
 @Controller
@@ -33,6 +31,7 @@ public class ChatController {
   // TODO : check difference ? RedisTemplate VS RedisTemplate<String, String>
   @Autowired private RedisTemplate<String, String> redisTemplate;
   @Autowired private SimpMessagingTemplate simpMessagingTemplate;
+
 
   /** single mode : read msg from FE, and send to other users (@SendTo("/topic/public")) directly */
   //    @MessageMapping("/chat.sendMessage")
@@ -74,15 +73,19 @@ public class ChatController {
   }
 
   // TODO : check @DestinationVariable ?
-  @RequestMapping("/app/private/{username}")
-  public void handlePrivateMessage(@DestinationVariable String username, Message message) {
+  // @RequestMapping("/app/private/{username}")
+  @MessageMapping("/chat.sendMessage") // This will be called when a user sends a message
+  public void handlePrivateMessage(@RequestBody ChatMessage chatMessage) {
 
-    log.info("handlePrivateMessage : username = " + username + " message = " + message);
+    // log.info("handlePrivateMessage : username = " + username + " message = " + message);
     // save to redis
     // redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));
-    redisTemplate
-        .opsForSet()
-        .add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
-    simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
+    //    redisTemplate
+    //        .opsForSet()
+    //        .add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
+    //    simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
+    // Send the message to the specific user
+    simpMessagingTemplate.convertAndSendToUser(
+        chatMessage.getReceiver(), "/queue/private", chatMessage);
   }
 }

@@ -5,6 +5,8 @@ public class ChatMessage {
   private String content;
   private String sender;
 
+  private String receiver;
+
   public MessageType getType() {
     return type;
   }
@@ -29,18 +31,22 @@ public class ChatMessage {
     this.sender = sender;
   }
 
+  public void setReceiver(String sender) {
+    this.receiver = receiver;
+  }
+
+  public String getReceiver() {
+    return receiver;
+  }
+
   @Override
   public String toString() {
-    return "ChatMessage{"
-        + "type="
-        + type
-        + ", content='"
-        + content
-        + '\''
-        + ", sender='"
-        + sender
-        + '\''
-        + '}';
+    return "ChatMessage{" +
+            "type=" + type +
+            ", content='" + content + '\'' +
+            ", sender='" + sender + '\'' +
+            ", receiver='" + receiver + '\'' +
+            '}';
   }
 
   public enum MessageType {
