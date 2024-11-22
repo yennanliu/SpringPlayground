@@ -74,7 +74,7 @@ public class ChatController {
 
   // TODO : check @DestinationVariable ?
   // @RequestMapping("/app/private/{username}")
-  @MessageMapping("/chat.sendMessage") // This will be called when a user sends a message
+  @MessageMapping("/chat.sendPrivateMessage") // This will be called when a user sends a message
   public void handlePrivateMessage(@RequestBody ChatMessage chatMessage) {
 
     // log.info("handlePrivateMessage : username = " + username + " message = " + message);
