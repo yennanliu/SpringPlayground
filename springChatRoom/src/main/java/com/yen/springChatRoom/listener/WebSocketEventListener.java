@@ -58,13 +58,22 @@ public class WebSocketEventListener {
 
         StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
+        log.info(">>> (handleWebSocketDisconnectListener) headerAccessor = " + headerAccessor);
+
         String username = (String) headerAccessor.getSessionAttributes().get("username");
+        String receiver = (String) headerAccessor.getSessionAttributes().get("receiver");
 
         if (username != null) {
             log.info("User Disconnected : " + username);
             ChatMessage chatMessage = new ChatMessage();
             chatMessage.setType(ChatMessage.MessageType.LEAVE);
             chatMessage.setSender(username);
+
+            // TODO : double check ??? (for private chat)
+            if (receiver != null){
+                chatMessage.setReceiver(receiver);
+            }
+
             try {
                 redisTemplate.opsForSet().remove(onlineUsers, username);
                 redisTemplate.convertAndSend(userStatus, JsonUtil.parseObjToJson(chatMessage));

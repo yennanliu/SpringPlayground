@@ -75,7 +75,7 @@ public class ChatController {
   // TODO : check @DestinationVariable ?
   // @RequestMapping("/app/private/{username}")
   @MessageMapping("/chat.sendPrivateMessage") // This will be called when a user sends a message
-  public void handlePrivateMessage(@RequestBody ChatMessage chatMessage) {
+  public void handlePrivateMessage(@Payload ChatMessage chatMessage) {
 
     // log.info("handlePrivateMessage : username = " + username + " message = " + message);
     // save to redis
@@ -85,7 +85,10 @@ public class ChatController {
     //        .add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
     //    simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
     // Send the message to the specific user
+    log.info(">>> chatMessage  = " + chatMessage);
+    //log.info(">>> chatMessage.getReceiver() = " + chatMessage.getReceiver());
+    // TODO : fix below hardcode
     simpMessagingTemplate.convertAndSendToUser(
-        chatMessage.getReceiver(), "/queue/private", chatMessage);
+        "zzzz", "/queue/private", chatMessage);
   }
 }
