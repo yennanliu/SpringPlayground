@@ -30,22 +30,29 @@ public class ChatMessage {
     this.sender = sender;
   }
 
-  public void setReceiver(String sender) {
-    this.receiver = receiver;
-  }
-
   public String getReceiver() {
     return receiver;
   }
 
+  public void setReceiver(String sender) {
+    this.receiver = receiver;
+  }
+
   @Override
   public String toString() {
-    return "ChatMessage{" +
-            "type=" + type +
-            ", content='" + content + '\'' +
-            ", sender='" + sender + '\'' +
-            ", receiver='" + receiver + '\'' +
-            '}';
+    return "ChatMessage{"
+        + "type="
+        + type
+        + ", content='"
+        + content
+        + '\''
+        + ", sender='"
+        + sender
+        + '\''
+        + ", receiver='"
+        + receiver
+        + '\''
+        + '}';
   }
 
   public enum MessageType {
