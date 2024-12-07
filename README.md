@@ -1,6 +1,6 @@
 # Spring Playground
 
-> POC projects built via Java spring framework
+> Backend/Full stack projects built with Java spring boot framework
 
 <p align="center"><img src ="./doc/pic/springplayground.png"></p>
 
@@ -14,7 +14,7 @@
 - [WareHouse system](https://github.com/yennanliu/SpringPlayground/tree/main/springWarehouse): WareHouse management tool
 - [Blog system](https://github.com/yennanliu/SpringPlayground/tree/main/springBootBlog) : Blog system
 - [ChatRoom](https://github.com/yennanliu/SpringPlayground/tree/main/springChatRoom) : Chat room service with webSocket
-- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/springBasics) : Basic Spring project demo
+- [springBasics](https://github.com/yennanliu/SpringPlayground/tree/main/projects_basic) : Basic Spring project demo
 
 
 ## Structure
