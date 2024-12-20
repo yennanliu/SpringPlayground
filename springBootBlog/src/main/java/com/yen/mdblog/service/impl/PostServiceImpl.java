@@ -7,6 +7,7 @@ import com.yen.mdblog.service.PostService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,8 +17,11 @@ public class PostServiceImpl implements PostService {
   @Autowired PostMapper postMapper;
 
   @Override
+  @Cacheable(value = "authorId", key = "#authorId")
   public List<Post> getPostsById(Integer authorId) {
-
+    // Simulate a time-consuming database operation
+    simulateDelay();
+    System.out.println(">>> Query slow DB get post by userId");
     return postMapper.findById(authorId);
   }
 
@@ -51,4 +55,13 @@ public class PostServiceImpl implements PostService {
     // log.info(">>> updatePost : post = {}", post);
     postMapper.updatePost(post);
   }
+
+  private void simulateDelay() {
+    try {
+      Thread.sleep(3000); // 3 seconds
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+  }
+
 }
