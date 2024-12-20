@@ -58,7 +58,7 @@ public class PostServiceImpl implements PostService {
 
   private void simulateDelay() {
     try {
-      Thread.sleep(3000); // 3 seconds
+      Thread.sleep(10000); // 10 seconds
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
     }
