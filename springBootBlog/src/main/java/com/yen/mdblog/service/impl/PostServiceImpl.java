@@ -3,6 +3,7 @@ package com.yen.mdblog.service.impl;
 import com.yen.mdblog.entity.Dto.SearchRequest;
 import com.yen.mdblog.entity.Po.Post;
 import com.yen.mdblog.mapper.PostMapper;
+import com.yen.mdblog.service.CacheService;
 import com.yen.mdblog.service.PostService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -16,14 +17,28 @@ public class PostServiceImpl implements PostService {
 
   @Autowired PostMapper postMapper;
 
-  @Override
-  @Cacheable(value = "authorId", key = "#authorId")
-  public List<Post> getPostsById(Integer authorId) {
-    // Simulate a time-consuming database operation
-    simulateDelay();
-    System.out.println(">>> Query slow DB get post by userId");
-    return postMapper.findById(authorId);
-  }
+  @Autowired private CacheService cacheService;
+
+    @Override
+    @Cacheable(value = "authorId", key = "#authorId")
+    public List<Post> getPostsById(Integer authorId) {
+      // Simulate a time-consuming database operation
+      simulateDelay();
+      System.out.println(">>> Query slow DB get post by userId");
+      return postMapper.findById(authorId);
+    }
+//
+//  @Override
+//  public List<Post> getPostsById(Integer authorId) {
+//    return cacheService.cacheResult(
+//        "authorId",
+//        "#authorId",
+//        () -> {
+//          simulateDelay();
+//          System.out.println(">>> Query slow DB get post by userId");
+//          return postMapper.findById(authorId);
+//        });
+//  }
 
   @Override
   public List<Post> getAllPost() {
