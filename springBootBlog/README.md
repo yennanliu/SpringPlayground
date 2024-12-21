@@ -140,6 +140,9 @@ nohup java -jar target/mdblog-0.0.1-SNAPSHOT.jar &
 | `GET /` | GET |Swagger | 	http://localhost:8888/swagger-ui.html |Api page|
 
 
+## App with `Redis cache`
+- https://github.com/yennanliu/SpringPlayground/pull/192
+
 ## TODO
 
 - UI improvement
