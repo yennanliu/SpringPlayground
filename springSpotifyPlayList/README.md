@@ -176,8 +176,8 @@ docker logs <container_id>
 	- https://github.com/hardikSinghBehl/spotifyApiSpring/tree/master
 
 
-- ML ref notebook
-	- https://github.com/yennanliu/SpringPlayground/blob/main/springSpotifyPlayList/doc/Spotify_ApI_call_demo.ipynb?fbclid=IwAR1ZhL081euAUCeB54kaMMNqCHBN1HnuLLTYpnpjNHAf4MMFW8VkgdP5N1o
+- ML notebook
+	- https://github.com/yennanliu/SpringPlayground/tree/main/springSpotifyPlayList/nb
 	- https://medium.com/@shruti.somankar/building-a-music-recommendation-system-using-spotify-api-and-python-f7418a21fa41
 
 
