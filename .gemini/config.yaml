@@ -7,3 +7,52 @@ code_review:
     help: false
     summary: true
     code_review: true
+  pull_request_updated:
+    help: false
+    summary: true
+    code_review: true
+  pull_request_merged:
+    summary: true
+
+security_review:
+  enable: true
+  severity_threshold: HIGH
+  report_format: full
+  notify: true
+
+linting:
+  enable: true
+  rules:
+    - style
+    - complexity
+    - duplication
+  max_warnings: 10
+
+testing:
+  enable: true
+  test_coverage_threshold: 80
+  required_tests:
+    - unit
+    - integration
+
+performance_review:
+  enable: true
+  max_execution_time: 2000 # in milliseconds
+  memory_usage_threshold: 500MB
+
+documentation:
+  check_quality: true
+  enforce_min_coverage: 60
+  required_sections:
+    - overview
+    - usage
+    - installation
+    - configuration
+    - troubleshooting
+
+# notifications:
+#   enable: true
+#   notify_on:
+#     - pull_request_opened
+#     - pull_request_updated
+#     - security_issue_detected
