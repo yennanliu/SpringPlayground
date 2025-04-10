@@ -10,6 +10,7 @@ Ref
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>Spring Boot WebSocket Chat Application</title>
     <link rel="stylesheet" href="/css/main.css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 <noscript>
@@ -18,44 +19,73 @@ Ref
 
 <div id="username-page">
     <div class="username-page-container">
-        <h1 class="title">Type your username</h1>
+        <h1 class="title">Welcome to Chat Room</h1>
         <form id="usernameForm" name="usernameForm">
             <div class="form-group">
-                <input type="text" id="name" placeholder="Username" autocomplete="off" class="form-control" />
+                <input type="text" id="name" placeholder="Enter your username" autocomplete="off" class="form-control" />
             </div>
             <div class="form-group">
-                <button type="submit" class="accent username-submit">Start Chatting</button>
+                <button type="submit" class="accent username-submit">Join Chat</button>
             </div>
         </form>
     </div>
 </div>
 
 <div id="chat-page" class="hidden">
-    <div class="chat-container">
-        <div class="chat-header">
-            <h2>Spring WebSocket Chat Demo</h2>
-        </div>
-        <div class="connecting">
-            Connecting...
-        </div>
-        <ul id="messageArea">
-
-        </ul>
-        <form id="messageForm" name="messageForm">
-            <div class="form-group">
-                <div class="input-group clearfix">
-                    <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
-                    <button type="submit" class="primary">Send</button>
-                </div>
+    <div class="chat-layout">
+        <!-- Online Users Sidebar -->
+        <div id="online-users" class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-users"></i> Online Users</h2>
+                <span class="user-status">
+                    <span class="green-light"></span>
+                    <span id="current-user"></span>
+                </span>
             </div>
-        </form>
-    </div>
+            <ul id="userList"></ul>
+        </div>
 
-    <div id="online-users">
-        <h2>Online Users</h2>
-        <ul id="userList"></ul>
-    </div>
+        <!-- Chat Area -->
+        <div class="chat-container">
+            <!-- Public Chat -->
+            <div class="chat-section">
+                <div class="chat-header">
+                    <h2><i class="fas fa-globe"></i> Public Chat</h2>
+                </div>
+                <div class="connecting">
+                    Connecting...
+                </div>
+                <div class="messages-container">
+                    <ul id="messageArea"></ul>
+                </div>
+                <form id="messageForm" name="messageForm" class="message-form">
+                    <div class="input-group">
+                        <input type="text" id="message" placeholder="Type a message..." autocomplete="off" class="form-control"/>
+                        <button type="submit" class="primary"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </form>
+            </div>
 
+            <!-- Private Chat -->
+            <div id="private-chat" class="chat-section hidden">
+                <div class="chat-header">
+                    <div class="private-chat-header">
+                        <h2><i class="fas fa-user-friends"></i> Chat with <span id="private-chat-user"></span></h2>
+                        <button id="close-private-chat" class="default"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="messages-container">
+                    <ul id="privateMessageArea"></ul>
+                </div>
+                <form id="privateMessageForm" name="privateMessageForm" class="message-form">
+                    <div class="input-group">
+                        <input type="text" id="privateMessage" placeholder="Type a private message..." autocomplete="off" class="form-control"/>
+                        <button type="submit" class="primary"><i class="fas fa-paper-plane"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.4/sockjs.min.js"></script>

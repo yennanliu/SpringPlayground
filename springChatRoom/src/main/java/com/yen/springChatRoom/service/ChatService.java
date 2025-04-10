@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 public class ChatService {
 
   private final String PUBLIC_TOPIC = "/topic/public";
+  private final String PRIVATE_TOPIC = "/topic/private";
 
   @Autowired private SimpMessageSendingOperations simpMessageSendingOperations;
 
@@ -26,5 +27,21 @@ public class ChatService {
 
     log.info("Alert user online by simpMessageSendingOperations:" + chatMessage.toString());
     simpMessageSendingOperations.convertAndSend(PUBLIC_TOPIC, chatMessage);
+  }
+
+  public void sendPrivateMessage(@Payload ChatMessage chatMessage) {
+    log.info("Send private message by simpMessageSendingOperations:" + chatMessage.toString());
+    // Send to recipient
+    simpMessageSendingOperations.convertAndSendToUser(
+        chatMessage.getRecipient(),
+        PRIVATE_TOPIC,
+        chatMessage
+    );
+    // Send copy to sender
+    simpMessageSendingOperations.convertAndSendToUser(
+        chatMessage.getSender(),
+        PRIVATE_TOPIC,
+        chatMessage
+    );
   }
 }

@@ -26,6 +26,9 @@ public class RedisListenerBean {
     @Value("${redis.channel.userStatus}")
     private String userStatus;
 
+    @Value("${redis.channel.private}")
+    private String privateChannel;
+
     /**
      * Redis channel bean
      * <p>
@@ -41,7 +44,8 @@ public class RedisListenerBean {
         // listen msgToAll (Redis channel)
         container.addMessageListener(listenerAdapter, new PatternTopic(msgToAll));
         container.addMessageListener(listenerAdapter, new PatternTopic(userStatus));
-        log.info("Subscribe Redis channel : " + msgToAll);
+        container.addMessageListener(listenerAdapter, new PatternTopic(privateChannel + ".*")); // Listen to all private channels
+        log.info("Subscribe Redis channels: " + msgToAll + ", " + userStatus + ", " + privateChannel + ".*");
         return container;
     }
 

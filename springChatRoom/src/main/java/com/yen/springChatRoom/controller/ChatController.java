@@ -15,6 +15,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Set;
+
 @Slf4j
 @Controller
 public class ChatController {
@@ -84,5 +86,80 @@ public class ChatController {
         .opsForSet()
         .add(privateChannel + "." + username, JsonUtil.parseObjToJson(message));
     simpMessagingTemplate.convertAndSendToUser(username, "/topic/private", message);
+  }
+
+  @MessageMapping("/chat.private")
+  public void sendPrivateMessage(@Payload ChatMessage chatMessage) {
+    try {
+      String recipient = chatMessage.getRecipient();
+      if (recipient != null && !recipient.isEmpty()) {
+        chatMessage.setType(ChatMessage.MessageType.PRIVATE);
+        
+        // Save private message to Redis
+        String privateChannelKey = privateChannel + "." + recipient + "." + chatMessage.getSender();
+        redisTemplate.opsForSet().add(privateChannelKey, JsonUtil.parseObjToJson(chatMessage));
+        
+        // Send to specific user
+        simpMessagingTemplate.convertAndSendToUser(
+            recipient,
+            "/topic/private",
+            chatMessage
+        );
+        
+        // Send a copy to sender
+        simpMessagingTemplate.convertAndSendToUser(
+            chatMessage.getSender(),
+            "/topic/private",
+            chatMessage
+        );
+        
+        log.info("Private message sent from {} to {}", chatMessage.getSender(), recipient);
+      }
+    } catch (Exception e) {
+      log.error("Error sending private message: " + e.getMessage(), e);
+    }
+  }
+
+  // Get private chat history
+  @MessageMapping("/chat.getPrivateHistory")
+  public void getPrivateMessageHistory(@Payload ChatMessage chatMessage) {
+    try {
+      String user1 = chatMessage.getSender();
+      String user2 = chatMessage.getRecipient();
+      
+      // Get messages from both directions
+      String channelKey1 = privateChannel + "." + user1 + "." + user2;
+      String channelKey2 = privateChannel + "." + user2 + "." + user1;
+      
+      Set<String> messages1 = redisTemplate.opsForSet().members(channelKey1);
+      Set<String> messages2 = redisTemplate.opsForSet().members(channelKey2);
+      
+      // Send history to requesting user
+      if (messages1 != null) {
+        for (String msg : messages1) {
+          ChatMessage message = JsonUtil.parseJsonToObj(msg, ChatMessage.class);
+          simpMessagingTemplate.convertAndSendToUser(
+              user1,
+              "/topic/private.history",
+              message
+          );
+        }
+      }
+      
+      if (messages2 != null) {
+        for (String msg : messages2) {
+          ChatMessage message = JsonUtil.parseJsonToObj(msg, ChatMessage.class);
+          simpMessagingTemplate.convertAndSendToUser(
+              user1,
+              "/topic/private.history",
+              message
+          );
+        }
+      }
+      
+      log.info("Private chat history sent for users {} and {}", user1, user2);
+    } catch (Exception e) {
+      log.error("Error getting private message history: " + e.getMessage(), e);
+    }
   }
 }
