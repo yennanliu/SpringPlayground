@@ -4,6 +4,7 @@ public class ChatMessage {
   private MessageType type;
   private String content;
   private String sender;
+  private String recipient;
 
   public MessageType getType() {
     return type;
@@ -29,6 +30,14 @@ public class ChatMessage {
     this.sender = sender;
   }
 
+  public String getRecipient() {
+    return recipient;
+  }
+
+  public void setRecipient(String recipient) {
+    this.recipient = recipient;
+  }
+
   @Override
   public String toString() {
     return "ChatMessage{"
@@ -40,12 +49,16 @@ public class ChatMessage {
         + ", sender='"
         + sender
         + '\''
+        + ", recipient='"
+        + recipient
+        + '\''
         + '}';
   }
 
   public enum MessageType {
     CHAT,
     JOIN,
-    LEAVE
+    LEAVE,
+    PRIVATE
   }
 }

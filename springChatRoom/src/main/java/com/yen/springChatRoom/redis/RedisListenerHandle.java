@@ -22,6 +22,9 @@ public class RedisListenerHandle extends MessageListenerAdapter {
   @Value("${redis.channel.userStatus}")
   private String userStatus;
 
+  @Value("${redis.channel.private}")
+  private String privateChannel;
+
   @Value("${server.port}")
   private String serverPort;
 
@@ -54,6 +57,11 @@ public class RedisListenerHandle extends MessageListenerAdapter {
       ChatMessage chatMessage = JsonUtil.parseJsonToObj(rawMsg, ChatMessage.class);
       if (chatMessage != null) {
         chatService.alertUserStatus(chatMessage);
+      }
+    } else if (topic != null && topic.startsWith(privateChannel)) {
+      ChatMessage chatMessage = JsonUtil.parseJsonToObj(rawMsg, ChatMessage.class);
+      if (chatMessage != null && chatMessage.getType() == ChatMessage.MessageType.PRIVATE) {
+        chatService.sendPrivateMessage(chatMessage);
       }
     } else {
       log.warn("No further operation with this topic!");
