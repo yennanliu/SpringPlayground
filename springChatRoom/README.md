@@ -4,6 +4,11 @@ Build a chat system with webSocket, run in Spring boot system.
 
 - UI : http://localhost:8080
 
+
+<p align="center"><img src ="./doc/pic/chat_room_1.png"></p>
+
+<p align="center"><img src ="./doc/pic/chat_room_2.png"></p>
+
 ## Tech
 - Java 17
 - spring boot 3.0.12
@@ -85,3 +90,4 @@ java -jar target/springChatRoom-0.0.1-SNAPSHOT.jar
 
 - redisTemplate API cmd
   - https://ost.51cto.com/posts/2333
+s
