@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="vacation-container">
     <h2>User Vacations</h2>
 
     <FullCalendar
@@ -35,24 +35,42 @@
     </b-modal>
 
     <h2>Vacation List</h2>
-    <table class="table">
-      <thead>
-        <tr>
-          <th>User ID</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="vacation in vacations" :key="vacation.id" :style="{ backgroundColor: getStatusColor(vacation.status) }">
-          <td>{{ vacation.userId }}</td>
-          <td>{{ vacation.startDate }}</td>
-          <td>{{ vacation.endDate }}</td>
-          <td>{{ vacation.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="vacation-list">
+      <div 
+        v-for="(vacation, index) in vacations" 
+        :key="index"
+        class="vacation-bar"
+        @click="selectVacation(vacation)"
+      >
+        <div class="vacation-period">{{ formatDate(vacation.startDate) }} - {{ formatDate(vacation.endDate) }}</div>
+        <div class="vacation-type">{{ vacation.type }}</div>
+        <div class="vacation-status" :class="vacation.status.toLowerCase()">{{ vacation.status }}</div>
+      </div>
+    </div>
+
+    <div v-if="selectedVacation" class="vacation-details">
+      <h3>Vacation Details</h3>
+      <div class="detail-row">
+        <span class="label">Period:</span>
+        <span class="value">{{ formatDate(selectedVacation.startDate) }} - {{ formatDate(selectedVacation.endDate) }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Duration:</span>
+        <span class="value">{{ calculateDays(selectedVacation.startDate, selectedVacation.endDate) }} days</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Type:</span>
+        <span class="value">{{ selectedVacation.type }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Status:</span>
+        <span class="value" :class="selectedVacation.status.toLowerCase()">{{ selectedVacation.status }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Comments:</span>
+        <span class="value">{{ selectedVacation.comments || 'None' }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -75,6 +93,8 @@ export default {
       },
       plugins: ["interaction", "dayGrid", "timeGrid"],
       editable: true,
+      loading: false,
+      error: null
     };
   },
 
@@ -123,9 +143,42 @@ export default {
           return "white"; // Default color
       }
     },
+    async fetchVacationData() {
+      this.loading = true;
+      this.error = null;
+      try {
+        // Replace with your actual API endpoint
+        const response = await this.$http.get('/api/employee/vacations');
+        this.vacations = response.data;
+      } catch (err) {
+        console.error('Failed to fetch vacation data:', err);
+        this.error = 'Failed to load vacation data. Please try again later.';
+      } finally {
+        this.loading = false;
+      }
+    },
+    selectVacation(vacation) {
+      this.selectedVacation = vacation;
+    },
+    formatDate(dateString) {
+      if (!dateString) return '';
+      const date = new Date(dateString);
+      return date.toLocaleDateString();
+    },
+    calculateDays(startDate, endDate) {
+      if (!startDate || !endDate) return 0;
+      const start = new Date(startDate);
+      const end = new Date(endDate);
+      const diffTime = Math.abs(end - start);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1; // +1 to include both start and end days
+      return diffDays;
+    }
   },
   mounted() {
     this.fetchUserVacations();
+  },
+  created() {
+    this.fetchVacationData();
   },
 };
 </script>
@@ -142,5 +195,73 @@ export default {
 
 .table tbody tr:hover {
   background-color: #f5f5f5;
+}
+
+.vacation-list {
+  margin: 20px 0;
+}
+
+.vacation-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.vacation-bar:hover {
+  background-color: #e0e0e0;
+}
+
+.vacation-period {
+  font-weight: 500;
+}
+
+.vacation-status {
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.9em;
+}
+
+.vacation-status.approved {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.vacation-status.pending {
+  background-color: #fff9c4;
+  color: #f57f17;
+}
+
+.vacation-status.rejected {
+  background-color: #ffcdd2;
+  color: #c62828;
+}
+
+.vacation-details {
+  margin-top: 20px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+  border-left: 4px solid #3f51b5;
+}
+
+.detail-row {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.detail-row .label {
+  width: 100px;
+  font-weight: 500;
+  color: #555;
+}
+
+.detail-row .value {
+  flex: 1;
 }
 </style>
