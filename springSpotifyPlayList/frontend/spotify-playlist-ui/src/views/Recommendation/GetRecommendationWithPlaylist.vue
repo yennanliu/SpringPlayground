@@ -175,8 +175,9 @@ export default {
       
       try {
         console.log(">>> this.playlistFeatureId = " + this.playlistFeatureId);
+        const baseUrl = this.baseURL.endsWith('/') ? this.baseURL.slice(0, -1) : this.baseURL;
         const response = await fetch(
-          `${this.baseURL}/recommend/playlist/${this.playlistFeatureId}`,
+          `${baseUrl}/recommend/playlist/${this.playlistFeatureId}`,
           {
             method: "GET",
           }
@@ -202,7 +203,8 @@ export default {
       try {
         this.trackURIs = this.tracks.tracks.map((track) => track.uri);
 
-        const response = await fetch(`${this.baseURL}/playlist/addSong`, {
+        const baseUrl = this.baseURL.endsWith('/') ? this.baseURL.slice(0, -1) : this.baseURL;
+        const response = await fetch(`${baseUrl}/playlist/addSong`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

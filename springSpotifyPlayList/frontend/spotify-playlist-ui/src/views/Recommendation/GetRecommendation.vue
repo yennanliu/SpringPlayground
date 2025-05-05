@@ -266,7 +266,8 @@ export default {
       this.getRecommendError = null;
       
       try {
-        const response = await fetch(`${this.baseURL}/recommend/`, {
+        const baseUrl = this.baseURL.endsWith('/') ? this.baseURL.slice(0, -1) : this.baseURL;
+        const response = await fetch(`${baseUrl}/recommend`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
