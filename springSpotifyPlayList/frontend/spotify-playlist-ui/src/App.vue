@@ -1,61 +1,82 @@
 <template>
   <div id="app">
     <header>
-      <nav>
-        <router-link to="/">Home</router-link> |
-
-        <!-- Dropdown for User profile with arrow indicator -->
-        <div class="dropdown">
-          <span class="dropdown-label">User Profile ▼</span>
-          <div class="dropdown-content">
-            <router-link to="/profile">User PlaytList</router-link>
-          </div>
+      <div class="navbar">
+        <div class="logo">
+          <router-link to="/">
+            <span class="spotify-text">Spotify</span> Playlist Manager
+          </router-link>
         </div>
-        |
+        <nav>
+          <div class="nav-links">
+            <router-link to="/" class="nav-item">
+              <i class="fas fa-home"></i> Home
+            </router-link>
+            
+            <div class="dropdown">
+              <span class="dropdown-label nav-item">
+                <i class="fas fa-user"></i> Profile <i class="fas fa-chevron-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <router-link to="/profile">Your Playlists</router-link>
+              </div>
+            </div>
+            
+            <div class="dropdown">
+              <span class="dropdown-label nav-item">
+                <i class="fas fa-plus-circle"></i> Create <i class="fas fa-chevron-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <router-link to="/playlist">Create Playlist</router-link>
+              </div>
+            </div>
 
-        <!-- Dropdown for Search options with arrow indicator -->
-        <div class="dropdown">
-          <span class="dropdown-label">Create ▼</span>
-          <div class="dropdown-content">
-            <router-link to="/playlist">Create Playlist</router-link>
-          </div>
-        </div>
+            <div class="dropdown">
+              <span class="dropdown-label nav-item">
+                <i class="fas fa-search"></i> Search <i class="fas fa-chevron-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <router-link to="/search_album">Search Album</router-link>
+                <router-link to="/search_artist">Search Artist</router-link>
+                <router-link to="/album">Search by Album ID</router-link>
+              </div>
+            </div>
 
-        <!-- Dropdown for Search options with arrow indicator -->
-        <div class="dropdown">
-          <span class="dropdown-label">Search ▼</span>
-          <div class="dropdown-content">
-            <router-link to="/search_album">Search Album</router-link>
-            <router-link to="/search_artist">Search Artist</router-link>
-            <router-link to="/album">Search Album (by ID)</router-link>
+            <div class="dropdown">
+              <span class="dropdown-label nav-item">
+                <i class="fas fa-music"></i> Recommendation <i class="fas fa-chevron-down"></i>
+              </span>
+              <div class="dropdown-content">
+                <router-link to="/recommendation">Song Recommendation</router-link>
+                <router-link to="/recommendationWithPlayList">Playlist-based Recommendation</router-link>
+              </div>
+            </div>
           </div>
-        </div>
-        |
-
-        <!-- Dropdown for Recommendations options with arrow indicator -->
-        <div class="dropdown">
-          <span class="dropdown-label">Recommendation ▼</span>
-          <div class="dropdown-content">
-            <router-link to="/recommendation">Recommendation</router-link>
-            <router-link to="/recommendationWithPlayList">Recommendation With Playlist</router-link>
-          </div>
-        </div>
-      </nav>
+        </nav>
+      </div>
     </header>
 
-    <div class="auth-status">
-      <!-- Show ✅ or ❌ based on authorization status -->
-      <p>
-        <span v-if="isAuthorized">✅ Authorized</span>
-        <span v-else>❌ Not Authorized</span>
-      </p>
-      <!-- Always show the authorize button -->
-      <button @click="authorize" class="btn btn-outline-light">
-        Authorize with Spotify
-      </button>
+    <div class="auth-container">
+      <div class="auth-status">
+        <span v-if="isAuthorized" class="auth-indicator authorized">
+          <i class="fas fa-check-circle"></i> Authorized
+        </span>
+        <span v-else class="auth-indicator unauthorized">
+          <i class="fas fa-times-circle"></i> Not Authorized
+        </span>
+        <button @click="authorize" class="auth-button">
+          <i class="fab fa-spotify"></i> Connect with Spotify
+        </button>
+      </div>
     </div>
 
-    <router-view :baseURL="baseURL"></router-view>
+    <main>
+      <router-view :baseURL="baseURL"></router-view>
+    </main>
+
+    <footer>
+      <p>© 2023 Spotify Playlist Manager</p>
+    </footer>
   </div>
 </template>
 
@@ -98,92 +119,239 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
+
+:root {
+  --spotify-green: #1DB954;
+  --spotify-black: #191414;
+  --spotify-dark-gray: #282828;
+  --spotify-light-gray: #B3B3B3;
+  --spotify-white: #FFFFFF;
+  --transition-speed: 0.3s;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--spotify-black);
+  color: var(--spotify-white);
+  line-height: 1.6;
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Header */
 header {
-  background-color: #022917;
-  padding: 20px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
-nav {
-  font-size: 0.7rem;
-  font-weight: bold;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
 }
 
-nav a {
-  color: #fff;
-  margin: 0 15px;
+.logo {
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+
+.logo a {
   text-decoration: none;
-  transition: color 0.3s ease;
+  color: var(--spotify-white);
 }
 
-nav a:hover {
-  color: #000;
+.spotify-text {
+  color: var(--spotify-green);
 }
 
-nav a.router-link-exact-active {
-  color: #ffeb3b;
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
 }
 
-.auth-status {
-  margin-top: 20px;
+.nav-item {
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--spotify-white);
+  cursor: pointer;
+  padding: 0.5rem;
+  position: relative;
+  text-decoration: none;
 }
 
-.auth-status .btn {
-  font-size: 1.2rem;
-  padding: 10px 20px;
+.nav-item:hover {
+  color: var(--spotify-green);
 }
 
-/* Dropdown Styling */
+/* Dropdown menus */
 .dropdown {
-  display: inline-block;
   position: relative;
 }
 
 .dropdown-label {
-  cursor: pointer;
-  color: #fff;
-  text-decoration: none;
-  padding: 0 15px;
-  display: inline-block;
-}
-
-.dropdown-label:hover {
-  color: #ffeb3b;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
-  background-color: #fff;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  z-index: 1;
-  min-width: 150px;
-  border-radius: 5px;
+  background-color: var(--spotify-dark-gray);
+  min-width: 200px;
+  border-radius: 4px;
+  padding: 0.5rem 0;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  margin-top: 0.5rem;
+}
+
+.dropdown-content:before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid var(--spotify-dark-gray);
 }
 
 .dropdown:hover .dropdown-content {
   display: block;
+  animation: fadeIn 0.2s ease-out;
 }
 
 .dropdown-content a {
-  color: #000;
-  padding: 10px 15px;
-  display: block;
+  color: var(--spotify-white);
+  padding: 0.75rem 1rem;
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  display: block;
+  font-size: 0.9rem;
+  transition: background-color var(--transition-speed);
 }
 
 .dropdown-content a:hover {
-  background-color: #f1f1f1;
+  background-color: rgba(29, 185, 84, 0.1);
+  color: var(--spotify-green);
+}
+
+/* Auth container */
+.auth-container {
+  background-color: var(--spotify-dark-gray);
+  padding: 0.75rem 2rem;
+}
+
+.auth-status {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.auth-indicator {
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.authorized {
+  color: var(--spotify-green);
+}
+
+.unauthorized {
+  color: #ff5151;
+}
+
+.auth-button {
+  background-color: var(--spotify-green);
+  color: var(--spotify-white);
+  border: none;
+  border-radius: 50px;
+  padding: 0.5rem 1.2rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all var(--transition-speed);
+}
+
+.auth-button:hover {
+  background-color: #1ed760;
+  transform: scale(1.05);
+}
+
+/* Main content */
+main {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Footer */
+footer {
+  background-color: var(--spotify-dark-gray);
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--spotify-light-gray);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px) translateX(-50%); }
+  to { opacity: 1; transform: translateY(0) translateX(-50%); }
+}
+
+/* Router link active state */
+.router-link-active {
+  color: var(--spotify-green) !important;
+  font-weight: 700;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 </style>
