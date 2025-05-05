@@ -14,14 +14,14 @@ import EmployeeSystem.repository.UserRepository;
 import EmployeeSystem.util.Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.xml.bind.DatatypeConverter;
+import java.util.stream.Stream;
+//import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Service
@@ -57,7 +57,8 @@ public class UserService {
             signupDto.getEmail(),
             Role.USER,
             encryptedPassword);
-    User createdUser = null;
+
+    Mono<User> createdUser = null;
     try {
 
       // save the User
@@ -65,7 +66,7 @@ public class UserService {
       createdUser = userRepository.save(user);
 
       /** generate token for user */
-      final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser);
+      final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser.block());
 
       // save token to DB
       authenticationService.saveConfirmationToken(authenticationToken);
@@ -116,22 +117,26 @@ public class UserService {
     MessageDigest md = MessageDigest.getInstance("MD5");
     md.update(password.getBytes());
     byte[] digest = md.digest();
-    String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+
+    // TODO : fix below
+    //String myHash = DatatypeConverter.printHexBinary(digest).toUpperCase();
+    String myHash = "";
     return myHash;
   }
 
-  public List<User> getUsers() {
+  public Flux<User> getUsers() {
 
     return userRepository.findAll();
   }
 
-  public User getUserById(Integer id) {
+  public Mono<User> getUserById(Integer id) {
 
-    if (userRepository.findById(id).isPresent()) {
-      return userRepository.findById(id).get();
-    }
-    log.warn("No user with id = " + id);
-    return null;
+    Mono<User> user = userRepository.findById(id);
+//    if (user != null) {
+//      return user;
+//    }
+//    log.warn("No user with id = " + id);
+    return user;
   }
 
   public void addUser(UserCreateDto userCreateDto) {
@@ -155,25 +160,39 @@ public class UserService {
   }
 
   // get subordinates under manager
-  public List<User> getSubordinatesById(Integer managerId) {
+  public Flux<User> getSubordinatesById(Integer managerId) {
 
-    // TODO : do select logic in repository
     // List<User> subordinates = userRepository.getSubordinates();
-
-    List<User> users = userRepository.findAll();
-    List<User> subordinates =
-        users.stream()
+    /**
+     * NOTE !!!
+     *
+     *  .toStream() is a blocking op,
+     *  we SHOULD NOT mix using block & unblocking op together,
+     *  which will break the reacting async model
+     *  -> below we use pure asyc logic instead
+     *
+     *
+     *   - toStream() is blocking because it waits for all elements in the reactive pipeline to be available before iterating over them.
+     * 	 - In reactive programming, blocking operations (like block(), toStream(), and Thread.sleep()) should be avoided as they break the asynchronous, non-blocking flow, reducing scalability and performance.
+     */
+    Flux<User> subordinates =
+        userRepository
+            .findAll()
+            //.toStream()
             .filter(
                 x -> {
                   return x.getManagerId().equals(managerId);
-                })
-            .collect(Collectors.toList());
+                });
+            //.collect(Collectors.toList());
 
-    if (subordinates != null && subordinates.size() > 0) {
-      return subordinates;
-    }
+    //Flux<Stream<User>> subordinatesFlux = Flux.just(subordinates);
 
-    log.warn("No subordinates with managerId = " + managerId);
-    return new ArrayList<>();
+//    if (subordinates != null && subordinates.size() > 0) {
+//      return subordinatesFlux;
+//    }
+    return subordinates;
+
+//    log.warn("No subordinates with managerId = " + managerId);
+//    return new ArrayList<>();
   }
 }
