@@ -1,7 +1,8 @@
 package com.yen.mdblog.controller;
 
 import com.yen.mdblog.entity.Vo.CreateAuthor;
-import com.yen.mdblog.mapper.AuthorMapper;
+////import com.yen.mdblog.mapper.AuthorMapper;
+//import com.yen.mdblog.repository.AuthorRepository;
 import com.yen.mdblog.service.AuthorService;
 import java.security.Principal;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Log4j2
 public class AuthorRegisterController {
 
-  @Autowired AuthorMapper authorMapper;
+  //@Autowired AuthorMapper authorMapper;
+
+//  @Autowired
+//  AuthorRepository authorRepository;
 
   @Autowired AuthorService authorService;
 
@@ -25,7 +29,8 @@ public class AuthorRegisterController {
   public String register(Model model, Principal principal) {
 
     model.addAttribute("CreateAuthor", new CreateAuthor());
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/register";
   }
 
