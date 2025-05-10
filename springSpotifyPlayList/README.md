@@ -1,14 +1,16 @@
 # Spotify PlayList
 
-<p align="center"><img src ="./doc/pic/spotify_app_1.png"></p>
+<p align="center"><img src ="./doc/pic/spotify_app_v2_1.png"></p>
 
-<p align="center"><img src ="./doc/pic/spotify_app_2.png"></p>
+<p align="center"><img src ="./doc/pic/spotify_app_v2_2.png"></p>
 
-<p align="center"><img src ="./doc/pic/spotify_app_3.png"></p>
+<p align="center"><img src ="./doc/pic/spotify_app_v2_3.png"></p>
 
-<p align="center"><img src ="./doc/pic/spotify_app_4.png"></p>
+<p align="center"><img src ="./doc/pic/spotify_app_v2_4.png"></p>
 
-<p align="center"><img src ="./doc/pic/spotify_app_5.png"></p>
+<p align="center"><img src ="./doc/pic/spotify_app_v2_5.png"></p>
+
+<p align="center"><img src ="./doc/pic/spotify_app_v2_6.png"></p>
 
 <p align="center"><img src ="./doc/pic/spotify_app_6.png"></p>
 
