@@ -18,13 +18,13 @@ ARCHITECTURE :
 - V2
 <p align="center"><img src ="./doc/pic/SpringDataPlatform V2.svg"></p>
 
-<p align="center"><img src ="./doc/pic/dataplatform_1.png"></p>
+<p align="center"><img src ="./doc/pic/dataplatform_v2_1.png"></p>
 
-<p align="center"><img src ="./doc/pic/dataplatform_2.png"></p>
+<p align="center"><img src ="./doc/pic/dataplatform_v2_2.png"></p>
 
-<p align="center"><img src ="./doc/pic/dataplatform_3.png"></p>
+<p align="center"><img src ="./doc/pic/dataplatform_v2_3.png"></p>
 
-<p align="center"><img src ="./doc/pic/dataplatform_4.png"></p>
+<p align="center"><img src ="./doc/pic/dataplatform_v2_4.png"></p>
 
 ## API
 
