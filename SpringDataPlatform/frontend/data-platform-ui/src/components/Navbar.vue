@@ -1,180 +1,70 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <!--    Logo-->
-    <router-link class="navbar-brand" :to="{ name: 'Home' }">
-      <img id="logo" src="../assets/icon3.png" />
-    </router-link>
+  <nav class="uber-navbar">
+    <div class="navbar-container">
+      <!-- Logo -->
+      <div class="navbar-logo">
+        <router-link :to="{ name: 'Home' }">
+          <img id="logo" src="../assets/icon3.png" alt="Logo" />
+        </router-link>
+      </div>
 
-    <!--    Burger Button-->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!--      DropDowns-->
-      <ul class="navbar-nav mx-auto">
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link text-light dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Cluster
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'ListCluster' }"
-              >Cluster List</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'AddCluster' }"
-              >Add Cluster</router-link
-            >
+      <!-- Menu Items -->
+      <div class="navbar-menu">
+        <div class="navbar-item dropdown">
+          <span class="dropdown-toggle">Cluster</span>
+          <div class="dropdown-content">
+            <router-link :to="{ name: 'ListCluster' }">Cluster List</router-link>
+            <router-link :to="{ name: 'AddCluster' }">Add Cluster</router-link>
           </div>
-        </li>
+        </div>
 
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link text-light dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Zeppelin
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <!-- Zeppelin -->
-            <router-link class="dropdown-item" :to="{ name: 'Zeppelin' }"
-              >Zeppelin Home</router-link
-            >
-            <!-- zeppelinApp -->
-            <!-- <router-link class="dropdown-item" :to="{ name: 'ZeppelinApp' }"
-              >Zeppelin App</router-link
-            > -->
-            <router-link class="dropdown-item" :to="{ name: 'ListNotebook' }"
-              >Notebook List</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'AddNotebook' }"
-              >Add Notebook</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'NotebookConsole' }"
-              >Notebook Console</router-link
-            >
+        <div class="navbar-item dropdown">
+          <span class="dropdown-toggle">Zeppelin</span>
+          <div class="dropdown-content">
+            <router-link :to="{ name: 'Zeppelin' }">Zeppelin Home</router-link>
+            <router-link :to="{ name: 'ListNotebook' }">Notebook List</router-link>
+            <router-link :to="{ name: 'AddNotebook' }">Add Notebook</router-link>
+            <router-link :to="{ name: 'NotebookConsole' }">Notebook Console</router-link>
           </div>
-        </li>
+        </div>
 
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link text-light dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Flink Jobs
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'ListJob' }"
-              >Job List</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'AddJob' }"
-              >Submit new Jar Job</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'AddSqlJob' }"
-              >Submit new SQL Job</router-link
-            >
+        <div class="navbar-item dropdown">
+          <span class="dropdown-toggle">Flink Jobs</span>
+          <div class="dropdown-content">
+            <router-link :to="{ name: 'ListJob' }">Job List</router-link>
+            <router-link :to="{ name: 'AddJob' }">Submit new Jar Job</router-link>
+            <router-link :to="{ name: 'AddSqlJob' }">Submit new SQL Job</router-link>
           </div>
-        </li>
+        </div>
 
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link text-light dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            Flink Jar
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Home' }"
-              >Home</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'ListJar' }"
-              >Jar List</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'AddJar' }"
-              >Add Jar</router-link
-            >
+        <div class="navbar-item dropdown">
+          <span class="dropdown-toggle">Flink Jar</span>
+          <div class="dropdown-content">
+            <router-link :to="{ name: 'Home' }">Home</router-link>
+            <router-link :to="{ name: 'ListJar' }">Jar List</router-link>
+            <router-link :to="{ name: 'AddJar' }">Add Jar</router-link>
           </div>
-        </li>
+        </div>
+      </div>
 
-        <li class="nav-item dropdown">
-          <a
-            class="nav-link text-light dropdown-toggle"
-            href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
-            aria-expanded="false"
-          >
-            LogIn/SignUp
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Admin' }"
-              >Admin</router-link
-            >
-            <router-link
-              class="dropdown-item"
-              v-if="!token"
-              :to="{ name: 'Signin' }"
-              >Log In</router-link
-            >
-            <router-link
-              class="dropdown-item"
-              v-if="!token"
-              :to="{ name: 'Signup' }"
-              >Sign Up</router-link
-            >
-            <a class="dropdown-item" v-if="token" href="" @click="signout"
-              >Sign Out</a
-            >
-          </div>
-        </li>
+      <!-- Auth Section -->
+      <div class="navbar-auth">
+        <div v-if="!token" class="auth-buttons">
+          <router-link :to="{ name: 'Signin' }" class="btn-login">Log in</router-link>
+          <router-link :to="{ name: 'Signup' }" class="btn-signup">Sign up</router-link>
+        </div>
+        <div v-else class="auth-buttons">
+          <router-link :to="{ name: 'Admin' }" class="btn-admin">Admin</router-link>
+          <a href="#" @click.prevent="signout" class="btn-signout">Sign out</a>
+        </div>
+      </div>
 
-        <!-- <li class="nav-item">
-          <router-link class="nav-link text-light" :to="{ name: 'Order' }"
-            >Orders</router-link
-          >
-        </li> -->
-
-        <!-- <li class="nav-item">
-          <div id="cart">
-            <span id="nav-cart-count">{{ cartCount }}</span>
-            <router-link class="text-light" :to="{ name: 'Cart' }"
-              ><i class="fa fa-shopping-cart" style="font-size: 36px"></i
-            ></router-link>
-          </div>
-        </li> -->
-      </ul>
+      <!-- Mobile Toggle -->
+      <div class="mobile-toggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
     </div>
   </nav>
 </template>
@@ -210,36 +100,137 @@ export default {
 </script>
 
 <style scoped>
-#logo {
-  width: 150px;
-  margin-left: 20px;
-  margin-right: 20px;
-}
-
-.nav-link {
-  color: rgba(255, 255, 255);
-}
-
-#search-button-navbar {
-  background-color: #febd69;
-  border-color: #febd69;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
-}
-#nav-cart-count {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  position: absolute;
+.uber-navbar {
+  background-color: #000000;
+  color: #ffffff;
+  height: 80px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 15px;
-  height: 15px;
-  font-size: 15px;
-  margin-left: 10px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
 }
-#cart {
+
+.navbar-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.navbar-logo {
+  flex: 0 0 auto;
+}
+
+#logo {
+  height: 30px;
+  width: auto;
+}
+
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+
+.navbar-item {
   position: relative;
+  margin: 0 15px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.dropdown-toggle {
+  color: #ffffff;
+  padding: 8px 0;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #ffffff;
+  min-width: 180px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  top: 40px;
+  left: -20px;
+}
+
+.dropdown-content a {
+  color: #000000;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.dropdown-content a:hover {
+  background-color: #f5f5f5;
+}
+
+.navbar-item:hover .dropdown-content {
+  display: block;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.btn-login, .btn-admin {
+  color: #ffffff;
+  margin-right: 15px;
+  padding: 8px 16px;
+  font-weight: 500;
+}
+
+.btn-signup, .btn-signout {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.mobile-toggle {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.mobile-toggle span {
+  width: 24px;
+  height: 2px;
+  background-color: #ffffff;
+  margin: 3px 0;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 992px) {
+  .navbar-menu {
+    display: none;
+  }
+  
+  .mobile-toggle {
+    display: flex;
+  }
+  
+  .navbar-auth {
+    display: none;
+  }
 }
 </style>
