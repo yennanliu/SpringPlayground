@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar v-if="!['Signup', 'Signin'].includes($route.name)" />
-    <div style="min-height: 60vh">
+    <div style="min-height: 70vh">
       <!-- 
       https://youtu.be/VZ1NV7EHGJw?si=FtsSuMndmHLiBwsc&t=710 
 
@@ -49,24 +49,96 @@ export default {
 
 
 <style>
+:root {
+  --airbnb-primary: #FF5A5F;
+  --airbnb-secondary: #00A699;
+  --airbnb-dark: #484848;
+  --airbnb-light: #767676;
+  --airbnb-bg: #F7F7F7;
+  --airbnb-white: #FFFFFF;
+  --border-radius: 8px;
+  --shadow: 0 2px 4px rgba(0,0,0,0.08);
+  --transition: all 0.2s ease;
+}
+
+body {
+  background-color: var(--airbnb-white);
+}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Circular', -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+  color: var(--airbnb-dark);
+  line-height: 1.43;
 }
 
-nav {
-  padding: 30px;
+h1, h2, h3, h4, h5, h6 {
+  color: var(--airbnb-dark);
+  font-weight: 600;
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
+.btn-primary {
+  background-color: var(--airbnb-primary);
+  border-color: var(--airbnb-primary);
+  border-radius: var(--border-radius);
+  font-weight: 500;
+  transition: var(--transition);
+  padding: 8px 16px;
 }
 
-nav a.router-link-exact-active {
-  color: #42b983;
+.btn-primary:hover {
+  background-color: #FF7E82;
+  border-color: #FF7E82;
+}
+
+.card {
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  border: none;
+  transition: var(--transition);
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+a {
+  color: var(--airbnb-dark);
+  transition: var(--transition);
+}
+
+a:hover {
+  color: var(--airbnb-primary);
+  text-decoration: none;
+}
+
+.form-control {
+  border-radius: var(--border-radius);
+  padding: 10px 12px;
+  border: 1px solid #EBEBEB;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 2px rgba(255,90,95,0.2);
+  border-color: var(--airbnb-primary);
+}
+
+.container {
+  padding: 0 24px;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding: 0 40px;
+  }
+}
+
+@media (min-width: 1128px) {
+  .container {
+    padding: 0 80px;
+  }
 }
 </style>

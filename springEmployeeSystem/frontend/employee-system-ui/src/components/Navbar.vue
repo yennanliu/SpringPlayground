@@ -1,11 +1,13 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <!--    Logo-->
+  <nav class="navbar navbar-expand-lg">
+    <!-- Logo -->
     <router-link class="navbar-brand" :to="{ name: 'Home' }">
-      <img id="logo" src="../assets/icon2.png" />
+      <div class="logo-container">
+        <img id="logo" src="../assets/icon2.png" alt="Logo" />
+      </div>
     </router-link>
 
-    <!--    Burger Button-->
+    <!-- Burger Button-->
     <button
       class="navbar-toggler"
       type="button"
@@ -19,41 +21,12 @@
     </button>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <!--      Search Bar-->
-      <!-- <form class="form-inline ml-auto mr-auto">
-        <div class="input-group">
-          <input
-            size="100"
-            type="text"
-            class="form-control"
-            placeholder="Search Items"
-            aria-label="Username"
-            aria-describedby="basic-addon1"
-          />
-          <div class="input-group-prepend">
-            <span class="input-group-text" id="search-button-navbar">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                class="bi bi-search"
-                viewBox="0 0 16 16"
-              >
-                <path
-                  d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"
-                />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </form> -->
-
-      <!--      DropDowns-->
+      <!-- Navigation Items -->
       <ul class="navbar-nav ml-auto">
+        <!-- Employee Dropdown -->
         <li class="nav-item dropdown">
           <a
-            class="nav-link text-light dropdown-toggle"
+            class="nav-link dropdown-toggle"
             href="#"
             id="navbarDropdown"
             role="button"
@@ -64,24 +37,17 @@
             Employee
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Home' }"
-              >Home</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'User' }"
-              >User</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'Vacation' }"
-              >Vacation</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'Checkin' }"
-              >Checkin</router-link
-            >
+            <router-link class="dropdown-item" :to="{ name: 'Home' }">Home</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'User' }">User</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Vacation' }">Vacation</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Checkin' }">Checkin</router-link>
           </div>
         </li>
 
+        <!-- Department Dropdown -->
         <li class="nav-item dropdown">
           <a
-            class="nav-link text-light dropdown-toggle"
+            class="nav-link dropdown-toggle"
             href="#"
             id="navbarDropdown"
             role="button"
@@ -92,18 +58,15 @@
             Department
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Department' }"
-              >Department</router-link
-            >
-            <router-link class="dropdown-item" :to="{ name: 'Ticket' }"
-              >Ticket</router-link
-            >
+            <router-link class="dropdown-item" :to="{ name: 'Department' }">Department</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Ticket' }">Ticket</router-link>
           </div>
         </li>
 
+        <!-- Auth Dropdown -->
         <li class="nav-item dropdown">
           <a
-            class="nav-link text-light dropdown-toggle"
+            class="nav-link dropdown-toggle auth-dropdown"
             href="#"
             id="navbarDropdown"
             role="button"
@@ -111,44 +74,24 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            LogIn/SignUp
+            <i class="bi bi-person-circle"></i>
+            <span class="ml-2">Account</span>
           </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Admin' }"
-              >Admin</router-link
-            >
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <router-link class="dropdown-item" :to="{ name: 'Admin' }">Admin</router-link>
             <router-link
               class="dropdown-item"
               v-if="!token"
               :to="{ name: 'Signin' }"
-              >Log In</router-link
-            >
+            >Log In</router-link>
             <router-link
               class="dropdown-item"
               v-if="!token"
               :to="{ name: 'Signup' }"
-              >Sign Up</router-link
-            >
-            <a class="dropdown-item" v-if="token" href="" @click="signout"
-              >Sign Out</a
-            >
+            >Sign Up</router-link>
+            <a class="dropdown-item" v-if="token" href="" @click="signout">Sign Out</a>
           </div>
         </li>
-
-        <!-- <li class="nav-item">
-          <router-link class="nav-link text-light" :to="{ name: 'Order' }"
-            >Orders</router-link
-          >
-        </li> -->
-
-        <!-- <li class="nav-item">
-          <div id="cart">
-            <span id="nav-cart-count">{{ cartCount }}</span>
-            <router-link class="text-light" :to="{ name: 'Cart' }"
-              ><i class="fa fa-shopping-cart" style="font-size: 36px"></i
-            ></router-link>
-          </div>
-        </li> -->
       </ul>
     </div>
   </nav>
@@ -185,36 +128,94 @@ export default {
 </script>
 
 <style scoped>
+.navbar {
+  padding: 16px 24px;
+  background-color: var(--airbnb-white);
+  border-bottom: 1px solid #EBEBEB;
+}
+
+@media (min-width: 768px) {
+  .navbar {
+    padding: 16px 40px;
+  }
+}
+
+@media (min-width: 1128px) {
+  .navbar {
+    padding: 16px 80px;
+  }
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+}
+
 #logo {
-  width: 150px;
-  margin-left: 20px;
-  margin-right: 20px;
+  height: 32px;
+  object-fit: contain;
+}
+
+.navbar-nav {
+  align-items: center;
 }
 
 .nav-link {
-  color: rgba(255, 255, 255);
+  color: var(--airbnb-dark);
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
 }
 
-#search-button-navbar {
-  background-color: #febd69;
-  border-color: #febd69;
-  border-top-right-radius: 2px;
-  border-bottom-right-radius: 2px;
+.nav-link:hover {
+  background-color: var(--airbnb-bg);
+  color: var(--airbnb-primary);
 }
-#nav-cart-count {
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  position: absolute;
+
+.dropdown-menu {
+  border-radius: var(--border-radius);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+  border: 1px solid #EBEBEB;
+  padding: 8px 0;
+  min-width: 240px;
+}
+
+.dropdown-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  transition: var(--transition);
+}
+
+.dropdown-item:hover {
+  background-color: var(--airbnb-bg);
+  color: var(--airbnb-primary);
+}
+
+.auth-dropdown {
   display: flex;
   align-items: center;
-  justify-content: center;
-  width: 15px;
-  height: 15px;
-  font-size: 15px;
-  margin-left: 10px;
+  background-color: var(--airbnb-white);
+  border: 1px solid #DDDDDD;
+  border-radius: 21px;
+  padding: 5px 12px;
 }
-#cart {
-  position: relative;
+
+.auth-dropdown:hover {
+  box-shadow: var(--shadow);
+}
+
+.auth-dropdown i {
+  font-size: 1.25rem;
+}
+
+.navbar-toggler {
+  border: 1px solid #DDDDDD;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.navbar-toggler-icon {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.5)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
 }
 </style>

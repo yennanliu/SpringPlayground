@@ -1,19 +1,24 @@
 <template>
-  <div class="card h-100 w-100">
-    <div class="card-body">
-      <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }"
-        ><h5 class="card-title">
-          <li>{{ user.firstName + " " + user.lastName }}</li>
-          <li>{{ user.email }}</li>
-          <li>{{ user.role }}</li>
-        </h5></router-link
-      >
-      <router-link
-        id="edit-user"
+  <div class="user-card">
+    <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }" class="user-link">
+      <div class="user-avatar">
+        <span>{{ getInitials(user.firstName, user.lastName) }}</span>
+      </div>
+      <div class="user-info">
+        <h3 class="user-name">{{ user.firstName }} {{ user.lastName }}</h3>
+        <p class="user-email">{{ user.email }}</p>
+        <div class="user-role">
+          <span class="role-badge">{{ user.role }}</span>
+        </div>
+      </div>
+    </router-link>
+    
+    <div class="user-actions" v-show="$route.name == 'AdminUser'">
+      <router-link 
         :to="{ name: 'EditUser', params: { id: user.id } }"
-        v-show="$route.name == 'AdminUser'"
+        class="btn btn-sm btn-outline-primary"
       >
-        Edit
+        <i class="bi bi-pencil-square mr-1"></i> Edit
       </router-link>
     </div>
   </div>
@@ -45,6 +50,13 @@ export default {
     };
   },
   methods: {
+    getInitials(firstName, lastName) {
+      return (
+        (firstName ? firstName.charAt(0).toUpperCase() : '') + 
+        (lastName ? lastName.charAt(0).toUpperCase() : '')
+      );
+    },
+    
     ShowUserDetails() {
       console.log(
         "(ShowUserDetails) this.$route.params.id = " + this.$route.params.id
@@ -76,29 +88,91 @@ export default {
 </script>
 
 <style scoped>
-.embed-responsive .card-img-top {
-  object-fit: cover;
+.user-card {
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
-a {
+.user-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.user-link {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  color: var(--airbnb-dark);
   text-decoration: none;
+  flex: 1;
 }
 
-.card-title {
-  color: #484848;
-  font-size: 1.1rem;
-  font-weight: 400;
+.user-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: var(--airbnb-primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
-.card-title:hover {
-  font-weight: bold;
+.user-info {
+  flex: 1;
 }
 
-.card-text {
-  font-size: 0.9rem;
+.user-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--airbnb-dark);
 }
 
-#edit-user {
-  float: right;
+.user-email {
+  color: var(--airbnb-light);
+  font-size: 14px;
+  margin-bottom: 12px;
+  word-break: break-all;
+}
+
+.user-role {
+  margin-bottom: 8px;
+}
+
+.role-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: var(--airbnb-bg);
+  color: var(--airbnb-primary);
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.user-actions {
+  padding: 12px 20px;
+  border-top: 1px solid #EBEBEB;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-outline-primary {
+  color: var(--airbnb-primary);
+  border-color: var(--airbnb-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--airbnb-primary);
+  color: white;
 }
 </style>

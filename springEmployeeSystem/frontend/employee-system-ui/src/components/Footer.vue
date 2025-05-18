@@ -1,88 +1,66 @@
 <template>
   <footer>
-    <div class="container pt-5">
-      <div class="row">
-        <div class="col-md-3 col-6">
-          <ul style="list-style-type: none">
-            <li class="text-light font-weight-bold pb-2">Get to Know Us</li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">About Us</a>
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">Android App</a
-              ><br />
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">iOS App</a
-              ><br />
-            </li>
-          </ul>
-        </div>
+    <div class="container">
+      <hr />
+      <div class="footer-content">
+        <div class="row">
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Support</h5>
+            <ul>
+              <li><a href="#">Help Center</a></li>
+              <li><a href="#">Safety Information</a></li>
+              <li><a href="#">Cancellation Options</a></li>
+              <li><a href="#">Our COVID-19 Response</a></li>
+            </ul>
+          </div>
 
-        <div class="col-md-3 col-6">
-          <ul style="list-style-type: none">
-            <li class="text-light font-weight-bold">Connect With Us</li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">Facebook</a>
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">Twitter</a
-              ><br />
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">Instagram</a
-              ><br />
-            </li>
-          </ul>
-        </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Community</h5>
+            <ul>
+              <li><a href="#">Employee Forum</a></li>
+              <li><a href="#">Team Building</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Newsroom</a></li>
+            </ul>
+          </div>
 
-        <div class="col-md-3 col-6">
-          <ul style="list-style-type: none">
-            <li class="text-light font-weight-bold">Make Money With Us</li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">Sell with Us</a>
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#"
-                >Become an Affiliate</a
-              ><br />
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#"
-                >Advertise Your Products</a
-              ><br />
-            </li>
-          </ul>
-        </div>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>Department</h5>
+            <ul>
+              <li><a href="#">Engineering</a></li>
+              <li><a href="#">Product</a></li>
+              <li><a href="#">Marketing</a></li>
+              <li><a href="#">Finance</a></li>
+            </ul>
+          </div>
 
-        <div class="col-md-3 col-6">
-          <ul style="list-style-type: none">
-            <li class="text-light font-weight-bold">Let Us Help You</li>
-            <li>
-              <a class="footer-link font-weight-light" href="#"
-                >Return Centre</a
-              >
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#"
-                >100% Purchase Protection</a
-              ><br />
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">Help</a><br />
-            </li>
-            <li>
-              <a class="footer-link font-weight-light" href="#">App Download</a
-              ><br />
-            </li>
-          </ul>
+          <div class="col-md-3 col-sm-6 mb-4">
+            <h5>About</h5>
+            <ul>
+              <li><a href="#">Our Story</a></li>
+              <li><a href="#">Leadership</a></li>
+              <li><a href="#">Investors</a></li>
+              <li><a href="#">Partners</a></li>
+            </ul>
+          </div>
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-12">
-          <div class="text-center py-5">
-            <img id="logo" src="../assets/icon2.png" />
+      <div class="footer-bottom">
+        <div class="d-flex flex-wrap justify-content-between align-items-center py-3">
+          <div class="footer-copyright">
+            <p>© 2023 Employee System, Inc.</p>
+          </div>
+          <div class="footer-social d-flex">
+            <a href="#" class="me-3"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-instagram"></i></a>
+            <a href="#" class="me-3"><i class="bi bi-linkedin"></i></a>
+          </div>
+          <div class="footer-links d-flex">
+            <a href="#" class="me-3">Privacy</a>
+            <a href="#" class="me-3">Terms</a>
+            <a href="#" class="me-3">Company Details</a>
           </div>
         </div>
       </div>
@@ -90,37 +68,72 @@
   </footer>
 </template>
   
-  <script>
+<script>
 export default {
   name: "Footer",
 };
 </script>
   
-  <style>
+<style scoped>
 footer {
-  margin-top: 100px;
-  background-color: #232f3e;
-  font-size: 16px;
+  color: var(--airbnb-dark);
+  font-size: 14px;
+  padding: 24px 0;
+  background-color: var(--airbnb-white);
+}
+
+h5 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 li {
-  padding-left: 0;
-  padding-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 a {
+  color: var(--airbnb-light);
   text-decoration: none;
+  transition: var(--transition);
 }
 
-.footer-link {
-  color: #ddd;
+a:hover {
+  color: var(--airbnb-dark);
+  text-decoration: underline;
 }
 
-#logo {
-  width: 150px;
+.footer-content {
+  padding: 24px 0 48px;
 }
 
-footer {
-  font-family: "Roboto", sans-serif;
+.footer-bottom {
+  padding-top: 24px;
+  border-top: 1px solid #DDDDDD;
+}
+
+.footer-copyright p {
+  color: var(--airbnb-light);
+  margin-bottom: 0;
+}
+
+.footer-social a {
+  font-size: 18px;
+  margin-right: 16px;
+}
+
+.footer-links a {
+  margin-left: 16px;
+}
+
+hr {
+  border-color: #DDDDDD;
+  margin: 0;
 }
 </style>

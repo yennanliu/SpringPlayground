@@ -3,72 +3,84 @@
 -->
 
 <template>
-  <div class="container">
-    <!--    Logo Div-->
-    <div class="row">
-      <div class="col-12 text-center pt-3">
+  <div class="auth-container">
+    <div class="auth-card">
+      <!-- Logo -->
+      <div class="text-center mb-4">
         <router-link :to="{ name: 'Home' }">
-          <img id="logo" src="../assets/icon2.png" />
+          <img id="logo" src="../assets/icon2.png" alt="Logo" />
         </router-link>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="col-12 justify-content-center d-flex flex-row pt-5">
-        <div id="signin-div" class="flex-item border">
-          <h2 class="pt-4 pl-4">Sign-In</h2>
-          <form @submit="signin" class="pt-4 pl-4 pr-4">
-            <div class="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                class="form-control"
-                v-model="email"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                class="form-control"
-                v-model="password"
-                required
-              />
-            </div>
-            <small class="form-text text-muted"
-              >By continuing, you agree to Simplecoding's Conditions of Use and
-              Privacy Notice.</small
-            >
-            <button type="submit" class="btn btn-primary mt-2 py-0">
-              Continue
-              <div
-                v-if="loading"
-                class="spinner-border spinner-border-sm"
-                role="status"
-              >
-                <span class="sr-only">Loading...</span>
-              </div>
-            </button>
-          </form>
-          <hr />
-          <small class="form-text text-muted pt-2 pl-4 text-center"
-            >New to Simplecoding?</small
-          >
-          <p class="text-center">
-            <router-link
-              :to="{ name: 'Signup' }"
-              class="btn btn-dark text-center mx-auto px-5 py-1 mb-2"
-              >Create Your Simplecoding Account</router-link
-            >
-          </p>
+      <h1 class="auth-title">Log in</h1>
+      
+      <form @submit="signin" class="auth-form">
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            v-model="email"
+            placeholder="Enter your email"
+            required
+          />
         </div>
+        
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            class="form-control"
+            v-model="password"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+        
+        <small class="form-text text-muted mb-4">
+          By continuing, you agree to the Employee System's Terms of Service and Privacy Policy.
+        </small>
+        
+        <button type="submit" class="btn btn-primary btn-block">
+          Log in
+          <div
+            v-if="loading"
+            class="spinner-border spinner-border-sm ml-2"
+            role="status"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+        </button>
+      </form>
+      
+      <div class="divider">
+        <span>or</span>
+      </div>
+      
+      <div class="oauth-buttons">
+        <button class="btn btn-outline-dark btn-block mb-2">
+          <i class="bi bi-google mr-2"></i> Continue with Google
+        </button>
+        <button class="btn btn-outline-dark btn-block">
+          <i class="bi bi-microsoft mr-2"></i> Continue with Microsoft
+        </button>
+      </div>
+      
+      <div class="auth-footer mt-4">
+        <p class="text-center">
+          Don't have an account?
+          <router-link :to="{ name: 'Signup' }" class="signup-link">
+            Sign up
+          </router-link>
+        </p>
       </div>
     </div>
   </div>
 </template>
   
-  <script>
+<script>
 import swal from "sweetalert";
 import axios from "axios";
 
@@ -118,29 +130,107 @@ export default {
 };
 </script>
   
-  <style scoped>
-.btn-dark {
-  background-color: #e7e9ec;
-  color: #000;
-  font-size: smaller;
-  border-radius: 0;
-  border-color: #adb1b8 #a2a6ac #a2a6ac;
+<style scoped>
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--airbnb-bg);
+  padding: 16px;
 }
 
-.btn-primary {
-  background-color: #f0c14b;
-  color: black;
-  border-color: #a88734 #9c7e31 #846a29;
-  border-radius: 0;
+.auth-card {
+  background-color: var(--airbnb-white);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 450px;
+  padding: 32px;
 }
 
 #logo {
-  width: 150px;
+  height: 40px;
+  object-fit: contain;
 }
 
-@media only screen and (min-width: 992px) {
-  #signin-div {
-    width: 40%;
-  }
+.auth-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.auth-form {
+  margin-bottom: 24px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.form-control {
+  height: 48px;
+  font-size: 16px;
+}
+
+.btn-primary {
+  height: 48px;
+  font-size: 16px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid #DDDDDD;
+}
+
+.divider span {
+  padding: 0 16px;
+  color: var(--airbnb-light);
+  font-size: 14px;
+}
+
+.oauth-buttons {
+  margin-bottom: 24px;
+}
+
+.btn-outline-dark {
+  border-color: #DDDDDD;
+  color: var(--airbnb-dark);
+  height: 48px;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.btn-outline-dark:hover {
+  background-color: var(--airbnb-bg);
+  border-color: var(--airbnb-light);
+  color: var(--airbnb-dark);
+}
+
+.signup-link {
+  color: var(--airbnb-primary);
+  font-weight: 600;
+}
+
+.auth-footer {
+  font-size: 14px;
+  color: var(--airbnb-light);
 }
 </style>
