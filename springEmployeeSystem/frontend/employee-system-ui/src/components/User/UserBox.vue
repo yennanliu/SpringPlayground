@@ -1,12 +1,28 @@
 <template>
   <div class="user-card">
     <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }" class="user-link">
-      <div class="user-avatar">
-        <span>{{ getInitials(user.firstName, user.lastName) }}</span>
+      <div class="user-header">
+        <div class="user-avatar">
+          <span>{{ getInitials(user.firstName, user.lastName) }}</span>
+        </div>
+        <div class="user-status">
+          <span class="status-indicator online"></span>
+          <span class="status-text">Online</span>
+        </div>
       </div>
       <div class="user-info">
         <h3 class="user-name">{{ user.firstName }} {{ user.lastName }}</h3>
         <p class="user-email">{{ user.email }}</p>
+        <div class="user-details">
+          <div class="detail-item">
+            <i class="bi bi-building"></i>
+            <span>Marketing</span>
+          </div>
+          <div class="detail-item">
+            <i class="bi bi-geo-alt"></i>
+            <span>New York</span>
+          </div>
+        </div>
         <div class="user-role">
           <span class="role-badge">{{ user.role }}</span>
         </div>
@@ -18,8 +34,11 @@
         :to="{ name: 'EditUser', params: { id: user.id } }"
         class="btn btn-sm btn-outline-primary"
       >
-        <i class="bi bi-pencil-square mr-1"></i> Edit
+        <i class="bi bi-pencil-square mr-2"></i> Edit
       </router-link>
+      <button class="btn btn-sm btn-icon ml-2">
+        <i class="bi bi-three-dots-vertical"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -100,31 +119,67 @@ export default {
 }
 
 .user-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.12);
 }
 
 .user-link {
   display: flex;
   flex-direction: column;
-  padding: 20px;
+  padding: 24px;
   color: var(--airbnb-dark);
   text-decoration: none;
   flex: 1;
 }
 
+.user-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
 .user-avatar {
-  width: 64px;
-  height: 64px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
-  background-color: var(--airbnb-primary);
+  background: linear-gradient(135deg, var(--airbnb-primary) 0%, #FF7E82 100%);
   color: white;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 24px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 30px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(255, 56, 92, 0.25);
+}
+
+.user-status {
+  display: flex;
+  align-items: center;
+  padding: 6px 12px;
+  background-color: rgba(240, 242, 245, 0.8);
+  border-radius: 20px;
+}
+
+.status-indicator {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+}
+
+.status-indicator.online {
+  background-color: #44CC11;
+}
+
+.status-indicator.offline {
+  background-color: #ddd;
+}
+
+.status-text {
+  font-size: 14px;
+  color: var(--airbnb-dark);
+  font-weight: 500;
 }
 
 .user-info {
@@ -132,17 +187,40 @@ export default {
 }
 
 .user-name {
-  font-size: 18px;
-  font-weight: 600;
+  font-size: 22px;
+  font-weight: 700;
   margin-bottom: 8px;
   color: var(--airbnb-dark);
 }
 
 .user-email {
   color: var(--airbnb-light);
-  font-size: 14px;
-  margin-bottom: 12px;
+  font-size: 16px;
+  margin-bottom: 16px;
   word-break: break-all;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+}
+
+.detail-item i {
+  font-size: 18px;
+  color: var(--airbnb-light);
+  margin-right: 10px;
+}
+
+.detail-item span {
+  font-size: 15px;
+  color: var(--airbnb-dark);
 }
 
 .user-role {
@@ -151,28 +229,54 @@ export default {
 
 .role-badge {
   display: inline-block;
-  padding: 4px 12px;
-  background-color: var(--airbnb-bg);
+  padding: 6px 16px;
+  background-color: rgba(255, 56, 92, 0.1);
   color: var(--airbnb-primary);
-  border-radius: 16px;
-  font-size: 12px;
+  border-radius: 20px;
+  font-size: 14px;
   font-weight: 600;
 }
 
 .user-actions {
-  padding: 12px 20px;
+  padding: 16px 24px;
   border-top: 1px solid #EBEBEB;
   display: flex;
   justify-content: flex-end;
+  align-items: center;
 }
 
 .btn-outline-primary {
   color: var(--airbnb-primary);
   border-color: var(--airbnb-primary);
+  font-weight: 600;
+  padding: 8px 16px;
 }
 
 .btn-outline-primary:hover {
   background-color: var(--airbnb-primary);
   color: white;
+}
+
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid #EBEBEB;
+  background-color: white;
+  color: var(--airbnb-light);
+  transition: var(--transition);
+}
+
+.btn-icon:hover {
+  background-color: var(--airbnb-bg);
+  color: var(--airbnb-dark);
+}
+
+.btn-icon i {
+  font-size: 16px;
 }
 </style>

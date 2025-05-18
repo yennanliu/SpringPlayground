@@ -37,10 +37,18 @@
             Employee
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Home' }">Home</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'User' }">User</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Vacation' }">Vacation</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Checkin' }">Checkin</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Home' }">
+              <i class="bi bi-house-door mr-2"></i>Home
+            </router-link>
+            <router-link class="dropdown-item" :to="{ name: 'User' }">
+              <i class="bi bi-people mr-2"></i>User
+            </router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Vacation' }">
+              <i class="bi bi-calendar-check mr-2"></i>Vacation
+            </router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Checkin' }">
+              <i class="bi bi-clock mr-2"></i>Checkin
+            </router-link>
           </div>
         </li>
 
@@ -58,8 +66,12 @@
             Department
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Department' }">Department</router-link>
-            <router-link class="dropdown-item" :to="{ name: 'Ticket' }">Ticket</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Department' }">
+              <i class="bi bi-building mr-2"></i>Department
+            </router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Ticket' }">
+              <i class="bi bi-ticket-perforated mr-2"></i>Ticket
+            </router-link>
           </div>
         </li>
 
@@ -78,18 +90,22 @@
             <span class="ml-2">Account</span>
           </a>
           <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <router-link class="dropdown-item" :to="{ name: 'Admin' }">Admin</router-link>
+            <router-link class="dropdown-item" :to="{ name: 'Admin' }">
+              <i class="bi bi-shield-lock mr-2"></i>Admin
+            </router-link>
             <router-link
               class="dropdown-item"
               v-if="!token"
               :to="{ name: 'Signin' }"
-            >Log In</router-link>
+            ><i class="bi bi-box-arrow-in-right mr-2"></i>Log In</router-link>
             <router-link
               class="dropdown-item"
               v-if="!token"
               :to="{ name: 'Signup' }"
-            >Sign Up</router-link>
-            <a class="dropdown-item" v-if="token" href="" @click="signout">Sign Out</a>
+            ><i class="bi bi-person-plus mr-2"></i>Sign Up</router-link>
+            <a class="dropdown-item" v-if="token" href="" @click="signout">
+              <i class="bi bi-box-arrow-left mr-2"></i>Sign Out
+            </a>
           </div>
         </li>
       </ul>
@@ -129,20 +145,21 @@ export default {
 
 <style scoped>
 .navbar {
-  padding: 16px 24px;
+  padding: 20px 24px;
   background-color: var(--airbnb-white);
   border-bottom: 1px solid #EBEBEB;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
 @media (min-width: 768px) {
   .navbar {
-    padding: 16px 40px;
+    padding: 20px 40px;
   }
 }
 
 @media (min-width: 1128px) {
   .navbar {
-    padding: 16px 80px;
+    padding: 20px 80px;
   }
 }
 
@@ -152,7 +169,7 @@ export default {
 }
 
 #logo {
-  height: 32px;
+  height: 40px;
   object-fit: contain;
 }
 
@@ -162,8 +179,9 @@ export default {
 
 .nav-link {
   color: var(--airbnb-dark);
-  font-weight: 500;
-  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 17px;
+  padding: 12px 18px;
   border-radius: var(--border-radius);
   transition: var(--transition);
 }
@@ -175,20 +193,34 @@ export default {
 
 .dropdown-menu {
   border-radius: var(--border-radius);
-  box-shadow: 0 6px 20px rgba(0,0,0,0.2);
-  border: 1px solid #EBEBEB;
-  padding: 8px 0;
-  min-width: 240px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+  border: none;
+  padding: 12px 0;
+  min-width: 260px;
+  margin-top: 12px;
 }
 
 .dropdown-item {
-  padding: 12px 16px;
-  font-size: 14px;
+  padding: 14px 18px;
+  font-size: 16px;
+  font-weight: 500;
   transition: var(--transition);
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item i {
+  font-size: 18px;
+  margin-right: 12px;
+  color: var(--airbnb-light);
 }
 
 .dropdown-item:hover {
   background-color: var(--airbnb-bg);
+  color: var(--airbnb-primary);
+}
+
+.dropdown-item:hover i {
   color: var(--airbnb-primary);
 }
 
@@ -197,8 +229,8 @@ export default {
   align-items: center;
   background-color: var(--airbnb-white);
   border: 1px solid #DDDDDD;
-  border-radius: 21px;
-  padding: 5px 12px;
+  border-radius: 24px;
+  padding: 8px 16px;
 }
 
 .auth-dropdown:hover {
@@ -206,13 +238,14 @@ export default {
 }
 
 .auth-dropdown i {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
+  color: var(--airbnb-dark);
 }
 
 .navbar-toggler {
   border: 1px solid #DDDDDD;
-  padding: 4px 8px;
-  border-radius: 4px;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
 .navbar-toggler-icon {
