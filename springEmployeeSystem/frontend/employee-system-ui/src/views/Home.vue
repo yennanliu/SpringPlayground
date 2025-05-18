@@ -193,6 +193,7 @@ export default {
   margin-bottom: 24px;
   line-height: 1.2;
   letter-spacing: -0.02em;
+  color: var(--airbnb-primary);
 }
 
 .hero-description {
