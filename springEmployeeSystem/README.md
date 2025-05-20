@@ -8,7 +8,7 @@
 
 <p align="center"><img src ="./doc/pic/demo_v2_2.png"></p>
 
-<p align="center"><img src ="./doc/pic/demo_v2_3.png></p>
+<p align="center"><img src ="./doc/pic/demo_v2_3.png"></p>
 
 <p align="center"><img src ="./doc/pic/demo_4.png"></p>
 
