@@ -4,11 +4,11 @@
 - Frontend : Vue
 - Backend : Spring boot
 
-<p align="center"><img src ="./doc/pic/demo_1.png"></p>
+<p align="center"><img src ="./doc/pic/demo_v2_1.png"></p>
 
-<p align="center"><img src ="./doc/pic/demo_2.png"></p>
+<p align="center"><img src ="./doc/pic/demo_v2_2.png"></p>
 
-<p align="center"><img src ="./doc/pic/demo_3.png"></p>
+<p align="center"><img src ="./doc/pic/demo_v2_3.png></p>
 
 <p align="center"><img src ="./doc/pic/demo_4.png"></p>
 
