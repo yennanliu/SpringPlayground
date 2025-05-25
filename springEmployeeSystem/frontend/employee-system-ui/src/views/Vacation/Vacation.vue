@@ -12,12 +12,11 @@
         :header="header"
         :plugins="plugins"
         :editable="editable"
-        @eventClick="handleEventClick"
-        :event-render="eventRender"
+        @event-click="handleEventClick"
       >
         <!-- Use the eventContent slot to customize the content of each event -->
         <template v-slot:eventContent="slotProps">
-          <div class="event-content">
+          <div class="event-content" @click="handleEventContentClick(slotProps.event)">
             <i class="fas fa-plane event-icon"></i>
             <span class="event-text">
               {{ slotProps.event.extendedProps.destination || 'Vacation' }}
@@ -250,12 +249,21 @@ export default {
         backgroundColor: this.getStatusColor(vacation.status),
         borderColor: this.getStatusColor(vacation.status),
         textColor: '#ffffff',
+        classNames: ['vacation-event'],
         extendedProps: {
           userId: vacation.userId,
           destination: vacation.destination,
           type: vacation.type,
           status: vacation.status,
-          vacationDetails: vacation,
+          vacationDetails: {
+            id: vacation.id,
+            userId: vacation.userId,
+            destination: vacation.destination,
+            startDate: vacation.startDate,
+            endDate: vacation.endDate,
+            status: vacation.status,
+            type: vacation.type
+          },
         },
       }));
     },
@@ -363,16 +371,96 @@ export default {
         .then((response) => {
           this.vacations = response.data;
           console.log('Fetched vacations:', this.vacations);
+          console.log('Calendar events will be:', this.calendarEvents);
         })
         .catch((error) => {
           console.error("Error fetching vacations:", error);
         });
     },
     
-    handleEventClick(info) {
-      console.log('Event clicked:', info);
-      this.selectedVacation = info.event.extendedProps.vacationDetails;
-      this.showModal = true;
+    handleEventClick(event) {
+      console.log('Event clicked - full event object:', event);
+      
+      // Handle different event object structures
+      let vacation = null;
+      let eventId = null;
+      
+      // Try to extract vacation details from various possible structures
+      if (event && event.event && event.event.extendedProps) {
+        // Standard FullCalendar event structure
+        vacation = event.event.extendedProps.vacationDetails;
+        eventId = event.event.id;
+      } else if (event && event.extendedProps) {
+        // Direct event object
+        vacation = event.extendedProps.vacationDetails;
+        eventId = event.id;
+      } else if (event && event.vacationDetails) {
+        // Direct vacation details
+        vacation = event.vacationDetails;
+        eventId = event.id;
+      } else if (event && typeof event === 'object') {
+        // For vue-fullcalendar, the event might be passed directly
+        eventId = event.id;
+        
+        // Try to find the vacation by ID
+        if (eventId) {
+          vacation = this.vacations.find(v => v.id.toString() === eventId.toString());
+        }
+        
+        // If still no vacation, check if event has vacation properties directly
+        if (!vacation && event.userId) {
+          vacation = {
+            id: event.id,
+            userId: event.userId,
+            destination: event.destination || event.title,
+            startDate: event.start,
+            endDate: event.end,
+            status: event.status,
+            type: event.type
+          };
+        }
+      }
+      
+      console.log('Extracted vacation:', vacation);
+      console.log('Event ID:', eventId);
+      
+      if (vacation) {
+        this.selectedVacation = vacation;
+        this.showModal = true;
+      } else {
+        console.warn('Could not extract vacation details from event:', event);
+        // As a last resort, try to find by any available ID
+        if (eventId) {
+          const foundVacation = this.vacations.find(v => v.id.toString() === eventId.toString());
+          if (foundVacation) {
+            this.selectedVacation = foundVacation;
+            this.showModal = true;
+          }
+        }
+      }
+    },
+    
+    handleEventContentClick(event) {
+      console.log('Event content clicked:', event);
+      
+      // Handle different event object structures
+      let vacation = null;
+      
+      if (event && event.extendedProps && event.extendedProps.vacationDetails) {
+        vacation = event.extendedProps.vacationDetails;
+      } else if (event && event.id) {
+        // Find vacation by ID as fallback
+        vacation = this.vacations.find(v => v.id === event.id);
+      }
+      
+      console.log('Extracted vacation from content click:', vacation);
+      
+      if (vacation) {
+        this.selectedVacation = vacation;
+        this.showModal = true;
+      } else {
+        console.warn('Could not extract vacation details from event content:', event);
+      }
     },
     
     selectVacation(vacation) {
@@ -776,10 +864,29 @@ export default {
 /* FullCalendar custom styles */
 .fc-event {
   cursor: pointer !important;
+  transition: all 0.2s ease;
 }
 
 .fc-event:hover {
   opacity: 0.8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.vacation-event {
+  border-radius: 4px !important;
+  font-weight: 500 !important;
+}
+
+.event-content {
+  cursor: pointer;
+  padding: 2px;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.event-content:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 /* Pagination Styles */
