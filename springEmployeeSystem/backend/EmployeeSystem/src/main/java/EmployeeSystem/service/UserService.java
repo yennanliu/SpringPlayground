@@ -87,22 +87,34 @@ public class UserService {
     if (!Helper.notNull(user)) {
       throw new AuthenticationFailException("user NOT existed");
     }
+    
+    // hash the input password for comparison
+    String hashedInputPassword = "";
+    try {
+      hashedInputPassword = hashPassword(signInDto.getPassword());
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+      log.error("hashing password failed {}", e.getMessage());
+      throw new CustomException("Password hashing failed");
+    }
+    
     // check if password is correct
-    if (!user.getPassword().equals(signInDto.getPassword())) {
+    if (!user.getPassword().equals(hashedInputPassword)) {
       // password NOT match
-      //                log.info("user.getPassword() = " + user.getPassword());
-      //                log.info("hashPassword(signInDto.getPassword()) = " +
-      // hashPassword(signInDto.getPassword()));
       log.error("password not match");
       throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD + " wrong password");
     }
 
     log.info(">>> (authenticationService.getToken) user = {}", user);
+    
+    // Try to get existing token first
     AuthenticationToken token = authenticationService.getToken(user);
-
+    
+    // If no token exists, create a new one
     if (!Helper.notNull(token)) {
-      // token not present
-      throw new CustomException("token NOT present");
+      log.info("No existing token found, creating new token for user: {}", user.getEmail());
+      token = new AuthenticationToken(user);
+      authenticationService.saveConfirmationToken(token);
     }
 
     return new SignInResponseDto("success", token.getToken());

@@ -73,15 +73,15 @@ public class UserController {
         new ApiResponse(true, "User has been updated"), HttpStatus.OK);
   }
 
-  @PostMapping("/signup")
-  public ResponseDto Signup(@RequestBody SignupDto signupDto) throws CustomException {
+  @PostMapping("/signUp")
+  public ResponseDto signUp(@RequestBody SignupDto signupDto) throws CustomException {
 
     return userService.signUp(signupDto);
   }
 
   // TODO token should be updated
   @PostMapping("/signIn")
-  public SignInResponseDto Signup(@RequestBody SignInDto signInDto) throws CustomException {
+  public SignInResponseDto signIn(@RequestBody SignInDto signInDto) throws CustomException {
 
     return userService.signIn(signInDto);
   }

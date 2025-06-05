@@ -48,25 +48,32 @@ class UserServiceTest {
   }
 
   @Test
-  public void testSignIn() throws CustomException {
+  public void testSignIn() throws CustomException, NoSuchAlgorithmException {
+
+    // Create a properly hashed password for the mock user
+    String plainPassword = "password";
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    md.update(plainPassword.getBytes());
+    byte[] digest = md.digest();
+    String hashedPassword = DatatypeConverter.printHexBinary(digest).toUpperCase();
 
     User user = new User();
     user.setEmail("test@example.com");
-    user.setPassword("password");
-    //user.setPassword("5F4DCC3B5AA765D61D8327DEB882CF99"); // hashed password
+    user.setPassword(hashedPassword); // Use hashed password
 
+    AuthenticationToken mockToken = new AuthenticationToken(user);
+    
     when(userRepository.findByEmail("test@example.com")).thenReturn(user);
-    when(authenticationService.getToken(user)).thenReturn(new AuthenticationToken(user));
+    when(authenticationService.getToken(user)).thenReturn(mockToken);
 
     SignInDto signInDto = new SignInDto();
     signInDto.setEmail("test@example.com");
-    signInDto.setPassword("password");
+    signInDto.setPassword(plainPassword); // Use plain password in request
 
     SignInResponseDto signInResponseDto = userService.signIn(signInDto);
 
     assertEquals("success", signInResponseDto.getStatus());
-    // TODO : fix
-    //assertEquals("0d2c02c9-f29d-4b7e-b733-1d15b53da5d4", signInResponseDto.getToken());
+    assertNotNull(signInResponseDto.getToken());
   }
 
   @Test
@@ -82,17 +89,24 @@ class UserServiceTest {
   }
 
   @Test
-  public void testSignIn_WrongPassword() {
+  public void testSignIn_WrongPassword() throws NoSuchAlgorithmException {
+
+    // Create a hashed password for a different password
+    String correctPassword = "password";
+    MessageDigest md = MessageDigest.getInstance("MD5");
+    md.update(correctPassword.getBytes());
+    byte[] digest = md.digest();
+    String hashedPassword = DatatypeConverter.printHexBinary(digest).toUpperCase();
 
     User user = new User();
     user.setEmail("test@example.com");
-    user.setPassword("password");
+    user.setPassword(hashedPassword); // Use hashed password
 
     when(userRepository.findByEmail("test@example.com")).thenReturn(user);
 
     SignInDto signInDto = new SignInDto();
     signInDto.setEmail("test@example.com");
-    signInDto.setPassword("wrongpassword");
+    signInDto.setPassword("wrongpassword"); // Different password
 
     assertThrows(AuthenticationFailException.class, () -> userService.signIn(signInDto));
   }
