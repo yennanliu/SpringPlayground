@@ -73,7 +73,7 @@ public class UserController {
         new ApiResponse(true, "User has been updated"), HttpStatus.OK);
   }
 
-  @PostMapping("/signup")
+  @PostMapping("/signUp")
   public ResponseDto signUp(@RequestBody SignupDto signupDto) throws CustomException {
 
     return userService.signUp(signupDto);
