@@ -9,10 +9,13 @@ import EmployeeSystem.service.UserService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
 @RestController
@@ -71,6 +74,56 @@ public class UserController {
     userService.updateUser(userCreateDto);
     return new ResponseEntity<ApiResponse>(
         new ApiResponse(true, "User has been updated"), HttpStatus.OK);
+  }
+
+  @PostMapping("/update/{userId}")
+  public ResponseEntity<ApiResponse> updateUserWithPhoto(
+      @PathVariable("userId") Integer userId,
+      @RequestParam("user") String userJson,
+      @RequestParam(value = "photo", required = false) MultipartFile photo) {
+
+    try {
+      // Parse the JSON string to UserCreateDto
+      ObjectMapper objectMapper = new ObjectMapper();
+      UserCreateDto userCreateDto = objectMapper.readValue(userJson, UserCreateDto.class);
+      userCreateDto.setId(userId);
+
+      log.info(">>> Updating user with ID: {}", userId);
+      log.info(">>> User data: {}", userCreateDto);
+      log.info(">>> Photo file: {}", photo != null ? photo.getOriginalFilename() : "null");
+
+      if (photo != null) {
+        log.info(">>> Photo size: {} bytes", photo.getSize());
+      }
+
+      userService.updateUserWithPhoto(userCreateDto, photo);
+      return new ResponseEntity<>(
+          new ApiResponse(true, "User has been updated successfully"), HttpStatus.OK);
+
+    } catch (Exception e) {
+      log.error("Error updating user: {}", e.getMessage());
+      return new ResponseEntity<>(
+          new ApiResponse(false, "Failed to update user: " + e.getMessage()), 
+          HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  @GetMapping("/photo/{userId}")
+  public ResponseEntity<byte[]> getUserPhoto(@PathVariable("userId") Integer userId) {
+    
+    try {
+      User user = userService.getUserById(userId);
+      if (user != null && user.getPhoto() != null) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG); // Default to JPEG, could be enhanced to detect type
+        return new ResponseEntity<>(user.getPhoto(), headers, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      }
+    } catch (Exception e) {
+      log.error("Error retrieving user photo: {}", e.getMessage());
+      return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   @PostMapping("/signUp")

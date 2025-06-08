@@ -3,7 +3,14 @@
     <router-link :to="{ name: 'ShowUserDetails', params: { id: user.id } }" class="user-link">
       <div class="user-header">
         <div class="user-avatar">
-          <span>{{ getInitials(user.firstName, user.lastName) }}</span>
+          <img 
+            v-if="!photoError && userPhotoUrl" 
+            :src="userPhotoUrl" 
+            :alt="`${user.firstName} ${user.lastName}`"
+            class="avatar-image"
+            @error="handlePhotoError"
+          />
+          <span v-else>{{ getInitials(user.firstName, user.lastName) }}</span>
         </div>
         <div class="user-status">
           <span class="status-indicator online"></span>
@@ -66,7 +73,16 @@ export default {
   data() {
     return {
       users: [],
+      photoError: false,
     };
+  },
+  computed: {
+    userPhotoUrl() {
+      if (!this.user || !this.user.id || this.photoError) {
+        return null;
+      }
+      return `http://localhost:9998/users/photo/${this.user.id}`;
+    }
   },
   methods: {
     getInitials(firstName, lastName) {
@@ -101,6 +117,10 @@ export default {
           });
         })
         .catch((err) => console.log("err", err));
+    },
+
+    handlePhotoError() {
+      this.photoError = true;
     },
   },
 };
@@ -151,6 +171,14 @@ export default {
   font-size: 30px;
   font-weight: 700;
   box-shadow: 0 4px 12px rgba(255, 56, 92, 0.25);
+  overflow: hidden;
+}
+
+.avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
 }
 
 .user-status {

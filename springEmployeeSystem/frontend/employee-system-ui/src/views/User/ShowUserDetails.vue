@@ -89,14 +89,14 @@
 
       <div class="col-md-5 col-12 pt-3 pt-md-0 text-center">
         <!-- User photo -->
-        <img
-          :src="
-            user.photoUrl ||
-            require('./../../../public/images/default_user_photo.png')
-          "
-          alt="User Photo"
-          style="max-width: 100%; max-height: 300px"
-        />
+        <div class="user-photo-container">
+          <img
+            :src="userPhotoUrl"
+            alt="User Photo"
+            class="user-photo"
+            @error="handlePhotoError"
+          />
+        </div>
       </div>
 
       <div class="col-md-1"></div>
@@ -113,9 +113,22 @@ export default {
       user: {},
       userVacations: [],
       subordinates: [],
+      photoError: false,
     };
   },
+  computed: {
+    userPhotoUrl() {
+      if (this.photoError || !this.user.id) {
+        return require('./../../../public/images/default_user_photo.png');
+      }
+      return `http://localhost:9998/users/photo/${this.user.id}`;
+    }
+  },
   methods: {
+    handlePhotoError() {
+      console.log('Error loading user photo, using default');
+      this.photoError = true;
+    },
     async getUser() {
       // Fetch user details
       await axios
@@ -154,5 +167,18 @@ export default {
 </script>
 
 <style scoped>
-/* Add scoped styles here if needed */
+.user-photo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.user-photo {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  object-fit: cover;
+}
 </style>
