@@ -168,25 +168,8 @@ public class UserService {
     if (optionalUser.isPresent()) {
       User existingUser = optionalUser.get();
       
-      // Update fields while preserving existing data
-      if (userCreateDto.getFirstName() != null) {
-        existingUser.setFirstName(userCreateDto.getFirstName());
-      }
-      if (userCreateDto.getLastName() != null) {
-        existingUser.setLastName(userCreateDto.getLastName());
-      }
-      if (userCreateDto.getEmail() != null) {
-        existingUser.setEmail(userCreateDto.getEmail());
-      }
-      if (userCreateDto.getRole() != null) {
-        existingUser.setRole(userCreateDto.getRole());
-      }
-      if (userCreateDto.getDepartementId() != null) {
-        existingUser.setDepartementId(userCreateDto.getDepartementId());
-      }
-      if (userCreateDto.getManagerId() != null) {
-        existingUser.setManagerId(userCreateDto.getManagerId());
-      }
+      // Update fields using helper method
+      updateUserFields(existingUser, userCreateDto);
       
       userRepository.save(existingUser);
       log.info("User updated successfully with ID: {}", userCreateDto.getId());
@@ -202,25 +185,8 @@ public class UserService {
     if (optionalUser.isPresent()) {
       User existingUser = optionalUser.get();
       
-      // Update basic fields
-      if (userCreateDto.getFirstName() != null) {
-        existingUser.setFirstName(userCreateDto.getFirstName());
-      }
-      if (userCreateDto.getLastName() != null) {
-        existingUser.setLastName(userCreateDto.getLastName());
-      }
-      if (userCreateDto.getEmail() != null) {
-        existingUser.setEmail(userCreateDto.getEmail());
-      }
-      if (userCreateDto.getRole() != null) {
-        existingUser.setRole(userCreateDto.getRole());
-      }
-      if (userCreateDto.getDepartementId() != null) {
-        existingUser.setDepartementId(userCreateDto.getDepartementId());
-      }
-      if (userCreateDto.getManagerId() != null) {
-        existingUser.setManagerId(userCreateDto.getManagerId());
-      }
+      // Update basic fields using helper method
+      updateUserFields(existingUser, userCreateDto);
 
       // Handle photo upload
       if (photo != null && !photo.isEmpty()) {
@@ -239,6 +205,34 @@ public class UserService {
     } else {
       log.error("User with ID {} not found", userCreateDto.getId());
       throw new RuntimeException("User not found with ID: " + userCreateDto.getId());
+    }
+  }
+
+  /**
+   * Helper method to update user fields from UserCreateDto.
+   * Only updates fields that are not null, preserving existing values for null fields.
+   * 
+   * @param existingUser The existing user entity to update
+   * @param userCreateDto The DTO containing the new values
+   */
+  private void updateUserFields(User existingUser, UserCreateDto userCreateDto) {
+    if (userCreateDto.getFirstName() != null) {
+      existingUser.setFirstName(userCreateDto.getFirstName());
+    }
+    if (userCreateDto.getLastName() != null) {
+      existingUser.setLastName(userCreateDto.getLastName());
+    }
+    if (userCreateDto.getEmail() != null) {
+      existingUser.setEmail(userCreateDto.getEmail());
+    }
+    if (userCreateDto.getRole() != null) {
+      existingUser.setRole(userCreateDto.getRole());
+    }
+    if (userCreateDto.getDepartementId() != null) {
+      existingUser.setDepartementId(userCreateDto.getDepartementId());
+    }
+    if (userCreateDto.getManagerId() != null) {
+      existingUser.setManagerId(userCreateDto.getManagerId());
     }
   }
 
