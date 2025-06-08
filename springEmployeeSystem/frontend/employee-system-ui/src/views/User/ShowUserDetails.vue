@@ -439,7 +439,7 @@ export default {
 /* Hero Section */
 .user-hero {
   position: relative;
-  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  background: linear-gradient(135deg, #4c63d2 0%, #5a4fcf 35%, #6b46c1 100%);
   color: white;
   padding: 4rem 0;
   overflow: hidden;
@@ -451,7 +451,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.2) 100%);
   pointer-events: none;
 }
 
