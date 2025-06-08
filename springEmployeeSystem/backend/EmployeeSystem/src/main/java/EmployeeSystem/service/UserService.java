@@ -12,16 +12,19 @@ import EmployeeSystem.model.User;
 import EmployeeSystem.model.dto.*;
 import EmployeeSystem.repository.UserRepository;
 import EmployeeSystem.util.Helper;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Service
@@ -161,9 +164,82 @@ public class UserService {
 
   public void updateUser(UserCreateDto userCreateDto) {
 
-    User updatedUser = new User();
-    BeanUtils.copyProperties(userCreateDto, updatedUser);
-    userRepository.save(updatedUser);
+    Optional<User> optionalUser = userRepository.findById(userCreateDto.getId());
+    if (optionalUser.isPresent()) {
+      User existingUser = optionalUser.get();
+      
+      // Update fields while preserving existing data
+      if (userCreateDto.getFirstName() != null) {
+        existingUser.setFirstName(userCreateDto.getFirstName());
+      }
+      if (userCreateDto.getLastName() != null) {
+        existingUser.setLastName(userCreateDto.getLastName());
+      }
+      if (userCreateDto.getEmail() != null) {
+        existingUser.setEmail(userCreateDto.getEmail());
+      }
+      if (userCreateDto.getRole() != null) {
+        existingUser.setRole(userCreateDto.getRole());
+      }
+      if (userCreateDto.getDepartementId() != null) {
+        existingUser.setDepartementId(userCreateDto.getDepartementId());
+      }
+      if (userCreateDto.getManagerId() != null) {
+        existingUser.setManagerId(userCreateDto.getManagerId());
+      }
+      
+      userRepository.save(existingUser);
+      log.info("User updated successfully with ID: {}", userCreateDto.getId());
+    } else {
+      log.error("User with ID {} not found", userCreateDto.getId());
+      throw new RuntimeException("User not found with ID: " + userCreateDto.getId());
+    }
+  }
+
+  public void updateUserWithPhoto(UserCreateDto userCreateDto, MultipartFile photo) {
+    
+    Optional<User> optionalUser = userRepository.findById(userCreateDto.getId());
+    if (optionalUser.isPresent()) {
+      User existingUser = optionalUser.get();
+      
+      // Update basic fields
+      if (userCreateDto.getFirstName() != null) {
+        existingUser.setFirstName(userCreateDto.getFirstName());
+      }
+      if (userCreateDto.getLastName() != null) {
+        existingUser.setLastName(userCreateDto.getLastName());
+      }
+      if (userCreateDto.getEmail() != null) {
+        existingUser.setEmail(userCreateDto.getEmail());
+      }
+      if (userCreateDto.getRole() != null) {
+        existingUser.setRole(userCreateDto.getRole());
+      }
+      if (userCreateDto.getDepartementId() != null) {
+        existingUser.setDepartementId(userCreateDto.getDepartementId());
+      }
+      if (userCreateDto.getManagerId() != null) {
+        existingUser.setManagerId(userCreateDto.getManagerId());
+      }
+
+      // Handle photo upload
+      if (photo != null && !photo.isEmpty()) {
+        try {
+          byte[] photoBytes = photo.getBytes();
+          existingUser.setPhoto(photoBytes);
+          log.info("Photo updated for user ID: {}, size: {} bytes", userCreateDto.getId(), photoBytes.length);
+        } catch (IOException e) {
+          log.error("Error processing photo for user ID: {}", userCreateDto.getId(), e);
+          throw new RuntimeException("Failed to process photo: " + e.getMessage());
+        }
+      }
+      
+      userRepository.save(existingUser);
+      log.info("User updated successfully with ID: {}", userCreateDto.getId());
+    } else {
+      log.error("User with ID {} not found", userCreateDto.getId());
+      throw new RuntimeException("User not found with ID: " + userCreateDto.getId());
+    }
   }
 
   // get subordinates under manager
