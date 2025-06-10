@@ -1,7 +1,7 @@
 package EmployeeSystem.service;
 
 import EmployeeSystem.enums.VacationStatus;
-import EmployeeSystem.model.NotificationEmail;
+
 import EmployeeSystem.model.Vacation;
 import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.repository.VacationRepository;
@@ -19,7 +19,7 @@ public class VacationService {
 
   private final String adminEmail = "employee_admin@dev.com";
   @Autowired VacationRepository vacationRepository;
-  @Autowired MailService mailService;
+  @Autowired EmailService emailService;
 
   public List<Vacation> getVacations() {
 
@@ -54,23 +54,21 @@ public class VacationService {
     // set default status as pending
     vacation.setStatus(VacationStatus.PENDING.getName());
 
-    // TODO : fix/check why async send email seems NOT working
-    log.info("send vacation email start ... " + vacation);
-    mailService.sendMail(
-        new NotificationEmail(
-            "Vacation created - " + vacation.getUserId() + " - " + vacation.getType(),
-            adminEmail,
-            "Hi, "
-                + vacation.getUserId()
-                + "\n"
-                + "Your vacation is received,"
-                + "\n"
-                + "Start date = "
-                + vacation.getStartDate()
-                + ", End date = "
-                + vacation.getEndDate()
-                + "\n"
-                + "We will review and back to you ASAP !!"));
+    // Send vacation notification emails asynchronously using dedicated email thread pool
+    log.info("Sending vacation notification emails for vacation: " + vacation);
+    
+    // Send notification to admin
+    emailService.sendAdminNotificationAsync(
+        adminEmail,
+        vacation.getUserId(),
+        vacation.getType(),
+        vacation.getStartDate().toString(),
+        vacation.getEndDate().toString()
+    );
+    
+    // TODO: Send notification to user (need to get user email from userId)
+    // For now, we can add a placeholder for future enhancement
+    log.info("User notification email would be sent here once user email lookup is implemented");
     vacationRepository.save(vacation);
   }
 }
