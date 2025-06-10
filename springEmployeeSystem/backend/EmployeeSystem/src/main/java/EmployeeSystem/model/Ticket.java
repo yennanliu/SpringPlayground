@@ -4,8 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -27,19 +30,11 @@ public class Ticket {
    * Updated the @Column annotation for description to use columnDefinition = "TEXT".
    * This tells Hibernate to create the column as a TEXT type in the database,
    * which can hold much larger strings compared to a VARCHAR.
-   *
-   *
-   *  NOTE !!!
-   *    if app failed to start, comment out "@Column(name = "description", columnDefinition = "TEXT")"
-   *    start app, then modify table attr type manually via below cmd :
-   *
-   *    ALTER TABLE tickets MODIFY COLUMN description TEXT;
-   *
-   *  -> then run app again
+   * 
+   * Fixed to work with both MySQL 5 and MySQL 8 for auto table creation.
    */
-  //@Column(name = "description")
-  @Column(name = "description", columnDefinition = "TEXT")
-  private String description; // Use TEXT type for longer strings
+  @Column(name = "description", columnDefinition = "LONGTEXT")
+  private String description; // Use LONGTEXT type for longer strings
 
   @Column(name = "user_id")
   private Integer userId;
@@ -52,4 +47,12 @@ public class Ticket {
 
   @Column(name = "tag")
   private String tag;
+
+  @CreationTimestamp
+  @Column(name = "created_at", nullable = false, updatable = false)
+  private LocalDateTime createdAt;
+
+  @UpdateTimestamp
+  @Column(name = "updated_at", nullable = false)
+  private LocalDateTime updatedAt;
 }
