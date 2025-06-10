@@ -319,7 +319,7 @@ export default {
   background: white;
   border-radius: 20px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
+  overflow: visible;
   transition: transform 0.3s ease;
 }
 
@@ -369,6 +369,8 @@ export default {
 
 .card-body {
   padding: 40px;
+  position: relative;
+  z-index: 1;
 }
 
 .vacation-form {
@@ -640,5 +642,74 @@ export default {
 .mx-input:focus {
   border-color: #3498db !important;
   box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1) !important;
+}
+
+/* Fix date picker dropdown z-index and positioning issues */
+.mx-datepicker-popup {
+  z-index: 99999 !important;
+  position: fixed !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15) !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 12px !important;
+  background: white !important;
+}
+
+.mx-calendar {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  background: white !important;
+  z-index: 99999 !important;
+}
+
+.mx-calendar-header {
+  background: #3498db !important;
+  color: white !important;
+}
+
+.mx-calendar-content .cell.active {
+  background: #3498db !important;
+  color: white !important;
+}
+
+.mx-calendar-content .cell.today {
+  color: #3498db !important;
+  font-weight: 600 !important;
+}
+
+.mx-calendar-content .cell:hover {
+  background: rgba(52, 152, 219, 0.1) !important;
+}
+
+/* Ensure the date input wrapper doesn't clip the dropdown */
+.date-input-wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* Make sure the date range section doesn't interfere with dropdown positioning */
+.date-range-section {
+  position: relative;
+  z-index: auto;
+  overflow: visible;
+}
+
+/* Additional fixes for dropdown positioning */
+.modern-datepicker .mx-datepicker-main {
+  z-index: 99999 !important;
+}
+
+.modern-datepicker .mx-datepicker-popup {
+  position: fixed !important;
+  z-index: 99999 !important;
+  background: white !important;
+}
+
+/* Global date picker z-index fix */
+.mx-datepicker {
+  z-index: 99999 !important;
+}
+
+.mx-datepicker * {
+  z-index: inherit !important;
 }
 </style>
