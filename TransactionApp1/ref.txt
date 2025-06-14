@@ -1,0 +1,138 @@
+以下是一個使用 Spring Boot + Saga Pattern（Orchestration風格） 的簡化範例，模擬「訂單 → 庫存 → 付款」的分散式交易流程。
+
+⸻
+
+✅ 專案結構概觀：
+
+saga-orchestration/
+├── order-service/
+├── inventory-service/
+├── payment-service/
+└── saga-orchestrator/
+
+
+⸻
+
+✅ 共通：使用 Kafka 做服務間溝通（可改為其他 Event Bus）
+
+先加入 Kafka 依賴（以 order-service 為例）：
+
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.kafka</groupId>
+  <artifactId>spring-kafka</artifactId>
+</dependency>
+
+
+⸻
+
+1️⃣ Order Service（建立訂單）
+
+@RestController
+@RequestMapping("/orders")
+public class OrderController {
+
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
+
+    @PostMapping
+    public ResponseEntity<String> createOrder(@RequestBody Order order) {
+        // 保存訂單邏輯略
+        kafkaTemplate.send("order-created", order.getOrderId());
+        return ResponseEntity.ok("Order created and event published");
+    }
+}
+
+
+⸻
+
+2️⃣ Inventory Service（扣庫存）
+
+@Component
+public class InventoryListener {
+
+    @KafkaListener(topics = "order-created", groupId = "inventory")
+    public void reserveInventory(String orderId) {
+        // 扣庫存成功後，發出下一步事件
+        kafkaTemplate.send("inventory-reserved", orderId);
+    }
+}
+
+
+⸻
+
+3️⃣ Payment Service（扣款）
+
+@Component
+public class PaymentListener {
+
+    @KafkaListener(topics = "inventory-reserved", groupId = "payment")
+    public void processPayment(String orderId) {
+        boolean success = tryCharge(orderId);
+        if (success) {
+            kafkaTemplate.send("payment-success", orderId);
+        } else {
+            kafkaTemplate.send("payment-failed", orderId);
+        }
+    }
+
+    private boolean tryCharge(String orderId) {
+        // 模擬扣款邏輯
+        return Math.random() > 0.2;
+    }
+}
+
+
+⸻
+
+4️⃣ Saga Orchestrator（協調器）
+
+@Component
+public class SagaCoordinator {
+
+    @KafkaListener(topics = "payment-failed", groupId = "orchestrator")
+    public void compensate(String orderId) {
+        // 呼叫庫存補償（回滾保留）
+        kafkaTemplate.send("compensate-inventory", orderId);
+        // 呼叫訂單取消
+        kafkaTemplate.send("cancel-order", orderId);
+    }
+
+    @KafkaListener(topics = "payment-success", groupId = "orchestrator")
+    public void completeOrder(String orderId) {
+        // 最終完成訂單
+        System.out.println("Order " + orderId + " successfully completed");
+    }
+}
+
+
+⸻
+
+✅ Event Flow Summary：
+
+1. OrderController → publish "order-created"
+2. InventoryService → listen "order-created" → reserve → publish "inventory-reserved"
+3. PaymentService → listen "inventory-reserved" → charge
+     ├── success → publish "payment-success"
+     └── fail   → publish "payment-failed"
+4. SagaCoordinator → listen to success/fail to compensate or confirm
+
+
+⸻
+
+✅ 補償處理範例（庫存回滾）
+
+@KafkaListener(topics = "compensate-inventory", groupId = "inventory")
+public void rollbackInventory(String orderId) {
+    // 補償邏輯（增加庫存）
+}
+
+
+⸻
+
+如果你不想用 Kafka，也可替換為：
+	•	RabbitMQ（AMQP）
+	•	REST callback
+	•	或用 Axon Framework / Eventuate
+
+⸻
