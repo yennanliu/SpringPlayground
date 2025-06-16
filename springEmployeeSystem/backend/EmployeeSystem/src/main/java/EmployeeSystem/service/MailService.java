@@ -64,19 +64,25 @@ public class MailService {
     };
 
     try {
+
+      /** for thread debugging */
+      Thread.sleep(10 * 1000); // sleep 10 sec
+
       // Send the email
       mailSender.send(messagePreparator);
       
-      log.info("[{}] ✅ Email sent successfully in thread: {} to: {} with subject: '{}'", 
+      log.info(">>> [{}] ✅ Email sent successfully in thread: {} to: {} with subject: '{}'",
                timestamp, threadName, notificationEmail.getRecipient(), notificationEmail.getSubject());
       
     } catch (MailException e) {
-      log.error("[{}] ❌ Mail sending failed in thread: {} for recipient: {} - Error: {}", 
+      log.error(">>> [{}] ❌ Mail sending failed in thread: {} for recipient: {} - Error: {}",
                 timestamp, threadName, notificationEmail.getRecipient(), e.getMessage());
       
       // Don't throw exception here to prevent breaking the async flow
       // Instead, log the error and potentially implement retry logic or dead letter queue
       handleEmailFailure(notificationEmail, e, timestamp);
+    } catch (InterruptedException e) {
+        throw new RuntimeException(e);
     }
   }
 
