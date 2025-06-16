@@ -26,12 +26,18 @@ public class MailService {
   /**
    * Sends email asynchronously using dedicated email thread pool
    * This method runs in a separate thread to avoid blocking the main application thread
-   * 
+   *
    * @param notificationEmail Email details including recipient, subject, and body
+   */
+  /**
+   * In Spring Boot, the annotation @Async("emailTaskExecutor") means:
+   *
+   * Run this method asynchronously using the task executor bean named emailTaskExecutor.
+   *
    */
   @Async("emailTaskExecutor")
   public void sendMail(NotificationEmail notificationEmail) {
-    
+
     String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     String threadName = Thread.currentThread().getName();
     
