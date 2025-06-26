@@ -1,41 +1,41 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!-- https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 -->
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yen.mdblog.mapper.AuthorMapper">
+<!--<?xml version="1.0" encoding="UTF-8" ?>-->
+<!--&lt;!&ndash; https://dotblogs.com.tw/zjh/2018/09/28/mybatis_1 &ndash;&gt;-->
+<!--<!DOCTYPE mapper-->
+<!--        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"-->
+<!--        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">-->
+<!--<mapper namespace="com.yen.mdblog.mapper.AuthorMapper">-->
 
-    <!-- public Author getById(long id); -->
-    <select id="getById" resultType="com.yen.mdblog.entity.Po.Author" parameterType="int">
-        SELECT * FROM authors where id = #{id}
-    </select>
+<!--    &lt;!&ndash; public Author getById(long id); &ndash;&gt;-->
+<!--    <select id="getById" resultType="com.yen.mdblog.entity.Po.Author" parameterType="int">-->
+<!--        SELECT * FROM authors where id = #{id}-->
+<!--    </select>-->
 
-    <!-- public Author getByName(@Param("name") String name); -->
-    <select id="getByName" resultType="com.yen.mdblog.entity.Po.Author" parameterType="string">
-        SELECT * FROM authors where name = #{name}
-    </select>
+<!--    &lt;!&ndash; public Author getByName(@Param("name") String name); &ndash;&gt;-->
+<!--    <select id="getByName" resultType="com.yen.mdblog.entity.Po.Author" parameterType="string">-->
+<!--        SELECT * FROM authors where name = #{name}-->
+<!--    </select>-->
 
-    <!-- public List<Author> getAllAuthors(); -->
-    <select id="getAllAuthors" resultType="com.yen.mdblog.entity.Po.Author">
-        SELECT * FROM authors
-    </select>
+<!--    &lt;!&ndash; public List<Author> getAllAuthors(); &ndash;&gt;-->
+<!--    <select id="getAllAuthors" resultType="com.yen.mdblog.entity.Po.Author">-->
+<!--        SELECT * FROM authors-->
+<!--    </select>-->
 
-    <!-- public Integer getAuthorCount(); -->
-    <select id="getAuthorCount" resultType="int">
-        SELECT COUNT(*) FROM authors
-    </select>
+<!--    &lt;!&ndash; public Integer getAuthorCount(); &ndash;&gt;-->
+<!--    <select id="getAuthorCount" resultType="int">-->
+<!--        SELECT COUNT(*) FROM authors-->
+<!--    </select>-->
 
-    <!-- public void insertAuthor(Author author); -->
-    <insert id="insertAuthor">
-        INSERT INTO authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)
-        values(#{id}, #{email}, #{name}, #{url}, #{createTime}, #{updateTime})
-    </insert>
+<!--    &lt;!&ndash; public void insertAuthor(Author author); &ndash;&gt;-->
+<!--    <insert id="insertAuthor">-->
+<!--        INSERT INTO authors(`id`,`email`,`name`,`url`, `create_time`, `update_time`)-->
+<!--        values(#{id}, #{email}, #{name}, #{url}, #{createTime}, #{updateTime})-->
+<!--    </insert>-->
 
-    <!-- public void updateAuthor(Author author); -->
-    <update id="updateAuthor">
-        UPDATE authors
-        SET name = #{name}, email = #{email}
-        WHERE id = #{id}
-    </update>
+<!--    &lt;!&ndash; public void updateAuthor(Author author); &ndash;&gt;-->
+<!--    <update id="updateAuthor">-->
+<!--        UPDATE authors-->
+<!--        SET name = #{name}, email = #{email}-->
+<!--        WHERE id = #{id}-->
+<!--    </update>-->
 
-</mapper>
+<!--</mapper>-->
