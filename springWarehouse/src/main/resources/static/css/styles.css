@@ -1,0 +1,75 @@
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2ecc71;
+  --dark-color: #34495e;
+  --light-color: #ecf0f1;
+  --danger-color: #e74c3c;
+  --success-color: #2ecc71;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+}
+
+/* Modern card styling */
+.custom-card {
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.custom-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Modern button styling */
+.btn-custom {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.btn-custom-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-custom-primary:hover {
+  background-color: #2980b9;
+}
+
+/* Form styling */
+.modern-form .form-control {
+  border-radius: 8px;
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+}
+
+.modern-form .form-control:focus {
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.25);
+  border-color: var(--primary-color);
+}
+
+/* Custom animations */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} 
