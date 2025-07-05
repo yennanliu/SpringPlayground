@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.*;
 @Slf4j
 @RestController
 @RequestMapping("/recommend")
+@CrossOrigin(origins = "*")  // Enable CORS for all origins
 public class RecommendationsController {
 
     @Autowired
     private CustomSpotifyRecommendationService recommendationsService;
 
-    @PostMapping("/")
+    @PostMapping({"", "/"})  // Handle both /recommend and /recommend/
     public ResponseEntity<?> getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto) {
         try {
             log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
