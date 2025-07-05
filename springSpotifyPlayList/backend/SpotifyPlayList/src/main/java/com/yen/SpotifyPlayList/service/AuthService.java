@@ -18,7 +18,7 @@ import se.michaelthelin.spotify.requests.authorization.client_credentials.Client
 
 @Service
 @Slf4j
-public class AuthService {
+public class AuthService implements IAuthService {
 
     @Value("${spotify.client.id}")
     private String clientId;
