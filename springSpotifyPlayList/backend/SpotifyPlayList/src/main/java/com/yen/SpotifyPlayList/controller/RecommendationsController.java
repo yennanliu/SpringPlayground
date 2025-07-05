@@ -1,13 +1,12 @@
 package com.yen.SpotifyPlayList.controller;
 
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
-import com.yen.SpotifyPlayList.service.RecommendationsService;
+import com.yen.SpotifyPlayList.service.CustomSpotifyRecommendationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 
 @Slf4j
 @RestController
@@ -15,30 +14,29 @@ import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 public class RecommendationsController {
 
     @Autowired
-    private RecommendationsService recommendationsService;
+    private CustomSpotifyRecommendationService recommendationsService;
 
     @PostMapping("/")
-    public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto) {
+    public ResponseEntity<?> getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto) {
         try {
             log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
-            Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
-            return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+            ResponseEntity<String> recommendations = recommendationsService.getRecommendations(getRecommendationsDto);
+            return ResponseEntity.status(recommendations.getStatusCode()).body(recommendations.getBody());
         } catch (Exception e) {
             log.error("getRecommendation error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
+    // TODO: Implement custom recommendation logic for playlist-based recommendations
     @GetMapping("/playlist/{playListId}")
-    public ResponseEntity getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
+    public ResponseEntity<?> getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
         try {
             log.info("(getRecommendationWithPlayList) playListId = " + playListId);
-            Recommendations recommendations = recommendationsService.getRecommendationWithPlayList(playListId);
-            return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+            return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).body("Feature not yet implemented with custom service");
         } catch (Exception e) {
             log.error("getRecommendationWithPlayList error : " + e);
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-
 }
