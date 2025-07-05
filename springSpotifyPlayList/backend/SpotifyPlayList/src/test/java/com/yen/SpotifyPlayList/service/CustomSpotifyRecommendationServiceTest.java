@@ -3,6 +3,7 @@ package com.yen.SpotifyPlayList.service;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -12,7 +13,6 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -49,7 +49,7 @@ public class CustomSpotifyRecommendationServiceTest {
 
         ResponseEntity<String> mockResponse = new ResponseEntity<>(MOCK_RESPONSE, HttpStatus.OK);
         when(restTemplate.exchange(
-            anyString(),
+            any(String.class),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
@@ -63,17 +63,26 @@ public class CustomSpotifyRecommendationServiceTest {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertEquals(MOCK_RESPONSE, response.getBody());
 
-        // Verify HTTP call was made with correct headers
+        // Verify HTTP call was made with correct URL and headers
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        ArgumentCaptor<HttpEntity<?>> entityCaptor = ArgumentCaptor.forClass(HttpEntity.class);
+        
         verify(restTemplate).exchange(
-            anyString(),
+            urlCaptor.capture(),
             eq(HttpMethod.GET),
-            argThat(entity -> {
-                HttpHeaders headers = entity.getHeaders();
-                return headers.getContentType().equals(MediaType.APPLICATION_JSON) &&
-                       headers.getFirst(HttpHeaders.AUTHORIZATION).equals("Bearer " + MOCK_ACCESS_TOKEN);
-            }),
+            entityCaptor.capture(),
             eq(String.class)
         );
+
+        String capturedUrl = urlCaptor.getValue();
+        assertTrue(capturedUrl.startsWith(BASE_URL + "/recommendations"));
+        assertTrue(capturedUrl.contains("seed_artists=artist123"));
+        assertTrue(capturedUrl.contains("seed_tracks=track123"));
+        assertTrue(capturedUrl.contains("seed_genres=rock"));
+
+        HttpHeaders headers = entityCaptor.getValue().getHeaders();
+        assertEquals(MediaType.APPLICATION_JSON, headers.getContentType());
+        assertEquals("Bearer " + MOCK_ACCESS_TOKEN, headers.getFirst(HttpHeaders.AUTHORIZATION));
     }
 
     @Test
@@ -86,7 +95,7 @@ public class CustomSpotifyRecommendationServiceTest {
 
         ResponseEntity<String> mockResponse = new ResponseEntity<>(MOCK_RESPONSE, HttpStatus.OK);
         when(restTemplate.exchange(
-            anyString(),
+            any(String.class),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
@@ -98,6 +107,21 @@ public class CustomSpotifyRecommendationServiceTest {
         // Assert
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        // Verify URL doesn't contain seed parameters
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
+        verify(restTemplate).exchange(
+            urlCaptor.capture(),
+            eq(HttpMethod.GET),
+            any(HttpEntity.class),
+            eq(String.class)
+        );
+
+        String capturedUrl = urlCaptor.getValue();
+        assertTrue(capturedUrl.startsWith(BASE_URL + "/recommendations"));
+        assertFalse(capturedUrl.contains("seed_artists="));
+        assertFalse(capturedUrl.contains("seed_tracks="));
+        assertFalse(capturedUrl.contains("seed_genres="));
     }
 
     @Test
@@ -111,6 +135,14 @@ public class CustomSpotifyRecommendationServiceTest {
             recommendationService.getRecommendations(dto);
         });
         assertTrue(exception.getMessage().contains("Failed to get recommendations"));
+        
+        // Verify no HTTP call was made
+        verify(restTemplate, never()).exchange(
+            any(String.class),
+            any(HttpMethod.class),
+            any(HttpEntity.class),
+            eq(String.class)
+        );
     }
 
     @Test
@@ -120,7 +152,7 @@ public class CustomSpotifyRecommendationServiceTest {
         
         GetRecommendationsDto dto = new GetRecommendationsDto();
         when(restTemplate.exchange(
-            anyString(),
+            any(String.class),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
@@ -146,7 +178,7 @@ public class CustomSpotifyRecommendationServiceTest {
 
         ResponseEntity<String> mockResponse = new ResponseEntity<>(MOCK_RESPONSE, HttpStatus.OK);
         when(restTemplate.exchange(
-            anyString(),
+            any(String.class),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
@@ -155,19 +187,20 @@ public class CustomSpotifyRecommendationServiceTest {
         // Act
         recommendationService.getRecommendations(dto);
 
-        // Verify
+        // Verify URL construction
+        ArgumentCaptor<String> urlCaptor = ArgumentCaptor.forClass(String.class);
         verify(restTemplate).exchange(
-            argThat(url -> {
-                String urlStr = url;
-                return urlStr.contains("/recommendations") &&
-                       urlStr.contains("seed_artists=artist123") &&
-                       urlStr.contains("seed_tracks=track123") &&
-                       urlStr.contains("seed_genres=rock") &&
-                       urlStr.contains("limit=5");
-            }),
+            urlCaptor.capture(),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
         );
+
+        String capturedUrl = urlCaptor.getValue();
+        assertTrue(capturedUrl.startsWith(BASE_URL + "/recommendations"));
+        assertTrue(capturedUrl.contains("seed_artists=artist123"));
+        assertTrue(capturedUrl.contains("seed_tracks=track123"));
+        assertTrue(capturedUrl.contains("seed_genres=rock"));
+        assertTrue(capturedUrl.contains("limit=5"));
     }
 } 
