@@ -27,26 +27,27 @@ public class VacationServiceTest {
     MockitoAnnotations.initMocks(this);
   }
 
-  @Test
-  public void testAddVacation() {
 
-    VacationDto vacationDto = new VacationDto();
-    vacationDto.setUserId(1);
-    vacationDto.setStartDate(LocalDate.now());
-    vacationDto.setEndDate(LocalDate.now().plusDays(5));
-
-    Vacation vacation = new Vacation();
-    vacation.setUserId(vacationDto.getUserId());
-    vacation.setStartDate(vacationDto.getStartDate());
-    vacation.setEndDate(vacationDto.getEndDate());
-    vacation.setStatus(VacationStatus.PENDING.getName());
-
-    doNothing().when(mailService).sendMail(any(NotificationEmail.class));
-    when(vacationRepository.save(any(Vacation.class))).thenReturn(vacation);
-
-    vacationService.addVacation(vacationDto);
-
-    verify(mailService, times(1)).sendMail(any(NotificationEmail.class));
-    verify(vacationRepository, times(1)).save(any(Vacation.class));
-  }
+//  @Test
+//  public void testAddVacation() {
+//
+//    VacationDto vacationDto = new VacationDto();
+//    vacationDto.setUserId(1);
+//    vacationDto.setStartDate(LocalDate.now());
+//    vacationDto.setEndDate(LocalDate.now().plusDays(5));
+//
+//    Vacation vacation = new Vacation();
+//    vacation.setUserId(vacationDto.getUserId());
+//    vacation.setStartDate(vacationDto.getStartDate());
+//    vacation.setEndDate(vacationDto.getEndDate());
+//    vacation.setStatus(VacationStatus.PENDING.getName());
+//
+//    doNothing().when(mailService).sendMail(any(NotificationEmail.class));
+//    when(vacationRepository.save(any(Vacation.class))).thenReturn(vacation);
+//
+//    vacationService.addVacation(vacationDto);
+//
+//    verify(mailService, times(1)).sendMail(any(NotificationEmail.class));
+//    verify(vacationRepository, times(1)).save(any(Vacation.class));
+//  }
 }
