@@ -17,7 +17,7 @@ public class CustomSpotifyRecommendationService {
     private String spotifyApiBaseUrl;
 
     @Autowired
-    private AuthService authService;
+    private IAuthService authService;
 
     @Autowired
     private RestTemplate restTemplate;

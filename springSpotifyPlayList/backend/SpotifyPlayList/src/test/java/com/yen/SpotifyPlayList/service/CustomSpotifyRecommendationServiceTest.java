@@ -3,41 +3,45 @@ package com.yen.SpotifyPlayList.service;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.mockito.MockitoAnnotations;
 import org.springframework.http.*;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
 public class CustomSpotifyRecommendationServiceTest {
 
     @Mock
     private RestTemplate restTemplate;
 
     @Mock
-    private AuthService authService;
+    private IAuthService authService;
 
     @InjectMocks
     private CustomSpotifyRecommendationService recommendationService;
 
     private static final String MOCK_ACCESS_TOKEN = "mock-access-token";
     private static final String MOCK_RESPONSE = "{\"tracks\": [], \"seeds\": []}";
+    private static final String BASE_URL = "https://api.spotify.com/v1";
 
     @BeforeEach
     void setUp() {
-        when(authService.getAccessToken()).thenReturn(MOCK_ACCESS_TOKEN);
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(recommendationService, "spotifyApiBaseUrl", BASE_URL);
     }
 
     @Test
     void getRecommendations_Success() {
         // Arrange
+        when(authService.getAccessToken()).thenReturn(MOCK_ACCESS_TOKEN);
+        
         GetRecommendationsDto dto = new GetRecommendationsDto();
         dto.setSeedArtistId("artist123");
         dto.setSeedTrack("track123");
@@ -75,6 +79,8 @@ public class CustomSpotifyRecommendationServiceTest {
     @Test
     void getRecommendations_WithNullSeeds_Success() {
         // Arrange
+        when(authService.getAccessToken()).thenReturn(MOCK_ACCESS_TOKEN);
+        
         GetRecommendationsDto dto = new GetRecommendationsDto();
         // Don't set any seeds - test null handling
 
@@ -110,6 +116,8 @@ public class CustomSpotifyRecommendationServiceTest {
     @Test
     void getRecommendations_WhenSpotifyApiFails_ThrowsException() {
         // Arrange
+        when(authService.getAccessToken()).thenReturn(MOCK_ACCESS_TOKEN);
+        
         GetRecommendationsDto dto = new GetRecommendationsDto();
         when(restTemplate.exchange(
             anyString(),
@@ -128,6 +136,8 @@ public class CustomSpotifyRecommendationServiceTest {
     @Test
     void getRecommendations_VerifyUrlConstruction() {
         // Arrange
+        when(authService.getAccessToken()).thenReturn(MOCK_ACCESS_TOKEN);
+        
         GetRecommendationsDto dto = new GetRecommendationsDto();
         dto.setSeedArtistId("artist123");
         dto.setSeedTrack("track123");
@@ -136,12 +146,7 @@ public class CustomSpotifyRecommendationServiceTest {
 
         ResponseEntity<String> mockResponse = new ResponseEntity<>(MOCK_RESPONSE, HttpStatus.OK);
         when(restTemplate.exchange(
-            argThat((String url) -> 
-                url.contains("seed_artists=artist123") &&
-                url.contains("seed_tracks=track123") &&
-                url.contains("seed_genres=rock") &&
-                url.contains("limit=5")
-            ),
+            anyString(),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
@@ -152,13 +157,14 @@ public class CustomSpotifyRecommendationServiceTest {
 
         // Verify
         verify(restTemplate).exchange(
-            argThat((String url) -> 
-                url.contains("recommendations") &&
-                url.contains("seed_artists=artist123") &&
-                url.contains("seed_tracks=track123") &&
-                url.contains("seed_genres=rock") &&
-                url.contains("limit=5")
-            ),
+            argThat(url -> {
+                String urlStr = url;
+                return urlStr.contains("/recommendations") &&
+                       urlStr.contains("seed_artists=artist123") &&
+                       urlStr.contains("seed_tracks=track123") &&
+                       urlStr.contains("seed_genres=rock") &&
+                       urlStr.contains("limit=5");
+            }),
             eq(HttpMethod.GET),
             any(HttpEntity.class),
             eq(String.class)
