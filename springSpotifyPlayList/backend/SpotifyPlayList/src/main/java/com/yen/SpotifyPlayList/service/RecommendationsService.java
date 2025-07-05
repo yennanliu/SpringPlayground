@@ -1,12 +1,17 @@
 package com.yen.SpotifyPlayList.service;
 
 import com.yen.SpotifyPlayList.model.AudioFeatureAverages;
+import com.yen.SpotifyPlayList.model.SpotifyRecommendationsResponse;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsWithFeatureDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 import se.michaelthelin.spotify.SpotifyApi;
 import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
@@ -22,6 +27,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RecommendationsService {
 
+    private static final String SPOTIFY_API_URL = "https://api.spotify.com/v1";
+
     @Autowired
     private AuthService authService;
 
@@ -32,22 +39,75 @@ public class RecommendationsService {
     private TrackService trackService;
 
     private SpotifyApi spotifyApi;
+    private final RestTemplate restTemplate;
 
     public RecommendationsService() {
+        this.restTemplate = new RestTemplate();
     }
 
     public Recommendations getRecommendation(GetRecommendationsDto getRecommendationsDto)
             throws SpotifyWebApiException {
         try {
             this.spotifyApi = authService.initializeSpotifyApi();
-            GetRecommendationsRequest getRecommendationsRequest =
-                    prepareRecommendationsRequest(getRecommendationsDto);
-            Recommendations recommendations = getRecommendationsRequest.execute();
-            log.info("Fetched recommendations: {}", recommendations);
+            
+            // Validate seeds
+            boolean hasSeedArtist = getRecommendationsDto.getSeedArtistId() != null && !getRecommendationsDto.getSeedArtistId().isEmpty();
+            boolean hasSeedGenres = getRecommendationsDto.getSeedGenres() != null && !getRecommendationsDto.getSeedGenres().isEmpty();
+            boolean hasSeedTrack = getRecommendationsDto.getSeedTrack() != null && !getRecommendationsDto.getSeedTrack().isEmpty();
+
+            if (!hasSeedArtist && !hasSeedGenres && !hasSeedTrack) {
+                throw new SpotifyWebApiException("At least one seed (artist, genre, or track) is required");
+            }
+
+            // Build request using the library's builder
+            GetRecommendationsRequest.Builder requestBuilder = spotifyApi.getRecommendations()
+                .limit(getRecommendationsDto.getAmount())
+                .market(getRecommendationsDto.getMarket());
+
+            // Add seeds
+            if (hasSeedArtist) {
+                requestBuilder.seed_artists(getRecommendationsDto.getSeedArtistId());
+                log.info("Added seed artist: {}", getRecommendationsDto.getSeedArtistId());
+            }
+            if (hasSeedGenres) {
+                requestBuilder.seed_genres(getRecommendationsDto.getSeedGenres());
+                log.info("Added seed genres: {}", getRecommendationsDto.getSeedGenres());
+            }
+            if (hasSeedTrack) {
+                requestBuilder.seed_tracks(getRecommendationsDto.getSeedTrack());
+                log.info("Added seed track: {}", getRecommendationsDto.getSeedTrack());
+            }
+
+            // Add optional parameters
+            if (getRecommendationsDto.getMinPopularity() > 0) {
+                requestBuilder.min_popularity(getRecommendationsDto.getMinPopularity());
+            }
+            if (getRecommendationsDto.getMaxPopularity() < 100) {
+                requestBuilder.max_popularity(getRecommendationsDto.getMaxPopularity());
+            }
+            if (getRecommendationsDto.getTargetPopularity() > 0) {
+                requestBuilder.target_popularity(getRecommendationsDto.getTargetPopularity());
+            }
+
+            // Build and execute request
+            GetRecommendationsRequest request = requestBuilder.build();
+            
+            log.info("Making request to Spotify API with access token: {}", spotifyApi.getAccessToken());
+            log.info("Request URI: {}", request.getUri());
+
+            Recommendations recommendations = request.execute();
+            log.info("Successfully fetched recommendations");
+            
             return recommendations;
-        } catch (IOException | SpotifyWebApiException | ParseException e) {
-            log.error("Error fetching recommendations: {}", e.getMessage());
-            throw new SpotifyWebApiException("getRecommendation error: " + e.getMessage());
+        } catch (IOException | ParseException e) {
+            log.error("Error making request to Spotify API: {}", e.getMessage(), e);
+            throw new SpotifyWebApiException("Error making request to Spotify API: " + e.getMessage());
+        } catch (SpotifyWebApiException e) {
+            log.error("Spotify API error: {}", e.getMessage(), e);
+            throw e;
+        } catch (Exception e) {
+            log.error("Unexpected error: {}", e.getMessage(), e);
+            throw new SpotifyWebApiException("Unexpected error: " + e.getMessage());
         }
     }
 
@@ -154,19 +214,6 @@ public class RecommendationsService {
                 .target_liveness(featureDto.getLiveness())
                 .target_acousticness(featureDto.getAcousticness())
                 .target_valence(featureDto.getValence())
-                .build();
-    }
-
-    private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto dto) {
-        return spotifyApi.getRecommendations()
-                .limit(dto.getAmount())
-                .market(dto.getMarket())
-                .max_popularity(dto.getMaxPopularity())
-                .min_popularity(dto.getMinPopularity())
-                .seed_artists(dto.getSeedArtistId())
-                .seed_genres(dto.getSeedGenres())
-                .seed_tracks(dto.getSeedTrack())
-                .target_popularity(dto.getTargetPopularity())
                 .build();
     }
 

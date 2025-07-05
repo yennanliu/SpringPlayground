@@ -23,18 +23,25 @@ public class RecommendationsController {
         try {
             log.info("Getting recommendations with DTO: {}", getRecommendationsDto);
             
-            // If no DTO provided, use default values
-            if (getRecommendationsDto == null) {
+            // If no DTO provided or no seeds set, use default values
+            if (getRecommendationsDto == null || 
+                (getRecommendationsDto.getSeedArtistId() == null && 
+                 getRecommendationsDto.getSeedTrack() == null && 
+                 getRecommendationsDto.getSeedGenres() == null)) {
+                
                 getRecommendationsDto = new GetRecommendationsDto();
-                getRecommendationsDto.setSeedArtistId("4NHQUGzhtTLFvgF5SZesLK");  // Tame Impala as default
                 getRecommendationsDto.setAmount(10);
+                // Using Tame Impala as default seed artist
+                getRecommendationsDto.setSeedArtistId("4NHQUGzhtTLFvgF5SZesLK");
+                // Adding a default genre as well for better recommendations
+                getRecommendationsDto.setSeedGenres("alternative,indie");
             }
             
             Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
             return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
             log.error("Error getting recommendations: ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
@@ -46,7 +53,7 @@ public class RecommendationsController {
             return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
             log.error("Error getting recommendations for playlist: ", e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 }
