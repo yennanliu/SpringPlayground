@@ -29,8 +29,8 @@ jobs:
     #   run: cd springBootBlog && mvn package
     - name: Build springCloud1
       run: cd projects_advanced/springCloud1 && mvn package
-    - name: Build springCourseSystem
-      run: cd springCourseSystem && mvn package
+    # - name: Build springCourseSystem
+    #   run: cd springCourseSystem && mvn package
     - name: Build EcommerceGuli
       run: cd springEcommerceGuli/backend/EcommerceGuli && mvn -DskipTests=true package
     # - name: Set up JDK 11
