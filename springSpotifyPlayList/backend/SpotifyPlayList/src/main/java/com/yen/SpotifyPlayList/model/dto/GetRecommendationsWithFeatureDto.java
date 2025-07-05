@@ -2,7 +2,9 @@ package com.yen.SpotifyPlayList.model.dto;
 
 import com.neovisionaries.i18n.CountryCode;
 import lombok.Data;
-import lombok.ToString;
+import lombok.Builder;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * { acousticness: 0.359, analysisUrl:
@@ -12,22 +14,22 @@ import lombok.ToString;
  * timeSignature: 4, trackHref: "https://api.spotify.com/v1/tracks/7FJC2pF6zMliU7Lvk0GBDV", type:
  * "AUDIO_FEATURES", uri: "spotify:track:7FJC2pF6zMliU7Lvk0GBDV", valence: 0.336 },
  */
-@ToString
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class GetRecommendationsWithFeatureDto {
   private int amount = 10;
   private CountryCode market = CountryCode.JP;
   private int maxPopularity = 100;
   private int minPopularity = 0;
-  private String seedArtistId; // e.g. : 0LcJLqbBmaGUft1e9Mm8HV
-  private String seedGenres;
-  private String seedTrack; // e.g. 01iyCAUm8EvOFqVWYJ3dVX
-  private int targetPopularity = 50;
-  private double danceability = 0;
-  private double energy = 0;
-  private double instrumentalness = 0;
-  private double liveness = 0;
-  private double loudness = 0;
-  private double speechiness = 0;
-  private double tempo = 0;
+  private String seedArtistIds;  // Multiple artists, comma-separated
+  private String seedTracks;     // Multiple tracks, comma-separated
+  private float danceability = 0.5f;
+  private float energy = 0.5f;
+  private float instrumentalness = 0.0f;
+  private float liveness = 0.0f;
+  private float acousticness = 0.5f;
+  private float valence = 0.5f;
+  private float tempo = 120.0f;
 }
