@@ -12,33 +12,41 @@ import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 @Slf4j
 @RestController
 @RequestMapping("/recommend")
+@CrossOrigin(origins = "*")
 public class RecommendationsController {
 
     @Autowired
     private RecommendationsService recommendationsService;
 
-    @PostMapping("/")
-    public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto) {
+    @PostMapping
+    public ResponseEntity<Recommendations> getRecommendation(@RequestBody(required = false) GetRecommendationsDto getRecommendationsDto) {
         try {
-            log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
+            log.info("Getting recommendations with DTO: {}", getRecommendationsDto);
+            
+            // If no DTO provided, use default values
+            if (getRecommendationsDto == null) {
+                getRecommendationsDto = new GetRecommendationsDto();
+                getRecommendationsDto.setSeedArtistId("4NHQUGzhtTLFvgF5SZesLK");  // Tame Impala as default
+                getRecommendationsDto.setAmount(10);
+            }
+            
             Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
-            return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+            return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
-            log.error("getRecommendation error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            log.error("Error getting recommendations: ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 
     @GetMapping("/playlist/{playListId}")
-    public ResponseEntity getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
+    public ResponseEntity<Recommendations> getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
         try {
-            log.info("(getRecommendationWithPlayList) playListId = " + playListId);
+            log.info("Getting recommendations for playlist: {}", playListId);
             Recommendations recommendations = recommendationsService.getRecommendationWithPlayList(playListId);
-            return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+            return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
-            log.error("getRecommendationWithPlayList error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            log.error("Error getting recommendations for playlist: ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
-
 }
