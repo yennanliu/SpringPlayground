@@ -1,0 +1,20 @@
+Prompt:
+
+Create a Java Spring Boot application with the following features:
+	1.	Open a PDF file: The app should be able to read and load an existing PDF file from disk or from a user upload (e.g. via REST endpoint or web interface).
+	2.	Add an e-signature to the PDF: The app should allow a user to add an e-signature (this can be an image file like .png or .jpg) to a specific page and position in the PDF.
+	3.	Save and output the signed PDF: After the signature is added, the modified PDF should be saved and downloadable via an endpoint or shown on the UI.
+
+Use open-source PDF libraries such as Apache PDFBox, iText (open-source AGPL version), or PDFJet, depending on what best fits the use case.
+
+The application should include:
+	•	A RESTful API for uploading a PDF file and a signature image.
+	•	A RESTful API (or web UI) for specifying the position to add the signature (e.g., page number, x, y coordinates).
+	•	PDF processing logic that places the signature image onto the PDF and outputs the result.
+	•	Error handling for invalid inputs.
+
+Please generate:
+	•	pom.xml with needed dependencies.
+	•	Controller and Service classes for handling PDF logic.
+	•	Sample REST request format for signing.
+	•	Example usage for adding a signature to page 1 at position (100, 200).
