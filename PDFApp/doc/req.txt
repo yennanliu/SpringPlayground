@@ -18,3 +18,4 @@ Please generate:
 	•	Controller and Service classes for handling PDF logic.
 	•	Sample REST request format for signing.
 	•	Example usage for adding a signature to page 1 at position (100, 200).
+	•   NO need to setup ANY DB dependency, library. We just need save output at local file system

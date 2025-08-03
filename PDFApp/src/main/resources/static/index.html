@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDF E-Signature App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>PDF E-Signature Tool</h1>
+            <p>Upload a PDF and add your e-signature at any position</p>
+        </header>
+
+        <main>
+            <form id="pdfSignForm" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="pdfFile">Select PDF File:</label>
+                    <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
+                    <div class="file-info" id="pdfFileInfo"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="signatureFile">Select Signature Image:</label>
+                    <input type="file" id="signatureFile" name="signatureFile" accept=".png,.jpg,.jpeg" required>
+                    <div class="file-info" id="signatureFileInfo"></div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pageNumber">Page Number:</label>
+                        <input type="number" id="pageNumber" name="pageNumber" min="1" value="1" required>
+                    </div>
+                </div>
+
+                <div class="position-group">
+                    <h3>Signature Position</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="x">X Position:</label>
+                            <input type="number" id="x" name="x" min="0" value="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="y">Y Position:</label>
+                            <input type="number" id="y" name="y" min="0" value="200" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="size-group">
+                    <h3>Signature Size</h3>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="width">Width:</label>
+                            <input type="number" id="width" name="width" min="10" value="100" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="height">Height:</label>
+                            <input type="number" id="height" name="height" min="10" value="50" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="signButton">Sign PDF</button>
+                </div>
+            </form>
+
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Processing PDF...</p>
+            </div>
+
+            <div id="result" class="result hidden">
+                <div id="success" class="success hidden">
+                    <h3>Success!</h3>
+                    <p id="successMessage"></p>
+                    <a id="downloadLink" href="#" class="download-btn">Download Signed PDF</a>
+                </div>
+                <div id="error" class="error hidden">
+                    <h3>Error</h3>
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="instructions">
+                <h3>Instructions:</h3>
+                <ol>
+                    <li>Select a PDF file you want to sign</li>
+                    <li>Choose a signature image (PNG or JPEG format)</li>
+                    <li>Specify the page number where you want to place the signature</li>
+                    <li>Set the X and Y coordinates for signature position (0,0 is bottom-left)</li>
+                    <li>Adjust signature width and height as needed</li>
+                    <li>Click "Sign PDF" to process and download your signed document</li>
+                </ol>
+            </div>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
