@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // Set PDF.js worker
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    // DOM elements
     const form = document.getElementById('pdfSignForm');
     const pdfFileInput = document.getElementById('pdfFile');
     const signatureFileInput = document.getElementById('signatureFile');
@@ -12,18 +16,54 @@ document.addEventListener('DOMContentLoaded', function() {
     const successMessage = document.getElementById('successMessage');
     const errorMessage = document.getElementById('errorMessage');
     const downloadLink = document.getElementById('downloadLink');
+    
+    // PDF preview elements
+    const pdfPreviewSection = document.getElementById('pdfPreviewSection');
+    const pdfCanvas = document.getElementById('pdfCanvas');
+    const signaturePreview = document.getElementById('signaturePreview');
+    const pageNumberInput = document.getElementById('pageNumber');
+    const widthInput = document.getElementById('width');
+    const heightInput = document.getElementById('height');
+    const xInput = document.getElementById('x');
+    const yInput = document.getElementById('y');
+    const selectedX = document.getElementById('selectedX');
+    const selectedY = document.getElementById('selectedY');
+    const clearSelection = document.getElementById('clearSelection');
+    const prevPage = document.getElementById('prevPage');
+    const nextPage = document.getElementById('nextPage');
+    const pageInfo = document.getElementById('pageInfo');
 
-    pdfFileInput.addEventListener('change', function(e) {
+    // PDF state
+    let pdfDoc = null;
+    let currentPage = 1;
+    let scale = 1.5;
+    let selectedPosition = null;
+
+    // Event listeners
+    pdfFileInput.addEventListener('change', handlePDFUpload);
+    signatureFileInput.addEventListener('change', handleSignatureUpload);
+    pdfCanvas.addEventListener('click', handleCanvasClick);
+    clearSelection.addEventListener('click', clearSignatureSelection);
+    prevPage.addEventListener('click', () => navigatePage(-1));
+    nextPage.addEventListener('click', () => navigatePage(1));
+    pageNumberInput.addEventListener('change', handlePageNumberChange);
+    widthInput.addEventListener('input', updateSignaturePreview);
+    heightInput.addEventListener('input', updateSignaturePreview);
+    form.addEventListener('submit', submitForm);
+
+    function handlePDFUpload(e) {
         const file = e.target.files[0];
         if (file) {
             pdfFileInfo.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+            loadPDFPreview(file);
             validateForm();
         } else {
             pdfFileInfo.textContent = '';
+            pdfPreviewSection.style.display = 'none';
         }
-    });
+    }
 
-    signatureFileInput.addEventListener('change', function(e) {
+    function handleSignatureUpload(e) {
         const file = e.target.files[0];
         if (file) {
             signatureFileInfo.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
@@ -31,12 +71,134 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             signatureFileInfo.textContent = '';
         }
-    });
+    }
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        submitForm();
-    });
+    async function loadPDFPreview(file) {
+        try {
+            const arrayBuffer = await file.arrayBuffer();
+            pdfDoc = await pdfjsLib.getDocument(arrayBuffer).promise;
+            
+            pageInfo.textContent = `Page ${currentPage} of ${pdfDoc.numPages}`;
+            updatePageControls();
+            
+            await renderPage(currentPage);
+            pdfPreviewSection.style.display = 'block';
+            
+        } catch (error) {
+            console.error('Error loading PDF:', error);
+            showError('Failed to load PDF preview');
+        }
+    }
+
+    async function renderPage(pageNum) {
+        try {
+            const page = await pdfDoc.getPage(pageNum);
+            const viewport = page.getViewport({ scale: scale });
+            
+            pdfCanvas.height = viewport.height;
+            pdfCanvas.width = viewport.width;
+            
+            const ctx = pdfCanvas.getContext('2d');
+            const renderContext = {
+                canvasContext: ctx,
+                viewport: viewport
+            };
+            
+            await page.render(renderContext).promise;
+            
+            // Update page number input
+            pageNumberInput.value = pageNum;
+            pageNumberInput.max = pdfDoc.numPages;
+            
+            // Clear previous selection when changing pages
+            clearSignatureSelection();
+            
+        } catch (error) {
+            console.error('Error rendering page:', error);
+            showError('Failed to render PDF page');
+        }
+    }
+
+    function handleCanvasClick(e) {
+        const rect = pdfCanvas.getBoundingClientRect();
+        const x = (e.clientX - rect.left) * (pdfCanvas.width / rect.width);
+        const y = (e.clientY - rect.top) * (pdfCanvas.height / rect.height);
+        
+        // Convert to PDF coordinate system (bottom-left origin)
+        const pdfY = pdfCanvas.height - y;
+        
+        selectedPosition = { x: Math.round(x), y: Math.round(pdfY) };
+        
+        // Update hidden inputs
+        xInput.value = selectedPosition.x;
+        yInput.value = selectedPosition.y;
+        
+        // Update display
+        selectedX.textContent = selectedPosition.x;
+        selectedY.textContent = selectedPosition.y;
+        
+        updateSignaturePreview();
+        validateForm();
+    }
+
+    function updateSignaturePreview() {
+        if (!selectedPosition) {
+            signaturePreview.style.display = 'none';
+            return;
+        }
+        
+        const rect = pdfCanvas.getBoundingClientRect();
+        const canvasRect = pdfCanvas.getBoundingClientRect();
+        
+        // Calculate position relative to canvas display
+        const displayX = (selectedPosition.x / pdfCanvas.width) * canvasRect.width;
+        const displayY = ((pdfCanvas.height - selectedPosition.y) / pdfCanvas.height) * canvasRect.height;
+        
+        // Calculate size relative to scale
+        const displayWidth = (parseInt(widthInput.value) / pdfCanvas.width) * canvasRect.width;
+        const displayHeight = (parseInt(heightInput.value) / pdfCanvas.height) * canvasRect.height;
+        
+        signaturePreview.style.display = 'block';
+        signaturePreview.style.left = `${displayX}px`;
+        signaturePreview.style.top = `${displayY}px`;
+        signaturePreview.style.width = `${displayWidth}px`;
+        signaturePreview.style.height = `${displayHeight}px`;
+    }
+
+    function clearSignatureSelection() {
+        selectedPosition = null;
+        selectedX.textContent = '-';
+        selectedY.textContent = '-';
+        signaturePreview.style.display = 'none';
+        xInput.value = '100';
+        yInput.value = '200';
+        validateForm();
+    }
+
+    function navigatePage(direction) {
+        const newPage = currentPage + direction;
+        if (newPage >= 1 && newPage <= pdfDoc.numPages) {
+            currentPage = newPage;
+            renderPage(currentPage);
+            pageInfo.textContent = `Page ${currentPage} of ${pdfDoc.numPages}`;
+            updatePageControls();
+        }
+    }
+
+    function handlePageNumberChange() {
+        const pageNum = parseInt(pageNumberInput.value);
+        if (pageNum >= 1 && pageNum <= pdfDoc.numPages && pageNum !== currentPage) {
+            currentPage = pageNum;
+            renderPage(currentPage);
+            pageInfo.textContent = `Page ${currentPage} of ${pdfDoc.numPages}`;
+            updatePageControls();
+        }
+    }
+
+    function updatePageControls() {
+        prevPage.disabled = currentPage <= 1;
+        nextPage.disabled = currentPage >= pdfDoc.numPages;
+    }
 
     function formatFileSize(bytes) {
         if (bytes === 0) return '0 Bytes';
@@ -50,7 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const pdfFile = pdfFileInput.files[0];
         const signatureFile = signatureFileInput.files[0];
         
-        if (pdfFile && signatureFile) {
+        if (pdfFile && signatureFile && selectedPosition) {
             if (!isValidPDF(pdfFile)) {
                 showError('Please select a valid PDF file.');
                 return false;
@@ -80,7 +242,9 @@ document.addEventListener('DOMContentLoaded', function() {
                file.name.toLowerCase().match(/\.(png|jpg|jpeg)$/);
     }
 
-    function submitForm() {
+    function submitForm(e) {
+        e.preventDefault();
+        
         if (!validateForm()) {
             return;
         }
@@ -146,13 +310,6 @@ document.addEventListener('DOMContentLoaded', function() {
         error.classList.add('hidden');
     }
 
-    document.querySelectorAll('input[type="number"]').forEach(input => {
-        input.addEventListener('input', function() {
-            if (this.value < 0) {
-                this.value = 0;
-            }
-        });
-    });
-
+    // Initialize form validation
     validateForm();
 });

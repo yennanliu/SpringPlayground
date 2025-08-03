@@ -5,67 +5,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PDF E-Signature App</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 </head>
 <body>
     <div class="container">
         <header>
             <h1>PDF E-Signature Tool</h1>
-            <p>Upload a PDF and add your e-signature at any position</p>
+            <p>Upload a PDF and click where you want to place your signature</p>
         </header>
 
         <main>
-            <form id="pdfSignForm" enctype="multipart/form-data">
-                <div class="form-group">
-                    <label for="pdfFile">Select PDF File:</label>
-                    <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
-                    <div class="file-info" id="pdfFileInfo"></div>
-                </div>
-
-                <div class="form-group">
-                    <label for="signatureFile">Select Signature Image:</label>
-                    <input type="file" id="signatureFile" name="signatureFile" accept=".png,.jpg,.jpeg" required>
-                    <div class="file-info" id="signatureFileInfo"></div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="pageNumber">Page Number:</label>
-                        <input type="number" id="pageNumber" name="pageNumber" min="1" value="1" required>
-                    </div>
-                </div>
-
-                <div class="position-group">
-                    <h3>Signature Position</h3>
+            <div class="upload-section">
+                <form id="pdfSignForm" enctype="multipart/form-data">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="x">X Position:</label>
-                            <input type="number" id="x" name="x" min="0" value="100" required>
+                            <label for="pdfFile">Select PDF File:</label>
+                            <input type="file" id="pdfFile" name="pdfFile" accept=".pdf" required>
+                            <div class="file-info" id="pdfFileInfo"></div>
                         </div>
+
                         <div class="form-group">
-                            <label for="y">Y Position:</label>
-                            <input type="number" id="y" name="y" min="0" value="200" required>
+                            <label for="signatureFile">Select Signature Image:</label>
+                            <input type="file" id="signatureFile" name="signatureFile" accept=".png,.jpg,.jpeg" required>
+                            <div class="file-info" id="signatureFileInfo"></div>
                         </div>
                     </div>
-                </div>
 
-                <div class="size-group">
-                    <h3>Signature Size</h3>
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="width">Width:</label>
+                            <label for="pageNumber">Page Number:</label>
+                            <input type="number" id="pageNumber" name="pageNumber" min="1" value="1" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="width">Signature Width:</label>
                             <input type="number" id="width" name="width" min="10" value="100" required>
                         </div>
                         <div class="form-group">
-                            <label for="height">Height:</label>
+                            <label for="height">Signature Height:</label>
                             <input type="number" id="height" name="height" min="10" value="50" required>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-actions">
-                    <button type="submit" id="signButton">Sign PDF</button>
+                    <input type="hidden" id="x" name="x" value="100">
+                    <input type="hidden" id="y" name="y" value="200">
+
+                    <div class="form-actions">
+                        <button type="submit" id="signButton" disabled>Sign PDF</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="pdf-preview-section" id="pdfPreviewSection" style="display: none;">
+                <div class="preview-header">
+                    <h3>PDF Preview - Click to place signature</h3>
+                    <div class="position-info">
+                        <span>Selected Position: (<span id="selectedX">-</span>, <span id="selectedY">-</span>)</span>
+                        <button id="clearSelection" class="clear-btn">Clear Selection</button>
+                    </div>
                 </div>
-            </form>
+                <div class="pdf-container">
+                    <canvas id="pdfCanvas"></canvas>
+                    <div id="signaturePreview" class="signature-preview" style="display: none;"></div>
+                </div>
+                <div class="page-controls">
+                    <button id="prevPage" disabled>← Previous</button>
+                    <span id="pageInfo">Page 1 of 1</span>
+                    <button id="nextPage" disabled>Next →</button>
+                </div>
+            </div>
 
             <div id="loading" class="loading hidden">
                 <div class="spinner"></div>
@@ -89,10 +96,8 @@
             <div class="instructions">
                 <h3>Instructions:</h3>
                 <ol>
-                    <li>Select a PDF file you want to sign</li>
-                    <li>Choose a signature image (PNG or JPEG format)</li>
-                    <li>Specify the page number where you want to place the signature</li>
-                    <li>Set the X and Y coordinates for signature position (0,0 is bottom-left)</li>
+                    <li>Select a PDF file and signature image</li>
+                    <li>PDF preview will appear - click where you want to place the signature</li>
                     <li>Adjust signature width and height as needed</li>
                     <li>Click "Sign PDF" to process and download your signed document</li>
                 </ol>

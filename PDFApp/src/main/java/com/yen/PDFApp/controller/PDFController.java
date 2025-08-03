@@ -3,6 +3,7 @@ package com.yen.PDFApp.controller;
 import com.yen.PDFApp.dto.PDFSignatureResponse;
 import com.yen.PDFApp.service.PDFService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -72,6 +73,24 @@ public class PDFController {
             
             return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                    .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
+                    .body(resource);
+
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @PostMapping("/preview")
+    public ResponseEntity<Resource> previewPDF(@RequestParam("pdfFile") MultipartFile pdfFile) {
+        try {
+            if (!pdfService.isValidPDF(pdfFile)) {
+                return ResponseEntity.badRequest().build();
+            }
+
+            Resource resource = new ByteArrayResource(pdfFile.getBytes());
+            
+            return ResponseEntity.ok()
                     .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_PDF_VALUE)
                     .body(resource);
 
