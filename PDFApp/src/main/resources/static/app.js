@@ -105,9 +105,12 @@ document.addEventListener('DOMContentLoaded', function() {
         const file = e.target.files[0];
         if (file) {
             signatureFileInfo.textContent = `Selected: ${file.name} (${formatFileSize(file.size)})`;
+            // Switch to upload method when file is selected
+            currentSignatureMethod = 'upload';
             validateForm();
         } else {
             signatureFileInfo.textContent = '';
+            validateForm();
         }
     }
 
@@ -252,13 +255,25 @@ document.addEventListener('DOMContentLoaded', function() {
         const hasSignature = (currentSignatureMethod === 'upload' && signatureFile) || 
                            (currentSignatureMethod === 'draw' && hasDrawnSignature);
         
+        // Debug validation (remove in production)
+        if (window.location.hostname === 'localhost') {
+            console.log('Validation:', {
+                pdfFile: !!pdfFile,
+                currentSignatureMethod,
+                signatureFile: !!signatureFile,
+                hasDrawnSignature,
+                hasSignature,
+                selectedPosition: !!selectedPosition
+            });
+        }
+        
         if (pdfFile && hasSignature && selectedPosition) {
             if (!isValidPDF(pdfFile)) {
                 showError('Please select a valid PDF file.');
                 return false;
             }
             
-            if (currentSignatureMethod === 'upload' && !isValidImage(signatureFile)) {
+            if (currentSignatureMethod === 'upload' && signatureFile && !isValidImage(signatureFile)) {
                 showError('Please select a valid image file (PNG or JPEG).');
                 return false;
             }
@@ -286,15 +301,38 @@ document.addEventListener('DOMContentLoaded', function() {
         e.preventDefault();
         
         if (!validateForm()) {
+            if (window.location.hostname === 'localhost') {
+                console.log('Form validation failed');
+            }
             return;
         }
 
-        const formData = new FormData(form);
+        const formData = new FormData();
+        
+        // Always add the PDF file
+        formData.append('pdfFile', pdfFileInput.files[0]);
+        formData.append('pageNumber', pageNumberInput.value);
+        formData.append('x', xInput.value);
+        formData.append('y', yInput.value);
+        formData.append('width', widthInput.value);
+        formData.append('height', heightInput.value);
         
         // Add signature data based on method
         if (currentSignatureMethod === 'draw' && hasDrawnSignature) {
             const signatureDataUrl = signatureCanvas.toDataURL('image/png');
             formData.append('signatureData', signatureDataUrl);
+            if (window.location.hostname === 'localhost') {
+                console.log('Using drawn signature');
+            }
+        } else if (currentSignatureMethod === 'upload' && signatureFileInput.files[0]) {
+            formData.append('signatureFile', signatureFileInput.files[0]);
+            if (window.location.hostname === 'localhost') {
+                console.log('Using uploaded signature file');
+            }
+        }
+        
+        if (window.location.hostname === 'localhost') {
+            console.log('Submitting form with method:', currentSignatureMethod);
         }
         
         signButton.disabled = true;
@@ -309,6 +347,9 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             hideLoading();
             signButton.disabled = false;
+            if (window.location.hostname === 'localhost') {
+                console.log('Response:', data);
+            }
             
             if (data.success) {
                 showSuccess(data.message, data.fileName);
@@ -358,6 +399,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Signature drawing functions
     function switchSignatureMethod(method) {
+        if (window.location.hostname === 'localhost') {
+            console.log('Switching to signature method:', method);
+        }
         currentSignatureMethod = method;
         
         if (method === 'upload') {
@@ -380,6 +424,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const rect = signatureCanvas.getBoundingClientRect();
         signatureCtx.beginPath();
         signatureCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        if (window.location.hostname === 'localhost') {
+            console.log('Started drawing');
+        }
     }
     
     function draw(e) {
@@ -389,9 +436,14 @@ document.addEventListener('DOMContentLoaded', function() {
         signatureCtx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
         signatureCtx.stroke();
         
-        hasDrawnSignature = true;
-        signatureStatus.textContent = 'Signature drawn';
-        validateForm();
+        if (!hasDrawnSignature) {
+            hasDrawnSignature = true;
+            signatureStatus.textContent = 'Signature drawn';
+            if (window.location.hostname === 'localhost') {
+                console.log('Signature drawn, validating form');
+            }
+            validateForm();
+        }
     }
     
     function stopDrawing() {
