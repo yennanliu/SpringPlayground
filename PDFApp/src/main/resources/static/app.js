@@ -8,6 +8,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const signatureFileInput = document.getElementById('signatureFile');
     const pdfFileInfo = document.getElementById('pdfFileInfo');
     const signatureFileInfo = document.getElementById('signatureFileInfo');
+    
+    // Signature drawing elements
+    const uploadTab = document.getElementById('uploadTab');
+    const drawTab = document.getElementById('drawTab');
+    const uploadSignature = document.getElementById('uploadSignature');
+    const drawSignature = document.getElementById('drawSignature');
+    const signatureCanvas = document.getElementById('signatureCanvas');
+    const clearSignature = document.getElementById('clearSignature');
+    const saveSignature = document.getElementById('saveSignature');
+    const signatureStatus = document.getElementById('signatureStatus');
     const signButton = document.getElementById('signButton');
     const loading = document.getElementById('loading');
     const result = document.getElementById('result');
@@ -38,6 +48,17 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 1;
     let scale = 1.5;
     let selectedPosition = null;
+    
+    // Signature drawing state
+    let isDrawing = false;
+    let hasDrawnSignature = false;
+    let signatureCtx = signatureCanvas.getContext('2d');
+    let currentSignatureMethod = 'upload'; // 'upload' or 'draw'
+    
+    // Initialize signature canvas
+    signatureCtx.strokeStyle = '#000';
+    signatureCtx.lineWidth = 2;
+    signatureCtx.lineCap = 'round';
 
     // Event listeners
     pdfFileInput.addEventListener('change', handlePDFUpload);
@@ -50,6 +71,23 @@ document.addEventListener('DOMContentLoaded', function() {
     widthInput.addEventListener('input', updateSignaturePreview);
     heightInput.addEventListener('input', updateSignaturePreview);
     form.addEventListener('submit', submitForm);
+    
+    // Signature drawing event listeners
+    uploadTab.addEventListener('click', () => switchSignatureMethod('upload'));
+    drawTab.addEventListener('click', () => switchSignatureMethod('draw'));
+    clearSignature.addEventListener('click', clearSignatureCanvas);
+    saveSignature.addEventListener('click', saveSignatureImage);
+    
+    // Canvas drawing events
+    signatureCanvas.addEventListener('mousedown', startDrawing);
+    signatureCanvas.addEventListener('mousemove', draw);
+    signatureCanvas.addEventListener('mouseup', stopDrawing);
+    signatureCanvas.addEventListener('mouseout', stopDrawing);
+    
+    // Touch events for mobile
+    signatureCanvas.addEventListener('touchstart', handleTouchStart);
+    signatureCanvas.addEventListener('touchmove', handleTouchMove);
+    signatureCanvas.addEventListener('touchend', stopDrawing);
 
     function handlePDFUpload(e) {
         const file = e.target.files[0];
@@ -211,14 +249,16 @@ document.addEventListener('DOMContentLoaded', function() {
     function validateForm() {
         const pdfFile = pdfFileInput.files[0];
         const signatureFile = signatureFileInput.files[0];
+        const hasSignature = (currentSignatureMethod === 'upload' && signatureFile) || 
+                           (currentSignatureMethod === 'draw' && hasDrawnSignature);
         
-        if (pdfFile && signatureFile && selectedPosition) {
+        if (pdfFile && hasSignature && selectedPosition) {
             if (!isValidPDF(pdfFile)) {
                 showError('Please select a valid PDF file.');
                 return false;
             }
             
-            if (!isValidImage(signatureFile)) {
+            if (currentSignatureMethod === 'upload' && !isValidImage(signatureFile)) {
                 showError('Please select a valid image file (PNG or JPEG).');
                 return false;
             }
@@ -250,6 +290,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         const formData = new FormData(form);
+        
+        // Add signature data based on method
+        if (currentSignatureMethod === 'draw' && hasDrawnSignature) {
+            const signatureDataUrl = signatureCanvas.toDataURL('image/png');
+            formData.append('signatureData', signatureDataUrl);
+        }
         
         signButton.disabled = true;
         showLoading();
@@ -308,6 +354,95 @@ document.addEventListener('DOMContentLoaded', function() {
         result.classList.add('hidden');
         success.classList.add('hidden');
         error.classList.add('hidden');
+    }
+
+    // Signature drawing functions
+    function switchSignatureMethod(method) {
+        currentSignatureMethod = method;
+        
+        if (method === 'upload') {
+            uploadTab.classList.add('active');
+            drawTab.classList.remove('active');
+            uploadSignature.style.display = 'block';
+            drawSignature.style.display = 'none';
+        } else {
+            drawTab.classList.add('active');
+            uploadTab.classList.remove('active');
+            uploadSignature.style.display = 'none';
+            drawSignature.style.display = 'block';
+        }
+        
+        validateForm();
+    }
+    
+    function startDrawing(e) {
+        isDrawing = true;
+        const rect = signatureCanvas.getBoundingClientRect();
+        signatureCtx.beginPath();
+        signatureCtx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+    
+    function draw(e) {
+        if (!isDrawing) return;
+        
+        const rect = signatureCanvas.getBoundingClientRect();
+        signatureCtx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+        signatureCtx.stroke();
+        
+        hasDrawnSignature = true;
+        signatureStatus.textContent = 'Signature drawn';
+        validateForm();
+    }
+    
+    function stopDrawing() {
+        isDrawing = false;
+        signatureCtx.beginPath();
+    }
+    
+    function handleTouchStart(e) {
+        e.preventDefault();
+        const touch = e.touches[0];
+        const rect = signatureCanvas.getBoundingClientRect();
+        isDrawing = true;
+        signatureCtx.beginPath();
+        signatureCtx.moveTo(touch.clientX - rect.left, touch.clientY - rect.top);
+    }
+    
+    function handleTouchMove(e) {
+        e.preventDefault();
+        if (!isDrawing) return;
+        
+        const touch = e.touches[0];
+        const rect = signatureCanvas.getBoundingClientRect();
+        signatureCtx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+        signatureCtx.stroke();
+        
+        hasDrawnSignature = true;
+        signatureStatus.textContent = 'Signature drawn';
+        validateForm();
+    }
+    
+    function clearSignatureCanvas() {
+        signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        hasDrawnSignature = false;
+        signatureStatus.textContent = '';
+        validateForm();
+    }
+    
+    function saveSignatureImage() {
+        if (!hasDrawnSignature) {
+            showError('Please draw a signature first');
+            return;
+        }
+        
+        // Create download link
+        const dataUrl = signatureCanvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        link.download = 'signature.png';
+        link.href = dataUrl;
+        link.click();
+        
+        signatureStatus.textContent = 'Signature saved as PNG';
     }
 
     // Initialize form validation

@@ -25,7 +25,8 @@ public class PDFController {
     @PostMapping("/sign")
     public ResponseEntity<PDFSignatureResponse> signPDF(
             @RequestParam("pdfFile") MultipartFile pdfFile,
-            @RequestParam("signatureFile") MultipartFile signatureFile,
+            @RequestParam(value = "signatureFile", required = false) MultipartFile signatureFile,
+            @RequestParam(value = "signatureData", required = false) String signatureData,
             @RequestParam("pageNumber") int pageNumber,
             @RequestParam("x") float x,
             @RequestParam("y") float y,
@@ -38,13 +39,24 @@ public class PDFController {
                         .body(new PDFSignatureResponse(null, "Invalid PDF file", false));
             }
 
-            if (!pdfService.isValidImageFile(signatureFile)) {
+            String signedFileName;
+            
+            if (signatureData != null && !signatureData.isEmpty()) {
+                // Use drawn signature (base64 data)
+                signedFileName = pdfService.addSignatureToPDFFromBase64(pdfFile, signatureData, 
+                        pageNumber, x, y, width, height);
+            } else if (signatureFile != null && !signatureFile.isEmpty()) {
+                // Use uploaded signature file
+                if (!pdfService.isValidImageFile(signatureFile)) {
+                    return ResponseEntity.badRequest()
+                            .body(new PDFSignatureResponse(null, "Invalid signature image file. Only PNG and JPEG are supported.", false));
+                }
+                signedFileName = pdfService.addSignatureToPDF(pdfFile, signatureFile, 
+                        pageNumber, x, y, width, height);
+            } else {
                 return ResponseEntity.badRequest()
-                        .body(new PDFSignatureResponse(null, "Invalid signature image file. Only PNG and JPEG are supported.", false));
+                        .body(new PDFSignatureResponse(null, "Please provide either a signature file or draw a signature", false));
             }
-
-            String signedFileName = pdfService.addSignatureToPDF(pdfFile, signatureFile, 
-                    pageNumber, x, y, width, height);
 
             return ResponseEntity.ok(new PDFSignatureResponse(signedFileName, 
                     "PDF signed successfully", true));
