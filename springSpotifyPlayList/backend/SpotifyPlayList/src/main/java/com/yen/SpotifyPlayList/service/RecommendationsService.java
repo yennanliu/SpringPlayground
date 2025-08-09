@@ -3,6 +3,7 @@ package com.yen.SpotifyPlayList.service;
 import com.yen.SpotifyPlayList.exception.SpotifyApiException;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsWithFeatureDto;
+import com.yen.SpotifyPlayList.model.dto.Response.LegacyRecommendationsResponse;
 import com.yen.SpotifyPlayList.model.dto.Response.SpotifyRecommendationsResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +31,11 @@ public class RecommendationsService {
 
   @Autowired private SpotifyHttpClient spotifyHttpClient;
 
+  @Autowired private RecommendationsResponseMapper responseMapper;
+
   public RecommendationsService() {}
 
-  public SpotifyRecommendationsResponse getRecommendation(GetRecommendationsDto getRecommendationsDto) {
+  public LegacyRecommendationsResponse getRecommendation(GetRecommendationsDto getRecommendationsDto) {
     try {
       // Ensure we have a valid access token
       authService.initializeSpotifyApi();
@@ -47,9 +50,14 @@ public class RecommendationsService {
       ResponseEntity<SpotifyRecommendationsResponse> response = spotifyHttpClient.getRestTemplate()
           .exchange(requestUri, HttpMethod.GET, entity, SpotifyRecommendationsResponse.class);
       
-      SpotifyRecommendationsResponse recommendations = response.getBody();
-      log.info("Fetched recommendations: {} tracks", recommendations != null && recommendations.getTracks() != null ? recommendations.getTracks().size() : 0);
-      return recommendations;
+      SpotifyRecommendationsResponse spotifyResponse = response.getBody();
+      log.info("Fetched recommendations: {} tracks", spotifyResponse != null && spotifyResponse.getTracks() != null ? spotifyResponse.getTracks().size() : 0);
+      
+      // Map to legacy format for frontend compatibility
+      LegacyRecommendationsResponse legacyResponse = responseMapper.mapToLegacyFormat(spotifyResponse);
+      log.debug("Mapped to legacy format: {} tracks", legacyResponse != null && legacyResponse.getTracks() != null ? legacyResponse.getTracks().size() : 0);
+      
+      return legacyResponse;
       
     } catch (SpotifyApiException e) {
       log.error("Spotify API error fetching recommendations: {}", e.getMessage());
@@ -60,7 +68,7 @@ public class RecommendationsService {
     }
   }
 
-  public SpotifyRecommendationsResponse getRecommendationWithPlayList(String playListId) {
+  public LegacyRecommendationsResponse getRecommendationWithPlayList(String playListId) {
     try {
       // Ensure we have a valid access token
       authService.initializeSpotifyApi();
@@ -112,9 +120,14 @@ public class RecommendationsService {
       ResponseEntity<SpotifyRecommendationsResponse> response = spotifyHttpClient.getRestTemplate()
           .exchange(requestUri, HttpMethod.GET, entity, SpotifyRecommendationsResponse.class);
       
-      SpotifyRecommendationsResponse recommendations = response.getBody();
-      log.info("Fetched playlist-based recommendations: {} tracks", recommendations != null && recommendations.getTracks() != null ? recommendations.getTracks().size() : 0);
-      return recommendations;
+      SpotifyRecommendationsResponse spotifyResponse = response.getBody();
+      log.info("Fetched playlist-based recommendations: {} tracks", spotifyResponse != null && spotifyResponse.getTracks() != null ? spotifyResponse.getTracks().size() : 0);
+      
+      // Map to legacy format for frontend compatibility
+      LegacyRecommendationsResponse legacyResponse = responseMapper.mapToLegacyFormat(spotifyResponse);
+      log.debug("Mapped playlist-based recommendations to legacy format: {} tracks", legacyResponse != null && legacyResponse.getTracks() != null ? legacyResponse.getTracks().size() : 0);
+      
+      return legacyResponse;
       
     } catch (SpotifyApiException e) {
       log.error("Spotify API error fetching recommendations with playlist features: {}", e.getMessage());

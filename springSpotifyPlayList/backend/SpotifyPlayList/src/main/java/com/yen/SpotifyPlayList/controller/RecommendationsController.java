@@ -2,7 +2,7 @@ package com.yen.SpotifyPlayList.controller;
 
 import com.yen.SpotifyPlayList.exception.SpotifyApiException;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
-import com.yen.SpotifyPlayList.model.dto.Response.SpotifyRecommendationsResponse;
+import com.yen.SpotifyPlayList.model.dto.Response.LegacyRecommendationsResponse;
 import com.yen.SpotifyPlayList.service.RecommendationsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public class RecommendationsController {
     public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto) {
         try {
             log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
-            SpotifyRecommendationsResponse recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
+            LegacyRecommendationsResponse recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
             return ResponseEntity.status(HttpStatus.OK).body(recommendations);
         } catch (SpotifyApiException e) {
             log.error("getRecommendation Spotify API error: {}", e.getMessage());
@@ -38,7 +38,7 @@ public class RecommendationsController {
     public ResponseEntity getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
         try {
             log.info("(getRecommendationWithPlayList) playListId = " + playListId);
-            SpotifyRecommendationsResponse recommendations = recommendationsService.getRecommendationWithPlayList(playListId);
+            LegacyRecommendationsResponse recommendations = recommendationsService.getRecommendationWithPlayList(playListId);
             return ResponseEntity.status(HttpStatus.OK).body(recommendations);
         } catch (SpotifyApiException e) {
             log.error("getRecommendationWithPlayList Spotify API error: {}", e.getMessage());

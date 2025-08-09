@@ -141,16 +141,23 @@ The recommendation functionality (`RecommendationsService`) has been **modernize
 
 - **New Classes:**
   - `SpotifyHttpClient` - HTTP request builder and client utilities
-  - `SpotifyRecommendationsResponse` - Custom DTOs for API responses  
+  - `SpotifyRecommendationsResponse` - Raw DTOs for Spotify API responses  
+  - `LegacyRecommendationsResponse` - Frontend-compatible response format
+  - `RecommendationsResponseMapper` - Maps between Spotify API and legacy formats
   - `SpotifyErrorHandler` - RestTemplate error handling for Spotify API
   - `SpotifyApiException` - Custom exception handling
 
 - **Modified Services:**
-  - `RecommendationsService` - Now uses RestTemplate instead of library
+  - `RecommendationsService` - Now uses RestTemplate + response mapper
+  - `RecommendationsController` - Updated to use legacy response format
   - `WebConfig` - Added RestTemplate bean with error handler
 
 - **Endpoints Affected:** `/recommend/` and `/recommend/playlist/{id}`
-- **Frontend Compatibility:** No changes needed - response structure maintained
+- **Frontend Compatibility:** ✅ Complete - maintains exact response structure
+  - Preserves `tracks.tracks[]` array structure
+  - Maintains `externalUrls.externalUrls.spotify` nested format
+  - Converts `preview_url` to `previewUrl` camelCase
+  - All existing frontend code works without changes
 
 ### Key Frontend Dependencies
 - Vue.js 2.6.14
