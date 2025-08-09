@@ -25,9 +25,27 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="signatureFile">Select Signature Image:</label>
-                            <input type="file" id="signatureFile" name="signatureFile" accept=".png,.jpg,.jpeg" required>
-                            <div class="file-info" id="signatureFileInfo"></div>
+                            <label>Signature Method:</label>
+                            <div class="signature-method-tabs">
+                                <button type="button" id="uploadTab" class="tab-button active">Upload Image</button>
+                                <button type="button" id="drawTab" class="tab-button">Draw Signature</button>
+                            </div>
+                            
+                            <div id="uploadSignature" class="signature-method">
+                                <input type="file" id="signatureFile" name="signatureFile" accept=".png,.jpg,.jpeg">
+                                <div class="file-info" id="signatureFileInfo"></div>
+                            </div>
+                            
+                            <div id="drawSignature" class="signature-method" style="display: none;">
+                                <div class="signature-canvas-container">
+                                    <canvas id="signatureCanvas" width="400" height="200"></canvas>
+                                    <div class="signature-controls">
+                                        <button type="button" id="clearSignature">Clear</button>
+                                        <button type="button" id="saveSignature">Save as PNG</button>
+                                        <span class="signature-status" id="signatureStatus"></span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
