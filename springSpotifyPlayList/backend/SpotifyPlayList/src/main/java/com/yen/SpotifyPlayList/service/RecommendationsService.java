@@ -1,20 +1,19 @@
 package com.yen.SpotifyPlayList.service;
 
+import com.yen.SpotifyPlayList.exception.SpotifyApiException;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsDto;
 import com.yen.SpotifyPlayList.model.dto.GetRecommendationsWithFeatureDto;
+import com.yen.SpotifyPlayList.model.dto.Response.SpotifyRecommendationsResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.hc.core5.http.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import se.michaelthelin.spotify.SpotifyApi;
-import se.michaelthelin.spotify.exceptions.SpotifyWebApiException;
-import se.michaelthelin.spotify.model_objects.specification.ArtistSimplified;
 import se.michaelthelin.spotify.model_objects.specification.AudioFeatures;
-import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 import se.michaelthelin.spotify.model_objects.specification.Track;
-import se.michaelthelin.spotify.requests.data.browse.GetRecommendationsRequest;
 
-import java.io.IOException;
+import java.net.URI;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -29,29 +28,43 @@ public class RecommendationsService {
 
   @Autowired private TrackService trackService;
 
-  private SpotifyApi spotifyApi;
+  @Autowired private SpotifyHttpClient spotifyHttpClient;
 
   public RecommendationsService() {}
 
-  public Recommendations getRecommendation(GetRecommendationsDto getRecommendationsDto)
-      throws SpotifyWebApiException {
+  public SpotifyRecommendationsResponse getRecommendation(GetRecommendationsDto getRecommendationsDto) {
     try {
-      this.spotifyApi = authService.initializeSpotifyApi();
-      GetRecommendationsRequest getRecommendationsRequest =
-          prepareRecommendationsRequest(getRecommendationsDto);
-      Recommendations recommendations = getRecommendationsRequest.execute();
-      log.info("Fetched recommendations: {}", recommendations);
+      // Ensure we have a valid access token
+      authService.initializeSpotifyApi();
+      
+      // Build the request URI
+      URI requestUri = spotifyHttpClient.buildRecommendationsUri(getRecommendationsDto);
+      
+      // Create HTTP entity with auth headers
+      HttpEntity<Void> entity = spotifyHttpClient.createHttpEntityWithoutBody();
+      
+      // Make the HTTP call
+      ResponseEntity<SpotifyRecommendationsResponse> response = spotifyHttpClient.getRestTemplate()
+          .exchange(requestUri, HttpMethod.GET, entity, SpotifyRecommendationsResponse.class);
+      
+      SpotifyRecommendationsResponse recommendations = response.getBody();
+      log.info("Fetched recommendations: {} tracks", recommendations != null && recommendations.getTracks() != null ? recommendations.getTracks().size() : 0);
       return recommendations;
-    } catch (IOException | SpotifyWebApiException | ParseException e) {
-      log.error("Error fetching recommendations: {}", e.getMessage());
-      throw new SpotifyWebApiException("getRecommendation error: " + e.getMessage());
+      
+    } catch (SpotifyApiException e) {
+      log.error("Spotify API error fetching recommendations: {}", e.getMessage());
+      throw e;
+    } catch (Exception e) {
+      log.error("Unexpected error fetching recommendations: {}", e.getMessage());
+      throw new SpotifyApiException("getRecommendation error: " + e.getMessage(), 500);
     }
   }
 
-  public Recommendations getRecommendationWithPlayList(String playListId)
-      throws SpotifyWebApiException {
+  public SpotifyRecommendationsResponse getRecommendationWithPlayList(String playListId) {
     try {
-      this.spotifyApi = authService.initializeSpotifyApi();
+      // Ensure we have a valid access token
+      authService.initializeSpotifyApi();
+      
       List<AudioFeatures> audioFeaturesList = playListService.getSongFeatureByPlayList(playListId);
       log.debug(">>> audioFeaturesList = " + audioFeaturesList);
 
@@ -89,52 +102,29 @@ public class RecommendationsService {
       featureDto.setSeedArtistId(getRandomSeedArtistId(audioFeaturesList));
       featureDto.setSeedTrack(getRandomSeedTrackId(audioFeaturesList));
 
-      GetRecommendationsRequest getRecommendationsRequest =
-              prepareRecommendationsRequestWithPlayList(featureDto);
-      Recommendations recommendations = getRecommendationsRequest.execute();
-
+      // Build the request URI with features
+      URI requestUri = spotifyHttpClient.buildRecommendationsWithFeatureUri(featureDto);
+      
+      // Create HTTP entity with auth headers
+      HttpEntity<Void> entity = spotifyHttpClient.createHttpEntityWithoutBody();
+      
+      // Make the HTTP call
+      ResponseEntity<SpotifyRecommendationsResponse> response = spotifyHttpClient.getRestTemplate()
+          .exchange(requestUri, HttpMethod.GET, entity, SpotifyRecommendationsResponse.class);
+      
+      SpotifyRecommendationsResponse recommendations = response.getBody();
+      log.info("Fetched playlist-based recommendations: {} tracks", recommendations != null && recommendations.getTracks() != null ? recommendations.getTracks().size() : 0);
       return recommendations;
+      
+    } catch (SpotifyApiException e) {
+      log.error("Spotify API error fetching recommendations with playlist features: {}", e.getMessage());
+      throw e;
     } catch (Exception e) {
-      log.error("Error fetching recommendations with playlist features: {}", e.getMessage());
-      throw new SpotifyWebApiException("getRecommendationWithPlayList error: " + e.getMessage());
+      log.error("Unexpected error fetching recommendations with playlist features: {}", e.getMessage());
+      throw new SpotifyApiException("getRecommendationWithPlayList error: " + e.getMessage(), 500);
     }
   }
 
-  private GetRecommendationsRequest prepareRecommendationsRequestWithPlayList(
-      GetRecommendationsWithFeatureDto featureDto)
-      throws IOException, SpotifyWebApiException, ParseException {
-    return spotifyApi
-        .getRecommendations()
-        .limit(featureDto.getAmount())
-        .market(featureDto.getMarket())
-        .max_popularity(featureDto.getMaxPopularity())
-        .min_popularity(featureDto.getMinPopularity())
-        .seed_artists(featureDto.getSeedArtistId())
-        .seed_genres(featureDto.getSeedGenres())
-        .seed_tracks(featureDto.getSeedTrack())
-        // TODO : undo float cast once modify GetRecommendationsWithFeatureDto with attr as "float" type
-        .target_danceability((float) featureDto.getDanceability())
-        .target_energy((float) featureDto.getEnergy())
-        .target_instrumentalness((float) featureDto.getInstrumentalness())
-        .target_liveness((float) featureDto.getLiveness())
-        .target_loudness((float) featureDto.getLoudness())
-        .target_speechiness((float) featureDto.getSpeechiness())
-        .build();
-  }
-
-  private GetRecommendationsRequest prepareRecommendationsRequest(GetRecommendationsDto dto) {
-    return spotifyApi
-        .getRecommendations()
-            .limit(dto.getAmount())
-            .market(dto.getMarket())
-            .max_popularity(dto.getMaxPopularity())
-            .min_popularity(dto.getMinPopularity())
-            .seed_artists(dto.getSeedArtistId())
-            .seed_genres(dto.getSeedGenres())
-            .seed_tracks(dto.getSeedTrack())
-            .target_popularity(dto.getTargetPopularity())
-            .build();
-  }
 
   private String getRandomSeedArtistId(List<AudioFeatures> audioFeaturesList) {
     if (audioFeaturesList == null || audioFeaturesList.size() == 0) {

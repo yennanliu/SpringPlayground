@@ -127,11 +127,30 @@ Run backend tests with `mvn test` or specific test classes with `mvn test -Dtest
 ## Dependencies
 
 ### Key Backend Dependencies
-- Spring Boot 2.4.5 (Web, Test)
-- spotify-web-api-java 8.3.6 (Spotify integration)
+- Spring Boot 2.4.5 (Web, Test, RestTemplate)
+- spotify-web-api-java 8.3.6 (Legacy - used for auth/playlist/search only)
+- **Direct HTTP Integration**: Recommendations API uses RestTemplate for direct Spotify API calls
 - Swagger 2.7.0 (API documentation)
 - Mockito 5.2.0 (Testing)
 - Lombok (Code generation)
+
+## Important Architecture Notes
+
+### Recommendation API Implementation
+The recommendation functionality (`RecommendationsService`) has been **modernized to use direct HTTP calls** instead of the spotify-web-api-java library due to compatibility issues:
+
+- **New Classes:**
+  - `SpotifyHttpClient` - HTTP request builder and client utilities
+  - `SpotifyRecommendationsResponse` - Custom DTOs for API responses  
+  - `SpotifyErrorHandler` - RestTemplate error handling for Spotify API
+  - `SpotifyApiException` - Custom exception handling
+
+- **Modified Services:**
+  - `RecommendationsService` - Now uses RestTemplate instead of library
+  - `WebConfig` - Added RestTemplate bean with error handler
+
+- **Endpoints Affected:** `/recommend/` and `/recommend/playlist/{id}`
+- **Frontend Compatibility:** No changes needed - response structure maintained
 
 ### Key Frontend Dependencies
 - Vue.js 2.6.14

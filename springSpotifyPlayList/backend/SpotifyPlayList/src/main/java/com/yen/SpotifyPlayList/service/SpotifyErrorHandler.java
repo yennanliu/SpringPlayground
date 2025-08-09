@@ -50,7 +50,15 @@ public class SpotifyErrorHandler implements ResponseErrorHandler {
 
     private String getResponseBody(ClientHttpResponse response) throws IOException {
         try {
-            return new String(response.getBody().readAllBytes(), StandardCharsets.UTF_8);
+            java.io.InputStream inputStream = response.getBody();
+            java.io.ByteArrayOutputStream buffer = new java.io.ByteArrayOutputStream();
+            int nRead;
+            byte[] data = new byte[1024];
+            while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, nRead);
+            }
+            buffer.flush();
+            return new String(buffer.toByteArray(), StandardCharsets.UTF_8);
         } catch (IOException e) {
             log.warn("Failed to read error response body: {}", e.getMessage());
             return "Unable to read error response";
