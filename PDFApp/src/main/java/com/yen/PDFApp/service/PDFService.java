@@ -27,33 +27,47 @@ public class PDFService {
             outputDir.mkdirs();
         }
 
-        PDDocument document = PDDocument.load(pdfFile.getInputStream());
-        
-        if (pageNumber < 1 || pageNumber > document.getNumberOfPages()) {
-            document.close();
-            throw new IllegalArgumentException("Invalid page number: " + pageNumber);
+        PDDocument document = null;
+        try {
+            document = PDDocument.load(pdfFile.getInputStream());
+            
+            if (pageNumber < 1 || pageNumber > document.getNumberOfPages()) {
+                throw new IllegalArgumentException("Invalid page number: " + pageNumber);
+            }
+
+            PDPage page = document.getPage(pageNumber - 1);
+            PDImageXObject signatureImage = PDImageXObject.createFromByteArray(document, 
+                    signatureFile.getBytes(), signatureFile.getOriginalFilename());
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page, 
+                    PDPageContentStream.AppendMode.APPEND, true);
+            
+            contentStream.drawImage(signatureImage, x, y, width, height);
+            contentStream.close();
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            String originalFileName = pdfFile.getOriginalFilename();
+            
+            // Handle filename safely
+            String nameWithoutExtension;
+            if (originalFileName != null && originalFileName.contains(".")) {
+                nameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+            } else {
+                nameWithoutExtension = "document";
+            }
+            
+            String signedFileName = nameWithoutExtension + "_signed_" + timestamp + ".pdf";
+            
+            File outputFile = new File(OUTPUT_DIR + signedFileName);
+            document.save(outputFile);
+            
+            return signedFileName;
+            
+        } finally {
+            if (document != null) {
+                document.close();
+            }
         }
-
-        PDPage page = document.getPage(pageNumber - 1);
-        PDImageXObject signatureImage = PDImageXObject.createFromByteArray(document, 
-                signatureFile.getBytes(), signatureFile.getOriginalFilename());
-
-        PDPageContentStream contentStream = new PDPageContentStream(document, page, 
-                PDPageContentStream.AppendMode.APPEND, true);
-        
-        contentStream.drawImage(signatureImage, x, y, width, height);
-        contentStream.close();
-
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-        String originalFileName = pdfFile.getOriginalFilename();
-        String nameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
-        String signedFileName = nameWithoutExtension + "_signed_" + timestamp + ".pdf";
-        
-        File outputFile = new File(OUTPUT_DIR + signedFileName);
-        document.save(outputFile);
-        document.close();
-
-        return signedFileName;
     }
 
     public String addSignatureToPDFFromBase64(MultipartFile pdfFile, String signatureData, 
@@ -64,42 +78,70 @@ public class PDFService {
             outputDir.mkdirs();
         }
 
-        PDDocument document = PDDocument.load(pdfFile.getInputStream());
-        
-        if (pageNumber < 1 || pageNumber > document.getNumberOfPages()) {
-            document.close();
-            throw new IllegalArgumentException("Invalid page number: " + pageNumber);
+        PDDocument document = null;
+        try {
+            document = PDDocument.load(pdfFile.getInputStream());
+            
+            if (pageNumber < 1 || pageNumber > document.getNumberOfPages()) {
+                throw new IllegalArgumentException("Invalid page number: " + pageNumber);
+            }
+
+            // Remove data URL prefix if present (data:image/png;base64,)
+            String base64Data = signatureData;
+            if (signatureData.contains(",")) {
+                base64Data = signatureData.split(",")[1];
+            }
+            
+            // Validate base64 data
+            if (base64Data == null || base64Data.trim().isEmpty()) {
+                throw new IllegalArgumentException("Invalid signature data: empty or null");
+            }
+            
+            // Decode base64 to bytes
+            byte[] imageBytes;
+            try {
+                imageBytes = Base64.getDecoder().decode(base64Data.trim());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid base64 signature data: " + e.getMessage());
+            }
+            
+            if (imageBytes.length == 0) {
+                throw new IllegalArgumentException("Decoded signature image is empty");
+            }
+            
+            PDPage page = document.getPage(pageNumber - 1);
+            PDImageXObject signatureImage = PDImageXObject.createFromByteArray(document, 
+                    imageBytes, "signature.png");
+
+            PDPageContentStream contentStream = new PDPageContentStream(document, page, 
+                    PDPageContentStream.AppendMode.APPEND, true);
+            
+            contentStream.drawImage(signatureImage, x, y, width, height);
+            contentStream.close();
+
+            String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
+            String originalFileName = pdfFile.getOriginalFilename();
+            
+            // Handle filename safely
+            String nameWithoutExtension;
+            if (originalFileName != null && originalFileName.contains(".")) {
+                nameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
+            } else {
+                nameWithoutExtension = "document";
+            }
+            
+            String signedFileName = nameWithoutExtension + "_signed_" + timestamp + ".pdf";
+            
+            File outputFile = new File(OUTPUT_DIR + signedFileName);
+            document.save(outputFile);
+            
+            return signedFileName;
+            
+        } finally {
+            if (document != null) {
+                document.close();
+            }
         }
-
-        // Remove data URL prefix if present (data:image/png;base64,)
-        String base64Data = signatureData;
-        if (signatureData.contains(",")) {
-            base64Data = signatureData.split(",")[1];
-        }
-        
-        // Decode base64 to bytes
-        byte[] imageBytes = Base64.getDecoder().decode(base64Data);
-        
-        PDPage page = document.getPage(pageNumber - 1);
-        PDImageXObject signatureImage = PDImageXObject.createFromByteArray(document, 
-                imageBytes, "signature.png");
-
-        PDPageContentStream contentStream = new PDPageContentStream(document, page, 
-                PDPageContentStream.AppendMode.APPEND, true);
-        
-        contentStream.drawImage(signatureImage, x, y, width, height);
-        contentStream.close();
-
-        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"));
-        String originalFileName = pdfFile.getOriginalFilename();
-        String nameWithoutExtension = originalFileName.substring(0, originalFileName.lastIndexOf('.'));
-        String signedFileName = nameWithoutExtension + "_signed_" + timestamp + ".pdf";
-        
-        File outputFile = new File(OUTPUT_DIR + signedFileName);
-        document.save(outputFile);
-        document.close();
-
-        return signedFileName;
     }
 
     public File getSignedPDF(String fileName) {

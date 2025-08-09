@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Canvas Signature</title>
+    <style>
+        #testCanvas { 
+            border: 1px solid black; 
+            background: white;
+        }
+        button { 
+            margin: 10px; 
+            padding: 5px 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Canvas Signature Test</h2>
+    <canvas id="testCanvas" width="400" height="200"></canvas><br>
+    <button onclick="clearCanvas()">Clear</button>
+    <button onclick="generateBase64()">Generate Base64</button>
+    
+    <div id="output"></div>
+    
+    <script>
+        const canvas = document.getElementById('testCanvas');
+        const ctx = canvas.getContext('2d');
+        let isDrawing = false;
+        
+        // Initialize with white background
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        
+        canvas.addEventListener('mousedown', (e) => {
+            isDrawing = true;
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+        });
+        
+        canvas.addEventListener('mousemove', (e) => {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            isDrawing = false;
+            ctx.beginPath();
+        });
+        
+        function clearCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = '#000';
+        }
+        
+        function generateBase64() {
+            const dataUrl = canvas.toDataURL('image/png');
+            document.getElementById('output').innerHTML = 
+                '<p><strong>Base64 Data URL:</strong></p>' +
+                '<textarea style="width:100%; height:100px;">' + dataUrl + '</textarea>' +
+                '<p>Length: ' + dataUrl.length + ' characters</p>';
+        }
+    </script>
+</body>
+</html>

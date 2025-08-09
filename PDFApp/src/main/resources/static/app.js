@@ -56,6 +56,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentSignatureMethod = 'upload'; // 'upload' or 'draw'
     
     // Initialize signature canvas
+    signatureCtx.fillStyle = 'white';
+    signatureCtx.fillRect(0, 0, signatureCanvas.width, signatureCanvas.height);
     signatureCtx.strokeStyle = '#000';
     signatureCtx.lineWidth = 2;
     signatureCtx.lineCap = 'round';
@@ -323,12 +325,25 @@ document.addEventListener('DOMContentLoaded', function() {
             formData.append('signatureData', signatureDataUrl);
             if (window.location.hostname === 'localhost') {
                 console.log('Using drawn signature');
+                console.log('Signature data URL length:', signatureDataUrl.length);
+                console.log('Signature data preview:', signatureDataUrl.substring(0, 50) + '...');
             }
         } else if (currentSignatureMethod === 'upload' && signatureFileInput.files[0]) {
             formData.append('signatureFile', signatureFileInput.files[0]);
             if (window.location.hostname === 'localhost') {
                 console.log('Using uploaded signature file');
+                console.log('File name:', signatureFileInput.files[0].name);
+                console.log('File size:', signatureFileInput.files[0].size);
             }
+        } else {
+            if (window.location.hostname === 'localhost') {
+                console.error('No signature data available');
+                console.log('Method:', currentSignatureMethod, 'HasDrawnSignature:', hasDrawnSignature, 'HasUploadedFile:', !!signatureFileInput.files[0]);
+            }
+            showError('Please provide a signature before submitting');
+            signButton.disabled = false;
+            hideLoading();
+            return;
         }
         
         if (window.location.hostname === 'localhost') {
@@ -476,6 +491,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function clearSignatureCanvas() {
         signatureCtx.clearRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        // Re-initialize with white background
+        signatureCtx.fillStyle = 'white';
+        signatureCtx.fillRect(0, 0, signatureCanvas.width, signatureCanvas.height);
+        signatureCtx.strokeStyle = '#000';
         hasDrawnSignature = false;
         signatureStatus.textContent = '';
         validateForm();

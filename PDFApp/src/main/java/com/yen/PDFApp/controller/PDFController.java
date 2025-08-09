@@ -34,6 +34,12 @@ public class PDFController {
             @RequestParam(value = "height", defaultValue = "50") float height) {
 
         try {
+            System.out.println("PDF signing request received:");
+            System.out.println("- PDF file: " + (pdfFile != null ? pdfFile.getOriginalFilename() : "null"));
+            System.out.println("- Signature file: " + (signatureFile != null ? signatureFile.getOriginalFilename() : "null"));
+            System.out.println("- Signature data length: " + (signatureData != null ? signatureData.length() : 0));
+            System.out.println("- Page: " + pageNumber + ", Position: (" + x + "," + y + "), Size: " + width + "x" + height);
+            
             if (!pdfService.isValidPDF(pdfFile)) {
                 return ResponseEntity.badRequest()
                         .body(new PDFSignatureResponse(null, "Invalid PDF file", false));
@@ -43,10 +49,12 @@ public class PDFController {
             
             if (signatureData != null && !signatureData.isEmpty()) {
                 // Use drawn signature (base64 data)
+                System.out.println("Using drawn signature (base64 data)");
                 signedFileName = pdfService.addSignatureToPDFFromBase64(pdfFile, signatureData, 
                         pageNumber, x, y, width, height);
             } else if (signatureFile != null && !signatureFile.isEmpty()) {
                 // Use uploaded signature file
+                System.out.println("Using uploaded signature file: " + signatureFile.getOriginalFilename());
                 if (!pdfService.isValidImageFile(signatureFile)) {
                     return ResponseEntity.badRequest()
                             .body(new PDFSignatureResponse(null, "Invalid signature image file. Only PNG and JPEG are supported.", false));
@@ -54,10 +62,12 @@ public class PDFController {
                 signedFileName = pdfService.addSignatureToPDF(pdfFile, signatureFile, 
                         pageNumber, x, y, width, height);
             } else {
+                System.out.println("No signature data provided");
                 return ResponseEntity.badRequest()
                         .body(new PDFSignatureResponse(null, "Please provide either a signature file or draw a signature", false));
             }
 
+            System.out.println("PDF signing completed successfully: " + signedFileName);
             return ResponseEntity.ok(new PDFSignatureResponse(signedFileName, 
                     "PDF signed successfully", true));
 
