@@ -60,6 +60,15 @@ public class RecommendationsResponseMapper {
         // Convert snake_case to camelCase for preview URL
         legacyTrack.setPreviewUrl(spotifyTrack.getPreviewUrl());
         
+        // Map additional optional fields
+        if (spotifyTrack.getRestrictions() != null) {
+            legacyTrack.setRestrictions(mapRestrictions(spotifyTrack.getRestrictions()));
+        }
+        
+        if (spotifyTrack.getLinkedFrom() != null) {
+            legacyTrack.setLinkedFrom(mapLinkedFrom(spotifyTrack.getLinkedFrom()));
+        }
+        
         // Map external URLs with special nested structure
         if (spotifyTrack.getExternalUrls() != null) {
             legacyTrack.setExternalUrls(mapExternalUrls(spotifyTrack.getExternalUrls()));
@@ -127,6 +136,11 @@ public class RecommendationsResponseMapper {
             legacyAlbum.setExternalUrls(mapExternalUrls(spotifyAlbum.getExternalUrls()));
         }
         
+        // Map restrictions if present
+        if (spotifyAlbum.getRestrictions() != null) {
+            legacyAlbum.setRestrictions(mapRestrictions(spotifyAlbum.getRestrictions()));
+        }
+        
         // Map images
         if (spotifyAlbum.getImages() != null) {
             legacyAlbum.setImages(spotifyAlbum.getImages().stream()
@@ -179,5 +193,25 @@ public class RecommendationsResponseMapper {
         legacySeed.setInitialPoolSize(spotifySeed.getInitialPoolSize());
         
         return legacySeed;
+    }
+
+    private LegacyRecommendationsResponse.LegacyRestrictions mapRestrictions(SpotifyRecommendationsResponse.SpotifyRestrictions spotifyRestrictions) {
+        LegacyRecommendationsResponse.LegacyRestrictions legacyRestrictions = new LegacyRecommendationsResponse.LegacyRestrictions();
+        legacyRestrictions.setReason(spotifyRestrictions.getReason());
+        return legacyRestrictions;
+    }
+
+    private LegacyRecommendationsResponse.LegacyLinkedFrom mapLinkedFrom(SpotifyRecommendationsResponse.SpotifyLinkedFrom spotifyLinkedFrom) {
+        LegacyRecommendationsResponse.LegacyLinkedFrom legacyLinkedFrom = new LegacyRecommendationsResponse.LegacyLinkedFrom();
+        legacyLinkedFrom.setId(spotifyLinkedFrom.getId());
+        legacyLinkedFrom.setHref(spotifyLinkedFrom.getHref());
+        legacyLinkedFrom.setType(spotifyLinkedFrom.getType());
+        legacyLinkedFrom.setUri(spotifyLinkedFrom.getUri());
+        
+        if (spotifyLinkedFrom.getExternalUrls() != null) {
+            legacyLinkedFrom.setExternalUrls(mapExternalUrls(spotifyLinkedFrom.getExternalUrls()));
+        }
+        
+        return legacyLinkedFrom;
     }
 }

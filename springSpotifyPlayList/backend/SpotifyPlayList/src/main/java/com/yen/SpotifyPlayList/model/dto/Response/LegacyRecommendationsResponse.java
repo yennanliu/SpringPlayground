@@ -29,9 +29,11 @@ public class LegacyRecommendationsResponse {
         private String href;
         private String id;
         private Boolean isPlayable;
+        private LegacyLinkedFrom linkedFrom;
         private String name;
         private Integer popularity;
         private String previewUrl;  // Frontend expects camelCase
+        private LegacyRestrictions restrictions;
         private Integer trackNumber;
         private String type;
         private String uri;
@@ -51,6 +53,7 @@ public class LegacyRecommendationsResponse {
         private String name;
         private String releaseDate;
         private String releaseDatePrecision;
+        private LegacyRestrictions restrictions;
         private String type;
         private String uri;
         private List<LegacyArtist> artists;
@@ -94,6 +97,22 @@ public class LegacyRecommendationsResponse {
         public static class LegacySpotifyUrls {
             private String spotify;
         }
+    }
+
+    @Data
+    @ToString
+    public static class LegacyRestrictions {
+        private String reason;
+    }
+
+    @Data
+    @ToString
+    public static class LegacyLinkedFrom {
+        private LegacyExternalUrls externalUrls;
+        private String href;
+        private String id;
+        private String type;
+        private String uri;
     }
 
     @Data

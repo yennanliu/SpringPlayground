@@ -31,26 +31,81 @@ public class SpotifyErrorHandler implements ResponseErrorHandler {
         
         log.error("Spotify API error - Status: {}, Body: {}", statusCode, responseBody);
 
-        String errorMessage = "Spotify API error";
+        String errorMessage = getDefaultErrorMessage(statusCode);
         String spotifyErrorMessage = null;
 
         try {
             SpotifyErrorResponse errorResponse = objectMapper.readValue(responseBody, SpotifyErrorResponse.class);
             if (errorResponse.getError() != null) {
                 spotifyErrorMessage = errorResponse.getError().getMessage();
-                errorMessage = "Spotify API error: " + spotifyErrorMessage;
+                errorMessage = createEnhancedErrorMessage(errorResponse);
             }
         } catch (Exception e) {
             log.warn("Failed to parse Spotify error response: {}", e.getMessage());
-            errorMessage = "Spotify API error: " + responseBody;
+            errorMessage = String.format("%s: %s", getDefaultErrorMessage(statusCode), responseBody);
         }
 
         throw new SpotifyApiException(errorMessage, statusCode.value(), spotifyErrorMessage);
+    }
+    
+    private String getDefaultErrorMessage(HttpStatus statusCode) {
+        switch (statusCode.value()) {
+            case 400:
+                return "Bad Request - The request could not be understood by the server";
+            case 401:
+                return "Unauthorized - Access token is missing, invalid, or expired";
+            case 403:
+                return "Forbidden - The server understood the request but refuses to authorize it";
+            case 404:
+                return "Not Found - The requested resource could not be found";
+            case 429:
+                return "Rate Limited - The app has exceeded its rate limits";
+            case 500:
+                return "Internal Server Error - Spotify service is temporarily unavailable";
+            case 502:
+                return "Bad Gateway - Spotify service is temporarily unavailable";
+            case 503:
+                return "Service Unavailable - Spotify service is temporarily unavailable";
+            default:
+                return "Spotify API error";
+        }
+    }
+    
+    private String createEnhancedErrorMessage(SpotifyErrorResponse errorResponse) {
+        StringBuilder message = new StringBuilder();
+        
+        // Add context based on error type
+        if (errorResponse.isAuthenticationError()) {
+            message.append("Authentication Error: ");
+        } else if (errorResponse.isRateLimitError()) {
+            message.append("Rate Limit Exceeded: ");
+        } else if (errorResponse.isNotFoundError()) {
+            message.append("Resource Not Found: ");
+        } else if (errorResponse.isBadRequestError()) {
+            message.append("Invalid Request: ");
+        }
+        
+        message.append(errorResponse.getErrorDescription());
+        
+        // Add helpful hints for common errors
+        if (errorResponse.isAuthenticationError()) {
+            message.append(". Please check your Spotify API credentials and ensure the access token is valid.");
+        } else if (errorResponse.isRateLimitError()) {
+            message.append(". Please wait before making additional requests.");
+        }
+        
+        return message.toString();
     }
 
     private String getResponseBody(ClientHttpResponse response) throws IOException {
         try {
             java.io.InputStream inputStream = response.getBody();
+            
+            // Handle empty response body
+            if (inputStream == null) {
+                return "Empty response body";
+            }
+            
             java.io.ByteArrayOutputStream buffer = new java.io.ByteArrayOutputStream();
             int nRead;
             byte[] data = new byte[1024];
@@ -58,10 +113,15 @@ public class SpotifyErrorHandler implements ResponseErrorHandler {
                 buffer.write(data, 0, nRead);
             }
             buffer.flush();
-            return new String(buffer.toByteArray(), StandardCharsets.UTF_8);
+            
+            String responseBody = new String(buffer.toByteArray(), StandardCharsets.UTF_8);
+            
+            // Handle empty string response
+            return responseBody.isEmpty() ? "Empty response body" : responseBody;
+            
         } catch (IOException e) {
             log.warn("Failed to read error response body: {}", e.getMessage());
-            return "Unable to read error response";
+            return "Unable to read error response: " + e.getMessage();
         }
     }
 }

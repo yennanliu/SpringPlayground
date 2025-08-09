@@ -32,10 +32,13 @@ public class SpotifyRecommendationsResponse {
         private String id;
         @JsonProperty("is_playable")
         private Boolean isPlayable;
+        @JsonProperty("linked_from")
+        private SpotifyLinkedFrom linkedFrom;
         private String name;
         private Integer popularity;
         @JsonProperty("preview_url")
         private String previewUrl;
+        private SpotifyRestrictions restrictions;
         @JsonProperty("track_number")
         private Integer trackNumber;
         private String type;
@@ -63,6 +66,7 @@ public class SpotifyRecommendationsResponse {
         private String releaseDate;
         @JsonProperty("release_date_precision")
         private String releaseDatePrecision;
+        private SpotifyRestrictions restrictions;
         private String type;
         private String uri;
         private List<SpotifyArtist> artists;
@@ -100,6 +104,23 @@ public class SpotifyRecommendationsResponse {
     @ToString
     public static class SpotifyExternalUrls {
         private String spotify;
+    }
+
+    @Data
+    @ToString
+    public static class SpotifyRestrictions {
+        private String reason;
+    }
+
+    @Data
+    @ToString
+    public static class SpotifyLinkedFrom {
+        @JsonProperty("external_urls")
+        private SpotifyExternalUrls externalUrls;
+        private String href;
+        private String id;
+        private String type;
+        private String uri;
     }
 
     @Data

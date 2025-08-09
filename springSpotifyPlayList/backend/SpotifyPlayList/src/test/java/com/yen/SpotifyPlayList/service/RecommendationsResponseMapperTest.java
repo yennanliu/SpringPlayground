@@ -109,4 +109,142 @@ class RecommendationsResponseMapperTest {
         assertNotNull(result.getTracks());
         assertTrue(result.getTracks().isEmpty());
     }
+
+    @Test
+    void testMapToLegacyFormat_WithRestrictions() {
+        SpotifyRecommendationsResponse spotifyResponse = new SpotifyRecommendationsResponse();
+        
+        SpotifyRecommendationsResponse.SpotifyTrack track = new SpotifyRecommendationsResponse.SpotifyTrack();
+        track.setId("track123");
+        track.setName("Restricted Track");
+        
+        // Add restrictions
+        SpotifyRecommendationsResponse.SpotifyRestrictions restrictions = new SpotifyRecommendationsResponse.SpotifyRestrictions();
+        restrictions.setReason("market");
+        track.setRestrictions(restrictions);
+        
+        spotifyResponse.setTracks(Arrays.asList(track));
+        
+        LegacyRecommendationsResponse result = mapper.mapToLegacyFormat(spotifyResponse);
+        
+        assertNotNull(result);
+        assertNotNull(result.getTracks());
+        assertEquals(1, result.getTracks().size());
+        
+        LegacyRecommendationsResponse.LegacyTrack legacyTrack = result.getTracks().get(0);
+        assertNotNull(legacyTrack.getRestrictions());
+        assertEquals("market", legacyTrack.getRestrictions().getReason());
+    }
+
+    @Test
+    void testMapToLegacyFormat_WithLinkedFrom() {
+        SpotifyRecommendationsResponse spotifyResponse = new SpotifyRecommendationsResponse();
+        
+        SpotifyRecommendationsResponse.SpotifyTrack track = new SpotifyRecommendationsResponse.SpotifyTrack();
+        track.setId("track123");
+        track.setName("Linked Track");
+        
+        // Add linked_from
+        SpotifyRecommendationsResponse.SpotifyLinkedFrom linkedFrom = new SpotifyRecommendationsResponse.SpotifyLinkedFrom();
+        linkedFrom.setId("original123");
+        linkedFrom.setHref("https://api.spotify.com/v1/tracks/original123");
+        linkedFrom.setType("track");
+        linkedFrom.setUri("spotify:track:original123");
+        
+        SpotifyRecommendationsResponse.SpotifyExternalUrls externalUrls = new SpotifyRecommendationsResponse.SpotifyExternalUrls();
+        externalUrls.setSpotify("https://open.spotify.com/track/original123");
+        linkedFrom.setExternalUrls(externalUrls);
+        
+        track.setLinkedFrom(linkedFrom);
+        spotifyResponse.setTracks(Arrays.asList(track));
+        
+        LegacyRecommendationsResponse result = mapper.mapToLegacyFormat(spotifyResponse);
+        
+        assertNotNull(result);
+        assertNotNull(result.getTracks());
+        assertEquals(1, result.getTracks().size());
+        
+        LegacyRecommendationsResponse.LegacyTrack legacyTrack = result.getTracks().get(0);
+        assertNotNull(legacyTrack.getLinkedFrom());
+        assertEquals("original123", legacyTrack.getLinkedFrom().getId());
+        assertEquals("track", legacyTrack.getLinkedFrom().getType());
+        
+        // Verify nested external URLs structure
+        assertNotNull(legacyTrack.getLinkedFrom().getExternalUrls());
+        assertNotNull(legacyTrack.getLinkedFrom().getExternalUrls().getExternalUrls());
+        assertEquals("https://open.spotify.com/track/original123", 
+                legacyTrack.getLinkedFrom().getExternalUrls().getExternalUrls().getSpotify());
+    }
+
+    @Test
+    void testMapToLegacyFormat_WithSeeds() {
+        SpotifyRecommendationsResponse spotifyResponse = new SpotifyRecommendationsResponse();
+        
+        // Create seeds
+        SpotifyRecommendationsResponse.SpotifySeed seed = new SpotifyRecommendationsResponse.SpotifySeed();
+        seed.setId("4NHQUGzhtTLFvgF5SZesLK");
+        seed.setType("artist");
+        seed.setHref("https://api.spotify.com/v1/artists/4NHQUGzhtTLFvgF5SZesLK");
+        seed.setInitialPoolSize(500);
+        seed.setAfterFilteringSize(250);
+        seed.setAfterRelinkingSize(240);
+        
+        spotifyResponse.setSeeds(Arrays.asList(seed));
+        spotifyResponse.setTracks(Collections.emptyList());
+        
+        LegacyRecommendationsResponse result = mapper.mapToLegacyFormat(spotifyResponse);
+        
+        assertNotNull(result);
+        assertNotNull(result.getSeeds());
+        assertEquals(1, result.getSeeds().size());
+        
+        LegacyRecommendationsResponse.LegacySeed legacySeed = result.getSeeds().get(0);
+        assertEquals("4NHQUGzhtTLFvgF5SZesLK", legacySeed.getId());
+        assertEquals("artist", legacySeed.getType());
+        assertEquals(Integer.valueOf(500), legacySeed.getInitialPoolSize());
+        assertEquals(Integer.valueOf(250), legacySeed.getAfterFilteringSize());
+        assertEquals(Integer.valueOf(240), legacySeed.getAfterRelinkingSize());
+    }
+
+    @Test
+    void testMapToLegacyFormat_NullOptionalFields() {
+        // Test that null optional fields don't cause issues
+        SpotifyRecommendationsResponse spotifyResponse = new SpotifyRecommendationsResponse();
+        
+        SpotifyRecommendationsResponse.SpotifyTrack track = new SpotifyRecommendationsResponse.SpotifyTrack();
+        track.setId("track123");
+        track.setName("Basic Track");
+        track.setUri("spotify:track:track123");
+        
+        // Explicitly set optional fields to null
+        track.setRestrictions(null);
+        track.setLinkedFrom(null);
+        track.setPreviewUrl(null);
+        track.setExternalUrls(null);
+        track.setExternalIds(null);
+        track.setAlbum(null);
+        track.setArtists(null);
+        
+        spotifyResponse.setTracks(Arrays.asList(track));
+        
+        LegacyRecommendationsResponse result = mapper.mapToLegacyFormat(spotifyResponse);
+        
+        assertNotNull(result);
+        assertNotNull(result.getTracks());
+        assertEquals(1, result.getTracks().size());
+        
+        LegacyRecommendationsResponse.LegacyTrack legacyTrack = result.getTracks().get(0);
+        assertEquals("track123", legacyTrack.getId());
+        assertEquals("Basic Track", legacyTrack.getName());
+        assertEquals("spotify:track:track123", legacyTrack.getUri());
+        
+        // Verify null fields remain null
+        assertNull(legacyTrack.getRestrictions());
+        assertNull(legacyTrack.getLinkedFrom());
+        assertNull(legacyTrack.getPreviewUrl());
+        assertNull(legacyTrack.getExternalUrls());
+        assertNull(legacyTrack.getExternalIds());
+        assertNull(legacyTrack.getAlbum());
+        assertNull(legacyTrack.getArtists());
+    }
 }
