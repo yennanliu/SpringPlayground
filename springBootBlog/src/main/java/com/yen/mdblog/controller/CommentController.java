@@ -20,7 +20,7 @@ public class CommentController {
   @RequestMapping(value = "/create", method = RequestMethod.POST)
   public String createComment(CreateComment request, Model model, Principal principal) {
 
-    String userName = principal.getName();
+    String userName = "admin"; //principal.getName();
     Long postId = request.getPostId();
     String commentContent = request.getCommentContent();
     Boolean createCommentSuccess = commentService.insertComment(userName, postId, commentContent);
