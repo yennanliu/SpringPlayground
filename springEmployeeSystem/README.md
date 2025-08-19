@@ -46,6 +46,26 @@ cd springEmployeeSystem/frontend/employee-system-ui
 npm run serve
 ```
 
+
+```bash
+#---------------------------
+# Run Nginx
+#---------------------------
+
+# start nginx service
+brew services start nginx
+
+# stop
+brew services stop nginx
+
+# macbook M1
+# /opt/homebrew/etc/nginx
+# /opt/homebrew/etc/nginx/nginx.conf 
+
+# reload config
+nginx -s reload
+```
+
 </details>
 
 
