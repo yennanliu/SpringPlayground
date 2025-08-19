@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,4 +20,6 @@ public class TicketDto {
   private Integer assignedTo; // assigned user id
   private String status;
   private String tag;
+  private LocalDateTime createdAt;
+  private LocalDateTime updatedAt;
 }
