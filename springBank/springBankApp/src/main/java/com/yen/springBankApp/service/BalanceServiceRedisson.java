@@ -4,6 +4,7 @@ import com.yen.springBankApp.model.Balance;
 import com.yen.springBankApp.model.dto.Balance.AddBalanceDto;
 import com.yen.springBankApp.model.dto.Balance.DeductBalanceDto;
 import com.yen.springBankApp.repository.BalanceRepository;
+import io.swagger.models.auth.In;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RReadWriteLock;
@@ -13,7 +14,11 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -29,38 +34,110 @@ public class BalanceServiceRedisson {
     @Autowired
     private RedissonClient redissonClient;
 
+    private final RReadWriteLock rwLock;
+
+    // lock for id level
+    private final Map<Integer, RLock> rwlocks;
+
+    // constructor
+    public BalanceServiceRedisson(RedissonClient redissonClient) {
+        this.redissonClient = redissonClient;
+        this.rwLock = redissonClient.getReadWriteLock("rwLock");
+        this.rwlocks = new ConcurrentHashMap<>();
+    }
 
     public List<Balance> getBalances() {
 
-        return balanceRepository.findAll();
+        System.out.println("(BalanceServiceRedisson) getBalances");
+        // lock
+        this.rwLock.readLock().lock(3, TimeUnit.SECONDS); // default expire time : 3 sec
+        try{
+            return balanceRepository.findAll();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            this.rwLock.readLock().unlock();
+        }
+        return null; // return default val ?
+    }
+
+
+    // retry if process can't get lock (?
+    // https://medium.com/@htyesilyurt/distributed-lock-with-redisson-rlock-and-spring-boot-redis-pub-sub-86d51fd83e8b
+    //@Retryable(value = org.redisson.client.RedisTimeoutException.class, maxAttempts = 2, backoff = @Backoff(delay = 2000))
+    public Balance getBalanceById(Integer id) {
+
+        System.out.println("(BalanceServiceRedisson) getBalanceById start ... Id = " + id);
+
+        Balance balance = new Balance();
+
+        // lock
+        // lock with id level, TODO : validate if it works
+//        RLock lock = rwlocks.computeIfAbsent(id, k -> redissonClient.getLock("lock-" + k));
+//        lock.lock();
+//        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//        rwLock.readLock().lock();
+        this.rwLock.readLock().lock();
+
+        try{
+            if (balanceRepository.findById(id).isPresent()){
+                return balanceRepository.findById(id).get();
+            }
+            throw new RuntimeException("can not get balance with ID = " + id);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            this.rwLock.readLock().unlock();
+        }
+        return balance;
     }
 
     public Balance getBalanceByUserId(Integer userId) {
 
-        List<Balance> balanceList = balanceRepository.findAll();
-        return balanceList.stream().filter(x -> {return x.getUserId().equals(userId);}
-        ).collect(Collectors.toList()).get(0);
+        // lock
+        this.rwLock.readLock().lock();
+        try{
+            List<Balance> balanceList = balanceRepository.findAll();
+            return balanceList.stream().filter(x -> {return x.getUserId().equals(userId);}
+            ).collect(Collectors.toList()).get(0);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            this.rwLock.readLock().unlock();
+        }
+        return null;
     }
 
     public void addBalance(AddBalanceDto addBalanceDto) {
-
-        Balance balance = new Balance();
-        balance.setUserId(addBalanceDto.getUserId());
-        balance.setBalance(addBalanceDto.getAmount());
-        balance.setCreateTime(new Date());
-        balance.setUpdateTime(new Date());
-        balanceRepository.save(balance);
+        // lock
+        this.rwLock.readLock().lock();
+        try{
+            Balance balance = new Balance();
+            balance.setUserId(addBalanceDto.getUserId());
+            balance.setBalance(addBalanceDto.getAmount());
+            balance.setCreateTime(new Date());
+            balance.setUpdateTime(new Date());
+            balanceRepository.save(balance);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            // unlock
+            this.rwLock.readLock().unlock();
+        }
     }
 
     public void topUpBalance(){
 
         log.info(">>> (BalanceServiceRedisson) topUpBalance start ...");
-
-        // get lock
-        RLock lock = redissonClient.getLock("lock");
+//        // get lock
+//        RLock lock = redissonClient.getLock("lock");
+//        // lock
+//        lock.lock();
 
         // lock
-        lock.lock();
+        this.rwLock.writeLock().lock();
 
         try{
             // V2 : Mysql
@@ -76,7 +153,7 @@ public class BalanceServiceRedisson {
             e.printStackTrace();
         }finally {
             // unlock
-            lock.unlock();
+            this.rwLock.writeLock().unlock();
         }
     }
 
@@ -84,13 +161,16 @@ public class BalanceServiceRedisson {
 
         log.info(">>> (BalanceServiceRedisson) deductBalance start ...");
 
-        // get lock
-        //RLock lock = redissonClient.getLock("lock");
-        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//        // get lock
+//        //RLock lock = redissonClient.getLock("lock");
+//        RReadWriteLock rwLock = redissonClient.getReadWriteLock("rwLock");
+//
+//        // lock
+//        //lock.lock();
+//        rwLock.writeLock();
 
         // lock
-        //lock.lock();
-        rwLock.writeLock();
+        this.rwLock.writeLock().lock();
 
         try{
             // sleep 10 sec
@@ -118,7 +198,8 @@ public class BalanceServiceRedisson {
         }finally {
             // unlock
             //lock.unlock();
-            rwLock.writeLock().unlock();
+            //rwLock.writeLock().unlock();
+            this.rwLock.writeLock().unlock();
         }
     }
 
@@ -166,20 +247,37 @@ public class BalanceServiceRedisson {
 
         log.info(">>> (BalanceServiceRedisson) transferMysql start ...");
 
-        // get lock
-        RLock lock = redissonClient.getLock("lock");
+//        // lock
+//        this.rwlocks.computeIfAbsent(1, k -> redissonClient.getLock("lock-" + k));
+//        this.rwlocks.computeIfAbsent(2, k -> redissonClient.getLock("lock-" + k));
+//        if (lock1.tryLock() && lock2.tryLock()) {
+//            try {
+//                // Your transfer logic here
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            } finally {
+//                lock2.unlock();
+//                lock1.unlock();
+//            }
+//        } else {
+//            // Handle if locks cannot be acquired
+//        }
 
-        // lock
-        lock.lock();
+        //lock.lock();
+        this.rwLock.writeLock().lock();
 
         try{
             // V2 : Mysql
             if (balanceRepository.findById(1).isPresent() && balanceRepository.findById(2).isPresent()){
 
-                Thread.sleep(10000);
+                Thread.sleep(5000); // 5 sec
 
-                Balance balance1 = balanceRepository.findById(1).get();
-                Balance balance2 = balanceRepository.findById(2).get();
+//                Balance balance1 = balanceRepository.findById(1).get();
+//                Balance balance2 = balanceRepository.findById(2).get();
+                // getBalanceById
+                Balance balance1 = this.getBalanceById(1);
+                Balance balance2 = this.getBalanceById(2);
+
                 // update to DB
                 if (balance1.getBalance() > 0 && balance2.getBalance() > 0){
                     balance1.setBalance(balance1.getBalance() - 1);
@@ -192,7 +290,8 @@ public class BalanceServiceRedisson {
             e.printStackTrace();
         }finally {
             // unlock
-            lock.unlock();
+            //lock.unlock();
+            this.rwLock.writeLock().unlock();
         }
 
     }
