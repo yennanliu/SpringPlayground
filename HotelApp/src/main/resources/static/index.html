@@ -229,135 +229,103 @@
             background: var(--background-white);
             border-radius: var(--border-radius-lg);
             overflow: hidden;
-            box-shadow: var(--shadow);
-            transition: all 0.3s ease;
+            box-shadow: none;
+            transition: all 0.2s ease;
             cursor: pointer;
             position: relative;
+            border: 1px solid transparent;
         }
 
         .room-card:hover {
-            transform: translateY(-4px);
-            box-shadow: var(--shadow-hover);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+            transform: translateY(-1px);
         }
 
         .room-image {
             width: 100%;
-            height: 240px;
+            height: 280px;
             background: linear-gradient(135deg, #667eea, #764ba2);
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 48px;
+            font-size: 64px;
             color: white;
+            border-radius: var(--border-radius) var(--border-radius) 0 0;
         }
 
         .room-status-badge {
             position: absolute;
-            top: 16px;
-            left: 16px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            top: 12px;
+            left: 12px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            backdrop-filter: blur(10px);
         }
 
         .status-available {
-            background: rgba(0, 166, 153, 0.1);
-            color: var(--secondary-color);
-            border: 1px solid var(--secondary-color);
+            background: rgba(0, 166, 153, 0.9);
+            color: white;
+            border: none;
         }
 
         .status-booked {
-            background: rgba(255, 56, 92, 0.1);
-            color: var(--primary-color);
-            border: 1px solid var(--primary-color);
+            background: rgba(255, 56, 92, 0.9);
+            color: white;
+            border: none;
         }
 
         .room-favorite {
             position: absolute;
-            top: 16px;
-            right: 16px;
-            background: rgba(255, 255, 255, 0.9);
+            top: 12px;
+            right: 12px;
+            background: rgba(0, 0, 0, 0.5);
             border: none;
             border-radius: 50%;
-            width: 36px;
-            height: 36px;
+            width: 32px;
+            height: 32px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
             transition: all 0.2s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .room-favorite i {
+            color: white;
+            font-size: 16px;
         }
 
         .room-favorite:hover {
-            background: white;
-            transform: scale(1.1);
+            background: rgba(0, 0, 0, 0.7);
+            transform: scale(1.05);
         }
 
         .room-content {
-            padding: 24px;
+            padding: 16px 0 0 0;
         }
 
-        .room-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-        }
-
-        .room-title {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .room-type {
-            font-size: 16px;
-            color: var(--text-secondary);
+        .room-info {
             margin-bottom: 8px;
         }
 
-        .room-description {
-            font-size: 16px;
-            color: var(--text-secondary);
-            margin-bottom: 16px;
-            line-height: 1.5;
-        }
-
-        .room-features {
-            display: flex;
-            gap: 16px;
-            margin-bottom: 20px;
-        }
-
-        .feature {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .room-pricing {
+        .room-location {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            margin-bottom: 20px;
+            margin-bottom: 4px;
         }
 
-        .price {
-            font-size: 24px;
+        .room-title {
+            font-size: 15px;
             font-weight: 600;
             color: var(--text-primary);
-        }
-
-        .price-unit {
-            font-size: 16px;
-            font-weight: 400;
-            color: var(--text-secondary);
+            line-height: 1.2;
         }
 
         .rating {
@@ -366,17 +334,86 @@
             gap: 4px;
         }
 
+        .rating i {
+            font-size: 12px;
+            color: #FFC107;
+        }
+
+        .rating span {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .room-type {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 2px;
+            font-weight: 400;
+        }
+
+        .room-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .room-features {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-weight: 400;
+        }
+
+        .feature i {
+            font-size: 11px;
+        }
+
+        .room-pricing {
+            margin-top: 12px;
+            display: flex;
+            align-items: baseline;
+            gap: 4px;
+        }
+
+        .price {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .price-unit {
+            font-size: 14px;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
         .book-btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px 24px;
             background: var(--primary-color);
             color: white;
             border: none;
-            border-radius: var(--border-radius);
-            font-size: 18px;
+            border-radius: 8px;
+            font-size: 16px;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.2s ease;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .book-btn:hover {
@@ -384,13 +421,36 @@
         }
 
         .book-btn:disabled {
-            background: var(--text-secondary);
+            background: #B0B0B0;
             cursor: not-allowed;
         }
 
         .book-btn.booked {
-            background: var(--border-color);
-            color: var(--text-secondary);
+            background: #B0B0B0;
+            color: white;
+        }
+
+        .booked-info {
+            background: #FEF7F7;
+            border: 1px solid #FECACA;
+            border-radius: 8px;
+            padding: 8px 12px;
+            margin: 8px 0;
+            font-size: 12px;
+        }
+
+        .booked-info-header {
+            font-weight: 600;
+            color: #DC2626;
+            margin-bottom: 2px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .booked-info-details {
+            color: #7F1D1D;
+            font-size: 11px;
         }
 
         .loading {
@@ -969,16 +1029,16 @@
                             <div class="room-status-badge ${room.available ? 'status-available' : 'status-booked'}">
                                 ${room.available ? 'Available' : 'Booked'}
                             </div>
-                            <button class="room-favorite">
+                            <button class="room-favorite" onclick="event.stopPropagation();">
                                 <i class="far fa-heart"></i>
                             </button>
                         </div>
                         <div class="room-content">
-                            <div class="room-header">
+                            <div class="room-location">
                                 <h3 class="room-title">Room ${room.roomNumber}</h3>
                                 <div class="rating">
-                                    <i class="fas fa-star" style="color: #FFC107;"></i>
-                                    <span style="font-weight: 600;">4.${Math.floor(Math.random() * 9) + 1}</span>
+                                    <i class="fas fa-star"></i>
+                                    <span>4.${Math.floor(Math.random() * 9) + 1}</span>
                                 </div>
                             </div>
                             <div class="room-type">${room.roomType} Room</div>
@@ -1000,25 +1060,24 @@
                             </div>
                             
                             ${isBooked && bookedInfo ? `
-                                <div style="background: #FEF2F2; border: 1px solid #FECACA; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
-                                    <div style="font-size: 14px; font-weight: 600; color: #DC2626; margin-bottom: 4px;">
+                                <div class="booked-info">
+                                    <div class="booked-info-header">
                                         <i class="fas fa-calendar-check"></i> Currently Booked
                                     </div>
-                                    <div style="font-size: 13px; color: #7F1D1D;">
+                                    <div class="booked-info-details">
                                         ${bookedInfo.guestName} • ${formatDate(bookedInfo.checkInDate)} - ${formatDate(bookedInfo.checkOutDate)}
                                     </div>
                                 </div>
                             ` : ''}
                             
                             <div class="room-pricing">
-                                <div class="price">
-                                    $${room.price}
-                                    <span class="price-unit">/ night</span>
-                                </div>
+                                <span class="price">$${room.price}</span>
+                                <span class="price-unit">/ night</span>
                             </div>
                             
                             <button class="book-btn ${isBooked ? 'booked' : ''}" 
-                                    ${isBooked ? 'disabled' : ''}>
+                                    ${isBooked ? 'disabled' : ''}
+                                    onclick="event.stopPropagation(); ${room.available ? `openBookingModal(${room.id}, '${room.roomNumber}', '${room.roomType}', ${room.price})` : ''}">
                                 <i class="fas fa-${isBooked ? 'lock' : 'calendar-plus'}"></i>
                                 ${isBooked ? 'Currently Booked' : 'Reserve'}
                             </button>
