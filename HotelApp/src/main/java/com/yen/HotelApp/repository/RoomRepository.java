@@ -16,7 +16,10 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     List<Room> findByAvailable(Boolean available);
     List<Room> findByRoomType(String roomType);
     List<Room> findByAvailableAndRoomType(Boolean available, String roomType);
-    
+
+    /**
+     *  PESSIMISTIC LOCK: JPA approach
+     */
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("SELECT r FROM Room r WHERE r.id = :id")
     Optional<Room> findByIdWithLock(@Param("id") Long id);

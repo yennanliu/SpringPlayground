@@ -4,11 +4,15 @@ import com.yen.HotelApp.entity.Booking;
 import com.yen.HotelApp.entity.Room;
 import com.yen.HotelApp.repository.BookingRepository;
 import com.yen.HotelApp.repository.RoomRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import jakarta.transaction.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
@@ -41,7 +45,10 @@ public class HotelService {
 
     public Booking createBooking(Long roomId, String guestName, String guestEmail, 
                                 LocalDate checkInDate, LocalDate checkOutDate) {
-        
+
+        /**
+         *  change for PESSIMISTIC LOCK
+         */
         Optional<Room> roomOpt = roomRepository.findByIdWithLock(roomId);
         if (!roomOpt.isPresent()) {
             throw new RuntimeException("Room not found with id: " + roomId);
