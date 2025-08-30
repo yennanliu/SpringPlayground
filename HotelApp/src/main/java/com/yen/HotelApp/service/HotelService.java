@@ -42,7 +42,7 @@ public class HotelService {
     public Booking createBooking(Long roomId, String guestName, String guestEmail, 
                                 LocalDate checkInDate, LocalDate checkOutDate) {
         
-        Optional<Room> roomOpt = roomRepository.findById(roomId);
+        Optional<Room> roomOpt = roomRepository.findByIdWithLock(roomId);
         if (!roomOpt.isPresent()) {
             throw new RuntimeException("Room not found with id: " + roomId);
         }
