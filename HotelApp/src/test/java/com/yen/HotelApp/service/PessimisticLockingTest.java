@@ -112,6 +112,7 @@ public class PessimisticLockingTest {
     }
 
     @Test
+    @Transactional
     public void testLockTimeoutConfiguration() {
         // This test verifies that lock timeout is configured
         // In a real scenario, this would timeout if another transaction holds the lock
