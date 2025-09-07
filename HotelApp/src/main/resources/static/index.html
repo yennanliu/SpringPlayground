@@ -1262,6 +1262,10 @@
                     closeBookingModal();
                     loadAllRooms();
                     loadAllBookings();
+                } else if (response.status === 409) {
+                    showMessage('❌ ' + result.message);
+                    closeBookingModal();
+                    loadAllRooms(); // Refresh room data to show updated availability
                 } else {
                     showMessage('❌ ' + result.message);
                 }
@@ -1290,6 +1294,10 @@
                     if (currentView === 'rooms') {
                         loadAllRooms(); // Refresh room availability
                     }
+                } else if (response.status === 409) {
+                    showMessage('❌ ' + result.message);
+                    loadAllBookings(); // Refresh booking data
+                    displayBookings();
                 } else {
                     showMessage('❌ ' + result.message);
                 }

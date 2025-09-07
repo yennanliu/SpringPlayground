@@ -2,6 +2,7 @@ package com.yen.HotelApp.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDate;
+import org.springframework.data.annotation.Version;
 
 @Entity
 @Table(name = "bookings")
@@ -32,6 +33,9 @@ public class Booking {
     
     @Enumerated(EnumType.STRING)
     private BookingStatus status = BookingStatus.CONFIRMED;
+    
+    @Version
+    private Long version;
 
     public enum BookingStatus {
         CONFIRMED, CANCELLED, COMPLETED
@@ -111,5 +115,13 @@ public class Booking {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
