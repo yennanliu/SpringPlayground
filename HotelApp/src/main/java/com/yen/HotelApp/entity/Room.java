@@ -23,6 +23,9 @@ public class Room {
     private Boolean available = true;
     
     private String description;
+    
+    @Column
+    private String preparedTransactionId;
 
     public Room() {}
 
@@ -80,5 +83,13 @@ public class Room {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getPreparedTransactionId() {
+        return preparedTransactionId;
+    }
+    
+    public void setPreparedTransactionId(String preparedTransactionId) {
+        this.preparedTransactionId = preparedTransactionId;
     }
 }
