@@ -32,9 +32,12 @@ public class Booking {
     
     @Enumerated(EnumType.STRING)
     private BookingStatus status = BookingStatus.CONFIRMED;
+    
+    @Column
+    private String preparedTransactionId;
 
     public enum BookingStatus {
-        CONFIRMED, CANCELLED, COMPLETED
+        CONFIRMED, CANCELLED, COMPLETED, PREPARED
     }
 
     public Booking() {}
@@ -111,5 +114,13 @@ public class Booking {
 
     public void setStatus(BookingStatus status) {
         this.status = status;
+    }
+    
+    public String getPreparedTransactionId() {
+        return preparedTransactionId;
+    }
+    
+    public void setPreparedTransactionId(String preparedTransactionId) {
+        this.preparedTransactionId = preparedTransactionId;
     }
 }
