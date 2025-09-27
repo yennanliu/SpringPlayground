@@ -2,6 +2,8 @@
 
 Build a chat system with webSocket, run in Spring boot system.
 
+- [Blog Post](https://yennj12.js.org/yennj12_blog_V4/posts/spring-boot-websocket-chat-room-application/)
+
 - UI : http://localhost:8080
 
 
