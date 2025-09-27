@@ -1,6 +1,8 @@
 # Shopping Cart
 > Full stack E-commerce system built with Vue.js, Spring boot
 
+- [Blog Intro](https://yennj12.js.org/yennj12_blog_V4/posts/spring-boot-ecommerce-shopping-cart-stripe-integration/)
+
 - Frontend : Vue
 - Backend : Spring boot
 
