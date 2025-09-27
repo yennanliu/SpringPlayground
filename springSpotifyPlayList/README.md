@@ -1,5 +1,7 @@
 # Spotify PlayList
 
+- [Blog Intro](https://yennj12.js.org/yennj12_blog_V4/posts/spotify-playlist-full-stack-application/)
+
 <p align="center"><img src ="./doc/pic/spotify_app_v2_1.png"></p>
 
 <p align="center"><img src ="./doc/pic/spotify_app_v2_2.png"></p>
