@@ -1,6 +1,8 @@
 # SpringEmployeeSystem
 > Build full stack Employee management system with Vue, Java
 
+- [Blog Post](https://yennj12.js.org/yennj12_blog_V4/posts/spring-boot-vue-employee-management-system/)
+  
 - Frontend : Vue
 - Backend : Spring boot
 
