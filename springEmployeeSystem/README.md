@@ -24,7 +24,7 @@
 ## Run (manually)
 
 <details>
-<summary>App</summary>
+<summary>Run (manually)</summary>
 
 ```bash
 #---------------------------
@@ -54,10 +54,35 @@ npm run serve
 ## Run (Docker)
 
 <details>
-<summary>App</summary>
+<summary>Run (Docker)</summary>
 
 ```bash
 docker-compose up
+```
+</details>
+
+
+## Deploy
+
+<details>
+<summary>Deploy</summary>
+
+```bash
+
+# Backend - Build and push
+git clone https://github.com/yennanliu/SpringPlayground.git
+cd SpringPlayground/ShoppingCart/Backend
+
+docker build -t shopping-cart-backend .
+docker tag shopping-cart-backend:latest <BACKEND_ECR_URI>:latest
+docker push <BACKEND_ECR_URI>:latest
+
+# Frontend - Build and push
+cd ../Frondend/ecommerce-ui
+
+docker build -t shopping-cart-frontend .
+docker tag shopping-cart-frontend:latest <FRONTEND_ECR_URI>:latest
+docker push <FRONTEND_ECR_URI>:latest
 ```
 
 </details>
