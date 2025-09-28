@@ -73,16 +73,29 @@ docker-compose up
 git clone https://github.com/yennanliu/SpringPlayground.git
 cd SpringPlayground/ShoppingCart/Backend
 
+# Build the image
 docker build -t shopping-cart-backend .
-docker tag shopping-cart-backend:latest <BACKEND_ECR_URI>:latest
-docker push <BACKEND_ECR_URI>:latest
+
+# Tag the image using your Docker Hub username
+docker tag shopping-cart-backend:latest yennanliu/shopping-cart-backend:latest
+
+# Push the tagged image to Docker Hub
+docker push yennanliu/shopping-cart-backend:latest
+
+#------------------
+
 
 # Frontend - Build and push
 cd ../Frondend/ecommerce-ui
 
+# Build the image
 docker build -t shopping-cart-frontend .
-docker tag shopping-cart-frontend:latest <FRONTEND_ECR_URI>:latest
-docker push <FRONTEND_ECR_URI>:latest
+
+# Tag the image using your Docker Hub username
+docker tag shopping-cart-frontend:latest yennanliu/shopping-cart-frontend:latest
+
+# Push the tagged image to Docker Hub
+docker push yennanliu/shopping-cart-frontend:latest
 ```
 
 </details>
