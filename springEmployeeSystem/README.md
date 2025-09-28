@@ -74,7 +74,8 @@ git clone https://github.com/yennanliu/SpringPlayground.git
 cd SpringPlayground/ShoppingCart/Backend
 
 # Build the image
-docker build -t shopping-cart-backend .
+# `--platform linux/amd64` is for ECR compatibilty
+docker build --platform linux/amd64 -t yennanliu/shopping-cart-backend:latest .
 
 # Tag the image using your Docker Hub username
 docker tag shopping-cart-backend:latest yennanliu/shopping-cart-backend:latest
@@ -89,7 +90,8 @@ docker push yennanliu/shopping-cart-backend:latest
 cd ../Frondend/ecommerce-ui
 
 # Build the image
-docker build -t shopping-cart-frontend .
+# `--platform linux/amd64` is for ECR compatibilty
+docker build --platform linux/amd64 -t yennanliu/shopping-cart-frontend:latest .
 
 # Tag the image using your Docker Hub username
 docker tag shopping-cart-frontend:latest yennanliu/shopping-cart-frontend:latest
