@@ -1,0 +1,46 @@
+package com.yen.ChatAppV2.controller;
+
+import com.yen.ChatAppV2.model.User;
+import com.yen.ChatAppV2.service.UserService;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+@RestController
+@RequestMapping("/api/users")
+@RequiredArgsConstructor
+@CrossOrigin(origins = "*")
+public class UserController {
+
+    private final UserService userService;
+
+    @PostMapping
+    public ResponseEntity<User> createUser(@RequestBody @Valid CreateUserRequest request) {
+        User user = userService.createUser(
+                request.getUsername(),
+                request.getEmail(),
+                request.getDisplayName()
+        );
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
+    }
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+class CreateUserRequest {
+    private String username;
+    private String email;
+    private String displayName;
+}

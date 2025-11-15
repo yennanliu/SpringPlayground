@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: ChatAppV2
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/chatapp
+    username: postgres
+    password: ${DB_PASSWORD:password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+  redis:
+    host: ${REDIS_HOST:localhost}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:}
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.yen.ChatAppV2: DEBUG
+    org.springframework.messaging: DEBUG
+    org.springframework.web.socket: DEBUG
