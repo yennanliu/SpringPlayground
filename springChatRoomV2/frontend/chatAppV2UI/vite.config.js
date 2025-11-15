@@ -15,4 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  define: {
+    // Fix for sockjs-client: polyfill global variable
+    global: 'globalThis',
+  },
 })
