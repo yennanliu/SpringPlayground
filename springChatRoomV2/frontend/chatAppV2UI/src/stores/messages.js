@@ -50,6 +50,25 @@ export const useMessagesStore = defineStore('messages', () => {
     currentChannel.value = channelId
   }
 
+  function updateMessage(messageId, updates) {
+    const index = messages.value.findIndex(m => m.id === messageId)
+    if (index !== -1) {
+      messages.value[index] = {
+        ...messages.value[index],
+        ...updates,
+        edited: true,
+        editedAt: new Date().toISOString()
+      }
+    }
+  }
+
+  function deleteMessage(messageId) {
+    const index = messages.value.findIndex(m => m.id === messageId)
+    if (index !== -1) {
+      messages.value.splice(index, 1)
+    }
+  }
+
   return {
     messages,
     currentChannel,
@@ -58,6 +77,8 @@ export const useMessagesStore = defineStore('messages', () => {
     addMessage,
     setMessages,
     clearMessages,
-    setCurrentChannel
+    setCurrentChannel,
+    updateMessage,
+    deleteMessage
   }
 })

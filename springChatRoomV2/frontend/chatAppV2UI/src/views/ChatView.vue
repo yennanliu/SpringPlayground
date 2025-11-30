@@ -36,7 +36,7 @@
           </span>
         </div>
 
-        <MessageList />
+        <MessageList @message-copied="handleToast" />
         <MessageInput />
       </main>
 
@@ -53,6 +53,9 @@
       @close="closeProfileModal"
       @updated="handleProfileUpdated"
     />
+
+    <!-- Toast Notifications -->
+    <ToastNotification ref="toast" />
   </div>
 </template>
 
@@ -71,6 +74,7 @@ import MessageInput from '../components/MessageInput.vue'
 import UserList from '../components/UserList.vue'
 import Avatar from '../components/Avatar.vue'
 import UserProfileModal from '../components/UserProfileModal.vue'
+import ToastNotification from '../components/ToastNotification.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -80,6 +84,7 @@ const wsStore = useWebSocketStore()
 
 const showProfileModal = ref(false)
 const selectedUser = ref(null)
+const toast = ref(null)
 
 const currentChannelName = computed(() => {
   const channel = channelsStore.currentChannel
@@ -232,7 +237,11 @@ function closeProfileModal() {
 }
 
 function handleProfileUpdated() {
-  console.log('Profile updated')
+  toast.value?.success('Profile updated successfully')
+}
+
+function handleToast(message) {
+  toast.value?.info(message)
 }
 
 onMounted(() => {
