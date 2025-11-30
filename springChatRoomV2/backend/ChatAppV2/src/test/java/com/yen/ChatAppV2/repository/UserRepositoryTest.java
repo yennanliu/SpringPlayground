@@ -23,6 +23,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("test@example.com");
+        user.setPassword("password123");
         user.setDisplayName("Test User");
 
         // When
@@ -39,6 +40,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("test@example.com");
+        user.setPassword("password123");
         userRepository.save(user);
 
         // When
@@ -55,6 +57,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("test@example.com");
+        user.setPassword("password123");
         userRepository.save(user);
 
         // When
@@ -71,6 +74,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("test@example.com");
+        user.setPassword("password123");
         userRepository.save(user);
 
         // When & Then
@@ -84,6 +88,7 @@ class UserRepositoryTest {
         User user = new User();
         user.setUsername("testuser");
         user.setEmail("test@example.com");
+        user.setPassword("password123");
         userRepository.save(user);
 
         // When & Then

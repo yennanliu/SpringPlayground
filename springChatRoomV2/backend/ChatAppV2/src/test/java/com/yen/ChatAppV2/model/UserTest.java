@@ -41,12 +41,13 @@ class UserTest {
     void testUserAllArgsConstructor() {
         // When
         LocalDateTime now = LocalDateTime.now();
-        User user = new User(1L, "testuser", "test@example.com", "Test User", now);
+        User user = new User(1L, "testuser", "test@example.com", "password", "Test User", null, now, null);
 
         // Then
         assertThat(user.getId()).isEqualTo(1L);
         assertThat(user.getUsername()).isEqualTo("testuser");
         assertThat(user.getEmail()).isEqualTo("test@example.com");
+        assertThat(user.getPassword()).isEqualTo("password");
         assertThat(user.getDisplayName()).isEqualTo("Test User");
         assertThat(user.getCreatedAt()).isEqualTo(now);
     }
