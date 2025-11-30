@@ -62,18 +62,20 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @Operation(summary = "Update user profile", description = "Update user's display name and/or avatar URL")
     @PutMapping("/{id}/profile")
     public ResponseEntity<User> updateProfile(
-            @PathVariable Long id,
+            @Parameter(description = "User ID", required = true) @PathVariable Long id,
             @RequestBody UpdateProfileRequest request) {
         User user = userService.updateProfile(id, request.getDisplayName(), request.getAvatarUrl());
         return ResponseEntity.ok(user);
     }
 
+    @Operation(summary = "Upload avatar", description = "Upload a user avatar image and update profile")
     @PostMapping("/{id}/avatar")
     public ResponseEntity<String> uploadAvatar(
-            @PathVariable Long id,
-            @RequestParam("file") MultipartFile file) {
+            @Parameter(description = "User ID", required = true) @PathVariable Long id,
+            @Parameter(description = "Avatar image file", required = true) @RequestParam("file") MultipartFile file) {
         String fileName = fileStorageService.storeFile(file);
         String avatarUrl = "/api/files/download/" + fileName;
         userService.updateProfile(id, null, avatarUrl);

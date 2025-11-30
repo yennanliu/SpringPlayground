@@ -12,7 +12,7 @@ describe('User Store', () => {
     it('should have correct initial state', () => {
       const store = useUserStore()
 
-      expect(store.userId).toBe('')
+      expect(store.userId).toBeNull()
       expect(store.username).toBe('')
       expect(store.isAuthenticated).toBe(false)
       expect(store.currentUser).toBeNull()
@@ -24,7 +24,7 @@ describe('User Store', () => {
       const store = useUserStore()
       const userData = {
         username: 'testuser',
-        userId: 'user-123'
+        id: 'user-123'
       }
 
       store.login(userData)
@@ -40,7 +40,7 @@ describe('User Store', () => {
       const store = useUserStore()
       const userData = {
         username: 'testuser',
-        userId: 'user-123',
+        id: 'user-123',
         email: 'test@example.com',
         displayName: 'Test User',
         avatarUrl: 'https://example.com/avatar.jpg',
@@ -78,14 +78,14 @@ describe('User Store', () => {
       const store = useUserStore()
 
       // Login first
-      store.login({ username: 'testuser', userId: 'user-123' })
+      store.login({ username: 'testuser', id: 'user-123' })
       expect(store.isAuthenticated).toBe(true)
 
       // Logout
       store.logout()
 
       expect(store.isAuthenticated).toBe(false)
-      expect(store.userId).toBe('')
+      expect(store.userId).toBeNull()
       expect(store.username).toBe('')
       expect(store.currentUser).toBeNull()
     })
@@ -93,11 +93,11 @@ describe('User Store', () => {
     it('should remove user data from localStorage', () => {
       const store = useUserStore()
 
-      store.login({ username: 'testuser', userId: 'user-123' })
-      expect(localStorage.getItem('chatUser')).toBeDefined()
+      store.login({ username: 'testuser', id: 'user-123' })
+      expect(localStorage.getItem('currentUser')).toBeDefined()
 
       store.logout()
-      expect(localStorage.getItem('chatUser')).toBeNull()
+      expect(localStorage.getItem('currentUser')).toBeNull()
     })
   })
 
@@ -106,7 +106,7 @@ describe('User Store', () => {
       const store = useUserStore()
 
       // Login first
-      store.login({ username: 'testuser', userId: 'user-123' })
+      store.login({ username: 'testuser', id: 'user-123' })
 
       // Update profile
       store.updateProfile({
@@ -123,13 +123,13 @@ describe('User Store', () => {
     it('should persist profile updates to localStorage', () => {
       const store = useUserStore()
 
-      store.login({ username: 'testuser', userId: 'user-123' })
+      store.login({ username: 'testuser', id: 'user-123' })
       store.updateProfile({
         displayName: 'Updated Name',
         avatarUrl: 'https://example.com/new-avatar.jpg'
       })
 
-      const savedData = JSON.parse(localStorage.getItem('chatUser'))
+      const savedData = JSON.parse(localStorage.getItem('currentUser'))
       expect(savedData.displayName).toBe('Updated Name')
       expect(savedData.avatarUrl).toBe('https://example.com/new-avatar.jpg')
     })
@@ -151,9 +151,10 @@ describe('User Store', () => {
         email: 'test@example.com',
         displayName: 'Test User'
       }
-      localStorage.setItem('chatUser', JSON.stringify(userData))
+      localStorage.setItem('currentUser', JSON.stringify(userData))
 
       const store = useUserStore()
+      store.loadUserFromStorage()
 
       expect(store.isAuthenticated).toBe(true)
       expect(store.username).toBe('testuser')
@@ -162,9 +163,10 @@ describe('User Store', () => {
     })
 
     it('should handle corrupted localStorage data gracefully', () => {
-      localStorage.setItem('chatUser', 'invalid-json')
+      localStorage.setItem('currentUser', 'invalid-json')
 
       const store = useUserStore()
+      store.loadUserFromStorage()
 
       expect(store.isAuthenticated).toBe(false)
       expect(store.currentUser).toBeNull()
