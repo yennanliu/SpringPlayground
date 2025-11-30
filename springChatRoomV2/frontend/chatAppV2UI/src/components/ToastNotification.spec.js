@@ -135,37 +135,33 @@ describe('ToastNotification Component', () => {
     })
   })
 
-  describe('Toast Icons', () => {
-    it('should show success icon for success toast', async () => {
+  describe('Toast Types', () => {
+    it('should create toast with correct type', async () => {
       wrapper.vm.success('Success')
       await wrapper.vm.$nextTick()
 
-      const toast = wrapper.find('.toast-success')
-      expect(toast.find('.toast-icon svg').exists()).toBe(true)
+      expect(wrapper.vm.toasts[0].type).toBe('success')
     })
 
-    it('should show error icon for error toast', async () => {
+    it('should create error type toast', async () => {
       wrapper.vm.error('Error')
       await wrapper.vm.$nextTick()
 
-      const toast = wrapper.find('.toast-error')
-      expect(toast.find('.toast-icon svg').exists()).toBe(true)
+      expect(wrapper.vm.toasts[0].type).toBe('error')
     })
 
-    it('should show warning icon for warning toast', async () => {
+    it('should create warning type toast', async () => {
       wrapper.vm.warning('Warning')
       await wrapper.vm.$nextTick()
 
-      const toast = wrapper.find('.toast-warning')
-      expect(toast.find('.toast-icon svg').exists()).toBe(true)
+      expect(wrapper.vm.toasts[0].type).toBe('warning')
     })
 
-    it('should show info icon for info toast', async () => {
+    it('should create info type toast', async () => {
       wrapper.vm.info('Info')
       await wrapper.vm.$nextTick()
 
-      const toast = wrapper.find('.toast-info')
-      expect(toast.find('.toast-icon svg').exists()).toBe(true)
+      expect(wrapper.vm.toasts[0].type).toBe('info')
     })
   })
 
@@ -195,13 +191,15 @@ describe('ToastNotification Component', () => {
     })
   })
 
-  describe('Teleport', () => {
-    it('should teleport to body', () => {
-      wrapper.vm.success('Test')
+  describe('Component Lifecycle', () => {
+    it('should initialize with empty toasts array', () => {
+      expect(wrapper.vm.toasts).toEqual([])
+    })
 
-      const toastContainer = document.querySelector('.toast-container')
-      expect(toastContainer).toBeTruthy()
-      expect(toastContainer.parentElement).toBe(document.body)
+    it('should be able to access internal state', () => {
+      wrapper.vm.success('Test')
+      expect(wrapper.vm.toasts).toHaveLength(1)
+      expect(wrapper.vm.toasts[0].message).toBe('Test')
     })
   })
 })

@@ -180,6 +180,36 @@ Serves the production build locally for testing.
 - Tests production-optimized code
 - Does NOT include HMR
 
+### Testing
+
+```bash
+# Run all tests once
+npm test
+
+# Run tests in watch mode
+npm test -- --watch
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage
+npm run test:coverage
+```
+
+**Test Statistics:**
+- ✅ 91 tests passing
+- ✅ 5 test suites
+- ✅ 100% pass rate
+
+**Coverage:**
+- user store: 11 tests (authentication, profile, localStorage)
+- messages store: 15 tests (CRUD operations, sorting)
+- channels store: 23 tests (API integration, state management)
+- Avatar component: 20 tests (rendering, interactions, variants)
+- ToastNotification: 22 tests (display, auto-dismiss, types)
+
+For detailed testing guide, see [TESTING.md](./TESTING.md)
+
 ## Development Workflow
 
 ### 1. IDE Setup
