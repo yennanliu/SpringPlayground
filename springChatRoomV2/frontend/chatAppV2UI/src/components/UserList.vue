@@ -10,13 +10,16 @@
         v-for="user in onlineUsers"
         :key="user.id"
         class="user-item"
-        @click="startDirectMessage(user)"
-        :title="`Send direct message to ${user.username}`"
+        @click="handleUserClick(user)"
+        :title="`View ${user.username}'s profile`"
       >
-        <div class="user-avatar">
-          <span class="avatar-text">{{ getInitials(user.username) }}</span>
-          <span class="online-indicator"></span>
-        </div>
+        <Avatar
+          :username="user.username"
+          :avatar-url="user.avatarUrl"
+          :show-online="true"
+          :is-online="user.isOnline"
+          size="medium"
+        />
         <div class="user-info">
           <span class="user-name">{{ user.username }}</span>
           <span v-if="user.id === currentUserId" class="you-badge">(you)</span>
@@ -31,40 +34,23 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useUserStore } from '../stores/user'
 import { useChannelsStore } from '../stores/channels'
+import Avatar from './Avatar.vue'
 
 const userStore = useUserStore()
 const channelsStore = useChannelsStore()
+
+const emit = defineEmits(['show-profile'])
 
 // Mock online users - In real implementation, this would come from WebSocket
 const onlineUsers = ref([])
 
 const currentUserId = computed(() => userStore.userId)
 
-function getInitials(username) {
-  if (!username) return '?'
-  return username.substring(0, 2).toUpperCase()
-}
-
-async function startDirectMessage(user) {
-  if (user.id === currentUserId.value) {
-    return // Can't message yourself
-  }
-
-  try {
-    // Create or get existing DM channel
-    const channel = await channelsStore.createDirectChannel(
-      currentUserId.value,
-      user.id
-    )
-
-    // Switch to the DM channel
-    channelsStore.setCurrentChannel(channel.id)
-  } catch (error) {
-    console.error('Failed to start direct message:', error)
-  }
+function handleUserClick(user) {
+  emit('show-profile', user)
 }
 
 // Mock function to simulate online users
@@ -74,7 +60,12 @@ function loadOnlineUsers() {
   onlineUsers.value = [
     {
       id: userStore.userId,
-      username: userStore.username
+      username: userStore.username,
+      email: userStore.currentUser?.email || '',
+      displayName: userStore.currentUser?.displayName || '',
+      avatarUrl: userStore.currentUser?.avatarUrl || null,
+      statusMessage: userStore.currentUser?.statusMessage || '',
+      isOnline: true
     }
   ]
 }
@@ -141,34 +132,6 @@ onMounted(() => {
   background-color: #393c43;
 }
 
-.user-avatar {
-  position: relative;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.avatar-text {
-  font-size: 12px;
-  font-weight: 700;
-  color: white;
-}
-
-.online-indicator {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: #43b581;
-  border: 2px solid #2c2f33;
-}
 
 .user-info {
   flex: 1;

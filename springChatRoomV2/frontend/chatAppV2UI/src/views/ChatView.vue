@@ -7,7 +7,15 @@
         <span class="connection-status" :class="connectionStatusClass">
           {{ connectionStatusText }}
         </span>
-        <span class="user-info">{{ userStore.username }}</span>
+        <Avatar
+          :username="userStore.username"
+          :avatar-url="userStore.currentUser?.avatarUrl"
+          size="medium"
+          clickable
+          @click="showOwnProfile"
+          :title="`${userStore.username} - Click to view profile`"
+          class="header-avatar"
+        />
         <button @click="handleLogout" class="logout-button">Logout</button>
       </div>
     </header>
@@ -34,9 +42,17 @@
 
       <!-- User List Sidebar -->
       <aside class="user-sidebar">
-        <UserList />
+        <UserList @show-profile="handleShowProfile" />
       </aside>
     </div>
+
+    <!-- User Profile Modal -->
+    <UserProfileModal
+      :is-open="showProfileModal"
+      :user="selectedUser"
+      @close="closeProfileModal"
+      @updated="handleProfileUpdated"
+    />
   </div>
 </template>
 
@@ -53,12 +69,17 @@ import ChannelList from '../components/ChannelList.vue'
 import MessageList from '../components/MessageList.vue'
 import MessageInput from '../components/MessageInput.vue'
 import UserList from '../components/UserList.vue'
+import Avatar from '../components/Avatar.vue'
+import UserProfileModal from '../components/UserProfileModal.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
 const messageStore = useMessagesStore()
 const channelsStore = useChannelsStore()
 const wsStore = useWebSocketStore()
+
+const showProfileModal = ref(false)
+const selectedUser = ref(null)
 
 const currentChannelName = computed(() => {
   const channel = channelsStore.currentChannel
@@ -187,6 +208,33 @@ function handleLogout() {
   router.push('/login')
 }
 
+function showOwnProfile() {
+  selectedUser.value = {
+    id: userStore.userId,
+    username: userStore.username,
+    email: userStore.currentUser?.email || '',
+    displayName: userStore.currentUser?.displayName || '',
+    avatarUrl: userStore.currentUser?.avatarUrl || null,
+    statusMessage: userStore.currentUser?.statusMessage || '',
+    isOnline: true
+  }
+  showProfileModal.value = true
+}
+
+function handleShowProfile(user) {
+  selectedUser.value = user
+  showProfileModal.value = true
+}
+
+function closeProfileModal() {
+  showProfileModal.value = false
+  selectedUser.value = null
+}
+
+function handleProfileUpdated() {
+  console.log('Profile updated')
+}
+
 onMounted(() => {
   // Connect to WebSocket when component mounts
   connectWebSocket()
@@ -226,6 +274,10 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 16px;
+}
+
+.header-avatar {
+  cursor: pointer;
 }
 
 .connection-status {

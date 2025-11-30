@@ -15,7 +15,11 @@ export const useUserStore = defineStore('user', () => {
     currentUser.value = {
       id: userData.id || Date.now().toString(),
       username: userData.username,
-      email: userData.email || ''
+      email: userData.email || '',
+      displayName: userData.displayName || '',
+      avatarUrl: userData.avatarUrl || null,
+      statusMessage: userData.statusMessage || '',
+      isOnline: true
     }
     // Store in localStorage for persistence
     localStorage.setItem('currentUser', JSON.stringify(currentUser.value))
@@ -38,6 +42,16 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  function updateProfile(updates) {
+    if (currentUser.value) {
+      currentUser.value = {
+        ...currentUser.value,
+        ...updates
+      }
+      localStorage.setItem('currentUser', JSON.stringify(currentUser.value))
+    }
+  }
+
   return {
     currentUser,
     isAuthenticated,
@@ -45,6 +59,7 @@ export const useUserStore = defineStore('user', () => {
     username,
     login,
     logout,
-    loadUserFromStorage
+    loadUserFromStorage,
+    updateProfile
   }
 })

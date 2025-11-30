@@ -10,13 +10,29 @@
       class="message-item"
       :class="{ 'own-message': isOwnMessage(message) }"
     >
-      <div class="message-header">
-        <span class="sender-name">{{ message.senderName }}</span>
-        <span class="message-time">{{ formatTime(message.timestamp) }}</span>
+      <Avatar
+        v-if="!isOwnMessage(message)"
+        :username="message.senderName"
+        :avatar-url="message.senderAvatar"
+        size="small"
+        class="message-avatar"
+      />
+      <div class="message-bubble">
+        <div class="message-header">
+          <span class="sender-name">{{ message.senderName }}</span>
+          <span class="message-time">{{ formatTime(message.timestamp) }}</span>
+        </div>
+        <div class="message-content">
+          {{ message.content }}
+        </div>
       </div>
-      <div class="message-content">
-        {{ message.content }}
-      </div>
+      <Avatar
+        v-if="isOwnMessage(message)"
+        :username="message.senderName"
+        :avatar-url="message.senderAvatar"
+        size="small"
+        class="message-avatar"
+      />
     </div>
   </div>
 </template>
@@ -25,6 +41,7 @@
 import { ref, computed, watch, nextTick } from 'vue'
 import { useMessagesStore } from '../stores/messages'
 import { useUserStore } from '../stores/user'
+import Avatar from './Avatar.vue'
 
 const messageStore = useMessagesStore()
 const userStore = useUserStore()
@@ -125,19 +142,35 @@ watch(
 
 .message-item {
   display: flex;
+  gap: 8px;
+  max-width: 70%;
+  align-self: flex-start;
+  animation: slideIn 0.2s ease-out;
+  align-items: flex-end;
+}
+
+.own-message {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+
+.message-avatar {
+  flex-shrink: 0;
+}
+
+.message-bubble {
+  display: flex;
   flex-direction: column;
   gap: 4px;
   padding: 12px 16px;
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  max-width: 70%;
-  align-self: flex-start;
-  animation: slideIn 0.2s ease-out;
+  flex: 1;
+  min-width: 0;
 }
 
-.own-message {
-  align-self: flex-end;
+.own-message .message-bubble {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
 }
@@ -156,7 +189,7 @@ watch(
   color: #667eea;
 }
 
-.own-message .sender-name {
+.own-message .message-bubble .sender-name {
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -165,7 +198,7 @@ watch(
   color: #999;
 }
 
-.own-message .message-time {
+.own-message .message-bubble .message-time {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -177,7 +210,7 @@ watch(
   white-space: pre-wrap;
 }
 
-.own-message .message-content {
+.own-message .message-bubble .message-content {
   color: white;
 }
 
