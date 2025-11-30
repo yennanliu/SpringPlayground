@@ -177,7 +177,24 @@ SUBSCRIBE  /topic/channel/{channelId}      # Receive messages
 
 ## Development Status
 
-The project is in early stages with basic Spring Boot and Vue.js scaffolding. Most features described in DESIGN.md are planned but not yet implemented. Refer to DESIGN.md for:
+### Phase 1 MVP: ✅ COMPLETED
+
+The backend now has:
+- ✅ Complete database entities and repositories
+- ✅ WebSocket configuration with STOMP
+- ✅ Redis integration for message caching and user tracking
+- ✅ Channel management (Group & Direct channels)
+- ✅ Message persistence and broadcasting
+- ✅ REST API endpoints for users, channels, and messages
+
+### Phase 2: Core Features (NEXT)
+Focus on authentication, JWT, and enhanced user management.
+
+**IMPORTANT**: See comprehensive implementation roadmap in:
+- **BACKEND_TODO.md** - Complete backend implementation plan with code examples
+- **backend/ChatAppV2/.claude/CLAUDE.md** - Backend-specific development guide
+
+Refer to DESIGN.md for:
 - Implementation phases (MVP → Core Features → Enhanced Features)
 - Detailed component designs
 - Configuration examples
