@@ -103,6 +103,12 @@ class WebSocketService {
       return null
     }
 
+    // If already subscribed, unsubscribe first
+    if (this.subscriptions.has(channelId)) {
+      console.log('Already subscribed to channel:', channelId)
+      return this.subscriptions.get(channelId)
+    }
+
     const destination = `/topic/channel/${channelId}`
     console.log('Subscribing to:', destination)
 
@@ -135,6 +141,22 @@ class WebSocketService {
         console.error('Error unsubscribing from channel:', e)
       }
     }
+  }
+
+  unsubscribeFromAllChannels() {
+    this.subscriptions.forEach((subscription, channelId) => {
+      try {
+        subscription.unsubscribe()
+        console.log('Unsubscribed from channel:', channelId)
+      } catch (e) {
+        console.error('Error unsubscribing from channel:', channelId, e)
+      }
+    })
+    this.subscriptions.clear()
+  }
+
+  getActiveSubscriptions() {
+    return Array.from(this.subscriptions.keys())
   }
 
   sendMessage(channelId, message) {

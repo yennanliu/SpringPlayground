@@ -2,17 +2,27 @@
   <div class="channel-list">
     <div class="channel-list-header">
       <h3>Channels</h3>
-      <span class="phase-badge">Phase 1 MVP</span>
+      <button
+        class="add-channel-button"
+        @click="showCreateModal = true"
+        title="Create new channel"
+      >
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
     </div>
 
     <div class="channels-section">
+      <!-- Group Channels -->
       <div class="section-title">
         <span class="section-icon">#</span>
         <span>Group Channels</span>
       </div>
 
       <div
-        v-for="channel in channels"
+        v-for="channel in groupChannels"
         :key="channel.id"
         class="channel-item"
         :class="{ active: isActiveChannel(channel.id) }"
@@ -24,48 +34,84 @@
           {{ channel.unreadCount }}
         </span>
       </div>
+
+      <!-- Direct Messages -->
+      <div v-if="directChannels.length > 0" class="section-title">
+        <span class="section-icon">@</span>
+        <span>Direct Messages</span>
+      </div>
+
+      <div
+        v-for="channel in directChannels"
+        :key="channel.id"
+        class="channel-item"
+        :class="{ active: isActiveChannel(channel.id) }"
+        @click="selectChannel(channel.id)"
+      >
+        <div class="dm-avatar">
+          <span class="avatar-text">{{ getDMInitials(channel.name) }}</span>
+        </div>
+        <span class="channel-name">{{ channel.name }}</span>
+        <span v-if="channel.unreadCount > 0" class="unread-badge">
+          {{ channel.unreadCount }}
+        </span>
+      </div>
     </div>
 
     <div class="info-section">
       <p class="info-text">
-        Phase 2 will add multi-channel support and direct messaging.
+        Phase 2: Multi-channel & DM support
       </p>
     </div>
+
+    <!-- Create Channel Modal -->
+    <CreateChannelModal
+      :is-open="showCreateModal"
+      @close="showCreateModal = false"
+      @created="handleChannelCreated"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import { useMessagesStore } from '../stores/messages'
+import { useChannelsStore } from '../stores/channels'
+import { useUserStore } from '../stores/user'
+import CreateChannelModal from './CreateChannelModal.vue'
 
-const messageStore = useMessagesStore()
+const channelsStore = useChannelsStore()
+const userStore = useUserStore()
 
-// Phase 1: Single hardcoded "General" channel
-const channels = ref([
-  {
-    id: 'group:general',
-    name: 'general',
-    type: 'group',
-    unreadCount: 0
-  }
-])
+const showCreateModal = ref(false)
+
+const groupChannels = computed(() => channelsStore.groupChannels)
+const directChannels = computed(() => channelsStore.directChannels)
 
 function isActiveChannel(channelId) {
-  return messageStore.currentChannel === channelId
+  return channelsStore.currentChannelId === channelId
 }
 
 function selectChannel(channelId) {
-  if (messageStore.currentChannel !== channelId) {
-    messageStore.setCurrentChannel(channelId)
-    messageStore.clearMessages()
+  if (channelsStore.currentChannelId !== channelId) {
+    // Clear unread count when selecting channel
+    channelsStore.clearUnreadCount(channelId)
 
-    // In Phase 2, we would:
-    // 1. Unsubscribe from old channel
-    // 2. Subscribe to new channel
-    // 3. Load message history
-    console.log('Selected channel:', channelId)
+    // Emit event to parent to handle channel switch
+    emit('channel-selected', channelId)
   }
 }
+
+function getDMInitials(name) {
+  if (!name) return '?'
+  return name.substring(0, 2).toUpperCase()
+}
+
+function handleChannelCreated(channel) {
+  console.log('Channel created:', channel)
+  // Channel is automatically added to store and switched to
+}
+
+const emit = defineEmits(['channel-selected'])
 </script>
 
 <style scoped>
@@ -94,12 +140,21 @@ function selectChannel(channelId) {
   letter-spacing: 0.5px;
 }
 
-.phase-badge {
-  padding: 4px 8px;
-  background-color: #5865f2;
+.add-channel-button {
+  padding: 6px;
+  background-color: transparent;
+  border: none;
+  color: #96989d;
+  cursor: pointer;
   border-radius: 4px;
-  font-size: 10px;
-  font-weight: 600;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-channel-button:hover {
+  background-color: #393c43;
   color: white;
 }
 
@@ -184,6 +239,23 @@ function selectChannel(channelId) {
   background-color: #f23f42;
   border-radius: 8px;
   font-size: 11px;
+  font-weight: 700;
+  color: white;
+}
+
+.dm-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-text {
+  font-size: 10px;
   font-weight: 700;
   color: white;
 }

@@ -16,7 +16,7 @@
     <div class="chat-content">
       <!-- Sidebar with Channel List -->
       <aside class="sidebar">
-        <ChannelList />
+        <ChannelList @channel-selected="handleChannelSwitch" />
       </aside>
 
       <!-- Chat Area -->
@@ -31,34 +31,45 @@
         <MessageList />
         <MessageInput />
       </main>
+
+      <!-- User List Sidebar -->
+      <aside class="user-sidebar">
+        <UserList />
+      </aside>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
 import { useMessagesStore } from '../stores/messages'
+import { useChannelsStore } from '../stores/channels'
 import { useWebSocketStore } from '../stores/websocket'
 import websocketService from '../services/websocket.service'
 import chatService from '../services/chat.service'
 import ChannelList from '../components/ChannelList.vue'
 import MessageList from '../components/MessageList.vue'
 import MessageInput from '../components/MessageInput.vue'
+import UserList from '../components/UserList.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
 const messageStore = useMessagesStore()
+const channelsStore = useChannelsStore()
 const wsStore = useWebSocketStore()
 
 const currentChannelName = computed(() => {
-  const channelId = messageStore.currentChannel
-  if (channelId.startsWith('group:')) {
-    return channelId.replace('group:', '').charAt(0).toUpperCase() +
-           channelId.replace('group:', '').slice(1)
+  const channel = channelsStore.currentChannel
+  if (!channel) return 'Loading...'
+
+  if (channel.type === 'GROUP') {
+    return channel.name.charAt(0).toUpperCase() + channel.name.slice(1)
+  } else if (channel.type === 'DIRECT') {
+    return channel.name
   }
-  return channelId
+  return channel.name
 })
 
 const connectionStatusClass = computed(() => {
@@ -87,9 +98,15 @@ async function connectWebSocket() {
   try {
     await websocketService.connect(userStore.userId)
 
+    // Load user's channels
+    await channelsStore.loadUserChannels()
+
     // Subscribe to current channel
-    const channelId = messageStore.currentChannel
+    const channelId = channelsStore.currentChannelId
     websocketService.subscribeToChannel(channelId, handleIncomingMessage)
+
+    // Sync message store with channels store
+    messageStore.setCurrentChannel(channelId)
 
     // Load message history
     await loadMessageHistory(channelId)
@@ -100,7 +117,14 @@ async function connectWebSocket() {
 
 function handleIncomingMessage(message) {
   console.log('Received message:', message)
+
+  // Add message to store
   messageStore.addMessage(message)
+
+  // Update unread count if not on current channel
+  if (message.channelId && message.channelId !== channelsStore.currentChannelId) {
+    channelsStore.incrementUnreadCount(message.channelId)
+  }
 }
 
 async function loadMessageHistory(channelId) {
@@ -108,11 +132,46 @@ async function loadMessageHistory(channelId) {
     const messages = await chatService.fetchMessageHistory(channelId)
     if (messages && messages.length > 0) {
       messageStore.setMessages(messages)
+    } else {
+      messageStore.clearMessages()
     }
   } catch (error) {
     console.error('Error loading message history:', error)
+    messageStore.clearMessages()
   }
 }
+
+async function handleChannelSwitch(channelId) {
+  console.log('Switching to channel:', channelId)
+
+  // Unsubscribe from old channel
+  const oldChannelId = channelsStore.currentChannelId
+  if (oldChannelId && oldChannelId !== channelId) {
+    websocketService.unsubscribeFromChannel(oldChannelId)
+  }
+
+  // Update current channel
+  channelsStore.setCurrentChannel(channelId)
+  messageStore.setCurrentChannel(channelId)
+
+  // Clear messages
+  messageStore.clearMessages()
+
+  // Subscribe to new channel
+  if (websocketService.isConnected()) {
+    websocketService.subscribeToChannel(channelId, handleIncomingMessage)
+  }
+
+  // Load message history for new channel
+  await loadMessageHistory(channelId)
+}
+
+// Watch for channel changes
+watch(() => channelsStore.currentChannelId, (newChannelId, oldChannelId) => {
+  if (newChannelId !== oldChannelId && oldChannelId) {
+    handleChannelSwitch(newChannelId)
+  }
+})
 
 function handleLogout() {
   // Disconnect WebSocket
@@ -228,6 +287,13 @@ onUnmounted(() => {
   border-right: 1px solid #23272a;
 }
 
+.user-sidebar {
+  width: 240px;
+  background-color: #2c2f33;
+  color: white;
+  overflow-y: auto;
+}
+
 .chat-main {
   display: flex;
   flex-direction: column;
@@ -257,6 +323,12 @@ onUnmounted(() => {
 }
 
 /* Responsive */
+@media (max-width: 1200px) {
+  .user-sidebar {
+    display: none;
+  }
+}
+
 @media (max-width: 768px) {
   .sidebar {
     width: 200px;

@@ -24,6 +24,7 @@ public class ChatService {
     private final MessageRepository messageRepository;
     private final ChannelMemberRepository channelMemberRepository;
     private final UserRepository userRepository;
+    private final RedisService redisService;
     private final SimpMessagingTemplate messagingTemplate;
 
     public ChatMessageDTO processAndSendMessage(MessageRequest request) {
@@ -47,7 +48,10 @@ public class ChatService {
         // 4. Save to database
         message = messageRepository.save(message);
 
-        // 5. Create DTO
+        // 5. Cache in Redis
+        redisService.cacheMessage(String.valueOf(request.getChannelId()), message);
+
+        // 6. Create DTO
         ChatMessageDTO dto = new ChatMessageDTO(
                 message.getId(),
                 message.getChannelId(),
@@ -58,7 +62,7 @@ public class ChatService {
                 message.getCreatedAt()
         );
 
-        // 6. Broadcast to channel
+        // 7. Broadcast to channel
         messagingTemplate.convertAndSend(
                 "/topic/channel/" + request.getChannelId(),
                 dto

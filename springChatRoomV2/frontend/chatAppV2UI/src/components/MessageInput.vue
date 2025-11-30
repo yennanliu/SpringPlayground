@@ -1,5 +1,6 @@
 <template>
   <div class="message-input-container">
+    <TypingIndicator :typing-users="currentChannelTypingUsers" />
     <form @submit.prevent="sendMessage" class="message-form">
       <textarea
         ref="inputField"
@@ -47,17 +48,24 @@
 <script setup>
 import { ref, computed, watch, nextTick } from 'vue'
 import { useMessagesStore } from '../stores/messages'
+import { useChannelsStore } from '../stores/channels'
 import { useUserStore } from '../stores/user'
 import { useWebSocketStore } from '../stores/websocket'
+import { useTypingStore } from '../stores/typing'
 import websocketService from '../services/websocket.service'
+import TypingIndicator from './TypingIndicator.vue'
 
 const messageStore = useMessagesStore()
+const channelsStore = useChannelsStore()
 const userStore = useUserStore()
 const wsStore = useWebSocketStore()
+const typingStore = useTypingStore()
 
 const messageText = ref('')
 const inputField = ref(null)
 const maxLength = 2000
+const isTyping = ref(false)
+const typingTimeout = ref(null)
 
 const isConnected = computed(() => wsStore.isConnected)
 
@@ -69,6 +77,13 @@ const canSend = computed(() => {
     messageText.value.trim().length > 0 &&
     characterCount.value <= maxLength
   )
+})
+
+const currentChannelTypingUsers = computed(() => {
+  const channelId = channelsStore.currentChannelId
+  const users = typingStore.getTypingUsersForChannel(channelId)
+  // Filter out current user
+  return users.filter(username => username !== userStore.username)
 })
 
 function sendMessage() {
@@ -85,12 +100,15 @@ function sendMessage() {
     messageType: 'TEXT'
   }
 
-  const channelId = messageStore.currentChannel
+  const channelId = channelsStore.currentChannelId
 
   // Send via WebSocket
   const success = websocketService.sendMessage(channelId, message)
 
   if (success) {
+    // Stop typing indicator
+    stopTyping()
+
     // Clear input
     messageText.value = ''
 
@@ -110,6 +128,48 @@ function sendMessage() {
   }
 }
 
+function handleTyping() {
+  if (!isConnected.value) return
+
+  // Mark as typing
+  if (!isTyping.value && messageText.value.length > 0) {
+    isTyping.value = true
+    sendTypingIndicator()
+  }
+
+  // Clear existing timeout
+  if (typingTimeout.value) {
+    clearTimeout(typingTimeout.value)
+  }
+
+  // Set new timeout to stop typing after 2 seconds of inactivity
+  typingTimeout.value = setTimeout(() => {
+    stopTyping()
+  }, 2000)
+}
+
+function sendTypingIndicator() {
+  // In real implementation, this would send a typing event via WebSocket
+  // For now, we'll add to local store for demo
+  const channelId = channelsStore.currentChannelId
+  typingStore.addTypingUser(channelId, userStore.username)
+}
+
+function stopTyping() {
+  if (isTyping.value) {
+    isTyping.value = false
+
+    // Remove from typing store
+    const channelId = channelsStore.currentChannelId
+    typingStore.removeTypingUser(channelId, userStore.username)
+  }
+
+  if (typingTimeout.value) {
+    clearTimeout(typingTimeout.value)
+    typingTimeout.value = null
+  }
+}
+
 function handleShiftEnter(event) {
   // Allow newline with Shift+Enter
   const start = event.target.selectionStart
@@ -124,11 +184,18 @@ function handleShiftEnter(event) {
   })
 }
 
-// Auto-resize textarea
+// Auto-resize textarea and handle typing
 watch(messageText, () => {
   if (inputField.value) {
     inputField.value.style.height = 'auto'
     inputField.value.style.height = inputField.value.scrollHeight + 'px'
+  }
+
+  // Handle typing indicator
+  if (messageText.value.trim().length > 0) {
+    handleTyping()
+  } else {
+    stopTyping()
   }
 })
 </script>
