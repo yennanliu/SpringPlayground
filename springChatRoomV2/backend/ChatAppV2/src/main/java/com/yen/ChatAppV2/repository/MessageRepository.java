@@ -21,4 +21,15 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
                                     @Param("since") LocalDateTime since);
 
     Long countByChannelIdAndCreatedAtAfter(Long channelId, LocalDateTime timestamp);
+
+    @Query("SELECT m FROM Message m WHERE LOWER(m.content) LIKE LOWER(CONCAT('%', :query, '%')) " +
+           "ORDER BY m.createdAt DESC")
+    Page<Message> searchMessages(@Param("query") String query, Pageable pageable);
+
+    @Query("SELECT m FROM Message m WHERE m.channelId = :channelId " +
+           "AND LOWER(m.content) LIKE LOWER(CONCAT('%', :query, '%')) " +
+           "ORDER BY m.createdAt DESC")
+    Page<Message> searchMessagesByChannel(@Param("query") String query,
+                                          @Param("channelId") Long channelId,
+                                          Pageable pageable);
 }

@@ -66,4 +66,17 @@ public class UserService {
     public boolean isUserOnline(Long userId) {
         return redisService.isUserOnline(userId);
     }
+
+    public User updateProfile(Long userId, String displayName, String avatarUrl) {
+        User user = getUserById(userId);
+
+        if (displayName != null) {
+            user.setDisplayName(displayName);
+        }
+        if (avatarUrl != null) {
+            user.setAvatarUrl(avatarUrl);
+        }
+
+        return userRepository.save(user);
+    }
 }

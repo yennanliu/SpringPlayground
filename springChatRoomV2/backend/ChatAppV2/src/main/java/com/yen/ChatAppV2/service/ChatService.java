@@ -16,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -83,6 +85,45 @@ public class ChatService {
 
         // Convert to DTOs
         return messages.map(this::convertToDTO);
+    }
+
+    public ChatMessageDTO editMessage(Long messageId, Long userId, String newContent) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new NotFoundException("Message not found"));
+
+        if (!message.getSenderId().equals(userId)) {
+            throw new UnauthorizedException("Can only edit own messages");
+        }
+
+        message.setContent(newContent);
+        message.setEditedAt(LocalDateTime.now());
+        message = messageRepository.save(message);
+
+        ChatMessageDTO dto = convertToDTO(message);
+        messagingTemplate.convertAndSend("/topic/channel/" + message.getChannelId() + "/edit", dto);
+
+        log.info("Message {} edited by user {}", messageId, userId);
+        return dto;
+    }
+
+    public void deleteMessage(Long messageId, Long userId) {
+        Message message = messageRepository.findById(messageId)
+                .orElseThrow(() -> new NotFoundException("Message not found"));
+
+        if (!message.getSenderId().equals(userId)) {
+            throw new UnauthorizedException("Can only delete own messages");
+        }
+
+        message.setDeleted(true);
+        message.setContent("[Message deleted]");
+        messageRepository.save(message);
+
+        messagingTemplate.convertAndSend(
+                "/topic/channel/" + message.getChannelId() + "/delete",
+                messageId
+        );
+
+        log.info("Message {} deleted by user {}", messageId, userId);
     }
 
     private ChatMessageDTO convertToDTO(Message message) {

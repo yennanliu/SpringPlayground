@@ -33,6 +33,12 @@ public class Message {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    @Column(name = "edited_at")
+    private LocalDateTime editedAt;
+
+    @Column(name = "is_deleted")
+    private boolean isDeleted = false;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
