@@ -34,6 +34,18 @@ public class UserController {
         User user = userService.getUserById(id);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping
+    public ResponseEntity<java.util.List<User>> getAllUsers() {
+        java.util.List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    @GetMapping("/online")
+    public ResponseEntity<java.util.List<User>> getOnlineUsers() {
+        java.util.List<User> users = userService.getOnlineUsers();
+        return ResponseEntity.ok(users);
+    }
 }
 
 @Data

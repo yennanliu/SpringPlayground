@@ -7,11 +7,17 @@ import com.yen.ChatAppV2.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final RedisService redisService;
 
     public User createUser(String username, String email, String displayName) {
         if (userRepository.existsByUsername(username)) {
@@ -37,5 +43,27 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("User not found"));
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public List<User> getOnlineUsers() {
+        Set<Object> onlineUserIds = redisService.getOnlineUsers();
+        return onlineUserIds.stream()
+                .map(id -> Long.parseLong(id.toString()))
+                .map(this::getUserById)
+                .collect(Collectors.toList());
+    }
+
+    public void updateLastSeen(Long userId) {
+        User user = getUserById(userId);
+        user.setLastSeenAt(LocalDateTime.now());
+        userRepository.save(user);
+    }
+
+    public boolean isUserOnline(Long userId) {
+        return redisService.isUserOnline(userId);
     }
 }
