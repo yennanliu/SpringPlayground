@@ -210,6 +210,23 @@ npm run test:coverage
 
 For detailed testing guide, see [TESTING.md](./TESTING.md)
 
+### Integration Testing (Frontend + Backend)
+
+```bash
+# Check if services are running
+npm run health
+
+# Test API endpoints
+npm run test:api
+
+# Complete integration test suite
+npm run test:integration
+```
+
+**Integration Test Documentation:**
+- See [INTEGRATION_TESTING.md](./INTEGRATION_TESTING.md) for complete FE-BE testing guide
+- See [QUICK_START.md](./QUICK_START.md) for rapid setup and testing
+
 ## Development Workflow
 
 ### 1. IDE Setup
