@@ -1,4 +1,7 @@
 spring:
+  application:
+    name: ChatAppV2-Test
+
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -8,16 +11,31 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
-        format_sql: true
 
   redis:
     host: localhost
     port: 6379
 
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
+server:
+  port: 0
+
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000
+
+file:
+  upload-dir: ./test-uploads
+
 logging:
   level:
-    com.yen.ChatAppV2: DEBUG
+    com.yen.ChatAppV2: INFO
+    org.springframework: WARN
