@@ -42,3 +42,12 @@ logging:
     com.yen.ChatAppV2: DEBUG
     org.springframework.messaging: DEBUG
     org.springframework.web.socket: DEBUG
+    org.springdoc: DEBUG
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+  show-actuator: false

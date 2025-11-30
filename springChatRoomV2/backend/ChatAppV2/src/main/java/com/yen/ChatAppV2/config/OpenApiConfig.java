@@ -52,4 +52,5 @@ public class OpenApiConfig {
                                         .bearerFormat("JWT")
                                         .description("Enter JWT token obtained from /api/auth/login or /api/auth/register")));
     }
+
 }
