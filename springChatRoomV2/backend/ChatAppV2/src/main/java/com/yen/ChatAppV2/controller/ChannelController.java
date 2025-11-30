@@ -6,6 +6,10 @@ import com.yen.ChatAppV2.dto.CreateDirectChannelRequest;
 import com.yen.ChatAppV2.dto.CreateGroupChannelRequest;
 import com.yen.ChatAppV2.model.Channel;
 import com.yen.ChatAppV2.service.ChannelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,16 +22,21 @@ import java.util.List;
 @RequestMapping("/api/channels")
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
+@Tag(name = "Channels", description = "Channel management endpoints (group and direct messages)")
+@SecurityRequirement(name = "bearerAuth")
 public class ChannelController {
 
     private final ChannelService channelService;
 
+    @Operation(summary = "Get user's channels", description = "Retrieve all channels that the user is a member of")
     @GetMapping
-    public ResponseEntity<List<ChannelDTO>> getUserChannels(@RequestParam Long userId) {
+    public ResponseEntity<List<ChannelDTO>> getUserChannels(
+            @Parameter(description = "User ID", required = true) @RequestParam Long userId) {
         List<ChannelDTO> channels = channelService.getUserChannels(userId);
         return ResponseEntity.ok(channels);
     }
 
+    @Operation(summary = "Create group channel", description = "Create a new group channel with multiple members")
     @PostMapping("/group")
     public ResponseEntity<Channel> createGroupChannel(@RequestBody @Valid CreateGroupChannelRequest request) {
         Channel channel = channelService.createGroupChannel(
@@ -38,6 +47,7 @@ public class ChannelController {
         return ResponseEntity.status(HttpStatus.CREATED).body(channel);
     }
 
+    @Operation(summary = "Create/get direct message channel", description = "Create a new DM channel or return existing one between two users")
     @PostMapping("/direct")
     public ResponseEntity<Channel> createDirectChannel(@RequestBody @Valid CreateDirectChannelRequest request) {
         Channel channel = channelService.getOrCreateDirectChannel(
@@ -47,9 +57,10 @@ public class ChannelController {
         return ResponseEntity.ok(channel);
     }
 
+    @Operation(summary = "Add member to channel", description = "Add a new member to an existing group channel")
     @PostMapping("/{channelId}/members")
     public ResponseEntity<Void> addMember(
-            @PathVariable Long channelId,
+            @Parameter(description = "Channel ID", required = true) @PathVariable Long channelId,
             @RequestBody @Valid AddMemberRequest request) {
         channelService.addMemberToChannel(channelId, request.getUserId());
         return ResponseEntity.ok().build();

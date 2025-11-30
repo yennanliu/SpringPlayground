@@ -6,7 +6,7 @@
     :title="username"
   >
     <img
-      v-if="avatarUrl"
+      v-if="avatarUrl && !imageError"
       :src="avatarUrl"
       :alt="username"
       class="avatar-image"
@@ -59,11 +59,11 @@ const imageError = ref(false)
 const initials = computed(() => {
   if (!props.username) return '?'
 
-  const words = props.username.trim().split(/\s+/)
+  const words = props.username.trim().split(/\s+/).filter(w => w.length > 0)
   if (words.length >= 2) {
     return (words[0][0] + words[1][0]).toUpperCase()
   }
-  return props.username.substring(0, 2).toUpperCase()
+  return props.username.substring(0, 1).toUpperCase()
 })
 
 const sizeClass = computed(() => `avatar-${props.size}`)

@@ -60,13 +60,13 @@ describe('User Store', () => {
       const store = useUserStore()
       const userData = {
         username: 'testuser',
-        userId: 'user-123',
+        id: 'user-123',
         email: 'test@example.com'
       }
 
       store.login(userData)
 
-      const savedData = JSON.parse(localStorage.getItem('chatUser'))
+      const savedData = JSON.parse(localStorage.getItem('currentUser'))
       expect(savedData).toBeDefined()
       expect(savedData.username).toBe('testuser')
       expect(savedData.email).toBe('test@example.com')
