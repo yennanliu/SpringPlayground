@@ -35,9 +35,11 @@ public class ChannelService {
     private final RedisService redisService;
 
     public Channel createGroupChannel(String name, Long creatorId, List<Long> memberIds) {
-        // Validate creator exists
-        userRepository.findById(creatorId)
-                .orElseThrow(() -> new NotFoundException("Creator not found"));
+        // Validate creator exists (if provided), otherwise skip creator validation
+        if (creatorId != null && !userRepository.existsById(creatorId)) {
+            log.warn("Creator with ID {} not found, creating channel without creator reference", creatorId);
+            creatorId = null; // Don't set creator if user doesn't exist
+        }
 
         // Create channel
         Channel channel = new Channel();
@@ -48,17 +50,24 @@ public class ChannelService {
 
         // Add creator and members
         Set<Long> allMembers = new HashSet<>(memberIds);
-        allMembers.add(creatorId);
+        if (creatorId != null) {
+            allMembers.add(creatorId);
+        }
 
         String channelKey = "group:" + channel.getId();
         for (Long memberId : allMembers) {
-            ChannelMember cm = new ChannelMember();
-            cm.setChannelId(channelKey);
-            cm.setUserId(memberId);
-            channelMemberRepository.save(cm);
+            // Only add members that exist in the database
+            if (userRepository.existsById(memberId)) {
+                ChannelMember cm = new ChannelMember();
+                cm.setChannelId(channelKey);
+                cm.setUserId(memberId);
+                channelMemberRepository.save(cm);
 
-            // Cache in Redis
-            redisService.addUserToChannel(memberId, channelKey);
+                // Cache in Redis
+                redisService.addUserToChannel(memberId, channelKey);
+            } else {
+                log.warn("Skipping non-existent user {} when creating channel", memberId);
+            }
         }
 
         log.info("Created group channel {} with {} members", channel.getId(), allMembers.size());
