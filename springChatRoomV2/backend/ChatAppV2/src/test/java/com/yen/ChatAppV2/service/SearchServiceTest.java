@@ -51,7 +51,7 @@ class SearchServiceTest {
 
         message = new Message();
         message.setId(1L);
-        message.setChannelId(10L);
+        message.setChannelId("group:10");
         message.setSenderId(1L);
         message.setContent("Hello world");
         message.setMessageType(MessageType.TEXT);
@@ -75,23 +75,23 @@ class SearchServiceTest {
         assertEquals("Test User", result.getContent().get(0).getSenderName());
 
         verify(messageRepository).searchMessages(eq("hello"), any(Pageable.class));
-        verify(messageRepository, never()).searchMessagesByChannel(anyString(), anyLong(), any());
+        verify(messageRepository, never()).searchMessagesByChannel(anyString(), anyString(), any());
     }
 
     @Test
     void testSearchMessagesInSpecificChannel() {
         Page<Message> messagePage = new PageImpl<>(Arrays.asList(message));
-        when(messageRepository.searchMessagesByChannel(eq("hello"), eq(10L), any(Pageable.class)))
+        when(messageRepository.searchMessagesByChannel(eq("hello"), eq("group:10"), any(Pageable.class)))
                 .thenReturn(messagePage);
         when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
-        Page<ChatMessageDTO> result = searchService.searchMessages("hello", 10L, pageable);
+        Page<ChatMessageDTO> result = searchService.searchMessages("hello", "group:10", pageable);
 
         assertNotNull(result);
         assertEquals(1, result.getTotalElements());
         assertEquals("Hello world", result.getContent().get(0).getContent());
 
-        verify(messageRepository).searchMessagesByChannel(eq("hello"), eq(10L), any(Pageable.class));
+        verify(messageRepository).searchMessagesByChannel(eq("hello"), eq("group:10"), any(Pageable.class));
         verify(messageRepository, never()).searchMessages(anyString(), any());
     }
 

@@ -38,7 +38,7 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<FileUploadResponse> uploadFile(
             @Parameter(description = "File to upload", required = true) @RequestParam("file") MultipartFile file,
-            @Parameter(description = "Channel ID", required = true) @RequestParam("channelId") Long channelId,
+            @Parameter(description = "Channel ID", required = true) @RequestParam("channelId") String channelId,
             @Parameter(description = "Sender ID", required = true) @RequestParam("senderId") Long senderId) {
 
         String fileName = fileStorageService.storeFile(file);

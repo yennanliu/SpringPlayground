@@ -57,7 +57,7 @@ class ChatServiceEditDeleteTest {
 
         message = new Message();
         message.setId(1L);
-        message.setChannelId(10L);
+        message.setChannelId("group:10");
         message.setSenderId(1L);
         message.setContent("Original message");
         message.setMessageType(MessageType.TEXT);
@@ -78,7 +78,7 @@ class ChatServiceEditDeleteTest {
 
         verify(messageRepository).save(message);
         verify(messagingTemplate).convertAndSend(
-            eq("/topic/channel/10/edit"),
+            eq("/topic/channel/group:10/edit"),
             any(ChatMessageDTO.class)
         );
     }
@@ -112,7 +112,7 @@ class ChatServiceEditDeleteTest {
 
         verify(messageRepository).save(message);
         verify(messagingTemplate).convertAndSend(
-            eq("/topic/channel/10/delete"),
+            eq("/topic/channel/group:10/delete"),
             eq(1L)
         );
     }

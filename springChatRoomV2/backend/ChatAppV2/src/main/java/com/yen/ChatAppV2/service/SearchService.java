@@ -19,7 +19,7 @@ public class SearchService {
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
 
-    public Page<ChatMessageDTO> searchMessages(String query, Long channelId, Pageable pageable) {
+    public Page<ChatMessageDTO> searchMessages(String query, String channelId, Pageable pageable) {
         Page<Message> messages;
 
         if (channelId != null) {

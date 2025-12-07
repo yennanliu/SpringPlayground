@@ -29,16 +29,16 @@ class TypingIndicatorServiceTest {
     @Test
     void testUserStartedTyping() {
         Long userId = 1L;
-        Long channelId = 10L;
+        String channelId = "group:10";
         String username = "testuser";
 
         typingIndicatorService.userStartedTyping(userId, channelId, username);
 
-        verify(redisService).addTypingUser(eq("channel:10:typing"), eq(userId), anyLong());
+        verify(redisService).addTypingUser(eq("channel:group:10:typing"), eq(userId), anyLong());
 
         ArgumentCaptor<TypingEvent> eventCaptor = ArgumentCaptor.forClass(TypingEvent.class);
         verify(messagingTemplate).convertAndSend(
-            eq("/topic/channel/10/typing"),
+            eq("/topic/channel/group:10/typing"),
             eventCaptor.capture()
         );
 
@@ -51,15 +51,15 @@ class TypingIndicatorServiceTest {
     @Test
     void testUserStoppedTyping() {
         Long userId = 1L;
-        Long channelId = 10L;
+        String channelId = "group:10";
 
         typingIndicatorService.userStoppedTyping(userId, channelId);
 
-        verify(redisService).removeTypingUser(eq("channel:10:typing"), eq(userId));
+        verify(redisService).removeTypingUser(eq("channel:group:10:typing"), eq(userId));
 
         ArgumentCaptor<TypingEvent> eventCaptor = ArgumentCaptor.forClass(TypingEvent.class);
         verify(messagingTemplate).convertAndSend(
-            eq("/topic/channel/10/typing"),
+            eq("/topic/channel/group:10/typing"),
             eventCaptor.capture()
         );
 

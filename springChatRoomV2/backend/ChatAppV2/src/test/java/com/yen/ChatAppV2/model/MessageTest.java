@@ -11,14 +11,14 @@ class MessageTest {
         // Given
         Message message = new Message();
         message.setId(1L);
-        message.setChannelId(1L);
+        message.setChannelId("group:1");
         message.setSenderId(1L);
         message.setContent("Hello World");
         message.setMessageType(MessageType.TEXT);
 
         // Then
         assertThat(message.getId()).isEqualTo(1L);
-        assertThat(message.getChannelId()).isEqualTo(1L);
+        assertThat(message.getChannelId()).isEqualTo("group:1");
         assertThat(message.getSenderId()).isEqualTo(1L);
         assertThat(message.getContent()).isEqualTo("Hello World");
         assertThat(message.getMessageType()).isEqualTo(MessageType.TEXT);
@@ -28,7 +28,7 @@ class MessageTest {
     void testMessagePrePersist() {
         // Given
         Message message = new Message();
-        message.setChannelId(1L);
+        message.setChannelId("group:1");
         message.setSenderId(1L);
         message.setContent("Test message");
 
@@ -45,7 +45,7 @@ class MessageTest {
     void testImageMessageType() {
         // Given
         Message message = new Message();
-        message.setChannelId(1L);
+        message.setChannelId("group:1");
         message.setSenderId(1L);
         message.setContent("https://example.com/image.jpg");
         message.setMessageType(MessageType.IMAGE);
@@ -58,7 +58,7 @@ class MessageTest {
     void testFileMessageType() {
         // Given
         Message message = new Message();
-        message.setChannelId(1L);
+        message.setChannelId("group:1");
         message.setSenderId(1L);
         message.setContent("https://example.com/file.pdf");
         message.setMessageType(MessageType.FILE);

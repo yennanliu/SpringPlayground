@@ -43,7 +43,7 @@ class ReadReceiptServiceTest {
     @BeforeEach
     void setUp() {
         channelMember = new ChannelMember();
-        channelMember.setChannelId(1L);
+        channelMember.setChannelId("group:1");
         channelMember.setUserId(10L);
         channelMember.setJoinedAt(LocalDateTime.now().minusDays(1));
     }
@@ -53,20 +53,20 @@ class ReadReceiptServiceTest {
         when(channelMemberRepository.findById(any(ChannelMemberId.class)))
                 .thenReturn(Optional.of(channelMember));
 
-        readReceiptService.markAsRead(10L, 1L, 5L);
+        readReceiptService.markAsRead(10L, "group:1", 5L);
 
         assertNotNull(channelMember.getLastReadAt());
         verify(channelMemberRepository).save(channelMember);
 
         ArgumentCaptor<ReadReceiptEvent> eventCaptor = ArgumentCaptor.forClass(ReadReceiptEvent.class);
         verify(messagingTemplate).convertAndSend(
-            eq("/topic/channel/1/read"),
+            eq("/topic/channel/group:1/read"),
             eventCaptor.capture()
         );
 
         ReadReceiptEvent event = eventCaptor.getValue();
         assertEquals(10L, event.getUserId());
-        assertEquals(1L, event.getChannelId());
+        assertEquals("group:1", event.getChannelId());
         assertEquals(5L, event.getMessageId());
     }
 
@@ -76,7 +76,7 @@ class ReadReceiptServiceTest {
                 .thenReturn(Optional.empty());
 
         assertThrows(NotFoundException.class,
-            () -> readReceiptService.markAsRead(10L, 1L, 5L));
+            () -> readReceiptService.markAsRead(10L, "group:1", 5L));
     }
 
     @Test
@@ -84,10 +84,10 @@ class ReadReceiptServiceTest {
         channelMember.setLastReadAt(LocalDateTime.now().minusHours(1));
         when(channelMemberRepository.findById(any(ChannelMemberId.class)))
                 .thenReturn(Optional.of(channelMember));
-        when(messageRepository.countByChannelIdAndCreatedAtAfter(eq(1L), any(LocalDateTime.class)))
+        when(messageRepository.countByChannelIdAndCreatedAtAfter(eq("group:1"), any(LocalDateTime.class)))
                 .thenReturn(5L);
 
-        int count = readReceiptService.getUnreadCount(10L, 1L);
+        int count = readReceiptService.getUnreadCount(10L, "group:1");
 
         assertEquals(5, count);
     }
@@ -97,10 +97,10 @@ class ReadReceiptServiceTest {
         channelMember.setLastReadAt(null);
         when(channelMemberRepository.findById(any(ChannelMemberId.class)))
                 .thenReturn(Optional.of(channelMember));
-        when(messageRepository.countByChannelIdAndCreatedAtAfter(eq(1L), any(LocalDateTime.class)))
+        when(messageRepository.countByChannelIdAndCreatedAtAfter(eq("group:1"), any(LocalDateTime.class)))
                 .thenReturn(3L);
 
-        int count = readReceiptService.getUnreadCount(10L, 1L);
+        int count = readReceiptService.getUnreadCount(10L, "group:1");
 
         assertEquals(3, count);
     }
