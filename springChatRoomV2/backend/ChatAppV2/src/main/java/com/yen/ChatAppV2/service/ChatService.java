@@ -51,7 +51,7 @@ public class ChatService {
         message = messageRepository.save(message);
 
         // 5. Cache in Redis
-        redisService.cacheMessage(String.valueOf(request.getChannelId()), message);
+        redisService.cacheMessage(request.getChannelId(), message);
 
         // 6. Create DTO
         ChatMessageDTO dto = new ChatMessageDTO(
@@ -74,7 +74,7 @@ public class ChatService {
         return dto;
     }
 
-    public Page<ChatMessageDTO> getChannelMessages(Long channelId, Long userId, Pageable pageable) {
+    public Page<ChatMessageDTO> getChannelMessages(String channelId, Long userId, Pageable pageable) {
         // Validate user is member
         if (!channelMemberRepository.existsByChannelIdAndUserId(channelId, userId)) {
             throw new UnauthorizedException("User is not a member of this channel");

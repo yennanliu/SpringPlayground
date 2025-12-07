@@ -22,7 +22,7 @@ public class ReadReceiptService {
     private final MessageRepository messageRepository;
     private final SimpMessagingTemplate messagingTemplate;
 
-    public void markAsRead(Long userId, Long channelId, Long messageId) {
+    public void markAsRead(Long userId, String channelId, Long messageId) {
         ChannelMemberId memberId = new ChannelMemberId();
         memberId.setChannelId(channelId);
         memberId.setUserId(userId);
@@ -41,7 +41,7 @@ public class ReadReceiptService {
         log.debug("User {} marked message {} as read in channel {}", userId, messageId, channelId);
     }
 
-    public int getUnreadCount(Long userId, Long channelId) {
+    public int getUnreadCount(Long userId, String channelId) {
         ChannelMemberId memberId = new ChannelMemberId();
         memberId.setChannelId(channelId);
         memberId.setUserId(userId);

@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ReadReceiptEvent {
     private Long userId;
-    private Long channelId;
+    private String channelId;
     private Long messageId;
 }

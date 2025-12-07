@@ -21,7 +21,7 @@ public class ChatController {
     private final TypingIndicatorService typingIndicatorService;
 
     @MessageMapping("/chat/{channelId}")
-    public void sendMessage(@DestinationVariable Long channelId,
+    public void sendMessage(@DestinationVariable String channelId,
                           @Payload MessageRequest request,
                           SimpMessageHeaderAccessor headerAccessor) {
         log.info("Received message for channel {}: {}", channelId, request);
@@ -34,13 +34,13 @@ public class ChatController {
     }
 
     @MessageMapping("/typing/{channelId}/start")
-    public void startTyping(@DestinationVariable Long channelId, @Payload TypingRequest request) {
+    public void startTyping(@DestinationVariable String channelId, @Payload TypingRequest request) {
         log.debug("User {} started typing in channel {}", request.getUserId(), channelId);
         typingIndicatorService.userStartedTyping(request.getUserId(), channelId, request.getUsername());
     }
 
     @MessageMapping("/typing/{channelId}/stop")
-    public void stopTyping(@DestinationVariable Long channelId, @Payload TypingRequest request) {
+    public void stopTyping(@DestinationVariable String channelId, @Payload TypingRequest request) {
         log.debug("User {} stopped typing in channel {}", request.getUserId(), channelId);
         typingIndicatorService.userStoppedTyping(request.getUserId(), channelId);
     }

@@ -15,7 +15,7 @@ public class TypingIndicatorService {
     private final SimpMessagingTemplate messagingTemplate;
     private static final long TYPING_TIMEOUT = 5000; // 5 seconds
 
-    public void userStartedTyping(Long userId, Long channelId, String username) {
+    public void userStartedTyping(Long userId, String channelId, String username) {
         String key = "channel:" + channelId + ":typing";
         redisService.addTypingUser(key, userId, TYPING_TIMEOUT);
 
@@ -26,7 +26,7 @@ public class TypingIndicatorService {
         log.debug("User {} started typing in channel {}", userId, channelId);
     }
 
-    public void userStoppedTyping(Long userId, Long channelId) {
+    public void userStoppedTyping(Long userId, String channelId) {
         String key = "channel:" + channelId + ":typing";
         redisService.removeTypingUser(key, userId);
 

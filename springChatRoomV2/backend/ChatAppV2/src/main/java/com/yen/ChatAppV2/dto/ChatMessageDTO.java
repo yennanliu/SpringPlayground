@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ChatMessageDTO {
     private Long id;
-    private Long channelId;
+    private String channelId;
     private Long senderId;
     private String senderName;
     private String content;

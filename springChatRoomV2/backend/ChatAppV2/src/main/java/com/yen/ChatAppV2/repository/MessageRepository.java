@@ -13,14 +13,14 @@ import java.util.List;
 
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    Page<Message> findByChannelIdOrderByCreatedAtDesc(Long channelId, Pageable pageable);
+    Page<Message> findByChannelIdOrderByCreatedAtDesc(String channelId, Pageable pageable);
 
     @Query("SELECT m FROM Message m WHERE m.channelId = :channelId " +
            "AND m.createdAt > :since ORDER BY m.createdAt ASC")
-    List<Message> findRecentMessages(@Param("channelId") Long channelId,
+    List<Message> findRecentMessages(@Param("channelId") String channelId,
                                     @Param("since") LocalDateTime since);
 
-    Long countByChannelIdAndCreatedAtAfter(Long channelId, LocalDateTime timestamp);
+    Long countByChannelIdAndCreatedAtAfter(String channelId, LocalDateTime timestamp);
 
     @Query("SELECT m FROM Message m WHERE LOWER(m.content) LIKE LOWER(CONCAT('%', :query, '%')) " +
            "ORDER BY m.createdAt DESC")
@@ -30,6 +30,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
            "AND LOWER(m.content) LIKE LOWER(CONCAT('%', :query, '%')) " +
            "ORDER BY m.createdAt DESC")
     Page<Message> searchMessagesByChannel(@Param("query") String query,
-                                          @Param("channelId") Long channelId,
+                                          @Param("channelId") String channelId,
                                           Pageable pageable);
 }

@@ -29,7 +29,7 @@ public class MessageRestController {
     @Operation(summary = "Get channel messages", description = "Retrieve paginated message history for a channel")
     @GetMapping("/channel/{channelId}")
     public ResponseEntity<Page<ChatMessageDTO>> getChannelMessages(
-            @Parameter(description = "Channel ID") @PathVariable Long channelId,
+            @Parameter(description = "Channel ID") @PathVariable String channelId,
             @Parameter(description = "User ID", required = true) @RequestParam Long userId,
             @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
             @Parameter(description = "Page size") @RequestParam(defaultValue = "50") int size) {
@@ -44,7 +44,7 @@ public class MessageRestController {
     public ResponseEntity<Void> markAsRead(
             @Parameter(description = "Message ID") @PathVariable Long messageId,
             @Parameter(description = "User ID", required = true) @RequestParam Long userId,
-            @Parameter(description = "Channel ID", required = true) @RequestParam Long channelId) {
+            @Parameter(description = "Channel ID", required = true) @RequestParam String channelId) {
         readReceiptService.markAsRead(userId, channelId, messageId);
         return ResponseEntity.ok().build();
     }
@@ -52,7 +52,7 @@ public class MessageRestController {
     @Operation(summary = "Get unread count", description = "Get the number of unread messages in a channel for a user")
     @GetMapping("/channel/{channelId}/unread")
     public ResponseEntity<Integer> getUnreadCount(
-            @Parameter(description = "Channel ID") @PathVariable Long channelId,
+            @Parameter(description = "Channel ID") @PathVariable String channelId,
             @Parameter(description = "User ID", required = true) @RequestParam Long userId) {
         int count = readReceiptService.getUnreadCount(userId, channelId);
         return ResponseEntity.ok(count);

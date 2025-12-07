@@ -16,7 +16,7 @@ public class ChannelMember {
 
     @Id
     @Column(name = "channel_id")
-    private Long channelId;
+    private String channelId;
 
     @Id
     @Column(name = "user_id")

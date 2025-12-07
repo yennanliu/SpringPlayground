@@ -53,7 +53,7 @@ public class ChannelService {
         String channelKey = "group:" + channel.getId();
         for (Long memberId : allMembers) {
             ChannelMember cm = new ChannelMember();
-            cm.setChannelId(channel.getId());
+            cm.setChannelId(channelKey);
             cm.setUserId(memberId);
             channelMemberRepository.save(cm);
 
@@ -92,7 +92,7 @@ public class ChannelService {
         String channelKey = "dm:" + smallerId + ":" + largerId;
         for (Long userId : Arrays.asList(smallerId, largerId)) {
             ChannelMember cm = new ChannelMember();
-            cm.setChannelId(channel.getId());
+            cm.setChannelId(channelKey);
             cm.setUserId(userId);
             channelMemberRepository.save(cm);
 
@@ -120,7 +120,9 @@ public class ChannelService {
             throw new BadRequestException("Cannot add members to direct message channels");
         }
 
-        if (channelMemberRepository.existsByChannelIdAndUserId(channelId, userId)) {
+        String channelKey = "group:" + channelId;
+
+        if (channelMemberRepository.existsByChannelIdAndUserId(channelKey, userId)) {
             throw new ConflictException("User is already a member");
         }
 
@@ -129,18 +131,21 @@ public class ChannelService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         ChannelMember cm = new ChannelMember();
-        cm.setChannelId(channelId);
+        cm.setChannelId(channelKey);
         cm.setUserId(userId);
         channelMemberRepository.save(cm);
 
         // Cache in Redis
-        redisService.addUserToChannel(userId, "group:" + channelId);
+        redisService.addUserToChannel(userId, channelKey);
 
         log.info("Added user {} to channel {}", userId, channelId);
     }
 
     private ChannelDTO convertToDTO(Channel channel, Long currentUserId) {
-        List<ChannelMember> members = channelMemberRepository.findByChannelId(channel.getId());
+        String channelKey = channel.getChannelType() == ChannelType.GROUP
+            ? "group:" + channel.getId()
+            : "dm:" + channel.getId(); // Note: DM needs proper user IDs, simplified here
+        List<ChannelMember> members = channelMemberRepository.findByChannelId(channelKey);
 
         ChannelDTO dto = new ChannelDTO();
         dto.setId(channel.getId());

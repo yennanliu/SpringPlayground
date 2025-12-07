@@ -18,7 +18,7 @@ public class Message {
     private Long id;
 
     @Column(name = "channel_id", nullable = false)
-    private Long channelId;
+    private String channelId;
 
     @Column(name = "sender_id")
     private Long senderId;

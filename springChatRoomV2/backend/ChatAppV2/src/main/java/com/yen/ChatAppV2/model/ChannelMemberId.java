@@ -9,6 +9,6 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChannelMemberId implements Serializable {
-    private Long channelId;
+    private String channelId;
     private Long userId;
 }

@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageRequest {
-    @NotNull
-    private Long channelId;
+    @NotBlank
+    private String channelId;
 
     @NotNull
     private Long senderId;
