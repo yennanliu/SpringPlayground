@@ -2,10 +2,16 @@ package com.yen.ChatAppV2.controller;
 
 import com.yen.ChatAppV2.dto.AddMemberRequest;
 import com.yen.ChatAppV2.dto.ChannelDTO;
+import com.yen.ChatAppV2.dto.ChatMessageDTO;
 import com.yen.ChatAppV2.dto.CreateDirectChannelRequest;
 import com.yen.ChatAppV2.dto.CreateGroupChannelRequest;
 import com.yen.ChatAppV2.model.Channel;
 import com.yen.ChatAppV2.service.ChannelService;
+import com.yen.ChatAppV2.service.ChatService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -27,6 +33,7 @@ import java.util.List;
 public class ChannelController {
 
     private final ChannelService channelService;
+    private final ChatService chatService;
 
     @Operation(summary = "Get user's channels", description = "Retrieve all channels that the user is a member of")
     @GetMapping
@@ -67,5 +74,21 @@ public class ChannelController {
             @RequestBody @Valid AddMemberRequest request) {
         channelService.addMemberToChannel(channelId, request.getUserId());
         return ResponseEntity.ok().build();
+    }
+
+    @Operation(summary = "Get channel messages", description = "Retrieve paginated message history for a channel")
+    @GetMapping("/{channelId}/messages")
+    public ResponseEntity<Page<ChatMessageDTO>> getChannelMessages(
+            @Parameter(description = "Channel ID", required = true) @PathVariable Long channelId,
+            @Parameter(description = "User ID", required = true) @RequestParam Long userId,
+            @Parameter(description = "Page number") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Page size") @RequestParam(defaultValue = "50") int size) {
+
+        // Convert numeric channelId to string format (group:id)
+        String channelKey = "group:" + channelId;
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdAt").descending());
+        Page<ChatMessageDTO> messages = chatService.getChannelMessages(channelKey, userId, pageable);
+        return ResponseEntity.ok(messages);
     }
 }
