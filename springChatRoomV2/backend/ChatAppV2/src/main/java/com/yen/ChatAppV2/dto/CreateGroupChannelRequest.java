@@ -18,9 +18,7 @@ public class CreateGroupChannelRequest {
     @Size(max = 100)
     private String name;
 
-    @NotNull
-    private Long creatorId;
+    private Long creatorId; // Optional - will use default if not provided
 
-    @NotNull
     private List<Long> memberIds;
 }

@@ -39,10 +39,13 @@ public class ChannelController {
     @Operation(summary = "Create group channel", description = "Create a new group channel with multiple members")
     @PostMapping("/group")
     public ResponseEntity<Channel> createGroupChannel(@RequestBody @Valid CreateGroupChannelRequest request) {
+        // Use default creatorId (1L) if not provided for development/testing
+        Long creatorId = request.getCreatorId() != null ? request.getCreatorId() : 1L;
+
         Channel channel = channelService.createGroupChannel(
                 request.getName(),
-                request.getCreatorId(),
-                request.getMemberIds()
+                creatorId,
+                request.getMemberIds() != null ? request.getMemberIds() : java.util.Collections.emptyList()
         );
         return ResponseEntity.status(HttpStatus.CREATED).body(channel);
     }
