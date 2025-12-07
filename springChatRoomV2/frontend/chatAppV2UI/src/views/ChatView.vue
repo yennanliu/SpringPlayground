@@ -88,7 +88,14 @@ const toast = ref(null)
 
 const currentChannelName = computed(() => {
   const channel = channelsStore.currentChannel
-  if (!channel) return 'Loading...'
+  if (!channel) {
+    if (channelsStore.isLoading) {
+      return 'Loading channels...'
+    } else if (channelsStore.error) {
+      return 'No channels'
+    }
+    return 'Select a channel'
+  }
 
   if (channel.type === 'GROUP') {
     return channel.name.charAt(0).toUpperCase() + channel.name.slice(1)
@@ -127,15 +134,20 @@ async function connectWebSocket() {
     // Load user's channels
     await channelsStore.loadUserChannels()
 
-    // Subscribe to current channel
+    // Subscribe to current channel (if available)
     const channelId = channelsStore.currentChannelId
-    websocketService.subscribeToChannel(channelId, handleIncomingMessage)
+    if (channelId) {
+      websocketService.subscribeToChannel(channelId, handleIncomingMessage)
 
-    // Sync message store with channels store
-    messageStore.setCurrentChannel(channelId)
+      // Sync message store with channels store
+      messageStore.setCurrentChannel(channelId)
 
-    // Load message history
-    await loadMessageHistory(channelId)
+      // Load message history
+      await loadMessageHistory(channelId)
+    } else {
+      console.warn('No channels available to subscribe to')
+      messageStore.clearMessages()
+    }
   } catch (error) {
     console.error('Failed to connect WebSocket:', error)
   }

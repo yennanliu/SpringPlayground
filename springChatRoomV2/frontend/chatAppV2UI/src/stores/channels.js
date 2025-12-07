@@ -5,7 +5,7 @@ import chatService from '../services/chat.service'
 export const useChannelsStore = defineStore('channels', () => {
   // State
   const channels = ref([])
-  const currentChannelId = ref('group:general')
+  const currentChannelId = ref(null)  // Will be set when channels load
   const isLoading = ref(false)
   const error = ref(null)
 
@@ -96,31 +96,22 @@ export const useChannelsStore = defineStore('channels', () => {
       const data = await chatService.getUserChannels()
       if (data && data.length > 0) {
         setChannels(data)
+        // Set first channel as current if not already set
+        if (!currentChannelId.value && data.length > 0) {
+          currentChannelId.value = data[0].id
+        }
       } else {
-        // Default channel if API returns empty
-        channels.value = [{
-          id: 'group:general',
-          name: 'general',
-          type: 'GROUP',
-          members: [],
-          unreadCount: 0,
-          lastMessage: null,
-          createdAt: new Date().toISOString()
-        }]
+        // No channels returned from backend
+        console.warn('No channels available for user')
+        channels.value = []
+        currentChannelId.value = null
+        error.value = 'No channels available. Create a channel to get started.'
       }
     } catch (err) {
       console.error('Error loading channels:', err)
       error.value = 'Failed to load channels'
-      // Fallback to default channel
-      channels.value = [{
-        id: 'group:general',
-        name: 'general',
-        type: 'GROUP',
-        members: [],
-        unreadCount: 0,
-        lastMessage: null,
-        createdAt: new Date().toISOString()
-      }]
+      channels.value = []
+      currentChannelId.value = null
     } finally {
       isLoading.value = false
     }

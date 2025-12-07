@@ -74,12 +74,32 @@ class ChatService {
    * @param {string} channelId - Channel ID
    * @param {number} page - Page number (default: 0)
    * @param {number} size - Page size (default: 50)
+   * @param {string} userId - User ID (optional, will be retrieved from localStorage)
    * @returns {Promise<Array>} Array of messages
    */
-  async fetchMessageHistory(channelId, page = 0, size = 50) {
+  async fetchMessageHistory(channelId, page = 0, size = 50, userId = null) {
     try {
+      // Get userId from localStorage if not provided
+      if (!userId) {
+        const currentUser = localStorage.getItem('currentUser')
+        if (currentUser) {
+          try {
+            const user = JSON.parse(currentUser)
+            userId = user.id
+          } catch (e) {
+            console.warn('Could not parse current user from localStorage')
+          }
+        }
+      }
+
+      // Build params object
+      const params = { page, size }
+      if (userId) {
+        params.userId = userId
+      }
+
       const response = await apiClient.get(`/api/channels/${channelId}/messages`, {
-        params: { page, size }
+        params
       })
       return response.data
     } catch (error) {
@@ -91,11 +111,31 @@ class ChatService {
 
   /**
    * Get user's channels
+   * @param {string} userId - User ID (optional, will be retrieved from localStorage)
    * @returns {Promise<Array>} Array of channels
    */
-  async getUserChannels() {
+  async getUserChannels(userId = null) {
     try {
-      const response = await apiClient.get('/api/channels')
+      // Get userId from localStorage if not provided
+      if (!userId) {
+        const currentUser = localStorage.getItem('currentUser')
+        if (currentUser) {
+          try {
+            const user = JSON.parse(currentUser)
+            userId = user.id
+          } catch (e) {
+            console.warn('Could not parse current user from localStorage')
+          }
+        }
+      }
+
+      // Build params object
+      const params = {}
+      if (userId) {
+        params.userId = userId
+      }
+
+      const response = await apiClient.get('/api/channels', { params })
       return response.data
     } catch (error) {
       console.error('Error fetching channels:', error)
