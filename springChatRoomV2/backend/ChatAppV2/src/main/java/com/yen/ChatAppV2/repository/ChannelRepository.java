@@ -14,12 +14,12 @@ import java.util.Optional;
 public interface ChannelRepository extends JpaRepository<Channel, Long> {
     List<Channel> findByChannelType(ChannelType channelType);
 
-    @Query("SELECT c FROM Channel c JOIN ChannelMember cm ON c.id = cm.channelId " +
-           "WHERE cm.userId = :userId")
+    @Query("SELECT c FROM Channel c JOIN ChannelMember cm ON CONCAT('group:', CAST(c.id AS string)) = cm.channelId " +
+           "WHERE cm.userId = :userId AND c.channelType = 'GROUP'")
     List<Channel> findChannelsByUserId(@Param("userId") Long userId);
 
     @Query("SELECT c FROM Channel c WHERE c.channelType = 'DIRECT' " +
-           "AND EXISTS (SELECT 1 FROM ChannelMember cm1 WHERE cm1.channelId = c.id AND cm1.userId = :userId1) " +
-           "AND EXISTS (SELECT 1 FROM ChannelMember cm2 WHERE cm2.channelId = c.id AND cm2.userId = :userId2)")
+           "AND EXISTS (SELECT 1 FROM ChannelMember cm1 WHERE cm1.channelId = CONCAT('dm:', CAST(:userId1 AS string), ':', CAST(:userId2 AS string)) AND cm1.userId = :userId1) " +
+           "AND EXISTS (SELECT 1 FROM ChannelMember cm2 WHERE cm2.channelId = CONCAT('dm:', CAST(:userId1 AS string), ':', CAST(:userId2 AS string)) AND cm2.userId = :userId2)")
     Optional<Channel> findDirectChannel(@Param("userId1") Long userId1, @Param("userId2") Long userId2);
 }
