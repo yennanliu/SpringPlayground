@@ -3,3 +3,16 @@ Spring:
     hiddenmethod:
       filter:
         enabled: true # enable form (表單) REST function
+spring:
+  r2dbc:
+    password:
+    username: root
+    url: r2dbc:mysql://localhost:3306/blog_db
+    name: test
+# https://youtu.be/hGgf-rTpvJ8?si=Z2jYBgQ9odh0d487&t=1089
+# r2dbc logging level
+logging:
+  level:
+    org:
+      springframework:
+        r2dbc: debug

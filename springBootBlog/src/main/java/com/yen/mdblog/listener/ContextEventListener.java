@@ -18,6 +18,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 @Component
 public class ContextEventListener implements ApplicationListener<ContextRefreshedEvent> {
@@ -44,8 +45,11 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
                 long id = MdFileReader.getIdFromFileName(postFileName);
                 List<String> mdLines = MdFileReader.readLinesFromMdFile(postFileName);
                 String htmlContent = getHtmlContentFromMdLines(mdLines);
-                Author author = AuthorUtil.bootstrapAuthor(authorRepository);
-                Optional<Post> postOpt = postRepository.findById(id);
+                //Author author = AuthorUtil.bootstrapAuthor(authorRepository);
+                Mono<Author> author = AuthorUtil.bootstrapAuthor(authorRepository);
+                //Optional<Post> postOpt = postRepository.findById(id);
+                Mono<Post> postOpt = postRepository.findById(id);
+
                 //				if (postOpt.isEmpty()) {
                 //					System.out.println("Post with ID: " + id + " does not exist. Creating
                 // post...");
@@ -66,8 +70,12 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
                 try {
                   System.out.println("Post with ID: " + id + " does not exist. Creating post...");
                   post.setTitle(title);
-                  post.setAuthorId(author.getId());
+
+                  // TODO : fix below
+                  //post.setAuthorId(author.getId());
+                  post.setAuthorId(author.block().getId());
                   // post.setAuthorId(author.getId());
+
                   post.setContent(htmlContent);
                   post.setSynopsis(getSynopsisFromHtmlContent(htmlContent));
                   post.setDateTime(LocalDateTime.now());

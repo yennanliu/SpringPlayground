@@ -11,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @Controller
 @RequestMapping("/author")
@@ -22,18 +24,24 @@ public class AuthorController {
   @GetMapping("/all")
   String getAllAuthor(Model model, Principal principal) {
 
-    List<Author> authors = authorService.getAllAuthors();
+    //List<Author> authors = authorService.getAllAuthors();
+    Flux<Author> authors = authorService.getAllAuthors();
+
     model.addAttribute("authors", authors);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/authors";
   }
 
   @GetMapping("/{id}")
   public String getAuthorById(@PathVariable Integer id, Model model, Principal principal) {
 
-    Author author = authorService.getById(id);
+    //Author author = authorService.getById(id);
+    Mono<Author> author = authorService.getById(id);
+
     model.addAttribute("author", author);
-    model.addAttribute("user", principal.getName());
+    //model.addAttribute("user", principal.getName());
+    model.addAttribute("user", "admin");
     return "author/author";
   }
 }
