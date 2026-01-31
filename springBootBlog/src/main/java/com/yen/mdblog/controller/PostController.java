@@ -21,6 +21,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.BeanUtils;
@@ -125,7 +126,7 @@ public class PostController {
   }
 
   @RequestMapping(value = "/create", method = RequestMethod.POST)
-  public String createPost(CreatePost request, Model model, Principal principal) {
+  public String createPost(CreatePost request, Model model, Principal principal) throws ExecutionException, InterruptedException {
 
     log.info(">>> create post start ...");
     Post post = new Post();
