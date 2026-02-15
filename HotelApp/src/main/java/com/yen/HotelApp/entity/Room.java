@@ -1,6 +1,7 @@
 package com.yen.HotelApp.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.Version;
 
 @Entity
 @Table(name = "rooms")
@@ -23,6 +24,9 @@ public class Room {
     private Boolean available = true;
     
     private String description;
+    
+    @Version
+    private Long version;
 
     public Room() {}
 
@@ -80,5 +84,13 @@ public class Room {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Long getVersion() {
+        return version;
+    }
+
+    public void setVersion(Long version) {
+        this.version = version;
     }
 }
