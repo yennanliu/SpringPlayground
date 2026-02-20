@@ -114,14 +114,68 @@ async function handleLogin() {
   errorMessage.value = ''
 
   try {
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500))
-
-    // Login user
-    userStore.login({
-      username: username.value.trim(),
-      email: email.value.trim() || `${username.value.trim()}@example.com`
+    // Register user with backend API
+    const response = await fetch('http://localhost:8080/api/auth/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        username: username.value.trim(),
+        email: email.value.trim() || `${username.value.trim()}@example.com`,
+        password: 'password123' // Default password for Phase 1
+      })
     })
+
+    if (!response.ok) {
+      // If user already exists, try to login
+      const loginResponse = await fetch('http://localhost:8080/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: username.value.trim(),
+          password: 'password123'
+        })
+      })
+
+      if (!loginResponse.ok) {
+        throw new Error('Failed to login or register')
+      }
+
+      const loginData = await loginResponse.json()
+
+      // Save JWT token
+      if (loginData.token) {
+        localStorage.setItem('authToken', loginData.token)
+      }
+
+      // Login user with backend data
+      userStore.login({
+        id: loginData.userId,
+        username: loginData.username,
+        email: loginData.email || `${loginData.username}@example.com`,
+        displayName: loginData.displayName || loginData.username,
+        avatarUrl: loginData.avatarUrl || null
+      })
+    } else {
+      const data = await response.json()
+
+      // Save JWT token
+      if (data.token) {
+        localStorage.setItem('authToken', data.token)
+      }
+
+      // Login user with backend data
+      userStore.login({
+        id: data.userId,
+        username: data.username,
+        email: data.email || `${data.username}@example.com`,
+        displayName: data.displayName || data.username,
+        avatarUrl: data.avatarUrl || null
+      })
+    }
 
     // Redirect to chat
     router.push('/chat')

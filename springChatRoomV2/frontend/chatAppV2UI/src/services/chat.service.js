@@ -146,13 +146,26 @@ class ChatService {
   /**
    * Create a group channel
    * @param {string} name - Channel name
-   * @param {Array<string>} memberIds - Array of user IDs
+   * @param {Array<number>} memberIds - Array of user IDs
    * @returns {Promise<Object>} Created channel
    */
   async createGroupChannel(name, memberIds) {
     try {
+      // Get creator ID from current user
+      let creatorId = null
+      const currentUser = localStorage.getItem('currentUser')
+      if (currentUser) {
+        try {
+          const user = JSON.parse(currentUser)
+          creatorId = user.id
+        } catch (e) {
+          console.warn('Could not parse current user from localStorage')
+        }
+      }
+
       const response = await apiClient.post('/api/channels/group', {
         name,
+        creatorId,
         memberIds
       })
       return response.data

@@ -12,17 +12,23 @@ export const useUserStore = defineStore('user', () => {
 
   // Actions
   function login(userData) {
+    if (!userData.id) {
+      console.error('User ID is required for login')
+      return
+    }
+
     currentUser.value = {
-      id: userData.id || Date.now().toString(),
+      id: userData.id,
       username: userData.username,
       email: userData.email || '',
-      displayName: userData.displayName || '',
+      displayName: userData.displayName || userData.username,
       avatarUrl: userData.avatarUrl || null,
       statusMessage: userData.statusMessage || '',
       isOnline: true
     }
     // Store in localStorage for persistence
     localStorage.setItem('currentUser', JSON.stringify(currentUser.value))
+    console.log('User logged in:', currentUser.value)
   }
 
   function logout() {
