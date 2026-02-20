@@ -1,0 +1,69 @@
+這是一個針對 `springChatRoomV2` 專案架構（Java Spring Boot + Vue/JS + WebSocket）量身打造的全新 **Agent Team Prompt**。
+
+---
+
+## springChatRoomV2 擴充開發系統 - Agent Team Prompt
+
+建立一個 **Agent Team** 來開發 **springChatRoomV2** 的核心聊天與即時通訊模組。
+
+生成 **4 個 teammate**：
+
+### 【成員 1：後端架構師】Java Backend Engineer
+
+* **任務**：實作 Spring Boot 核心聊天邏輯與訊息處理
+* **檔案**：
+* `src/main/java/com/yennanliu/springChatRoomV2/service/ChatService.java` (訊息儲存、使用者狀態管理)
+* `src/main/java/com/yennanliu/springChatRoomV2/repository/ChatMessageRepository.java` (資料庫持久化)
+
+
+* **技術要求**：使用 Java 17+, Spring Boot, Spring Data JPA
+
+### 【成員 2：通訊工程師】Real-time Communication Engineer
+
+* **任務**：實作 WebSocket 與 STOMP 協定串接
+* **檔案**：
+* `src/main/java/com/yennanliu/springChatRoomV2/config/WebSocketConfig.java` (WS 配置)
+* `src/main/java/com/yennanliu/springChatRoomV2/controller/ChatController.java` (訊息廣播路徑控制)
+
+
+* **依賴**：成員 1 完成 Service 層定義後開始
+* **技術要求**：使用 Spring Message (STOMP), SockJS
+
+### 【成員 3：前端工程師】Frontend Engineer (Vue.js)
+
+* **任務**：實作 Vue 聊天介面與即時訊息渲染
+* **檔案**：
+* `src/main/resources/static/js/app.js` (Vue 實例、WebSocket Client 邏輯)
+* `src/main/resources/static/index.html` (聊天室介面、訊息清單)
+
+
+* **說明**：可與成員 1 並行工作，初期使用 Mock Data
+* **技術要求**：使用 Vue.js, Axios, stomp.js
+
+### 【成員 4：整合測試工程師】Test Engineer
+
+* **任務**：撰寫後端單元測試與 API 整合測試
+* **檔案**：`src/test/java/com/yennanliu/springChatRoomV2/ChatRoomApplicationTests.java`
+* **依賴**：成員 1 與成員 2 完成後開始
+* **測試重點**：
+1. 訊息正確寫入資料庫 (H2/MySQL)
+2. WebSocket 連線建立與斷開後的狀態更新
+3. 多使用者同時發送訊息的併發處理
+
+
+
+---
+
+### 【任務依賴關係】
+
+* **成員 1** 為核心，定義數據流向與模型。
+* **成員 2** 依賴成員 1 的邏輯來進行即時傳輸。
+* **成員 3** 獨立開發 UI，但在最後階段需依賴成員 2 的 WebSocket Endpoints。
+* **成員 4** 負責最後的品質把關。
+
+**請使用 delegate mode，lead 只負責協調，不要自己寫 code。**
+**每個 teammate 完成後要通知 lead。**
+
+---
+
+**準備好啟動團隊了嗎？我可以幫您分配第一個任務給成員 1。**
