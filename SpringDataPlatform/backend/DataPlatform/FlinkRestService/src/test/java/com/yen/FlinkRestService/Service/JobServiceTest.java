@@ -1,162 +1,205 @@
 package com.yen.FlinkRestService.Service;
 
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.Repository.JobRepository;
-import com.yen.FlinkRestService.Service.JobService;
-import com.yen.FlinkRestService.Service.RestTemplateService;
+import com.yen.FlinkRestService.exception.EntityNotFoundException;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.JobJar;
 import com.yen.FlinkRestService.model.dto.job.JobSubmitDto;
 import com.yen.FlinkRestService.model.dto.job.JobUpdateDto;
-import com.yen.FlinkRestService.model.response.JobOverview;
-import com.yen.FlinkRestService.model.response.JobOverviewResponse;
-import com.yen.FlinkRestService.model.response.JobSubmitResponse;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpEntity;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-public class JobServiceTest {
-
-    @InjectMocks
-    private JobService jobService;
-
-    @Mock
-    private JobJarRepository jobJarRepository;
+@ExtendWith(MockitoExtension.class)
+class JobServiceTest {
 
     @Mock
     private JobRepository jobRepository;
 
     @Mock
-    private RestTemplate restTemplate;
+    private JobJarRepository jobJarRepository;
 
     @Mock
     private RestTemplateService restTemplateService;
 
-    @BeforeEach
-    public void setUp() {
+    private JobService jobService;
 
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    void setUp() {
+        jobService = new JobService(jobRepository, jobJarRepository, restTemplateService);
+        ReflectionTestUtils.setField(jobService, "flinkBaseUrl", "http://localhost:8081");
     }
 
     @Test
-    public void testAddJob() {
+    void testGetJobs() {
+        Job job1 = new Job();
+        job1.setId(1);
+        job1.setJobId("job-1");
 
-        // Mock job jar repository
+        Job job2 = new Job();
+        job2.setId(2);
+        job2.setJobId("job-2");
+
+        when(jobRepository.findAll()).thenReturn(Arrays.asList(job1, job2));
+
+        List<Job> result = jobService.getJobs();
+
+        assertEquals(2, result.size());
+        verify(jobRepository, times(1)).findAll();
+    }
+
+    @Test
+    void testGetJobById_Found() {
+        Job job = new Job();
+        job.setId(1);
+        job.setJobId("job-1");
+
+        when(jobRepository.findById(1)).thenReturn(Optional.of(job));
+
+        Job result = jobService.getJobById(1);
+
+        assertEquals(job, result);
+        verify(jobRepository, times(1)).findById(1);
+    }
+
+    @Test
+    void testGetJobById_NotFound() {
+        when(jobRepository.findById(999)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            jobService.getJobById(999);
+        });
+
+        verify(jobRepository, times(1)).findById(999);
+    }
+
+    @Test
+    void testGetJobByJid() {
+        Job job = new Job();
+        job.setId(1);
+        job.setJobId("flink-job-12345");
+
+        when(jobRepository.findByJobId("flink-job-12345")).thenReturn(Optional.of(job));
+
+        Optional<Job> result = jobService.getJobByJid("flink-job-12345");
+
+        assertTrue(result.isPresent());
+        assertEquals("flink-job-12345", result.get().getJobId());
+        verify(jobRepository, times(1)).findByJobId("flink-job-12345");
+    }
+
+    @Test
+    void testAddJob() {
         JobJar jobJar = new JobJar();
         jobJar.setId(1);
         jobJar.setSavedJarName("MyProgram.jar");
+
         when(jobJarRepository.findById(1)).thenReturn(Optional.of(jobJar));
 
-        // Mock restTemplateService
-        ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"jobid\":\"12345\"}", HttpStatus.OK);
-        when(restTemplateService.sendPostRequest(Mockito.anyString(), Mockito.anyString(), Mockito.any())).thenReturn(responseEntity);
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"jobid\":\"flink-12345\"}", HttpStatus.OK);
+        when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class))).thenReturn(responseEntity);
 
-        // Create job submit DTO
+        Job savedJob = new Job();
+        savedJob.setId(1);
+        savedJob.setJobId("flink-12345");
+        when(jobRepository.save(any(Job.class))).thenReturn(savedJob);
+
         JobSubmitDto jobSubmitDto = new JobSubmitDto();
         jobSubmitDto.setJarId(1);
 
-        // Call addJob method
-        jobService.addJob(jobSubmitDto);
+        Job result = jobService.addJob(jobSubmitDto);
 
-        // Verify that job was saved
-        Mockito.verify(jobRepository).save(any(Job.class));
+        assertNotNull(result);
+        assertEquals("flink-12345", result.getJobId());
+        verify(jobJarRepository, times(1)).findById(1);
+        verify(jobRepository, times(1)).save(any(Job.class));
     }
 
+    @Test
+    void testAddJob_JarNotFound() {
+        when(jobJarRepository.findById(999)).thenReturn(Optional.empty());
+
+        JobSubmitDto jobSubmitDto = new JobSubmitDto();
+        jobSubmitDto.setJarId(999);
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            jobService.addJob(jobSubmitDto);
+        });
+
+        verify(jobJarRepository, times(1)).findById(999);
+        verify(jobRepository, never()).save(any(Job.class));
+    }
 
     @Test
-    public void testUpdateJob() {
+    void testUpdateJob() {
+        Job existingJob = new Job();
+        existingJob.setId(1);
+        existingJob.setJobId("job-1");
 
-        // Mock job repository
-        Job job = new Job();
-        job.setId(1);
-        when(jobRepository.findById(1)).thenReturn(Optional.of(job));
+        when(jobRepository.findById(1)).thenReturn(Optional.of(existingJob));
+        when(jobRepository.save(any(Job.class))).thenReturn(existingJob);
 
-        // Create job update DTO
         JobUpdateDto jobUpdateDto = new JobUpdateDto();
         jobUpdateDto.setId(1);
-        jobUpdateDto.setState("updated_state");
+        jobUpdateDto.setState("RUNNING");
+        jobUpdateDto.setStartTime(System.currentTimeMillis());
 
-        // Call updateJob method
-        jobService.updateJob(jobUpdateDto);
+        Job result = jobService.updateJob(jobUpdateDto);
 
-        // Verify that job was updated
-        Mockito.verify(jobRepository).save(any(Job.class));
+        assertEquals("RUNNING", result.getState());
+        verify(jobRepository, times(1)).findById(1);
+        verify(jobRepository, times(1)).save(any(Job.class));
     }
-
-//    @Test
-//    public void testUpdateAllJobs() {
-//
-//        // Mock the responseEntity
-//        ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"jobs\":[{\"jid\":\"12345\",\"name\":\"job_name\",\"start-time\":1234567890,\"end-time\":1234567890,\"duration\":122,\"state\":\"RUNNING\",\"last-modification\":1234567890,\"tasks\":{}}]}", HttpStatus.OK);
-//        when(restTemplateService.sendGetRequest(Mockito.anyString())).thenReturn(responseEntity);
-//
-//        // Mock the parseJobOverviewResponse method
-//        JobOverviewResponse jobOverviewResponse = new JobOverviewResponse();
-//        jobOverviewResponse.setJobs(Arrays.asList(new JobOverview("12345", "job_name", 1234567890L, 1234567890L, 122, "RUNNING", 1234567890L, new HashMap<>())));
-//        when(jobService.parseJobOverviewResponse(Mockito.anyString())).thenReturn(jobOverviewResponse);
-//
-//        // Call the method under test
-//        jobService.updateAllJobs();
-//
-//        // Verify that jobs were updated
-//        Mockito.verify(jobRepository, Mockito.times(1)).save(any(Job.class));
-//    }
-
 
     @Test
-    public void testGetJobByJid() {
+    void testUpdateJob_NotFound() {
+        when(jobRepository.findById(999)).thenReturn(Optional.empty());
 
-        // Mock job repository
-        Job job = new Job();
-        job.setJobId("12345");
-        List<Job> jobs = new ArrayList<>();
-        jobs.add(job);
-        when(jobRepository.findAll()).thenReturn(jobs);
+        JobUpdateDto jobUpdateDto = new JobUpdateDto();
+        jobUpdateDto.setId(999);
 
-        // Call getJobByJid method
-        Job result = jobService.getJobByJid("12345");
+        assertThrows(EntityNotFoundException.class, () -> {
+            jobService.updateJob(jobUpdateDto);
+        });
 
-        // Verify that job was retrieved
-        assertEquals(job, result);
+        verify(jobRepository, times(1)).findById(999);
+        verify(jobRepository, never()).save(any(Job.class));
     }
 
-//    @Test
-//    public void testCancelJob() {
-//
-//        String url = "http://example.com/jobs/jobID/stop"; // Use a valid URI for testing
-//
-//        // Mock restTemplateService
-//        //ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"message\":\"Job was cancelled.\"}", HttpStatus.OK);
-//        //when(restTemplate.postForEntity(Mockito.anyString(), Mockito.any(), Mockito.eq(String.class))).thenReturn(responseEntity);
-//        //when(restTemplate.postForEntity(url, Mockito.any(), Mockito.eq(String.class))).thenReturn(responseEntity);
-//        ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"message\":\"Job was cancelled.\"}", HttpStatus.OK);
-//        when(restTemplate.postForEntity(
-//                url, // Use eq() for exact string matching
-//                HttpEntity.class, // Use any() for any HttpEntity
-//                String.class // Use eq() for exact class matching
-//        )).thenReturn(responseEntity);
-//
-//        // Call cancelJob method
-//        jobService.cancelJob("jobID");
-//
-//        // Verify that cancelJob was successful
-//        //Mockito.verify(restTemplate).postForEntity(Mockito.anyString(), Mockito.any(), Mockito.eq(String.class));
-//        Mockito.verify(restTemplate).postForEntity(url, Mockito.any(), Mockito.eq(String.class));
-//    }
+    @Test
+    void testCancelJob() {
+        ResponseEntity<String> responseEntity = new ResponseEntity<>("{}", HttpStatus.OK);
+        when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class))).thenReturn(responseEntity);
 
+        assertDoesNotThrow(() -> jobService.cancelJob("flink-job-12345"));
+
+        verify(restTemplateService, times(1)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
+    }
+
+    @Test
+    void testParseJobOverviewResponse() {
+        String json = "{\"jobs\":[{\"jid\":\"12345\",\"name\":\"test-job\",\"start-time\":1000,\"end-time\":2000,\"state\":\"RUNNING\"}]}";
+
+        var result = jobService.parseJobOverviewResponse(json);
+
+        assertNotNull(result);
+        assertNotNull(result.getJobs());
+    }
 }

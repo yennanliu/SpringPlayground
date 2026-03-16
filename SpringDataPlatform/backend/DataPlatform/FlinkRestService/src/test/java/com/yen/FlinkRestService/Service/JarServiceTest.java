@@ -1,141 +1,108 @@
 package com.yen.FlinkRestService.Service;
 
-import org.apache.flink.client.program.rest.RestClusterClient;
-import org.apache.flink.configuration.Configuration;
-import org.apache.flink.runtime.jobgraph.JobGraph;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
-
-import java.util.Arrays;
-
-
 import com.yen.FlinkRestService.Repository.JobJarRepository;
+import com.yen.FlinkRestService.exception.EntityNotFoundException;
 import com.yen.FlinkRestService.model.JobJar;
-import com.yen.FlinkRestService.model.dto.jar.UploadJarDto;
-import com.yen.FlinkRestService.model.response.JarUploadResponse;
-import com.yen.FlinkRestService.util.JarUtil;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.*;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.web.client.RestTemplate;
 
-import java.io.File;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class JarServiceTest {
 
     @Mock
     private JobJarRepository jobJarRepository;
 
-    @Mock
-    private RestTemplate restTemplate;
-
-    @InjectMocks
     private JarService jarService;
 
-//    @Value("${flink.base_url}")
-//    private String BASE_URL; // "http://localhost:8081/";
-
-
     @BeforeEach
-    public void setUp() {
-
-        MockitoAnnotations.initMocks(this);
+    void setUp() {
+        jarService = new JarService(jobJarRepository);
     }
 
-    // TODO: fix below
-//    @Test
-//    void testAddJobJar() {
-//
-//        UploadJarDto uploadJarDto = new UploadJarDto();
-//        uploadJarDto.setJarFile(String.valueOf(new File("path/to/jarFile.jar")));
-//        HttpHeaders headers = new HttpHeaders();
-//        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-//        HttpEntity<String> entity = new HttpEntity<>(headers);
-//
-//        ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"status\":\"success\"}", HttpStatus.OK);
-//        // mock
-//        when(restTemplate.exchange(any(String.class), eq(HttpMethod.POST), any(HttpEntity.class), eq(String.class)))
-//                .thenReturn(responseEntity);
-//
-//        String url = "base_url" + "/jars/upload";
-//        jarService.addJobJar(uploadJarDto);
-//
-//        verify(jobJarRepository, times(1)).save(any(JobJar.class));
-//    }
+    @Test
+    void testGetJars() {
+        JobJar jar1 = createJobJar(1, "test1.jar", "uploaded");
+        JobJar jar2 = createJobJar(2, "test2.jar", "uploaded");
+
+        when(jobJarRepository.findAll()).thenReturn(Arrays.asList(jar1, jar2));
+
+        List<JobJar> result = jarService.getJars();
+
+        assertEquals(2, result.size());
+        verify(jobJarRepository, times(1)).findAll();
+    }
 
     @Test
-    void testGetJarByJobId() {
+    void testGetJarByJobId_Found() {
+        JobJar jobJar = createJobJar(1, "test.jar", "uploaded");
 
-        JobJar jobJar = new JobJar();
-        jobJar.setId(1);
-        jobJar.setFileName("test.jar");
-        jobJar.setStatus("success");
-        jobJar.setUploadTime(new Date());
-        jobJar.setSavedJarName("saved.jar");
-
-        // mock
-        when(jobJarRepository.findById(1)).thenReturn(java.util.Optional.of(jobJar));
+        when(jobJarRepository.findById(1)).thenReturn(Optional.of(jobJar));
 
         JobJar result = jarService.getJarByJobId(1);
 
         assertNotNull(result);
-        assertEquals(jobJar.getId(), result.getId());
-        assertEquals(jobJar.getFileName(), result.getFileName());
-        assertEquals(jobJar.getStatus(), result.getStatus());
-        assertEquals(jobJar.getUploadTime(), result.getUploadTime());
-        assertEquals(jobJar.getSavedJarName(), result.getSavedJarName());
+        assertEquals(1, result.getId());
+        assertEquals("test.jar", result.getFileName());
+        assertEquals("uploaded", result.getStatus());
+        verify(jobJarRepository, times(1)).findById(1);
     }
 
     @Test
-    public void testGetBytes(){
+    void testGetJarByJobId_NotFound() {
+        when(jobJarRepository.findById(999)).thenReturn(Optional.empty());
 
-        String str = "PANKAJ";
-        byte[] byteArr = str.getBytes();
-        // print the byte[] elements
-        System.out.println("String to byte array: " + Arrays.toString(byteArr));
+        assertThrows(EntityNotFoundException.class, () -> {
+            jarService.getJarByJobId(999);
+        });
+
+        verify(jobJarRepository, times(1)).findById(999);
     }
 
-    // https://mvnrepository.com/artifact/org.apache.flink/flink-clients/1.17.2
-    // https://blog.51cto.com/u_16175517/8075303
     @Test
-    public void testFlinkClient() throws Exception {
+    void testDeleteJar_Found() {
+        JobJar jobJar = createJobJar(1, "test.jar", "uploaded");
 
-        String restURL = "localhost";
+        when(jobJarRepository.findById(1)).thenReturn(Optional.of(jobJar));
+        doNothing().when(jobJarRepository).delete(jobJar);
 
-        Configuration config = new Configuration();
-        config.setString("rest.address", restURL);
-        //new org.apache.flink.configuration();
-        RestClusterClient client = new RestClusterClient(config, restURL);
+        assertDoesNotThrow(() -> jarService.deleteJar(1));
 
-        // string -> byte[]
-        // byte[] byteArrray = inputString.getBytes("IBM01140");
-        // https://www.baeldung.com/java-string-to-byte-array
-        String flinkJobId = "36f62fd9d9cff27eb51b6325a1d0b86d";
-        byte[] byteFlinkJobId = flinkJobId.getBytes(); //flinkJobId.getBytes(StandardCharsets.UTF_8); //flinkJobId.getBytes(); //Base64.decodeBase64(flinkJobId); //flinkJobId.getBytes();
-        System.out.println("String to byte array: " + Arrays.toString(byteFlinkJobId));
-        System.out.println("client = " + client.toString());
-        System.out.println("ClusterId = " + client.getClusterId());
-        //System.out.println("JobStatus = " + client.getJobStatus(jobId));
-        JobGraph jobGraph = new JobGraph("Flink Streaming Job");
-        client.submitJob(jobGraph);
+        verify(jobJarRepository, times(1)).findById(1);
+        verify(jobJarRepository, times(1)).delete(jobJar);
     }
 
+    @Test
+    void testDeleteJar_NotFound() {
+        when(jobJarRepository.findById(999)).thenReturn(Optional.empty());
+
+        assertThrows(EntityNotFoundException.class, () -> {
+            jarService.deleteJar(999);
+        });
+
+        verify(jobJarRepository, times(1)).findById(999);
+        verify(jobJarRepository, never()).delete(any(JobJar.class));
+    }
+
+    private JobJar createJobJar(Integer id, String fileName, String status) {
+        JobJar jobJar = new JobJar();
+        jobJar.setId(id);
+        jobJar.setFileName(fileName);
+        jobJar.setStatus(status);
+        jobJar.setUploadTime(new Date());
+        jobJar.setSavedJarName("saved-" + fileName);
+        return jobJar;
+    }
 }

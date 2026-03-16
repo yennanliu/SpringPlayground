@@ -1,105 +1,106 @@
 package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Repository.ClusterRepository;
+import com.yen.FlinkRestService.exception.EntityNotFoundException;
 import com.yen.FlinkRestService.model.Cluster;
 import com.yen.FlinkRestService.model.dto.cluster.AddClusterDto;
 import com.yen.FlinkRestService.model.dto.cluster.UpdateClusterDto;
+import com.yen.FlinkRestService.model.enums.ClusterStatus;
 import com.yen.FlinkRestService.model.response.ClusterPingResponse;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ClusterService {
 
-    @Autowired
-    private ClusterRepository clusterRepository;
+    private final ClusterRepository clusterRepository;
+    private final RestTemplateService restTemplateService;
 
-    @Autowired
-    private RestTemplateService restTemplateService;
-
+    @Transactional(readOnly = true)
     public List<Cluster> getClusters() {
-
         return clusterRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Cluster getClusterById(Integer clusterId) {
-
-        if (clusterRepository.findById(clusterId).isPresent()){
-            return clusterRepository.findById(clusterId).get();
-        }
-        log.warn("No Cluster found, clusterId = " + clusterId);
-        return null;
+        return clusterRepository.findById(clusterId)
+                .orElseThrow(() -> new EntityNotFoundException("Cluster", clusterId));
     }
 
-    public void addCluster(AddClusterDto addClusterDto){
-
+    @Transactional
+    public Cluster addCluster(AddClusterDto addClusterDto) {
         Cluster cluster = new Cluster();
         cluster.setUrl(addClusterDto.getUrl());
         cluster.setPort(addClusterDto.getPort());
-        cluster.setStatus("Added"); // TODO : replace with enums
-        clusterRepository.save(cluster);
+        cluster.setStatus(ClusterStatus.ADDED.getValue());
+
+        Cluster savedCluster = clusterRepository.save(cluster);
+        log.info("Cluster added successfully, id={}", savedCluster.getId());
+        return savedCluster;
     }
 
-    public Cluster updateCluster(UpdateClusterDto updateClusterDto){
+    @Transactional
+    public Cluster updateCluster(UpdateClusterDto updateClusterDto) {
+        Cluster cluster = clusterRepository.findById(updateClusterDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Cluster", updateClusterDto.getId()));
 
-        if (!clusterRepository.findById(updateClusterDto.getId()).isPresent()){
-            log.warn("No saved cluster with id : " + updateClusterDto);
-            return null;
-        }
+        cluster.setUrl(updateClusterDto.getUrl());
+        cluster.setPort(updateClusterDto.getPort());
+        cluster.setStatus(ClusterStatus.UPDATED.getValue());
 
-        Cluster curCluster = clusterRepository.findById(updateClusterDto.getId()).get();
-        curCluster.setUrl(updateClusterDto.getUrl());
-        curCluster.setPort(updateClusterDto.getPort());
-        curCluster.setStatus("Updated"); // TODO : replace with enums
-        clusterRepository.save(curCluster);
-        return curCluster;
+        Cluster updatedCluster = clusterRepository.save(cluster);
+        log.info("Cluster updated successfully, id={}", updatedCluster.getId());
+        return updatedCluster;
     }
 
-    public ClusterPingResponse pingCluster(Integer clusterId){
+    @Transactional
+    public ClusterPingResponse pingCluster(Integer clusterId) {
+        Cluster cluster = clusterRepository.findById(clusterId)
+                .orElseThrow(() -> new EntityNotFoundException("Cluster", clusterId));
 
-        ClusterPingResponse clusterPingResponse = new ClusterPingResponse();
-        if (!clusterRepository.findById(clusterId).isPresent()){
-            String msg = "failed, No saved cluster with id : " + clusterId;
-            log.warn(msg);
-            clusterPingResponse.setMessage(msg);
-            return clusterPingResponse;
-        }
+        ClusterPingResponse response = new ClusterPingResponse();
 
-        Cluster cluster = clusterRepository.findById(clusterId).get();
-        ResponseEntity<String> resp =  restTemplateService.pingServer(cluster.getUrl(), cluster.getPort());
-        // if null resp (restTemplate can't access cluster)
-        if (resp == null || resp.toString().equals(null)){
-            cluster.setStatus("not_connected");
-            clusterPingResponse.setMessage("failed");
-            clusterPingResponse.setIsAccessible(false);
-            // save to DB
+        ResponseEntity<String> resp = restTemplateService.pingServer(cluster.getUrl(), cluster.getPort());
+
+        if (resp == null || resp.getBody() == null) {
+            cluster.setStatus(ClusterStatus.NOT_CONNECTED.getValue());
+            response.setMessage("Connection failed");
+            response.setIsAccessible(false);
             clusterRepository.save(cluster);
-            return clusterPingResponse;
+            log.warn("Ping failed for cluster id={}", clusterId);
+            return response;
         }
 
-        log.info("(pingCluster) resp status = " + resp.getStatusCode());
-        clusterPingResponse = new ClusterPingResponse();
+        log.info("Ping response status={} for cluster id={}", resp.getStatusCode(), clusterId);
 
-        // if 2xx // TODO : optimize this
-        if (StringUtils.startsWithIgnoreCase(resp.getStatusCode().toString(), "2")){
-            clusterPingResponse.setIsAccessible(true);
-            cluster.setStatus("connected");
-        }else{
-            clusterPingResponse.setIsAccessible(false);
-            cluster.setStatus("not_connected");
+        if (resp.getStatusCode().is2xxSuccessful()) {
+            response.setIsAccessible(true);
+            cluster.setStatus(ClusterStatus.CONNECTED.getValue());
+        } else {
+            response.setIsAccessible(false);
+            cluster.setStatus(ClusterStatus.NOT_CONNECTED.getValue());
         }
-        clusterPingResponse.setMessage(resp.getBody());
-        // save to DB
+
+        response.setMessage(resp.getBody());
         clusterRepository.save(cluster);
-        return clusterPingResponse;
+        return response;
     }
 
+    @Transactional
+    public void deleteCluster(Integer clusterId) {
+        Cluster cluster = clusterRepository.findById(clusterId)
+                .orElseThrow(() -> new EntityNotFoundException("Cluster", clusterId));
+
+        clusterRepository.delete(cluster);
+        log.info("Cluster deleted successfully, id={}", clusterId);
+    }
 }

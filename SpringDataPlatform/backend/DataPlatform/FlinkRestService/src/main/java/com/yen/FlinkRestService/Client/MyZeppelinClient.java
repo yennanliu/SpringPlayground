@@ -7,42 +7,41 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 
 @Slf4j
 @Component
 public class MyZeppelinClient {
 
-    // attr
-    ZeppelinClient zeppelinClient;
+    private ZeppelinClient zeppelinClient;
 
     @Value("${zeppelin.base_url}")
-    private String ZeppelinURL; //private String ZeppelinURL = "http://localhost:9080"; //"http://localhost:8082";
+    private String zeppelinUrl;
 
-    /**
-     * @PostConstruct :
-     * - will run after No args constructor is init (when spring boot scan pkg, can init container)
-     * - https://youtu.be/dcmhIij3eNM?si=FKF7YAho4jogK1Vb&t=95
-     */
     @Bean
-    public ZeppelinClient init() {
-
-        ClientConfig clientConfig = new ClientConfig(ZeppelinURL);
+    public ZeppelinClient zeppelinClient() {
+        ClientConfig clientConfig = new ClientConfig(zeppelinUrl);
         try {
             this.zeppelinClient = new ZeppelinClient(clientConfig);
-            log.info("ZeppelinClient RestUrl = " + zeppelinClient.getClientConfig().getZeppelinRestUrl());
-            log.info("Init ZeppelinClient OK : " + zeppelinClient.toString());
+            log.info("ZeppelinClient initialized, RestUrl={}", zeppelinClient.getClientConfig().getZeppelinRestUrl());
         } catch (Exception e) {
-            log.error("Init ZeppelinClient fail !!!");
-            throw new RuntimeException(e);
+            log.error("Failed to initialize ZeppelinClient: {}", e.getMessage(), e);
+            throw new RuntimeException("Failed to initialize ZeppelinClient", e);
         }
         return this.zeppelinClient;
     }
 
-//    @PreDestroy
-//    public void destory(){
-//        // TODO : implement zClient close conn ?
-//    }
-
+    @PreDestroy
+    public void cleanup() {
+        if (zeppelinClient != null) {
+            try {
+                // ZeppelinClient uses HTTP client internally, no explicit close needed
+                // but we log the shutdown for visibility
+                log.info("ZeppelinClient shutting down");
+                zeppelinClient = null;
+            } catch (Exception e) {
+                log.warn("Error during ZeppelinClient cleanup: {}", e.getMessage());
+            }
+        }
+    }
 }

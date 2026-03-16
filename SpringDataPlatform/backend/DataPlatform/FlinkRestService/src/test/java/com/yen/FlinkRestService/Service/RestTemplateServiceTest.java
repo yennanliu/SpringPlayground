@@ -1,35 +1,29 @@
 package com.yen.FlinkRestService.Service;
 
+import com.yen.FlinkRestService.exception.ExternalServiceException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-
 import java.time.Duration;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class RestTemplateServiceTest {
-
-    @InjectMocks
-    private RestTemplateService restTemplateService;
 
     @Mock
     private RestTemplate restTemplate;
@@ -37,20 +31,25 @@ class RestTemplateServiceTest {
     @Mock
     private RestTemplateBuilder restTemplateBuilder;
 
-    @BeforeEach
-    public void setUp() {
+    private RestTemplateService restTemplateService;
 
-        MockitoAnnotations.initMocks(this);
+    @BeforeEach
+    void setUp() {
+        // Mock the builder chain
+        when(restTemplateBuilder.setConnectTimeout(any(Duration.class))).thenReturn(restTemplateBuilder);
+        when(restTemplateBuilder.setReadTimeout(any(Duration.class))).thenReturn(restTemplateBuilder);
+        when(restTemplateBuilder.build()).thenReturn(restTemplate);
+
+        restTemplateService = new RestTemplateService(restTemplateBuilder);
     }
 
     @Test
-    public void testSendPostRequest() {
+    void testSendPostRequest_Success() {
         String url = "http://example.com/api";
         String requestBody = "{\"key\":\"value\"}";
         MediaType mediaType = MediaType.APPLICATION_JSON;
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"response\":\"success\"}", HttpStatus.OK);
-        // mock
         when(restTemplate.postForEntity(eq(url), any(HttpEntity.class), eq(String.class))).thenReturn(responseEntity);
 
         ResponseEntity<String> result = restTemplateService.sendPostRequest(url, requestBody, mediaType);
@@ -62,8 +61,22 @@ class RestTemplateServiceTest {
     }
 
     @Test
-    public void testSendGetRequest() {
+    void testSendPostRequest_ConnectionFailure() {
+        String url = "http://example.com/api";
+        String requestBody = "{\"key\":\"value\"}";
 
+        when(restTemplate.postForEntity(eq(url), any(HttpEntity.class), eq(String.class)))
+                .thenThrow(new ResourceAccessException("Connection refused"));
+
+        assertThrows(ExternalServiceException.class, () -> {
+            restTemplateService.sendPostRequest(url, requestBody, MediaType.APPLICATION_JSON);
+        });
+
+        verify(restTemplate, times(1)).postForEntity(eq(url), any(HttpEntity.class), eq(String.class));
+    }
+
+    @Test
+    void testSendGetRequest_Success() {
         String url = "http://example.com/api";
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"response\":\"success\"}", HttpStatus.OK);
@@ -78,14 +91,26 @@ class RestTemplateServiceTest {
     }
 
     @Test
-    public void testPingServer() {
+    void testSendGetRequest_ConnectionFailure() {
+        String url = "http://example.com/api";
 
+        when(restTemplate.getForEntity(eq(url), eq(String.class)))
+                .thenThrow(new ResourceAccessException("Connection refused"));
+
+        assertThrows(ExternalServiceException.class, () -> {
+            restTemplateService.sendGetRequest(url);
+        });
+
+        verify(restTemplate, times(1)).getForEntity(eq(url), eq(String.class));
+    }
+
+    @Test
+    void testPingServer_Success() {
         String url = "http://example.com";
         int port = 8080;
         String pingUrl = url + ":" + port;
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"response\":\"success\"}", HttpStatus.OK);
-        // mock
         when(restTemplate.getForEntity(eq(pingUrl), eq(String.class))).thenReturn(responseEntity);
 
         ResponseEntity<String> result = restTemplateService.pingServer(url, port);
@@ -96,4 +121,19 @@ class RestTemplateServiceTest {
         verify(restTemplate, times(1)).getForEntity(eq(pingUrl), eq(String.class));
     }
 
+    @Test
+    void testPingServer_ConnectionFailure() {
+        String url = "http://example.com";
+        int port = 8080;
+        String pingUrl = url + ":" + port;
+
+        when(restTemplate.getForEntity(eq(pingUrl), eq(String.class)))
+                .thenThrow(new ResourceAccessException("Connection refused"));
+
+        ResponseEntity<String> result = restTemplateService.pingServer(url, port);
+
+        // pingServer returns null on failure instead of throwing exception
+        assertNull(result);
+        verify(restTemplate, times(1)).getForEntity(eq(pingUrl), eq(String.class));
+    }
 }

@@ -4,15 +4,17 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import com.yen.FlinkRestService.model.dto.jar.UploadJarDto;
 import com.yen.FlinkRestService.Repository.JobJarRepository;
+import com.yen.FlinkRestService.exception.EntityNotFoundException;
+import com.yen.FlinkRestService.exception.ExternalServiceException;
 import com.yen.FlinkRestService.model.JobJar;
+import com.yen.FlinkRestService.model.dto.jar.UploadJarDto;
 import com.yen.FlinkRestService.model.response.JarUploadResponse;
 import com.yen.FlinkRestService.util.JarUtil;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpEntity;
@@ -20,85 +22,125 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.File;
 import java.util.Date;
 import java.util.List;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class JarService {
 
-    @Autowired
-    JobJarRepository jobJarRepository;
+    private final JobJarRepository jobJarRepository;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    //@Autowired
-    private final RestTemplate restTemplate;
+    private static final Gson GSON = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
+            .create();
+
+    private static final String STATUS_UPLOADED = "uploaded";
+    private static final String STATUS_FAILED = "failed";
 
     @Value("${flink.base_url}")
-    private String BASE_URL; // "http://localhost:8081/";
+    private String flinkBaseUrl;
 
-    private final JarUtil jarUtil = new JarUtil();
+    @Transactional
+    public JobJar addJobJar(UploadJarDto uploadJarDto) {
+        log.info("Uploading JAR file: {}", uploadJarDto.getJarFile());
 
-    // constructor
-    JarService(){
+        // Validate file exists
+        File jarFile = new File(uploadJarDto.getJarFile());
+        if (!jarFile.exists()) {
+            throw new IllegalArgumentException("JAR file does not exist: " + uploadJarDto.getJarFile());
+        }
 
-        this.restTemplate = new RestTemplate();
+        String url = flinkBaseUrl + "/jars/upload";
+        log.info("Uploading JAR to Flink at url={}", url);
+
+        JobJar jobJar = new JobJar();
+        jobJar.setFileName(uploadJarDto.getJarFile());
+        jobJar.setUploadTime(new Date());
+
+        try {
+            // Prepare multipart request
+            MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
+            bodyMap.add("jarfile", new FileSystemResource(jarFile));
+
+            HttpHeaders headers = new HttpHeaders();
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
+
+            // Upload to Flink
+            ResponseEntity<String> responseEntity = restTemplate.exchange(
+                    url, HttpMethod.POST, requestEntity, String.class);
+
+            log.info("JAR upload response: status={}, body={}",
+                    responseEntity.getStatusCode(), responseEntity.getBody());
+
+            // Check response status
+            if (!responseEntity.getStatusCode().is2xxSuccessful()) {
+                jobJar.setStatus(STATUS_FAILED);
+                jobJarRepository.save(jobJar);
+                throw new ExternalServiceException("Flink",
+                        "JAR upload failed with status: " + responseEntity.getStatusCode());
+            }
+
+            // Parse response
+            JarUploadResponse jarUploadResponse = GSON.fromJson(
+                    responseEntity.getBody(), JarUploadResponse.class);
+
+            if (jarUploadResponse == null || jarUploadResponse.getFilename() == null) {
+                jobJar.setStatus(STATUS_FAILED);
+                jobJarRepository.save(jobJar);
+                throw new ExternalServiceException("Flink", "Invalid response from Flink JAR upload");
+            }
+
+            // Success - save to DB
+            jobJar.setStatus(STATUS_UPLOADED);
+            jobJar.setSavedJarName(JarUtil.getJarNameFromResponse(jarUploadResponse));
+            JobJar savedJar = jobJarRepository.save(jobJar);
+
+            log.info("JAR uploaded successfully, id={}, savedName={}",
+                    savedJar.getId(), savedJar.getSavedJarName());
+            return savedJar;
+
+        } catch (ResourceAccessException e) {
+            log.error("Cannot connect to Flink cluster at {}: {}", url, e.getMessage());
+            jobJar.setStatus(STATUS_FAILED);
+            jobJarRepository.save(jobJar);
+            throw new ExternalServiceException("Flink", "Cannot connect to Flink cluster: " + e.getMessage(), e);
+
+        } catch (RestClientException e) {
+            log.error("JAR upload failed: {}", e.getMessage());
+            jobJar.setStatus(STATUS_FAILED);
+            jobJarRepository.save(jobJar);
+            throw new ExternalServiceException("Flink", "JAR upload failed: " + e.getMessage(), e);
+        }
     }
 
-    // https://github.com/thestyleofme/flink-api-spring-boot-starter/blob/master/src/main/java/com/github/codingdebugallday/client/app/service/jars/FlinkJarService.java
-    public void addJobJar(UploadJarDto uploadJarDto) {
-
-        log.info("(addJobJar) uploadJarDto = " + uploadJarDto.toString());
-        // Set the URL
-        String url = BASE_URL + "/jars/upload";
-        log.info("url = " + url);
-
-        // Set the file path
-        // Create a MultiValueMap to hold the file and headers
-        MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
-        bodyMap.add("jarfile", new FileSystemResource(uploadJarDto.getJarFile()));
-
-        // Create headers with "Expect" set to an empty string
-        HttpHeaders headers = new HttpHeaders();
-
-        // Create the request entity with headers and body
-        HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-
-        // Create a RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-        JarUploadResponse jarUploadResponse = gson.fromJson(responseEntity.getBody(), JarUploadResponse.class);
-
-        // Print the response status code and body
-        log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + "Response Body: " + responseEntity.getBody());
-
-        // save jar info to DB
-        JobJar jobjar = new JobJar();
-        jobjar.setFileName(uploadJarDto.getJarFile());
-        jobjar.setStatus("success"); // TODO : error handling
-        jobjar.setUploadTime(new Date());
-        jobjar.setSavedJarName(jarUtil.getJarNameFromRepsonse(jarUploadResponse));
-        jobJarRepository.save(jobjar);
-    }
-
+    @Transactional(readOnly = true)
     public List<JobJar> getJars() {
-
         return jobJarRepository.findAll();
     }
 
-    public JobJar getJarByJobId(Integer jobJarId){
-
-        if (jobJarRepository.findById(jobJarId).isPresent()){
-            return jobJarRepository.findById(jobJarId).get();
-        }
-        log.warn("No Job jar found with jobJarId = " + jobJarId);
-        return null;
+    @Transactional(readOnly = true)
+    public JobJar getJarByJobId(Integer jobJarId) {
+        return jobJarRepository.findById(jobJarId)
+                .orElseThrow(() -> new EntityNotFoundException("JobJar", jobJarId));
     }
 
+    @Transactional
+    public void deleteJar(Integer jobJarId) {
+        JobJar jobJar = jobJarRepository.findById(jobJarId)
+                .orElseThrow(() -> new EntityNotFoundException("JobJar", jobJarId));
+
+        jobJarRepository.delete(jobJar);
+        log.info("Deleted JAR record, id={}", jobJarId);
+    }
 }

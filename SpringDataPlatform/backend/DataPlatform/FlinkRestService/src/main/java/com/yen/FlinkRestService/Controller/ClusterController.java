@@ -8,56 +8,85 @@ import com.yen.FlinkRestService.model.dto.cluster.PingClusterDto;
 import com.yen.FlinkRestService.model.dto.cluster.UpdateClusterDto;
 import com.yen.FlinkRestService.model.response.ClusterPingResponse;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
 @RestController
 @RequestMapping("/cluster")
+@RequiredArgsConstructor
 public class ClusterController {
 
-    @Autowired
-    private ClusterService clusterService;
+    private final ClusterService clusterService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<Cluster>> getClusters(){
-
+    @GetMapping
+    public ResponseEntity<List<Cluster>> getClusters() {
         List<Cluster> clusters = clusterService.getClusters();
-        return new ResponseEntity<>(clusters, HttpStatus.OK);
+        return ResponseEntity.ok(clusters);
     }
 
     @GetMapping("/{clusterId}")
-    public ResponseEntity<Cluster> getClusterById(@PathVariable("clusterId") Integer clusterId) {
-
+    public ResponseEntity<Cluster> getClusterById(@PathVariable Integer clusterId) {
         Cluster cluster = clusterService.getClusterById(clusterId);
-        return new ResponseEntity<>(cluster, HttpStatus.OK);
+        return ResponseEntity.ok(cluster);
+    }
+
+    @PostMapping
+    public ResponseEntity<ApiResponse> addCluster(@Valid @RequestBody AddClusterDto addClusterDto) {
+        clusterService.addCluster(addClusterDto);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(new ApiResponse(true, "Cluster has been added"));
+    }
+
+    @PutMapping("/{clusterId}")
+    public ResponseEntity<ApiResponse> updateCluster(
+            @PathVariable Integer clusterId,
+            @Valid @RequestBody UpdateClusterDto updateClusterDto) {
+        updateClusterDto.setId(clusterId);
+        clusterService.updateCluster(updateClusterDto);
+        return ResponseEntity.ok(new ApiResponse(true, "Cluster has been updated"));
+    }
+
+    @PostMapping("/{clusterId}/ping")
+    public ResponseEntity<ApiResponse> pingCluster(@PathVariable Integer clusterId) {
+        ClusterPingResponse resp = clusterService.pingCluster(clusterId);
+        return ResponseEntity.ok(new ApiResponse(resp.getIsAccessible(), resp.getMessage()));
+    }
+
+    @DeleteMapping("/{clusterId}")
+    public ResponseEntity<ApiResponse> deleteCluster(@PathVariable Integer clusterId) {
+        clusterService.deleteCluster(clusterId);
+        return ResponseEntity.ok(new ApiResponse(true, "Cluster has been deleted"));
+    }
+
+    // Legacy endpoints for backward compatibility
+    @GetMapping("/")
+    public ResponseEntity<List<Cluster>> getClustersLegacy() {
+        return getClusters();
     }
 
     @PostMapping("/add_cluster")
-    public ResponseEntity<ApiResponse> addJobJar(@RequestBody AddClusterDto addClusterDto){
-
-        clusterService.addCluster(addClusterDto);
-        return new ResponseEntity<>(new ApiResponse(true, "Cluster has been added"), HttpStatus.CREATED);
+    public ResponseEntity<ApiResponse> addClusterLegacy(@Valid @RequestBody AddClusterDto addClusterDto) {
+        return addCluster(addClusterDto);
     }
 
     @PostMapping("/update")
-    public ResponseEntity<ApiResponse> updateCluster(@RequestBody UpdateClusterDto updateClusterDto) {
-
+    public ResponseEntity<ApiResponse> updateClusterLegacy(@Valid @RequestBody UpdateClusterDto updateClusterDto) {
         clusterService.updateCluster(updateClusterDto);
-        return new ResponseEntity<ApiResponse>(new ApiResponse(true, "Cluster has been updated"), HttpStatus.OK);
+        return ResponseEntity.ok(new ApiResponse(true, "Cluster has been updated"));
     }
-    
+
     @PostMapping("/ping")
-    public ResponseEntity<ApiResponse> pingCluster(@RequestBody PingClusterDto pingClusterDto) {
-
+    public ResponseEntity<ApiResponse> pingClusterLegacy(@RequestBody PingClusterDto pingClusterDto) {
         ClusterPingResponse resp = clusterService.pingCluster(Integer.parseInt(pingClusterDto.getId()));
-        return new ResponseEntity<ApiResponse>(new ApiResponse(resp.getIsAccessible(), resp.getMessage()), HttpStatus.OK);
+        return ResponseEntity.ok(new ApiResponse(resp.getIsAccessible(), resp.getMessage()));
     }
-
 }
