@@ -6,52 +6,58 @@ import com.yen.FlinkRestService.Repository.SqlJobRepository;
 import com.yen.FlinkRestService.model.dto.job.SqlJobSubmitDto;
 import com.yen.FlinkRestService.model.response.SqlJobSubmitResponse;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class SqlJobService {
 
     @Value("${flink.sql_gateway.base_url}")
-    private String BASE_URL;
+    private String sqlGatewayBaseUrl;
 
-    @Autowired
-    private SqlJobRepository sqlJobRepository;
+    private final SqlJobRepository sqlJobRepository;
+    private final RestTemplateService restTemplateService;
 
-    @Autowired
-    private RestTemplateService restTemplateService;
+    public String submitSQLJob(SqlJobSubmitDto sqlJobSubmitDto) {
+        // Create session
+        String sessionUrl = UriComponentsBuilder.fromHttpUrl(sqlGatewayBaseUrl)
+                .pathSegment("v1", "sessions")
+                .build()
+                .toUriString();
 
-    public String submitSQLJob(SqlJobSubmitDto sqlJobSubmitDto){
+        log.info("Creating SQL session at url={}", sessionUrl);
 
-        String url = BASE_URL + "/v1/sessions" ; // http://localhost:8083/v1/sessions
-        log.info("url = " + url);
+        ResponseEntity<String> sessionResponse = restTemplateService.sendPostRequest(sessionUrl, "", MediaType.APPLICATION_JSON);
+        log.info("Session created, response={}", sessionResponse.getBody());
 
-        ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", null);
-        log.info("responseEntity = " + responseEntity.toString());
+        SqlJobSubmitResponse sessionResult = JSON.parseObject(sessionResponse.getBody(), SqlJobSubmitResponse.class);
+        String sessionHandle = sessionResult.getSessionHandle();
+        log.info("Session handle={}", sessionHandle);
 
-        // TODO : replace with gson
-        SqlJobSubmitResponse sqlJobSubmitResponse = JSON.parseObject(responseEntity.getBody(), SqlJobSubmitResponse.class);
-        String sessionHandle = sqlJobSubmitResponse.getSessionHandle();
-        log.info("sessionHandle = " + sessionHandle);
+        // Submit SQL statement
+        String statementUrl = UriComponentsBuilder.fromHttpUrl(sqlGatewayBaseUrl)
+                .pathSegment("v1", "sessions", sessionHandle, "statements")
+                .build()
+                .toUriString();
 
-        String jobSubmitUrl = url + "/" + sessionHandle + "/statements/"; //"http://localhost:8083/v1/sessions/${sessionHandle}/statements/"
-        log.info("jobSubmitUrl = " + jobSubmitUrl);
+        log.info("Submitting SQL statement to url={}", statementUrl);
 
-        // TODO : get below from request payload
-        //String sqlCMD = "{\"statement\": \"SELECT 1, 2, 3\"}";
-        String sqlCMD = sqlJobSubmitDto.toString(); //sqlJobSubmitDto.getStatement();
-        log.info("sqlCMD = " + sqlCMD);
+        String sqlPayload = sqlJobSubmitDto.toJsonPayload();
+        log.info("SQL payload={}", sqlPayload);
 
-        ResponseEntity<String> jobResponseEntity = restTemplateService.sendPostRequest(jobSubmitUrl, sqlCMD, null);
-        SqlJobSubmitResponse sqlJobSubmitResponse2 = JSON.parseObject(jobResponseEntity.getBody(), SqlJobSubmitResponse.class);
-        log.info("OperationHandle = " + sqlJobSubmitResponse2.getOperationHandle());
+        ResponseEntity<String> statementResponse = restTemplateService.sendPostRequest(statementUrl, sqlPayload, MediaType.APPLICATION_JSON);
+        SqlJobSubmitResponse statementResult = JSON.parseObject(statementResponse.getBody(), SqlJobSubmitResponse.class);
 
-        return jobSubmitUrl;
+        log.info("SQL job submitted, operationHandle={}", statementResult.getOperationHandle());
+
+        return statementUrl;
     }
-
 }
