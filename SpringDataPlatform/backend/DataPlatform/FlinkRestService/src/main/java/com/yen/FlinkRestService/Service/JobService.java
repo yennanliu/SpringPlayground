@@ -6,6 +6,8 @@ import com.google.gson.GsonBuilder;
 
 import com.yen.FlinkRestService.Repository.JobJarRepository;
 import com.yen.FlinkRestService.Repository.JobRepository;
+import com.yen.FlinkRestService.exception.EntityNotFoundException;
+import com.yen.FlinkRestService.exception.ExternalServiceException;
 import com.yen.FlinkRestService.model.Job;
 import com.yen.FlinkRestService.model.JobJar;
 import com.yen.FlinkRestService.model.dto.job.JobSubmitDto;
@@ -14,196 +16,164 @@ import com.yen.FlinkRestService.model.response.JobOverview;
 import com.yen.FlinkRestService.model.response.JobOverviewResponse;
 import com.yen.FlinkRestService.model.response.JobSubmitResponse;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class JobService {
 
-    @Autowired
-    JobRepository jobRepository;
+    private final JobRepository jobRepository;
+    private final JobJarRepository jobJarRepository;
+    private final RestTemplateService restTemplateService;
 
-    @Autowired
-    JobJarRepository jobJarRepository;
-
-    @Autowired
-    private RestTemplateService restTemplateService;
+    private static final Gson GSON = new GsonBuilder()
+            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
+            .create();
 
     @Value("${flink.base_url}")
-    private String BASE_URL; // "http://localhost:8081/";
+    private String flinkBaseUrl;
 
+    @Transactional(readOnly = true)
     public List<Job> getJobs() {
-
         return jobRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Job getJobById(Integer jobId) {
-
-        if (jobRepository.findById(jobId).isPresent()){
-            return jobRepository.findById(jobId).get();
-        }
-        log.warn("No Job with JobId = " + jobId);
-        return null;
+        return jobRepository.findById(jobId)
+                .orElseThrow(() -> new EntityNotFoundException("Job", jobId));
     }
 
-    public void addJob(JobSubmitDto jobSubmitDto) {
+    @Transactional(readOnly = true)
+    public Optional<Job> getJobByJid(String jid) {
+        return jobRepository.findByJobId(jid);
+    }
 
-        log.info("jobSubmitDto = " + jobSubmitDto.toString());
+    @Transactional
+    public Job addJob(JobSubmitDto jobSubmitDto) {
+        log.info("Submitting job with jarId={}", jobSubmitDto.getJarId());
 
-        // Set the URL
-        /**
-         *  example :
-         *
-         *  1) POST: /jars/MyProgram.jar/run?savepointPath=/my-savepoints/savepoint-1bae02a80464&allowNonRestoredState=true
-         *
-         *  2) "http://localhost:8081/jars/{projectId}/run";
-         */
-        String baseUrl = BASE_URL + "/jars/";
-        // TODO : fix below to send entry-class, parallelism to flink
-        if (!jobJarRepository.findById(jobSubmitDto.getJarId()).isPresent()){
-            throw new RuntimeException("Job jar NOT exists, Jar ID = " + jobSubmitDto.getJarId());
-        }
-        JobJar jobJar = jobJarRepository.findById(jobSubmitDto.getJarId()).get();
-        String url = baseUrl + jobJar.getSavedJarName() + "/run"; // + "entry-class=" + jobSubmitDto.getEntryClass();
-        log.info("url = " + url);
+        JobJar jobJar = jobJarRepository.findById(jobSubmitDto.getJarId())
+                .orElseThrow(() -> new EntityNotFoundException("JobJar", jobSubmitDto.getJarId()));
 
-        // Set request body
-        String requestBody = "";
+        String url = UriComponentsBuilder.fromHttpUrl(flinkBaseUrl)
+                .pathSegment("jars", jobJar.getSavedJarName(), "run")
+                .build()
+                .toUriString();
 
-        // Make HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, requestBody, MediaType.APPLICATION_JSON);
+        log.info("Submitting job to url={}", url);
 
-        // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-        JobSubmitResponse jobSubmitResponse  = gson.fromJson(responseEntity.getBody(), JobSubmitResponse.class);
-        log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + "jobSubmitResponse : " + jobSubmitResponse.toString());
+        ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", MediaType.APPLICATION_JSON);
 
-        // save to DB
+        JobSubmitResponse jobSubmitResponse = GSON.fromJson(responseEntity.getBody(), JobSubmitResponse.class);
+        log.info("Job submitted successfully, flinkJobId={}", jobSubmitResponse.getJobid());
+
         Job job = new Job();
         job.setJobId(jobSubmitResponse.getJobid());
         job.setName(jobJar.getId() + "-" + jobJar.getSavedJarName());
-        job.setStartTime( System.currentTimeMillis()); // TODO : double check
+        job.setStartTime(System.currentTimeMillis());
+
+        Job savedJob = jobRepository.save(job);
+        log.info("Job saved to database, id={}", savedJob.getId());
+        return savedJob;
+    }
+
+    @Transactional
+    public Job updateJob(JobUpdateDto jobUpdateDto) {
+        log.info("Updating job id={}", jobUpdateDto.getId());
+
+        Job job = jobRepository.findById(jobUpdateDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Job", jobUpdateDto.getId()));
+
+        job.setState(jobUpdateDto.getState());
+        job.setStartTime(jobUpdateDto.getStartTime());
+        job.setEndTime(jobUpdateDto.getEndTime());
+        job.setDuration(jobUpdateDto.getDuration());
+
+        Job updatedJob = jobRepository.save(job);
+        log.info("Job updated successfully, id={}", updatedJob.getId());
+        return updatedJob;
+    }
+
+    @Transactional
+    public void updateAllJobs() {
+        String url = UriComponentsBuilder.fromHttpUrl(flinkBaseUrl)
+                .pathSegment("jobs", "overview")
+                .build()
+                .toUriString();
+
+        log.info("Fetching job overview from url={}", url);
+
+        try {
+            ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
+            JobOverviewResponse jobOverviewResponse = parseJobOverviewResponse(responseEntity.getBody());
+
+            List<JobOverview> jobs = jobOverviewResponse.getJobs();
+            if (jobs == null || jobs.isEmpty()) {
+                log.info("No jobs to update");
+                return;
+            }
+
+            log.info("Updating {} jobs from Flink cluster", jobs.size());
+
+            for (JobOverview jobOverview : jobs) {
+                updateOrCreateJob(jobOverview);
+            }
+
+        } catch (ExternalServiceException e) {
+            log.warn("Failed to fetch job overview from Flink cluster: {}", e.getMessage());
+        }
+    }
+
+    private void updateOrCreateJob(JobOverview jobOverview) {
+        Optional<Job> existingJob = jobRepository.findByJobId(jobOverview.getJid());
+
+        Job job;
+        if (existingJob.isPresent()) {
+            job = existingJob.get();
+        } else {
+            log.info("Creating new job record for jid={}", jobOverview.getJid());
+            job = new Job();
+            job.setJobId(jobOverview.getJid());
+        }
+
+        job.setStartTime(jobOverview.getStartTime());
+        job.setEndTime(jobOverview.getEndTime());
+        job.setState(jobOverview.getState());
+
+        if (job.getName() == null || job.getName().isEmpty()) {
+            job.setName(jobOverview.getName());
+        }
+
         jobRepository.save(job);
     }
 
-    public void updateJob(JobUpdateDto jobUpdateDto) {
+    @Transactional
+    public void cancelJob(String jobId) {
+        log.info("Cancelling job with flinkJobId={}", jobId);
 
-        log.info("added  jobUpdateDto = " + jobUpdateDto);
-        if (!jobRepository.findById(jobUpdateDto.getId()).isPresent()) {
-            log.warn("Job NOT existed, id = " + jobUpdateDto.getId());
-        }
-        Job currentJob = jobRepository.findById(jobUpdateDto.getId()).get();
-        currentJob.setState(jobUpdateDto.getState());
-        currentJob.setStartTime(jobUpdateDto.getStartTime());
-        currentJob.setEndTime(jobUpdateDto.getEndTime());
-        currentJob.setDuration(jobUpdateDto.getDuration());
-        // TODO : modify with update method
-        log.info("updated currentJob = " + currentJob);
-        jobRepository.save(currentJob);
-    }
+        String url = UriComponentsBuilder.fromHttpUrl(flinkBaseUrl)
+                .pathSegment("jobs", jobId, "stop")
+                .build()
+                .toUriString();
 
-    public void updateAllJobs() {
-
-        String url = BASE_URL + "/jobs/overview"; //"http://localhost:8081/jobs/overview";;
-        log.info("url = " + url);
-
-        // Make HTTP GET request
-        ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
-        // gson transform with json string name with dash (e.g. start-time) to java object
-        // https://github.com/google/gson/blob/main/UserGuide.md#json-field-naming-support
-//        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-//        JobOverviewResponse jobOverviewResponse = gson.fromJson(responseEntity.getBody(), JobOverviewResponse.class);
-
-        JobOverviewResponse jobOverviewResponse = parseJobOverviewResponse(responseEntity.getBody());
-
-        List<JobOverview> jobs = jobOverviewResponse.getJobs();
-
-        log.info(">>> jobOverviewResponse = " + jobOverviewResponse + "\n" + ">>> jobOverviewResponse.getJobOverviewList() = " + jobOverviewResponse.getJobs());
-        if (jobs == null || jobs.size() == 0) {
-            log.warn("NO job to update");
-            return;
-        }
-
-        // update job and save to DB
-        jobs.stream().forEach(job -> {
-            Job currentJob = this.getJobByJid(job.getJid());
-            if (currentJob == null){
-                log.warn("Can't find job in DB, jid = " +  job.getJid(), " save new job to DB");
-                Job newJob = new Job();
-                newJob.setJobId(job.getJid());
-                jobRepository.save(newJob);
-                currentJob = newJob;
-            }
-            currentJob.setStartTime(job.getStartTime());
-            currentJob.setEndTime(job.getEndTime());
-            currentJob.setState(job.getState());
-            if (currentJob.getName() == null || currentJob.getName().length() == 0){
-                currentJob.setName(job.getName());
-            }
-            // will update if record already existed (primary key)
-            jobRepository.save(currentJob);
-        });
-    }
-
-    // TODO : optimize below with mapper (SQL)
-    public Job getJobByJid(String jid) {
-
-        List<Job> jobs = jobRepository.findAll();
-        for (Job job : jobs) {
-            if (job.getJobId().equals(jid)) {
-                return job;
-            }
-        }
-        log.warn("No Job found, jid = " + jid);
-        return null;
-    }
-
-    public void cancelJob(String jobID) {
-
-        Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create();
-
-        // curl http://localhost:8081/jobs/6e80fe182c310a484bf7e9d4f25ac18d/cancel
-        String url = BASE_URL + "/jobs/" + jobID + "/stop";
-        log.info("url = " + url);
-
-        // Create headers
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-
-        // Set the request body
-        String requestBody = ""; //"{ \"programArgsList\": \"parallelism\": 1 }";
-
-        // Create the request entity with headers and request body
-        HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
-
-        // Create a RestTemplate
-        RestTemplate restTemplate = new RestTemplate();
-
-        // Make the HTTP POST request
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
-
-        // Print the response status code and body : https://www.runoob.com/w3cnote/fastjson-intro.html
-        String resp = gson.fromJson(responseEntity.getBody(), String.class);
-
-        log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + ", Resp : " + resp);
+        ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", MediaType.APPLICATION_JSON);
+        log.info("Job cancellation response status={}", responseEntity.getStatusCode());
     }
 
     public JobOverviewResponse parseJobOverviewResponse(String responseBody) {
-
-        return new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES).create()
-                .fromJson(responseBody, JobOverviewResponse.class);
+        return GSON.fromJson(responseBody, JobOverviewResponse.class);
     }
-
 }

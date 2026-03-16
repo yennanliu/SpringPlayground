@@ -4,19 +4,25 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-//@ToString
 public class SqlJobSubmitDto {
 
+    @NotBlank(message = "SQL statement is required")
     private String statement;
+
+    /**
+     * Returns JSON format for Flink SQL Gateway API
+     */
+    public String toJsonPayload() {
+        return "{\"statement\": \"" + statement + "\"}";
+    }
 
     @Override
     public String toString() {
-
-        // "{\"statement\": \"SELECT 1, 2, 3\"}";
-        return "{\"statement\": " + '"' + statement + '"' + "}";
+        return toJsonPayload();
     }
-
 }

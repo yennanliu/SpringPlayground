@@ -1,10 +1,14 @@
 package com.yen.FlinkRestService.Service;
 
+import com.yen.FlinkRestService.exception.ExternalServiceException;
+
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
@@ -13,81 +17,92 @@ import java.time.Duration;
 @Service
 public class RestTemplateService {
 
-    RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    HttpHeaders headers;
-
-    HttpEntity<String> requestEntity;
-
-    // constructor
-    public RestTemplateService(){
-
-        /**
-         *  customize restTemplate timeout
-         *      https://stackoverflow.com/questions/13837012/spring-resttemplate-timeout
-         */
-        this.restTemplate = new RestTemplateBuilder()
-                .setConnectTimeout(Duration.ofSeconds(20)) // 20 sec conn timeout
-                .setReadTimeout(Duration.ofSeconds(500)) // 500 sec read timeout
+    public RestTemplateService(RestTemplateBuilder restTemplateBuilder) {
+        this.restTemplate = restTemplateBuilder
+                .setConnectTimeout(Duration.ofSeconds(20))
+                .setReadTimeout(Duration.ofSeconds(500))
                 .build();
-
-        this.headers = new HttpHeaders();
     }
 
-    public ResponseEntity<String> sendPostRequest(String url, String requestBody, MediaType mediaType){
+    public ResponseEntity<String> sendPostRequest(String url, String requestBody, MediaType mediaType) {
+        log.info("Sending POST request to url={}, body={}", url, requestBody);
 
-        ResponseEntity<String> responseEntity = null;
-        log.info("url = " + url + " requestBody = " + requestBody);
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            if (mediaType != null) {
+                headers.setContentType(mediaType);
+            }
 
-        try{
-            // Create headers
-            this.headers.setContentType(mediaType);
+            HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, requestEntity, String.class);
 
-            // Create the request entity with headers and request body
-            this.requestEntity = new HttpEntity<>(requestBody, headers);
+            log.info("POST request succeeded, status={}", responseEntity.getStatusCode());
+            return responseEntity;
 
-            // Make the HTTP POST request
-            responseEntity = this.restTemplate.postForEntity(url, requestEntity, String.class);
-            log.info("sendPostRequest failed  OK, Response Status Code: " + responseEntity.getStatusCode() + "\n" + "Response Entity :  " + responseEntity);
-        }catch (Exception e){
-            log.warn("sendPostRequest failed : " + url);
-            e.printStackTrace();
+        } catch (ResourceAccessException e) {
+            log.error("POST request failed - cannot connect to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Cannot connect to " + url, e);
+        } catch (RestClientException e) {
+            log.error("POST request failed to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Request failed: " + e.getMessage(), e);
         }
-
-        return responseEntity;
     }
 
-    public ResponseEntity<String> sendGetRequest(String url){
+    public ResponseEntity<String> sendGetRequest(String url) {
+        log.info("Sending GET request to url={}", url);
 
-        ResponseEntity<String> responseEntity = null;
-        log.info("url = " + url);
-        try{
-            // Make the HTTP GET request
-            responseEntity = this.restTemplate.getForEntity(url, String.class);
-            log.info("Response Status Code: " + responseEntity.getStatusCode() + "\n" + "Response Entity :  " + responseEntity);
-        }catch (Exception e){
-            log.warn("sendGETRequest failed : " + url);
-            e.printStackTrace();
+        try {
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(url, String.class);
+            log.info("GET request succeeded, status={}", responseEntity.getStatusCode());
+            return responseEntity;
+
+        } catch (ResourceAccessException e) {
+            log.error("GET request failed - cannot connect to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Cannot connect to " + url, e);
+        } catch (RestClientException e) {
+            log.error("GET request failed to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Request failed: " + e.getMessage(), e);
         }
-
-        return responseEntity;
     }
 
-    // ping/test if remote server is accessible
-    //@Async
-    public ResponseEntity<String> pingServer(String url, Integer port){
+    public ResponseEntity<String> pingServer(String url, Integer port) {
+        String pingUrl = url + ":" + port;
+        log.info("Pinging server at url={}", pingUrl);
 
-        ResponseEntity<String> resp = null;
-        try{
-            String pingUrl = url + ":" + port;
-            log.info("pingUrl = " + pingUrl);
-            resp = this.restTemplate.getForEntity(pingUrl, String.class);
-        } catch (Exception e){
-            log.warn("pingServer fail : " + e.getMessage());
-            e.printStackTrace();
+        try {
+            ResponseEntity<String> resp = restTemplate.getForEntity(pingUrl, String.class);
+            log.info("Ping succeeded, status={}", resp.getStatusCode());
+            return resp;
+        } catch (ResourceAccessException e) {
+            log.warn("Ping failed - cannot connect to {}: {}", pingUrl, e.getMessage());
+            return null;
+        } catch (RestClientException e) {
+            log.warn("Ping failed to {}: {}", pingUrl, e.getMessage());
+            return null;
         }
-
-        return resp;
     }
 
+    public <T> ResponseEntity<T> sendPostRequest(String url, Object requestBody, Class<T> responseType) {
+        log.info("Sending POST request to url={}", url);
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            HttpEntity<Object> requestEntity = new HttpEntity<>(requestBody, headers);
+            ResponseEntity<T> responseEntity = restTemplate.postForEntity(url, requestEntity, responseType);
+
+            log.info("POST request succeeded, status={}", responseEntity.getStatusCode());
+            return responseEntity;
+
+        } catch (ResourceAccessException e) {
+            log.error("POST request failed - cannot connect to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Cannot connect to " + url, e);
+        } catch (RestClientException e) {
+            log.error("POST request failed to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Request failed: " + e.getMessage(), e);
+        }
+    }
 }

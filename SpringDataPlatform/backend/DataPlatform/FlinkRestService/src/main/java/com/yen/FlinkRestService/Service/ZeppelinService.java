@@ -1,309 +1,278 @@
 package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Repository.NotebookRepository;
-import com.yen.FlinkRestService.model.Job;
+import com.yen.FlinkRestService.exception.EntityNotFoundException;
+import com.yen.FlinkRestService.exception.ExternalServiceException;
+import com.yen.FlinkRestService.exception.ValidationException;
 import com.yen.FlinkRestService.model.Notebook;
 import com.yen.FlinkRestService.model.dto.zeppelin.AddParagraphDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.CreateNoteDto;
 import com.yen.FlinkRestService.model.dto.zeppelin.ExecuteParagraphDto;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
 import org.apache.zeppelin.client.NoteResult;
 import org.apache.zeppelin.client.ParagraphResult;
 import org.apache.zeppelin.client.ZeppelinClient;
-import org.aspectj.weaver.ast.Not;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 /**
- *
- *  https://zeppelin.apache.org/docs/0.9.0/usage/zeppelin_sdk/client_api.html
- *
- *  https://blog.csdn.net/weixin_44870914/article/details/124375498
+ * Service for Zeppelin notebook operations.
+ * @see <a href="https://zeppelin.apache.org/docs/0.9.0/usage/zeppelin_sdk/client_api.html">Zeppelin Client API</a>
  */
-
-
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ZeppelinService {
 
-//    @Autowired
-//    private MyZeppelinClient myZeppelinClient;
+    private final ZeppelinClient zeppelinClient;
+    private final NotebookRepository notebookRepository;
 
-    @Autowired
-    private ZeppelinClient zeppelinClient;
+    private static final int DEFAULT_TIMEOUT_MS = 15000;
 
-    @Autowired
-    private NotebookRepository notebookRepository;
-
-    // constructor
-//    ZeppelinService() throws Exception {
-//
-//        ClientConfig clientConfig = new ClientConfig(ZeppelinURL);
-//        this.zeppelinClient = new ZeppelinClient(clientConfig);
-//        System.out.println(">>> Zeppelin client config = " + this.zeppelinClient.getClientConfig());
-//    }
-
+    @Transactional(readOnly = true)
     public List<Notebook> getNotebooks() {
-
         return notebookRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Notebook getNotebookById(Integer notebookId) {
-
-        if (notebookRepository.findById(notebookId).isPresent()){
-            return notebookRepository.findById(notebookId).get();
-        }
-        log.warn("No Notebook with notebookId = " + notebookId);
-        return null;
+        return notebookRepository.findById(notebookId)
+                .orElseThrow(() -> new EntityNotFoundException("Notebook", notebookId));
     }
 
-    public Notebook getNotebookByZeppelinNoteId(String zeppelinNoteId) {
-
-        List<Notebook> notebookList = notebookRepository.findAll();
-
-        if (notebookList == null || notebookList.size() == 0){
-            log.warn("No saved notebook !");
-            return null;
-        }
-
-        List<Notebook> filteredNotebook = notebookList.stream().filter(x -> {
-           return x.getZeppelinNoteId() == zeppelinNoteId;
-        }).collect(Collectors.toList());
-
-        if (filteredNotebook.size() > 1){
-            throw new RuntimeException("more than one notebook existed in DB !! zeppelinNoteId = " + zeppelinNoteId);
-        }
-
-        return filteredNotebook.get(0);
+    @Transactional(readOnly = true)
+    public Optional<Notebook> getNotebookByZeppelinNoteId(String zeppelinNoteId) {
+        return notebookRepository.findAll().stream()
+                .filter(notebook -> zeppelinNoteId.equals(notebook.getZeppelinNoteId()))
+                .findFirst();
     }
 
-    public String createNote(CreateNoteDto createNoteDto){
+    @Transactional
+    public String createNote(CreateNoteDto createNoteDto) {
+        validateNotNull(createNoteDto.getNotePath(), "notePath");
 
-        String path = null;
-        try{
-            path = zeppelinClient.createNote(createNoteDto.getNotePath(), createNoteDto.getInterpreterGroup());
-            log.info("create zeppelin notebook OK, notePath = " + path);
-            // save to DB
+        try {
+            String path = zeppelinClient.createNote(createNoteDto.getNotePath(), createNoteDto.getInterpreterGroup());
+            log.info("Created Zeppelin notebook, path={}", path);
+
             Notebook notebook = new Notebook();
             notebook.setZeppelinNoteId(path);
             notebook.setInterpreterGroup(createNoteDto.getInterpreterGroup());
             notebook.setInsertTime(new Date());
             notebook.setUpdateTime(new Date());
             notebookRepository.save(notebook);
+
             return path;
-        }catch (Exception e){
-            log.error("create zeppelin notebook fail");
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error("Failed to create Zeppelin notebook: {}", e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to create notebook: " + e.getMessage(), e);
         }
-        return path;
     }
 
-    public void deleteNote(String noteId){
-
-        log.info("(deleteNote)  noteId = " + noteId);
-
-        if (noteId == null || noteId.length() == 0){
-            throw new RuntimeException("(deleteNote) noteId can't be null");
-        }
+    @Transactional
+    public void deleteNote(String noteId) {
+        validateNotNull(noteId, "noteId");
 
         try {
             zeppelinClient.deleteNote(noteId);
-            // delete from DB
-            Notebook notebook = this.getNotebookByZeppelinNoteId(noteId);
-            notebookRepository.delete(notebook);
-        }catch (Exception e){
-            e.printStackTrace();
+            log.info("Deleted Zeppelin notebook, noteId={}", noteId);
+
+            getNotebookByZeppelinNoteId(noteId).ifPresent(notebook -> {
+                notebookRepository.delete(notebook);
+                log.info("Deleted notebook from database, id={}", notebook.getId());
+            });
+        } catch (Exception e) {
+            log.error("Failed to delete Zeppelin notebook noteId={}: {}", noteId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to delete notebook: " + e.getMessage(), e);
         }
     }
 
-    public NoteResult executeNote(String noteId) throws Exception{
-
-        // TODO : double check param
-        return this.executeNote(noteId, null);
+    public NoteResult executeNote(String noteId) throws Exception {
+        return executeNote(noteId, null);
     }
 
-    public NoteResult executeNote(String noteId, Map<String, String> parameters) throws Exception{
-
-        if (noteId == null || noteId.length() == 0){
-            throw new RuntimeException("(executeNote) noteId can't be null");
-        }
-
-        NoteResult res = null;
-        try {
-            res = zeppelinClient.executeNote(noteId, parameters);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return res;
-    }
-
-    public NoteResult queryNoteResult(String noteId) throws Exception{
-
-        if (noteId == null || noteId.length() == 0){
-            throw new RuntimeException("(queryNoteResult) noteId can't be null");
-        }
-
-        NoteResult res = null;
+    public NoteResult executeNote(String noteId, Map<String, String> parameters) throws Exception {
+        validateNotNull(noteId, "noteId");
 
         try {
-            res = zeppelinClient.queryNoteResult(noteId);
-        }catch (Exception e){
-            e.printStackTrace();
+            NoteResult result = zeppelinClient.executeNote(noteId, parameters);
+            log.info("Executed notebook noteId={}, status={}", noteId, result.isRunning() ? "RUNNING" : "COMPLETED");
+            return result;
+        } catch (Exception e) {
+            log.error("Failed to execute notebook noteId={}: {}", noteId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to execute notebook: " + e.getMessage(), e);
         }
-        return res;
     }
 
-    public NoteResult submitNote(String noteId) throws Exception{
-
-        // TODO : double check param
-        return this.submitNote(noteId, null);
-    }
-
-    public NoteResult submitNote(String noteId, Map<String, String> parameters) throws Exception{
-
-        if (noteId == null || noteId.length() == 0){
-            throw new RuntimeException("(submitNote) noteId can't be null");
-        }
-
-        NoteResult res = null;
+    public NoteResult queryNoteResult(String noteId) throws Exception {
+        validateNotNull(noteId, "noteId");
 
         try {
-            res = zeppelinClient.submitNote(noteId, parameters);
-        }catch (Exception e){
-            e.printStackTrace();
+            return zeppelinClient.queryNoteResult(noteId);
+        } catch (Exception e) {
+            log.error("Failed to query notebook result noteId={}: {}", noteId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to query notebook result: " + e.getMessage(), e);
         }
-        return res;
     }
 
-    public NoteResult waitUntilNoteFinished(String noteId) throws Exception{
-
-        NoteResult result = null;
-        try{
-            result = zeppelinClient.waitUntilNoteFinished(noteId, 15000); // 15 sec timeout
-            log.info("Notebook run result = " + result);
-        }catch (Exception e){
-            log.warn("Can't get Notebook run result, either timeout or run failure");
-            e.printStackTrace();
-        }
-        return result;
+    public NoteResult submitNote(String noteId) throws Exception {
+        return submitNote(noteId, null);
     }
 
-    public ParagraphResult waitUtilParagraphFinish(String noteId, String paragraphId){
-
-        ParagraphResult result = null;
-        try{
-            result = zeppelinClient.waitUtilParagraphFinish(noteId, paragraphId, 15000); // 15 sec timeout
-            log.info("Notebook run result = " + result);
-        }catch (Exception e){
-            log.warn("Can't get Paragraph run result, either timeout or run failure");
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-    public String addParagraph(AddParagraphDto addParagraphDTO) throws Exception{
-
-        if (addParagraphDTO.getNoteId() == null || addParagraphDTO.getNoteId().length() == 0){
-            throw new RuntimeException("(addParagraph) noteId can't be null");
-        }
-
-        String res = null;
+    public NoteResult submitNote(String noteId, Map<String, String> parameters) throws Exception {
+        validateNotNull(noteId, "noteId");
 
         try {
-            res = zeppelinClient.addParagraph(addParagraphDTO.getNoteId(), addParagraphDTO.getTitle(), addParagraphDTO.getText());
-            log.info("(addParagraph) res = " + res);
-        }catch (Exception e){
-            log.warn("Add paragraph to notebook fail, request = " + addParagraphDTO);
-            e.printStackTrace();
+            NoteResult result = zeppelinClient.submitNote(noteId, parameters);
+            log.info("Submitted notebook noteId={}", noteId);
+            return result;
+        } catch (Exception e) {
+            log.error("Failed to submit notebook noteId={}: {}", noteId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to submit notebook: " + e.getMessage(), e);
         }
-        return res;
     }
 
-    public void updateParagraph(String noteId, String paragraphId, String title, String text) throws Exception{
-
-        zeppelinClient.updateParagraph(noteId, paragraphId, title, text);
-    }
-
-
-    public ParagraphResult executeParagraph(ExecuteParagraphDto executeParagraphDto){
-
-        ParagraphResult res = null;
-        String noteId = executeParagraphDto.getNoteId();
-        String paragraphId = executeParagraphDto.getParagraphId();
-
-        if (noteId == null || paragraphId == null){
-            throw new RuntimeException("Can't execute paragraph, either noteId or paragraphId is null");
-        }
+    public NoteResult waitUntilNoteFinished(String noteId) throws Exception {
+        validateNotNull(noteId, "noteId");
 
         try {
-            res = zeppelinClient.executeParagraph(noteId, paragraphId);
-        }catch (Exception e){
-            e.printStackTrace();
+            NoteResult result = zeppelinClient.waitUntilNoteFinished(noteId, DEFAULT_TIMEOUT_MS);
+            log.info("Notebook finished, noteId={}", noteId);
+            return result;
+        } catch (Exception e) {
+            log.warn("Failed to wait for notebook completion noteId={}: {}", noteId, e.getMessage());
+            throw new ExternalServiceException("Zeppelin", "Timeout or failure waiting for notebook: " + e.getMessage(), e);
         }
-        log.info("(executeParagraph) res = " + res);
-        return res;
     }
 
-    public ParagraphResult executeParagraph(String noteId, String paragraphId, String sessionId, Map<String, String> parameters) throws Exception{
+    public ParagraphResult waitUtilParagraphFinish(String noteId, String paragraphId) {
+        validateNotNull(noteId, "noteId");
+        validateNotNull(paragraphId, "paragraphId");
 
-        if (noteId == null || noteId.length() == 0){
-            throw new RuntimeException("(executeParagraph) noteId can't be null");
-        }
-
-        ParagraphResult res = null;
         try {
-            res = zeppelinClient.executeParagraph(noteId, paragraphId, sessionId, parameters);
-        }catch (Exception e){
-            e.printStackTrace();
+            ParagraphResult result = zeppelinClient.waitUtilParagraphFinish(noteId, paragraphId, DEFAULT_TIMEOUT_MS);
+            log.info("Paragraph finished, noteId={}, paragraphId={}", noteId, paragraphId);
+            return result;
+        } catch (Exception e) {
+            log.warn("Failed to wait for paragraph completion noteId={}, paragraphId={}: {}", noteId, paragraphId, e.getMessage());
+            throw new ExternalServiceException("Zeppelin", "Timeout or failure waiting for paragraph: " + e.getMessage(), e);
         }
-        return res;
     }
 
-    public ParagraphResult submitParagraph(String noteId, String paragraphId, String sessionId, Map<String, String> parameters) throws Exception{
+    public String addParagraph(AddParagraphDto addParagraphDto) throws Exception {
+        validateNotNull(addParagraphDto.getNoteId(), "noteId");
 
-
-        if (noteId == null || noteId.length() == 0){
-            throw new RuntimeException("(submitParagraph) noteId can't be null");
-        }
-
-        ParagraphResult res = null;
         try {
-            res = zeppelinClient.submitParagraph(noteId, paragraphId, sessionId, parameters);
-        }catch (Exception e){
-            e.printStackTrace();
+            String paragraphId = zeppelinClient.addParagraph(
+                    addParagraphDto.getNoteId(),
+                    addParagraphDto.getTitle(),
+                    addParagraphDto.getText()
+            );
+            log.info("Added paragraph to notebook noteId={}, paragraphId={}", addParagraphDto.getNoteId(), paragraphId);
+            return paragraphId;
+        } catch (Exception e) {
+            log.error("Failed to add paragraph to notebook noteId={}: {}", addParagraphDto.getNoteId(), e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to add paragraph: " + e.getMessage(), e);
         }
+    }
 
-        return res;
+    public void updateParagraph(String noteId, String paragraphId, String title, String text) throws Exception {
+        validateNotNull(noteId, "noteId");
+        validateNotNull(paragraphId, "paragraphId");
+
+        try {
+            zeppelinClient.updateParagraph(noteId, paragraphId, title, text);
+            log.info("Updated paragraph noteId={}, paragraphId={}", noteId, paragraphId);
+        } catch (Exception e) {
+            log.error("Failed to update paragraph noteId={}, paragraphId={}: {}", noteId, paragraphId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to update paragraph: " + e.getMessage(), e);
+        }
+    }
+
+    public ParagraphResult executeParagraph(ExecuteParagraphDto executeParagraphDto) {
+        validateNotNull(executeParagraphDto.getNoteId(), "noteId");
+        validateNotNull(executeParagraphDto.getParagraphId(), "paragraphId");
+
+        try {
+            ParagraphResult result = zeppelinClient.executeParagraph(
+                    executeParagraphDto.getNoteId(),
+                    executeParagraphDto.getParagraphId()
+            );
+            log.info("Executed paragraph noteId={}, paragraphId={}", executeParagraphDto.getNoteId(), executeParagraphDto.getParagraphId());
+            return result;
+        } catch (Exception e) {
+            log.error("Failed to execute paragraph noteId={}, paragraphId={}: {}",
+                    executeParagraphDto.getNoteId(), executeParagraphDto.getParagraphId(), e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to execute paragraph: " + e.getMessage(), e);
+        }
+    }
+
+    public ParagraphResult executeParagraph(String noteId, String paragraphId, String sessionId, Map<String, String> parameters) throws Exception {
+        validateNotNull(noteId, "noteId");
+        validateNotNull(paragraphId, "paragraphId");
+
+        try {
+            ParagraphResult result = zeppelinClient.executeParagraph(noteId, paragraphId, sessionId, parameters);
+            log.info("Executed paragraph noteId={}, paragraphId={}", noteId, paragraphId);
+            return result;
+        } catch (Exception e) {
+            log.error("Failed to execute paragraph noteId={}, paragraphId={}: {}", noteId, paragraphId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to execute paragraph: " + e.getMessage(), e);
+        }
+    }
+
+    public ParagraphResult submitParagraph(String noteId, String paragraphId, String sessionId, Map<String, String> parameters) throws Exception {
+        validateNotNull(noteId, "noteId");
+        validateNotNull(paragraphId, "paragraphId");
+
+        try {
+            ParagraphResult result = zeppelinClient.submitParagraph(noteId, paragraphId, sessionId, parameters);
+            log.info("Submitted paragraph noteId={}, paragraphId={}", noteId, paragraphId);
+            return result;
+        } catch (Exception e) {
+            log.error("Failed to submit paragraph noteId={}, paragraphId={}: {}", noteId, paragraphId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to submit paragraph: " + e.getMessage(), e);
+        }
     }
 
     public void cancelParagraph(String noteId, String paragraphId) throws Exception {
+        validateNotNull(noteId, "noteId");
+        validateNotNull(paragraphId, "paragraphId");
 
-        zeppelinClient.cancelParagraph(noteId, paragraphId);
-    }
-
-    public ParagraphResult queryParagraphResult(String noteId, String paragraphId){
-
-        ParagraphResult res = null;
-        try{
-            res = zeppelinClient.queryParagraphResult(noteId, paragraphId);
-        }catch (Exception e){
-            log.warn("query paragraph result fail, noteId = {}, paragraphId = {}", noteId, paragraphId);
-            e.printStackTrace();
+        try {
+            zeppelinClient.cancelParagraph(noteId, paragraphId);
+            log.info("Cancelled paragraph noteId={}, paragraphId={}", noteId, paragraphId);
+        } catch (Exception e) {
+            log.error("Failed to cancel paragraph noteId={}, paragraphId={}: {}", noteId, paragraphId, e.getMessage(), e);
+            throw new ExternalServiceException("Zeppelin", "Failed to cancel paragraph: " + e.getMessage(), e);
         }
-        return null;
     }
 
-    /**
-     *      public ParagraphResult executeParagraph(String noteId, String paragraphId) throws Exception {
-     *         return this.executeParagraph(noteId, paragraphId, "", new HashMap());
-     *     }
-     *
-     */
+    public ParagraphResult queryParagraphResult(String noteId, String paragraphId) {
+        validateNotNull(noteId, "noteId");
+        validateNotNull(paragraphId, "paragraphId");
 
+        try {
+            ParagraphResult result = zeppelinClient.queryParagraphResult(noteId, paragraphId);
+            log.debug("Queried paragraph result noteId={}, paragraphId={}", noteId, paragraphId);
+            return result;
+        } catch (Exception e) {
+            log.warn("Failed to query paragraph result noteId={}, paragraphId={}: {}", noteId, paragraphId, e.getMessage());
+            throw new ExternalServiceException("Zeppelin", "Failed to query paragraph result: " + e.getMessage(), e);
+        }
+    }
+
+    private void validateNotNull(String value, String fieldName) {
+        if (value == null || value.isEmpty()) {
+            throw new ValidationException(fieldName + " cannot be null or empty");
+        }
+    }
 }
