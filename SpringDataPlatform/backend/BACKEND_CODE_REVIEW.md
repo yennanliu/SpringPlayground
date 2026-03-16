@@ -6,6 +6,48 @@
 
 ---
 
+## REFACTORING COMPLETED
+
+The following refactoring has been implemented:
+
+### New Files Created:
+- `model/enums/ClusterStatus.java` - Enum for cluster status values
+- `model/enums/JobStatus.java` - Enum for job status values
+- `exception/EntityNotFoundException.java` - Custom exception for entity not found
+- `exception/ValidationException.java` - Custom exception for validation errors
+- `exception/ExternalServiceException.java` - Custom exception for external service errors
+- `exception/GlobalExceptionHandler.java` - Global exception handler with @RestControllerAdvice
+
+### Files Refactored:
+
+| File | Changes |
+|------|---------|
+| `Service/ClusterService.java` | Constructor injection, proper Optional handling, ClusterStatus enum, @Transactional, fixed duplicate findById calls |
+| `Service/JobService.java` | Constructor injection, proper Optional handling, @Transactional, UriComponentsBuilder, static Gson instance |
+| `Service/RestTemplateService.java` | Constructor injection, removed thread-safety issues, proper exception handling, parameterized logging |
+| `Service/ZeppelinService.java` | Constructor injection, fixed string comparison bug (== to .equals), fixed return value bug, proper exception handling |
+| `Service/SqlJobService.java` | Constructor injection, UriComponentsBuilder, improved logging |
+| `Controller/ClusterController.java` | Constructor injection, @Valid annotations, RESTful endpoints, legacy backward-compatible endpoints |
+| `Controller/JobController.java` | Constructor injection, @Valid annotations, RESTful endpoints, legacy backward-compatible endpoints |
+| `Controller/SqlJobController.java` | Constructor injection, @Valid annotations |
+| `Repository/JobRepository.java` | Added `findByJobId(String jobId)` method |
+| `Task/UpdateJobStatus.java` | Constructor injection, SLF4J logging, configurable cron, try-catch for scheduler safety |
+| `Config/WebConfig.java` | Removed duplicate CORS config, made allowed-origins configurable |
+| `Common/ApiResponse.java` | Added Lombok @Getter, static factory methods, timestamp at construction |
+| `model/dto/cluster/AddClusterDto.java` | Added @NotBlank, @NotNull, @Min, @Max validations |
+| `model/dto/cluster/UpdateClusterDto.java` | Added validation annotations |
+| `model/dto/cluster/PingClusterDto.java` | Added @NotBlank validation |
+| `model/dto/job/JobSubmitDto.java` | Added @NotNull, @Min validations |
+| `model/dto/job/JobUpdateDto.java` | Added @NotNull validation |
+| `model/dto/job/SqlJobSubmitDto.java` | Added @NotBlank validation, renamed toString method |
+| `application.properties` | Added cors.allowed-origins and job.status.update.cron configs |
+
+### Tests Updated:
+- `Service/ClusterServiceTest.java` - Updated for constructor injection, added more test cases
+- `Service/JobServiceTest.java` - Updated for constructor injection, proper mocking
+
+---
+
 ## Executive Summary
 
 The FlinkRestService is a Spring Boot REST API that orchestrates Apache Flink cluster operations with Zeppelin notebook integration. The codebase follows a standard layered architecture (Controller → Service → Repository) but has several areas that need improvement for better maintainability, reliability, and adherence to Spring best practices.
