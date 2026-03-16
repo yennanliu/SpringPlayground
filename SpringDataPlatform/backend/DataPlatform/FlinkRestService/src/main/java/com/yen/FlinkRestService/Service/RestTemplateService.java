@@ -84,7 +84,7 @@ public class RestTemplateService {
         }
     }
 
-    public <T> ResponseEntity<T> sendPostRequest(String url, Object requestBody, Class<T> responseType) {
+    public <T> ResponseEntity<T> sendPostRequestWithType(String url, Object requestBody, Class<T> responseType) {
         log.info("Sending POST request to url={}", url);
 
         try {

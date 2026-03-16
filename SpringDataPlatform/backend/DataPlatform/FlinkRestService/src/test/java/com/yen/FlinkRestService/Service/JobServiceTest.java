@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Arrays;
@@ -113,7 +114,7 @@ class JobServiceTest {
         when(jobJarRepository.findById(1)).thenReturn(Optional.of(jobJar));
 
         ResponseEntity<String> responseEntity = new ResponseEntity<>("{\"jobid\":\"flink-12345\"}", HttpStatus.OK);
-        when(restTemplateService.sendPostRequest(anyString(), anyString(), any())).thenReturn(responseEntity);
+        when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class))).thenReturn(responseEntity);
 
         Job savedJob = new Job();
         savedJob.setId(1);
@@ -185,11 +186,11 @@ class JobServiceTest {
     @Test
     void testCancelJob() {
         ResponseEntity<String> responseEntity = new ResponseEntity<>("{}", HttpStatus.OK);
-        when(restTemplateService.sendPostRequest(anyString(), anyString(), any())).thenReturn(responseEntity);
+        when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class))).thenReturn(responseEntity);
 
         assertDoesNotThrow(() -> jobService.cancelJob("flink-job-12345"));
 
-        verify(restTemplateService, times(1)).sendPostRequest(anyString(), anyString(), any());
+        verify(restTemplateService, times(1)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
     }
 
     @Test
