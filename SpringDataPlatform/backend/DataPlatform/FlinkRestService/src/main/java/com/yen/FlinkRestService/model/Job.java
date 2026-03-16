@@ -39,26 +39,4 @@ public class Job {
 
     @Column(name = "last_modify")
     private Long lastModify;
-
-//    @Column(name = "max_parallelism")
-//    private Integer maxParallelism;
-
-    // TODO : add below
-    /**
-     *  tasks: {
-     *   running: 0,
-     *   canceling: 0,
-     *   canceled: 0,
-     *   total: 2,
-     *   created: 0,
-     *   scheduled: 0,
-     *   deploying: 0,
-     *   reconciling: 0,
-     *   finished: 2,
-     *   initializing: 0,
-     *   failed: 0
-     *   }
-     */
-//    @Column(name = "tasks")
-//    private Task task;
 }

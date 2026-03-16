@@ -60,12 +60,12 @@ public class ZeppelinService {
         validateNotNull(createNoteDto.getNotePath(), "notePath");
 
         try {
-            String path = zeppelinClient.createNote(createNoteDto.getNotePath(), createNoteDto.getInterpreterGroup());
+            String path = zeppelinClient.createNote(createNoteDto.getNotePath(), createNoteDto.getInterpreterGroupValue());
             log.info("Created Zeppelin notebook, path={}", path);
 
             Notebook notebook = new Notebook();
             notebook.setZeppelinNoteId(path);
-            notebook.setInterpreterGroup(createNoteDto.getInterpreterGroup());
+            notebook.setInterpreterGroup(createNoteDto.getInterpreterGroupValue());
             notebook.setInsertTime(new Date());
             notebook.setUpdateTime(new Date());
             notebookRepository.save(notebook);

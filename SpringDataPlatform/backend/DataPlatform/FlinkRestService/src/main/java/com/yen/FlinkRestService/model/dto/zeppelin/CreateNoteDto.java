@@ -1,9 +1,13 @@
 package com.yen.FlinkRestService.model.dto.zeppelin;
 
+import com.yen.FlinkRestService.model.enums.InterpreterGroup;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
+import javax.validation.constraints.NotBlank;
 
 @Data
 @AllArgsConstructor
@@ -11,6 +15,15 @@ import lombok.ToString;
 @ToString
 public class CreateNoteDto {
 
-    private String notePath; // notebook name
-    private String InterpreterGroup; // interpreter, e.g. spark, flink, python.. // TODO : replace with enums
+    @NotBlank(message = "Note path is required")
+    private String notePath;
+
+    private InterpreterGroup interpreterGroup;
+
+    /**
+     * Returns the interpreter group value for Zeppelin API.
+     */
+    public String getInterpreterGroupValue() {
+        return interpreterGroup != null ? interpreterGroup.getValue() : null;
+    }
 }
