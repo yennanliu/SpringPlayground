@@ -9,7 +9,7 @@ defineRule('min', min)
 defineRule('confirmed', confirmed)
 
 // Custom rules
-defineRule('url', (value) => {
+defineRule('url', (value: string | undefined): boolean | string => {
   if (!value) return true
   try {
     new URL(value.startsWith('http') ? value : `http://${value}`)
@@ -19,14 +19,14 @@ defineRule('url', (value) => {
   }
 })
 
-defineRule('port', (value) => {
+defineRule('port', (value: string | number | undefined): boolean | string => {
   if (!value) return true
-  const port = parseInt(value, 10)
+  const port = parseInt(String(value), 10)
   if (port >= 1 && port <= 65535) return true
   return 'Please enter a valid port number (1-65535)'
 })
 
-defineRule('jarFile', (value) => {
+defineRule('jarFile', (value: File | string | undefined): boolean | string => {
   if (!value) return 'Please select a JAR file'
   if (value instanceof File) {
     if (value.name.endsWith('.jar')) return true
@@ -38,13 +38,14 @@ defineRule('jarFile', (value) => {
 // Configure default messages
 configure({
   generateMessage: (context) => {
-    const messages = {
+    const params = context.rule?.params as unknown[] | undefined
+    const messages: Record<string, string> = {
       required: `${context.field} is required`,
       email: 'Please enter a valid email address',
-      min: `${context.field} must be at least ${context.rule.params[0]} characters`,
+      min: `${context.field} must be at least ${params?.[0] || 0} characters`,
       confirmed: 'Passwords do not match'
     }
-    return messages[context.rule.name] || `${context.field} is invalid`
+    return messages[context.rule?.name || ''] || `${context.field} is invalid`
   }
 })
 

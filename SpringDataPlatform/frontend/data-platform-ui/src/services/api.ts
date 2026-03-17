@@ -1,9 +1,9 @@
-import axios from 'axios'
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
 /**
  * Axios instance configured with base URL and interceptors
  */
-const api = axios.create({
+const api: AxiosInstance = axios.create({
   baseURL: process.env.VUE_APP_API_BASE_URL || 'http://localhost:8081',
   timeout: 30000,
   headers: {
@@ -15,14 +15,14 @@ const api = axios.create({
  * Request interceptor - adds auth token to requests
  */
 api.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('token')
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
     return config
   },
-  (error) => {
+  (error: AxiosError) => {
     return Promise.reject(error)
   }
 )
@@ -31,10 +31,10 @@ api.interceptors.request.use(
  * Response interceptor - handles common error cases
  */
 api.interceptors.response.use(
-  (response) => {
+  (response: AxiosResponse) => {
     return response
   },
-  (error) => {
+  (error: AxiosError) => {
     if (error.response) {
       // Server responded with error status
       const { status } = error.response

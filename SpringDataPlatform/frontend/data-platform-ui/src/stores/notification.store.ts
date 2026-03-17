@@ -1,7 +1,26 @@
 import { defineStore } from 'pinia'
 
+type NotificationType = 'success' | 'error' | 'warning' | 'info'
+
+interface Notification {
+  id: number
+  type: NotificationType
+  message: string
+}
+
+interface NotificationState {
+  notifications: Notification[]
+  nextId: number
+}
+
+interface ShowOptions {
+  type?: NotificationType
+  message: string
+  duration?: number
+}
+
 export const useNotificationStore = defineStore('notification', {
-  state: () => ({
+  state: (): NotificationState => ({
     notifications: [],
     nextId: 1
   }),
@@ -9,47 +28,38 @@ export const useNotificationStore = defineStore('notification', {
   actions: {
     /**
      * Show a success notification
-     * @param {string} message - Notification message
-     * @param {number} duration - Auto-dismiss duration in ms (0 to disable)
      */
-    success(message, duration = 3000) {
+    success(message: string, duration = 3000): void {
       this.show({ type: 'success', message, duration })
     },
 
     /**
      * Show an error notification
-     * @param {string} message - Notification message
-     * @param {number} duration - Auto-dismiss duration in ms (0 to disable)
      */
-    error(message, duration = 5000) {
+    error(message: string, duration = 5000): void {
       this.show({ type: 'error', message, duration })
     },
 
     /**
      * Show a warning notification
-     * @param {string} message - Notification message
-     * @param {number} duration - Auto-dismiss duration in ms (0 to disable)
      */
-    warning(message, duration = 4000) {
+    warning(message: string, duration = 4000): void {
       this.show({ type: 'warning', message, duration })
     },
 
     /**
      * Show an info notification
-     * @param {string} message - Notification message
-     * @param {number} duration - Auto-dismiss duration in ms (0 to disable)
      */
-    info(message, duration = 3000) {
+    info(message: string, duration = 3000): void {
       this.show({ type: 'info', message, duration })
     },
 
     /**
      * Show a notification
-     * @param {Object} options - Notification options
      */
-    show({ type = 'info', message, duration = 3000 }) {
+    show({ type = 'info', message, duration = 3000 }: ShowOptions): void {
       const id = this.nextId++
-      const notification = { id, type, message }
+      const notification: Notification = { id, type, message }
 
       this.notifications.push(notification)
 
@@ -62,9 +72,8 @@ export const useNotificationStore = defineStore('notification', {
 
     /**
      * Dismiss a notification by ID
-     * @param {number} id - Notification ID
      */
-    dismiss(id) {
+    dismiss(id: number): void {
       const index = this.notifications.findIndex(n => n.id === id)
       if (index > -1) {
         this.notifications.splice(index, 1)
@@ -74,7 +83,7 @@ export const useNotificationStore = defineStore('notification', {
     /**
      * Clear all notifications
      */
-    clearAll() {
+    clearAll(): void {
       this.notifications = []
     }
   }

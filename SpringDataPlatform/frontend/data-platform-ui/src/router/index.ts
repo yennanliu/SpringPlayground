@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from "vue-router";
 import Home from "../views/Home.vue";
 
 // jar
@@ -39,7 +39,15 @@ import Admin from "../views/Admin/Admin.vue";
 // auth store
 import { useAuthStore } from "@/stores";
 
-const routes = [
+// Extend route meta type
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresAuth?: boolean
+    guestOnly?: boolean
+  }
+}
+
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
@@ -186,7 +194,7 @@ const router = createRouter({
 });
 
 // Navigation guard
-router.beforeEach((to, from, next) => {
+router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
   const authStore = useAuthStore();
   const isAuthenticated = authStore.checkAuth();
 
