@@ -24,43 +24,47 @@
 
 <script>
 import swal from "sweetalert";
-import axios from "axios";
+import { jarService } from "@/services";
 
 export default {
+  name: "AddJar",
   data() {
-    return {};
+    return {
+      loading: false,
+    };
   },
-  props: ["baseURL"],
   methods: {
     async addJar() {
-      // Get the selected file from the input
       const fileInput = this.$refs.fileInput;
       const file = fileInput.files[0];
 
-      // Create a FormData object and append the file to it
-      const formData = new FormData();
-      formData.append("jarfile", file);
+      if (!file) {
+        swal({
+          text: "Please select a JAR file",
+          icon: "warning",
+          closeOnClickOutside: false,
+        });
+        return;
+      }
 
-      // Make the multipart/form-data POST request
-      // `http://localhost:9999/jar/add_jar`
-      await axios
-        .post(`${this.baseURL}/jar/add_jar`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
-        .then((res) => {
-          // Sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListJar" });
-          swal({
-            text: "Jar Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      this.loading = true;
+      try {
+        await jarService.create(file);
+        this.$router.push({ name: "ListJar" });
+        swal({
+          text: "Jar Added Successfully!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        swal({
+          text: "Failed to upload JAR file",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
 };

@@ -16,62 +16,82 @@
       <div class="col-12 justify-content-center d-flex flex-row pt-5">
         <div id="signup-div" class="flex-item border">
           <h2 class="pt-4 pl-4">Create Account</h2>
-          <form @submit="signup" class="pt-4 pl-4 pr-4">
-            <div class="form-group">
-              <label>Email</label>
-              <input
-                type="email"
-                class="form-control"
-                v-model="email"
-                required
-              />
-            </div>
-            <div class="form-row">
-              <div class="col">
+          <ValidationObserver ref="form" v-slot="{ handleSubmit, invalid }">
+            <form @submit.prevent="handleSubmit(signup)" class="pt-4 pl-4 pr-4">
+              <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
                 <div class="form-group">
-                  <label>First Name</label>
+                  <label>Email</label>
                   <input
-                    type="name"
+                    type="email"
                     class="form-control"
-                    v-model="firstName"
-                    required
+                    :class="{ 'is-invalid': errors[0] }"
+                    v-model="email"
                   />
+                  <span class="invalid-feedback">{{ errors[0] }}</span>
+                </div>
+              </ValidationProvider>
+              <div class="form-row">
+                <div class="col">
+                  <ValidationProvider name="First Name" rules="required" v-slot="{ errors }">
+                    <div class="form-group">
+                      <label>First Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors[0] }"
+                        v-model="firstName"
+                      />
+                      <span class="invalid-feedback">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
+                </div>
+                <div class="col">
+                  <ValidationProvider name="Last Name" rules="required" v-slot="{ errors }">
+                    <div class="form-group">
+                      <label>Last Name</label>
+                      <input
+                        type="text"
+                        class="form-control"
+                        :class="{ 'is-invalid': errors[0] }"
+                        v-model="lastName"
+                      />
+                      <span class="invalid-feedback">{{ errors[0] }}</span>
+                    </div>
+                  </ValidationProvider>
                 </div>
               </div>
-              <div class="col">
+              <ValidationProvider name="Password" rules="required|min:6" vid="password" v-slot="{ errors }">
                 <div class="form-group">
-                  <label>Last Name</label>
+                  <label>Password</label>
                   <input
-                    type="name"
+                    type="password"
                     class="form-control"
-                    v-model="lastName"
-                    required
+                    :class="{ 'is-invalid': errors[0] }"
+                    v-model="password"
                   />
+                  <span class="invalid-feedback">{{ errors[0] }}</span>
                 </div>
-              </div>
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input
-                type="password"
-                class="form-control"
-                v-model="password"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <label>Confirm Password</label>
-              <input
-                type="password"
-                class="form-control"
-                v-model="passwordConfirm"
-                required
-              />
-            </div>
-            <button type="submit" class="btn btn-primary mt-2 py-0">
-              Create Account
-            </button>
-          </form>
+              </ValidationProvider>
+              <ValidationProvider name="Confirm Password" rules="required|confirmed:password" v-slot="{ errors }">
+                <div class="form-group">
+                  <label>Confirm Password</label>
+                  <input
+                    type="password"
+                    class="form-control"
+                    :class="{ 'is-invalid': errors[0] }"
+                    v-model="passwordConfirm"
+                  />
+                  <span class="invalid-feedback">{{ errors[0] }}</span>
+                </div>
+              </ValidationProvider>
+              <button type="submit" class="btn btn-primary mt-2 py-0" :disabled="invalid || loading">
+                Create Account
+                <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+                  <span class="sr-only">Loading...</span>
+                </div>
+              </button>
+            </form>
+          </ValidationObserver>
           <hr />
           <small class="form-text text-muted pt-2 pl-4 text-center"
             >Already Have an Account?</small
@@ -89,13 +109,16 @@
   </div>
 </template>
   
-  <script>
+<script>
 import swal from "sweetalert";
-import axios from "axios";
+import { useAuthStore } from "@/stores";
 
 export default {
   name: "Signup",
-  props: ["baseURL"],
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
+  },
   data() {
     return {
       email: null,
@@ -105,38 +128,29 @@ export default {
       passwordConfirm: null,
     };
   },
+  computed: {
+    loading() {
+      return this.authStore.loading;
+    },
+  },
   methods: {
-    async signup(e) {
-      e.preventDefault();
-      // if the password matches
-      if (this.password === this.passwordConfirm) {
-        // make the post body
-        const user = {
+    async signup() {
+      try {
+        await this.authStore.signup({
           email: this.email,
           firstName: this.firstName,
           lastName: this.lastName,
           password: this.password,
-        };
-
-        // call the API
-        await axios
-          .post(`${this.baseURL}users/signup`, user)
-          .then(() => {
-            // redirect to home page
-            this.$router.replace("/");
-            swal({
-              text: "User signup successful. Please Login",
-              icon: "success",
-              closeOnClickOutside: false,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        // passwords are not matching
+        });
+        this.$router.replace("/");
         swal({
-          text: "Error! Passwords are not matching",
+          text: "User signup successful. Please Login",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        swal({
+          text: "Signup failed. Please try again.",
           icon: "error",
           closeOnClickOutside: false,
         });

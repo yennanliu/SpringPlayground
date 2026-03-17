@@ -31,47 +31,47 @@
 
 <script>
 import swal from "sweetalert";
-import axios from "axios";
+import { jobService } from "@/services";
 
 export default {
+  name: "AddSqlJob",
   data() {
     return {
-      id: null,
       statement: null,
+      loading: false,
     };
   },
-  props: ["baseURL"],
   methods: {
     async addSQLJob() {
-      const newSQLJob = {
-        statement: this.statement,
-      };
+      if (!this.statement || !this.statement.trim()) {
+        swal({
+          text: "Please enter a SQL statement",
+          icon: "warning",
+          closeOnClickOutside: false,
+        });
+        return;
+      }
 
-      await axios({
-        method: "post",
-        // // http://localhost:9999/sql_job/add
-        url: `${this.baseURL}/sql_job/add`,
-        data: JSON.stringify(newSQLJob),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListJob" });
-          swal({
-            text: "SQL Job Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      this.loading = true;
+      try {
+        await jobService.createSqlJob(this.statement);
+        this.$router.push({ name: "ListJob" });
+        swal({
+          text: "SQL Job Added Successfully!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        swal({
+          text: "Failed to submit SQL job",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
-
-  mounted() {},
 };
 </script>
 

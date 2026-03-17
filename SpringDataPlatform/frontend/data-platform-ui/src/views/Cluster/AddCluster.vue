@@ -9,21 +9,44 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
-          <div class="form-group">
-            <label>Url</label>
-            <input type="text" class="form-control" v-model="url" required />
-          </div>
+        <ValidationObserver ref="form" v-slot="{ handleSubmit, invalid }">
+          <form @submit.prevent="handleSubmit(addCluster)">
+            <ValidationProvider name="URL" rules="required|url" v-slot="{ errors }">
+              <div class="form-group">
+                <label>Url</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  :class="{ 'is-invalid': errors[0] }"
+                  v-model="url"
+                  placeholder="e.g., http://localhost"
+                />
+                <span class="invalid-feedback">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
 
-          <div class="form-group">
-            <label>Port</label>
-            <input type="text" class="form-control" v-model="port" required />
-          </div>
+            <ValidationProvider name="Port" rules="required|port" v-slot="{ errors }">
+              <div class="form-group">
+                <label>Port</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  :class="{ 'is-invalid': errors[0] }"
+                  v-model="port"
+                  placeholder="e.g., 8081"
+                />
+                <span class="invalid-feedback">{{ errors[0] }}</span>
+              </div>
+            </ValidationProvider>
 
-          <button type="button" class="btn btn-primary" @click="addCluster">
-            Submit
-          </button>
-        </form>
+            <button type="submit" class="btn btn-primary" :disabled="invalid || loading">
+              Submit
+              <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </form>
+        </ValidationObserver>
       </div>
       <div class="col-3"></div>
     </div>
@@ -32,50 +55,42 @@
 
 <script>
 import swal from "sweetalert";
-import axios from "axios";
+import { clusterService } from "@/services";
 
 export default {
+  name: "AddCluster",
   data() {
     return {
       url: null,
       port: null,
-      cluster: null,
+      loading: false,
     };
   },
-  props: ["baseURL"],
   methods: {
     async addCluster() {
-      const newCluster = {
-        // cluster: this.cluster,
-        url: this.url,
-        port: this.port,
-      };
-
-      await axios({
-        method: "post",
-        // "http://localhost:9999/" + "cluster/add_cluster",
-        url: `${this.baseURL}/cluster/add_cluster`,
-        data: JSON.stringify(newCluster),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListCluster" });
-          swal({
-            text: "Cluster Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      this.loading = true;
+      try {
+        await clusterService.create({
+          url: this.url,
+          port: this.port,
+        });
+        this.$router.push({ name: "ListCluster" });
+        swal({
+          text: "Cluster Added Successfully!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        swal({
+          text: "Failed to add cluster",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
-
-  mounted() {},
 };
 </script>
 

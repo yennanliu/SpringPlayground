@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Cluster List</h1>
-        <h5>{{ msg }}</h5>
+        <h5 v-if="error" class="text-danger">{{ error }}</h5>
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
 
@@ -39,33 +42,30 @@
 </template>
 
 <script>
-// import JobBox from "../../components/Job/JobBox";
-var axios = require("axios");
+import { clusterService } from "@/services";
 
 export default {
   name: "ListCluster",
   data() {
     return {
       clusters: [],
-      id: null,
-      len: 0,
-      msg: null,
+      loading: false,
+      error: null,
     };
   },
-  // components: { JobBox },
-  props: ["baseURL"],
   methods: {
     async fetchData() {
+      this.loading = true;
+      this.error = null;
       try {
-        // http://localhost:9999/cluster/
-        const response = await axios.get(`${this.baseURL}/cluster/`);
-        this.clusters = response.data;
+        this.clusters = await clusterService.getAll();
       } catch (error) {
-        console.error(error);
+        this.error = "Failed to load clusters";
+      } finally {
+        this.loading = false;
       }
     },
     getStatusColor(status) {
-      // Add logic to determine color based on status
       return status === 'connected' ? 'green' : 'red';
     },
   },

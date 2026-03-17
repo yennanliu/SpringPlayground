@@ -31,66 +31,58 @@
 
 <script>
 import swal from "sweetalert";
-import axios from "axios";
+import { jarService, jobService } from "@/services";
 
 export default {
+  name: "AddJob",
   data() {
     return {
-      id: null,
-      allowNonRestoredState: null,
-      entryClass: null,
-      jarId: null,
       savedJarId: null,
-      parallelism: null,
-      programArgs: null,
-      savePointPath: null,
       jars: [],
+      loading: false,
     };
   },
-  props: ["baseURL"],
   methods: {
     async getJars() {
-      // fetch users
-      await axios
-        // http://localhost:9999/jar/
-        .get(`${this.baseURL}/jar/`)
-        .then((res) => {
-          this.jars = res.data;
-        })
-        .catch((err) => console.log(err));
+      try {
+        this.jars = await jarService.getAll();
+      } catch (error) {
+        swal({
+          text: "Failed to load JAR files",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      }
     },
 
     async addJob() {
-      const newJob = {
-        allowNonRestoredState: null,
-        entryClass: null,
-        jarId: this.savedJarId,
-        parallelism: 1,
-        programArgs: null,
-        savePointPath: null,
-      };
+      if (!this.savedJarId) {
+        swal({
+          text: "Please select a JAR file",
+          icon: "warning",
+          closeOnClickOutside: false,
+        });
+        return;
+      }
 
-      await axios({
-        method: "post",
-        //url: "http://localhost:9999/" + "job/add",
-        url: `${this.baseURL}/job/add`,
-        data: JSON.stringify(newJob),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListJob" });
-          swal({
-            text: "Job Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      this.loading = true;
+      try {
+        await jobService.create({ jarId: this.savedJarId });
+        this.$router.push({ name: "ListJob" });
+        swal({
+          text: "Job Added Successfully!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        swal({
+          text: "Failed to submit job",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
   },
 

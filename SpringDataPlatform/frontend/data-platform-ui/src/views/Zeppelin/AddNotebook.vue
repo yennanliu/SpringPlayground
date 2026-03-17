@@ -43,59 +43,62 @@
 
 <script>
 import swal from "sweetalert";
-import axios from "axios";
+import { zeppelinService } from "@/services";
 
 export default {
+  name: "AddNotebook",
   data() {
     return {
-      url: null,
-      port: null,
-      cluster: null,
+      notePath: null,
       schemas: [],
-      interpreterGroup: this.interpreterGroup,
+      interpreterGroup: null,
+      loading: false,
     };
   },
-  props: ["baseURL"],
   methods: {
     async addNoteBook() {
-      const newNoteBook = {
-        notePath: this.notePath,
-        interpreterGroup: this.interpreterGroup,
-      };
+      if (!this.notePath || !this.interpreterGroup) {
+        swal({
+          text: "Please enter notebook name and select interpreter",
+          icon: "warning",
+          closeOnClickOutside: false,
+        });
+        return;
+      }
 
-      await axios({
-        method: "post",
-        // http://localhost:9999/zeppelin/add
-        url: `${this.baseURL}/zeppelin/add`,
-        data: JSON.stringify(newNoteBook),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListNotebook" });
-          swal({
-            text: "Notebook Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
+      this.loading = true;
+      try {
+        await zeppelinService.create({
+          notePath: this.notePath,
+          interpreterGroup: this.interpreterGroup,
+        });
+        this.$router.push({ name: "ListNotebook" });
+        swal({
+          text: "Notebook Added Successfully!",
+          icon: "success",
+          closeOnClickOutside: false,
+        });
+      } catch (error) {
+        swal({
+          text: "Failed to create notebook",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      } finally {
+        this.loading = false;
+      }
     },
+
     async getSchemas() {
-      // fetch users
-      await axios
-        //.get("http://localhost:9999/schema/active/")
-        .get(`${this.baseURL}/schema/active/`)
-        .then((res) => {
-          this.schemas = res.data.filter((x) => x.schemaName === "interpreter");
-          console.log(
-            ">>> (getSchemas) this.schemas = " + JSON.stringify(this.schemas)
-          );
-        })
-        .catch((err) => console.log(err));
+      try {
+        this.schemas = await zeppelinService.getInterpreters();
+      } catch (error) {
+        swal({
+          text: "Failed to load interpreters",
+          icon: "error",
+          closeOnClickOutside: false,
+        });
+      }
     },
   },
 

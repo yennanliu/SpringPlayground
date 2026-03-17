@@ -43,45 +43,31 @@
 </template>
 
 <script>
-import axios from "axios";
+import { jobService } from "@/services";
 
 export default {
+  name: "ShowJobDetails",
   data() {
     return {
       job: {},
+      loading: false,
+      error: null,
     };
   },
-  props: ["baseURL", "jobs"],
   methods: {
-    toLowerCase(input) {
-      if (input == null) {
-        return ""; // or return null; depending on your use case
-      }
-      return input.toLowerCase();
-    },
-
     getFlinkJobLink(job) {
-      if (!job) {
-        return null;
-      }
-      return (
-        "http://localhost:8081/#/job/" +
-        this.toLowerCase(job.state) +
-        "/" +
-        job.jobId
-      );
+      return jobService.getFlinkJobLink(job);
     },
 
     async getJob() {
-      await axios
-        // http://localhost:9999/job/${this.$route.params.id}
-        .get(`${this.baseURL}/job/${this.$route.params.id}`)
-        .then((res) => {
-          console.log("${this.$route.params.id} = " + this.$route.params.id);
-          this.job = res.data;
-          console.log(">>> (getJob) this.job = " + JSON.stringify());
-        })
-        .catch((err) => console.log(err));
+      this.loading = true;
+      try {
+        this.job = await jobService.getById(this.$route.params.id);
+      } catch (error) {
+        this.error = "Failed to load job details";
+      } finally {
+        this.loading = false;
+      }
     },
   },
   mounted() {

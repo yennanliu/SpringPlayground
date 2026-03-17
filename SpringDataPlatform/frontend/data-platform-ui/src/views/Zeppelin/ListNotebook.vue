@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Notebook List</h1>
-        <h5>{{ msg }}</h5>
+        <h5 v-if="error" class="text-danger">{{ error }}</h5>
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
 
@@ -41,36 +44,31 @@
 </template>
 
 <script>
-var axios = require("axios");
+import { zeppelinService } from "@/services";
 
 export default {
   name: "ListNotebook",
   data() {
     return {
-      id: null,
       notebooks: [],
-      len: 0,
-      msg: null,
+      loading: false,
+      error: null,
     };
   },
-  props: ["baseURL"],
   methods: {
     getZeppelinNotebookLink(notebook) {
-      if (!notebook) {
-        return null;
-      }
-      //return "http://localhost:8082/next/#/notebook/" + notebook.zeppelinNoteId;
-      return "http://localhost:8082/#/notebook/" + notebook.zeppelinNoteId;
+      return zeppelinService.getNotebookLink(notebook);
     },
 
     async fetchData() {
+      this.loading = true;
+      this.error = null;
       try {
-        // http://localhost:9999/zeppelin/
-        const response = await axios.get(`${this.baseURL}/zeppelin/`);
-        console.log(">>> response = " + JSON.stringify(response));
-        this.notebooks = response.data;
+        this.notebooks = await zeppelinService.getAll();
       } catch (error) {
-        console.error(error);
+        this.error = "Failed to load notebooks";
+      } finally {
+        this.loading = false;
       }
     },
   },

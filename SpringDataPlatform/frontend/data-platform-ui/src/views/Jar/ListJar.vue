@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Jar List</h1>
-        <h5>{{ msg }}</h5>
+        <h5 v-if="error" class="text-danger">{{ error }}</h5>
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
 
@@ -35,29 +38,27 @@
 </template>
 
 <script>
-//import JarBox from "../../components/Jar/JarBox";
-var axios = require("axios");
+import { jarService } from "@/services";
 
 export default {
-  name: "ListDepartment",
+  name: "ListJar",
   data() {
     return {
-      id: null,
       jars: [],
-      len: 0,
-      msg: null,
+      loading: false,
+      error: null,
     };
   },
-  //components: { JarBox },
-  props: ["baseURL"],
   methods: {
     async fetchData() {
+      this.loading = true;
+      this.error = null;
       try {
-        // http://localhost:9999/jar/
-        const response = await axios.get(`${this.baseURL}/jar/`);
-        this.jars = response.data;
+        this.jars = await jarService.getAll();
       } catch (error) {
-        console.error(error);
+        this.error = "Failed to load JAR files";
+      } finally {
+        this.loading = false;
       }
     },
   },

@@ -70,21 +70,23 @@
 </template>
 
 <script>
-// https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/components/Navbar.vue
-
 import swal from "sweetalert";
+import { useAuthStore } from "@/stores";
+
 export default {
   name: "Navbar",
-  props: ["cartCount"],
-  data() {
-    return {
-      token: null,
-    };
+  setup() {
+    const authStore = useAuthStore();
+    return { authStore };
+  },
+  computed: {
+    token() {
+      return this.authStore.token;
+    },
   },
   methods: {
     signout() {
-      localStorage.removeItem("token");
-      this.token = null;
+      this.authStore.signout();
       this.$router.push({ name: "Home" });
       swal({
         text: "Logged you out. Visit Again",
@@ -92,9 +94,6 @@ export default {
         closeOnClickOutside: false,
       });
     },
-  },
-  mounted() {
-    this.token = localStorage.getItem("token");
   },
 };
 </script>
