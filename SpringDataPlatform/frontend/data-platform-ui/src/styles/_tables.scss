@@ -1,0 +1,50 @@
+// Table styles
+.table {
+  width: 100%;
+  margin-bottom: $spacing-md;
+  color: $gray-900;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: $spacing-sm $spacing-md;
+    vertical-align: top;
+    border-top: 1px solid $gray-300;
+  }
+
+  thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid $gray-300;
+    font-weight: $font-weight-bold;
+    background-color: $gray-100;
+  }
+
+  tbody tr {
+    &:hover {
+      background-color: $gray-100;
+    }
+  }
+
+  // Striped rows
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.02);
+  }
+
+  // Bordered
+  &.table-bordered {
+    border: 1px solid $gray-300;
+
+    th,
+    td {
+      border: 1px solid $gray-300;
+    }
+  }
+
+  // Responsive wrapper
+  &-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}

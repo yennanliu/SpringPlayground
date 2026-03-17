@@ -3,6 +3,9 @@ import { createPinia, PiniaVuePlugin } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
+// Import global styles
+import '@/styles/main.scss'
+
 // Initialize validation
 import '@/validation'
 

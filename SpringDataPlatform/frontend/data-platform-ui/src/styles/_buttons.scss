@@ -1,0 +1,91 @@
+// Button styles
+.btn {
+  @include button-base;
+
+  // Primary button
+  &-primary {
+    background-color: $primary-color;
+    color: $secondary-color;
+
+    &:hover:not(:disabled) {
+      background-color: $gray-800;
+    }
+  }
+
+  // Secondary button
+  &-secondary {
+    background-color: $gray-200;
+    color: $primary-color;
+
+    &:hover:not(:disabled) {
+      background-color: $gray-300;
+    }
+  }
+
+  // Outline button
+  &-outline {
+    background-color: transparent;
+    border: 2px solid $primary-color;
+    color: $primary-color;
+
+    &:hover:not(:disabled) {
+      background-color: $primary-color;
+      color: $secondary-color;
+    }
+  }
+
+  // Dark button
+  &-dark {
+    background-color: $gray-200;
+    color: $primary-color;
+    font-size: $font-size-sm;
+    border-radius: 0;
+    border: 1px solid $gray-400;
+
+    &:hover:not(:disabled) {
+      background-color: $gray-300;
+    }
+  }
+
+  // Success button
+  &-success {
+    background-color: $success-color;
+    color: $secondary-color;
+
+    &:hover:not(:disabled) {
+      background-color: darken($success-color, 10%);
+    }
+  }
+
+  // Danger button
+  &-danger {
+    background-color: $danger-color;
+    color: $secondary-color;
+
+    &:hover:not(:disabled) {
+      background-color: darken($danger-color, 10%);
+    }
+  }
+
+  // Sizes
+  &-sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+  }
+
+  &-lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+  }
+
+  // Block button
+  &-block {
+    display: block;
+    width: 100%;
+  }
+}
+
+// Link styled as button
+a.btn {
+  text-decoration: none;
+}
