@@ -15,36 +15,34 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "FormLayout",
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    subtitle: {
-      type: String,
-      default: "",
-    },
-    width: {
-      type: String,
-      default: "medium",
-      validator: (value) => ["narrow", "medium", "wide", "full"].includes(value),
-    },
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  title: {
+    type: String,
+    required: true,
   },
-  computed: {
-    columnClasses() {
-      const widthClasses = {
-        narrow: "col-md-4 offset-md-4",
-        medium: "col-md-6 offset-md-3",
-        wide: "col-md-8 offset-md-2",
-        full: "col-12",
-      };
-      return `${widthClasses[this.width]} px-5 px-md-0`;
-    },
+  subtitle: {
+    type: String,
+    default: "",
   },
-};
+  width: {
+    type: String,
+    default: "medium",
+    validator: (value) => ["narrow", "medium", "wide", "full"].includes(value),
+  },
+})
+
+const columnClasses = computed(() => {
+  const widthClasses = {
+    narrow: "col-md-4 offset-md-4",
+    medium: "col-md-6 offset-md-3",
+    wide: "col-md-8 offset-md-2",
+    full: "col-12",
+  }
+  return `${widthClasses[props.width]} px-5 px-md-0`
+})
 </script>
 
 <style scoped>

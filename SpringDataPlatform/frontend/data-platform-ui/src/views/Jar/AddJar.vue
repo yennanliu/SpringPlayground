@@ -14,7 +14,12 @@
             <label>Jar File</label>
             <input type="file" ref="fileInput" class="form-control" required />
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary" :disabled="loading">
+            Submit
+            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
         </form>
       </div>
       <div class="col-3"></div>
@@ -22,52 +27,47 @@
   </div>
 </template>
 
-<script>
-import swal from "sweetalert";
-import { jarService } from "@/services";
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import swal from "sweetalert"
+import { jarService } from "@/services"
 
-export default {
-  name: "AddJar",
-  data() {
-    return {
-      loading: false,
-    };
-  },
-  methods: {
-    async addJar() {
-      const fileInput = this.$refs.fileInput;
-      const file = fileInput.files[0];
+const router = useRouter()
+const fileInput = ref(null)
+const loading = ref(false)
 
-      if (!file) {
-        swal({
-          text: "Please select a JAR file",
-          icon: "warning",
-          closeOnClickOutside: false,
-        });
-        return;
-      }
+const addJar = async () => {
+  const file = fileInput.value?.files[0]
 
-      this.loading = true;
-      try {
-        await jarService.create(file);
-        this.$router.push({ name: "ListJar" });
-        swal({
-          text: "Jar Added Successfully!",
-          icon: "success",
-          closeOnClickOutside: false,
-        });
-      } catch (error) {
-        swal({
-          text: "Failed to upload JAR file",
-          icon: "error",
-          closeOnClickOutside: false,
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-};
+  if (!file) {
+    swal({
+      text: "Please select a JAR file",
+      icon: "warning",
+      closeOnClickOutside: false,
+    })
+    return
+  }
+
+  loading.value = true
+  try {
+    await jarService.create(file)
+    router.push({ name: "ListJar" })
+    swal({
+      text: "Jar Added Successfully!",
+      icon: "success",
+      closeOnClickOutside: false,
+    })
+  } catch (error) {
+    swal({
+      text: "Failed to upload JAR file",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <style scoped>

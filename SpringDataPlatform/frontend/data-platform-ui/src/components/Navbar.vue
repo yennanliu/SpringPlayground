@@ -55,7 +55,7 @@
         </div>
         <div v-else class="auth-buttons">
           <router-link :to="{ name: 'Admin' }" class="btn-admin">Admin</router-link>
-          <a href="#" @click.prevent="signout" class="btn-signout">Sign out</a>
+          <a href="#" @click.prevent="handleSignout" class="btn-signout">Sign out</a>
         </div>
       </div>
 
@@ -69,33 +69,26 @@
   </nav>
 </template>
 
-<script>
-import swal from "sweetalert";
-import { useAuthStore } from "@/stores";
+<script setup>
+import { computed } from 'vue'
+import { useRouter } from 'vue-router'
+import swal from "sweetalert"
+import { useAuthStore } from "@/stores"
 
-export default {
-  name: "Navbar",
-  setup() {
-    const authStore = useAuthStore();
-    return { authStore };
-  },
-  computed: {
-    token() {
-      return this.authStore.token;
-    },
-  },
-  methods: {
-    signout() {
-      this.authStore.signout();
-      this.$router.push({ name: "Home" });
-      swal({
-        text: "Logged you out. Visit Again",
-        icon: "success",
-        closeOnClickOutside: false,
-      });
-    },
-  },
-};
+const router = useRouter()
+const authStore = useAuthStore()
+
+const token = computed(() => authStore.token)
+
+const handleSignout = () => {
+  authStore.signout()
+  router.push({ name: "Home" })
+  swal({
+    text: "Logged you out. Visit Again",
+    icon: "success",
+    closeOnClickOutside: false,
+  })
+}
 </script>
 
 <style scoped>
@@ -223,11 +216,11 @@ export default {
   .navbar-menu {
     display: none;
   }
-  
+
   .mobile-toggle {
     display: flex;
   }
-  
+
   .navbar-auth {
     display: none;
   }

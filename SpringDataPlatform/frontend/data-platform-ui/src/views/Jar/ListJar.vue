@@ -17,7 +17,6 @@
             <th>ID</th>
             <th>Jar Name</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -29,7 +28,6 @@
                 Jar Detail
               </router-link>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -37,35 +35,29 @@
   </div>
 </template>
 
-<script>
-import { jarService } from "@/services";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { jarService } from "@/services"
 
-export default {
-  name: "ListJar",
-  data() {
-    return {
-      jars: [],
-      loading: false,
-      error: null,
-    };
-  },
-  methods: {
-    async fetchData() {
-      this.loading = true;
-      this.error = null;
-      try {
-        this.jars = await jarService.getAll();
-      } catch (error) {
-        this.error = "Failed to load JAR files";
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const jars = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    jars.value = await jarService.getAll()
+  } catch (err) {
+    error.value = "Failed to load JAR files"
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

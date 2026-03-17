@@ -11,43 +11,41 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "LoadingSpinner",
-  props: {
-    size: {
-      type: String,
-      default: "md",
-      validator: (value) => ["sm", "md", "lg"].includes(value),
-    },
-    variant: {
-      type: String,
-      default: "primary",
-    },
-    centered: {
-      type: Boolean,
-      default: false,
-    },
-    showText: {
-      type: Boolean,
-      default: false,
-    },
-    loadingText: {
-      type: String,
-      default: "Loading...",
-    },
+<script setup>
+import { computed } from 'vue'
+
+const props = defineProps({
+  size: {
+    type: String,
+    default: "md",
+    validator: (value) => ["sm", "md", "lg"].includes(value),
   },
-  computed: {
-    sizeClass() {
-      const sizes = {
-        sm: "spinner-border-sm",
-        md: "",
-        lg: "spinner-border-lg",
-      };
-      return sizes[this.size];
-    },
+  variant: {
+    type: String,
+    default: "primary",
   },
-};
+  centered: {
+    type: Boolean,
+    default: false,
+  },
+  showText: {
+    type: Boolean,
+    default: false,
+  },
+  loadingText: {
+    type: String,
+    default: "Loading...",
+  },
+})
+
+const sizeClass = computed(() => {
+  const sizes = {
+    sm: "spinner-border-sm",
+    md: "",
+    lg: "spinner-border-lg",
+  }
+  return sizes[props.size]
+})
 </script>
 
 <style scoped>

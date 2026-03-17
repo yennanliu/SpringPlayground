@@ -18,7 +18,6 @@
             <th>Job Name</th>
             <th>State</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -31,7 +30,6 @@
                 Job Detail
               </router-link>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -39,35 +37,29 @@
   </div>
 </template>
 
-<script>
-import { jobService } from "@/services";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { jobService } from "@/services"
 
-export default {
-  name: "ListJob",
-  data() {
-    return {
-      jobs: [],
-      loading: false,
-      error: null,
-    };
-  },
-  methods: {
-    async fetchData() {
-      this.loading = true;
-      this.error = null;
-      try {
-        this.jobs = await jobService.getAll();
-      } catch (error) {
-        this.error = "Failed to load jobs";
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const jobs = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    jobs.value = await jobService.getAll()
+  } catch (err) {
+    error.value = "Failed to load jobs"
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

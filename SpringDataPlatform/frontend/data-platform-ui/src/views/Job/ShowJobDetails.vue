@@ -26,11 +26,8 @@
             <td>{{ job.startTime }}</td>
             <td>{{ job.endTime }}</td>
             <td>{{ job.duration }}</td>
-            <!--
-              http://localhost:8081/#/job/running/da174a6766a7d930054d566d508f2103/overview
-            -->
             <td>
-              <a :href="`${getFlinkJobLink(job)}`" target="_blank">
+              <a :href="getFlinkJobLink(job)" target="_blank">
                 View Job
               </a>
             </td>
@@ -42,38 +39,34 @@
   </div>
 </template>
 
-<script>
-import { jobService } from "@/services";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { jobService } from "@/services"
 
-export default {
-  name: "ShowJobDetails",
-  data() {
-    return {
-      job: {},
-      loading: false,
-      error: null,
-    };
-  },
-  methods: {
-    getFlinkJobLink(job) {
-      return jobService.getFlinkJobLink(job);
-    },
+const route = useRoute()
+const job = ref({})
+const loading = ref(false)
+const error = ref(null)
 
-    async getJob() {
-      this.loading = true;
-      try {
-        this.job = await jobService.getById(this.$route.params.id);
-      } catch (error) {
-        this.error = "Failed to load job details";
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-  mounted() {
-    this.getJob();
-  },
-};
+const getFlinkJobLink = (job) => {
+  return jobService.getFlinkJobLink(job)
+}
+
+const getJob = async () => {
+  loading.value = true
+  try {
+    job.value = await jobService.getById(route.params.id)
+  } catch (err) {
+    error.value = "Failed to load job details"
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  getJob()
+})
 </script>
 
 <style>

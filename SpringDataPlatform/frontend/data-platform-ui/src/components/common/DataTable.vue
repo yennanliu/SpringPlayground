@@ -16,7 +16,7 @@
           <th v-for="column in columns" :key="column.key">
             {{ column.label }}
           </th>
-          <th v-if="$scopedSlots.actions">Actions</th>
+          <th v-if="$slots.actions">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -26,7 +26,7 @@
               {{ formatValue(getNestedValue(item, column.key), column) }}
             </slot>
           </td>
-          <td v-if="$scopedSlots.actions">
+          <td v-if="$slots.actions">
             <slot name="actions" :item="item" :index="index"></slot>
           </td>
         </tr>
@@ -35,61 +35,54 @@
   </div>
 </template>
 
-<script>
-import LoadingSpinner from "./LoadingSpinner.vue";
-import AlertMessage from "./AlertMessage.vue";
+<script setup>
+import LoadingSpinner from "./LoadingSpinner.vue"
+import AlertMessage from "./AlertMessage.vue"
 
-export default {
-  name: "DataTable",
-  components: {
-    LoadingSpinner,
-    AlertMessage,
+const props = defineProps({
+  columns: {
+    type: Array,
+    required: true,
   },
-  props: {
-    columns: {
-      type: Array,
-      required: true,
-      // [{ key: 'id', label: 'ID' }, { key: 'name', label: 'Name' }]
-    },
-    items: {
-      type: Array,
-      default: () => [],
-    },
-    loading: {
-      type: Boolean,
-      default: false,
-    },
-    error: {
-      type: String,
-      default: null,
-    },
-    itemKey: {
-      type: String,
-      default: "id",
-    },
-    emptyMessage: {
-      type: String,
-      default: "No data available",
-    },
+  items: {
+    type: Array,
+    default: () => [],
   },
-  methods: {
-    getItemKey(item, index) {
-      return item[this.itemKey] || index;
-    },
-    getNestedValue(obj, path) {
-      return path.split(".").reduce((acc, part) => acc && acc[part], obj);
-    },
-    formatValue(value, column) {
-      if (value === null || value === undefined) {
-        return "-";
-      }
-      if (column.formatter && typeof column.formatter === "function") {
-        return column.formatter(value);
-      }
-      return value;
-    },
+  loading: {
+    type: Boolean,
+    default: false,
   },
-};
+  error: {
+    type: String,
+    default: null,
+  },
+  itemKey: {
+    type: String,
+    default: "id",
+  },
+  emptyMessage: {
+    type: String,
+    default: "No data available",
+  },
+})
+
+const getItemKey = (item, index) => {
+  return item[props.itemKey] || index
+}
+
+const getNestedValue = (obj, path) => {
+  return path.split(".").reduce((acc, part) => acc && acc[part], obj)
+}
+
+const formatValue = (value, column) => {
+  if (value === null || value === undefined) {
+    return "-"
+  }
+  if (column.formatter && typeof column.formatter === "function") {
+    return column.formatter(value)
+  }
+  return value
+}
 </script>
 
 <style scoped>

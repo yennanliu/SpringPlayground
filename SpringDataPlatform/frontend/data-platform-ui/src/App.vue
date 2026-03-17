@@ -1,21 +1,20 @@
 <template>
   <div id="app">
-    <Navbar v-if="!['Signup', 'Signin'].includes($route.name)" />
+    <Navbar v-if="!['Signup', 'Signin'].includes(routeName)" />
     <div style="min-height: 75vh">
       <router-view />
     </div>
   </div>
 </template>
 
-<script>
-import Navbar from "./components/Navbar.vue";
+<script setup>
+import { computed } from 'vue'
+import { useRoute } from 'vue-router'
+import Navbar from "./components/Navbar.vue"
 
-export default {
-  name: "App",
-  components: { Navbar }
-};
+const route = useRoute()
+const routeName = computed(() => route.name)
 </script>
-
 
 <style>
 /* Global styles */

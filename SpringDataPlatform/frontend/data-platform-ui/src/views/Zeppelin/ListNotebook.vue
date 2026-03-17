@@ -20,7 +20,6 @@
             <th>Added Time</th>
             <th>Updated Time</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -31,11 +30,10 @@
             <td>{{ notebook.insertTime }}</td>
             <td>{{ notebook.updateTime }}</td>
             <td>
-              <a :href="`${getZeppelinNotebookLink(notebook)}`" target="_blank">
+              <a :href="getZeppelinNotebookLink(notebook)" target="_blank">
                 View Notebook
               </a>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -43,39 +41,33 @@
   </div>
 </template>
 
-<script>
-import { zeppelinService } from "@/services";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { zeppelinService } from "@/services"
 
-export default {
-  name: "ListNotebook",
-  data() {
-    return {
-      notebooks: [],
-      loading: false,
-      error: null,
-    };
-  },
-  methods: {
-    getZeppelinNotebookLink(notebook) {
-      return zeppelinService.getNotebookLink(notebook);
-    },
+const notebooks = ref([])
+const loading = ref(false)
+const error = ref(null)
 
-    async fetchData() {
-      this.loading = true;
-      this.error = null;
-      try {
-        this.notebooks = await zeppelinService.getAll();
-      } catch (error) {
-        this.error = "Failed to load notebooks";
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    notebooks.value = await zeppelinService.getAll()
+  } catch (err) {
+    error.value = "Failed to load notebooks"
+  } finally {
+    loading.value = false
+  }
+}
+
+const getZeppelinNotebookLink = (notebook) => {
+  return zeppelinService.getNotebookLink(notebook)
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

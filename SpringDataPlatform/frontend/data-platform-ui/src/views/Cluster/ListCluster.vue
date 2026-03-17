@@ -19,7 +19,6 @@
             <th>Port</th>
             <th>Status</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -33,7 +32,6 @@
                 Cluster Detail
               </router-link>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -41,38 +39,33 @@
   </div>
 </template>
 
-<script>
-import { clusterService } from "@/services";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { clusterService } from "@/services"
 
-export default {
-  name: "ListCluster",
-  data() {
-    return {
-      clusters: [],
-      loading: false,
-      error: null,
-    };
-  },
-  methods: {
-    async fetchData() {
-      this.loading = true;
-      this.error = null;
-      try {
-        this.clusters = await clusterService.getAll();
-      } catch (error) {
-        this.error = "Failed to load clusters";
-      } finally {
-        this.loading = false;
-      }
-    },
-    getStatusColor(status) {
-      return status === 'connected' ? 'green' : 'red';
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const clusters = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    clusters.value = await clusterService.getAll()
+  } catch (err) {
+    error.value = "Failed to load clusters"
+  } finally {
+    loading.value = false
+  }
+}
+
+const getStatusColor = (status) => {
+  return status === 'connected' ? 'green' : 'red'
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

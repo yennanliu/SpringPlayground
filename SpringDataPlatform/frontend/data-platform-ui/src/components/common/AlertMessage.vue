@@ -18,54 +18,53 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "AlertMessage",
-  props: {
-    message: {
-      type: String,
-      default: "",
-    },
-    variant: {
-      type: String,
-      default: "info",
-      validator: (value) =>
-        ["success", "danger", "warning", "info", "primary", "secondary"].includes(value),
-    },
-    dismissible: {
-      type: Boolean,
-      default: false,
-    },
-    autoDismiss: {
-      type: Number,
-      default: 0, // milliseconds, 0 = no auto dismiss
-    },
+<script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
+const props = defineProps({
+  message: {
+    type: String,
+    default: "",
   },
-  data() {
-    return {
-      visible: true,
-      timer: null,
-    };
+  variant: {
+    type: String,
+    default: "info",
+    validator: (value) =>
+      ["success", "danger", "warning", "info", "primary", "secondary"].includes(value),
   },
-  mounted() {
-    if (this.autoDismiss > 0) {
-      this.timer = setTimeout(() => {
-        this.dismiss();
-      }, this.autoDismiss);
-    }
+  dismissible: {
+    type: Boolean,
+    default: false,
   },
-  beforeDestroy() {
-    if (this.timer) {
-      clearTimeout(this.timer);
-    }
+  autoDismiss: {
+    type: Number,
+    default: 0,
   },
-  methods: {
-    dismiss() {
-      this.visible = false;
-      this.$emit("dismissed");
-    },
-  },
-};
+})
+
+const emit = defineEmits(['dismissed'])
+
+const visible = ref(true)
+let timer = null
+
+const dismiss = () => {
+  visible.value = false
+  emit('dismissed')
+}
+
+onMounted(() => {
+  if (props.autoDismiss > 0) {
+    timer = setTimeout(() => {
+      dismiss()
+    }, props.autoDismiss)
+  }
+})
+
+onBeforeUnmount(() => {
+  if (timer) {
+    clearTimeout(timer)
+  }
+})
 </script>
 
 <style scoped>

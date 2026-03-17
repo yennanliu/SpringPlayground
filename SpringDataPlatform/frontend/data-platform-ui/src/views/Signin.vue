@@ -1,7 +1,3 @@
-<!-- 
-    https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Signin.vue
--->
-
 <template>
   <div class="container">
     <!--    Logo Div-->
@@ -17,48 +13,46 @@
       <div class="col-12 justify-content-center d-flex flex-row pt-5">
         <div id="signin-div" class="flex-item border">
           <h2 class="pt-4 pl-4">Sign-In</h2>
-          <ValidationObserver ref="form" v-slot="{ handleSubmit, invalid }">
-            <form @submit.prevent="handleSubmit(signin)" class="pt-4 pl-4 pr-4">
-              <ValidationProvider name="Email" rules="required|email" v-slot="{ errors }">
-                <div class="form-group">
-                  <label>Email</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors[0] }"
-                    v-model="email"
-                  />
-                  <span class="invalid-feedback">{{ errors[0] }}</span>
-                </div>
-              </ValidationProvider>
-              <ValidationProvider name="Password" rules="required|min:6" v-slot="{ errors }">
-                <div class="form-group">
-                  <label>Password</label>
-                  <input
-                    type="password"
-                    class="form-control"
-                    :class="{ 'is-invalid': errors[0] }"
-                    v-model="password"
-                  />
-                  <span class="invalid-feedback">{{ errors[0] }}</span>
-                </div>
-              </ValidationProvider>
-              <small class="form-text text-muted"
-                >By continuing, you agree to Simplecoding's Conditions of Use and
-                Privacy Notice.</small
+          <Form @submit="signin" class="pt-4 pl-4 pr-4" v-slot="{ meta }">
+            <div class="form-group">
+              <label>Email</label>
+              <Field
+                name="email"
+                type="email"
+                class="form-control"
+                :class="{ 'is-invalid': errors.email }"
+                v-model="email"
+                rules="required|email"
+              />
+              <ErrorMessage name="email" class="invalid-feedback" />
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <Field
+                name="password"
+                type="password"
+                class="form-control"
+                :class="{ 'is-invalid': errors.password }"
+                v-model="password"
+                rules="required|min:6"
+              />
+              <ErrorMessage name="password" class="invalid-feedback" />
+            </div>
+            <small class="form-text text-muted"
+              >By continuing, you agree to Simplecoding's Conditions of Use and
+              Privacy Notice.</small
+            >
+            <button type="submit" class="btn btn-primary mt-2 py-0" :disabled="!meta.valid || loading">
+              Continue
+              <div
+                v-if="loading"
+                class="spinner-border spinner-border-sm"
+                role="status"
               >
-              <button type="submit" class="btn btn-primary mt-2 py-0" :disabled="invalid || loading">
-                Continue
-                <div
-                  v-if="loading"
-                  class="spinner-border spinner-border-sm"
-                  role="status"
-                >
-                  <span class="sr-only">Loading...</span>
-                </div>
-              </button>
-            </form>
-          </ValidationObserver>
+                <span class="sr-only">Loading...</span>
+              </div>
+            </button>
+          </Form>
           <hr />
           <small class="form-text text-muted pt-2 pl-4 text-center"
             >New to Simplecoding?</small
@@ -75,50 +69,40 @@
     </div>
   </div>
 </template>
-  
-<script>
-import swal from "sweetalert";
-import { useAuthStore } from "@/stores";
 
-export default {
-  name: "Signin",
-  setup() {
-    const authStore = useAuthStore();
-    return { authStore };
-  },
-  data() {
-    return {
-      email: null,
-      password: null,
-    };
-  },
-  computed: {
-    loading() {
-      return this.authStore.loading;
-    },
-  },
-  methods: {
-    async signin(e) {
-      e.preventDefault();
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import swal from "sweetalert"
+import { useAuthStore } from "@/stores"
 
-      try {
-        await this.authStore.signin(this.email, this.password);
-        // Redirect to intended destination or home
-        const redirect = this.$route.query.redirect || "/";
-        this.$router.push(redirect);
-      } catch (error) {
-        swal({
-          text: "Unable to Log you in!",
-          icon: "error",
-          closeOnClickOutside: false,
-        });
-      }
-    },
-  },
-};
+const router = useRouter()
+const route = useRoute()
+const authStore = useAuthStore()
+
+const email = ref('')
+const password = ref('')
+const errors = ref({})
+
+const loading = computed(() => authStore.loading)
+
+const signin = async () => {
+  try {
+    await authStore.signin(email.value, password.value)
+    const redirect = route.query.redirect || "/"
+    router.push(redirect)
+  } catch (error) {
+    swal({
+      text: "Unable to Log you in!",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  }
+}
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .btn-dark {
   background-color: #e7e9ec;
   color: #000;

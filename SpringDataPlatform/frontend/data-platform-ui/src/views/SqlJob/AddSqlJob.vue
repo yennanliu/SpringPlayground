@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
+        <form @submit.prevent="addSQLJob">
           <div class="form-group">
             <label>SQL command</label>
             <textarea
@@ -19,8 +19,11 @@
               required
             ></textarea>
           </div>
-          <button type="button" class="btn btn-primary" @click="addSQLJob">
+          <button type="submit" class="btn btn-primary" :disabled="loading">
             Submit
+            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </button>
         </form>
       </div>
@@ -29,50 +32,45 @@
   </div>
 </template>
 
-<script>
-import swal from "sweetalert";
-import { jobService } from "@/services";
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import swal from "sweetalert"
+import { jobService } from "@/services"
 
-export default {
-  name: "AddSqlJob",
-  data() {
-    return {
-      statement: null,
-      loading: false,
-    };
-  },
-  methods: {
-    async addSQLJob() {
-      if (!this.statement || !this.statement.trim()) {
-        swal({
-          text: "Please enter a SQL statement",
-          icon: "warning",
-          closeOnClickOutside: false,
-        });
-        return;
-      }
+const router = useRouter()
+const statement = ref('')
+const loading = ref(false)
 
-      this.loading = true;
-      try {
-        await jobService.createSqlJob(this.statement);
-        this.$router.push({ name: "ListJob" });
-        swal({
-          text: "SQL Job Added Successfully!",
-          icon: "success",
-          closeOnClickOutside: false,
-        });
-      } catch (error) {
-        swal({
-          text: "Failed to submit SQL job",
-          icon: "error",
-          closeOnClickOutside: false,
-        });
-      } finally {
-        this.loading = false;
-      }
-    },
-  },
-};
+const addSQLJob = async () => {
+  if (!statement.value || !statement.value.trim()) {
+    swal({
+      text: "Please enter a SQL statement",
+      icon: "warning",
+      closeOnClickOutside: false,
+    })
+    return
+  }
+
+  loading.value = true
+  try {
+    await jobService.createSqlJob(statement.value)
+    router.push({ name: "ListJob" })
+    swal({
+      text: "SQL Job Added Successfully!",
+      icon: "success",
+      closeOnClickOutside: false,
+    })
+  } catch (error) {
+    swal({
+      text: "Failed to submit SQL job",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <style scoped>

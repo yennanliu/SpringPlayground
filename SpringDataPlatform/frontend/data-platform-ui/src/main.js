@@ -1,5 +1,5 @@
-import Vue from 'vue'
-import { createPinia, PiniaVuePlugin } from 'pinia'
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
@@ -9,14 +9,12 @@ import '@/styles/main.scss'
 // Initialize validation
 import '@/validation'
 
-// Enable Pinia for Vue 2
-Vue.use(PiniaVuePlugin)
-const pinia = createPinia()
+// Create Vue app
+const app = createApp(App)
 
-Vue.config.productionTip = false
+// Use plugins
+app.use(createPinia())
+app.use(router)
 
-new Vue({
-  router,
-  pinia,
-  render: h => h(App)
-}).$mount('#app')
+// Mount app
+app.mount('#app')
