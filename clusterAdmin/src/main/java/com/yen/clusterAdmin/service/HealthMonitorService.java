@@ -55,7 +55,7 @@ public class HealthMonitorService {
 
         log.debug("Starting scheduled health checks");
 
-        List<Node> activeNodes = nodeRepository.findByStatus(NodeStatus.RUNNING);
+        List<Node> activeNodes = new java.util.ArrayList<>(nodeRepository.findByStatus(NodeStatus.RUNNING));
         activeNodes.addAll(nodeRepository.findByStatus(NodeStatus.UNHEALTHY));
 
         for (Node node : activeNodes) {
