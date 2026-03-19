@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluster Admin</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Cluster Admin</h1>
+            <p class="subtitle">EC2 Worker Node Management</p>
+        </header>
+
+        <!-- Cluster Status Cards -->
+        <section class="status-section">
+            <div class="status-cards">
+                <div class="status-card" id="card-total">
+                    <div class="card-value" id="total-nodes">-</div>
+                    <div class="card-label">Total Nodes</div>
+                </div>
+                <div class="status-card running" id="card-running">
+                    <div class="card-value" id="running-nodes">-</div>
+                    <div class="card-label">Running</div>
+                </div>
+                <div class="status-card pending" id="card-pending">
+                    <div class="card-value" id="pending-nodes">-</div>
+                    <div class="card-label">Pending</div>
+                </div>
+                <div class="status-card stopped" id="card-stopped">
+                    <div class="card-value" id="stopped-nodes">-</div>
+                    <div class="card-label">Stopped</div>
+                </div>
+                <div class="status-card unhealthy" id="card-unhealthy">
+                    <div class="card-value" id="unhealthy-nodes">-</div>
+                    <div class="card-label">Unhealthy</div>
+                </div>
+            </div>
+
+            <div class="cluster-health" id="cluster-health">
+                <span class="health-label">Cluster Health:</span>
+                <span class="health-status" id="health-status">Loading...</span>
+            </div>
+
+            <div class="metrics-row">
+                <div class="metric">
+                    <span class="metric-label">Avg CPU:</span>
+                    <span class="metric-value" id="avg-cpu">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Avg Memory:</span>
+                    <span class="metric-value" id="avg-memory">-</span>
+                </div>
+                <div class="metric">
+                    <span class="metric-label">Last Updated:</span>
+                    <span class="metric-value" id="last-updated">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actions Bar -->
+        <section class="actions-section">
+            <button class="btn btn-primary" onclick="openCreateModal()">
+                + Create Node
+            </button>
+            <button class="btn btn-secondary" onclick="refreshData()">
+                Refresh
+            </button>
+            <button class="btn btn-secondary" onclick="syncCluster()">
+                Sync with EC2
+            </button>
+            <button class="btn btn-secondary" onclick="triggerHealthCheck()">
+                Run Health Check
+            </button>
+        </section>
+
+        <!-- Nodes Table -->
+        <section class="nodes-section">
+            <h2>Nodes</h2>
+            <div class="table-container">
+                <table id="nodes-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Instance ID</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Private IP</th>
+                            <th>CPU</th>
+                            <th>Memory</th>
+                            <th>Last Heartbeat</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="nodes-tbody">
+                        <tr>
+                            <td colspan="9" class="loading">Loading nodes...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Unhealthy Nodes Section -->
+        <section class="unhealthy-section" id="unhealthy-section" style="display: none;">
+            <h2>Unhealthy Nodes</h2>
+            <div class="unhealthy-list" id="unhealthy-list"></div>
+        </section>
+    </div>
+
+    <!-- Create Node Modal -->
+    <div class="modal" id="create-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Create New Node</h3>
+                <button class="close-btn" onclick="closeCreateModal()">&times;</button>
+            </div>
+            <form id="create-form" onsubmit="createNode(event)">
+                <div class="form-group">
+                    <label for="node-name">Node Name *</label>
+                    <input type="text" id="node-name" name="name" required placeholder="e.g., worker-001">
+                </div>
+                <div class="form-group">
+                    <label for="instance-type">Instance Type</label>
+                    <select id="instance-type" name="instanceType">
+                        <option value="t3.micro">t3.micro</option>
+                        <option value="t3.small">t3.small</option>
+                        <option value="t3.medium" selected>t3.medium</option>
+                        <option value="t3.large">t3.large</option>
+                        <option value="t3.xlarge">t3.xlarge</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="availability-zone">Availability Zone</label>
+                    <select id="availability-zone" name="availabilityZone">
+                        <option value="us-east-1a" selected>us-east-1a</option>
+                        <option value="us-east-1b">us-east-1b</option>
+                        <option value="us-east-1c">us-east-1c</option>
+                        <option value="us-west-2a">us-west-2a</option>
+                        <option value="us-west-2b">us-west-2b</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Node Details Modal -->
+    <div class="modal" id="details-modal">
+        <div class="modal-content modal-wide">
+            <div class="modal-header">
+                <h3>Node Details</h3>
+                <button class="close-btn" onclick="closeDetailsModal()">&times;</button>
+            </div>
+            <div id="node-details-content"></div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script src="/js/app.js"></script>
+</body>
+</html>
