@@ -1,19 +1,36 @@
-// Global test setup
-import Vue from 'vue'
-import { createPinia, PiniaVuePlugin } from 'pinia'
+// Global test setup for Vue 3
 
-// Enable Pinia
-Vue.use(PiniaVuePlugin)
+// Create localStorage mock functions
+const getItemMock = jest.fn()
+const setItemMock = jest.fn()
+const removeItemMock = jest.fn()
+const clearMock = jest.fn()
 
 // Mock localStorage
 const localStorageMock = {
-  getItem: jest.fn(),
-  setItem: jest.fn(),
-  removeItem: jest.fn(),
-  clear: jest.fn()
+  store: {},
+  getItem: getItemMock,
+  setItem: setItemMock,
+  removeItem: removeItemMock,
+  clear: clearMock
 }
-global.localStorage = localStorageMock
 
-// Suppress Vue warnings in tests
-Vue.config.silent = true
-Vue.config.productionTip = false
+Object.defineProperty(global, 'localStorage', {
+  value: localStorageMock,
+  writable: true
+})
+
+// Reset localStorage mock before each test
+beforeEach(() => {
+  localStorageMock.store = {}
+  getItemMock.mockImplementation((key) => localStorageMock.store[key] || null)
+  setItemMock.mockImplementation((key, value) => {
+    localStorageMock.store[key] = value
+  })
+  removeItemMock.mockImplementation((key) => {
+    delete localStorageMock.store[key]
+  })
+  clearMock.mockImplementation(() => {
+    localStorageMock.store = {}
+  })
+})
