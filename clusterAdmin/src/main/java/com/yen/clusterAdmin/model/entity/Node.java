@@ -38,6 +38,8 @@ public class Node {
 
     private Instant lastHeartbeat;
 
+    private Integer failedHealthChecks = 0;
+
     @Column(nullable = false, updatable = false)
     private Instant createdAt;
 
@@ -112,6 +114,9 @@ public class Node {
 
     public Instant getLastHeartbeat() { return lastHeartbeat; }
     public void setLastHeartbeat(Instant lastHeartbeat) { this.lastHeartbeat = lastHeartbeat; }
+
+    public Integer getFailedHealthChecks() { return failedHealthChecks != null ? failedHealthChecks : 0; }
+    public void setFailedHealthChecks(Integer failedHealthChecks) { this.failedHealthChecks = failedHealthChecks; }
 
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }

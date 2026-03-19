@@ -1,15 +1,16 @@
 package com.yen.clusterAdmin.controller;
 
-import com.yen.clusterAdmin.model.enums.NodeStatus;
-import com.yen.clusterAdmin.service.NodeService;
+import com.yen.clusterAdmin.model.dto.ClusterHealthDTO;
+import com.yen.clusterAdmin.model.dto.ClusterStatusDTO;
+import com.yen.clusterAdmin.service.HealthMonitorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
 import java.util.Map;
 
 @RestController
@@ -17,59 +18,37 @@ import java.util.Map;
 @Tag(name = "Cluster Operations", description = "APIs for cluster-wide operations")
 public class ClusterController {
 
-    private final NodeService nodeService;
+    private final HealthMonitorService healthMonitorService;
 
-    public ClusterController(NodeService nodeService) {
-        this.nodeService = nodeService;
+    public ClusterController(HealthMonitorService healthMonitorService) {
+        this.healthMonitorService = healthMonitorService;
     }
 
     @GetMapping("/status")
     @Operation(summary = "Get cluster status", description = "Retrieve overall cluster status and metrics")
-    public ResponseEntity<Map<String, Object>> getClusterStatus() {
-        long totalNodes = nodeService.getTotalNodeCount();
-        long runningNodes = nodeService.countByStatus(NodeStatus.RUNNING);
-        long unhealthyNodes = nodeService.countByStatus(NodeStatus.UNHEALTHY);
-        long stoppedNodes = nodeService.countByStatus(NodeStatus.STOPPED);
-        long pendingNodes = nodeService.countByStatus(NodeStatus.PENDING);
-
-        Map<String, Object> status = Map.of(
-                "totalNodes", totalNodes,
-                "runningNodes", runningNodes,
-                "unhealthyNodes", unhealthyNodes,
-                "stoppedNodes", stoppedNodes,
-                "pendingNodes", pendingNodes,
-                "lastUpdated", Instant.now()
-        );
-
+    public ResponseEntity<ClusterStatusDTO> getClusterStatus() {
+        ClusterStatusDTO status = healthMonitorService.getClusterStatus();
         return ResponseEntity.ok(status);
     }
 
     @GetMapping("/health")
     @Operation(summary = "Cluster health check", description = "Check the health of the cluster service")
-    public ResponseEntity<Map<String, Object>> getClusterHealth() {
-        long totalNodes = nodeService.getTotalNodeCount();
-        long runningNodes = nodeService.countByStatus(NodeStatus.RUNNING);
-        long unhealthyNodes = nodeService.countByStatus(NodeStatus.UNHEALTHY);
-
-        String healthStatus;
-        if (totalNodes == 0) {
-            healthStatus = "EMPTY";
-        } else if (unhealthyNodes > 0) {
-            healthStatus = "DEGRADED";
-        } else if (runningNodes == totalNodes) {
-            healthStatus = "HEALTHY";
-        } else {
-            healthStatus = "PARTIAL";
-        }
-
-        Map<String, Object> health = Map.of(
-                "status", healthStatus,
-                "totalNodes", totalNodes,
-                "healthyNodes", runningNodes,
-                "unhealthyNodes", unhealthyNodes,
-                "timestamp", Instant.now()
-        );
-
+    public ResponseEntity<ClusterHealthDTO> getClusterHealth() {
+        ClusterHealthDTO health = healthMonitorService.getClusterHealth();
         return ResponseEntity.ok(health);
+    }
+
+    @PostMapping("/sync")
+    @Operation(summary = "Sync all nodes", description = "Force sync all nodes with EC2 state")
+    public ResponseEntity<Map<String, String>> syncAllNodes() {
+        healthMonitorService.syncAllNodesWithEc2();
+        return ResponseEntity.ok(Map.of("message", "Sync completed"));
+    }
+
+    @PostMapping("/health-check")
+    @Operation(summary = "Trigger health checks", description = "Manually trigger health checks for all nodes")
+    public ResponseEntity<Map<String, String>> triggerHealthChecks() {
+        healthMonitorService.performHealthChecks();
+        return ResponseEntity.ok(Map.of("message", "Health checks completed"));
     }
 }
