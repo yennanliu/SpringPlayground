@@ -88,4 +88,11 @@ public class NodeController {
         NodeDTO node = nodeService.terminateNode(id);
         return ResponseEntity.ok(node);
     }
+
+    @PostMapping("/{id}/sync")
+    @Operation(summary = "Sync node", description = "Sync node state with EC2 instance")
+    public ResponseEntity<NodeDTO> syncNode(@PathVariable UUID id) {
+        NodeDTO node = nodeService.syncNode(id);
+        return ResponseEntity.ok(node);
+    }
 }

@@ -44,6 +44,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
 
+    @ExceptionHandler(Ec2OperationException.class)
+    public ResponseEntity<Map<String, Object>> handleEc2Operation(Ec2OperationException ex) {
+        log.error("EC2 operation failed: {}", ex.getMessage());
+
+        Map<String, Object> error = Map.of(
+                "error", "EC2 Operation Failed",
+                "message", ex.getMessage(),
+                "timestamp", Instant.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(error);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, Object>> handleValidationErrors(MethodArgumentNotValidException ex) {
         Map<String, String> fieldErrors = new HashMap<>();

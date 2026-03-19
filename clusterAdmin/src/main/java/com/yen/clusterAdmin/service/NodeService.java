@@ -8,6 +8,7 @@ import com.yen.clusterAdmin.model.enums.NodeStatus;
 import com.yen.clusterAdmin.repository.NodeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,13 +21,25 @@ public class NodeService {
     private static final Logger log = LoggerFactory.getLogger(NodeService.class);
 
     private final NodeRepository nodeRepository;
+    private final Ec2Service ec2Service;
 
-    public NodeService(NodeRepository nodeRepository) {
+    @Value("${cluster.ec2.enabled:false}")
+    private boolean ec2Enabled;
+
+    public NodeService(NodeRepository nodeRepository, Ec2Service ec2Service) {
         this.nodeRepository = nodeRepository;
+        this.ec2Service = ec2Service;
     }
 
     public List<NodeDTO> getAllNodes() {
-        return nodeRepository.findAll().stream()
+        List<Node> nodes = nodeRepository.findAll();
+
+        // Sync with EC2 if enabled
+        if (ec2Enabled) {
+            nodes.forEach(this::syncNodeWithEc2);
+        }
+
+        return nodes.stream()
                 .map(NodeDTO::fromEntity)
                 .toList();
     }
@@ -34,6 +47,11 @@ public class NodeService {
     public NodeDTO getNodeById(UUID id) {
         Node node = nodeRepository.findById(id)
                 .orElseThrow(() -> new NodeNotFoundException(id));
+
+        if (ec2Enabled) {
+            syncNodeWithEc2(node);
+        }
+
         return NodeDTO.fromEntity(node);
     }
 
@@ -53,6 +71,17 @@ public class NodeService {
                 .availabilityZone(request.getAvailabilityZone() != null ? request.getAvailabilityZone() : "us-east-1a")
                 .status(NodeStatus.PENDING)
                 .build();
+
+        // Launch EC2 instance if enabled
+        if (ec2Enabled) {
+            String instanceId = ec2Service.launchInstance(
+                    request.getName(),
+                    request.getInstanceType(),
+                    request.getTags()
+            );
+            node.setInstanceId(instanceId);
+            log.info("Launched EC2 instance: {}", instanceId);
+        }
 
         Node savedNode = nodeRepository.save(node);
         log.info("Created node with id: {}", savedNode.getId());
@@ -83,9 +112,15 @@ public class NodeService {
 
     @Transactional
     public void deleteNode(UUID id) {
-        if (!nodeRepository.existsById(id)) {
-            throw new NodeNotFoundException(id);
+        Node node = nodeRepository.findById(id)
+                .orElseThrow(() -> new NodeNotFoundException(id));
+
+        // Terminate EC2 instance if it exists
+        if (ec2Enabled && node.getInstanceId() != null) {
+            ec2Service.terminateInstance(node.getInstanceId());
+            log.info("Terminated EC2 instance: {}", node.getInstanceId());
         }
+
         nodeRepository.deleteById(id);
         log.info("Deleted node: {}", id);
     }
@@ -99,7 +134,13 @@ public class NodeService {
             throw new IllegalStateException("Cannot start a terminated node");
         }
 
-        node.setStatus(NodeStatus.RUNNING);
+        // Start EC2 instance if enabled
+        if (ec2Enabled && node.getInstanceId() != null) {
+            ec2Service.startInstance(node.getInstanceId());
+            log.info("Started EC2 instance: {}", node.getInstanceId());
+        }
+
+        node.setStatus(NodeStatus.PENDING); // Will become RUNNING when EC2 reports it
         Node updatedNode = nodeRepository.save(node);
         log.info("Started node: {}", id);
 
@@ -115,6 +156,12 @@ public class NodeService {
             throw new IllegalStateException("Cannot stop a terminated node");
         }
 
+        // Stop EC2 instance if enabled
+        if (ec2Enabled && node.getInstanceId() != null) {
+            ec2Service.stopInstance(node.getInstanceId());
+            log.info("Stopped EC2 instance: {}", node.getInstanceId());
+        }
+
         node.setStatus(NodeStatus.STOPPED);
         Node updatedNode = nodeRepository.save(node);
         log.info("Stopped node: {}", id);
@@ -126,6 +173,12 @@ public class NodeService {
     public NodeDTO terminateNode(UUID id) {
         Node node = nodeRepository.findById(id)
                 .orElseThrow(() -> new NodeNotFoundException(id));
+
+        // Terminate EC2 instance if enabled
+        if (ec2Enabled && node.getInstanceId() != null) {
+            ec2Service.terminateInstance(node.getInstanceId());
+            log.info("Terminated EC2 instance: {}", node.getInstanceId());
+        }
 
         node.setStatus(NodeStatus.TERMINATED);
         Node updatedNode = nodeRepository.save(node);
@@ -140,5 +193,25 @@ public class NodeService {
 
     public long getTotalNodeCount() {
         return nodeRepository.count();
+    }
+
+    @Transactional
+    public NodeDTO syncNode(UUID id) {
+        Node node = nodeRepository.findById(id)
+                .orElseThrow(() -> new NodeNotFoundException(id));
+
+        if (ec2Enabled && node.getInstanceId() != null) {
+            syncNodeWithEc2(node);
+            nodeRepository.save(node);
+        }
+
+        return NodeDTO.fromEntity(node);
+    }
+
+    private void syncNodeWithEc2(Node node) {
+        if (node.getInstanceId() == null || node.getInstanceId().isEmpty()) {
+            return;
+        }
+        ec2Service.syncNodeFromEc2(node);
     }
 }
