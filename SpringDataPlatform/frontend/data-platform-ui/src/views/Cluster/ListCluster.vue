@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Cluster List</h1>
-        <h5>{{ msg }}</h5>
+        <h5 v-if="error" class="text-danger">{{ error }}</h5>
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
 
@@ -16,7 +19,6 @@
             <th>Port</th>
             <th>Status</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -30,7 +32,6 @@
                 Cluster Detail
               </router-link>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -38,41 +39,33 @@
   </div>
 </template>
 
-<script>
-// import JobBox from "../../components/Job/JobBox";
-var axios = require("axios");
+<script setup>
+import { ref, onMounted } from 'vue'
+import { clusterService } from "@/services"
 
-export default {
-  name: "ListCluster",
-  data() {
-    return {
-      clusters: [],
-      id: null,
-      len: 0,
-      msg: null,
-    };
-  },
-  // components: { JobBox },
-  props: ["baseURL"],
-  methods: {
-    async fetchData() {
-      try {
-        // http://localhost:9999/cluster/
-        const response = await axios.get(`${this.baseURL}/cluster/`);
-        this.clusters = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-    getStatusColor(status) {
-      // Add logic to determine color based on status
-      return status === 'connected' ? 'green' : 'red';
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const clusters = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    clusters.value = await clusterService.getAll()
+  } catch (err) {
+    error.value = "Failed to load clusters"
+  } finally {
+    loading.value = false
+  }
+}
+
+const getStatusColor = (status) => {
+  return status === 'connected' ? 'green' : 'red'
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

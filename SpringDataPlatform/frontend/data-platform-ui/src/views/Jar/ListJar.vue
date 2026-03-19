@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Jar List</h1>
-        <h5>{{ msg }}</h5>
+        <h5 v-if="error" class="text-danger">{{ error }}</h5>
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
 
@@ -14,7 +17,6 @@
             <th>ID</th>
             <th>Jar Name</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -26,7 +28,6 @@
                 Jar Detail
               </router-link>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -34,37 +35,29 @@
   </div>
 </template>
 
-<script>
-//import JarBox from "../../components/Jar/JarBox";
-var axios = require("axios");
+<script setup>
+import { ref, onMounted } from 'vue'
+import { jarService } from "@/services"
 
-export default {
-  name: "ListDepartment",
-  data() {
-    return {
-      id: null,
-      jars: [],
-      len: 0,
-      msg: null,
-    };
-  },
-  //components: { JarBox },
-  props: ["baseURL"],
-  methods: {
-    async fetchData() {
-      try {
-        // http://localhost:9999/jar/
-        const response = await axios.get(`${this.baseURL}/jar/`);
-        this.jars = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const jars = ref([])
+const loading = ref(false)
+const error = ref(null)
+
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    jars.value = await jarService.getAll()
+  } catch (err) {
+    error.value = "Failed to load JAR files"
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
+        <form @submit.prevent="addJob">
           <div class="form-group">
             <label>Jar ID</label>
             <select class="form-control" v-model="savedJarId" required>
@@ -19,8 +19,11 @@
             </select>
           </div>
 
-          <button type="button" class="btn btn-primary" @click="addJob">
+          <button type="submit" class="btn btn-primary" :disabled="loading">
             Submit
+            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </button>
         </form>
       </div>
@@ -29,75 +32,62 @@
   </div>
 </template>
 
-<script>
-import swal from "sweetalert";
-import axios from "axios";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import swal from "sweetalert"
+import { jarService, jobService } from "@/services"
 
-export default {
-  data() {
-    return {
-      id: null,
-      allowNonRestoredState: null,
-      entryClass: null,
-      jarId: null,
-      savedJarId: null,
-      parallelism: null,
-      programArgs: null,
-      savePointPath: null,
-      jars: [],
-    };
-  },
-  props: ["baseURL"],
-  methods: {
-    async getJars() {
-      // fetch users
-      await axios
-        // http://localhost:9999/jar/
-        .get(`${this.baseURL}/jar/`)
-        .then((res) => {
-          this.jars = res.data;
-        })
-        .catch((err) => console.log(err));
-    },
+const router = useRouter()
+const savedJarId = ref(null)
+const jars = ref([])
+const loading = ref(false)
 
-    async addJob() {
-      const newJob = {
-        allowNonRestoredState: null,
-        entryClass: null,
-        jarId: this.savedJarId,
-        parallelism: 1,
-        programArgs: null,
-        savePointPath: null,
-      };
+const getJars = async () => {
+  try {
+    jars.value = await jarService.getAll()
+  } catch (error) {
+    swal({
+      text: "Failed to load JAR files",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  }
+}
 
-      await axios({
-        method: "post",
-        //url: "http://localhost:9999/" + "job/add",
-        url: `${this.baseURL}/job/add`,
-        data: JSON.stringify(newJob),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListJob" });
-          swal({
-            text: "Job Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
-    },
-  },
+const addJob = async () => {
+  if (!savedJarId.value) {
+    swal({
+      text: "Please select a JAR file",
+      icon: "warning",
+      closeOnClickOutside: false,
+    })
+    return
+  }
 
-  mounted() {
-    this.getJars();
-  },
-};
+  loading.value = true
+  try {
+    await jobService.create({ jarId: savedJarId.value })
+    router.push({ name: "ListJob" })
+    swal({
+      text: "Job Added Successfully!",
+      icon: "success",
+      closeOnClickOutside: false,
+    })
+  } catch (error) {
+    swal({
+      text: "Failed to submit job",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  getJars()
+})
 </script>
 
 <style scoped>

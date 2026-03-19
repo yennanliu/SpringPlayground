@@ -26,11 +26,8 @@
             <td>{{ job.startTime }}</td>
             <td>{{ job.endTime }}</td>
             <td>{{ job.duration }}</td>
-            <!--
-              http://localhost:8081/#/job/running/da174a6766a7d930054d566d508f2103/overview
-            -->
             <td>
-              <a :href="`${getFlinkJobLink(job)}`" target="_blank">
+              <a :href="getFlinkJobLink(job)" target="_blank">
                 View Job
               </a>
             </td>
@@ -42,52 +39,34 @@
   </div>
 </template>
 
-<script>
-import axios from "axios";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { jobService } from "@/services"
 
-export default {
-  data() {
-    return {
-      job: {},
-    };
-  },
-  props: ["baseURL", "jobs"],
-  methods: {
-    toLowerCase(input) {
-      if (input == null) {
-        return ""; // or return null; depending on your use case
-      }
-      return input.toLowerCase();
-    },
+const route = useRoute()
+const job = ref({})
+const loading = ref(false)
+const error = ref(null)
 
-    getFlinkJobLink(job) {
-      if (!job) {
-        return null;
-      }
-      return (
-        "http://localhost:8081/#/job/" +
-        this.toLowerCase(job.state) +
-        "/" +
-        job.jobId
-      );
-    },
+const getFlinkJobLink = (job) => {
+  return jobService.getFlinkJobLink(job)
+}
 
-    async getJob() {
-      await axios
-        // http://localhost:9999/job/${this.$route.params.id}
-        .get(`${this.baseURL}/job/${this.$route.params.id}`)
-        .then((res) => {
-          console.log("${this.$route.params.id} = " + this.$route.params.id);
-          this.job = res.data;
-          console.log(">>> (getJob) this.job = " + JSON.stringify());
-        })
-        .catch((err) => console.log(err));
-    },
-  },
-  mounted() {
-    this.getJob();
-  },
-};
+const getJob = async () => {
+  loading.value = true
+  try {
+    job.value = await jobService.getById(route.params.id)
+  } catch (err) {
+    error.value = "Failed to load job details"
+  } finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  getJob()
+})
 </script>
 
 <style>

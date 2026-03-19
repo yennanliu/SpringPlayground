@@ -9,74 +9,81 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
+        <Form @submit="addCluster" v-slot="{ meta }">
           <div class="form-group">
             <label>Url</label>
-            <input type="text" class="form-control" v-model="url" required />
+            <Field
+              name="url"
+              type="text"
+              class="form-control"
+              v-model="url"
+              placeholder="e.g., http://localhost"
+              rules="required|url"
+            />
+            <ErrorMessage name="url" class="invalid-feedback d-block" />
           </div>
 
           <div class="form-group">
             <label>Port</label>
-            <input type="text" class="form-control" v-model="port" required />
+            <Field
+              name="port"
+              type="text"
+              class="form-control"
+              v-model="port"
+              placeholder="e.g., 8081"
+              rules="required|port"
+            />
+            <ErrorMessage name="port" class="invalid-feedback d-block" />
           </div>
 
-          <button type="button" class="btn btn-primary" @click="addCluster">
+          <button type="submit" class="btn btn-primary" :disabled="!meta.valid || loading">
             Submit
+            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </button>
-        </form>
+        </Form>
       </div>
       <div class="col-3"></div>
     </div>
   </div>
 </template>
 
-<script>
-import swal from "sweetalert";
-import axios from "axios";
+<script setup>
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import swal from "sweetalert"
+import { clusterService } from "@/services"
 
-export default {
-  data() {
-    return {
-      url: null,
-      port: null,
-      cluster: null,
-    };
-  },
-  props: ["baseURL"],
-  methods: {
-    async addCluster() {
-      const newCluster = {
-        // cluster: this.cluster,
-        url: this.url,
-        port: this.port,
-      };
+const router = useRouter()
+const url = ref('')
+const port = ref('')
+const loading = ref(false)
 
-      await axios({
-        method: "post",
-        // "http://localhost:9999/" + "cluster/add_cluster",
-        url: `${this.baseURL}/cluster/add_cluster`,
-        data: JSON.stringify(newCluster),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          //sending the event to parent to handle
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListCluster" });
-          swal({
-            text: "Cluster Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
-    },
-  },
-
-  mounted() {},
-};
+const addCluster = async () => {
+  loading.value = true
+  try {
+    await clusterService.create({
+      url: url.value,
+      port: port.value,
+    })
+    router.push({ name: "ListCluster" })
+    swal({
+      text: "Cluster Added Successfully!",
+      icon: "success",
+      closeOnClickOutside: false,
+    })
+  } catch (error) {
+    swal({
+      text: "Failed to add cluster",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  } finally {
+    loading.value = false
+  }
+}
 </script>
 
 <style scoped>

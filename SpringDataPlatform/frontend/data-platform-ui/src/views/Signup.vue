@@ -1,6 +1,3 @@
-<!--
-    https://github.com/webtutsplus/ecommerce-vuejs/blob/master/src/views/Signup.vue
--->
 <template>
   <div class="container">
     <!--    Logo Div-->
@@ -16,62 +13,75 @@
       <div class="col-12 justify-content-center d-flex flex-row pt-5">
         <div id="signup-div" class="flex-item border">
           <h2 class="pt-4 pl-4">Create Account</h2>
-          <form @submit="signup" class="pt-4 pl-4 pr-4">
+          <Form @submit="signup" class="pt-4 pl-4 pr-4" v-slot="{ meta }">
             <div class="form-group">
               <label>Email</label>
-              <input
+              <Field
+                name="email"
                 type="email"
                 class="form-control"
                 v-model="email"
-                required
+                rules="required|email"
               />
+              <ErrorMessage name="email" class="invalid-feedback d-block" />
             </div>
             <div class="form-row">
               <div class="col">
                 <div class="form-group">
                   <label>First Name</label>
-                  <input
-                    type="name"
+                  <Field
+                    name="firstName"
+                    type="text"
                     class="form-control"
                     v-model="firstName"
-                    required
+                    rules="required"
                   />
+                  <ErrorMessage name="firstName" class="invalid-feedback d-block" />
                 </div>
               </div>
               <div class="col">
                 <div class="form-group">
                   <label>Last Name</label>
-                  <input
-                    type="name"
+                  <Field
+                    name="lastName"
+                    type="text"
                     class="form-control"
                     v-model="lastName"
-                    required
+                    rules="required"
                   />
+                  <ErrorMessage name="lastName" class="invalid-feedback d-block" />
                 </div>
               </div>
             </div>
             <div class="form-group">
               <label>Password</label>
-              <input
+              <Field
+                name="password"
                 type="password"
                 class="form-control"
                 v-model="password"
-                required
+                rules="required|min:6"
               />
+              <ErrorMessage name="password" class="invalid-feedback d-block" />
             </div>
             <div class="form-group">
               <label>Confirm Password</label>
-              <input
+              <Field
+                name="passwordConfirm"
                 type="password"
                 class="form-control"
                 v-model="passwordConfirm"
-                required
+                rules="required|confirmed:@password"
               />
+              <ErrorMessage name="passwordConfirm" class="invalid-feedback d-block" />
             </div>
-            <button type="submit" class="btn btn-primary mt-2 py-0">
+            <button type="submit" class="btn btn-primary mt-2 py-0" :disabled="!meta.valid || loading">
               Create Account
+              <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+                <span class="sr-only">Loading...</span>
+              </div>
             </button>
-          </form>
+          </Form>
           <hr />
           <small class="form-text text-muted pt-2 pl-4 text-center"
             >Already Have an Account?</small
@@ -88,65 +98,50 @@
     </div>
   </div>
 </template>
-  
-  <script>
-import swal from "sweetalert";
-import axios from "axios";
 
-export default {
-  name: "Signup",
-  props: ["baseURL"],
-  data() {
-    return {
-      email: null,
-      firstName: null,
-      lastName: null,
-      password: null,
-      passwordConfirm: null,
-    };
-  },
-  methods: {
-    async signup(e) {
-      e.preventDefault();
-      // if the password matches
-      if (this.password === this.passwordConfirm) {
-        // make the post body
-        const user = {
-          email: this.email,
-          firstName: this.firstName,
-          lastName: this.lastName,
-          password: this.password,
-        };
+<script setup>
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { Form, Field, ErrorMessage } from 'vee-validate'
+import swal from "sweetalert"
+import { useAuthStore } from "@/stores"
 
-        // call the API
-        await axios
-          .post(`${this.baseURL}users/signup`, user)
-          .then(() => {
-            // redirect to home page
-            this.$router.replace("/");
-            swal({
-              text: "User signup successful. Please Login",
-              icon: "success",
-              closeOnClickOutside: false,
-            });
-          })
-          .catch((err) => {
-            console.log(err);
-          });
-      } else {
-        // passwords are not matching
-        swal({
-          text: "Error! Passwords are not matching",
-          icon: "error",
-          closeOnClickOutside: false,
-        });
-      }
-    },
-  },
-};
+const router = useRouter()
+const authStore = useAuthStore()
+
+const email = ref('')
+const firstName = ref('')
+const lastName = ref('')
+const password = ref('')
+const passwordConfirm = ref('')
+
+const loading = computed(() => authStore.loading)
+
+const signup = async () => {
+  try {
+    await authStore.signup({
+      email: email.value,
+      firstName: firstName.value,
+      lastName: lastName.value,
+      password: password.value,
+    })
+    router.replace("/")
+    swal({
+      text: "User signup successful. Please Login",
+      icon: "success",
+      closeOnClickOutside: false,
+    })
+  } catch (error) {
+    swal({
+      text: "Signup failed. Please try again.",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  }
+}
 </script>
-  
-  <style scoped>
+
+<style scoped>
 .btn-dark {
   background-color: #e7e9ec;
   color: #000;

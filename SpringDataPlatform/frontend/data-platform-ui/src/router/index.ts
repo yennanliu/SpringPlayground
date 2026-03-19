@@ -1,6 +1,4 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
-//import HomeView from "../views/HomeView.vue";
+import { createRouter, createWebHistory, RouteRecordRaw, RouteLocationNormalized, NavigationGuardNext } from "vue-router";
 import Home from "../views/Home.vue";
 
 // jar
@@ -38,14 +36,18 @@ import Signin from "../views/Signin.vue";
 // admin
 import Admin from "../views/Admin/Admin.vue";
 
-Vue.use(VueRouter);
+// auth store
+import { useAuthStore } from "@/stores";
 
-const routes = [
-  // {
-  //   path: "/",
-  //   name: "home",
-  //   component: HomeView,
-  // },
+// Extend route meta type
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresAuth?: boolean
+    guestOnly?: boolean
+  }
+}
+
+const routes: RouteRecordRaw[] = [
   {
     path: "/",
     name: "Home",
@@ -78,6 +80,7 @@ const routes = [
     path: "/admin/jars/add",
     name: "AddJar",
     component: AddJar,
+    meta: { requiresAuth: true },
   },
 
   // job
@@ -100,6 +103,7 @@ const routes = [
     path: "/admin/jobs/add",
     name: "AddJob",
     component: AddJob,
+    meta: { requiresAuth: true },
   },
 
   // SqlJob
@@ -107,6 +111,7 @@ const routes = [
     path: "/admin/sql_jobs/add",
     name: "AddSqlJob",
     component: AddSqlJob,
+    meta: { requiresAuth: true },
   },
 
   // Zeppelin
@@ -129,6 +134,7 @@ const routes = [
     path: "/admin/notebook/add",
     name: "AddNotebook",
     component: AddNotebook,
+    meta: { requiresAuth: true },
   },
   {
     path: "/notebook_console",
@@ -136,17 +142,20 @@ const routes = [
     component: NotebookConsole,
   },
 
-  //Signin and Signup
+  // Signin and Signup
   {
     path: "/signup",
     name: "Signup",
     component: Signup,
+    meta: { guestOnly: true },
   },
   {
     path: "/signin",
     name: "Signin",
     component: Signin,
+    meta: { guestOnly: true },
   },
+
   // cluster
   {
     path: "/cluster",
@@ -167,19 +176,46 @@ const routes = [
     path: "/admin/clusters/add",
     name: "AddCluster",
     component: AddCluster,
+    meta: { requiresAuth: true },
   },
-  //Admin routes
+
+  // Admin routes
   {
     path: "/admin",
     name: "Admin",
     component: Admin,
+    meta: { requiresAuth: true },
   },
 ];
 
-const router = new VueRouter({
-  mode: "history",
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
   routes,
+});
+
+// Navigation guard
+router.beforeEach((to: RouteLocationNormalized, _from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  const authStore = useAuthStore();
+  const isAuthenticated = authStore.checkAuth();
+
+  // Check if route requires authentication
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    // Redirect to signin with return URL
+    next({
+      name: "Signin",
+      query: { redirect: to.fullPath },
+    });
+    return;
+  }
+
+  // Check if route is for guests only (signin/signup)
+  if (to.meta.guestOnly && isAuthenticated) {
+    // Redirect authenticated users to home
+    next({ name: "Home" });
+    return;
+  }
+
+  next();
 });
 
 export default router;

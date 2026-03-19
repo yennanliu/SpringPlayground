@@ -3,7 +3,10 @@
     <div class="row">
       <div class="col-12 text-center">
         <h1>Notebook List</h1>
-        <h5>{{ msg }}</h5>
+        <h5 v-if="error" class="text-danger">{{ error }}</h5>
+        <div v-if="loading" class="spinner-border" role="status">
+          <span class="sr-only">Loading...</span>
+        </div>
       </div>
     </div>
 
@@ -17,7 +20,6 @@
             <th>Added Time</th>
             <th>Updated Time</th>
             <th>Detail</th>
-            <!-- Add more columns if needed -->
           </tr>
         </thead>
         <tbody>
@@ -28,11 +30,10 @@
             <td>{{ notebook.insertTime }}</td>
             <td>{{ notebook.updateTime }}</td>
             <td>
-              <a :href="`${getZeppelinNotebookLink(notebook)}`" target="_blank">
+              <a :href="getZeppelinNotebookLink(notebook)" target="_blank">
                 View Notebook
               </a>
             </td>
-            <!-- Add more columns if needed -->
           </tr>
         </tbody>
       </table>
@@ -40,44 +41,33 @@
   </div>
 </template>
 
-<script>
-var axios = require("axios");
+<script setup>
+import { ref, onMounted } from 'vue'
+import { zeppelinService } from "@/services"
 
-export default {
-  name: "ListNotebook",
-  data() {
-    return {
-      id: null,
-      notebooks: [],
-      len: 0,
-      msg: null,
-    };
-  },
-  props: ["baseURL"],
-  methods: {
-    getZeppelinNotebookLink(notebook) {
-      if (!notebook) {
-        return null;
-      }
-      //return "http://localhost:8082/next/#/notebook/" + notebook.zeppelinNoteId;
-      return "http://localhost:8082/#/notebook/" + notebook.zeppelinNoteId;
-    },
+const notebooks = ref([])
+const loading = ref(false)
+const error = ref(null)
 
-    async fetchData() {
-      try {
-        // http://localhost:9999/zeppelin/
-        const response = await axios.get(`${this.baseURL}/zeppelin/`);
-        console.log(">>> response = " + JSON.stringify(response));
-        this.notebooks = response.data;
-      } catch (error) {
-        console.error(error);
-      }
-    },
-  },
-  mounted() {
-    this.fetchData();
-  },
-};
+const fetchData = async () => {
+  loading.value = true
+  error.value = null
+  try {
+    notebooks.value = await zeppelinService.getAll()
+  } catch (err) {
+    error.value = "Failed to load notebooks"
+  } finally {
+    loading.value = false
+  }
+}
+
+const getZeppelinNotebookLink = (notebook) => {
+  return zeppelinService.getNotebookLink(notebook)
+}
+
+onMounted(() => {
+  fetchData()
+})
 </script>
 
 <style scoped>

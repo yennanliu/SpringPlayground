@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-3"></div>
       <div class="col-md-6 px-5 px-md-0">
-        <form>
+        <form @submit.prevent="addNoteBook">
           <div class="form-group">
             <label>Notebook Name</label>
             <input
@@ -20,19 +20,24 @@
             />
           </div>
 
-          <label>Interpreter</label>
-          <select class="form-control" v-model="interpreterGroup" required>
-            <option
-              v-for="schema of schemas"
-              :key="schema.id"
-              :value="schema.columnName"
-            >
-              {{ schema.columnName.toUpperCase() }}
-            </option>
-          </select>
+          <div class="form-group">
+            <label>Interpreter</label>
+            <select class="form-control" v-model="interpreterGroup" required>
+              <option
+                v-for="schema of schemas"
+                :key="schema.id"
+                :value="schema.columnName"
+              >
+                {{ schema.columnName.toUpperCase() }}
+              </option>
+            </select>
+          </div>
 
-          <button type="button" class="btn btn-primary" @click="addNoteBook">
+          <button type="submit" class="btn btn-primary" :disabled="loading">
             Submit
+            <div v-if="loading" class="spinner-border spinner-border-sm" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
           </button>
         </form>
       </div>
@@ -41,68 +46,66 @@
   </div>
 </template>
 
-<script>
-import swal from "sweetalert";
-import axios from "axios";
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import swal from "sweetalert"
+import { zeppelinService } from "@/services"
 
-export default {
-  data() {
-    return {
-      url: null,
-      port: null,
-      cluster: null,
-      schemas: [],
-      interpreterGroup: this.interpreterGroup,
-    };
-  },
-  props: ["baseURL"],
-  methods: {
-    async addNoteBook() {
-      const newNoteBook = {
-        notePath: this.notePath,
-        interpreterGroup: this.interpreterGroup,
-      };
+const router = useRouter()
+const notePath = ref('')
+const schemas = ref([])
+const interpreterGroup = ref('')
+const loading = ref(false)
 
-      await axios({
-        method: "post",
-        // http://localhost:9999/zeppelin/add
-        url: `${this.baseURL}/zeppelin/add`,
-        data: JSON.stringify(newNoteBook),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((res) => {
-          console.log(res);
-          this.$emit("fetchData");
-          this.$router.push({ name: "ListNotebook" });
-          swal({
-            text: "Notebook Added Successfully!",
-            icon: "success",
-            closeOnClickOutside: false,
-          });
-        })
-        .catch((err) => console.log(err));
-    },
-    async getSchemas() {
-      // fetch users
-      await axios
-        //.get("http://localhost:9999/schema/active/")
-        .get(`${this.baseURL}/schema/active/`)
-        .then((res) => {
-          this.schemas = res.data.filter((x) => x.schemaName === "interpreter");
-          console.log(
-            ">>> (getSchemas) this.schemas = " + JSON.stringify(this.schemas)
-          );
-        })
-        .catch((err) => console.log(err));
-    },
-  },
+const addNoteBook = async () => {
+  if (!notePath.value || !interpreterGroup.value) {
+    swal({
+      text: "Please enter notebook name and select interpreter",
+      icon: "warning",
+      closeOnClickOutside: false,
+    })
+    return
+  }
 
-  mounted() {
-    this.getSchemas();
-  },
-};
+  loading.value = true
+  try {
+    await zeppelinService.create({
+      notePath: notePath.value,
+      interpreterGroup: interpreterGroup.value,
+    })
+    router.push({ name: "ListNotebook" })
+    swal({
+      text: "Notebook Added Successfully!",
+      icon: "success",
+      closeOnClickOutside: false,
+    })
+  } catch (error) {
+    swal({
+      text: "Failed to create notebook",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  } finally {
+    loading.value = false
+  }
+}
+
+const getSchemas = async () => {
+  try {
+    schemas.value = await zeppelinService.getInterpreters()
+  } catch (error) {
+    swal({
+      text: "Failed to load interpreters",
+      icon: "error",
+      closeOnClickOutside: false,
+    })
+  }
+}
+
+onMounted(() => {
+  getSchemas()
+})
 </script>
 
 <style scoped>

@@ -1,0 +1,73 @@
+// Form styles
+.form-group {
+  margin-bottom: $spacing-md;
+
+  label {
+    display: block;
+    margin-bottom: $spacing-xs;
+    font-weight: $font-weight-medium;
+    color: $gray-700;
+  }
+}
+
+.form-control {
+  @include form-input;
+
+  &::placeholder {
+    color: $gray-500;
+  }
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -$spacing-sm;
+  margin-left: -$spacing-sm;
+
+  .col {
+    flex: 1;
+    padding-right: $spacing-sm;
+    padding-left: $spacing-sm;
+  }
+}
+
+// Select styling
+select.form-control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3e%3cpath fill='%23343a40' d='M2 0L0 2h4zm0 5L0 3h4z'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right $spacing-sm center;
+  background-size: 8px 10px;
+  padding-right: $spacing-lg;
+}
+
+// Textarea
+textarea.form-control {
+  min-height: 100px;
+  resize: vertical;
+}
+
+// File input
+input[type="file"].form-control {
+  padding: $spacing-xs;
+}
+
+// Validation states
+.is-invalid {
+  border-color: $danger-color !important;
+}
+
+.invalid-feedback {
+  display: block;
+  width: 100%;
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $danger-color;
+}
+
+.form-text {
+  display: block;
+  margin-top: $spacing-xs;
+  font-size: $font-size-sm;
+  color: $gray-600;
+}
