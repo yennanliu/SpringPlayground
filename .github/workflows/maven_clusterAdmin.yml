@@ -1,0 +1,226 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+name: (ClusterAdmin) Java CI with Maven
+
+on:
+  push:
+    branches: [ "main" ]
+    paths:
+      - 'clusterAdmin/**'
+      - '.github/workflows/maven_clusterAdmin.yml'
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - 'clusterAdmin/**'
+      - '.github/workflows/maven_clusterAdmin.yml'
+
+env:
+  WORKING_DIR: clusterAdmin
+
+jobs:
+  # Job 1: Build and Compile
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Build with Maven
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn clean compile -B
+
+    - name: Verify build artifacts
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        ls -la target/classes/com/yen/clusterAdmin/
+
+  # Job 2: Run Tests
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Run Unit Tests
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn test -B
+
+    - name: Generate Test Report
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn surefire-report:report-only -B || true
+
+    - name: Upload Test Results
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: test-results
+        path: |
+          ${{ env.WORKING_DIR }}/target/surefire-reports/
+          ${{ env.WORKING_DIR }}/target/site/surefire-report.html
+        retention-days: 7
+
+    - name: Test Summary
+      if: always()
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        echo "### Test Results" >> $GITHUB_STEP_SUMMARY
+        if [ -d "target/surefire-reports" ]; then
+          TOTAL=$(grep -l "testsuite" target/surefire-reports/*.xml 2>/dev/null | wc -l || echo "0")
+          FAILURES=$(grep -h "failures=" target/surefire-reports/*.xml 2>/dev/null | grep -oP 'failures="\K[0-9]+' | awk '{s+=$1} END {print s+0}')
+          ERRORS=$(grep -h "errors=" target/surefire-reports/*.xml 2>/dev/null | grep -oP 'errors="\K[0-9]+' | awk '{s+=$1} END {print s+0}')
+          echo "- Test suites: $TOTAL" >> $GITHUB_STEP_SUMMARY
+          echo "- Failures: $FAILURES" >> $GITHUB_STEP_SUMMARY
+          echo "- Errors: $ERRORS" >> $GITHUB_STEP_SUMMARY
+        fi
+
+  # Job 3: Code Quality Checks
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Check code formatting (Checkstyle)
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn checkstyle:check -B || echo "::warning::Checkstyle check completed with warnings"
+      continue-on-error: true
+
+    - name: Static code analysis (SpotBugs)
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn compile spotbugs:check -B || echo "::warning::SpotBugs found potential issues"
+      continue-on-error: true
+
+    - name: Dependency vulnerability check
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn dependency-check:check -B || echo "::warning::Dependency check found vulnerabilities"
+      continue-on-error: true
+
+    - name: Upload Code Quality Reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: code-quality-reports
+        path: |
+          ${{ env.WORKING_DIR }}/target/checkstyle-result.xml
+          ${{ env.WORKING_DIR }}/target/spotbugsXml.xml
+          ${{ env.WORKING_DIR }}/target/dependency-check-report.html
+        retention-days: 7
+        if-no-files-found: ignore
+
+  # Job 4: Package
+  package:
+    name: Package
+    runs-on: ubuntu-latest
+    needs: [build, test]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Package JAR
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        mvn package -DskipTests -B
+
+    - name: Verify JAR
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        ls -la target/*.jar
+        jar tf target/clusterAdmin-*.jar | head -20
+
+    - name: Upload JAR artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: clusteradmin-jar
+        path: ${{ env.WORKING_DIR }}/target/*.jar
+        retention-days: 7
+
+  # Job 5: Integration validation (optional - validates app can start)
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    needs: package
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Download JAR artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: clusteradmin-jar
+        path: ${{ env.WORKING_DIR }}/target/
+
+    - name: Validate application starts
+      run: |
+        cd ${{ env.WORKING_DIR }}
+        java -jar target/clusterAdmin-*.jar --server.port=8080 &
+        APP_PID=$!
+        sleep 15
+
+        # Check if app is responding
+        HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" http://localhost:8080/api/v1/cluster/status || echo "000")
+
+        if [ "$HTTP_CODE" = "200" ]; then
+          echo "Application started successfully and API is responding"
+          echo "### Validation Passed" >> $GITHUB_STEP_SUMMARY
+          echo "Application started and responded with HTTP $HTTP_CODE" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "Application validation failed with HTTP code: $HTTP_CODE"
+          echo "### Validation Failed" >> $GITHUB_STEP_SUMMARY
+          echo "HTTP response code: $HTTP_CODE" >> $GITHUB_STEP_SUMMARY
+          kill $APP_PID 2>/dev/null || true
+          exit 1
+        fi
+
+        kill $APP_PID 2>/dev/null || true
