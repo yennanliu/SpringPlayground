@@ -177,8 +177,15 @@ a.btn {
       border-radius: 0 $border-radius-md $border-radius-md 0;
     }
 
-    &:not(:last-child) {
-      border-right: 1px solid rgba(0, 0, 0, 0.1);
+    // Use negative margin to overlap borders for outlined buttons
+    + .btn {
+      margin-left: -1px;
+    }
+
+    // Ensure hovered/focused button appears on top
+    &:hover,
+    &:focus {
+      z-index: 1;
     }
   }
 }

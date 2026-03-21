@@ -240,10 +240,14 @@ a {
 
 // Skeleton loading animation
 .skeleton {
-  background: linear-gradient(90deg, $gray-200 25%, $gray-100 50%, $gray-200 75%);
-  background-size: 200% 100%;
-  animation: skeleton-loading 1.5s infinite;
+  background: $gray-200;
   border-radius: $border-radius-sm;
+
+  @media (prefers-reduced-motion: no-preference) {
+    background: linear-gradient(90deg, $gray-200 25%, $gray-100 50%, $gray-200 75%);
+    background-size: 200% 100%;
+    animation: skeleton-loading 1.5s infinite;
+  }
 }
 
 @keyframes skeleton-loading {

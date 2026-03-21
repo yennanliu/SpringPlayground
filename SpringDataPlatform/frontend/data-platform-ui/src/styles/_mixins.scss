@@ -130,13 +130,9 @@
     box-shadow: 0 0 0 3px rgba($accent-color, 0.4);
   }
 
+  // Remove focus ring for mouse/touch interactions, keep for keyboard
   &:focus:not(:focus-visible) {
     box-shadow: none;
-  }
-
-  &:focus-visible {
-    outline: none;
-    box-shadow: 0 0 0 3px rgba($accent-color, 0.4);
   }
 }
 

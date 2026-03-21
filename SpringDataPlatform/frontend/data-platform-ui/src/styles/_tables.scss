@@ -98,7 +98,10 @@
     border-radius: 50%;
     background-color: $success-color;
     margin-right: $spacing-xs;
-    animation: pulse 2s infinite;
+
+    @media (prefers-reduced-motion: no-preference) {
+      animation: pulse 2s infinite;
+    }
   }
 }
 
