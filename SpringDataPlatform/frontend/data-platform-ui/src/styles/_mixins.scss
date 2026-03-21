@@ -108,3 +108,74 @@
     clear: both;
   }
 }
+
+// Card with interactive hover lift effect
+@mixin card-interactive {
+  background: $secondary-color;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  padding: $spacing-lg;
+  transition: transform 0.25s $animation-smooth, box-shadow 0.25s $animation-smooth;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-card-hover;
+  }
+}
+
+// Accessibility focus ring
+@mixin focus-ring {
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($accent-color, 0.4);
+  }
+
+  &:focus:not(:focus-visible) {
+    box-shadow: none;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($accent-color, 0.4);
+  }
+}
+
+// Status badge base styling
+@mixin badge {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-xs $spacing-sm;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border-radius: 9999px;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+// Circular icon container
+@mixin icon-circle($size: 48px, $bg: $gray-100) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: $size;
+  height: $size;
+  border-radius: 50%;
+  background-color: $bg;
+  transition: background-color $transition-base, transform $transition-base;
+}
+
+// Smooth dropdown animation
+@mixin dropdown-animate {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: opacity 0.2s $animation-smooth,
+              transform 0.2s $animation-smooth,
+              visibility 0.2s;
+}
+
+@mixin dropdown-animate-show {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}

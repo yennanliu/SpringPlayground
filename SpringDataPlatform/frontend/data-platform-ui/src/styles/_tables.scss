@@ -1,42 +1,73 @@
 // Table styles
+
+// Table wrapper with shadow and rounded corners
+.table-wrapper {
+  background: $secondary-color;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+}
+
 .table {
   width: 100%;
-  margin-bottom: $spacing-md;
+  margin-bottom: 0;
   color: $gray-900;
   border-collapse: collapse;
 
   th,
   td {
     padding: $spacing-sm $spacing-md;
-    vertical-align: top;
-    border-top: 1px solid $gray-300;
+    vertical-align: middle;
+    border-top: 1px solid $gray-200;
   }
 
   thead th {
     vertical-align: bottom;
-    border-bottom: 2px solid $gray-300;
+    border-bottom: 2px solid $gray-200;
     font-weight: $font-weight-bold;
     background-color: $gray-100;
+    text-transform: uppercase;
+    font-size: $font-size-sm;
+    letter-spacing: 0.05em;
+    color: $gray-700;
   }
 
   tbody tr {
+    transition: background-color $transition-fast;
+
     &:hover {
-      background-color: $gray-100;
+      background-color: rgba($accent-color, 0.05);
+    }
+
+    &:last-child td {
+      border-bottom: none;
     }
   }
 
   // Striped rows
   &.table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(0, 0, 0, 0.02);
+
+    &:hover {
+      background-color: rgba($accent-color, 0.05);
+    }
   }
 
   // Bordered
   &.table-bordered {
-    border: 1px solid $gray-300;
+    border: 1px solid $gray-200;
 
     th,
     td {
-      border: 1px solid $gray-300;
+      border: 1px solid $gray-200;
+    }
+  }
+
+  // Compact table
+  &.table-sm {
+    th,
+    td {
+      padding: $spacing-xs $spacing-sm;
     }
   }
 
@@ -46,5 +77,117 @@
     width: 100%;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    border-radius: $border-radius-lg;
+  }
+}
+
+// Status badges for tables
+.badge {
+  @include badge;
+}
+
+.badge-success {
+  background-color: rgba($success-color, 0.1);
+  color: $success-color;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $success-color;
+    margin-right: $spacing-xs;
+    animation: pulse 2s infinite;
+  }
+}
+
+.badge-danger {
+  background-color: rgba($danger-color, 0.1);
+  color: $danger-color;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $danger-color;
+    margin-right: $spacing-xs;
+  }
+}
+
+.badge-warning {
+  background-color: rgba($warning-color, 0.15);
+  color: darken($warning-color, 20%);
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $warning-color;
+    margin-right: $spacing-xs;
+  }
+}
+
+.badge-info {
+  background-color: rgba($info-color, 0.1);
+  color: $info-color;
+
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: $info-color;
+    margin-right: $spacing-xs;
+  }
+}
+
+.badge-neutral {
+  background-color: $gray-200;
+  color: $gray-700;
+}
+
+// Pulse animation for active status
+@keyframes pulse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// Table action links
+.table-action {
+  color: $primary-color;
+  font-weight: $font-weight-medium;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $accent-color;
+    text-decoration: none;
+
+    .action-arrow {
+      transform: translateX(3px);
+    }
+  }
+
+  .action-arrow {
+    transition: transform $transition-base;
   }
 }

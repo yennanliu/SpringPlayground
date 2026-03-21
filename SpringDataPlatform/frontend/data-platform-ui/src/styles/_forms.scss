@@ -7,14 +7,28 @@
     margin-bottom: $spacing-xs;
     font-weight: $font-weight-medium;
     color: $gray-700;
+    font-size: $font-size-sm;
+    letter-spacing: 0.01em;
   }
 }
 
 .form-control {
   @include form-input;
+  @include focus-ring;
+  background-color: $secondary-color;
+  transition: border-color $transition-fast, box-shadow $transition-fast, background-color $transition-fast;
 
   &::placeholder {
     color: $gray-500;
+    transition: opacity $transition-fast;
+  }
+
+  &:focus::placeholder {
+    opacity: 0.5;
+  }
+
+  &:hover:not(:focus):not(:disabled) {
+    border-color: $gray-400;
   }
 }
 
@@ -70,4 +84,60 @@ input[type="file"].form-control {
   margin-top: $spacing-xs;
   font-size: $font-size-sm;
   color: $gray-600;
+}
+
+// Input group styling
+.input-group {
+  display: flex;
+  position: relative;
+
+  .form-control {
+    flex: 1;
+    min-width: 0;
+
+    &:not(:first-child) {
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
+
+  .input-group-prepend,
+  .input-group-append {
+    display: flex;
+  }
+
+  .input-group-text {
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-base;
+    font-weight: $font-weight-normal;
+    color: $gray-700;
+    background-color: $gray-100;
+    border: 1px solid $gray-300;
+  }
+
+  .input-group-prepend .input-group-text {
+    border-right: 0;
+    border-radius: $border-radius-sm 0 0 $border-radius-sm;
+  }
+
+  .input-group-append .input-group-text {
+    border-left: 0;
+    border-radius: 0 $border-radius-sm $border-radius-sm 0;
+  }
+}
+
+// Form card wrapper for auth forms
+.form-card {
+  background: $secondary-color;
+  border-radius: $border-radius-lg;
+  box-shadow: $shadow-lg;
+  padding: $spacing-xl;
+  border: 1px solid $gray-200;
 }
