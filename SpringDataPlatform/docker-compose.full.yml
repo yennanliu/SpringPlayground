@@ -1,0 +1,119 @@
+# Full stack: FE + BE + Flink + all dependencies
+# Usage: docker compose -f docker-compose.full.yml up
+
+services:
+  # ============================================
+  # Core Services
+  # ============================================
+  backend:
+    build:
+      context: ./backend/DataPlatform/FlinkRestService
+      dockerfile: Dockerfile
+    ports:
+      - "9999:9999"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/data_platform?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+      SERVER_PORT: 9999
+      FLINK_JOBMANAGER_HOST: jobmanager
+      FLINK_JOBMANAGER_PORT: 8081
+    depends_on:
+      mysql:
+        condition: service_healthy
+      jobmanager:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9999/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend/data-platform-ui
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend/data-platform-ui:/app
+      - /app/node_modules
+    command: npm run serve
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  # ============================================
+  # Database
+  # ============================================
+  mysql:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: data_platform
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+
+  # ============================================
+  # Flink Cluster
+  # ============================================
+  jobmanager:
+    image: flink:1.17-scala_2.12-java11
+    ports:
+      - "8081:8081"
+    command: jobmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        jobmanager.memory.process.size: 1024m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/overview"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  taskmanager:
+    image: flink:1.17-scala_2.12-java11
+    depends_on:
+      - jobmanager
+    command: taskmanager
+    deploy:
+      replicas: 2
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+        taskmanager.memory.process.size: 1024m
+    restart: unless-stopped
+
+  # ============================================
+  # Reverse Proxy / Load Balancer
+  # ============================================
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
+    restart: unless-stopped
+
+volumes:
+  mysql-data:

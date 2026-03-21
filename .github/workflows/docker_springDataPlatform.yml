@@ -7,7 +7,7 @@ on:
   push:
     branches: [main, 'dataPlatform-dev-*']
     paths:
-      - 'SpringDataPlatform/docker-compose.yml'
+      - 'SpringDataPlatform/docker-compose*.yml'
       - 'SpringDataPlatform/**/Dockerfile'
       - 'SpringDataPlatform/backend/**'
       - 'SpringDataPlatform/frontend/**'
@@ -16,7 +16,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'SpringDataPlatform/docker-compose.yml'
+      - 'SpringDataPlatform/docker-compose*.yml'
       - 'SpringDataPlatform/**/Dockerfile'
       - 'SpringDataPlatform/backend/**'
       - 'SpringDataPlatform/frontend/**'
@@ -58,6 +58,9 @@ jobs:
 
       - name: Validate docker-compose.yml
         run: docker compose config --quiet
+
+      - name: Validate docker-compose.full.yml
+        run: docker compose -f docker-compose.full.yml config --quiet
 
   # ============================================
   # Build Images
@@ -211,3 +214,74 @@ jobs:
       - name: Cleanup
         if: always()
         run: docker compose --profile flink down -v
+
+  # ============================================
+  # Test: Full Stack (docker-compose.full.yml)
+  # ============================================
+  test-full:
+    name: Test Full Stack
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start full stack
+        run: docker compose -f docker-compose.full.yml up -d --build
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if docker compose -f docker-compose.full.yml exec -T mysql mysqladmin ping -h localhost -uroot -proot 2>/dev/null; then
+              echo "MySQL ready"
+              break
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 5
+          done
+
+      - name: Wait for Flink
+        run: |
+          for i in {1..20}; do
+            if curl -sf http://localhost:8081/overview 2>/dev/null; then
+              echo "Flink ready"
+              break
+            fi
+            echo "Waiting for Flink... ($i/20)"
+            sleep 5
+          done
+
+      - name: Wait for Backend
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:9999/actuator/health 2>/dev/null; then
+              echo "Backend ready"
+              break
+            fi
+            echo "Waiting for Backend... ($i/30)"
+            sleep 10
+          done
+
+      - name: Health check all services
+        run: |
+          echo "=== All Services ==="
+          docker compose -f docker-compose.full.yml ps
+          echo ""
+          echo "=== MySQL ==="
+          docker compose -f docker-compose.full.yml exec -T mysql mysqladmin ping -h localhost -uroot -proot
+          echo ""
+          echo "=== Flink JobManager ==="
+          curl -sf http://localhost:8081/overview | head -c 200
+          echo ""
+          echo "=== Backend ==="
+          curl -sf http://localhost:9999/actuator/health
+          echo ""
+          echo "=== Nginx ==="
+          curl -sf http://localhost:80 || echo "Nginx serving"
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose -f docker-compose.full.yml logs
+
+      - name: Cleanup
+        if: always()
+        run: docker compose -f docker-compose.full.yml down -v
