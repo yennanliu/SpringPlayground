@@ -1,4 +1,6 @@
-# FROM nginx:alpine
-#
-# COPY default.conf /etc/nginx/conf.d/
-# COPY index.html /usr/share/nginx/html/
+# nginx with native ARM support
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 80

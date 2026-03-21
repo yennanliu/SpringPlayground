@@ -1,82 +1,100 @@
-version: '3'
 services:
-  app1:
-    restart: always
-    build: ./backend/DataPlatform/FlinkRestService # backend dockerfile
-    working_dir: /app
-    volumes:
-      - ./backend/DataPlatform:/app
-      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
+  # ============================================
+  # Core Services (FE + BE)
+  # ============================================
+  backend:
+    build:
+      context: ./backend/DataPlatform/FlinkRestService
+      dockerfile: Dockerfile
     ports:
       - "9999:9999"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/data_platform
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
-      - SPRING_JPA_GENERATE_DDL=true
-      - SERVER_PORT=9999
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/data_platform?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "false"
+      SERVER_PORT: 9999
+      # Flink connection (only used when flink profile is active)
+      FLINK_JOBMANAGER_HOST: jobmanager
+      FLINK_JOBMANAGER_PORT: 8081
     depends_on:
-      - mysql
-    command: mvn clean spring-boot:run -DskipTests
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:9999/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
 
-  app2:
-    restart: always
-    build: ./backend/DataPlatform/FlinkRestService # backend dockerfile
-    working_dir: /app
-    volumes:
-      - ./backend/DataPlatform:/app
-      - ~/.m2/repository:/root/.m2/repository  # Mount Maven local repository
+  frontend:
+    build:
+      context: ./frontend/data-platform-ui
+      dockerfile: Dockerfile
     ports:
-      - "9998:9998"  # Port mapping for app2
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/data_platform
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
-      - SPRING_JPA_GENERATE_DDL=true
-      - SERVER_PORT=9998
-    depends_on:
-      - mysql
-    command: mvn clean spring-boot:run -DskipTests
-
-  vue:
-    restart: always
-    build: ./frontend/data-platform-ui
-    working_dir: /app
-    ports:
-      - "8080:8080"  # Map host port 8080 to container port 8080
+      - "8080:8080"
     volumes:
-      - ./frontend/data-platform-ui:/app  # Mount the current directory into the container
+      - ./frontend/data-platform-ui:/app
+      - /app/node_modules
     command: npm run serve
+    depends_on:
+      - backend
+    restart: unless-stopped
 
   mysql:
-    image: mysql:5.7
-    restart: always
+    image: mysql:8.0
     environment:
       MYSQL_DATABASE: data_platform
-      MYSQL_ROOT_PASSWORD:
-      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+      MYSQL_ROOT_PASSWORD: root
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
 
-  nginx:
-    image: nginx
-    restart: always
+  # ============================================
+  # Flink Services (use: docker compose --profile flink up)
+  # ============================================
+  jobmanager:
+    image: flink:1.17-scala_2.12-java11
+    profiles: ["flink"]
     ports:
       - "8081:8081"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/index.html:/app/html:ro
+    command: jobmanager
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        jobmanager.memory.process.size: 1024m
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/overview"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  taskmanager:
+    image: flink:1.17-scala_2.12-java11
+    profiles: ["flink"]
     depends_on:
-      - app1
-      - app2
+      - jobmanager
+    command: taskmanager
+    deploy:
+      replicas: 1
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+        taskmanager.memory.process.size: 1024m
+    restart: unless-stopped
 
 volumes:
   mysql-data:
