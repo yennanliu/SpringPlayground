@@ -1,6 +1,18 @@
 // Button styles
 .btn {
   @include button-base;
+  @include focus-ring;
+  position: relative;
+  overflow: hidden;
+
+  // Smooth hover transitions
+  &:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  &:active:not(:disabled) {
+    transform: translateY(0);
+  }
 
   // Primary button
   &-primary {
@@ -22,6 +34,18 @@
     }
   }
 
+  // Accent button (gold)
+  &-accent {
+    background-color: $accent-color;
+    color: $primary-color;
+    font-weight: $font-weight-bold;
+
+    &:hover:not(:disabled) {
+      background-color: darken($accent-color, 8%);
+      box-shadow: $shadow-md;
+    }
+  }
+
   // Outline button
   &-outline {
     background-color: transparent;
@@ -34,16 +58,29 @@
     }
   }
 
+  // Outline accent button
+  &-outline-accent {
+    background-color: transparent;
+    border: 2px solid $accent-color;
+    color: $accent-color;
+
+    &:hover:not(:disabled) {
+      background-color: $accent-color;
+      color: $primary-color;
+    }
+  }
+
   // Dark button
   &-dark {
     background-color: $gray-200;
     color: $primary-color;
     font-size: $font-size-sm;
-    border-radius: 0;
+    border-radius: $border-radius-sm;
     border: 1px solid $gray-400;
 
     &:hover:not(:disabled) {
       background-color: $gray-300;
+      border-color: $gray-500;
     }
   }
 
@@ -67,6 +104,17 @@
     }
   }
 
+  // Ghost button (subtle)
+  &-ghost {
+    background-color: transparent;
+    color: $gray-700;
+
+    &:hover:not(:disabled) {
+      background-color: $gray-100;
+      color: $primary-color;
+    }
+  }
+
   // Sizes
   &-sm {
     padding: $spacing-xs $spacing-sm;
@@ -83,9 +131,61 @@
     display: block;
     width: 100%;
   }
+
+  // Icon button
+  &-icon {
+    padding: $spacing-sm;
+    border-radius: $border-radius-md;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  // Improved disabled state
+  &:disabled,
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
 }
 
 // Link styled as button
 a.btn {
   text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+// Button group
+.btn-group {
+  display: inline-flex;
+
+  .btn {
+    border-radius: 0;
+
+    &:first-child {
+      border-radius: $border-radius-md 0 0 $border-radius-md;
+    }
+
+    &:last-child {
+      border-radius: 0 $border-radius-md $border-radius-md 0;
+    }
+
+    // Use negative margin to overlap borders for outlined buttons
+    + .btn {
+      margin-left: -1px;
+    }
+
+    // Ensure hovered/focused button appears on top
+    &:hover,
+    &:focus {
+      z-index: 1;
+    }
+  }
 }

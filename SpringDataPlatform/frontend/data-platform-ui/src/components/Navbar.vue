@@ -11,7 +11,12 @@
       <!-- Menu Items -->
       <div class="navbar-menu">
         <div class="navbar-item dropdown">
-          <span class="dropdown-toggle">Cluster</span>
+          <span class="dropdown-toggle">
+            Cluster
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
           <div class="dropdown-content">
             <router-link :to="{ name: 'ListCluster' }">Cluster List</router-link>
             <router-link :to="{ name: 'AddCluster' }">Add Cluster</router-link>
@@ -19,7 +24,12 @@
         </div>
 
         <div class="navbar-item dropdown">
-          <span class="dropdown-toggle">Zeppelin</span>
+          <span class="dropdown-toggle">
+            Zeppelin
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
           <div class="dropdown-content">
             <router-link :to="{ name: 'Zeppelin' }">Zeppelin Home</router-link>
             <router-link :to="{ name: 'ListNotebook' }">Notebook List</router-link>
@@ -29,7 +39,12 @@
         </div>
 
         <div class="navbar-item dropdown">
-          <span class="dropdown-toggle">Flink Jobs</span>
+          <span class="dropdown-toggle">
+            Flink Jobs
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
           <div class="dropdown-content">
             <router-link :to="{ name: 'ListJob' }">Job List</router-link>
             <router-link :to="{ name: 'AddJob' }">Submit new Jar Job</router-link>
@@ -38,7 +53,12 @@
         </div>
 
         <div class="navbar-item dropdown">
-          <span class="dropdown-toggle">Flink Jar</span>
+          <span class="dropdown-toggle">
+            Flink Jar
+            <svg class="dropdown-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
           <div class="dropdown-content">
             <router-link :to="{ name: 'Home' }">Home</router-link>
             <router-link :to="{ name: 'ListJar' }">Jar List</router-link>
@@ -101,7 +121,7 @@ const handleSignout = () => {
   z-index: 1000;
   display: flex;
   align-items: center;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-container {
@@ -121,6 +141,11 @@ const handleSignout = () => {
 #logo {
   height: 30px;
   width: auto;
+  transition: opacity 0.2s ease;
+}
+
+#logo:hover {
+  opacity: 0.8;
 }
 
 .navbar-menu {
@@ -140,37 +165,78 @@ const handleSignout = () => {
 .dropdown-toggle {
   color: #ffffff;
   padding: 8px 0;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease;
+}
+
+.dropdown-toggle:hover {
+  color: #f0c14b;
+}
+
+.dropdown-arrow {
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navbar-item:hover .dropdown-arrow {
+  transform: rotate(180deg);
 }
 
 .dropdown-content {
-  display: none;
   position: absolute;
   background-color: #ffffff;
-  min-width: 180px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
   z-index: 1;
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
-  top: 40px;
+  top: 45px;
   left: -20px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+              visibility 0.25s;
+}
+
+.navbar-item:hover .dropdown-content {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .dropdown-content a {
   color: #000000;
-  padding: 12px 16px;
+  padding: 14px 20px;
   text-decoration: none;
   display: block;
   font-size: 14px;
-  transition: background-color 0.2s;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.dropdown-content a::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: #f0c14b;
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
 }
 
 .dropdown-content a:hover {
-  background-color: #f5f5f5;
+  background-color: #f8f8f8;
+  padding-left: 24px;
 }
 
-.navbar-item:hover .dropdown-content {
-  display: block;
+.dropdown-content a:hover::before {
+  transform: scaleY(1);
 }
 
 .navbar-auth {
@@ -181,27 +247,48 @@ const handleSignout = () => {
 .auth-buttons {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 .btn-login, .btn-admin {
   color: #ffffff;
-  margin-right: 15px;
-  padding: 8px 16px;
+  padding: 10px 20px;
   font-weight: 500;
+  transition: color 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-login:hover, .btn-admin:hover {
+  color: #f0c14b;
 }
 
 .btn-signup, .btn-signout {
   background-color: #ffffff;
   color: #000000;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border-radius: 8px;
   font-weight: 500;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.btn-signup:hover, .btn-signout:hover {
+  background-color: #f0c14b;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(240, 193, 75, 0.3);
 }
 
 .mobile-toggle {
   display: none;
   flex-direction: column;
   cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .mobile-toggle span {
@@ -210,6 +297,7 @@ const handleSignout = () => {
   background-color: #ffffff;
   margin: 3px 0;
   transition: all 0.3s ease;
+  border-radius: 2px;
 }
 
 @media (max-width: 992px) {
