@@ -1,0 +1,213 @@
+# Docker CI workflow for SpringDataPlatform
+# Validates, builds, and tests Docker setup for FE+BE and FE+BE+Flink
+
+name: (SpringDataPlatform) Docker CI
+
+on:
+  push:
+    branches: [main, 'dataPlatform-dev-*']
+    paths:
+      - 'SpringDataPlatform/docker-compose.yml'
+      - 'SpringDataPlatform/**/Dockerfile'
+      - 'SpringDataPlatform/backend/**'
+      - 'SpringDataPlatform/frontend/**'
+      - 'SpringDataPlatform/nginx/**'
+      - '.github/workflows/docker_springDataPlatform.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'SpringDataPlatform/docker-compose.yml'
+      - 'SpringDataPlatform/**/Dockerfile'
+      - 'SpringDataPlatform/backend/**'
+      - 'SpringDataPlatform/frontend/**'
+      - 'SpringDataPlatform/nginx/**'
+      - '.github/workflows/docker_springDataPlatform.yml'
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: SpringDataPlatform
+
+jobs:
+  # ============================================
+  # Validate Dockerfiles
+  # ============================================
+  validate:
+    name: Validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Lint Backend Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: SpringDataPlatform/backend/DataPlatform/FlinkRestService/Dockerfile
+          failure-threshold: error
+
+      - name: Lint Frontend Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: SpringDataPlatform/frontend/data-platform-ui/Dockerfile
+          failure-threshold: error
+
+      - name: Lint Nginx Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: SpringDataPlatform/nginx/Dockerfile
+          failure-threshold: error
+
+      - name: Validate docker-compose.yml
+        run: docker compose config --quiet
+
+  # ============================================
+  # Build Images
+  # ============================================
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: validate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Backend
+        uses: docker/build-push-action@v5
+        with:
+          context: SpringDataPlatform/backend/DataPlatform/FlinkRestService
+          push: false
+          tags: data-platform-backend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Frontend
+        uses: docker/build-push-action@v5
+        with:
+          context: SpringDataPlatform/frontend/data-platform-ui
+          push: false
+          tags: data-platform-frontend:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Build Nginx
+        uses: docker/build-push-action@v5
+        with:
+          context: SpringDataPlatform/nginx
+          push: false
+          tags: data-platform-nginx:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  # ============================================
+  # Test: FE + BE
+  # ============================================
+  test-core:
+    name: Test FE+BE
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start services
+        run: docker compose up -d --build
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if docker compose exec -T mysql mysqladmin ping -h localhost -uroot -proot 2>/dev/null; then
+              echo "MySQL ready"
+              break
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 5
+          done
+
+      - name: Wait for Backend
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:9999/actuator/health 2>/dev/null; then
+              echo "Backend ready"
+              break
+            fi
+            echo "Waiting for Backend... ($i/30)"
+            sleep 10
+          done
+
+      - name: Health check
+        run: |
+          echo "=== Services ==="
+          docker compose ps
+          echo "=== Backend ==="
+          curl -sf http://localhost:9999/actuator/health || exit 1
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose logs
+
+      - name: Cleanup
+        if: always()
+        run: docker compose down -v
+
+  # ============================================
+  # Test: FE + BE + Flink
+  # ============================================
+  test-flink:
+    name: Test FE+BE+Flink
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Start services with Flink
+        run: docker compose --profile flink up -d --build
+
+      - name: Wait for MySQL
+        run: |
+          for i in {1..30}; do
+            if docker compose exec -T mysql mysqladmin ping -h localhost -uroot -proot 2>/dev/null; then
+              echo "MySQL ready"
+              break
+            fi
+            echo "Waiting for MySQL... ($i/30)"
+            sleep 5
+          done
+
+      - name: Wait for Flink
+        run: |
+          for i in {1..20}; do
+            if curl -sf http://localhost:8081/overview 2>/dev/null; then
+              echo "Flink ready"
+              break
+            fi
+            echo "Waiting for Flink... ($i/20)"
+            sleep 5
+          done
+
+      - name: Wait for Backend
+        run: |
+          for i in {1..30}; do
+            if curl -sf http://localhost:9999/actuator/health 2>/dev/null; then
+              echo "Backend ready"
+              break
+            fi
+            echo "Waiting for Backend... ($i/30)"
+            sleep 10
+          done
+
+      - name: Health check
+        run: |
+          echo "=== Services ==="
+          docker compose --profile flink ps
+          echo "=== Backend ==="
+          curl -sf http://localhost:9999/actuator/health || exit 1
+          echo "=== Flink ==="
+          curl -sf http://localhost:8081/overview | head -c 200 || exit 1
+
+      - name: Logs on failure
+        if: failure()
+        run: docker compose --profile flink logs
+
+      - name: Cleanup
+        if: always()
+        run: docker compose --profile flink down -v
