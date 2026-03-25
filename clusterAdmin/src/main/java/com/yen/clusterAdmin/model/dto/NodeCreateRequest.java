@@ -9,6 +9,8 @@ public class NodeCreateRequest {
     @NotBlank(message = "Node name is required")
     private String name;
 
+    private String region;
+
     private String instanceType;
 
     private String availabilityZone;
@@ -18,8 +20,9 @@ public class NodeCreateRequest {
     public NodeCreateRequest() {
     }
 
-    public NodeCreateRequest(String name, String instanceType, String availabilityZone, Map<String, String> tags) {
+    public NodeCreateRequest(String name, String region, String instanceType, String availabilityZone, Map<String, String> tags) {
         this.name = name;
+        this.region = region;
         this.instanceType = instanceType;
         this.availabilityZone = availabilityZone;
         this.tags = tags;
@@ -28,6 +31,9 @@ public class NodeCreateRequest {
     // Getters and Setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public String getRegion() { return region; }
+    public void setRegion(String region) { this.region = region; }
 
     public String getInstanceType() { return instanceType; }
     public void setInstanceType(String instanceType) { this.instanceType = instanceType; }

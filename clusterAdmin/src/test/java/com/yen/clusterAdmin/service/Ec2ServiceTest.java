@@ -13,6 +13,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import software.amazon.awssdk.awscore.AwsResponseMetadata;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.*;
 
@@ -23,6 +24,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,13 +35,20 @@ class Ec2ServiceTest {
     private Ec2Client ec2Client;
 
     @Mock
+    private Ec2ClientFactory ec2ClientFactory;
+
+    @Mock
     private Ec2Properties ec2Properties;
 
     private Ec2Service ec2Service;
 
+    private static final String TEST_REGION = "us-east-1";
+
     @BeforeEach
     void setUp() {
-        ec2Service = new Ec2Service(ec2Client, ec2Properties);
+        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties);
+        when(ec2ClientFactory.getClient(anyString())).thenReturn(ec2Client);
+        when(ec2ClientFactory.getDefaultRegion()).thenReturn(TEST_REGION);
     }
 
     @Nested
@@ -59,19 +68,56 @@ class Ec2ServiceTest {
                     .instanceId("i-newinstance")
                     .build();
 
-            RunInstancesResponse runResponse = RunInstancesResponse.builder()
+            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
+            when(metadata.requestId()).thenReturn("req-12345");
+
+            RunInstancesResponse runResponse = (RunInstancesResponse) RunInstancesResponse.builder()
                     .instances(instance)
+                    .responseMetadata(metadata)
                     .build();
 
             when(ec2Client.runInstances(any(RunInstancesRequest.class))).thenReturn(runResponse);
             when(ec2Client.createTags(any(CreateTagsRequest.class)))
                     .thenReturn(CreateTagsResponse.builder().build());
 
-            String instanceId = ec2Service.launchInstance("test-worker", "t3.small", null);
+            String instanceId = ec2Service.launchInstance("test-worker", "t3.small", null, TEST_REGION);
 
             assertThat(instanceId).isEqualTo("i-newinstance");
+            verify(ec2ClientFactory).getClient(TEST_REGION);
             verify(ec2Client).runInstances(any(RunInstancesRequest.class));
             verify(ec2Client).createTags(any(CreateTagsRequest.class));
+        }
+
+        @Test
+        @DisplayName("should launch instance in specified region")
+        void shouldLaunchInstanceInSpecifiedRegion() {
+            String tokyoRegion = "ap-northeast-1";
+            when(ec2Properties.getAmi()).thenReturn("ami-12345");
+            when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
+            when(ec2Properties.getKeyName()).thenReturn(null);
+            when(ec2Properties.getSecurityGroupId()).thenReturn(null);
+            when(ec2Properties.getSubnetId()).thenReturn(null);
+
+            Instance instance = Instance.builder()
+                    .instanceId("i-tokyo-instance")
+                    .build();
+
+            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
+            when(metadata.requestId()).thenReturn("req-tokyo-12345");
+
+            RunInstancesResponse runResponse = (RunInstancesResponse) RunInstancesResponse.builder()
+                    .instances(instance)
+                    .responseMetadata(metadata)
+                    .build();
+
+            when(ec2Client.runInstances(any(RunInstancesRequest.class))).thenReturn(runResponse);
+            when(ec2Client.createTags(any(CreateTagsRequest.class)))
+                    .thenReturn(CreateTagsResponse.builder().build());
+
+            String instanceId = ec2Service.launchInstance("test-tokyo", "t3.small", null, tokyoRegion);
+
+            assertThat(instanceId).isEqualTo("i-tokyo-instance");
+            verify(ec2ClientFactory).getClient(tokyoRegion);
         }
 
         @Test
@@ -86,7 +132,7 @@ class Ec2ServiceTest {
 
             when(ec2Client.runInstances(any(RunInstancesRequest.class))).thenReturn(emptyResponse);
 
-            assertThatThrownBy(() -> ec2Service.launchInstance("test", null, null))
+            assertThatThrownBy(() -> ec2Service.launchInstance("test", null, null, TEST_REGION))
                     .isInstanceOf(Ec2OperationException.class)
                     .hasMessageContaining("No instances returned");
         }
@@ -100,7 +146,7 @@ class Ec2ServiceTest {
             when(ec2Client.runInstances(any(RunInstancesRequest.class)))
                     .thenThrow(Ec2Exception.builder().message("EC2 error").build());
 
-            assertThatThrownBy(() -> ec2Service.launchInstance("test", null, null))
+            assertThatThrownBy(() -> ec2Service.launchInstance("test", null, null, TEST_REGION))
                     .isInstanceOf(Ec2OperationException.class)
                     .hasMessageContaining("Failed to launch");
         }
@@ -113,11 +159,17 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should start instance successfully")
         void shouldStartInstanceSuccessfully() {
-            StartInstancesResponse response = StartInstancesResponse.builder().build();
+            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
+            when(metadata.requestId()).thenReturn("req-start-12345");
+
+            StartInstancesResponse response = (StartInstancesResponse) StartInstancesResponse.builder()
+                    .responseMetadata(metadata)
+                    .build();
             when(ec2Client.startInstances(any(StartInstancesRequest.class))).thenReturn(response);
 
-            ec2Service.startInstance("i-12345");
+            ec2Service.startInstance("i-12345", TEST_REGION);
 
+            verify(ec2ClientFactory).getClient(TEST_REGION);
             verify(ec2Client).startInstances(any(StartInstancesRequest.class));
         }
 
@@ -127,7 +179,7 @@ class Ec2ServiceTest {
             when(ec2Client.startInstances(any(StartInstancesRequest.class)))
                     .thenThrow(Ec2Exception.builder().message("Cannot start").build());
 
-            assertThatThrownBy(() -> ec2Service.startInstance("i-12345"))
+            assertThatThrownBy(() -> ec2Service.startInstance("i-12345", TEST_REGION))
                     .isInstanceOf(Ec2OperationException.class)
                     .hasMessageContaining("Failed to start");
         }
@@ -140,11 +192,17 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should stop instance successfully")
         void shouldStopInstanceSuccessfully() {
-            StopInstancesResponse response = StopInstancesResponse.builder().build();
+            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
+            when(metadata.requestId()).thenReturn("req-stop-12345");
+
+            StopInstancesResponse response = (StopInstancesResponse) StopInstancesResponse.builder()
+                    .responseMetadata(metadata)
+                    .build();
             when(ec2Client.stopInstances(any(StopInstancesRequest.class))).thenReturn(response);
 
-            ec2Service.stopInstance("i-12345");
+            ec2Service.stopInstance("i-12345", TEST_REGION);
 
+            verify(ec2ClientFactory).getClient(TEST_REGION);
             verify(ec2Client).stopInstances(any(StopInstancesRequest.class));
         }
 
@@ -154,7 +212,7 @@ class Ec2ServiceTest {
             when(ec2Client.stopInstances(any(StopInstancesRequest.class)))
                     .thenThrow(Ec2Exception.builder().message("Cannot stop").build());
 
-            assertThatThrownBy(() -> ec2Service.stopInstance("i-12345"))
+            assertThatThrownBy(() -> ec2Service.stopInstance("i-12345", TEST_REGION))
                     .isInstanceOf(Ec2OperationException.class)
                     .hasMessageContaining("Failed to stop");
         }
@@ -167,11 +225,17 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should terminate instance successfully")
         void shouldTerminateInstanceSuccessfully() {
-            TerminateInstancesResponse response = TerminateInstancesResponse.builder().build();
+            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
+            when(metadata.requestId()).thenReturn("req-terminate-12345");
+
+            TerminateInstancesResponse response = (TerminateInstancesResponse) TerminateInstancesResponse.builder()
+                    .responseMetadata(metadata)
+                    .build();
             when(ec2Client.terminateInstances(any(TerminateInstancesRequest.class))).thenReturn(response);
 
-            ec2Service.terminateInstance("i-12345");
+            ec2Service.terminateInstance("i-12345", TEST_REGION);
 
+            verify(ec2ClientFactory).getClient(TEST_REGION);
             verify(ec2Client).terminateInstances(any(TerminateInstancesRequest.class));
         }
 
@@ -181,7 +245,7 @@ class Ec2ServiceTest {
             when(ec2Client.terminateInstances(any(TerminateInstancesRequest.class)))
                     .thenThrow(Ec2Exception.builder().message("Cannot terminate").build());
 
-            assertThatThrownBy(() -> ec2Service.terminateInstance("i-12345"))
+            assertThatThrownBy(() -> ec2Service.terminateInstance("i-12345", TEST_REGION))
                     .isInstanceOf(Ec2OperationException.class)
                     .hasMessageContaining("Failed to terminate");
         }
@@ -209,10 +273,11 @@ class Ec2ServiceTest {
 
             when(ec2Client.describeInstances(any(DescribeInstancesRequest.class))).thenReturn(response);
 
-            Optional<Instance> result = ec2Service.describeInstance("i-12345");
+            Optional<Instance> result = ec2Service.describeInstance("i-12345", TEST_REGION);
 
             assertThat(result).isPresent();
             assertThat(result.get().instanceId()).isEqualTo("i-12345");
+            verify(ec2ClientFactory).getClient(TEST_REGION);
         }
 
         @Test
@@ -224,7 +289,7 @@ class Ec2ServiceTest {
 
             when(ec2Client.describeInstances(any(DescribeInstancesRequest.class))).thenReturn(response);
 
-            Optional<Instance> result = ec2Service.describeInstance("i-notfound");
+            Optional<Instance> result = ec2Service.describeInstance("i-notfound", TEST_REGION);
 
             assertThat(result).isEmpty();
         }
@@ -235,7 +300,7 @@ class Ec2ServiceTest {
             when(ec2Client.describeInstances(any(DescribeInstancesRequest.class)))
                     .thenThrow(Ec2Exception.builder().message("Error").build());
 
-            Optional<Instance> result = ec2Service.describeInstance("i-12345");
+            Optional<Instance> result = ec2Service.describeInstance("i-12345", TEST_REGION);
 
             assertThat(result).isEmpty();
         }
@@ -289,6 +354,7 @@ class Ec2ServiceTest {
         void shouldSyncNodeWithEc2Data() {
             Node node = new Node();
             node.setInstanceId("i-12345");
+            node.setRegion(TEST_REGION);
 
             Instance instance = Instance.builder()
                     .instanceId("i-12345")
@@ -314,6 +380,7 @@ class Ec2ServiceTest {
             assertThat(node.getPrivateIp()).isEqualTo("10.0.1.100");
             assertThat(node.getPublicIp()).isEqualTo("54.1.2.3");
             assertThat(node.getStatus()).isEqualTo(NodeStatus.RUNNING);
+            verify(ec2ClientFactory).getClient(TEST_REGION);
         }
 
         @Test
@@ -348,9 +415,10 @@ class Ec2ServiceTest {
 
             when(ec2Client.describeInstances(any(DescribeInstancesRequest.class))).thenReturn(response);
 
-            List<Instance> result = ec2Service.listManagedInstances();
+            List<Instance> result = ec2Service.listManagedInstances(TEST_REGION);
 
             assertThat(result).hasSize(2);
+            verify(ec2ClientFactory).getClient(TEST_REGION);
         }
 
         @Test
@@ -359,7 +427,7 @@ class Ec2ServiceTest {
             when(ec2Client.describeInstances(any(DescribeInstancesRequest.class)))
                     .thenThrow(Ec2Exception.builder().message("Error").build());
 
-            assertThatThrownBy(() -> ec2Service.listManagedInstances())
+            assertThatThrownBy(() -> ec2Service.listManagedInstances(TEST_REGION))
                     .isInstanceOf(Ec2OperationException.class);
         }
     }

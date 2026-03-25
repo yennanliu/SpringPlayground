@@ -22,13 +22,15 @@ public class NodeService {
 
     private final NodeRepository nodeRepository;
     private final Ec2Service ec2Service;
+    private final Ec2ClientFactory ec2ClientFactory;
 
     @Value("${cluster.ec2.enabled:false}")
     private boolean ec2Enabled;
 
-    public NodeService(NodeRepository nodeRepository, Ec2Service ec2Service) {
+    public NodeService(NodeRepository nodeRepository, Ec2Service ec2Service, Ec2ClientFactory ec2ClientFactory) {
         this.nodeRepository = nodeRepository;
         this.ec2Service = ec2Service;
+        this.ec2ClientFactory = ec2ClientFactory;
     }
 
     public List<NodeDTO> getAllNodes() {
@@ -63,12 +65,15 @@ public class NodeService {
 
     @Transactional
     public NodeDTO createNode(NodeCreateRequest request) {
-        log.info("Creating new node: {}", request.getName());
+        log.info("Creating new node: name={}, region={}", request.getName(), request.getRegion());
+
+        String region = resolveRegion(request.getRegion());
 
         Node node = Node.builder()
                 .name(request.getName())
+                .region(region)
                 .instanceType(request.getInstanceType() != null ? request.getInstanceType() : "t3.medium")
-                .availabilityZone(request.getAvailabilityZone() != null ? request.getAvailabilityZone() : "us-east-1a")
+                .availabilityZone(request.getAvailabilityZone() != null ? request.getAvailabilityZone() : region + "a")
                 .status(NodeStatus.PENDING)
                 .build();
 
@@ -77,10 +82,11 @@ public class NodeService {
             String instanceId = ec2Service.launchInstance(
                     request.getName(),
                     request.getInstanceType(),
-                    request.getTags()
+                    request.getTags(),
+                    region
             );
             node.setInstanceId(instanceId);
-            log.info("Launched EC2 instance: {}", instanceId);
+            log.info("Launched EC2 instance: instanceId={}, region={}", instanceId, region);
         }
 
         Node savedNode = nodeRepository.save(node);
@@ -103,6 +109,9 @@ public class NodeService {
         if (request.getAvailabilityZone() != null) {
             node.setAvailabilityZone(request.getAvailabilityZone());
         }
+        if (request.getRegion() != null) {
+            node.setRegion(request.getRegion());
+        }
 
         Node updatedNode = nodeRepository.save(node);
         log.info("Updated node: {}", id);
@@ -117,8 +126,8 @@ public class NodeService {
 
         // Terminate EC2 instance if it exists
         if (ec2Enabled && node.getInstanceId() != null) {
-            ec2Service.terminateInstance(node.getInstanceId());
-            log.info("Terminated EC2 instance: {}", node.getInstanceId());
+            ec2Service.terminateInstance(node.getInstanceId(), node.getRegion());
+            log.info("Terminated EC2 instance: instanceId={}, region={}", node.getInstanceId(), node.getRegion());
         }
 
         nodeRepository.deleteById(id);
@@ -136,8 +145,8 @@ public class NodeService {
 
         // Start EC2 instance if enabled
         if (ec2Enabled && node.getInstanceId() != null) {
-            ec2Service.startInstance(node.getInstanceId());
-            log.info("Started EC2 instance: {}", node.getInstanceId());
+            ec2Service.startInstance(node.getInstanceId(), node.getRegion());
+            log.info("Started EC2 instance: instanceId={}, region={}", node.getInstanceId(), node.getRegion());
         }
 
         node.setStatus(NodeStatus.PENDING); // Will become RUNNING when EC2 reports it
@@ -158,8 +167,8 @@ public class NodeService {
 
         // Stop EC2 instance if enabled
         if (ec2Enabled && node.getInstanceId() != null) {
-            ec2Service.stopInstance(node.getInstanceId());
-            log.info("Stopped EC2 instance: {}", node.getInstanceId());
+            ec2Service.stopInstance(node.getInstanceId(), node.getRegion());
+            log.info("Stopped EC2 instance: instanceId={}, region={}", node.getInstanceId(), node.getRegion());
         }
 
         node.setStatus(NodeStatus.STOPPED);
@@ -176,8 +185,8 @@ public class NodeService {
 
         // Terminate EC2 instance if enabled
         if (ec2Enabled && node.getInstanceId() != null) {
-            ec2Service.terminateInstance(node.getInstanceId());
-            log.info("Terminated EC2 instance: {}", node.getInstanceId());
+            ec2Service.terminateInstance(node.getInstanceId(), node.getRegion());
+            log.info("Terminated EC2 instance: instanceId={}, region={}", node.getInstanceId(), node.getRegion());
         }
 
         node.setStatus(NodeStatus.TERMINATED);
@@ -213,5 +222,9 @@ public class NodeService {
             return;
         }
         ec2Service.syncNodeFromEc2(node);
+    }
+
+    private String resolveRegion(String region) {
+        return (region != null && !region.isEmpty()) ? region : ec2ClientFactory.getDefaultRegion();
     }
 }

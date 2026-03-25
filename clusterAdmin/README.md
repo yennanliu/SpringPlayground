@@ -2,6 +2,18 @@
 
 A Spring Boot application for managing AWS EC2 worker nodes with health monitoring, automatic status synchronization, and a web-based dashboard.
 
+## Quick Ref
+- Access the application:
+   - Web UI: http://localhost:8080
+   - Swagger UI: http://localhost:8080/swagger-ui.html
+   - H2 Console: http://localhost:8080/h2-console
+
+## Cmd
+
+```bash
+aws ec2 describe-instances --region us-east-1
+```
+
 ## Table of Contents
 
 - [Overview](#overview)

@@ -20,6 +20,8 @@ public class Node {
     @Column(nullable = false)
     private String name;
 
+    private String region;
+
     private String privateIp;
 
     private String publicIp;
@@ -48,13 +50,14 @@ public class Node {
     public Node() {
     }
 
-    public Node(UUID id, String instanceId, String name, String privateIp, String publicIp,
+    public Node(UUID id, String instanceId, String name, String region, String privateIp, String publicIp,
                 NodeStatus status, String instanceType, String availabilityZone,
                 Double cpuUsage, Double memoryUsage, Instant lastHeartbeat,
                 Instant createdAt, Instant updatedAt) {
         this.id = id;
         this.instanceId = instanceId;
         this.name = name;
+        this.region = region;
         this.privateIp = privateIp;
         this.publicIp = publicIp;
         this.status = status;
@@ -90,6 +93,9 @@ public class Node {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public String getRegion() { return region; }
+    public void setRegion(String region) { this.region = region; }
 
     public String getPrivateIp() { return privateIp; }
     public void setPrivateIp(String privateIp) { this.privateIp = privateIp; }
@@ -133,6 +139,7 @@ public class Node {
         private UUID id;
         private String instanceId;
         private String name;
+        private String region;
         private String privateIp;
         private String publicIp;
         private NodeStatus status;
@@ -147,6 +154,7 @@ public class Node {
         public Builder id(UUID id) { this.id = id; return this; }
         public Builder instanceId(String instanceId) { this.instanceId = instanceId; return this; }
         public Builder name(String name) { this.name = name; return this; }
+        public Builder region(String region) { this.region = region; return this; }
         public Builder privateIp(String privateIp) { this.privateIp = privateIp; return this; }
         public Builder publicIp(String publicIp) { this.publicIp = publicIp; return this; }
         public Builder status(NodeStatus status) { this.status = status; return this; }
@@ -159,7 +167,7 @@ public class Node {
         public Builder updatedAt(Instant updatedAt) { this.updatedAt = updatedAt; return this; }
 
         public Node build() {
-            return new Node(id, instanceId, name, privateIp, publicIp, status, instanceType,
+            return new Node(id, instanceId, name, region, privateIp, publicIp, status, instanceType,
                     availabilityZone, cpuUsage, memoryUsage, lastHeartbeat, createdAt, updatedAt);
         }
     }
