@@ -38,15 +38,22 @@ class Ec2ServiceTest {
     @Mock
     private Ec2Properties ec2Properties;
 
+    @Mock
+    private Ec2NetworkService ec2NetworkService;
+
     private Ec2Service ec2Service;
 
     private static final String TEST_REGION = "us-east-1";
 
     @BeforeEach
     void setUp() {
-        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties);
+        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties, ec2NetworkService);
         when(ec2ClientFactory.getClient(anyString())).thenReturn(ec2Client);
         when(ec2ClientFactory.getDefaultRegion()).thenReturn(TEST_REGION);
+
+        // Mock network service for auto-provisioning
+        when(ec2NetworkService.getOrCreateNetworkConfig(anyString()))
+                .thenReturn(new Ec2NetworkService.RegionNetworkConfig("vpc-test", "subnet-test", "sg-test"));
     }
 
     @Nested
@@ -58,9 +65,9 @@ class Ec2ServiceTest {
         void shouldLaunchInstanceSuccessfully() {
             when(ec2Properties.getAmiForRegion(anyString())).thenReturn("ami-12345");
             when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
-            when(ec2Properties.getKeyName()).thenReturn(null);
-            when(ec2Properties.getSecurityGroupId()).thenReturn(null);
-            when(ec2Properties.getSubnetId()).thenReturn(null);
+            when(ec2Properties.getKeyNameForRegion(anyString())).thenReturn(null);
+            when(ec2Properties.getSecurityGroupIdForRegion(anyString())).thenReturn("sg-configured");
+            when(ec2Properties.getSubnetIdForRegion(anyString())).thenReturn("subnet-configured");
 
             Instance instance = Instance.builder()
                     .instanceId("i-newinstance")
@@ -89,9 +96,9 @@ class Ec2ServiceTest {
             String tokyoRegion = "ap-northeast-1";
             when(ec2Properties.getAmiForRegion(anyString())).thenReturn("ami-12345");
             when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
-            when(ec2Properties.getKeyName()).thenReturn(null);
-            when(ec2Properties.getSecurityGroupId()).thenReturn(null);
-            when(ec2Properties.getSubnetId()).thenReturn(null);
+            when(ec2Properties.getKeyNameForRegion(anyString())).thenReturn(null);
+            when(ec2Properties.getSecurityGroupIdForRegion(anyString())).thenReturn("sg-configured");
+            when(ec2Properties.getSubnetIdForRegion(anyString())).thenReturn("subnet-configured");
 
             Instance instance = Instance.builder()
                     .instanceId("i-tokyo-instance")

@@ -21,10 +21,12 @@ public class Ec2Service {
 
     private final Ec2ClientFactory ec2ClientFactory;
     private final Ec2Properties ec2Properties;
+    private final Ec2NetworkService ec2NetworkService;
 
-    public Ec2Service(Ec2ClientFactory ec2ClientFactory, Ec2Properties ec2Properties) {
+    public Ec2Service(Ec2ClientFactory ec2ClientFactory, Ec2Properties ec2Properties, Ec2NetworkService ec2NetworkService) {
         this.ec2ClientFactory = ec2ClientFactory;
         this.ec2Properties = ec2Properties;
+        this.ec2NetworkService = ec2NetworkService;
     }
 
     public String launchInstance(String name, String instanceType, Map<String, String> tags, String region) {
@@ -46,22 +48,37 @@ public class Ec2Service {
                     .minCount(1)
                     .maxCount(1);
 
+            // Get key name (optional - no auto-creation for key pairs)
             String keyName = ec2Properties.getKeyNameForRegion(targetRegion);
             if (keyName != null && !keyName.isEmpty()) {
                 requestBuilder.keyName(keyName);
                 log.debug("Using key name: {}", keyName);
             }
 
+            // Get security group - auto-create if not specified
             String securityGroupId = ec2Properties.getSecurityGroupIdForRegion(targetRegion);
-            if (securityGroupId != null && !securityGroupId.isEmpty()) {
-                requestBuilder.securityGroupIds(securityGroupId);
-                log.debug("Using security group: {}", securityGroupId);
+            if (securityGroupId == null || securityGroupId.isEmpty()) {
+                log.info("No security group configured for region {}, auto-provisioning network resources...", targetRegion);
+                Ec2NetworkService.RegionNetworkConfig networkConfig = ec2NetworkService.getOrCreateNetworkConfig(targetRegion);
+                securityGroupId = networkConfig.securityGroupId();
+
+                // Also use auto-provisioned subnet if none specified
+                String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
+                if (subnetId == null || subnetId.isEmpty()) {
+                    subnetId = networkConfig.subnetId();
+                    requestBuilder.subnetId(subnetId);
+                    log.debug("Using auto-provisioned subnet: {}", subnetId);
+                }
             }
 
+            requestBuilder.securityGroupIds(securityGroupId);
+            log.debug("Using security group: {}", securityGroupId);
+
+            // Get subnet if explicitly configured (and not already set above)
             String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
             if (subnetId != null && !subnetId.isEmpty()) {
                 requestBuilder.subnetId(subnetId);
-                log.debug("Using subnet: {}", subnetId);
+                log.debug("Using configured subnet: {}", subnetId);
             }
 
             RunInstancesResponse response = ec2Client.runInstances(requestBuilder.build());
