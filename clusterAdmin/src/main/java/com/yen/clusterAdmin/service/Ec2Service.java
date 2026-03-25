@@ -19,36 +19,66 @@ public class Ec2Service {
 
     private static final Logger log = LoggerFactory.getLogger(Ec2Service.class);
 
-    private final Ec2Client ec2Client;
+    private final Ec2ClientFactory ec2ClientFactory;
     private final Ec2Properties ec2Properties;
+    private final Ec2NetworkService ec2NetworkService;
 
-    public Ec2Service(Ec2Client ec2Client, Ec2Properties ec2Properties) {
-        this.ec2Client = ec2Client;
+    public Ec2Service(Ec2ClientFactory ec2ClientFactory, Ec2Properties ec2Properties, Ec2NetworkService ec2NetworkService) {
+        this.ec2ClientFactory = ec2ClientFactory;
         this.ec2Properties = ec2Properties;
+        this.ec2NetworkService = ec2NetworkService;
     }
 
-    public String launchInstance(String name, String instanceType, Map<String, String> tags) {
-        log.info("Launching EC2 instance: name={}, type={}", name, instanceType);
+    public String launchInstance(String name, String instanceType, Map<String, String> tags, String region) {
+        String targetRegion = resolveRegion(region);
+        String resolvedInstanceType = instanceType != null ? instanceType : ec2Properties.getInstanceType();
+        String resolvedAmi = ec2Properties.getAmiForRegion(targetRegion);
+
+        log.info("Launching EC2 instance: region={}, name={}, type={}, ami={}",
+                targetRegion, name, resolvedInstanceType, resolvedAmi);
+
+        long startTime = System.currentTimeMillis();
 
         try {
-            String resolvedInstanceType = instanceType != null ? instanceType : ec2Properties.getInstanceType();
+            Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
 
             RunInstancesRequest.Builder requestBuilder = RunInstancesRequest.builder()
-                    .imageId(ec2Properties.getAmi())
+                    .imageId(resolvedAmi)
                     .instanceType(InstanceType.fromValue(resolvedInstanceType))
                     .minCount(1)
                     .maxCount(1);
 
-            if (ec2Properties.getKeyName() != null && !ec2Properties.getKeyName().isEmpty()) {
-                requestBuilder.keyName(ec2Properties.getKeyName());
+            // Get key name (optional - no auto-creation for key pairs)
+            String keyName = ec2Properties.getKeyNameForRegion(targetRegion);
+            if (keyName != null && !keyName.isEmpty()) {
+                requestBuilder.keyName(keyName);
+                log.debug("Using key name: {}", keyName);
             }
 
-            if (ec2Properties.getSecurityGroupId() != null && !ec2Properties.getSecurityGroupId().isEmpty()) {
-                requestBuilder.securityGroupIds(ec2Properties.getSecurityGroupId());
+            // Get security group - auto-create if not specified
+            String securityGroupId = ec2Properties.getSecurityGroupIdForRegion(targetRegion);
+            if (securityGroupId == null || securityGroupId.isEmpty()) {
+                log.info("No security group configured for region {}, auto-provisioning network resources...", targetRegion);
+                Ec2NetworkService.RegionNetworkConfig networkConfig = ec2NetworkService.getOrCreateNetworkConfig(targetRegion);
+                securityGroupId = networkConfig.securityGroupId();
+
+                // Also use auto-provisioned subnet if none specified
+                String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
+                if (subnetId == null || subnetId.isEmpty()) {
+                    subnetId = networkConfig.subnetId();
+                    requestBuilder.subnetId(subnetId);
+                    log.debug("Using auto-provisioned subnet: {}", subnetId);
+                }
             }
 
-            if (ec2Properties.getSubnetId() != null && !ec2Properties.getSubnetId().isEmpty()) {
-                requestBuilder.subnetId(ec2Properties.getSubnetId());
+            requestBuilder.securityGroupIds(securityGroupId);
+            log.debug("Using security group: {}", securityGroupId);
+
+            // Get subnet if explicitly configured (and not already set above)
+            String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
+            if (subnetId != null && !subnetId.isEmpty()) {
+                requestBuilder.subnetId(subnetId);
+                log.debug("Using configured subnet: {}", subnetId);
             }
 
             RunInstancesResponse response = ec2Client.runInstances(requestBuilder.build());
@@ -58,7 +88,10 @@ public class Ec2Service {
             }
 
             String instanceId = response.instances().get(0).instanceId();
-            log.info("Launched EC2 instance: {}", instanceId);
+            long duration = System.currentTimeMillis() - startTime;
+
+            log.info("EC2 instance launched successfully: region={}, instanceId={}, requestId={}, duration={}ms",
+                    targetRegion, instanceId, response.responseMetadata().requestId(), duration);
 
             // Tag the instance
             Tag nameTag = Tag.builder().key("Name").value(name).build();
@@ -84,66 +117,101 @@ public class Ec2Service {
             return instanceId;
 
         } catch (Ec2Exception e) {
-            log.error("Failed to launch EC2 instance: {}", e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            log.error("Failed to launch EC2 instance: region={}, name={}, error={}, duration={}ms",
+                    targetRegion, name, e.getMessage(), duration);
             throw new Ec2OperationException("Failed to launch EC2 instance: " + e.getMessage(), e);
         }
     }
 
-    public void startInstance(String instanceId) {
-        log.info("Starting EC2 instance: {}", instanceId);
+    public void startInstance(String instanceId, String region) {
+        String targetRegion = resolveRegion(region);
+        log.info("Starting EC2 instance: region={}, instanceId={}", targetRegion, instanceId);
+
+        long startTime = System.currentTimeMillis();
 
         try {
+            Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
+
             StartInstancesRequest request = StartInstancesRequest.builder()
                     .instanceIds(instanceId)
                     .build();
 
-            ec2Client.startInstances(request);
-            log.info("Started EC2 instance: {}", instanceId);
+            StartInstancesResponse response = ec2Client.startInstances(request);
+            long duration = System.currentTimeMillis() - startTime;
+
+            log.info("EC2 instance started successfully: region={}, instanceId={}, requestId={}, duration={}ms",
+                    targetRegion, instanceId, response.responseMetadata().requestId(), duration);
 
         } catch (Ec2Exception e) {
-            log.error("Failed to start EC2 instance {}: {}", instanceId, e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            log.error("Failed to start EC2 instance: region={}, instanceId={}, error={}, duration={}ms",
+                    targetRegion, instanceId, e.getMessage(), duration);
             throw new Ec2OperationException("Failed to start EC2 instance: " + e.getMessage(), e);
         }
     }
 
-    public void stopInstance(String instanceId) {
-        log.info("Stopping EC2 instance: {}", instanceId);
+    public void stopInstance(String instanceId, String region) {
+        String targetRegion = resolveRegion(region);
+        log.info("Stopping EC2 instance: region={}, instanceId={}", targetRegion, instanceId);
+
+        long startTime = System.currentTimeMillis();
 
         try {
+            Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
+
             StopInstancesRequest request = StopInstancesRequest.builder()
                     .instanceIds(instanceId)
                     .build();
 
-            ec2Client.stopInstances(request);
-            log.info("Stopped EC2 instance: {}", instanceId);
+            StopInstancesResponse response = ec2Client.stopInstances(request);
+            long duration = System.currentTimeMillis() - startTime;
+
+            log.info("EC2 instance stopped successfully: region={}, instanceId={}, requestId={}, duration={}ms",
+                    targetRegion, instanceId, response.responseMetadata().requestId(), duration);
 
         } catch (Ec2Exception e) {
-            log.error("Failed to stop EC2 instance {}: {}", instanceId, e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            log.error("Failed to stop EC2 instance: region={}, instanceId={}, error={}, duration={}ms",
+                    targetRegion, instanceId, e.getMessage(), duration);
             throw new Ec2OperationException("Failed to stop EC2 instance: " + e.getMessage(), e);
         }
     }
 
-    public void terminateInstance(String instanceId) {
-        log.info("Terminating EC2 instance: {}", instanceId);
+    public void terminateInstance(String instanceId, String region) {
+        String targetRegion = resolveRegion(region);
+        log.info("Terminating EC2 instance: region={}, instanceId={}", targetRegion, instanceId);
+
+        long startTime = System.currentTimeMillis();
 
         try {
+            Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
+
             TerminateInstancesRequest request = TerminateInstancesRequest.builder()
                     .instanceIds(instanceId)
                     .build();
 
-            ec2Client.terminateInstances(request);
-            log.info("Terminated EC2 instance: {}", instanceId);
+            TerminateInstancesResponse response = ec2Client.terminateInstances(request);
+            long duration = System.currentTimeMillis() - startTime;
+
+            log.info("EC2 instance terminated successfully: region={}, instanceId={}, requestId={}, duration={}ms",
+                    targetRegion, instanceId, response.responseMetadata().requestId(), duration);
 
         } catch (Ec2Exception e) {
-            log.error("Failed to terminate EC2 instance {}: {}", instanceId, e.getMessage());
+            long duration = System.currentTimeMillis() - startTime;
+            log.error("Failed to terminate EC2 instance: region={}, instanceId={}, error={}, duration={}ms",
+                    targetRegion, instanceId, e.getMessage(), duration);
             throw new Ec2OperationException("Failed to terminate EC2 instance: " + e.getMessage(), e);
         }
     }
 
-    public Optional<Instance> describeInstance(String instanceId) {
-        log.debug("Describing EC2 instance: {}", instanceId);
+    public Optional<Instance> describeInstance(String instanceId, String region) {
+        String targetRegion = resolveRegion(region);
+        log.debug("Describing EC2 instance: region={}, instanceId={}", targetRegion, instanceId);
 
         try {
+            Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
+
             DescribeInstancesRequest request = DescribeInstancesRequest.builder()
                     .instanceIds(instanceId)
                     .build();
@@ -155,7 +223,8 @@ public class Ec2Service {
                     .findFirst();
 
         } catch (Ec2Exception e) {
-            log.error("Failed to describe EC2 instance {}: {}", instanceId, e.getMessage());
+            log.error("Failed to describe EC2 instance: region={}, instanceId={}, error={}",
+                    targetRegion, instanceId, e.getMessage());
             return Optional.empty();
         }
     }
@@ -165,7 +234,8 @@ public class Ec2Service {
             return;
         }
 
-        describeInstance(node.getInstanceId()).ifPresent(instance -> {
+        String region = node.getRegion();
+        describeInstance(node.getInstanceId(), region).ifPresent(instance -> {
             node.setPrivateIp(instance.privateIpAddress());
             node.setPublicIp(instance.publicIpAddress());
             node.setInstanceType(instance.instanceType().toString());
@@ -188,10 +258,13 @@ public class Ec2Service {
         };
     }
 
-    public List<Instance> listManagedInstances() {
-        log.debug("Listing managed EC2 instances");
+    public List<Instance> listManagedInstances(String region) {
+        String targetRegion = resolveRegion(region);
+        log.debug("Listing managed EC2 instances: region={}", targetRegion);
 
         try {
+            Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
+
             Filter managedFilter = Filter.builder()
                     .name("tag:ManagedBy")
                     .values("ClusterAdmin")
@@ -208,8 +281,12 @@ public class Ec2Service {
                     .toList();
 
         } catch (Ec2Exception e) {
-            log.error("Failed to list managed instances: {}", e.getMessage());
+            log.error("Failed to list managed instances: region={}, error={}", targetRegion, e.getMessage());
             throw new Ec2OperationException("Failed to list managed instances: " + e.getMessage(), e);
         }
+    }
+
+    private String resolveRegion(String region) {
+        return (region != null && !region.isEmpty()) ? region : ec2ClientFactory.getDefaultRegion();
     }
 }

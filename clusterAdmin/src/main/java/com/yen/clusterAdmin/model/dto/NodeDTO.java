@@ -11,6 +11,7 @@ public class NodeDTO {
     private UUID id;
     private String instanceId;
     private String name;
+    private String region;
     private String privateIp;
     private String publicIp;
     private NodeStatus status;
@@ -24,12 +25,13 @@ public class NodeDTO {
     public NodeDTO() {
     }
 
-    public NodeDTO(UUID id, String instanceId, String name, String privateIp, String publicIp,
+    public NodeDTO(UUID id, String instanceId, String name, String region, String privateIp, String publicIp,
                    NodeStatus status, String instanceType, String availabilityZone,
                    Double cpuUsage, Double memoryUsage, Instant lastHeartbeat, Instant createdAt) {
         this.id = id;
         this.instanceId = instanceId;
         this.name = name;
+        this.region = region;
         this.privateIp = privateIp;
         this.publicIp = publicIp;
         this.status = status;
@@ -46,6 +48,7 @@ public class NodeDTO {
                 node.getId(),
                 node.getInstanceId(),
                 node.getName(),
+                node.getRegion(),
                 node.getPrivateIp(),
                 node.getPublicIp(),
                 node.getStatus(),
@@ -67,6 +70,9 @@ public class NodeDTO {
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
+
+    public String getRegion() { return region; }
+    public void setRegion(String region) { this.region = region; }
 
     public String getPrivateIp() { return privateIp; }
     public void setPrivateIp(String privateIp) { this.privateIp = privateIp; }
