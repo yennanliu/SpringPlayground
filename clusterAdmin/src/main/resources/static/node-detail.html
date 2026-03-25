@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Node Details - Cluster Admin</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .node-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .node-title h1 {
+            font-size: 1.75rem;
+            color: var(--gray-900);
+            margin: 0;
+        }
+
+        .node-actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.25rem;
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-item {
+            padding: 16px;
+            background: var(--gray-50);
+            border-radius: 8px;
+        }
+
+        .info-item label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 6px;
+        }
+
+        .info-item .value {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--gray-800);
+            word-break: break-all;
+        }
+
+        .info-item .value.mono {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+        }
+
+        .ssh-section {
+            background: var(--gray-900);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+        }
+
+        .ssh-section h2 {
+            color: white;
+            border-bottom-color: var(--gray-700);
+        }
+
+        .ssh-steps {
+            color: var(--gray-300);
+        }
+
+        .ssh-step {
+            margin-bottom: 24px;
+        }
+
+        .ssh-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .ssh-step h3 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 50%;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .ssh-step p {
+            color: var(--gray-400);
+            font-size: 0.875rem;
+            margin-bottom: 12px;
+            line-height: 1.6;
+        }
+
+        .code-block {
+            background: var(--gray-800);
+            border-radius: 8px;
+            padding: 16px;
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .code-block code {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.875rem;
+            color: #10b981;
+            display: block;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: var(--gray-700);
+            border: none;
+            color: var(--gray-300);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--gray-600);
+            color: white;
+        }
+
+        .copy-btn.copied {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .keypair-card {
+            background: linear-gradient(135deg, var(--primary-color) 0%, #1e40af 100%);
+            border-radius: 12px;
+            padding: 24px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .keypair-info h3 {
+            font-size: 1.125rem;
+            margin-bottom: 8px;
+        }
+
+        .keypair-info p {
+            font-size: 0.875rem;
+            opacity: 0.9;
+        }
+
+        .keypair-info .key-name {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            display: inline-block;
+            margin-top: 8px;
+        }
+
+        .btn-download {
+            background: white;
+            color: var(--primary-color);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-download:hover {
+            background: var(--gray-100);
+            transform: translateY(-2px);
+        }
+
+        .no-public-ip-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .warning-icon {
+            color: #f59e0b;
+            font-size: 1.5rem;
+        }
+
+        .warning-content h4 {
+            color: #92400e;
+            margin-bottom: 4px;
+        }
+
+        .warning-content p {
+            color: #a16207;
+            font-size: 0.875rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--danger-color);
+        }
+
+        @media (max-width: 768px) {
+            .node-header {
+                flex-direction: column;
+            }
+
+            .node-actions {
+                width: 100%;
+            }
+
+            .node-actions .btn {
+                flex: 1;
+            }
+
+            .keypair-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .btn-download {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="/" class="back-link">
+            <span>&larr;</span> Back to Dashboard
+        </a>
+
+        <div id="loading" class="loading-state">
+            <h2>Loading node details...</h2>
+        </div>
+
+        <div id="error" class="error-state" style="display: none;">
+            <h2>Node not found</h2>
+            <p>The requested node could not be found.</p>
+            <a href="/" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">Return to Dashboard</a>
+        </div>
+
+        <div id="content" style="display: none;">
+            <!-- Node Header -->
+            <div class="node-header">
+                <div class="node-title">
+                    <h1 id="node-name">-</h1>
+                    <span class="status-badge" id="node-status">-</span>
+                </div>
+                <div class="node-actions" id="action-buttons">
+                    <!-- Buttons will be inserted here -->
+                </div>
+            </div>
+
+            <!-- Warning if no public IP -->
+            <div id="no-public-ip-warning" class="no-public-ip-warning" style="display: none;">
+                <span class="warning-icon">&#9888;</span>
+                <div class="warning-content">
+                    <h4>No Public IP Address</h4>
+                    <p>This instance doesn't have a public IP address. You cannot SSH directly from the internet. Consider recreating the node with "Assign Public IP" enabled, or use a bastion host.</p>
+                </div>
+            </div>
+
+            <!-- Node Details Section -->
+            <section class="section">
+                <h2>Node Information</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Node ID</label>
+                        <div class="value mono" id="detail-id">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Instance ID</label>
+                        <div class="value mono" id="detail-instance-id">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Region</label>
+                        <div class="value" id="detail-region">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Availability Zone</label>
+                        <div class="value" id="detail-az">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Instance Type</label>
+                        <div class="value" id="detail-type">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Status</label>
+                        <div class="value" id="detail-status">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Private IP</label>
+                        <div class="value mono" id="detail-private-ip">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Public IP</label>
+                        <div class="value mono" id="detail-public-ip">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Created At</label>
+                        <div class="value" id="detail-created">-</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Last Heartbeat</label>
+                        <div class="value" id="detail-heartbeat">-</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Key Pair Section -->
+            <section class="section" id="keypair-section">
+                <h2>SSH Key Pair</h2>
+                <div class="keypair-card">
+                    <div class="keypair-info">
+                        <h3>Download Private Key</h3>
+                        <p>Use this key to authenticate when connecting via SSH</p>
+                        <div class="key-name" id="keypair-name">clusteradmin-us-east-1.pem</div>
+                    </div>
+                    <button class="btn-download" id="download-key-btn" onclick="downloadKeyPair()">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="7 10 12 15 17 10"></polyline>
+                            <line x1="12" y1="15" x2="12" y2="3"></line>
+                        </svg>
+                        Download Key
+                    </button>
+                </div>
+            </section>
+
+            <!-- SSH Connection Section -->
+            <section class="ssh-section" id="ssh-section">
+                <h2>SSH Connection Guide</h2>
+                <div class="ssh-steps">
+                    <div class="ssh-step">
+                        <h3><span class="step-number">1</span> Download the Key Pair</h3>
+                        <p>Click the "Download Key" button above to download the private key file for this region.</p>
+                    </div>
+
+                    <div class="ssh-step">
+                        <h3><span class="step-number">2</span> Set Key Permissions</h3>
+                        <p>SSH requires the private key to have restricted permissions. Run this command to set the correct permissions:</p>
+                        <div class="code-block">
+                            <code id="chmod-command">chmod 600 clusteradmin-us-east-1.pem</code>
+                            <button class="copy-btn" onclick="copyToClipboard('chmod-command', this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="ssh-step">
+                        <h3><span class="step-number">3</span> Connect via SSH</h3>
+                        <p>Use the following command to connect to your EC2 instance:</p>
+                        <div class="code-block">
+                            <code id="ssh-command">ssh -i clusteradmin-us-east-1.pem ec2-user@0.0.0.0</code>
+                            <button class="copy-btn" onclick="copyToClipboard('ssh-command', this)">Copy</button>
+                        </div>
+                    </div>
+
+                    <div class="ssh-step">
+                        <h3><span class="step-number">4</span> Alternative: Full Path</h3>
+                        <p>If you saved the key to your Downloads folder, use the full path:</p>
+                        <div class="code-block">
+                            <code id="ssh-command-full">ssh -i ~/Downloads/clusteradmin-us-east-1.pem ec2-user@0.0.0.0</code>
+                            <button class="copy-btn" onclick="copyToClipboard('ssh-command-full', this)">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Reference -->
+            <section class="section">
+                <h2>Quick Reference</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Default SSH User</label>
+                        <div class="value mono">ec2-user</div>
+                    </div>
+                    <div class="info-item">
+                        <label>SSH Port</label>
+                        <div class="value mono">22</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Key File</label>
+                        <div class="value mono" id="ref-keyfile">clusteradmin-us-east-1.pem</div>
+                    </div>
+                    <div class="info-item">
+                        <label>Connect To</label>
+                        <div class="value mono" id="ref-connect">-</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_BASE = '/api/v1';
+        let currentNode = null;
+
+        // Get node ID from URL
+        function getNodeIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const nodeId = getNodeIdFromUrl();
+            if (!nodeId) {
+                showError();
+                return;
+            }
+            await loadNodeDetails(nodeId);
+        });
+
+        // Load node details
+        async function loadNodeDetails(nodeId) {
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${nodeId}`);
+                if (!response.ok) {
+                    showError();
+                    return;
+                }
+
+                currentNode = await response.json();
+                renderNodeDetails(currentNode);
+
+            } catch (error) {
+                console.error('Error loading node:', error);
+                showError();
+            }
+        }
+
+        // Render node details
+        function renderNodeDetails(node) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            // Header
+            document.getElementById('node-name').textContent = node.name;
+            const statusBadge = document.getElementById('node-status');
+            statusBadge.textContent = node.status;
+            statusBadge.className = `status-badge ${node.status}`;
+
+            // Details
+            document.getElementById('detail-id').textContent = node.id;
+            document.getElementById('detail-instance-id').textContent = node.instanceId || 'Not assigned';
+            document.getElementById('detail-region').textContent = node.region || 'N/A';
+            document.getElementById('detail-az').textContent = node.availabilityZone || 'N/A';
+            document.getElementById('detail-type').textContent = node.instanceType || 'N/A';
+            document.getElementById('detail-status').textContent = node.status;
+            document.getElementById('detail-private-ip').textContent = node.privateIp || 'N/A';
+            document.getElementById('detail-public-ip').textContent = node.publicIp || 'No public IP';
+            document.getElementById('detail-created').textContent = node.createdAt ? new Date(node.createdAt).toLocaleString() : 'N/A';
+            document.getElementById('detail-heartbeat').textContent = node.lastHeartbeat ? new Date(node.lastHeartbeat).toLocaleString() : 'Never';
+
+            // Key pair and SSH section
+            const region = node.region || 'us-east-1';
+            const keyFileName = `clusteradmin-${region}.pem`;
+            const publicIp = node.publicIp;
+
+            document.getElementById('keypair-name').textContent = keyFileName;
+            document.getElementById('ref-keyfile').textContent = keyFileName;
+
+            // Update SSH commands
+            document.getElementById('chmod-command').textContent = `chmod 600 ${keyFileName}`;
+
+            if (publicIp) {
+                document.getElementById('ssh-command').textContent = `ssh -i ${keyFileName} ec2-user@${publicIp}`;
+                document.getElementById('ssh-command-full').textContent = `ssh -i ~/Downloads/${keyFileName} ec2-user@${publicIp}`;
+                document.getElementById('ref-connect').textContent = publicIp;
+            } else {
+                document.getElementById('no-public-ip-warning').style.display = 'flex';
+                document.getElementById('ssh-command').textContent = `# No public IP - use bastion host or VPN`;
+                document.getElementById('ssh-command-full').textContent = `# No public IP - use private IP: ${node.privateIp || 'N/A'}`;
+                document.getElementById('ref-connect').textContent = node.privateIp || 'No IP';
+            }
+
+            // Action buttons
+            renderActionButtons(node);
+        }
+
+        // Render action buttons
+        function renderActionButtons(node) {
+            const container = document.getElementById('action-buttons');
+            let buttons = [];
+
+            buttons.push(`<button class="btn btn-secondary" onclick="syncNode('${node.id}')">Sync with EC2</button>`);
+
+            if (node.status !== 'RUNNING' && node.status !== 'TERMINATED') {
+                buttons.push(`<button class="btn btn-success" onclick="startNode('${node.id}')">Start</button>`);
+            }
+
+            if (node.status === 'RUNNING' || node.status === 'UNHEALTHY') {
+                buttons.push(`<button class="btn btn-warning" onclick="stopNode('${node.id}')">Stop</button>`);
+            }
+
+            if (node.status !== 'TERMINATED') {
+                buttons.push(`<button class="btn btn-danger" onclick="terminateNode('${node.id}')">Terminate</button>`);
+            }
+
+            container.innerHTML = buttons.join('');
+        }
+
+        // Show error state
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Download key pair
+        function downloadKeyPair() {
+            if (!currentNode) return;
+
+            const region = currentNode.region || 'us-east-1';
+            const downloadUrl = `${API_BASE}/keypairs/${region}/download`;
+
+            const link = document.createElement('a');
+            link.href = downloadUrl;
+            link.download = `clusteradmin-${region}.pem`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            showToast('Downloading key pair...', 'info');
+        }
+
+        // Copy to clipboard
+        async function copyToClipboard(elementId, button) {
+            const text = document.getElementById(elementId).textContent;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                showToast('Failed to copy', 'error');
+            }
+        }
+
+        // Node actions
+        async function startNode(nodeId) {
+            if (!confirm('Are you sure you want to start this node?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${nodeId}/start`, { method: 'POST' });
+                if (!response.ok) throw new Error('Failed to start node');
+
+                showToast('Node start initiated', 'success');
+                setTimeout(() => loadNodeDetails(nodeId), 1000);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function stopNode(nodeId) {
+            if (!confirm('Are you sure you want to stop this node?')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${nodeId}/stop`, { method: 'POST' });
+                if (!response.ok) throw new Error('Failed to stop node');
+
+                showToast('Node stop initiated', 'success');
+                setTimeout(() => loadNodeDetails(nodeId), 1000);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function terminateNode(nodeId) {
+            if (!confirm('Are you sure you want to TERMINATE this node? This action cannot be undone.')) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${nodeId}/terminate`, { method: 'POST' });
+                if (!response.ok) throw new Error('Failed to terminate node');
+
+                showToast('Node terminated', 'success');
+                setTimeout(() => loadNodeDetails(nodeId), 1000);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        async function syncNode(nodeId) {
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${nodeId}/sync`, { method: 'POST' });
+                if (!response.ok) throw new Error('Failed to sync node');
+
+                showToast('Node synced', 'success');
+                await loadNodeDetails(nodeId);
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

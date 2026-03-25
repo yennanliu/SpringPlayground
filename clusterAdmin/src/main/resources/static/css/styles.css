@@ -260,6 +260,21 @@ header .subtitle {
     font-size: 0.75rem;
 }
 
+a.btn {
+    text-decoration: none;
+}
+
+.node-name-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.node-name-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
 /* Nodes Section */
 .nodes-section {
     background: white;

@@ -135,7 +135,9 @@ function renderNodesTable() {
     tbody.innerHTML = nodes.map(node => `
         <tr>
             <td>
-                <strong>${escapeHtml(node.name)}</strong>
+                <a href="/node-detail.html?id=${node.id}" class="node-name-link">
+                    <strong>${escapeHtml(node.name)}</strong>
+                </a>
             </td>
             <td>${node.instanceId || '<span style="color: var(--gray-400)">Not assigned</span>'}</td>
             <td>${node.region || 'N/A'}</td>
@@ -158,7 +160,7 @@ function renderNodesTable() {
 function getNodeActions(node) {
     const actions = [];
 
-    actions.push(`<button class="btn btn-sm btn-secondary" onclick="viewNodeDetails('${node.id}')">View</button>`);
+    actions.push(`<a href="/node-detail.html?id=${node.id}" class="btn btn-sm btn-secondary">View</a>`);
 
     if (node.status === 'STOPPED' || node.status === 'PENDING') {
         actions.push(`<button class="btn btn-sm btn-success" onclick="startNode('${node.id}')">Start</button>`);
