@@ -56,7 +56,7 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should launch instance successfully")
         void shouldLaunchInstanceSuccessfully() {
-            when(ec2Properties.getAmi()).thenReturn("ami-12345");
+            when(ec2Properties.getAmiForRegion(anyString())).thenReturn("ami-12345");
             when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
             when(ec2Properties.getKeyName()).thenReturn(null);
             when(ec2Properties.getSecurityGroupId()).thenReturn(null);
@@ -87,7 +87,7 @@ class Ec2ServiceTest {
         @DisplayName("should launch instance in specified region")
         void shouldLaunchInstanceInSpecifiedRegion() {
             String tokyoRegion = "ap-northeast-1";
-            when(ec2Properties.getAmi()).thenReturn("ami-12345");
+            when(ec2Properties.getAmiForRegion(anyString())).thenReturn("ami-12345");
             when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
             when(ec2Properties.getKeyName()).thenReturn(null);
             when(ec2Properties.getSecurityGroupId()).thenReturn(null);
@@ -115,7 +115,7 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should throw when no instances returned")
         void shouldThrowWhenNoInstancesReturned() {
-            when(ec2Properties.getAmi()).thenReturn("ami-12345");
+            when(ec2Properties.getAmiForRegion(anyString())).thenReturn("ami-12345");
             when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
 
             RunInstancesResponse emptyResponse = RunInstancesResponse.builder()
@@ -132,7 +132,7 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should throw on EC2 exception")
         void shouldThrowOnEc2Exception() {
-            when(ec2Properties.getAmi()).thenReturn("ami-12345");
+            when(ec2Properties.getAmiForRegion(anyString())).thenReturn("ami-12345");
             when(ec2Properties.getInstanceType()).thenReturn("t3.medium");
 
             when(ec2Client.runInstances(any(RunInstancesRequest.class)))

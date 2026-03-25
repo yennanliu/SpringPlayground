@@ -30,9 +30,10 @@ public class Ec2Service {
     public String launchInstance(String name, String instanceType, Map<String, String> tags, String region) {
         String targetRegion = resolveRegion(region);
         String resolvedInstanceType = instanceType != null ? instanceType : ec2Properties.getInstanceType();
+        String resolvedAmi = ec2Properties.getAmiForRegion(targetRegion);
 
         log.info("Launching EC2 instance: region={}, name={}, type={}, ami={}",
-                targetRegion, name, resolvedInstanceType, ec2Properties.getAmi());
+                targetRegion, name, resolvedInstanceType, resolvedAmi);
 
         long startTime = System.currentTimeMillis();
 
@@ -40,24 +41,27 @@ public class Ec2Service {
             Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
 
             RunInstancesRequest.Builder requestBuilder = RunInstancesRequest.builder()
-                    .imageId(ec2Properties.getAmi())
+                    .imageId(resolvedAmi)
                     .instanceType(InstanceType.fromValue(resolvedInstanceType))
                     .minCount(1)
                     .maxCount(1);
 
-            if (ec2Properties.getKeyName() != null && !ec2Properties.getKeyName().isEmpty()) {
-                requestBuilder.keyName(ec2Properties.getKeyName());
-                log.debug("Using key name: {}", ec2Properties.getKeyName());
+            String keyName = ec2Properties.getKeyNameForRegion(targetRegion);
+            if (keyName != null && !keyName.isEmpty()) {
+                requestBuilder.keyName(keyName);
+                log.debug("Using key name: {}", keyName);
             }
 
-            if (ec2Properties.getSecurityGroupId() != null && !ec2Properties.getSecurityGroupId().isEmpty()) {
-                requestBuilder.securityGroupIds(ec2Properties.getSecurityGroupId());
-                log.debug("Using security group: {}", ec2Properties.getSecurityGroupId());
+            String securityGroupId = ec2Properties.getSecurityGroupIdForRegion(targetRegion);
+            if (securityGroupId != null && !securityGroupId.isEmpty()) {
+                requestBuilder.securityGroupIds(securityGroupId);
+                log.debug("Using security group: {}", securityGroupId);
             }
 
-            if (ec2Properties.getSubnetId() != null && !ec2Properties.getSubnetId().isEmpty()) {
-                requestBuilder.subnetId(ec2Properties.getSubnetId());
-                log.debug("Using subnet: {}", ec2Properties.getSubnetId());
+            String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
+            if (subnetId != null && !subnetId.isEmpty()) {
+                requestBuilder.subnetId(subnetId);
+                log.debug("Using subnet: {}", subnetId);
             }
 
             RunInstancesResponse response = ec2Client.runInstances(requestBuilder.build());
