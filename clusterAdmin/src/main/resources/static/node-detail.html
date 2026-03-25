@@ -279,6 +279,118 @@
             color: var(--danger-color);
         }
 
+        /* EC2 Management Section */
+        .management-card {
+            background: var(--gray-50);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .management-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .management-card h3 {
+            font-size: 1rem;
+            color: var(--gray-800);
+            margin-bottom: 8px;
+        }
+
+        .management-desc {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .management-form {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .management-form.vertical {
+            flex-direction: column;
+        }
+
+        .management-form .form-control {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background: white;
+        }
+
+        .management-form select.form-control {
+            min-width: 180px;
+            flex: 0;
+        }
+
+        .management-form textarea.form-control {
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.8rem;
+            resize: vertical;
+        }
+
+        .form-hint {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            margin-top: 8px;
+        }
+
+        .command-status {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .command-status .status-badge {
+            font-size: 0.75rem;
+        }
+
+        .code-block.dark {
+            background: var(--gray-900);
+            margin-top: 0;
+        }
+
+        .code-block.dark pre {
+            color: #10b981;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            word-break: break-all;
+            margin: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .error-output {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        .error-output strong {
+            color: #dc2626;
+        }
+
+        .error-output pre {
+            margin: 8px 0 0 0;
+            font-size: 0.8rem;
+            color: #7f1d1d;
+            white-space: pre-wrap;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.75rem;
+        }
+
         @media (max-width: 768px) {
             .node-header {
                 flex-direction: column;
@@ -300,6 +412,14 @@
             .btn-download {
                 width: 100%;
                 justify-content: center;
+            }
+
+            .management-form {
+                flex-direction: column;
+            }
+
+            .management-form select.form-control {
+                width: 100%;
             }
         }
     </style>
@@ -749,6 +869,224 @@
             setTimeout(() => {
                 toast.classList.remove('show');
             }, 3000);
+        }
+
+        // ==================== EC2 Management Functions ====================
+
+        let currentCommandId = null;
+
+        // Modify instance type
+        async function modifyInstanceType() {
+            if (!currentNode) return;
+
+            const newType = document.getElementById('new-instance-type').value;
+            if (!newType) {
+                showToast('Please select an instance type', 'error');
+                return;
+            }
+
+            if (currentNode.instanceType === newType) {
+                showToast('Instance is already this type', 'warning');
+                return;
+            }
+
+            if (!confirm(`Change instance type from ${currentNode.instanceType || 'unknown'} to ${newType}?\n\nThis will stop the instance, modify it, and restart it.`)) {
+                return;
+            }
+
+            try {
+                showToast('Modifying instance type...', 'info');
+
+                const response = await fetch(`${API_BASE}/nodes/${currentNode.id}/modify-type`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instanceType: newType })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || 'Failed to modify instance type');
+                }
+
+                showToast(`Instance type changed to ${newType}`, 'success');
+
+                // Refresh node details after a delay
+                setTimeout(() => loadNodeDetails(currentNode.id), 2000);
+
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Install packages via SSM
+        async function installPackages() {
+            if (!currentNode) return;
+
+            const packagesInput = document.getElementById('packages-to-install').value.trim();
+            if (!packagesInput) {
+                showToast('Please enter packages to install', 'error');
+                return;
+            }
+
+            // Parse comma-separated packages
+            const packages = packagesInput.split(',').map(p => p.trim()).filter(p => p);
+            if (packages.length === 0) {
+                showToast('Please enter valid package names', 'error');
+                return;
+            }
+
+            if (currentNode.status !== 'RUNNING') {
+                showToast('Instance must be running to install packages', 'error');
+                return;
+            }
+
+            try {
+                showToast('Sending package installation command...', 'info');
+
+                const response = await fetch(`${API_BASE}/nodes/${currentNode.id}/install-packages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ packages: packages })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to send command');
+                }
+
+                currentCommandId = data.commandId;
+                showCommandOutput(data.commandId, 'Pending', 'Waiting for command to execute...');
+                showToast('Package installation command sent', 'success');
+
+                // Clear input
+                document.getElementById('packages-to-install').value = '';
+
+                // Start polling for result
+                setTimeout(() => refreshCommandStatus(), 3000);
+
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Run shell command via SSM
+        async function runShellCommand() {
+            if (!currentNode) return;
+
+            const commandsInput = document.getElementById('shell-commands').value.trim();
+            if (!commandsInput) {
+                showToast('Please enter commands to run', 'error');
+                return;
+            }
+
+            // Parse line-separated commands
+            const commands = commandsInput.split('\n').map(c => c.trim()).filter(c => c);
+            if (commands.length === 0) {
+                showToast('Please enter valid commands', 'error');
+                return;
+            }
+
+            if (currentNode.status !== 'RUNNING') {
+                showToast('Instance must be running to execute commands', 'error');
+                return;
+            }
+
+            try {
+                showToast('Sending command...', 'info');
+
+                const response = await fetch(`${API_BASE}/nodes/${currentNode.id}/run-command`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ commands: commands })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to send command');
+                }
+
+                currentCommandId = data.commandId;
+                showCommandOutput(data.commandId, 'Pending', 'Waiting for command to execute...');
+                showToast('Command sent', 'success');
+
+                // Start polling for result
+                setTimeout(() => refreshCommandStatus(), 3000);
+
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Refresh command status
+        async function refreshCommandStatus() {
+            if (!currentNode || !currentCommandId) {
+                showToast('No command to check', 'warning');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${currentNode.id}/commands/${currentCommandId}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to get command result');
+                }
+
+                showCommandOutput(data.commandId, data.status, data.output, data.error, data.responseCode);
+
+                // Continue polling if still in progress
+                if (data.status === 'Pending' || data.status === 'InProgress') {
+                    setTimeout(() => refreshCommandStatus(), 2000);
+                }
+
+            } catch (error) {
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Show command output UI
+        function showCommandOutput(commandId, status, output, error, responseCode) {
+            const card = document.getElementById('command-output-card');
+            const statusEl = document.getElementById('command-status');
+            const outputEl = document.getElementById('command-output');
+            const errorCard = document.getElementById('command-error');
+            const errorText = document.getElementById('command-error-text');
+
+            card.style.display = 'block';
+
+            // Status badge
+            statusEl.textContent = status;
+            statusEl.className = 'status-badge';
+            if (status === 'Success') {
+                statusEl.classList.add('RUNNING');
+            } else if (status === 'Failed' || status === 'TimedOut' || status === 'Cancelled') {
+                statusEl.classList.add('TERMINATED');
+            } else {
+                statusEl.classList.add('PENDING');
+            }
+
+            // Output
+            if (output) {
+                outputEl.textContent = output;
+            } else if (status === 'Pending' || status === 'InProgress') {
+                outputEl.textContent = 'Waiting for command to complete...';
+            } else {
+                outputEl.textContent = 'No output';
+            }
+
+            // Error
+            if (error && error.trim()) {
+                errorCard.style.display = 'block';
+                errorText.textContent = error;
+            } else {
+                errorCard.style.display = 'none';
+            }
+
+            // Scroll to output
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
     </script>
 </body>
