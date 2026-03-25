@@ -135,7 +135,9 @@ function renderNodesTable() {
     tbody.innerHTML = nodes.map(node => `
         <tr>
             <td>
-                <strong>${escapeHtml(node.name)}</strong>
+                <a href="/node-detail.html?id=${node.id}" class="node-name-link">
+                    <strong>${escapeHtml(node.name)}</strong>
+                </a>
             </td>
             <td>${node.instanceId || '<span style="color: var(--gray-400)">Not assigned</span>'}</td>
             <td>${node.region || 'N/A'}</td>
@@ -158,7 +160,7 @@ function renderNodesTable() {
 function getNodeActions(node) {
     const actions = [];
 
-    actions.push(`<button class="btn btn-sm btn-secondary" onclick="viewNodeDetails('${node.id}')">View</button>`);
+    actions.push(`<a href="/node-detail.html?id=${node.id}" class="btn btn-sm btn-secondary">View</a>`);
 
     if (node.status === 'STOPPED' || node.status === 'PENDING') {
         actions.push(`<button class="btn btn-sm btn-success" onclick="startNode('${node.id}')">Start</button>`);
@@ -231,12 +233,21 @@ async function createNode(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    const packagesInput = formData.get('packages');
+    const assignPublicIp = document.getElementById('assign-public-ip').checked;
+
     const data = {
         name: formData.get('name'),
         region: formData.get('region'),
         instanceType: formData.get('instanceType'),
-        availabilityZone: formData.get('availabilityZone')
+        availabilityZone: formData.get('availabilityZone'),
+        assignPublicIp: assignPublicIp
     };
+
+    // Parse packages if provided (comma-separated)
+    if (packagesInput && packagesInput.trim()) {
+        data.packages = packagesInput.split(',').map(p => p.trim()).filter(p => p);
+    }
 
     try {
         const response = await fetch(`${API_BASE}/nodes`, {
@@ -339,6 +350,12 @@ function showNodeDetailsModal(node) {
                 <button class="btn btn-danger" onclick="terminateNode('${node.id}'); closeDetailsModal();">Terminate</button>
             ` : ''}
             <button class="btn btn-secondary" onclick="syncNode('${node.id}')">Sync with EC2</button>
+            ${node.publicIp ? `
+                <button class="btn btn-primary" onclick="getSshCommand('${node.id}')">Get SSH Command</button>
+            ` : ''}
+            ${node.region ? `
+                <button class="btn btn-secondary" onclick="downloadKeyPairForNode('${node.region}')">Download Key</button>
+            ` : ''}
             <button class="btn btn-danger" onclick="deleteNode('${node.id}'); closeDetailsModal();">Delete</button>
         </div>
     `;
@@ -428,6 +445,60 @@ async function syncNode(nodeId) {
     } catch (error) {
         showToast(error.message, 'error');
     }
+}
+
+async function getSshCommand(nodeId) {
+    try {
+        const response = await fetch(`${API_BASE}/nodes/${nodeId}/ssh`);
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to get SSH command');
+        }
+        const data = await response.json();
+
+        // Copy to clipboard
+        if (navigator.clipboard) {
+            await navigator.clipboard.writeText(data.command);
+            showToast('SSH command copied to clipboard!', 'success');
+        }
+
+        // Also show in alert for visibility
+        alert('SSH Command:\n\n' + data.command + '\n\n(Copied to clipboard)');
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
+}
+
+// Download key pair for the selected region
+function downloadKeyPair() {
+    const region = document.getElementById('region').value;
+
+    // Create a download link
+    const downloadUrl = `${API_BASE}/keypairs/${region}/download`;
+
+    // Create a temporary anchor element to trigger download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `clusteradmin-${region}.pem`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast(`Downloading key pair for ${region}...`, 'info');
+}
+
+// Download key pair from node details
+async function downloadKeyPairForNode(region) {
+    const downloadUrl = `${API_BASE}/keypairs/${region}/download`;
+
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `clusteradmin-${region}.pem`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast(`Downloading key pair for ${region}...`, 'info');
 }
 
 // Cluster actions

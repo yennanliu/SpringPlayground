@@ -12,6 +12,9 @@ A Spring Boot application for managing AWS EC2 worker nodes with health monitori
 
 ```bash
 aws ec2 describe-instances --region us-east-1
+
+
+aws ec2 describe-instances --region  ap-northeast-1  
 ```
 
 ## Table of Contents

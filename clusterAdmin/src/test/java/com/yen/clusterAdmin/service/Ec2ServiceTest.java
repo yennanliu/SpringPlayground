@@ -41,19 +41,31 @@ class Ec2ServiceTest {
     @Mock
     private Ec2NetworkService ec2NetworkService;
 
+    @Mock
+    private Ec2KeyPairService ec2KeyPairService;
+
+    @Mock
+    private Ec2BootstrapService ec2BootstrapService;
+
     private Ec2Service ec2Service;
 
     private static final String TEST_REGION = "us-east-1";
 
     @BeforeEach
     void setUp() {
-        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties, ec2NetworkService);
+        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties, ec2NetworkService, ec2KeyPairService, ec2BootstrapService);
         when(ec2ClientFactory.getClient(anyString())).thenReturn(ec2Client);
         when(ec2ClientFactory.getDefaultRegion()).thenReturn(TEST_REGION);
 
         // Mock network service for auto-provisioning
         when(ec2NetworkService.getOrCreateNetworkConfig(anyString()))
                 .thenReturn(new Ec2NetworkService.RegionNetworkConfig("vpc-test", "subnet-test", "sg-test"));
+
+        // Mock key pair service for auto-creation
+        when(ec2KeyPairService.getOrCreateKeyPair(anyString())).thenReturn("clusteradmin-" + TEST_REGION);
+
+        // Mock bootstrap service for user data generation
+        when(ec2BootstrapService.generateUserData(anyString(), any(), any())).thenReturn(null);
     }
 
     @Nested

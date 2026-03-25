@@ -6,13 +6,13 @@ import com.yen.clusterAdmin.exception.NodeNotFoundException;
 import com.yen.clusterAdmin.model.dto.NodeCreateRequest;
 import com.yen.clusterAdmin.model.dto.NodeDTO;
 import com.yen.clusterAdmin.model.enums.NodeStatus;
+import com.yen.clusterAdmin.service.Ec2ModifyService;
 import com.yen.clusterAdmin.service.NodeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
@@ -38,7 +38,9 @@ class NodeControllerTest {
     @Mock
     private NodeService nodeService;
 
-    @InjectMocks
+    @Mock
+    private Ec2ModifyService ec2ModifyService;
+
     private NodeController nodeController;
 
     private ObjectMapper objectMapper;
@@ -47,6 +49,7 @@ class NodeControllerTest {
 
     @BeforeEach
     void setUp() {
+        nodeController = new NodeController(nodeService, ec2ModifyService);
         mockMvc = MockMvcBuilders.standaloneSetup(nodeController)
                 .setControllerAdvice(new GlobalExceptionHandler())
                 .build();

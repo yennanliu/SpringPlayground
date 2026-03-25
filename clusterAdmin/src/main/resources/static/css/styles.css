@@ -260,6 +260,21 @@ header .subtitle {
     font-size: 0.75rem;
 }
 
+a.btn {
+    text-decoration: none;
+}
+
+.node-name-link {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.node-name-link:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+}
+
 /* Nodes Section */
 .nodes-section {
     background: white;
@@ -477,6 +492,43 @@ td.loading {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--gray-700);
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--primary-color);
+}
+
+.keypair-section {
+    background: var(--gray-50);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px dashed var(--gray-300);
+}
+
+.keypair-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
 }
 
 .form-actions {

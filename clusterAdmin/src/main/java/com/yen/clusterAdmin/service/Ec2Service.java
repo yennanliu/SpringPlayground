@@ -22,14 +22,39 @@ public class Ec2Service {
     private final Ec2ClientFactory ec2ClientFactory;
     private final Ec2Properties ec2Properties;
     private final Ec2NetworkService ec2NetworkService;
+    private final Ec2KeyPairService ec2KeyPairService;
+    private final Ec2BootstrapService ec2BootstrapService;
 
-    public Ec2Service(Ec2ClientFactory ec2ClientFactory, Ec2Properties ec2Properties, Ec2NetworkService ec2NetworkService) {
+    public Ec2Service(Ec2ClientFactory ec2ClientFactory,
+                      Ec2Properties ec2Properties,
+                      Ec2NetworkService ec2NetworkService,
+                      Ec2KeyPairService ec2KeyPairService,
+                      Ec2BootstrapService ec2BootstrapService) {
         this.ec2ClientFactory = ec2ClientFactory;
         this.ec2Properties = ec2Properties;
         this.ec2NetworkService = ec2NetworkService;
+        this.ec2KeyPairService = ec2KeyPairService;
+        this.ec2BootstrapService = ec2BootstrapService;
     }
 
+    /**
+     * Launch an EC2 instance with default bootstrap packages
+     */
     public String launchInstance(String name, String instanceType, Map<String, String> tags, String region) {
+        return launchInstance(name, instanceType, tags, region, null, null);
+    }
+
+    /**
+     * Launch an EC2 instance with custom packages to install
+     */
+    public String launchInstance(String name, String instanceType, Map<String, String> tags, String region, List<String> packages) {
+        return launchInstance(name, instanceType, tags, region, packages, null);
+    }
+
+    /**
+     * Launch an EC2 instance with custom packages and public IP option
+     */
+    public String launchInstance(String name, String instanceType, Map<String, String> tags, String region, List<String> packages, Boolean assignPublicIp) {
         String targetRegion = resolveRegion(region);
         String resolvedInstanceType = instanceType != null ? instanceType : ec2Properties.getInstanceType();
         String resolvedAmi = ec2Properties.getAmiForRegion(targetRegion);
@@ -48,37 +73,55 @@ public class Ec2Service {
                     .minCount(1)
                     .maxCount(1);
 
-            // Get key name (optional - no auto-creation for key pairs)
+            // Get or create key pair for SSH access
             String keyName = ec2Properties.getKeyNameForRegion(targetRegion);
-            if (keyName != null && !keyName.isEmpty()) {
-                requestBuilder.keyName(keyName);
-                log.debug("Using key name: {}", keyName);
+            if (keyName == null || keyName.isEmpty()) {
+                log.info("No key pair configured for region {}, auto-creating...", targetRegion);
+                keyName = ec2KeyPairService.getOrCreateKeyPair(targetRegion);
             }
+            requestBuilder.keyName(keyName);
+            log.debug("Using key pair: {}", keyName);
 
             // Get security group - auto-create if not specified
             String securityGroupId = ec2Properties.getSecurityGroupIdForRegion(targetRegion);
+            String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
+
             if (securityGroupId == null || securityGroupId.isEmpty()) {
                 log.info("No security group configured for region {}, auto-provisioning network resources...", targetRegion);
                 Ec2NetworkService.RegionNetworkConfig networkConfig = ec2NetworkService.getOrCreateNetworkConfig(targetRegion);
                 securityGroupId = networkConfig.securityGroupId();
 
                 // Also use auto-provisioned subnet if none specified
-                String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
                 if (subnetId == null || subnetId.isEmpty()) {
                     subnetId = networkConfig.subnetId();
-                    requestBuilder.subnetId(subnetId);
-                    log.debug("Using auto-provisioned subnet: {}", subnetId);
                 }
             }
 
-            requestBuilder.securityGroupIds(securityGroupId);
-            log.debug("Using security group: {}", securityGroupId);
+            // Configure network interface for public IP option
+            boolean shouldAssignPublicIp = assignPublicIp != null && assignPublicIp;
 
-            // Get subnet if explicitly configured (and not already set above)
-            String subnetId = ec2Properties.getSubnetIdForRegion(targetRegion);
             if (subnetId != null && !subnetId.isEmpty()) {
-                requestBuilder.subnetId(subnetId);
-                log.debug("Using configured subnet: {}", subnetId);
+                // Use network interface specification for more control
+                InstanceNetworkInterfaceSpecification.Builder networkInterfaceBuilder =
+                        InstanceNetworkInterfaceSpecification.builder()
+                                .deviceIndex(0)
+                                .subnetId(subnetId)
+                                .groups(securityGroupId)
+                                .associatePublicIpAddress(shouldAssignPublicIp);
+
+                requestBuilder.networkInterfaces(networkInterfaceBuilder.build());
+                log.debug("Using subnet: {}, securityGroup: {}, publicIp: {}", subnetId, securityGroupId, shouldAssignPublicIp);
+            } else {
+                // Fallback to simple security group (no subnet, no public IP control)
+                requestBuilder.securityGroupIds(securityGroupId);
+                log.debug("Using security group: {} (no subnet configured)", securityGroupId);
+            }
+
+            // Generate and set User Data (bootstrap script)
+            String userData = ec2BootstrapService.generateUserData(name, packages, null);
+            if (userData != null) {
+                requestBuilder.userData(userData);
+                log.debug("User Data script configured for package installation");
             }
 
             RunInstancesResponse response = ec2Client.runInstances(requestBuilder.build());
@@ -90,16 +133,17 @@ public class Ec2Service {
             String instanceId = response.instances().get(0).instanceId();
             long duration = System.currentTimeMillis() - startTime;
 
-            log.info("EC2 instance launched successfully: region={}, instanceId={}, requestId={}, duration={}ms",
-                    targetRegion, instanceId, response.responseMetadata().requestId(), duration);
+            log.info("EC2 instance launched successfully: region={}, instanceId={}, keyPair={}, requestId={}, duration={}ms",
+                    targetRegion, instanceId, keyName, response.responseMetadata().requestId(), duration);
 
             // Tag the instance
             Tag nameTag = Tag.builder().key("Name").value(name).build();
             Tag managedByTag = Tag.builder().key("ManagedBy").value("ClusterAdmin").build();
+            Tag keyPairTag = Tag.builder().key("KeyPair").value(keyName).build();
 
             CreateTagsRequest tagsRequest = CreateTagsRequest.builder()
                     .resources(instanceId)
-                    .tags(nameTag, managedByTag)
+                    .tags(nameTag, managedByTag, keyPairTag)
                     .build();
 
             if (tags != null && !tags.isEmpty()) {
@@ -107,7 +151,7 @@ public class Ec2Service {
                         .map(e -> Tag.builder().key(e.getKey()).value(e.getValue()).build())
                         .toList();
                 tagsRequest = tagsRequest.toBuilder()
-                        .tags(nameTag, managedByTag)
+                        .tags(nameTag, managedByTag, keyPairTag)
                         .tags(customTags)
                         .build();
             }
@@ -284,6 +328,13 @@ public class Ec2Service {
             log.error("Failed to list managed instances: region={}, error={}", targetRegion, e.getMessage());
             throw new Ec2OperationException("Failed to list managed instances: " + e.getMessage(), e);
         }
+    }
+
+    /**
+     * Get SSH command to connect to an instance
+     */
+    public String getSshCommand(String region, String publicIp) {
+        return ec2KeyPairService.getSshCommand(region, publicIp, "ec2-user");
     }
 
     private String resolveRegion(String region) {

@@ -83,10 +83,13 @@ public class NodeService {
                     request.getName(),
                     request.getInstanceType(),
                     request.getTags(),
-                    region
+                    region,
+                    request.getPackages(),
+                    request.getAssignPublicIp()
             );
             node.setInstanceId(instanceId);
-            log.info("Launched EC2 instance: instanceId={}, region={}", instanceId, region);
+            log.info("Launched EC2 instance: instanceId={}, region={}, packages={}, publicIp={}",
+                    instanceId, region, request.getPackages(), request.getAssignPublicIp());
         }
 
         Node savedNode = nodeRepository.save(node);
@@ -222,6 +225,20 @@ public class NodeService {
             return;
         }
         ec2Service.syncNodeFromEc2(node);
+    }
+
+    /**
+     * Get SSH command to connect to a node
+     */
+    public String getSshCommand(UUID id) {
+        Node node = nodeRepository.findById(id)
+                .orElseThrow(() -> new NodeNotFoundException(id));
+
+        if (node.getPublicIp() == null || node.getPublicIp().isEmpty()) {
+            throw new IllegalStateException("Node does not have a public IP address");
+        }
+
+        return ec2Service.getSshCommand(node.getRegion(), node.getPublicIp());
     }
 
     private String resolveRegion(String region) {
