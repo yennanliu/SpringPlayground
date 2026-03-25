@@ -95,4 +95,13 @@ public class NodeController {
         NodeDTO node = nodeService.syncNode(id);
         return ResponseEntity.ok(node);
     }
+
+    @GetMapping("/{id}/ssh")
+    @Operation(summary = "Get SSH command", description = "Get the SSH command to connect to this node")
+    public ResponseEntity<SshCommandResponse> getSshCommand(@PathVariable UUID id) {
+        String sshCommand = nodeService.getSshCommand(id);
+        return ResponseEntity.ok(new SshCommandResponse(sshCommand));
+    }
+
+    public record SshCommandResponse(String command) {}
 }

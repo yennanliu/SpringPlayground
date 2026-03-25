@@ -150,6 +150,11 @@
                         <option value="us-east-1c">us-east-1c</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="packages">Packages to Install</label>
+                    <input type="text" id="packages" name="packages" placeholder="e.g., docker,nginx,git (comma-separated)">
+                    <small class="form-hint">Optional: Linux packages to install on the instance</small>
+                </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">Cancel</button>
                     <button type="submit" class="btn btn-primary">Create</button>

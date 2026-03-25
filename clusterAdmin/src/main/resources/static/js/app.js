@@ -231,12 +231,19 @@ async function createNode(event) {
     event.preventDefault();
 
     const formData = new FormData(event.target);
+    const packagesInput = formData.get('packages');
+
     const data = {
         name: formData.get('name'),
         region: formData.get('region'),
         instanceType: formData.get('instanceType'),
         availabilityZone: formData.get('availabilityZone')
     };
+
+    // Parse packages if provided (comma-separated)
+    if (packagesInput && packagesInput.trim()) {
+        data.packages = packagesInput.split(',').map(p => p.trim()).filter(p => p);
+    }
 
     try {
         const response = await fetch(`${API_BASE}/nodes`, {
@@ -339,6 +346,9 @@ function showNodeDetailsModal(node) {
                 <button class="btn btn-danger" onclick="terminateNode('${node.id}'); closeDetailsModal();">Terminate</button>
             ` : ''}
             <button class="btn btn-secondary" onclick="syncNode('${node.id}')">Sync with EC2</button>
+            ${node.publicIp ? `
+                <button class="btn btn-primary" onclick="getSshCommand('${node.id}')">Get SSH Command</button>
+            ` : ''}
             <button class="btn btn-danger" onclick="deleteNode('${node.id}'); closeDetailsModal();">Delete</button>
         </div>
     `;
@@ -425,6 +435,28 @@ async function syncNode(nodeId) {
         showToast('Node synced', 'success');
         viewNodeDetails(nodeId);
         refreshData();
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
+}
+
+async function getSshCommand(nodeId) {
+    try {
+        const response = await fetch(`${API_BASE}/nodes/${nodeId}/ssh`);
+        if (!response.ok) {
+            const error = await response.json();
+            throw new Error(error.message || 'Failed to get SSH command');
+        }
+        const data = await response.json();
+
+        // Copy to clipboard
+        if (navigator.clipboard) {
+            await navigator.clipboard.writeText(data.command);
+            showToast('SSH command copied to clipboard!', 'success');
+        }
+
+        // Also show in alert for visibility
+        alert('SSH Command:\n\n' + data.command + '\n\n(Copied to clipboard)');
     } catch (error) {
         showToast(error.message, 'error');
     }

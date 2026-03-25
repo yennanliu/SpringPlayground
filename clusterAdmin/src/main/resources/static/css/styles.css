@@ -479,6 +479,13 @@ td.loading {
     box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
+.form-hint {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.75rem;
+    color: var(--gray-500);
+}
+
 .form-actions {
     display: flex;
     gap: 12px;

@@ -180,7 +180,7 @@ class NodeServiceTest {
             request.setName("ec2-worker");
             request.setRegion("ap-northeast-1");
 
-            when(ec2Service.launchInstance(eq("ec2-worker"), isNull(), isNull(), eq("ap-northeast-1")))
+            when(ec2Service.launchInstance(eq("ec2-worker"), isNull(), isNull(), eq("ap-northeast-1"), isNull()))
                     .thenReturn("i-newinstance");
             when(nodeRepository.save(any(Node.class))).thenAnswer(invocation -> {
                 Node node = invocation.getArgument(0);
@@ -192,7 +192,7 @@ class NodeServiceTest {
             NodeDTO result = nodeService.createNode(request);
 
             assertThat(result.getInstanceId()).isEqualTo("i-newinstance");
-            verify(ec2Service).launchInstance("ec2-worker", null, null, "ap-northeast-1");
+            verify(ec2Service).launchInstance("ec2-worker", null, null, "ap-northeast-1", null);
         }
     }
 
