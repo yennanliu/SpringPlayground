@@ -84,6 +84,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Instance ID</th>
+                            <th>Region</th>
                             <th>Status</th>
                             <th>Type</th>
                             <th>Private IP</th>
@@ -95,7 +96,7 @@
                     </thead>
                     <tbody id="nodes-tbody">
                         <tr>
-                            <td colspan="9" class="loading">Loading nodes...</td>
+                            <td colspan="10" class="loading">Loading nodes...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -122,6 +123,16 @@
                     <input type="text" id="node-name" name="name" required placeholder="e.g., worker-001">
                 </div>
                 <div class="form-group">
+                    <label for="region">Region</label>
+                    <select id="region" name="region" onchange="updateAvailabilityZones()">
+                        <option value="us-east-1" selected>US East (N. Virginia)</option>
+                        <option value="us-west-2">US West (Oregon)</option>
+                        <option value="eu-west-1">EU (Ireland)</option>
+                        <option value="ap-northeast-1">Asia Pacific (Tokyo)</option>
+                        <option value="ap-southeast-1">Asia Pacific (Singapore)</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label for="instance-type">Instance Type</label>
                     <select id="instance-type" name="instanceType">
                         <option value="t3.micro">t3.micro</option>
@@ -137,8 +148,6 @@
                         <option value="us-east-1a" selected>us-east-1a</option>
                         <option value="us-east-1b">us-east-1b</option>
                         <option value="us-east-1c">us-east-1c</option>
-                        <option value="us-west-2a">us-west-2a</option>
-                        <option value="us-west-2b">us-west-2b</option>
                     </select>
                 </div>
                 <div class="form-actions">

@@ -121,7 +121,7 @@ function renderNodesTable() {
     if (nodes.length === 0) {
         tbody.innerHTML = `
             <tr>
-                <td colspan="9">
+                <td colspan="10">
                     <div class="empty-state">
                         <h3>No nodes yet</h3>
                         <p>Create your first node to get started</p>
@@ -138,6 +138,7 @@ function renderNodesTable() {
                 <strong>${escapeHtml(node.name)}</strong>
             </td>
             <td>${node.instanceId || '<span style="color: var(--gray-400)">Not assigned</span>'}</td>
+            <td>${node.region || 'N/A'}</td>
             <td>
                 <span class="status-badge ${node.status}">${node.status}</span>
             </td>
@@ -205,6 +206,26 @@ function closeCreateModal() {
     document.getElementById('create-form').reset();
 }
 
+// Region to Availability Zones mapping
+const regionZones = {
+    'us-east-1': ['us-east-1a', 'us-east-1b', 'us-east-1c', 'us-east-1d', 'us-east-1e', 'us-east-1f'],
+    'us-west-2': ['us-west-2a', 'us-west-2b', 'us-west-2c', 'us-west-2d'],
+    'eu-west-1': ['eu-west-1a', 'eu-west-1b', 'eu-west-1c'],
+    'ap-northeast-1': ['ap-northeast-1a', 'ap-northeast-1c', 'ap-northeast-1d'],
+    'ap-southeast-1': ['ap-southeast-1a', 'ap-southeast-1b', 'ap-southeast-1c']
+};
+
+// Update availability zones based on selected region
+function updateAvailabilityZones() {
+    const region = document.getElementById('region').value;
+    const azSelect = document.getElementById('availability-zone');
+    const zones = regionZones[region] || [];
+
+    azSelect.innerHTML = zones.map((zone, index) =>
+        `<option value="${zone}" ${index === 0 ? 'selected' : ''}>${zone}</option>`
+    ).join('');
+}
+
 // Create node
 async function createNode(event) {
     event.preventDefault();
@@ -212,6 +233,7 @@ async function createNode(event) {
     const formData = new FormData(event.target);
     const data = {
         name: formData.get('name'),
+        region: formData.get('region'),
         instanceType: formData.get('instanceType'),
         availabilityZone: formData.get('availabilityZone')
     };
@@ -268,6 +290,10 @@ function showNodeDetailsModal(node) {
             <div class="detail-item">
                 <label>Status</label>
                 <span class="status-badge ${node.status}">${node.status}</span>
+            </div>
+            <div class="detail-item">
+                <label>Region</label>
+                <span>${node.region || 'N/A'}</span>
             </div>
             <div class="detail-item">
                 <label>Instance Type</label>
