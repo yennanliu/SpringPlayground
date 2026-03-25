@@ -155,6 +155,22 @@
                     <input type="text" id="packages" name="packages" placeholder="e.g., docker,nginx,git (comma-separated)">
                     <small class="form-hint">Optional: Linux packages to install on the instance</small>
                 </div>
+                <div class="form-group">
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="assign-public-ip" name="assignPublicIp">
+                        <span>Assign Public IP Address</span>
+                    </label>
+                    <small class="form-hint">Enable to allow SSH access from the internet</small>
+                </div>
+                <div class="form-group keypair-section">
+                    <label>SSH Key Pair</label>
+                    <div class="keypair-actions">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="downloadKeyPair()">
+                            Download Key Pair
+                        </button>
+                        <small class="form-hint">Download the private key to access your EC2 instances via SSH</small>
+                    </div>
+                </div>
                 <div class="form-actions">
                     <button type="button" class="btn btn-secondary" onclick="closeCreateModal()">Cancel</button>
                     <button type="submit" class="btn btn-primary">Create</button>

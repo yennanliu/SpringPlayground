@@ -21,16 +21,20 @@ public class NodeCreateRequest {
     // Packages to install on the instance (e.g., ["docker", "htop", "nginx"])
     private List<String> packages;
 
+    // Whether to assign a public IP address to the instance
+    private Boolean assignPublicIp;
+
     public NodeCreateRequest() {
     }
 
-    public NodeCreateRequest(String name, String region, String instanceType, String availabilityZone, Map<String, String> tags, List<String> packages) {
+    public NodeCreateRequest(String name, String region, String instanceType, String availabilityZone, Map<String, String> tags, List<String> packages, Boolean assignPublicIp) {
         this.name = name;
         this.region = region;
         this.instanceType = instanceType;
         this.availabilityZone = availabilityZone;
         this.tags = tags;
         this.packages = packages;
+        this.assignPublicIp = assignPublicIp;
     }
 
     // Getters and Setters
@@ -51,4 +55,7 @@ public class NodeCreateRequest {
 
     public List<String> getPackages() { return packages; }
     public void setPackages(List<String> packages) { this.packages = packages; }
+
+    public Boolean getAssignPublicIp() { return assignPublicIp; }
+    public void setAssignPublicIp(Boolean assignPublicIp) { this.assignPublicIp = assignPublicIp; }
 }

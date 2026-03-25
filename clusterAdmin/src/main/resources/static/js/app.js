@@ -232,12 +232,14 @@ async function createNode(event) {
 
     const formData = new FormData(event.target);
     const packagesInput = formData.get('packages');
+    const assignPublicIp = document.getElementById('assign-public-ip').checked;
 
     const data = {
         name: formData.get('name'),
         region: formData.get('region'),
         instanceType: formData.get('instanceType'),
-        availabilityZone: formData.get('availabilityZone')
+        availabilityZone: formData.get('availabilityZone'),
+        assignPublicIp: assignPublicIp
     };
 
     // Parse packages if provided (comma-separated)
@@ -348,6 +350,9 @@ function showNodeDetailsModal(node) {
             <button class="btn btn-secondary" onclick="syncNode('${node.id}')">Sync with EC2</button>
             ${node.publicIp ? `
                 <button class="btn btn-primary" onclick="getSshCommand('${node.id}')">Get SSH Command</button>
+            ` : ''}
+            ${node.region ? `
+                <button class="btn btn-secondary" onclick="downloadKeyPairForNode('${node.region}')">Download Key</button>
             ` : ''}
             <button class="btn btn-danger" onclick="deleteNode('${node.id}'); closeDetailsModal();">Delete</button>
         </div>
@@ -460,6 +465,38 @@ async function getSshCommand(nodeId) {
     } catch (error) {
         showToast(error.message, 'error');
     }
+}
+
+// Download key pair for the selected region
+function downloadKeyPair() {
+    const region = document.getElementById('region').value;
+
+    // Create a download link
+    const downloadUrl = `${API_BASE}/keypairs/${region}/download`;
+
+    // Create a temporary anchor element to trigger download
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `clusteradmin-${region}.pem`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast(`Downloading key pair for ${region}...`, 'info');
+}
+
+// Download key pair from node details
+async function downloadKeyPairForNode(region) {
+    const downloadUrl = `${API_BASE}/keypairs/${region}/download`;
+
+    const link = document.createElement('a');
+    link.href = downloadUrl;
+    link.download = `clusteradmin-${region}.pem`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    showToast(`Downloading key pair for ${region}...`, 'info');
 }
 
 // Cluster actions

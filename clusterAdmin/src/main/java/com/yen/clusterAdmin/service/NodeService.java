@@ -84,11 +84,12 @@ public class NodeService {
                     request.getInstanceType(),
                     request.getTags(),
                     region,
-                    request.getPackages()
+                    request.getPackages(),
+                    request.getAssignPublicIp()
             );
             node.setInstanceId(instanceId);
-            log.info("Launched EC2 instance: instanceId={}, region={}, packages={}",
-                    instanceId, region, request.getPackages());
+            log.info("Launched EC2 instance: instanceId={}, region={}, packages={}, publicIp={}",
+                    instanceId, region, request.getPackages(), request.getAssignPublicIp());
         }
 
         Node savedNode = nodeRepository.save(node);

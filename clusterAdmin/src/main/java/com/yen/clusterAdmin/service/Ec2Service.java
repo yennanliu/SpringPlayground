@@ -41,13 +41,20 @@ public class Ec2Service {
      * Launch an EC2 instance with default bootstrap packages
      */
     public String launchInstance(String name, String instanceType, Map<String, String> tags, String region) {
-        return launchInstance(name, instanceType, tags, region, null);
+        return launchInstance(name, instanceType, tags, region, null, null);
     }
 
     /**
      * Launch an EC2 instance with custom packages to install
      */
     public String launchInstance(String name, String instanceType, Map<String, String> tags, String region, List<String> packages) {
+        return launchInstance(name, instanceType, tags, region, packages, null);
+    }
+
+    /**
+     * Launch an EC2 instance with custom packages and public IP option
+     */
+    public String launchInstance(String name, String instanceType, Map<String, String> tags, String region, List<String> packages, Boolean assignPublicIp) {
         String targetRegion = resolveRegion(region);
         String resolvedInstanceType = instanceType != null ? instanceType : ec2Properties.getInstanceType();
         String resolvedAmi = ec2Properties.getAmiForRegion(targetRegion);
@@ -90,12 +97,24 @@ public class Ec2Service {
                 }
             }
 
-            requestBuilder.securityGroupIds(securityGroupId);
-            log.debug("Using security group: {}", securityGroupId);
+            // Configure network interface for public IP option
+            boolean shouldAssignPublicIp = assignPublicIp != null && assignPublicIp;
 
             if (subnetId != null && !subnetId.isEmpty()) {
-                requestBuilder.subnetId(subnetId);
-                log.debug("Using subnet: {}", subnetId);
+                // Use network interface specification for more control
+                InstanceNetworkInterfaceSpecification.Builder networkInterfaceBuilder =
+                        InstanceNetworkInterfaceSpecification.builder()
+                                .deviceIndex(0)
+                                .subnetId(subnetId)
+                                .groups(securityGroupId)
+                                .associatePublicIpAddress(shouldAssignPublicIp);
+
+                requestBuilder.networkInterfaces(networkInterfaceBuilder.build());
+                log.debug("Using subnet: {}, securityGroup: {}, publicIp: {}", subnetId, securityGroupId, shouldAssignPublicIp);
+            } else {
+                // Fallback to simple security group (no subnet, no public IP control)
+                requestBuilder.securityGroupIds(securityGroupId);
+                log.debug("Using security group: {} (no subnet configured)", securityGroupId);
             }
 
             // Generate and set User Data (bootstrap script)
