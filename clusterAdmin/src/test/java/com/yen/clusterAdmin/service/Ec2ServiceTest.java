@@ -13,12 +13,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import software.amazon.awssdk.awscore.AwsResponseMetadata;
 import software.amazon.awssdk.services.ec2.Ec2Client;
 import software.amazon.awssdk.services.ec2.model.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -68,13 +66,10 @@ class Ec2ServiceTest {
                     .instanceId("i-newinstance")
                     .build();
 
-            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
-            when(metadata.requestId()).thenReturn("req-12345");
-
-            RunInstancesResponse runResponse = (RunInstancesResponse) RunInstancesResponse.builder()
-                    .instances(instance)
-                    .responseMetadata(metadata)
-                    .build();
+            RunInstancesResponse runResponse = mock(RunInstancesResponse.class);
+            when(runResponse.instances()).thenReturn(List.of(instance));
+            when(runResponse.responseMetadata()).thenReturn(mock(software.amazon.awssdk.services.ec2.model.Ec2ResponseMetadata.class));
+            when(runResponse.responseMetadata().requestId()).thenReturn("req-12345");
 
             when(ec2Client.runInstances(any(RunInstancesRequest.class))).thenReturn(runResponse);
             when(ec2Client.createTags(any(CreateTagsRequest.class)))
@@ -102,13 +97,10 @@ class Ec2ServiceTest {
                     .instanceId("i-tokyo-instance")
                     .build();
 
-            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
-            when(metadata.requestId()).thenReturn("req-tokyo-12345");
-
-            RunInstancesResponse runResponse = (RunInstancesResponse) RunInstancesResponse.builder()
-                    .instances(instance)
-                    .responseMetadata(metadata)
-                    .build();
+            RunInstancesResponse runResponse = mock(RunInstancesResponse.class);
+            when(runResponse.instances()).thenReturn(List.of(instance));
+            when(runResponse.responseMetadata()).thenReturn(mock(software.amazon.awssdk.services.ec2.model.Ec2ResponseMetadata.class));
+            when(runResponse.responseMetadata().requestId()).thenReturn("req-tokyo-12345");
 
             when(ec2Client.runInstances(any(RunInstancesRequest.class))).thenReturn(runResponse);
             when(ec2Client.createTags(any(CreateTagsRequest.class)))
@@ -159,12 +151,9 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should start instance successfully")
         void shouldStartInstanceSuccessfully() {
-            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
-            when(metadata.requestId()).thenReturn("req-start-12345");
-
-            StartInstancesResponse response = (StartInstancesResponse) StartInstancesResponse.builder()
-                    .responseMetadata(metadata)
-                    .build();
+            StartInstancesResponse response = mock(StartInstancesResponse.class);
+            when(response.responseMetadata()).thenReturn(mock(software.amazon.awssdk.services.ec2.model.Ec2ResponseMetadata.class));
+            when(response.responseMetadata().requestId()).thenReturn("req-start-12345");
             when(ec2Client.startInstances(any(StartInstancesRequest.class))).thenReturn(response);
 
             ec2Service.startInstance("i-12345", TEST_REGION);
@@ -192,12 +181,9 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should stop instance successfully")
         void shouldStopInstanceSuccessfully() {
-            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
-            when(metadata.requestId()).thenReturn("req-stop-12345");
-
-            StopInstancesResponse response = (StopInstancesResponse) StopInstancesResponse.builder()
-                    .responseMetadata(metadata)
-                    .build();
+            StopInstancesResponse response = mock(StopInstancesResponse.class);
+            when(response.responseMetadata()).thenReturn(mock(software.amazon.awssdk.services.ec2.model.Ec2ResponseMetadata.class));
+            when(response.responseMetadata().requestId()).thenReturn("req-stop-12345");
             when(ec2Client.stopInstances(any(StopInstancesRequest.class))).thenReturn(response);
 
             ec2Service.stopInstance("i-12345", TEST_REGION);
@@ -225,12 +211,9 @@ class Ec2ServiceTest {
         @Test
         @DisplayName("should terminate instance successfully")
         void shouldTerminateInstanceSuccessfully() {
-            AwsResponseMetadata metadata = mock(AwsResponseMetadata.class);
-            when(metadata.requestId()).thenReturn("req-terminate-12345");
-
-            TerminateInstancesResponse response = (TerminateInstancesResponse) TerminateInstancesResponse.builder()
-                    .responseMetadata(metadata)
-                    .build();
+            TerminateInstancesResponse response = mock(TerminateInstancesResponse.class);
+            when(response.responseMetadata()).thenReturn(mock(software.amazon.awssdk.services.ec2.model.Ec2ResponseMetadata.class));
+            when(response.responseMetadata().requestId()).thenReturn("req-terminate-12345");
             when(ec2Client.terminateInstances(any(TerminateInstancesRequest.class))).thenReturn(response);
 
             ec2Service.terminateInstance("i-12345", TEST_REGION);
