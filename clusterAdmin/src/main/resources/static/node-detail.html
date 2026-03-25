@@ -446,6 +446,67 @@
                 </div>
             </section>
 
+            <!-- EC2 Management Section -->
+            <section class="section" id="ec2-management-section">
+                <h2>EC2 Management</h2>
+
+                <!-- Modify Instance Type -->
+                <div class="management-card">
+                    <h3>Change Instance Type</h3>
+                    <p class="management-desc">Modify the instance type. The instance will be stopped, modified, and restarted automatically.</p>
+                    <div class="management-form">
+                        <select id="new-instance-type" class="form-control">
+                            <option value="t3.micro">t3.micro</option>
+                            <option value="t3.small">t3.small</option>
+                            <option value="t3.medium">t3.medium</option>
+                            <option value="t3.large">t3.large</option>
+                            <option value="t3.xlarge">t3.xlarge</option>
+                            <option value="t3.2xlarge">t3.2xlarge</option>
+                            <option value="m5.large">m5.large</option>
+                            <option value="m5.xlarge">m5.xlarge</option>
+                        </select>
+                        <button class="btn btn-primary" onclick="modifyInstanceType()">Change Type</button>
+                    </div>
+                </div>
+
+                <!-- Install Packages -->
+                <div class="management-card">
+                    <h3>Install Packages</h3>
+                    <p class="management-desc">Install packages on the running instance via AWS Systems Manager (SSM).</p>
+                    <div class="management-form">
+                        <input type="text" id="packages-to-install" class="form-control" placeholder="e.g., nginx, docker, git (comma-separated)">
+                        <button class="btn btn-primary" onclick="installPackages()">Install</button>
+                    </div>
+                    <small class="form-hint">Requires SSM agent running on the instance and proper IAM permissions.</small>
+                </div>
+
+                <!-- Run Command -->
+                <div class="management-card">
+                    <h3>Run Shell Command</h3>
+                    <p class="management-desc">Execute shell commands on the instance via SSM.</p>
+                    <div class="management-form vertical">
+                        <textarea id="shell-commands" class="form-control" rows="3" placeholder="Enter shell commands (one per line)&#10;e.g.,&#10;whoami&#10;df -h"></textarea>
+                        <button class="btn btn-primary" onclick="runShellCommand()">Run Command</button>
+                    </div>
+                </div>
+
+                <!-- Command Output -->
+                <div class="management-card" id="command-output-card" style="display: none;">
+                    <h3>Command Output</h3>
+                    <div class="command-status">
+                        <span>Status: </span><span id="command-status" class="status-badge">-</span>
+                        <button class="btn btn-sm btn-secondary" onclick="refreshCommandStatus()">Refresh</button>
+                    </div>
+                    <div class="code-block dark">
+                        <pre id="command-output">Waiting for output...</pre>
+                    </div>
+                    <div id="command-error" class="error-output" style="display: none;">
+                        <strong>Error:</strong>
+                        <pre id="command-error-text"></pre>
+                    </div>
+                </div>
+            </section>
+
             <!-- Quick Reference -->
             <section class="section">
                 <h2>Quick Reference</h2>
