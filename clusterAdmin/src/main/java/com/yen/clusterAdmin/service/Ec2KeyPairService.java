@@ -54,13 +54,18 @@ public class Ec2KeyPairService {
                 log.info("Using existing key pair for region {}: {}", region, keyName);
                 return keyName;
             } else {
-                // Key exists in AWS but we don't have private key - delete and recreate
-                log.warn("Key pair {} exists in AWS but private key not found locally. Recreating...", keyName);
-                deleteKeyPair(ec2Client, keyName);
+                // Key exists in AWS but we don't have private key locally
+                // DO NOT delete the AWS key - existing instances need it!
+                log.warn("Key pair {} exists in AWS but private key not found locally. " +
+                        "Cannot recover - existing instances may be inaccessible. " +
+                        "Delete the key pair in AWS console if you want to create a new one.", keyName);
+                // Still return the key name so instances can be launched with the existing key
+                // (even though we can't provide the private key for download)
+                return keyName;
             }
         }
 
-        // Create new key pair
+        // Create new key pair (only if it doesn't exist in AWS)
         return createKeyPair(ec2Client, region, keyName);
     }
 
@@ -160,13 +165,36 @@ public class Ec2KeyPairService {
         Path keyPath = getPrivateKeyPath(keyName);
 
         if (!Files.exists(keyPath)) {
-            throw new RuntimeException("Private key not found for region: " + region);
+            throw new KeyPairNotFoundException(
+                    "Private key not found for region: " + region + ". " +
+                    "The key may have been created on a different server or the file was deleted. " +
+                    "To fix this: 1) Terminate existing instances in this region, " +
+                    "2) Delete the key pair '" + keyName + "' in AWS Console, " +
+                    "3) Create a new instance (a new key will be generated)."
+            );
         }
 
         try {
             return Files.readString(keyPath);
         } catch (IOException e) {
             throw new RuntimeException("Failed to read private key: " + e.getMessage(), e);
+        }
+    }
+
+    /**
+     * Check if private key exists locally for a region
+     */
+    public boolean hasPrivateKey(String region) {
+        String keyName = KEY_PAIR_PREFIX + region;
+        return privateKeyExists(keyName);
+    }
+
+    /**
+     * Exception thrown when private key is not found
+     */
+    public static class KeyPairNotFoundException extends RuntimeException {
+        public KeyPairNotFoundException(String message) {
+            super(message);
         }
     }
 

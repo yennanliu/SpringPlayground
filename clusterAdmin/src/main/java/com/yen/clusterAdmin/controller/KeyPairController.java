@@ -51,14 +51,26 @@ public class KeyPairController {
 
     @GetMapping("/{region}/download")
     @Operation(summary = "Download private key", description = "Download the private key file for a specific region")
-    public ResponseEntity<byte[]> downloadPrivateKey(@PathVariable String region) {
+    public ResponseEntity<?> downloadPrivateKey(@PathVariable String region) {
         if (!SUPPORTED_REGIONS.contains(region)) {
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest()
+                    .body(Map.of("error", "Unsupported region: " + region));
         }
 
         try {
-            // Ensure key pair exists
-            keyPairService.getOrCreateKeyPair(region);
+            // Check if private key exists locally first
+            if (!keyPairService.hasPrivateKey(region)) {
+                return ResponseEntity.status(404)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(Map.of(
+                                "error", "Private key not available",
+                                "message", "The private key for region '" + region + "' is not available on this server. " +
+                                        "This can happen if the key was created on a different server or the file was deleted.",
+                                "solution", "To fix this: 1) Terminate existing instances in this region, " +
+                                        "2) Delete the key pair 'clusteradmin-" + region + "' in AWS Console (EC2 > Key Pairs), " +
+                                        "3) Create a new instance (a new key will be automatically generated)"
+                        ));
+            }
 
             // Get private key content
             String privateKeyContent = keyPairService.getPrivateKeyContent(region);
@@ -72,8 +84,13 @@ public class KeyPairController {
                     .headers(headers)
                     .body(privateKeyContent.getBytes());
 
+        } catch (Ec2KeyPairService.KeyPairNotFoundException e) {
+            return ResponseEntity.status(404)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(Map.of("error", e.getMessage()));
         } catch (RuntimeException e) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.internalServerError()
+                    .body(Map.of("error", "Failed to download key: " + e.getMessage()));
         }
     }
 
@@ -88,13 +105,22 @@ public class KeyPairController {
         try {
             String keyName = keyPairService.getOrCreateKeyPair(region);
             String keyPath = keyPairService.getPrivateKeyPath(keyName).toString();
+            boolean keyAvailable = keyPairService.hasPrivateKey(region);
 
-            return ResponseEntity.ok(Map.of(
-                    "region", region,
-                    "keyName", keyName,
-                    "localPath", keyPath,
-                    "downloadUrl", "/api/v1/keypairs/" + region + "/download"
-            ));
+            Map<String, Object> response = new java.util.HashMap<>();
+            response.put("region", region);
+            response.put("keyName", keyName);
+            response.put("localPath", keyPath);
+            response.put("keyAvailable", keyAvailable);
+
+            if (keyAvailable) {
+                response.put("downloadUrl", "/api/v1/keypairs/" + region + "/download");
+            } else {
+                response.put("error", "Private key not available on this server");
+                response.put("solution", "Delete the key pair in AWS Console and create a new instance");
+            }
+
+            return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.internalServerError()
                     .body(Map.of("error", e.getMessage()));
