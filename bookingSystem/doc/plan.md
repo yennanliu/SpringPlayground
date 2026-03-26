@@ -102,7 +102,7 @@ src/main/java/com/yen/bookingSystem/
 | 4. Service Layer | Done |
 | 5. Controller Layer | Done |
 | 6. Error Handling | Done |
-| 7. Testing | Pending |
+| 7. Testing | Done |
 
 ## Notes
 
