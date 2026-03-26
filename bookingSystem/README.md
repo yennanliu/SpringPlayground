@@ -94,6 +94,10 @@ curl "http://localhost:8080/api/bookings?userId=user1&page=0&size=10"
 
 ```
 src/main/java/com/yen/bookingSystem/
+├── concurrency/     # Thread-safe components
+│   ├── ResourceCache.java      # ConcurrentHashMap cache
+│   ├── BookingStats.java       # Atomic counters
+│   └── ResourceLockManager.java # Lock strategies
 ├── config/          # OpenAPI configuration
 ├── controller/      # REST controllers
 ├── dto/             # Request/Response objects
@@ -101,6 +105,43 @@ src/main/java/com/yen/bookingSystem/
 ├── exception/       # Error handling
 ├── repository/      # Data access layer
 └── service/         # Business logic
+```
+
+## Concurrency Patterns
+
+### ConcurrentHashMap (ResourceCache)
+```java
+// Thread-safe cache with computeIfAbsent
+cache.getOrLoad(id, key -> loadFromDb(key));
+```
+
+### Atomic Operations (BookingStats)
+```java
+// Lock-free counters
+AtomicLong total = new AtomicLong();    // precise count
+LongAdder conflicts = new LongAdder();   // high-throughput
+```
+
+### Lock Strategies (ResourceLockManager)
+```java
+// Per-resource lock
+lockManager.withLock(resourceId, () -> createBooking());
+
+// Read-write lock
+lockManager.withReadLock(() -> listResources());
+lockManager.withWriteLock(() -> updateResource());
+```
+
+### Stats Endpoint
+```bash
+curl http://localhost:8080/api/stats
+```
+```json
+{
+  "bookings": { "total": 10, "active": 8, "cancelled": 2, "conflicts": 3 },
+  "cache": { "resourcesCached": 5 },
+  "locks": { "activeLocks": 2 }
+}
 ```
 
 ## Configuration

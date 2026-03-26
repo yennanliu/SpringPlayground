@@ -1,6 +1,8 @@
 package com.yen.bookingSystem.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yen.bookingSystem.concurrency.BookingStats;
+import com.yen.bookingSystem.concurrency.ResourceLockManager;
 import com.yen.bookingSystem.dto.BookingResponse;
 import com.yen.bookingSystem.dto.CreateBookingRequest;
 import com.yen.bookingSystem.dto.UpdateBookingRequest;
@@ -31,15 +33,21 @@ public class BookingService {
     private final IdempotencyKeyRepository idempotencyKeyRepository;
     private final ResourceService resourceService;
     private final ObjectMapper objectMapper;
+    private final ResourceLockManager lockManager;
+    private final BookingStats stats;
 
     public BookingService(BookingRepository bookingRepository,
                           IdempotencyKeyRepository idempotencyKeyRepository,
                           ResourceService resourceService,
-                          ObjectMapper objectMapper) {
+                          ObjectMapper objectMapper,
+                          ResourceLockManager lockManager,
+                          BookingStats stats) {
         this.bookingRepository = bookingRepository;
         this.idempotencyKeyRepository = idempotencyKeyRepository;
         this.resourceService = resourceService;
         this.objectMapper = objectMapper;
+        this.lockManager = lockManager;
+        this.stats = stats;
     }
 
     @Transactional
@@ -61,36 +69,46 @@ public class BookingService {
             throw new BookingConflictException("endTime must be after startTime");
         }
 
-        // 4. Check for overlapping bookings (with lock)
-        List<Booking> overlapping = bookingRepository.findOverlappingBookingsForUpdate(
-            request.getResourceId(),
-            request.getStartTime(),
-            request.getEndTime()
-        );
+        // 4. Acquire resource lock and check for conflicts
+        String resourceId = request.getResourceId();
 
-        if (!overlapping.isEmpty()) {
-            throw new BookingConflictException("Resource already booked for this time slot");
-        }
+        return lockManager.withLock(resourceId, () -> {
+            // Check for overlapping bookings (with DB lock)
+            List<Booking> overlapping = bookingRepository.findOverlappingBookingsForUpdate(
+                resourceId,
+                request.getStartTime(),
+                request.getEndTime()
+            );
 
-        // 5. Create booking
-        Booking booking = new Booking();
-        booking.setId(UUID.randomUUID().toString());
-        booking.setResourceId(request.getResourceId());
-        booking.setUserId(request.getUserId());
-        booking.setStartTime(request.getStartTime());
-        booking.setEndTime(request.getEndTime());
-        booking.setStatus(BookingStatus.CONFIRMED);
+            if (!overlapping.isEmpty()) {
+                stats.recordConflict();
+                throw new BookingConflictException("Resource already booked for this time slot");
+            }
 
-        booking = bookingRepository.save(booking);
-        BookingResponse response = BookingResponse.from(booking);
+            // Create booking
+            Booking booking = new Booking();
+            booking.setId(UUID.randomUUID().toString());
+            booking.setResourceId(resourceId);
+            booking.setUserId(request.getUserId());
+            booking.setStartTime(request.getStartTime());
+            booking.setEndTime(request.getEndTime());
+            booking.setStatus(BookingStatus.CONFIRMED);
 
-        // 6. Store idempotency key
-        if (idempotencyKey != null) {
-            IdempotencyKey key = new IdempotencyKey(idempotencyKey, toJson(response));
-            idempotencyKeyRepository.save(key);
-        }
+            booking = bookingRepository.save(booking);
+            BookingResponse response = BookingResponse.from(booking);
 
-        return response;
+            // Record stats
+            stats.recordBooking(resourceId);
+
+            // Store idempotency key
+            if (idempotencyKey != null) {
+                IdempotencyKey key = new IdempotencyKey(idempotencyKey, toJson(response));
+                idempotencyKeyRepository.save(key);
+            }
+
+            log.info("Booking created: {} for resource: {}", booking.getId(), resourceId);
+            return response;
+        });
     }
 
     public Booking getById(String id) {
@@ -120,23 +138,26 @@ public class BookingService {
         }
 
         if (request.getStartTime() != null && request.getEndTime() != null) {
-            // Check for conflicts if time is changing
-            List<Booking> overlapping = bookingRepository.findOverlappingBookings(
-                booking.getResourceId(),
-                request.getStartTime(),
-                request.getEndTime()
-            );
-            // Exclude current booking
-            overlapping = overlapping.stream()
-                .filter(b -> !b.getId().equals(id))
-                .toList();
+            // Use lock for time change
+            return lockManager.withLock(booking.getResourceId(), () -> {
+                List<Booking> overlapping = bookingRepository.findOverlappingBookings(
+                    booking.getResourceId(),
+                    request.getStartTime(),
+                    request.getEndTime()
+                );
+                overlapping = overlapping.stream()
+                    .filter(b -> !b.getId().equals(id))
+                    .toList();
 
-            if (!overlapping.isEmpty()) {
-                throw new BookingConflictException("Resource already booked for this time slot");
-            }
+                if (!overlapping.isEmpty()) {
+                    stats.recordConflict();
+                    throw new BookingConflictException("Resource already booked for this time slot");
+                }
 
-            booking.setStartTime(request.getStartTime());
-            booking.setEndTime(request.getEndTime());
+                booking.setStartTime(request.getStartTime());
+                booking.setEndTime(request.getEndTime());
+                return bookingRepository.save(booking);
+            });
         }
 
         return bookingRepository.save(booking);
@@ -147,6 +168,15 @@ public class BookingService {
         Booking booking = getById(id);
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
+        stats.recordCancellation(booking.getResourceId());
+        log.info("Booking cancelled: {}", id);
+    }
+
+    /**
+     * Get booking statistics
+     */
+    public BookingStats.Stats getStats() {
+        return stats.getSnapshot();
     }
 
     private String toJson(Object obj) {

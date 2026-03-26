@@ -166,6 +166,51 @@ spring:
       ddl-auto: validate
 ```
 
+## Concurrency Patterns
+
+### 1. ConcurrentHashMap (ResourceCache)
+Thread-safe in-memory cache for resources.
+
+```java
+// computeIfAbsent - load only if not cached
+Resource r = cache.getOrLoad(id, key -> repository.findById(key));
+
+// compute - atomic update
+cache.update(id, r -> { r.setName("new"); return r; });
+```
+
+### 2. Atomic Operations (BookingStats)
+Lock-free counters for high-throughput statistics.
+
+```java
+// AtomicLong - precise count with get/set
+private final AtomicLong totalBookings = new AtomicLong(0);
+
+// LongAdder - high-contention increment-only
+private final LongAdder conflictCount = new LongAdder();
+
+// Per-resource counters
+private final ConcurrentHashMap<String, LongAdder> resourceBookings;
+```
+
+### 3. Lock Strategies (ResourceLockManager)
+Fine-grained locking for critical sections.
+
+```java
+// Per-resource lock (prevents double booking)
+lockManager.withLock(resourceId, () -> {
+    // Only one thread can book this resource at a time
+    return createBooking(request);
+});
+
+// Try with timeout (non-blocking)
+Result r = lockManager.tryWithLock(resourceId, 5000, () -> action());
+
+// Read-write lock (multiple readers, single writer)
+lockManager.withReadLock(() -> listResources());
+lockManager.withWriteLock(() -> updateResource());
+```
+
 ## Ref
 
 - https://roadmap.sh/backend
