@@ -12,67 +12,504 @@
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            min-height: 100vh;
-            color: #e4e4e4;
+            font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f7f7f7;
+            color: #222;
+            line-height: 1.5;
         }
 
-        .container {
-            max-width: 1200px;
+        /* Header */
+        .header {
+            background: #fff;
+            border-bottom: 1px solid #ebebeb;
+            padding: 16px 24px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1280px;
             margin: 0 auto;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        header h1 {
-            font-size: 2.5rem;
-            background: linear-gradient(90deg, #00d9ff, #00ff88);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 10px;
-        }
-
-        header p {
-            color: #888;
-            font-size: 1.1rem;
-        }
-
-        .tabs {
             display: flex;
-            gap: 10px;
-            margin-bottom: 30px;
-            justify-content: center;
+            align-items: center;
+            justify-content: space-between;
         }
 
-        .tab-btn {
-            padding: 12px 30px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FF385C;
+        }
+
+        .logo svg {
+            width: 32px;
+            height: 32px;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            background: #f7f7f7;
+            padding: 4px;
+            border-radius: 40px;
+        }
+
+        .nav-tab {
+            padding: 10px 20px;
             border: none;
-            background: rgba(255,255,255,0.05);
-            color: #888;
-            border-radius: 8px;
+            background: transparent;
+            border-radius: 30px;
             cursor: pointer;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(255,255,255,0.1);
+            font-size: 14px;
+            font-weight: 500;
+            color: #717171;
+            transition: all 0.2s;
         }
 
-        .tab-btn:hover {
-            background: rgba(255,255,255,0.1);
+        .nav-tab:hover {
+            background: #fff;
+            color: #222;
+        }
+
+        .nav-tab.active {
+            background: #fff;
+            color: #222;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        /* Container */
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 32px 24px;
+        }
+
+        /* Section Title */
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #222;
+        }
+
+        /* Search/Form Card */
+        .search-card {
+            background: #fff;
+            border-radius: 32px;
+            padding: 24px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+            margin-bottom: 40px;
+        }
+
+        .search-form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            align-items: flex-end;
+        }
+
+        .form-field {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .form-field label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #717171;
+            margin-bottom: 8px;
+        }
+
+        .form-field input,
+        .form-field select {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 15px;
+            color: #222;
+            background: #fff;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-field input:focus,
+        .form-field select:focus {
+            outline: none;
+            border-color: #222;
+            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+        }
+
+        .form-field input::placeholder {
+            color: #b0b0b0;
+        }
+
+        /* Date Picker Styles */
+        .date-picker-group {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .date-picker-field {
+            flex: 1;
+            position: relative;
+        }
+
+        .date-picker-field:first-child {
+            border-right: 1px solid #ddd;
+        }
+
+        .date-picker-field label {
+            position: absolute;
+            top: 8px;
+            left: 16px;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #717171;
+        }
+
+        .date-picker-field input {
+            width: 100%;
+            padding: 28px 16px 10px;
+            border: none;
+            font-size: 14px;
+            color: #222;
+            background: transparent;
+        }
+
+        .date-picker-field input:focus {
+            outline: none;
+            background: #f7f7f7;
+        }
+
+        .btn-search {
+            background: linear-gradient(to right, #E61E4D, #E31C5F, #D70466);
+            color: #fff;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-search:hover {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(227, 28, 95, 0.4);
+        }
+
+        .btn-search svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        /* Card */
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+        }
+
+        .card-image {
+            height: 200px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .card-image.room {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .card-image.desk {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+
+        .card-image.equipment {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+
+        .card-image svg {
+            width: 64px;
+            height: 64px;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .card-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: #fff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .card-favorite {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: rgba(0,0,0,0.5);
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .card-favorite:hover {
+            transform: scale(1.1);
+        }
+
+        .card-favorite svg {
+            width: 18px;
+            height: 18px;
             color: #fff;
         }
 
-        .tab-btn.active {
-            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-            color: #fff;
-            border-color: transparent;
+        .card-content {
+            padding: 16px;
         }
 
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 4px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .card-rating {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 14px;
+            color: #222;
+        }
+
+        .card-rating svg {
+            width: 14px;
+            height: 14px;
+            fill: #222;
+        }
+
+        .card-subtitle {
+            font-size: 14px;
+            color: #717171;
+            margin-bottom: 8px;
+        }
+
+        .card-details {
+            font-size: 14px;
+            color: #717171;
+        }
+
+        .card-details strong {
+            color: #222;
+        }
+
+        .card-price {
+            margin-top: 8px;
+            font-size: 15px;
+        }
+
+        .card-price strong {
+            font-weight: 600;
+        }
+
+        .card-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #f0f0f0;
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid;
+        }
+
+        .btn-outline {
+            background: #fff;
+            color: #222;
+            border-color: #222;
+        }
+
+        .btn-outline:hover {
+            background: #222;
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: #fff;
+            color: #c13515;
+            border-color: #c13515;
+        }
+
+        .btn-danger:hover {
+            background: #c13515;
+            color: #fff;
+        }
+
+        /* Status Badges */
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-confirmed {
+            background: #e6f7ed;
+            color: #008a3a;
+        }
+
+        .status-cancelled {
+            background: #fef2f2;
+            color: #c13515;
+        }
+
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            background: #fff;
+            border-radius: 16px;
+            grid-column: 1 / -1;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            color: #ddd;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #222;
+            margin-bottom: 8px;
+        }
+
+        .empty-state p {
+            color: #717171;
+            font-size: 15px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #222;
+            color: #fff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 15px;
+            font-weight: 500;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .toast-error {
+            background: #c13515;
+        }
+
+        /* Calendar Quick Select */
+        .quick-dates {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .quick-date {
+            padding: 8px 16px;
+            background: #f7f7f7;
+            border: 1px solid #ebebeb;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #222;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quick-date:hover {
+            background: #fff;
+            border-color: #222;
+        }
+
+        .quick-date.selected {
+            background: #222;
+            color: #fff;
+            border-color: #222;
+        }
+
+        /* Tab Content */
         .tab-content {
             display: none;
         }
@@ -81,293 +518,122 @@
             display: block;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 20px;
-        }
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+            }
 
-        .card {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 24px;
-            border: 1px solid rgba(255,255,255,0.08);
-            transition: all 0.3s ease;
-        }
+            .search-form {
+                flex-direction: column;
+            }
 
-        .card:hover {
-            transform: translateY(-4px);
-            border-color: rgba(0,217,255,0.3);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-        }
+            .form-field {
+                width: 100%;
+            }
 
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
 
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: #fff;
-        }
+            .date-picker-group {
+                flex-direction: column;
+            }
 
-        .badge {
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-confirmed {
-            background: rgba(16, 185, 129, 0.2);
-            color: #10b981;
-        }
-
-        .badge-cancelled {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-        }
-
-        .badge-room {
-            background: rgba(14, 165, 233, 0.2);
-            color: #0ea5e9;
-        }
-
-        .badge-desk {
-            background: rgba(245, 158, 11, 0.2);
-            color: #f59e0b;
-        }
-
-        .card-body {
-            color: #999;
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .card-body p {
-            margin-bottom: 8px;
-        }
-
-        .card-body strong {
-            color: #ccc;
-        }
-
-        .card-actions {
-            margin-top: 16px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 8px 16px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: all 0.2s ease;
-        }
-
-        .btn-danger {
-            background: rgba(239, 68, 68, 0.2);
-            color: #ef4444;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .btn-danger:hover {
-            background: #ef4444;
-            color: #fff;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #0ea5e9, #06b6d4);
-            color: #fff;
-        }
-
-        .btn-primary:hover {
-            opacity: 0.9;
-            transform: scale(1.02);
-        }
-
-        /* Form Styles */
-        .form-card {
-            background: rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 30px;
-            border: 1px solid rgba(255,255,255,0.08);
-            max-width: 500px;
-            margin: 0 auto 40px;
-        }
-
-        .form-card h3 {
-            margin-bottom: 24px;
-            color: #fff;
-            font-size: 1.3rem;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 12px 16px;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            background: rgba(0,0,0,0.3);
-            color: #fff;
-            font-size: 1rem;
-            transition: border-color 0.2s ease;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            outline: none;
-            border-color: #0ea5e9;
-        }
-
-        .form-group input::placeholder {
-            color: #555;
-        }
-
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
-
-        /* Toast Notification */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            padding: 16px 24px;
-            border-radius: 10px;
-            color: #fff;
-            font-weight: 500;
-            transform: translateX(400px);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(0);
-        }
-
-        .toast-success {
-            background: linear-gradient(135deg, #10b981, #059669);
-        }
-
-        .toast-error {
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: #666;
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            margin-bottom: 20px;
-            opacity: 0.3;
+            .date-picker-field:first-child {
+                border-right: none;
+                border-bottom: 1px solid #ddd;
+            }
         }
 
         /* Loading */
         .loading {
             text-align: center;
-            padding: 40px;
-            color: #666;
+            padding: 60px;
+            grid-column: 1 / -1;
         }
 
-        .spinner {
+        .loading-spinner {
             width: 40px;
             height: 40px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-top-color: #0ea5e9;
+            border: 3px solid #f0f0f0;
+            border-top-color: #FF385C;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin 0.8s linear infinite;
             margin: 0 auto 16px;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .grid {
-                grid-template-columns: 1fr;
-            }
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            header h1 {
-                font-size: 1.8rem;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Booking System</h1>
-            <p>Manage your resources and bookings</p>
-        </header>
-
-        <div class="tabs">
-            <button class="tab-btn active" onclick="showTab('bookings')">Bookings</button>
-            <button class="tab-btn" onclick="showTab('resources')">Resources</button>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                    <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.01.415.001.228c0 4.062-2.877 6.478-6.357 6.478-2.224 0-4.556-1.258-6.709-3.386l-.257-.26-.172-.179h-.212l-.257.26c-2.064 2.04-4.26 3.212-6.38 3.358l-.329.007c-3.48 0-6.357-2.416-6.357-6.478 0-1.163.243-2.265.886-3.868l.145-.352c.967-2.252 5.044-10.833 6.987-14.618l.513-1.025C11.464 1.963 12.919 1 16 1z"/>
+                </svg>
+                BookingHub
+            </div>
+            <nav class="nav-tabs">
+                <button class="nav-tab active" onclick="showTab('bookings')">Bookings</button>
+                <button class="nav-tab" onclick="showTab('resources')">Resources</button>
+            </nav>
         </div>
+    </header>
 
+    <main class="container">
         <!-- Bookings Tab -->
         <div id="bookings-tab" class="tab-content active">
-            <div class="form-card">
-                <h3>New Booking</h3>
-                <form id="booking-form" onsubmit="createBooking(event)">
-                    <div class="form-group">
-                        <label>Resource</label>
+            <div class="search-card">
+                <form id="booking-form" class="search-form" onsubmit="createBooking(event)">
+                    <div class="form-field" style="flex: 2;">
+                        <label>Where</label>
                         <select id="booking-resource" required>
                             <option value="">Select a resource...</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>User ID</label>
-                        <input type="text" id="booking-user" placeholder="e.g., user123" required>
+                    <div class="form-field">
+                        <label>Who</label>
+                        <input type="text" id="booking-user" placeholder="User ID" required>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Start Time</label>
-                            <input type="datetime-local" id="booking-start" required>
-                        </div>
-                        <div class="form-group">
-                            <label>End Time</label>
-                            <input type="datetime-local" id="booking-end" required>
+                    <div class="form-field" style="flex: 2;">
+                        <label>When</label>
+                        <div class="date-picker-group">
+                            <div class="date-picker-field">
+                                <label>CHECK IN</label>
+                                <input type="datetime-local" id="booking-start" required>
+                            </div>
+                            <div class="date-picker-field">
+                                <label>CHECK OUT</label>
+                                <input type="datetime-local" id="booking-end" required>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%; padding:14px;">
-                        Create Booking
+                    <button type="submit" class="btn-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                        Book
                     </button>
                 </form>
+                <div class="quick-dates">
+                    <button type="button" class="quick-date" onclick="setQuickDate('today')">Today</button>
+                    <button type="button" class="quick-date" onclick="setQuickDate('tomorrow')">Tomorrow</button>
+                    <button type="button" class="quick-date" onclick="setQuickDate('thisWeek')">This Week</button>
+                    <button type="button" class="quick-date" onclick="setQuickDate('nextWeek')">Next Week</button>
+                    <button type="button" class="quick-date" onclick="setQuickDate('nextMonth')">Next Month</button>
+                </div>
             </div>
 
-            <div id="bookings-list" class="grid">
+            <h2 class="section-title">Your Bookings</h2>
+            <div id="bookings-list" class="cards-grid">
                 <div class="loading">
-                    <div class="spinner"></div>
+                    <div class="loading-spinner"></div>
                     <p>Loading bookings...</p>
                 </div>
             </div>
@@ -375,41 +641,42 @@
 
         <!-- Resources Tab -->
         <div id="resources-tab" class="tab-content">
-            <div class="form-card">
-                <h3>Add Resource</h3>
-                <form id="resource-form" onsubmit="createResource(event)">
-                    <div class="form-group">
+            <div class="search-card">
+                <form id="resource-form" class="search-form" onsubmit="createResource(event)">
+                    <div class="form-field" style="flex: 2;">
                         <label>Name</label>
                         <input type="text" id="resource-name" placeholder="e.g., Conference Room A" required>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Type</label>
-                            <select id="resource-type">
-                                <option value="room">Room</option>
-                                <option value="desk">Desk</option>
-                                <option value="equipment">Equipment</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Capacity</label>
-                            <input type="number" id="resource-capacity" value="1" min="1">
-                        </div>
+                    <div class="form-field">
+                        <label>Type</label>
+                        <select id="resource-type">
+                            <option value="room">Room</option>
+                            <option value="desk">Desk</option>
+                            <option value="equipment">Equipment</option>
+                        </select>
                     </div>
-                    <button type="submit" class="btn btn-primary" style="width:100%; padding:14px;">
-                        Add Resource
+                    <div class="form-field">
+                        <label>Capacity</label>
+                        <input type="number" id="resource-capacity" value="1" min="1">
+                    </div>
+                    <button type="submit" class="btn-search">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        Add
                     </button>
                 </form>
             </div>
 
-            <div id="resources-list" class="grid">
+            <h2 class="section-title">Available Resources</h2>
+            <div id="resources-list" class="cards-grid">
                 <div class="loading">
-                    <div class="spinner"></div>
+                    <div class="loading-spinner"></div>
                     <p>Loading resources...</p>
                 </div>
             </div>
         </div>
-    </div>
+    </main>
 
     <div id="toast" class="toast"></div>
 
@@ -418,7 +685,7 @@
 
         // Tab switching
         function showTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
 
             document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
@@ -428,11 +695,62 @@
             if (tab === 'resources') loadResources();
         }
 
+        // Quick date selection
+        function setQuickDate(preset) {
+            const now = new Date();
+            let start, end;
+
+            document.querySelectorAll('.quick-date').forEach(btn => btn.classList.remove('selected'));
+            event.target.classList.add('selected');
+
+            switch(preset) {
+                case 'today':
+                    start = new Date(now.setHours(9, 0, 0, 0));
+                    end = new Date(now.setHours(17, 0, 0, 0));
+                    break;
+                case 'tomorrow':
+                    start = new Date(now.setDate(now.getDate() + 1));
+                    start.setHours(9, 0, 0, 0);
+                    end = new Date(start);
+                    end.setHours(17, 0, 0, 0);
+                    break;
+                case 'thisWeek':
+                    const dayOfWeek = now.getDay();
+                    const daysUntilFriday = 5 - dayOfWeek;
+                    start = new Date(now);
+                    start.setHours(9, 0, 0, 0);
+                    end = new Date(now);
+                    end.setDate(end.getDate() + daysUntilFriday);
+                    end.setHours(17, 0, 0, 0);
+                    break;
+                case 'nextWeek':
+                    const nextMonday = new Date(now);
+                    nextMonday.setDate(now.getDate() + (8 - now.getDay()) % 7);
+                    start = new Date(nextMonday);
+                    start.setHours(9, 0, 0, 0);
+                    end = new Date(nextMonday);
+                    end.setDate(end.getDate() + 4);
+                    end.setHours(17, 0, 0, 0);
+                    break;
+                case 'nextMonth':
+                    start = new Date(now.getFullYear(), now.getMonth() + 1, 1, 9, 0);
+                    end = new Date(now.getFullYear(), now.getMonth() + 1, 1, 17, 0);
+                    break;
+            }
+
+            document.getElementById('booking-start').value = formatDateTimeLocal(start);
+            document.getElementById('booking-end').value = formatDateTimeLocal(end);
+        }
+
+        function formatDateTimeLocal(date) {
+            return date.toISOString().slice(0, 16);
+        }
+
         // Toast notification
         function showToast(message, type = 'success') {
             const toast = document.getElementById('toast');
             toast.textContent = message;
-            toast.className = `toast toast-${type} show`;
+            toast.className = `toast ${type === 'error' ? 'toast-error' : ''} show`;
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
@@ -440,7 +758,26 @@
         function formatDateTime(dt) {
             if (!dt) return '-';
             const d = new Date(dt);
-            return d.toLocaleDateString() + ' ' + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return d.toLocaleDateString('en-US', options);
+        }
+
+        // Get resource icon
+        function getResourceIcon(type) {
+            switch(type) {
+                case 'room':
+                    return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
+                    </svg>`;
+                case 'desk':
+                    return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/>
+                    </svg>`;
+                default:
+                    return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
+                    </svg>`;
+            }
         }
 
         // Load resources
@@ -453,11 +790,12 @@
 
                 if (resources.length === 0) {
                     container.innerHTML = `
-                        <div class="empty-state" style="grid-column: 1/-1;">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        <div class="empty-state">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                             </svg>
-                            <p>No resources yet. Add one above!</p>
+                            <h3>No resources yet</h3>
+                            <p>Add your first resource to get started</p>
                         </div>
                     `;
                     return;
@@ -465,34 +803,41 @@
 
                 container.innerHTML = resources.map(r => `
                     <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">${r.name}</span>
-                            <span class="badge badge-${r.type || 'room'}">${r.type || 'general'}</span>
+                        <div class="card-image ${r.type || 'room'}">
+                            ${getResourceIcon(r.type)}
+                            <span class="card-badge">${r.type || 'General'}</span>
                         </div>
-                        <div class="card-body">
-                            <p><strong>ID:</strong> ${r.id.slice(0,8)}...</p>
-                            <p><strong>Capacity:</strong> ${r.capacity} ${r.capacity > 1 ? 'people' : 'person'}</p>
-                            <p><strong>Status:</strong> ${r.active ? '🟢 Active' : '🔴 Inactive'}</p>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-title">${r.name}</span>
+                                <span class="card-rating">
+                                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+                                    4.9
+                                </span>
+                            </div>
+                            <p class="card-subtitle">${r.active ? 'Available' : 'Unavailable'}</p>
+                            <p class="card-details">
+                                <strong>${r.capacity}</strong> ${r.capacity > 1 ? 'people' : 'person'} · ID: ${r.id.slice(0,8)}
+                            </p>
                         </div>
-                        <div class="card-actions">
-                            <button class="btn btn-danger" onclick="deleteResource('${r.id}')">Delete</button>
+                        <div class="card-footer">
+                            <button class="btn btn-danger" onclick="deleteResource('${r.id}')">Remove</button>
                         </div>
                     </div>
                 `).join('');
 
-                // Update booking form dropdown
                 updateResourceDropdown(resources);
             } catch (err) {
                 showToast('Failed to load resources', 'error');
             }
         }
 
-        // Update resource dropdown in booking form
+        // Update resource dropdown
         function updateResourceDropdown(resources) {
             const select = document.getElementById('booking-resource');
             select.innerHTML = '<option value="">Select a resource...</option>' +
                 resources.filter(r => r.active).map(r =>
-                    `<option value="${r.id}">${r.name} (${r.type})</option>`
+                    `<option value="${r.id}">${r.name} (${r.type}) - ${r.capacity} ppl</option>`
                 ).join('');
         }
 
@@ -515,24 +860,24 @@
 
                 if (!res.ok) throw new Error('Failed to create');
 
-                showToast('Resource created successfully!');
+                showToast('Resource added successfully!');
                 document.getElementById('resource-form').reset();
                 loadResources();
             } catch (err) {
-                showToast('Failed to create resource', 'error');
+                showToast('Failed to add resource', 'error');
             }
         }
 
         // Delete resource
         async function deleteResource(id) {
-            if (!confirm('Delete this resource?')) return;
+            if (!confirm('Remove this resource?')) return;
 
             try {
                 await fetch(`${API}/api/resources/${id}`, { method: 'DELETE' });
-                showToast('Resource deleted');
+                showToast('Resource removed');
                 loadResources();
             } catch (err) {
-                showToast('Failed to delete', 'error');
+                showToast('Failed to remove', 'error');
             }
         }
 
@@ -547,11 +892,12 @@
 
                 if (bookings.length === 0) {
                     container.innerHTML = `
-                        <div class="empty-state" style="grid-column: 1/-1;">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        <div class="empty-state">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                             </svg>
-                            <p>No bookings yet. Create one above!</p>
+                            <h3>No bookings yet</h3>
+                            <p>Book your first resource using the form above</p>
                         </div>
                     `;
                     return;
@@ -559,21 +905,33 @@
 
                 container.innerHTML = bookings.map(b => `
                     <div class="card">
-                        <div class="card-header">
-                            <span class="card-title">Booking</span>
-                            <span class="badge badge-${b.status.toLowerCase()}">${b.status}</span>
+                        <div class="card-image room">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
+                            </svg>
+                            <span class="card-badge">Booking</span>
                         </div>
-                        <div class="card-body">
-                            <p><strong>ID:</strong> ${b.id.slice(0,8)}...</p>
-                            <p><strong>Resource:</strong> ${b.resourceId.slice(0,8)}...</p>
-                            <p><strong>User:</strong> ${b.userId}</p>
-                            <p><strong>Start:</strong> ${formatDateTime(b.startTime)}</p>
-                            <p><strong>End:</strong> ${formatDateTime(b.endTime)}</p>
+                        <div class="card-content">
+                            <div class="card-header">
+                                <span class="card-title">Reservation</span>
+                                <span class="status status-${b.status.toLowerCase()}">
+                                    <span class="status-dot"></span>
+                                    ${b.status}
+                                </span>
+                            </div>
+                            <p class="card-subtitle">User: ${b.userId}</p>
+                            <p class="card-details">
+                                ${formatDateTime(b.startTime)}<br>
+                                → ${formatDateTime(b.endTime)}
+                            </p>
+                            <p class="card-details" style="margin-top: 8px; font-size: 12px; color: #999;">
+                                Resource: ${b.resourceId.slice(0,8)}...
+                            </p>
                         </div>
-                        <div class="card-actions">
+                        <div class="card-footer">
                             ${b.status === 'CONFIRMED' ?
                                 `<button class="btn btn-danger" onclick="cancelBooking('${b.id}')">Cancel</button>`
-                                : ''}
+                                : '<span style="color:#999;font-size:13px;">Cancelled</span>'}
                         </div>
                     </div>
                 `).join('');
@@ -610,8 +968,9 @@
                     throw new Error(err.message || 'Failed to create');
                 }
 
-                showToast('Booking created successfully!');
+                showToast('Booking confirmed!');
                 document.getElementById('booking-form').reset();
+                document.querySelectorAll('.quick-date').forEach(btn => btn.classList.remove('selected'));
                 loadBookings();
             } catch (err) {
                 showToast(err.message || 'Failed to create booking', 'error');
