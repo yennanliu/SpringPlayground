@@ -96,10 +96,17 @@ src/main/java/com/yen/bookingSystem/
 
 | Task | Status |
 | ---- | ------ |
-| 1. Project Setup | Pending |
-| 2. Domain Layer | Pending |
-| 3. Repository Layer | Pending |
-| 4. Service Layer | Pending |
-| 5. Controller Layer | Pending |
-| 6. Error Handling | Pending |
+| 1. Project Setup | Done |
+| 2. Domain Layer | Done |
+| 3. Repository Layer | Done |
+| 4. Service Layer | Done |
+| 5. Controller Layer | Done |
+| 6. Error Handling | Done |
 | 7. Testing | Pending |
+
+## Notes
+
+- Removed Lombok due to Java 23 Valhalla compatibility issues
+- Using plain Java with explicit getters/setters
+- H2 in-memory DB for development
+- Swagger UI available at `/swagger-ui.html`
