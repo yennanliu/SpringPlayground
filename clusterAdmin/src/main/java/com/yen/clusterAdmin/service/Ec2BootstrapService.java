@@ -36,6 +36,9 @@ public class Ec2BootstrapService {
         script.append("exec > >(tee /var/log/clusteradmin-bootstrap.log) 2>&1\n");
         script.append("echo \"Starting ClusterAdmin bootstrap at $(date)\"\n\n");
 
+        // Set non-interactive mode for apt-get (prevents TTY prompts)
+        script.append("export DEBIAN_FRONTEND=noninteractive\n\n");
+
         // Set hostname
         script.append("# Set hostname\n");
         script.append("hostnamectl set-hostname ").append(sanitize(nodeName)).append("\n\n");
@@ -59,7 +62,7 @@ public class Ec2BootstrapService {
             script.append("if command -v yum &> /dev/null; then\n");
             script.append("    yum install -y ").append(String.join(" ", packages)).append("\n");
             script.append("elif command -v apt-get &> /dev/null; then\n");
-            script.append("    apt-get install -y ").append(String.join(" ", packages)).append("\n");
+            script.append("    apt-get install -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' ").append(String.join(" ", packages)).append("\n");
             script.append("fi\n\n");
         }
 

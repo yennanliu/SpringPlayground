@@ -121,10 +121,11 @@ public class Ec2ModifyService {
         List<String> commands = List.of(
                 "#!/bin/bash",
                 "set -e",
+                "export DEBIAN_FRONTEND=noninteractive",
                 "if command -v yum &> /dev/null; then",
                 "    sudo yum install -y " + packagesStr,
                 "elif command -v apt-get &> /dev/null; then",
-                "    sudo apt-get update && sudo apt-get install -y " + packagesStr,
+                "    sudo apt-get update && sudo apt-get install -y -o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' " + packagesStr,
                 "else",
                 "    echo 'No supported package manager found'",
                 "    exit 1",
