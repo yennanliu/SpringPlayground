@@ -106,6 +106,30 @@ public class Ec2ModifyService {
     }
 
     /**
+     * Get system logs from an EC2 instance via SSM
+     */
+    public String getSystemLogs(String instanceId, int lines, String region) {
+        log.info("Fetching system logs from instance: instanceId={}, lines={}, region={}",
+                instanceId, lines, region);
+
+        // Use journalctl (systemd) with fallback to syslog
+        List<String> commands = List.of(
+                "#!/bin/bash",
+                "if command -v journalctl &> /dev/null; then",
+                "    journalctl -n " + lines + " --no-pager",
+                "elif [ -f /var/log/syslog ]; then",
+                "    tail -n " + lines + " /var/log/syslog",
+                "elif [ -f /var/log/messages ]; then",
+                "    tail -n " + lines + " /var/log/messages",
+                "else",
+                "    echo 'No system log found'",
+                "fi"
+        );
+
+        return runCommand(instanceId, commands, region);
+    }
+
+    /**
      * Install packages on an EC2 instance via SSM
      */
     public String installPackages(String instanceId, List<String> packages, String region) {

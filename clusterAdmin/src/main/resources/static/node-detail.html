@@ -747,6 +747,11 @@
             const container = document.getElementById('action-buttons');
             let buttons = [];
 
+            // View Logs button (only for running instances)
+            if (node.status === 'RUNNING') {
+                buttons.push(`<a href="/ec2-logs.html?id=${node.id}" class="btn btn-secondary">View Logs</a>`);
+            }
+
             buttons.push(`<button class="btn btn-secondary" onclick="syncNode('${node.id}')">Sync with EC2</button>`);
 
             if (node.status !== 'RUNNING' && node.status !== 'TERMINATED') {
