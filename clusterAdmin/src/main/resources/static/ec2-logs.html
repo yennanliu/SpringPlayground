@@ -204,6 +204,76 @@
             white-space: pre-wrap;
         }
 
+        .log-error .error-hint {
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #fecaca;
+            font-size: 0.8rem;
+            color: #92400e;
+        }
+
+        .log-error .retry-btn {
+            margin-top: 12px;
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .log-error .retry-btn:hover {
+            background: #b91c1c;
+        }
+
+        .ssm-warning {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .ssm-warning .warning-icon {
+            color: #f59e0b;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .ssm-warning .warning-content h4 {
+            color: #92400e;
+            margin: 0 0 4px 0;
+            font-size: 0.9rem;
+        }
+
+        .ssm-warning .warning-content p {
+            color: #a16207;
+            font-size: 0.8rem;
+            margin: 0;
+        }
+
+        .retry-info {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray-500);
+            font-size: 0.8rem;
+            margin-left: auto;
+        }
+
+        .retry-info .retry-spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid var(--gray-300);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
         .auto-refresh-toggle {
             display: flex;
             align-items: center;
@@ -276,14 +346,28 @@
                     <span id="log-timestamp" style="font-size: 0.75rem; color: var(--gray-500); font-weight: normal;"></span>
                 </h2>
 
+                <div id="ssm-warning" class="ssm-warning" style="display: none;">
+                    <span class="warning-icon">&#9888;</span>
+                    <div class="warning-content">
+                        <h4>SSM Agent Initializing</h4>
+                        <p>The instance was recently started. SSM agent may take 30-60 seconds to become ready. Auto-retrying...</p>
+                    </div>
+                </div>
+
                 <div id="log-status" class="log-status" style="display: none;">
                     <span class="status-badge" id="command-status">-</span>
                     <span class="status-text" id="status-text">Fetching logs...</span>
+                    <span id="retry-info" class="retry-info" style="display: none;">
+                        <span class="retry-spinner"></span>
+                        <span id="retry-text">Retrying...</span>
+                    </span>
                 </div>
 
                 <div id="log-error" class="log-error" style="display: none;">
                     <strong>Error:</strong>
                     <pre id="log-error-text"></pre>
+                    <div id="error-hint" class="error-hint"></div>
+                    <button id="retry-btn" class="retry-btn" onclick="fetchLogs()" style="display: none;">Retry Now</button>
                 </div>
 
                 <div class="log-terminal">
@@ -310,6 +394,10 @@
         let currentCommandId = null;
         let autoRefreshInterval = null;
         let pollInterval = null;
+        let retryTimeout = null;
+        let retryCount = 0;
+        const MAX_RETRIES = 4;
+        const RETRY_DELAYS = [3000, 6000, 10000, 15000]; // Exponential backoff delays
 
         // Get node ID from URL
         function getNodeIdFromUrl() {
@@ -369,13 +457,52 @@
             document.getElementById('error').style.display = 'block';
         }
 
-        // Fetch logs
-        async function fetchLogs() {
+        // Check if error is SSM not ready
+        function isSsmNotReadyError(errorMessage) {
+            return errorMessage && (
+                errorMessage.includes('not in a valid state') ||
+                errorMessage.includes('InvalidInstanceId') ||
+                errorMessage.includes('SSM agent') ||
+                errorMessage.includes('not registered')
+            );
+        }
+
+        // Get user-friendly error message
+        function getFriendlyErrorMessage(errorMessage) {
+            if (isSsmNotReadyError(errorMessage)) {
+                return 'SSM agent is not ready yet. This typically happens when the instance was recently started.';
+            }
+            return errorMessage;
+        }
+
+        // Get error hint
+        function getErrorHint(errorMessage) {
+            if (isSsmNotReadyError(errorMessage)) {
+                return 'The SSM agent needs 30-60 seconds to initialize after an instance starts. ' +
+                       'Make sure the instance has the AmazonSSMManagedInstanceCore IAM policy attached.';
+            }
+            if (errorMessage.includes('IAM') || errorMessage.includes('permission')) {
+                return 'Check that the EC2 instance has an IAM role with SSM permissions (AmazonSSMManagedInstanceCore policy).';
+            }
+            return '';
+        }
+
+        // Fetch logs with auto-retry
+        async function fetchLogs(isRetry = false) {
             if (!currentNode) return;
 
             if (currentNode.status !== 'RUNNING') {
                 showToast('Instance must be running to fetch logs', 'error');
                 return;
+            }
+
+            // Reset retry count on manual fetch
+            if (!isRetry) {
+                retryCount = 0;
+                if (retryTimeout) {
+                    clearTimeout(retryTimeout);
+                    retryTimeout = null;
+                }
             }
 
             const lines = document.getElementById('lines-select').value;
@@ -391,6 +518,8 @@
             document.getElementById('log-output').style.display = 'none';
             document.getElementById('log-status').style.display = 'flex';
             document.getElementById('log-error').style.display = 'none';
+            document.getElementById('ssm-warning').style.display = 'none';
+            document.getElementById('retry-info').style.display = 'none';
             updateStatus('Pending', 'Sending log fetch command...');
 
             try {
@@ -404,6 +533,10 @@
                     throw new Error(data.message || 'Failed to fetch logs');
                 }
 
+                // Success - reset retry count
+                retryCount = 0;
+                document.getElementById('ssm-warning').style.display = 'none';
+
                 currentCommandId = data.commandId;
                 document.getElementById('terminal-title').textContent = `$ journalctl -n ${lines} --no-pager`;
 
@@ -411,12 +544,72 @@
                 pollForResult();
 
             } catch (error) {
-                document.getElementById('log-loading').style.display = 'none';
-                document.getElementById('log-output').style.display = 'block';
-                document.getElementById('log-output').textContent = 'Failed to fetch logs: ' + error.message;
-                updateStatus('Failed', error.message);
-                showToast(error.message, 'error');
+                handleFetchError(error.message);
             }
+        }
+
+        // Handle fetch error with retry logic
+        function handleFetchError(errorMessage) {
+            const isSsmError = isSsmNotReadyError(errorMessage);
+
+            // If SSM not ready and we have retries left, auto-retry
+            if (isSsmError && retryCount < MAX_RETRIES) {
+                retryCount++;
+                const delay = RETRY_DELAYS[retryCount - 1] || RETRY_DELAYS[RETRY_DELAYS.length - 1];
+
+                // Show SSM warning and retry info
+                document.getElementById('ssm-warning').style.display = 'flex';
+                document.getElementById('retry-info').style.display = 'flex';
+                document.getElementById('retry-text').textContent = `Retry ${retryCount}/${MAX_RETRIES} in ${delay/1000}s...`;
+                updateStatus('Retrying', `SSM agent initializing... (attempt ${retryCount}/${MAX_RETRIES})`);
+
+                // Keep loading spinner visible
+                document.getElementById('log-loading').style.display = 'flex';
+                document.getElementById('log-output').style.display = 'none';
+
+                showToast(`SSM not ready, retrying in ${delay/1000}s...`, 'warning');
+
+                // Schedule retry
+                retryTimeout = setTimeout(() => {
+                    fetchLogs(true);
+                }, delay);
+
+                return;
+            }
+
+            // Max retries reached or non-SSM error - show error
+            document.getElementById('log-loading').style.display = 'none';
+            document.getElementById('log-output').style.display = 'block';
+            document.getElementById('log-output').textContent = getFriendlyErrorMessage(errorMessage);
+            document.getElementById('ssm-warning').style.display = 'none';
+            document.getElementById('retry-info').style.display = 'none';
+
+            // Show error details
+            document.getElementById('log-error').style.display = 'block';
+            document.getElementById('log-error-text').textContent = errorMessage;
+
+            const hint = getErrorHint(errorMessage);
+            const hintEl = document.getElementById('error-hint');
+            if (hint) {
+                hintEl.textContent = hint;
+                hintEl.style.display = 'block';
+            } else {
+                hintEl.style.display = 'none';
+            }
+
+            // Show retry button
+            document.getElementById('retry-btn').style.display = 'inline-block';
+
+            updateStatus('Failed', isSsmError ? 'SSM agent not ready after multiple attempts' : 'Failed to fetch logs');
+
+            if (retryCount >= MAX_RETRIES) {
+                showToast('SSM not ready after multiple retries. Try again later.', 'error');
+            } else {
+                showToast(getFriendlyErrorMessage(errorMessage), 'error');
+            }
+
+            // Reset retry count
+            retryCount = 0;
         }
 
         // Poll for command result
@@ -478,6 +671,9 @@
                 statusEl.classList.add('RUNNING');
             } else if (status === 'Failed' || status === 'TimedOut' || status === 'Cancelled') {
                 statusEl.classList.add('TERMINATED');
+            } else if (status === 'Retrying') {
+                statusEl.classList.add('PENDING');
+                statusEl.style.background = '#f59e0b'; // Warning color for retrying
             } else {
                 statusEl.classList.add('PENDING');
             }
@@ -553,6 +749,9 @@
             }
             if (pollInterval) {
                 clearTimeout(pollInterval);
+            }
+            if (retryTimeout) {
+                clearTimeout(retryTimeout);
             }
         });
     </script>
