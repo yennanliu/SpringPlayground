@@ -214,6 +214,35 @@ public class NodeController {
         ));
     }
 
+    @PostMapping("/{id}/logs")
+    @Operation(summary = "Get system logs", description = "Fetch system logs from the EC2 instance via SSM")
+    public ResponseEntity<CommandResultDTO> getSystemLogs(
+            @PathVariable UUID id,
+            @RequestParam(defaultValue = "100") int lines) {
+
+        NodeDTO node = nodeService.getNodeById(id);
+        if (node.getInstanceId() == null) {
+            return ResponseEntity.badRequest()
+                    .body(new CommandResultDTO(null, "Node does not have an EC2 instance"));
+        }
+
+        if (node.getStatus() != NodeStatus.RUNNING) {
+            return ResponseEntity.badRequest()
+                    .body(new CommandResultDTO(null, "Instance must be running to fetch logs"));
+        }
+
+        String commandId = ec2ModifyService.getSystemLogs(
+                node.getInstanceId(),
+                lines,
+                node.getRegion()
+        );
+
+        return ResponseEntity.ok(new CommandResultDTO(
+                commandId,
+                "Log fetch command sent. Use GET /nodes/" + id + "/commands/" + commandId + " to check status"
+        ));
+    }
+
     @GetMapping("/{id}/commands/{commandId}")
     @Operation(summary = "Get command result", description = "Get the result of an SSM command")
     public ResponseEntity<CommandResultDTO> getCommandResult(

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Logs - Cluster Admin</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .node-title {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .node-title h1 {
+            font-size: 1.75rem;
+            color: var(--gray-900);
+            margin: 0;
+        }
+
+        .log-controls {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .log-controls select {
+            padding: 10px 14px;
+            border: 1px solid var(--gray-300);
+            border-radius: 6px;
+            font-size: 0.875rem;
+            background: white;
+            min-width: 120px;
+        }
+
+        .log-controls label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            font-size: 1.25rem;
+            color: var(--gray-800);
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .log-terminal {
+            background: var(--gray-900);
+            border-radius: 12px;
+            padding: 16px;
+            max-height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .log-terminal pre {
+            color: #10b981;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+            font-size: 0.8rem;
+            white-space: pre-wrap;
+            word-break: break-word;
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .log-terminal .terminal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--gray-700);
+        }
+
+        .log-terminal .terminal-title {
+            color: var(--gray-400);
+            font-size: 0.75rem;
+            font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+        }
+
+        .log-terminal .copy-btn {
+            background: var(--gray-700);
+            border: none;
+            color: var(--gray-300);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .log-terminal .copy-btn:hover {
+            background: var(--gray-600);
+            color: white;
+        }
+
+        .log-terminal .copy-btn.copied {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--gray-500);
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--danger-color);
+        }
+
+        .log-loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: var(--gray-400);
+            padding: 40px 20px;
+        }
+
+        .log-loading .spinner {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-700);
+            border-top-color: #10b981;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .log-status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .log-status .status-text {
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .log-error {
+            background: #fef2f2;
+            border: 1px solid #fecaca;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .log-error strong {
+            color: #dc2626;
+        }
+
+        .log-error pre {
+            margin: 8px 0 0 0;
+            font-size: 0.8rem;
+            color: #7f1d1d;
+            white-space: pre-wrap;
+        }
+
+        .auto-refresh-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .auto-refresh-toggle input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .node-header {
+                flex-direction: column;
+            }
+
+            .log-controls {
+                width: 100%;
+            }
+
+            .log-terminal {
+                max-height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a id="back-link" href="/" class="back-link">
+            <span>&larr;</span> Back to Node Details
+        </a>
+
+        <div id="loading" class="loading-state">
+            <h2>Loading...</h2>
+        </div>
+
+        <div id="error" class="error-state" style="display: none;">
+            <h2>Node not found</h2>
+            <p>The requested node could not be found.</p>
+            <a href="/" class="btn btn-primary" style="margin-top: 20px; display: inline-block;">Return to Dashboard</a>
+        </div>
+
+        <div id="content" style="display: none;">
+            <!-- Node Header -->
+            <div class="node-header">
+                <div class="node-title">
+                    <h1 id="node-name">System Logs</h1>
+                    <span class="status-badge" id="node-status">-</span>
+                </div>
+                <div class="log-controls">
+                    <select id="lines-select" onchange="fetchLogs()">
+                        <option value="50">50 lines</option>
+                        <option value="100" selected>100 lines</option>
+                        <option value="200">200 lines</option>
+                        <option value="500">500 lines</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="fetchLogs()">Refresh</button>
+                    <label class="auto-refresh-toggle">
+                        <input type="checkbox" id="auto-refresh" onchange="toggleAutoRefresh()">
+                        Auto-refresh
+                    </label>
+                </div>
+            </div>
+
+            <!-- Log Section -->
+            <section class="section">
+                <h2>
+                    <span>System Logs</span>
+                    <span id="log-timestamp" style="font-size: 0.75rem; color: var(--gray-500); font-weight: normal;"></span>
+                </h2>
+
+                <div id="log-status" class="log-status" style="display: none;">
+                    <span class="status-badge" id="command-status">-</span>
+                    <span class="status-text" id="status-text">Fetching logs...</span>
+                </div>
+
+                <div id="log-error" class="log-error" style="display: none;">
+                    <strong>Error:</strong>
+                    <pre id="log-error-text"></pre>
+                </div>
+
+                <div class="log-terminal">
+                    <div class="terminal-header">
+                        <span class="terminal-title" id="terminal-title">$ journalctl</span>
+                        <button class="copy-btn" onclick="copyLogs(this)">Copy</button>
+                    </div>
+                    <div id="log-loading" class="log-loading" style="display: none;">
+                        <div class="spinner"></div>
+                        <span>Fetching logs...</span>
+                    </div>
+                    <pre id="log-output">Click "Refresh" to fetch logs...</pre>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API_BASE = '/api/v1';
+        let currentNode = null;
+        let currentCommandId = null;
+        let autoRefreshInterval = null;
+        let pollInterval = null;
+
+        // Get node ID from URL
+        function getNodeIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return params.get('id');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', async () => {
+            const nodeId = getNodeIdFromUrl();
+            if (!nodeId) {
+                showError();
+                return;
+            }
+
+            // Update back link
+            document.getElementById('back-link').href = `/node-detail.html?id=${nodeId}`;
+
+            await loadNodeDetails(nodeId);
+        });
+
+        // Load node details
+        async function loadNodeDetails(nodeId) {
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${nodeId}`);
+                if (!response.ok) {
+                    showError();
+                    return;
+                }
+
+                currentNode = await response.json();
+                renderNodeInfo(currentNode);
+
+                // Auto-fetch logs on load
+                fetchLogs();
+
+            } catch (error) {
+                console.error('Error loading node:', error);
+                showError();
+            }
+        }
+
+        // Render node info
+        function renderNodeInfo(node) {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').style.display = 'block';
+
+            document.getElementById('node-name').textContent = `${node.name} - Logs`;
+            const statusBadge = document.getElementById('node-status');
+            statusBadge.textContent = node.status;
+            statusBadge.className = `status-badge ${node.status}`;
+        }
+
+        // Show error state
+        function showError() {
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('error').style.display = 'block';
+        }
+
+        // Fetch logs
+        async function fetchLogs() {
+            if (!currentNode) return;
+
+            if (currentNode.status !== 'RUNNING') {
+                showToast('Instance must be running to fetch logs', 'error');
+                return;
+            }
+
+            const lines = document.getElementById('lines-select').value;
+
+            // Clear previous poll if any
+            if (pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+            }
+
+            // Show loading state
+            document.getElementById('log-loading').style.display = 'flex';
+            document.getElementById('log-output').style.display = 'none';
+            document.getElementById('log-status').style.display = 'flex';
+            document.getElementById('log-error').style.display = 'none';
+            updateStatus('Pending', 'Sending log fetch command...');
+
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${currentNode.id}/logs?lines=${lines}`, {
+                    method: 'POST'
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to fetch logs');
+                }
+
+                currentCommandId = data.commandId;
+                document.getElementById('terminal-title').textContent = `$ journalctl -n ${lines} --no-pager`;
+
+                // Start polling for result
+                pollForResult();
+
+            } catch (error) {
+                document.getElementById('log-loading').style.display = 'none';
+                document.getElementById('log-output').style.display = 'block';
+                document.getElementById('log-output').textContent = 'Failed to fetch logs: ' + error.message;
+                updateStatus('Failed', error.message);
+                showToast(error.message, 'error');
+            }
+        }
+
+        // Poll for command result
+        async function pollForResult() {
+            if (!currentNode || !currentCommandId) return;
+
+            try {
+                const response = await fetch(`${API_BASE}/nodes/${currentNode.id}/commands/${currentCommandId}`);
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.message || 'Failed to get command result');
+                }
+
+                updateStatus(data.status, getStatusText(data.status));
+
+                if (data.status === 'Success') {
+                    // Show output
+                    document.getElementById('log-loading').style.display = 'none';
+                    document.getElementById('log-output').style.display = 'block';
+                    document.getElementById('log-output').textContent = data.output || 'No output';
+                    document.getElementById('log-timestamp').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+
+                    // Show error if any
+                    if (data.error && data.error.trim()) {
+                        document.getElementById('log-error').style.display = 'block';
+                        document.getElementById('log-error-text').textContent = data.error;
+                    }
+                } else if (data.status === 'Failed' || data.status === 'TimedOut' || data.status === 'Cancelled') {
+                    // Show error
+                    document.getElementById('log-loading').style.display = 'none';
+                    document.getElementById('log-output').style.display = 'block';
+                    document.getElementById('log-output').textContent = data.error || 'Command failed';
+
+                    if (data.error && data.error.trim()) {
+                        document.getElementById('log-error').style.display = 'block';
+                        document.getElementById('log-error-text').textContent = data.error;
+                    }
+                } else {
+                    // Still in progress, poll again
+                    pollInterval = setTimeout(() => pollForResult(), 2000);
+                }
+
+            } catch (error) {
+                document.getElementById('log-loading').style.display = 'none';
+                document.getElementById('log-output').style.display = 'block';
+                document.getElementById('log-output').textContent = 'Error: ' + error.message;
+                updateStatus('Failed', error.message);
+            }
+        }
+
+        // Update status display
+        function updateStatus(status, text) {
+            const statusEl = document.getElementById('command-status');
+            statusEl.textContent = status;
+            statusEl.className = 'status-badge';
+
+            if (status === 'Success') {
+                statusEl.classList.add('RUNNING');
+            } else if (status === 'Failed' || status === 'TimedOut' || status === 'Cancelled') {
+                statusEl.classList.add('TERMINATED');
+            } else {
+                statusEl.classList.add('PENDING');
+            }
+
+            document.getElementById('status-text').textContent = text;
+        }
+
+        // Get status text
+        function getStatusText(status) {
+            switch (status) {
+                case 'Pending': return 'Waiting for command to execute...';
+                case 'InProgress': return 'Fetching logs...';
+                case 'Success': return 'Logs fetched successfully';
+                case 'Failed': return 'Failed to fetch logs';
+                case 'TimedOut': return 'Command timed out';
+                case 'Cancelled': return 'Command was cancelled';
+                default: return status;
+            }
+        }
+
+        // Toggle auto-refresh
+        function toggleAutoRefresh() {
+            const checked = document.getElementById('auto-refresh').checked;
+
+            if (checked) {
+                // Refresh every 30 seconds
+                autoRefreshInterval = setInterval(() => {
+                    fetchLogs();
+                }, 30000);
+                showToast('Auto-refresh enabled (every 30s)', 'info');
+            } else {
+                if (autoRefreshInterval) {
+                    clearInterval(autoRefreshInterval);
+                    autoRefreshInterval = null;
+                }
+                showToast('Auto-refresh disabled', 'info');
+            }
+        }
+
+        // Copy logs to clipboard
+        async function copyLogs(button) {
+            const text = document.getElementById('log-output').textContent;
+
+            try {
+                await navigator.clipboard.writeText(text);
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            } catch (err) {
+                showToast('Failed to copy', 'error');
+            }
+        }
+
+        // Toast notification
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.className = `toast ${type} show`;
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', () => {
+            if (autoRefreshInterval) {
+                clearInterval(autoRefreshInterval);
+            }
+            if (pollInterval) {
+                clearTimeout(pollInterval);
+            }
+        });
+    </script>
+</body>
+</html>
