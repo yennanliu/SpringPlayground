@@ -32,13 +32,17 @@ public class Ec2IamService {
             }
             """;
 
-    private final IamClient iamClient;
+    private final IamClientFactory iamClientFactory;
 
     // Cache the instance profile name once created/verified
     private final AtomicReference<String> cachedInstanceProfileName = new AtomicReference<>();
 
-    public Ec2IamService() {
-        this.iamClient = IamClient.builder().build();
+    public Ec2IamService(IamClientFactory iamClientFactory) {
+        this.iamClientFactory = iamClientFactory;
+    }
+
+    private IamClient getIamClient() {
+        return iamClientFactory.getClient();
     }
 
     /**
@@ -85,7 +89,7 @@ public class Ec2IamService {
                     .roleName(ROLE_NAME)
                     .build();
 
-            GetRoleResponse response = iamClient.getRole(getRoleRequest);
+            GetRoleResponse response = getIamClient().getRole(getRoleRequest);
             log.debug("Found existing IAM role: {}", ROLE_NAME);
             return response.role().arn();
 
@@ -105,7 +109,7 @@ public class Ec2IamService {
                     )
                     .build();
 
-            CreateRoleResponse response = iamClient.createRole(createRoleRequest);
+            CreateRoleResponse response = getIamClient().createRole(createRoleRequest);
             log.info("Created IAM role: {}", response.role().arn());
             return response.role().arn();
 
@@ -122,7 +126,7 @@ public class Ec2IamService {
                     .roleName(ROLE_NAME)
                     .build();
 
-            ListAttachedRolePoliciesResponse listResponse = iamClient.listAttachedRolePolicies(listRequest);
+            ListAttachedRolePoliciesResponse listResponse = getIamClient().listAttachedRolePolicies(listRequest);
 
             boolean alreadyAttached = listResponse.attachedPolicies().stream()
                     .anyMatch(p -> SSM_MANAGED_POLICY_ARN.equals(p.policyArn()));
@@ -138,7 +142,7 @@ public class Ec2IamService {
                     .policyArn(SSM_MANAGED_POLICY_ARN)
                     .build();
 
-            iamClient.attachRolePolicy(attachRequest);
+            getIamClient().attachRolePolicy(attachRequest);
             log.info("Attached SSM managed policy to role: {}", ROLE_NAME);
 
         } catch (IamException e) {
@@ -154,7 +158,7 @@ public class Ec2IamService {
                     .instanceProfileName(INSTANCE_PROFILE_NAME)
                     .build();
 
-            GetInstanceProfileResponse response = iamClient.getInstanceProfile(getRequest);
+            GetInstanceProfileResponse response = getIamClient().getInstanceProfile(getRequest);
             InstanceProfile profile = response.instanceProfile();
 
             // Ensure the role is attached to the profile
@@ -182,7 +186,7 @@ public class Ec2IamService {
                     )
                     .build();
 
-            iamClient.createInstanceProfile(createRequest);
+            getIamClient().createInstanceProfile(createRequest);
             log.info("Created instance profile: {}", INSTANCE_PROFILE_NAME);
 
             // Add the role to the instance profile
@@ -206,7 +210,7 @@ public class Ec2IamService {
                     .roleName(ROLE_NAME)
                     .build();
 
-            iamClient.addRoleToInstanceProfile(addRoleRequest);
+            getIamClient().addRoleToInstanceProfile(addRoleRequest);
             log.info("Added role {} to instance profile {}", ROLE_NAME, INSTANCE_PROFILE_NAME);
 
         } catch (LimitExceededException e) {
