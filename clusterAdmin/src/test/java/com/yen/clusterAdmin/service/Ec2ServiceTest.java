@@ -47,13 +47,17 @@ class Ec2ServiceTest {
     @Mock
     private Ec2BootstrapService ec2BootstrapService;
 
+    @Mock
+    private Ec2IamService ec2IamService;
+
     private Ec2Service ec2Service;
 
     private static final String TEST_REGION = "us-east-1";
+    private static final String TEST_INSTANCE_PROFILE = "ClusterAdmin-EC2-SSM-Profile";
 
     @BeforeEach
     void setUp() {
-        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties, ec2NetworkService, ec2KeyPairService, ec2BootstrapService);
+        ec2Service = new Ec2Service(ec2ClientFactory, ec2Properties, ec2NetworkService, ec2KeyPairService, ec2BootstrapService, ec2IamService);
         when(ec2ClientFactory.getClient(anyString())).thenReturn(ec2Client);
         when(ec2ClientFactory.getDefaultRegion()).thenReturn(TEST_REGION);
 
@@ -66,6 +70,9 @@ class Ec2ServiceTest {
 
         // Mock bootstrap service for user data generation
         when(ec2BootstrapService.generateUserData(anyString(), any(), any())).thenReturn(null);
+
+        // Mock IAM service for SSM instance profile
+        when(ec2IamService.getOrCreateSsmInstanceProfile()).thenReturn(TEST_INSTANCE_PROFILE);
     }
 
     @Nested

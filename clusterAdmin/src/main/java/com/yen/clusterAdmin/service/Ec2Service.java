@@ -24,17 +24,20 @@ public class Ec2Service {
     private final Ec2NetworkService ec2NetworkService;
     private final Ec2KeyPairService ec2KeyPairService;
     private final Ec2BootstrapService ec2BootstrapService;
+    private final Ec2IamService ec2IamService;
 
     public Ec2Service(Ec2ClientFactory ec2ClientFactory,
                       Ec2Properties ec2Properties,
                       Ec2NetworkService ec2NetworkService,
                       Ec2KeyPairService ec2KeyPairService,
-                      Ec2BootstrapService ec2BootstrapService) {
+                      Ec2BootstrapService ec2BootstrapService,
+                      Ec2IamService ec2IamService) {
         this.ec2ClientFactory = ec2ClientFactory;
         this.ec2Properties = ec2Properties;
         this.ec2NetworkService = ec2NetworkService;
         this.ec2KeyPairService = ec2KeyPairService;
         this.ec2BootstrapService = ec2BootstrapService;
+        this.ec2IamService = ec2IamService;
     }
 
     /**
@@ -67,11 +70,18 @@ public class Ec2Service {
         try {
             Ec2Client ec2Client = ec2ClientFactory.getClient(targetRegion);
 
+            // Get or create IAM instance profile for SSM access
+            String instanceProfileName = ec2IamService.getOrCreateSsmInstanceProfile();
+            log.debug("Using IAM instance profile: {}", instanceProfileName);
+
             RunInstancesRequest.Builder requestBuilder = RunInstancesRequest.builder()
                     .imageId(resolvedAmi)
                     .instanceType(InstanceType.fromValue(resolvedInstanceType))
                     .minCount(1)
-                    .maxCount(1);
+                    .maxCount(1)
+                    .iamInstanceProfile(IamInstanceProfileSpecification.builder()
+                            .name(instanceProfileName)
+                            .build());
 
             // Get or create key pair for SSH access
             String keyName = ec2Properties.getKeyNameForRegion(targetRegion);
