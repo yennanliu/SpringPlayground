@@ -2,6 +2,12 @@ spring:
   application:
     name: bookingSystem
 
+  # Virtual Threads (JDK 21) — Tomcat uses a virtual thread per request
+  # instead of blocking OS threads, enabling C10K-scale concurrency
+  threads:
+    virtual:
+      enabled: true
+
   # H2 for development
   datasource:
     url: jdbc:h2:mem:booking;DB_CLOSE_DELAY=-1
