@@ -22,7 +22,7 @@ import java.util.UUID;
  * Uses ResourceService (populates cache) and BookingRepository directly.
  */
 @Component
-@Profile("!prod")
+@Profile("!prod & !test")
 public class DataInitializer implements CommandLineRunner {
 
     private static final Logger log = LoggerFactory.getLogger(DataInitializer.class);
