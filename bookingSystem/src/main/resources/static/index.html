@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booking System</title>
+    <title>BookingHub</title>
     <style>
         * {
             margin: 0;
@@ -11,21 +11,44 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --brand: #FF385C;
+            --brand-dark: #D70466;
+            --brand-gradient: linear-gradient(135deg, #E61E4D, #D70466);
+            --text: #222;
+            --text-muted: #717171;
+            --border: #ebebeb;
+            --bg: #f7f7f7;
+            --white: #fff;
+            --green: #008a3a;
+            --green-bg: #e6f7ed;
+            --red: #c13515;
+            --red-bg: #fef2f2;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.08);
+            --shadow-md: 0 6px 20px rgba(0,0,0,0.10);
+            --shadow-lg: 0 12px 32px rgba(0,0,0,0.14);
+            --radius-sm: 8px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-pill: 40px;
+        }
+
         body {
-            font-family: 'Circular', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #f7f7f7;
-            color: #222;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg);
+            color: var(--text);
             line-height: 1.5;
         }
 
-        /* Header */
+        /* ── Header ─────────────────────────────────────────── */
         .header {
-            background: #fff;
-            border-bottom: 1px solid #ebebeb;
-            padding: 16px 24px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
             position: sticky;
             top: 0;
             z-index: 100;
+            box-shadow: 0 1px 0 var(--border);
         }
 
         .header-content {
@@ -34,965 +57,1113 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            height: 68px;
+            gap: 16px;
         }
 
         .logo {
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #FF385C;
+            gap: 10px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--brand);
+            letter-spacing: -0.5px;
+            flex-shrink: 0;
         }
 
-        .logo svg {
-            width: 32px;
-            height: 32px;
-        }
+        .logo svg { width: 30px; height: 30px; }
 
         .nav-tabs {
             display: flex;
-            gap: 8px;
-            background: #f7f7f7;
+            gap: 4px;
+            background: var(--bg);
             padding: 4px;
-            border-radius: 40px;
+            border-radius: var(--radius-pill);
         }
 
         .nav-tab {
-            padding: 10px 20px;
+            padding: 8px 22px;
             border: none;
             background: transparent;
-            border-radius: 30px;
+            border-radius: var(--radius-pill);
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
-            color: #717171;
+            font-weight: 600;
+            color: var(--text-muted);
             transition: all 0.2s;
         }
 
-        .nav-tab:hover {
-            background: #fff;
-            color: #222;
-        }
+        .nav-tab:hover { background: var(--white); color: var(--text); }
 
         .nav-tab.active {
-            background: #fff;
-            color: #222;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            background: var(--white);
+            color: var(--text);
+            box-shadow: var(--shadow-sm);
         }
 
-        /* Container */
+        /* ── Stats Bar ───────────────────────────────────────── */
+        .stats-bar {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .stats-bar-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            gap: 32px;
+        }
+
+        .stat-pill {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .stat-pill strong {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .stat-pill .stat-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .stat-dot-all    { background: #718096; }
+        .stat-dot-ok     { background: var(--green); }
+        .stat-dot-cancel { background: var(--red); }
+
+        /* ── Container ───────────────────────────────────────── */
         .container {
             max-width: 1280px;
             margin: 0 auto;
             padding: 32px 24px;
         }
 
-        /* Section Title */
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 24px;
-            color: #222;
+        /* ── Section Title row ───────────────────────────────── */
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
-        /* Search/Form Card */
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        /* ── Filter Tabs ─────────────────────────────────────── */
+        .filter-tabs {
+            display: flex;
+            gap: 4px;
+            background: var(--bg);
+            padding: 3px;
+            border-radius: var(--radius-pill);
+        }
+
+        .filter-tab {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-pill);
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .filter-tab:hover { background: var(--white); color: var(--text); }
+
+        .filter-tab.active {
+            background: var(--white);
+            color: var(--text);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ── Search/Form Card ────────────────────────────────── */
         .search-card {
-            background: #fff;
-            border-radius: 32px;
+            background: var(--white);
+            border-radius: var(--radius-lg);
             padding: 24px;
-            box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-            margin-bottom: 40px;
+            box-shadow: var(--shadow-md);
+            margin-bottom: 36px;
+        }
+
+        .card-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--text);
+            margin-bottom: 14px;
+            letter-spacing: -0.1px;
         }
 
         .search-form {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 12px;
             align-items: flex-end;
         }
 
         .form-field {
             flex: 1;
-            min-width: 200px;
+            min-width: 180px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
         .form-field label {
-            display: block;
-            font-size: 12px;
-            font-weight: 600;
+            font-size: 11px;
+            font-weight: 700;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #717171;
-            margin-bottom: 8px;
+            letter-spacing: 0.6px;
+            color: var(--text-muted);
         }
 
         .form-field input,
         .form-field select {
             width: 100%;
-            padding: 14px 16px;
-            border: 1px solid #ddd;
-            border-radius: 12px;
-            font-size: 15px;
-            color: #222;
-            background: #fff;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            padding: 13px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
+            font-size: 14px;
+            color: var(--text);
+            background: var(--white);
+            transition: border-color 0.15s, box-shadow 0.15s;
+            appearance: none;
+        }
+
+        .form-field select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%23717171' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            background-size: 16px;
+            padding-right: 36px;
         }
 
         .form-field input:focus,
         .form-field select:focus {
             outline: none;
-            border-color: #222;
-            box-shadow: 0 0 0 2px rgba(0,0,0,0.1);
+            border-color: var(--text);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
         }
 
-        .form-field input::placeholder {
-            color: #b0b0b0;
-        }
+        .form-field input::placeholder { color: #c0c0c0; }
 
-        /* Date Picker Styles */
+        /* Date pair */
         .date-picker-group {
             display: flex;
-            border: 1px solid #ddd;
-            border-radius: 12px;
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-sm);
             overflow: hidden;
-            background: #fff;
+            background: var(--white);
+            transition: border-color 0.15s, box-shadow 0.15s;
         }
 
-        .date-picker-field {
-            flex: 1;
-            position: relative;
+        .date-picker-group:focus-within {
+            border-color: var(--text);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.06);
         }
 
-        .date-picker-field:first-child {
-            border-right: 1px solid #ddd;
-        }
+        .date-picker-field { flex: 1; position: relative; }
+
+        .date-picker-field:first-child { border-right: 1.5px solid var(--border); }
 
         .date-picker-field label {
             position: absolute;
-            top: 8px;
-            left: 16px;
-            font-size: 10px;
-            font-weight: 700;
+            top: 7px;
+            left: 12px;
+            font-size: 9px;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: #717171;
+            letter-spacing: 0.7px;
+            color: var(--text-muted);
+            pointer-events: none;
         }
 
         .date-picker-field input {
             width: 100%;
-            padding: 28px 16px 10px;
+            padding: 26px 12px 8px;
             border: none;
-            font-size: 14px;
-            color: #222;
+            font-size: 13px;
+            color: var(--text);
             background: transparent;
+            box-shadow: none;
         }
 
-        .date-picker-field input:focus {
-            outline: none;
-            background: #f7f7f7;
-        }
+        .date-picker-field input:focus { outline: none; background: #fafafa; box-shadow: none; }
 
+        /* Buttons */
         .btn-search {
-            background: linear-gradient(to right, #E61E4D, #E31C5F, #D70466);
-            color: #fff;
+            background: var(--brand-gradient);
+            color: var(--white);
             border: none;
-            padding: 16px 32px;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
+            padding: 14px 28px;
+            border-radius: var(--radius-sm);
+            font-size: 15px;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: transform 0.15s, box-shadow 0.15s, opacity 0.15s;
             display: flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .btn-search:hover {
-            transform: scale(1.02);
-            box-shadow: 0 4px 12px rgba(227, 28, 95, 0.4);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(214, 4, 102, 0.35);
         }
 
-        .btn-search svg {
-            width: 18px;
-            height: 18px;
+        .btn-search:active { transform: translateY(0); }
+
+        .btn-search svg { width: 16px; height: 16px; }
+
+        /* Quick dates */
+        .quick-dates {
+            display: flex;
+            gap: 6px;
+            margin-top: 14px;
+            flex-wrap: wrap;
+            align-items: center;
         }
 
-        /* Cards Grid */
+        .quick-dates-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-right: 4px;
+        }
+
+        .quick-date {
+            padding: 6px 14px;
+            background: var(--bg);
+            border: 1.5px solid var(--border);
+            border-radius: var(--radius-pill);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .quick-date:hover { background: var(--white); border-color: #bbb; }
+
+        .quick-date.selected {
+            background: var(--text);
+            color: var(--white);
+            border-color: var(--text);
+        }
+
+        /* ── Cards Grid ──────────────────────────────────────── */
         .cards-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 24px;
+            gap: 20px;
         }
 
-        /* Card */
+        /* ── Card ────────────────────────────────────────────── */
         .card {
-            background: #fff;
-            border-radius: 16px;
+            background: var(--white);
+            border-radius: var(--radius-md);
             overflow: hidden;
             transition: transform 0.2s, box-shadow 0.2s;
             cursor: pointer;
+            animation: fadeUp 0.3s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
         }
 
         .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
         }
 
         .card-image {
-            height: 200px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 180px;
             display: flex;
             align-items: center;
             justify-content: center;
             position: relative;
+            overflow: hidden;
         }
 
-        .card-image.room {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        }
+        /* Gradient themes */
+        .card-image.room      { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
+        .card-image.desk      { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .card-image.equipment { background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); }
+        .card-image.booking-room      { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
+        .card-image.booking-desk      { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); }
+        .card-image.booking-equipment { background: linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%); }
+        .card-image.booking-default   { background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%); }
 
-        .card-image.desk {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        }
-
-        .card-image.equipment {
-            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        /* Shimmer overlay */
+        .card-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.05), rgba(0,0,0,0.15));
         }
 
         .card-image svg {
-            width: 64px;
-            height: 64px;
-            color: rgba(255,255,255,0.9);
+            width: 56px;
+            height: 56px;
+            color: rgba(255,255,255,0.95);
+            z-index: 1;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.2));
         }
 
         .card-badge {
             position: absolute;
-            top: 12px;
-            left: 12px;
-            background: #fff;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            color: #222;
+            top: 10px;
+            left: 10px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(8px);
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text);
+            text-transform: capitalize;
+            z-index: 2;
+            letter-spacing: 0.2px;
         }
 
-        .card-favorite {
+        .card-action-btn {
             position: absolute;
-            top: 12px;
-            right: 12px;
-            background: rgba(0,0,0,0.5);
+            top: 10px;
+            right: 10px;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(8px);
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.2s;
+            transition: transform 0.15s, background 0.15s;
+            z-index: 2;
         }
 
-        .card-favorite:hover {
-            transform: scale(1.1);
-        }
+        .card-action-btn:hover { transform: scale(1.1); background: var(--white); }
+        .card-action-btn svg { width: 14px; height: 14px; color: var(--text); }
 
-        .card-favorite svg {
-            width: 18px;
-            height: 18px;
-            color: #fff;
-        }
-
-        .card-content {
-            padding: 16px;
-        }
+        .card-content { padding: 14px 16px; }
 
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 4px;
-        }
-
-        .card-title {
-            font-size: 16px;
-            font-weight: 600;
-            color: #222;
-        }
-
-        .card-rating {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 14px;
-            color: #222;
-        }
-
-        .card-rating svg {
-            width: 14px;
-            height: 14px;
-            fill: #222;
-        }
-
-        .card-subtitle {
-            font-size: 14px;
-            color: #717171;
-            margin-bottom: 8px;
-        }
-
-        .card-details {
-            font-size: 14px;
-            color: #717171;
-        }
-
-        .card-details strong {
-            color: #222;
-        }
-
-        .card-price {
-            margin-top: 8px;
-            font-size: 15px;
-        }
-
-        .card-price strong {
-            font-weight: 600;
-        }
-
-        .card-footer {
-            padding: 12px 16px;
-            border-top: 1px solid #f0f0f0;
-            display: flex;
+            margin-bottom: 2px;
             gap: 8px;
         }
 
-        .btn {
-            padding: 10px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-            border: 1px solid;
+        .card-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--text);
+            line-height: 1.3;
         }
 
-        .btn-outline {
-            background: #fff;
-            color: #222;
-            border-color: #222;
+        .card-subtitle {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
-        .btn-outline:hover {
-            background: #222;
-            color: #fff;
+        .card-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
-        .btn-danger {
-            background: #fff;
-            color: #c13515;
-            border-color: #c13515;
+        .card-meta-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .btn-danger:hover {
-            background: #c13515;
-            color: #fff;
+        .card-meta-row svg { width: 12px; height: 12px; flex-shrink: 0; opacity: 0.6; }
+
+        .card-capacity {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            background: var(--bg);
+            padding: 3px 8px;
+            border-radius: var(--radius-pill);
+            margin-top: 8px;
         }
+
+        .card-capacity svg { width: 11px; height: 11px; }
 
         /* Status Badges */
         .status {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            padding: 4px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
+            gap: 5px;
+            padding: 3px 9px;
+            border-radius: var(--radius-pill);
+            font-size: 11px;
+            font-weight: 700;
+            flex-shrink: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
-        .status-confirmed {
-            background: #e6f7ed;
-            color: #008a3a;
-        }
-
-        .status-cancelled {
-            background: #fef2f2;
-            color: #c13515;
-        }
+        .status-confirmed { background: var(--green-bg); color: var(--green); }
+        .status-cancelled { background: var(--red-bg); color: var(--red); }
 
         .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 5px;
+            height: 5px;
             border-radius: 50%;
             background: currentColor;
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 80px 40px;
-            background: #fff;
-            border-radius: 16px;
-            grid-column: 1 / -1;
-        }
-
-        .empty-state svg {
-            width: 80px;
-            height: 80px;
-            color: #ddd;
-            margin-bottom: 16px;
-        }
-
-        .empty-state h3 {
-            font-size: 18px;
-            font-weight: 600;
-            color: #222;
-            margin-bottom: 8px;
-        }
-
-        .empty-state p {
-            color: #717171;
-            font-size: 15px;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%) translateY(100px);
-            background: #222;
-            color: #fff;
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-size: 15px;
-            font-weight: 500;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease;
-            z-index: 1000;
-        }
-
-        .toast.show {
-            transform: translateX(-50%) translateY(0);
-        }
-
-        .toast-error {
-            background: #c13515;
-        }
-
-        /* Calendar Quick Select */
-        .quick-dates {
+        /* Card Footer */
+        .card-footer {
+            padding: 10px 14px;
+            border-top: 1px solid #f0f0f0;
             display: flex;
             gap: 8px;
-            margin-top: 16px;
-            flex-wrap: wrap;
+            align-items: center;
         }
 
-        .quick-date {
-            padding: 8px 16px;
-            background: #f7f7f7;
-            border: 1px solid #ebebeb;
-            border-radius: 20px;
+        .btn {
+            padding: 8px 14px;
+            border-radius: var(--radius-sm);
             font-size: 13px;
-            color: #222;
+            font-weight: 600;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.15s;
+            border: 1.5px solid;
         }
 
-        .quick-date:hover {
-            background: #fff;
-            border-color: #222;
-        }
+        .btn-outline { background: var(--white); color: var(--text); border-color: #ddd; }
+        .btn-outline:hover { background: var(--bg); border-color: #bbb; }
 
-        .quick-date.selected {
-            background: #222;
-            color: #fff;
-            border-color: #222;
-        }
+        .btn-danger { background: var(--white); color: var(--red); border-color: #f4c0b0; }
+        .btn-danger:hover { background: var(--red-bg); border-color: var(--red); }
 
-        /* Tab Content */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-content {
-                flex-direction: column;
-                gap: 16px;
-            }
-
-            .search-form {
-                flex-direction: column;
-            }
-
-            .form-field {
-                width: 100%;
-            }
-
-            .cards-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .date-picker-group {
-                flex-direction: column;
-            }
-
-            .date-picker-field:first-child {
-                border-right: none;
-                border-bottom: 1px solid #ddd;
-            }
-        }
-
-        /* Loading */
-        .loading {
+        /* ── Empty State ─────────────────────────────────────── */
+        .empty-state {
             text-align: center;
-            padding: 60px;
+            padding: 72px 40px;
+            background: var(--white);
+            border-radius: var(--radius-md);
             grid-column: 1 / -1;
+            animation: fadeUp 0.3s ease both;
         }
+
+        .empty-state-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 16px;
+            background: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .empty-state-icon svg { width: 36px; height: 36px; color: #ccc; }
+
+        .empty-state h3 { font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+        .empty-state p { color: var(--text-muted); font-size: 14px; }
+
+        /* ── Toast ───────────────────────────────────────────── */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: #1a1a1a;
+            color: var(--white);
+            padding: 14px 22px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 28px rgba(0,0,0,0.25);
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+
+        .toast-success { background: #1a1a1a; }
+        .toast-error   { background: #b91c1c; }
+
+        .toast-icon { font-size: 16px; }
+
+        /* ── Tab Content ─────────────────────────────────────── */
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* ── Loading ─────────────────────────────────────────── */
+        .loading { text-align: center; padding: 60px; grid-column: 1 / -1; }
 
         .loading-spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid #f0f0f0;
-            border-top-color: #FF385C;
+            width: 36px;
+            height: 36px;
+            border: 3px solid #eee;
+            border-top-color: var(--brand);
             border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 16px;
+            animation: spin 0.75s linear infinite;
+            margin: 0 auto 14px;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading p { font-size: 14px; color: var(--text-muted); font-weight: 500; }
+
+        /* ── Timeline display ────────────────────────────────── */
+        .time-block {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            font-size: 12px;
+        }
+
+        .time-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+        }
+
+        .time-row svg { width: 11px; height: 11px; opacity: 0.5; flex-shrink: 0; }
+
+        .time-label {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: var(--text-muted);
+            opacity: 0.7;
+            min-width: 32px;
+        }
+
+        /* ── Responsive ──────────────────────────────────────── */
+        @media (max-width: 768px) {
+            .header-content { flex-direction: column; height: auto; padding: 12px 0; gap: 12px; }
+            .stats-bar-inner { flex-wrap: wrap; gap: 16px; }
+            .search-form { flex-direction: column; }
+            .form-field { width: 100%; min-width: unset; }
+            .cards-grid { grid-template-columns: 1fr; }
+            .date-picker-group { flex-direction: column; }
+            .date-picker-field:first-child { border-right: none; border-bottom: 1.5px solid var(--border); }
+            .section-header { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                    <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.01.415.001.228c0 4.062-2.877 6.478-6.357 6.478-2.224 0-4.556-1.258-6.709-3.386l-.257-.26-.172-.179h-.212l-.257.26c-2.064 2.04-4.26 3.212-6.38 3.358l-.329.007c-3.48 0-6.357-2.416-6.357-6.478 0-1.163.243-2.265.886-3.868l.145-.352c.967-2.252 5.044-10.833 6.987-14.618l.513-1.025C11.464 1.963 12.919 1 16 1z"/>
-                </svg>
-                BookingHub
-            </div>
-            <nav class="nav-tabs">
-                <button class="nav-tab active" onclick="showTab('bookings')">Bookings</button>
-                <button class="nav-tab" onclick="showTab('resources')">Resources</button>
-            </nav>
-        </div>
-    </header>
 
-    <main class="container">
-        <!-- Bookings Tab -->
-        <div id="bookings-tab" class="tab-content active">
-            <div class="search-card">
-                <form id="booking-form" class="search-form" onsubmit="createBooking(event)">
-                    <div class="form-field" style="flex: 2;">
-                        <label>Where</label>
-                        <select id="booking-resource" required>
-                            <option value="">Select a resource...</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label>Who</label>
-                        <input type="text" id="booking-user" placeholder="User ID" required>
-                    </div>
-                    <div class="form-field" style="flex: 2;">
-                        <label>When</label>
-                        <div class="date-picker-group">
-                            <div class="date-picker-field">
-                                <label>CHECK IN</label>
-                                <input type="datetime-local" id="booking-start" required>
-                            </div>
-                            <div class="date-picker-field">
-                                <label>CHECK OUT</label>
-                                <input type="datetime-local" id="booking-end" required>
-                            </div>
+<!-- ── Header ── -->
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                <path d="M16 1c2.008 0 3.463.963 4.751 3.269l.533 1.025c1.954 3.83 6.114 12.54 7.1 14.836l.145.353c.667 1.591.91 2.472.96 3.396l.01.415.001.228c0 4.062-2.877 6.478-6.357 6.478-2.224 0-4.556-1.258-6.709-3.386l-.257-.26-.172-.179h-.212l-.257.26c-2.064 2.04-4.26 3.212-6.38 3.358l-.329.007c-3.48 0-6.357-2.416-6.357-6.478 0-1.163.243-2.265.886-3.868l.145-.352c.967-2.252 5.044-10.833 6.987-14.618l.513-1.025C11.464 1.963 12.919 1 16 1z"/>
+            </svg>
+            BookingHub
+        </div>
+        <nav class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('bookings')">Bookings</button>
+            <button class="nav-tab" onclick="showTab('resources')">Resources</button>
+        </nav>
+    </div>
+</header>
+
+<!-- ── Stats Bar ── -->
+<div class="stats-bar" id="stats-bar">
+    <div class="stats-bar-inner">
+        <div class="stat-pill">
+            <span class="stat-dot stat-dot-all"></span>
+            <strong id="stat-total">—</strong> Total
+        </div>
+        <div class="stat-pill">
+            <span class="stat-dot stat-dot-ok"></span>
+            <strong id="stat-confirmed">—</strong> Confirmed
+        </div>
+        <div class="stat-pill">
+            <span class="stat-dot stat-dot-cancel"></span>
+            <strong id="stat-cancelled">—</strong> Cancelled
+        </div>
+        <div class="stat-pill" style="margin-left: auto;">
+            <span class="stat-dot" style="background:#a78bfa;"></span>
+            <strong id="stat-resources">—</strong> Resources
+        </div>
+    </div>
+</div>
+
+<main class="container">
+
+    <!-- ── Bookings Tab ── -->
+    <div id="bookings-tab" class="tab-content active">
+        <div class="search-card">
+            <div class="card-label">New Booking</div>
+            <form id="booking-form" class="search-form" onsubmit="createBooking(event)">
+                <div class="form-field" style="flex: 2;">
+                    <label>Resource</label>
+                    <select id="booking-resource" required>
+                        <option value="">Select a resource...</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>User ID</label>
+                    <input type="text" id="booking-user" placeholder="e.g. alice" required>
+                </div>
+                <div class="form-field" style="flex: 2;">
+                    <label>Time Range</label>
+                    <div class="date-picker-group">
+                        <div class="date-picker-field">
+                            <label>CHECK IN</label>
+                            <input type="datetime-local" id="booking-start" required>
+                        </div>
+                        <div class="date-picker-field">
+                            <label>CHECK OUT</label>
+                            <input type="datetime-local" id="booking-end" required>
                         </div>
                     </div>
-                    <button type="submit" class="btn-search">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                        </svg>
-                        Book
-                    </button>
-                </form>
-                <div class="quick-dates">
-                    <button type="button" class="quick-date" onclick="setQuickDate('today')">Today</button>
-                    <button type="button" class="quick-date" onclick="setQuickDate('tomorrow')">Tomorrow</button>
-                    <button type="button" class="quick-date" onclick="setQuickDate('thisWeek')">This Week</button>
-                    <button type="button" class="quick-date" onclick="setQuickDate('nextWeek')">Next Week</button>
-                    <button type="button" class="quick-date" onclick="setQuickDate('nextMonth')">Next Month</button>
                 </div>
+                <button type="submit" class="btn-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Book
+                </button>
+            </form>
+            <div class="quick-dates">
+                <span class="quick-dates-label">Quick</span>
+                <button type="button" class="quick-date" onclick="setQuickDate('today', event)">Today</button>
+                <button type="button" class="quick-date" onclick="setQuickDate('tomorrow', event)">Tomorrow</button>
+                <button type="button" class="quick-date" onclick="setQuickDate('thisWeek', event)">This Week</button>
+                <button type="button" class="quick-date" onclick="setQuickDate('nextWeek', event)">Next Week</button>
+                <button type="button" class="quick-date" onclick="setQuickDate('nextMonth', event)">Next Month</button>
             </div>
+        </div>
 
+        <div class="section-header">
             <h2 class="section-title">Your Bookings</h2>
-            <div id="bookings-list" class="cards-grid">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Loading bookings...</p>
-                </div>
+            <div class="filter-tabs">
+                <button class="filter-tab active" onclick="filterBookings('all', event)">All</button>
+                <button class="filter-tab" onclick="filterBookings('confirmed', event)">Confirmed</button>
+                <button class="filter-tab" onclick="filterBookings('cancelled', event)">Cancelled</button>
             </div>
         </div>
+        <div id="bookings-list" class="cards-grid">
+            <div class="loading"><div class="loading-spinner"></div><p>Loading bookings…</p></div>
+        </div>
+    </div>
 
-        <!-- Resources Tab -->
-        <div id="resources-tab" class="tab-content">
-            <div class="search-card">
-                <form id="resource-form" class="search-form" onsubmit="createResource(event)">
-                    <div class="form-field" style="flex: 2;">
-                        <label>Name</label>
-                        <input type="text" id="resource-name" placeholder="e.g., Conference Room A" required>
-                    </div>
-                    <div class="form-field">
-                        <label>Type</label>
-                        <select id="resource-type">
-                            <option value="room">Room</option>
-                            <option value="desk">Desk</option>
-                            <option value="equipment">Equipment</option>
-                        </select>
-                    </div>
-                    <div class="form-field">
-                        <label>Capacity</label>
-                        <input type="number" id="resource-capacity" value="1" min="1">
-                    </div>
-                    <button type="submit" class="btn-search">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
-                        </svg>
-                        Add
-                    </button>
-                </form>
-            </div>
+    <!-- ── Resources Tab ── -->
+    <div id="resources-tab" class="tab-content">
+        <div class="search-card">
+            <div class="card-label">Add Resource</div>
+            <form id="resource-form" class="search-form" onsubmit="createResource(event)">
+                <div class="form-field" style="flex: 2;">
+                    <label>Name</label>
+                    <input type="text" id="resource-name" placeholder="e.g. Conference Room A" required>
+                </div>
+                <div class="form-field">
+                    <label>Type</label>
+                    <select id="resource-type">
+                        <option value="room">Room</option>
+                        <option value="desk">Desk</option>
+                        <option value="equipment">Equipment</option>
+                    </select>
+                </div>
+                <div class="form-field" style="max-width: 120px;">
+                    <label>Capacity</label>
+                    <input type="number" id="resource-capacity" value="1" min="1">
+                </div>
+                <button type="submit" class="btn-search">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
+                    </svg>
+                    Add
+                </button>
+            </form>
+        </div>
 
+        <div class="section-header">
             <h2 class="section-title">Available Resources</h2>
-            <div id="resources-list" class="cards-grid">
-                <div class="loading">
-                    <div class="loading-spinner"></div>
-                    <p>Loading resources...</p>
-                </div>
-            </div>
         </div>
-    </main>
+        <div id="resources-list" class="cards-grid">
+            <div class="loading"><div class="loading-spinner"></div><p>Loading resources…</p></div>
+        </div>
+    </div>
+</main>
 
-    <div id="toast" class="toast"></div>
+<div id="toast" class="toast toast-success">
+    <span class="toast-icon" id="toast-icon">✓</span>
+    <span id="toast-text"></span>
+</div>
 
-    <script>
-        const API = '';
+<script>
+    const API = '';
 
-        // Tab switching
-        function showTab(tab) {
-            document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+    // Resource map: id → resource object (for name lookup in booking cards)
+    let resourcesMap = {};
+    let allBookings = [];
+    let currentFilter = 'all';
 
-            document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
-            document.getElementById(`${tab}-tab`).classList.add('active');
+    // ── Tab switching ──────────────────────────────────────
+    function showTab(tab) {
+        document.querySelectorAll('.nav-tab').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add('active');
+        document.getElementById(`${tab}-tab`).classList.add('active');
+        if (tab === 'bookings') loadBookings();
+        if (tab === 'resources') loadResources();
+    }
 
-            if (tab === 'bookings') loadBookings();
-            if (tab === 'resources') loadResources();
+    // ── Filter bookings ────────────────────────────────────
+    function filterBookings(filter, evt) {
+        currentFilter = filter;
+        document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+        if (evt) evt.currentTarget.classList.add('active');
+        renderBookings(allBookings);
+    }
+
+    // ── Quick date selection ───────────────────────────────
+    function setQuickDate(preset, evt) {
+        const now = new Date();
+        let start, end;
+
+        document.querySelectorAll('.quick-date').forEach(btn => btn.classList.remove('selected'));
+        if (evt) evt.currentTarget.classList.add('selected');
+
+        switch (preset) {
+            case 'today':
+                start = new Date(now); start.setHours(9,0,0,0);
+                end   = new Date(now); end.setHours(17,0,0,0);
+                break;
+            case 'tomorrow':
+                start = new Date(now); start.setDate(now.getDate()+1); start.setHours(9,0,0,0);
+                end   = new Date(start); end.setHours(17,0,0,0);
+                break;
+            case 'thisWeek': {
+                const daysUntilFri = 5 - now.getDay();
+                start = new Date(now); start.setHours(9,0,0,0);
+                end   = new Date(now); end.setDate(now.getDate() + daysUntilFri); end.setHours(17,0,0,0);
+                break;
+            }
+            case 'nextWeek': {
+                const nextMon = new Date(now);
+                nextMon.setDate(now.getDate() + (8 - now.getDay()) % 7 || 7);
+                start = new Date(nextMon); start.setHours(9,0,0,0);
+                end   = new Date(nextMon); end.setDate(nextMon.getDate()+4); end.setHours(17,0,0,0);
+                break;
+            }
+            case 'nextMonth':
+                start = new Date(now.getFullYear(), now.getMonth()+1, 1, 9, 0);
+                end   = new Date(now.getFullYear(), now.getMonth()+1, 1, 17, 0);
+                break;
         }
 
-        // Quick date selection
-        function setQuickDate(preset) {
-            const now = new Date();
-            let start, end;
+        document.getElementById('booking-start').value = toLocalInputVal(start);
+        document.getElementById('booking-end').value   = toLocalInputVal(end);
+    }
 
+    function toLocalInputVal(date) {
+        const pad = n => String(n).padStart(2,'0');
+        return `${date.getFullYear()}-${pad(date.getMonth()+1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    // ── Toast ──────────────────────────────────────────────
+    function showToast(message, type = 'success') {
+        const toast = document.getElementById('toast');
+        document.getElementById('toast-text').textContent = message;
+        document.getElementById('toast-icon').textContent = type === 'error' ? '✕' : '✓';
+        toast.className = `toast toast-${type} show`;
+        setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    // ── Formatters ─────────────────────────────────────────
+    function formatDate(dt) {
+        if (!dt) return '—';
+        return new Date(dt).toLocaleDateString('en-US', { weekday:'short', month:'short', day:'numeric' });
+    }
+
+    function formatTime(dt) {
+        if (!dt) return '—';
+        return new Date(dt).toLocaleTimeString('en-US', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    // ── Icons ──────────────────────────────────────────────
+    function getTypeIcon(type) {
+        if (type === 'room') return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/></svg>`;
+        if (type === 'desk') return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>`;
+        return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/></svg>`;
+    }
+
+    function calIcon() {
+        return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>`;
+    }
+
+    function userIcon() {
+        return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>`;
+    }
+
+    function clockIcon() {
+        return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>`;
+    }
+
+    // ── Stats ──────────────────────────────────────────────
+    function updateStats(bookings, resourceCount) {
+        const confirmed = bookings.filter(b => b.status === 'CONFIRMED').length;
+        const cancelled = bookings.filter(b => b.status === 'CANCELLED').length;
+        document.getElementById('stat-total').textContent     = bookings.length;
+        document.getElementById('stat-confirmed').textContent = confirmed;
+        document.getElementById('stat-cancelled').textContent = cancelled;
+        if (resourceCount !== undefined) {
+            document.getElementById('stat-resources').textContent = resourceCount;
+        }
+    }
+
+    // ── Resources ──────────────────────────────────────────
+    async function loadResources() {
+        try {
+            const res = await fetch(`${API}/api/resources`);
+            const resources = await res.json();
+
+            resourcesMap = {};
+            resources.forEach(r => { resourcesMap[r.id] = r; });
+
+            document.getElementById('stat-resources').textContent = resources.length;
+
+            const container = document.getElementById('resources-list');
+
+            if (resources.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">${getTypeIcon('room')}</div>
+                        <h3>No resources yet</h3>
+                        <p>Add your first resource to get started</p>
+                    </div>`;
+                return;
+            }
+
+            container.innerHTML = resources.map((r, i) => `
+                <div class="card" style="animation-delay:${i * 40}ms">
+                    <div class="card-image ${r.type || 'room'}">
+                        ${getTypeIcon(r.type)}
+                        <span class="card-badge">${r.type || 'general'}</span>
+                        <button class="card-action-btn" onclick="deleteResource('${r.id}', event)" title="Remove">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <span class="card-title">${r.name}</span>
+                            <span class="status ${r.active ? 'status-confirmed' : 'status-cancelled'}">
+                                <span class="status-dot"></span>${r.active ? 'Active' : 'Inactive'}
+                            </span>
+                        </div>
+                        <div class="card-capacity">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            ${r.capacity} ${r.capacity > 1 ? 'people' : 'person'}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            updateResourceDropdown(resources);
+        } catch (err) {
+            showToast('Failed to load resources', 'error');
+        }
+    }
+
+    function updateResourceDropdown(resources) {
+        const select = document.getElementById('booking-resource');
+        select.innerHTML = '<option value="">Select a resource…</option>' +
+            resources.filter(r => r.active).map(r =>
+                `<option value="${r.id}">${r.name} · ${r.type} · ${r.capacity} ppl</option>`
+            ).join('');
+    }
+
+    async function createResource(e) {
+        e.preventDefault();
+        const data = {
+            name:     document.getElementById('resource-name').value,
+            type:     document.getElementById('resource-type').value,
+            capacity: parseInt(document.getElementById('resource-capacity').value)
+        };
+        try {
+            const res = await fetch(`${API}/api/resources`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (!res.ok) throw new Error();
+            showToast('Resource added!');
+            document.getElementById('resource-form').reset();
+            loadResources();
+        } catch {
+            showToast('Failed to add resource', 'error');
+        }
+    }
+
+    async function deleteResource(id, evt) {
+        evt.stopPropagation();
+        if (!confirm('Remove this resource?')) return;
+        try {
+            await fetch(`${API}/api/resources/${id}`, { method: 'DELETE' });
+            showToast('Resource removed');
+            loadResources();
+        } catch {
+            showToast('Failed to remove', 'error');
+        }
+    }
+
+    // ── Bookings ───────────────────────────────────────────
+    async function loadBookings() {
+        try {
+            // Load resources map first for name resolution
+            if (Object.keys(resourcesMap).length === 0) {
+                const rRes = await fetch(`${API}/api/resources`);
+                const rData = await rRes.json();
+                rData.forEach(r => { resourcesMap[r.id] = r; });
+                document.getElementById('stat-resources').textContent = rData.length;
+                updateResourceDropdown(rData);
+            }
+
+            const res = await fetch(`${API}/api/bookings?size=100`);
+            const data = await res.json();
+            allBookings = data.content || [];
+            updateStats(allBookings);
+            renderBookings(allBookings);
+        } catch {
+            showToast('Failed to load bookings', 'error');
+        }
+    }
+
+    function renderBookings(bookings) {
+        const filtered = currentFilter === 'all'
+            ? bookings
+            : bookings.filter(b => b.status.toLowerCase() === currentFilter);
+
+        const container = document.getElementById('bookings-list');
+
+        if (filtered.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">${calIcon()}</div>
+                    <h3>No bookings${currentFilter !== 'all' ? ` (${currentFilter})` : ''}</h3>
+                    <p>${currentFilter === 'all' ? 'Book your first resource using the form above' : 'No bookings match this filter'}</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = filtered.map((b, i) => {
+            const resource = resourcesMap[b.resourceId];
+            const resName  = resource ? resource.name : 'Unknown Resource';
+            const resType  = resource ? resource.type : 'default';
+            const imgClass = `booking-${resType}`;
+
+            return `
+            <div class="card" style="animation-delay:${i * 35}ms">
+                <div class="card-image ${imgClass}">
+                    ${getTypeIcon(resType)}
+                    <span class="card-badge">${resType}</span>
+                </div>
+                <div class="card-content">
+                    <div class="card-header">
+                        <span class="card-title">${resName}</span>
+                        <span class="status status-${b.status.toLowerCase()}">
+                            <span class="status-dot"></span>${b.status === 'CONFIRMED' ? 'Confirmed' : 'Cancelled'}
+                        </span>
+                    </div>
+                    <div class="card-meta" style="margin-top:8px">
+                        <div class="card-meta-row">${userIcon()} ${b.userId}</div>
+                        <div class="card-meta-row">${calIcon()} ${formatDate(b.startTime)}</div>
+                        <div class="card-meta-row">${clockIcon()} ${formatTime(b.startTime)} → ${formatTime(b.endTime)}</div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    ${b.status === 'CONFIRMED'
+                        ? `<button class="btn btn-danger" onclick="cancelBooking('${b.id}')">Cancel</button>`
+                        : `<span style="font-size:12px;color:var(--text-muted);">Cancelled</span>`
+                    }
+                    <span style="margin-left:auto;font-size:11px;color:#ccc;">${b.id.slice(0,8)}…</span>
+                </div>
+            </div>`;
+        }).join('');
+    }
+
+    async function createBooking(e) {
+        e.preventDefault();
+        const data = {
+            resourceId: document.getElementById('booking-resource').value,
+            userId:     document.getElementById('booking-user').value,
+            startTime:  document.getElementById('booking-start').value + ':00',
+            endTime:    document.getElementById('booking-end').value + ':00'
+        };
+        const key = 'idem-' + Date.now() + '-' + Math.random().toString(36).slice(2,9);
+        try {
+            const res = await fetch(`${API}/api/bookings`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Idempotency-Key': key },
+                body: JSON.stringify(data)
+            });
+            if (!res.ok) {
+                const err = await res.json();
+                throw new Error(err.message || 'Failed to create');
+            }
+            showToast('Booking confirmed!');
+            document.getElementById('booking-form').reset();
             document.querySelectorAll('.quick-date').forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-
-            switch(preset) {
-                case 'today':
-                    start = new Date(now.setHours(9, 0, 0, 0));
-                    end = new Date(now.setHours(17, 0, 0, 0));
-                    break;
-                case 'tomorrow':
-                    start = new Date(now.setDate(now.getDate() + 1));
-                    start.setHours(9, 0, 0, 0);
-                    end = new Date(start);
-                    end.setHours(17, 0, 0, 0);
-                    break;
-                case 'thisWeek':
-                    const dayOfWeek = now.getDay();
-                    const daysUntilFriday = 5 - dayOfWeek;
-                    start = new Date(now);
-                    start.setHours(9, 0, 0, 0);
-                    end = new Date(now);
-                    end.setDate(end.getDate() + daysUntilFriday);
-                    end.setHours(17, 0, 0, 0);
-                    break;
-                case 'nextWeek':
-                    const nextMonday = new Date(now);
-                    nextMonday.setDate(now.getDate() + (8 - now.getDay()) % 7);
-                    start = new Date(nextMonday);
-                    start.setHours(9, 0, 0, 0);
-                    end = new Date(nextMonday);
-                    end.setDate(end.getDate() + 4);
-                    end.setHours(17, 0, 0, 0);
-                    break;
-                case 'nextMonth':
-                    start = new Date(now.getFullYear(), now.getMonth() + 1, 1, 9, 0);
-                    end = new Date(now.getFullYear(), now.getMonth() + 1, 1, 17, 0);
-                    break;
-            }
-
-            document.getElementById('booking-start').value = formatDateTimeLocal(start);
-            document.getElementById('booking-end').value = formatDateTimeLocal(end);
+            loadBookings();
+        } catch (err) {
+            showToast(err.message || 'Failed to create booking', 'error');
         }
+    }
 
-        function formatDateTimeLocal(date) {
-            return date.toISOString().slice(0, 16);
+    async function cancelBooking(id) {
+        if (!confirm('Cancel this booking?')) return;
+        try {
+            await fetch(`${API}/api/bookings/${id}`, { method: 'DELETE' });
+            showToast('Booking cancelled');
+            loadBookings();
+        } catch {
+            showToast('Failed to cancel', 'error');
         }
+    }
 
-        // Toast notification
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type === 'error' ? 'toast-error' : ''} show`;
-            setTimeout(() => toast.classList.remove('show'), 3000);
-        }
-
-        // Format datetime for display
-        function formatDateTime(dt) {
-            if (!dt) return '-';
-            const d = new Date(dt);
-            const options = { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-            return d.toLocaleDateString('en-US', options);
-        }
-
-        // Get resource icon
-        function getResourceIcon(type) {
-            switch(type) {
-                case 'room':
-                    return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"/>
-                    </svg>`;
-                case 'desk':
-                    return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/>
-                    </svg>`;
-                default:
-                    return `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9v9"/>
-                    </svg>`;
-            }
-        }
-
-        // Load resources
-        async function loadResources() {
-            try {
-                const res = await fetch(`${API}/api/resources`);
-                const resources = await res.json();
-
-                const container = document.getElementById('resources-list');
-
-                if (resources.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                            </svg>
-                            <h3>No resources yet</h3>
-                            <p>Add your first resource to get started</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = resources.map(r => `
-                    <div class="card">
-                        <div class="card-image ${r.type || 'room'}">
-                            ${getResourceIcon(r.type)}
-                            <span class="card-badge">${r.type || 'General'}</span>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <span class="card-title">${r.name}</span>
-                                <span class="card-rating">
-                                    <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-                                    4.9
-                                </span>
-                            </div>
-                            <p class="card-subtitle">${r.active ? 'Available' : 'Unavailable'}</p>
-                            <p class="card-details">
-                                <strong>${r.capacity}</strong> ${r.capacity > 1 ? 'people' : 'person'} · ID: ${r.id.slice(0,8)}
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            <button class="btn btn-danger" onclick="deleteResource('${r.id}')">Remove</button>
-                        </div>
-                    </div>
-                `).join('');
-
-                updateResourceDropdown(resources);
-            } catch (err) {
-                showToast('Failed to load resources', 'error');
-            }
-        }
-
-        // Update resource dropdown
-        function updateResourceDropdown(resources) {
-            const select = document.getElementById('booking-resource');
-            select.innerHTML = '<option value="">Select a resource...</option>' +
-                resources.filter(r => r.active).map(r =>
-                    `<option value="${r.id}">${r.name} (${r.type}) - ${r.capacity} ppl</option>`
-                ).join('');
-        }
-
-        // Create resource
-        async function createResource(e) {
-            e.preventDefault();
-
-            const data = {
-                name: document.getElementById('resource-name').value,
-                type: document.getElementById('resource-type').value,
-                capacity: parseInt(document.getElementById('resource-capacity').value)
-            };
-
-            try {
-                const res = await fetch(`${API}/api/resources`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-
-                if (!res.ok) throw new Error('Failed to create');
-
-                showToast('Resource added successfully!');
-                document.getElementById('resource-form').reset();
-                loadResources();
-            } catch (err) {
-                showToast('Failed to add resource', 'error');
-            }
-        }
-
-        // Delete resource
-        async function deleteResource(id) {
-            if (!confirm('Remove this resource?')) return;
-
-            try {
-                await fetch(`${API}/api/resources/${id}`, { method: 'DELETE' });
-                showToast('Resource removed');
-                loadResources();
-            } catch (err) {
-                showToast('Failed to remove', 'error');
-            }
-        }
-
-        // Load bookings
-        async function loadBookings() {
-            try {
-                const res = await fetch(`${API}/api/bookings?size=50`);
-                const data = await res.json();
-                const bookings = data.content || [];
-
-                const container = document.getElementById('bookings-list');
-
-                if (bookings.length === 0) {
-                    container.innerHTML = `
-                        <div class="empty-state">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-                            </svg>
-                            <h3>No bookings yet</h3>
-                            <p>Book your first resource using the form above</p>
-                        </div>
-                    `;
-                    return;
-                }
-
-                container.innerHTML = bookings.map(b => `
-                    <div class="card">
-                        <div class="card-image room">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5"/>
-                            </svg>
-                            <span class="card-badge">Booking</span>
-                        </div>
-                        <div class="card-content">
-                            <div class="card-header">
-                                <span class="card-title">Reservation</span>
-                                <span class="status status-${b.status.toLowerCase()}">
-                                    <span class="status-dot"></span>
-                                    ${b.status}
-                                </span>
-                            </div>
-                            <p class="card-subtitle">User: ${b.userId}</p>
-                            <p class="card-details">
-                                ${formatDateTime(b.startTime)}<br>
-                                → ${formatDateTime(b.endTime)}
-                            </p>
-                            <p class="card-details" style="margin-top: 8px; font-size: 12px; color: #999;">
-                                Resource: ${b.resourceId.slice(0,8)}...
-                            </p>
-                        </div>
-                        <div class="card-footer">
-                            ${b.status === 'CONFIRMED' ?
-                                `<button class="btn btn-danger" onclick="cancelBooking('${b.id}')">Cancel</button>`
-                                : '<span style="color:#999;font-size:13px;">Cancelled</span>'}
-                        </div>
-                    </div>
-                `).join('');
-            } catch (err) {
-                showToast('Failed to load bookings', 'error');
-            }
-        }
-
-        // Create booking
-        async function createBooking(e) {
-            e.preventDefault();
-
-            const data = {
-                resourceId: document.getElementById('booking-resource').value,
-                userId: document.getElementById('booking-user').value,
-                startTime: document.getElementById('booking-start').value + ':00',
-                endTime: document.getElementById('booking-end').value + ':00'
-            };
-
-            const idempotencyKey = 'idem-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
-
-            try {
-                const res = await fetch(`${API}/api/bookings`, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Idempotency-Key': idempotencyKey
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (!res.ok) {
-                    const err = await res.json();
-                    throw new Error(err.message || 'Failed to create');
-                }
-
-                showToast('Booking confirmed!');
-                document.getElementById('booking-form').reset();
-                document.querySelectorAll('.quick-date').forEach(btn => btn.classList.remove('selected'));
-                loadBookings();
-            } catch (err) {
-                showToast(err.message || 'Failed to create booking', 'error');
-            }
-        }
-
-        // Cancel booking
-        async function cancelBooking(id) {
-            if (!confirm('Cancel this booking?')) return;
-
-            try {
-                await fetch(`${API}/api/bookings/${id}`, { method: 'DELETE' });
-                showToast('Booking cancelled');
-                loadBookings();
-            } catch (err) {
-                showToast('Failed to cancel', 'error');
-            }
-        }
-
-        // Initial load
-        loadBookings();
-        loadResources();
-    </script>
+    // ── Init ───────────────────────────────────────────────
+    loadBookings();
+    loadResources();
+</script>
 </body>
 </html>
