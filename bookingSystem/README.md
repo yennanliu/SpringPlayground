@@ -8,15 +8,16 @@ A simple and elegant booking system built with Spring Boot. Handles high traffic
 - **Booking Management** - Create, view, update, and cancel bookings
 - **Conflict Detection** - Prevents double-booking with database-level locking
 - **Idempotency** - Duplicate requests return cached responses (via `Idempotency-Key` header)
+- **C10K Scalability** - Virtual Threads (JDK 21 Project Loom) for 10,000+ concurrent clients
 - **REST API** - Full CRUD with pagination and filtering
 - **Swagger UI** - Interactive API documentation
-- **Web UI** - Modern dark-themed frontend
+- **Web UI** - Modern Airbnb-inspired frontend
 
 ## Tech Stack
 
 | Component | Technology |
 |-----------|------------|
-| Language | Java 17+ |
+| Language | Java 21 (Virtual Threads / Project Loom) |
 | Framework | Spring Boot 3.x |
 | Database | PostgreSQL (prod) / H2 (dev) |
 | API Docs | SpringDoc OpenAPI |
@@ -107,6 +108,68 @@ src/main/java/com/yen/bookingSystem/
 └── service/         # Business logic
 ```
 
+## C10K Scalability — Virtual Threads (JDK 21 Project Loom)
+
+The system is configured to handle **10,000+ concurrent clients** using JDK 21 Virtual Threads,
+enabled by a single property in `application.yml`:
+
+```yaml
+spring:
+  threads:
+    virtual:
+      enabled: true
+```
+
+### Why it works
+
+Traditional Tomcat assigns one **OS thread** per HTTP request. OS threads are expensive — each
+consumes ~1 MB of stack memory and requires a kernel context switch when blocked. With a pool
+capped at ~200 threads, the 201st concurrent request must wait. Under C10K load this queue
+explodes and the server crashes.
+
+**Virtual threads** (Project Loom) are JVM-managed, not OS-managed. They are:
+
+- **Cheap** — a few hundred bytes each; you can have millions active simultaneously
+- **Suspendable** — when a virtual thread blocks on I/O (DB query, network call), the JVM
+  *unmounts* it from its carrier OS thread; that carrier is immediately free to run another virtual
+  thread
+- **Transparent** — blocking code (`JDBC`, `ReentrantLock`, `HttpClient`) works unchanged; no
+  `async`/`Mono`/`CompletableFuture` rewrites needed
+
+```
+Before (OS threads)                After (Virtual Threads)
+─────────────────────              ───────────────────────
+Request → OS Thread (1 MB)         Request → Virtual Thread (~1 KB)
+Thread blocks on DB query    →     VT suspends, carrier freed
+Carrier thread sits idle           Carrier picks up next VT
+Pool exhausted at ~200 req         Millions of VTs, ~10 carrier threads
+C10K → queue explosion             C10K → handled
+```
+
+### What is NOT affected
+
+- All existing code is unchanged — `ReentrantLock`, JDBC, `@Transactional` all work as before
+- `ReentrantLock` does **not** pin carrier threads (only legacy `synchronized` blocks do)
+- The concurrency logic (`ResourceLockManager`, `BookingStats`, `ResourceCache`) remains correct
+
+### Load Testing
+
+A self-contained load test script verifies C10K behavior with no external tools required:
+
+```bash
+# Start the app
+mvn spring-boot:run
+
+# In a second terminal — fires 10,000 concurrent requests
+java scripts/C10kLoadTest.java
+
+# Custom count
+java scripts/C10kLoadTest.java 5000
+```
+
+The script uses virtual threads itself, fires a 60/40 mix of booking creates and reads,
+and prints throughput, latency percentiles (p50/p95/p99), and a pass/fail verdict.
+
 ## Concurrency Patterns
 
 ### ConcurrentHashMap (ResourceCache)
@@ -174,3 +237,4 @@ mvn test jacoco:report
 
 - [Spec](doc/spec_claude.md) - System specification
 - [Plan](doc/plan.md) - Implementation plan
+- [C10K Scaling Ideas](doc/c10k-scaling-ideas.md) - All approaches considered for 10K concurrency
