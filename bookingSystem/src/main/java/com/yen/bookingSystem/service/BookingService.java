@@ -11,6 +11,7 @@ import com.yen.bookingSystem.entity.BookingStatus;
 import com.yen.bookingSystem.entity.IdempotencyKey;
 import com.yen.bookingSystem.exception.BookingConflictException;
 import com.yen.bookingSystem.exception.ResourceNotFoundException;
+import com.yen.bookingSystem.redis.RedisOverbookingGuard;
 import com.yen.bookingSystem.repository.BookingRepository;
 import com.yen.bookingSystem.repository.IdempotencyKeyRepository;
 import org.slf4j.Logger;
@@ -35,19 +36,22 @@ public class BookingService {
     private final ObjectMapper objectMapper;
     private final ResourceLockManager lockManager;
     private final BookingStats stats;
+    private final Optional<RedisOverbookingGuard> redisGuard;
 
     public BookingService(BookingRepository bookingRepository,
                           IdempotencyKeyRepository idempotencyKeyRepository,
                           ResourceService resourceService,
                           ObjectMapper objectMapper,
                           ResourceLockManager lockManager,
-                          BookingStats stats) {
+                          BookingStats stats,
+                          Optional<RedisOverbookingGuard> redisGuard) {
         this.bookingRepository = bookingRepository;
         this.idempotencyKeyRepository = idempotencyKeyRepository;
         this.resourceService = resourceService;
         this.objectMapper = objectMapper;
         this.lockManager = lockManager;
         this.stats = stats;
+        this.redisGuard = redisGuard;
     }
 
     @Transactional
@@ -69,9 +73,15 @@ public class BookingService {
             throw new BookingConflictException("endTime must be after startTime");
         }
 
-        // 4. Acquire resource lock and check for conflicts
+        // 4. Redis fast-path: atomic DECR to pre-check capacity (if enabled)
         String resourceId = request.getResourceId();
+        if (redisGuard.isPresent() && !redisGuard.get().tryAcquire(resourceId)) {
+            stats.recordConflict();
+            throw new BookingConflictException("No available capacity for resource (overbooking prevented)");
+        }
 
+        // 5. Acquire resource lock and check for conflicts in DB
+        try {
         return lockManager.withLock(resourceId, () -> {
             // Check for overlapping bookings (with DB lock)
             List<Booking> overlapping = bookingRepository.findOverlappingBookingsForUpdate(
@@ -109,6 +119,11 @@ public class BookingService {
             log.info("Booking created: {} for resource: {}", booking.getId(), resourceId);
             return response;
         });
+        } catch (BookingConflictException e) {
+            // DB conflict check failed — roll back the Redis DECR
+            redisGuard.ifPresent(g -> g.release(resourceId));
+            throw e;
+        }
     }
 
     public Booking getById(String id) {
@@ -169,6 +184,7 @@ public class BookingService {
         booking.setStatus(BookingStatus.CANCELLED);
         bookingRepository.save(booking);
         stats.recordCancellation(booking.getResourceId());
+        redisGuard.ifPresent(g -> g.release(booking.getResourceId()));
         log.info("Booking cancelled: {}", id);
     }
 

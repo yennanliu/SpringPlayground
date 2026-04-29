@@ -27,6 +27,18 @@ spring:
       hibernate:
         format_sql: true
 
+  # Redis (used by RedisOverbookingGuard when booking.redis.enabled=true)
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+# Overbooking prevention via Redis atomic DECR
+# Set to true to enable; false (default) falls back to DB-only conflict detection
+booking:
+  redis:
+    enabled: false
+
 # Swagger
 springdoc:
   swagger-ui:

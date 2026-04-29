@@ -5,11 +5,13 @@ import com.yen.bookingSystem.concurrency.ResourceLockManager;
 import com.yen.bookingSystem.dto.ResourceDto;
 import com.yen.bookingSystem.entity.Resource;
 import com.yen.bookingSystem.exception.ResourceNotFoundException;
+import com.yen.bookingSystem.redis.RedisOverbookingGuard;
 import com.yen.bookingSystem.repository.ResourceRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -18,13 +20,16 @@ public class ResourceService {
     private final ResourceRepository resourceRepository;
     private final ResourceCache cache;
     private final ResourceLockManager lockManager;
+    private final Optional<RedisOverbookingGuard> redisGuard;
 
     public ResourceService(ResourceRepository resourceRepository,
                            ResourceCache cache,
-                           ResourceLockManager lockManager) {
+                           ResourceLockManager lockManager,
+                           Optional<RedisOverbookingGuard> redisGuard) {
         this.resourceRepository = resourceRepository;
         this.cache = cache;
         this.lockManager = lockManager;
+        this.redisGuard = redisGuard;
     }
 
     @Transactional
@@ -39,6 +44,7 @@ public class ResourceService {
 
             Resource saved = resourceRepository.save(resource);
             cache.put(saved); // Add to cache
+            redisGuard.ifPresent(g -> g.initCapacity(saved.getId(), saved.getCapacity()));
             return saved;
         });
     }
@@ -73,6 +79,7 @@ public class ResourceService {
 
             Resource saved = resourceRepository.save(resource);
             cache.put(saved); // Update cache
+            redisGuard.ifPresent(g -> g.initCapacity(saved.getId(), saved.getCapacity()));
             return saved;
         });
     }
