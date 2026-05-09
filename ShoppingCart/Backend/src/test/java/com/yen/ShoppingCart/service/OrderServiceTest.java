@@ -24,7 +24,12 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.test.context.TestPropertySource;
+
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -39,6 +44,12 @@ class OrderServiceTest {
 
     @Mock
     SessionCreateParams sessionCreateParams;
+
+    @Mock
+    RedissonClient redissonClient;
+
+    @Mock
+    RLock rLock;
 
     @InjectMocks
     CartService cartService;
@@ -58,6 +69,8 @@ class OrderServiceTest {
     public void setUp(){
 
         MockitoAnnotations.initMocks(this);
+        when(redissonClient.getLock(anyString())).thenReturn(rLock);
+        when(rLock.isHeldByCurrentThread()).thenReturn(true);
 
         checkoutItemDto_1 = new CheckoutItemDto("prod_1", 1, 100, 1, 1);
         checkoutItemDto_2 = new CheckoutItemDto();
