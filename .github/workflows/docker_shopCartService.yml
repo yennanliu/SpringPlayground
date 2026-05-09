@@ -22,8 +22,6 @@ on:
       - ".github/workflows/docker_shopCartService.yml"
 
 env:
-  # Used by docker-compose and the smoke test
-  COMPOSE_FILE: ShoppingCart/docker-compose.yml
   APP_URL: http://localhost:9999
 
 jobs:
