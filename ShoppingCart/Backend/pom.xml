@@ -57,6 +57,12 @@
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
 
+		<!-- Jakarta Bean Validation (@NotNull etc.) — not included by default in Spring Boot 3 web starter -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
 		<!-- Swagger UI (springdoc replaces springfox, compatible with Spring Boot 3) -->
 		<dependency>
 			<groupId>org.springdoc</groupId>

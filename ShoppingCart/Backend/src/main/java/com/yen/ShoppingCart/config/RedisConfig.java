@@ -2,7 +2,8 @@ package com.yen.ShoppingCart.config;
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.PolymorphicTypeValidator;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,19 +21,25 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 public class RedisConfig {
 
     // Cache names
-    public static final String CACHE_TOKENS   = "tokens";
-    public static final String CACHE_PRODUCTS = "products";
+    public static final String CACHE_TOKENS     = "tokens";
+    public static final String CACHE_PRODUCTS   = "products";
     public static final String CACHE_CATEGORIES = "categories";
 
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
         ObjectMapper mapper = new ObjectMapper();
-        // embed type info so Jackson can deserialize back to the correct class
-        mapper.activateDefaultTyping(
-                LaissezFaireSubTypeValidator.instance,
-                ObjectMapper.DefaultTyping.NON_FINAL,
-                JsonTypeInfo.As.PROPERTY
-        );
+        // Register standard modules (JavaTimeModule, etc.) so date/time types serialize correctly
+        mapper.findAndRegisterModules();
+
+        // Restrict deserialization to known safe packages — prevents RCE via gadget chains.
+        // LaissezFaireSubTypeValidator (the previous value) accepts arbitrary types and is insecure.
+        PolymorphicTypeValidator ptv = BasicPolymorphicTypeValidator.builder()
+                .allowIfSubType("com.yen.ShoppingCart")
+                .allowIfSubType("java.util")
+                .allowIfSubType("java.lang")
+                .build();
+
+        mapper.activateDefaultTyping(ptv, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
 
         GenericJackson2JsonRedisSerializer jsonSerializer =
                 new GenericJackson2JsonRedisSerializer(mapper);
