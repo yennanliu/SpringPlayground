@@ -1,0 +1,62 @@
+version: '3.8'
+
+# Approach 7 — Horizontal Scaling
+# Runs 2 app replicas behind an Nginx load balancer.
+# Usage:
+#   docker-compose -f docker-compose-ha.yml up --scale app=2
+#
+# Health check: GET http://localhost/actuator/health
+# App instances are NOT exposed directly; all traffic goes through Nginx on port 80.
+
+services:
+  nginx:
+    image: nginx:1.25-alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    restart: always
+
+  app:
+    build: ./Backend
+    working_dir: /app
+    volumes:
+      - ./Backend:/app
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/shopping_cart
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_JPA_SHOW_SQL=false
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+    depends_on:
+      - mysql
+      - redis
+    restart: always
+    command: mvn clean spring-boot:run -DskipTests
+    # No ports exposed — only Nginx reaches the app instances
+
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: shopping_cart
+      MYSQL_ROOT_PASSWORD:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data-ha:/var/lib/mysql
+
+volumes:
+  mysql-data-ha:

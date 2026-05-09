@@ -2,6 +2,7 @@ package com.yen.ShoppingCart.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import com.yen.ShoppingCart.enums.Role;
@@ -13,6 +14,7 @@ import com.yen.ShoppingCart.model.dto.cart.CartItemDto;
 import com.yen.ShoppingCart.repository.CartRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +24,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -29,6 +33,12 @@ class CartServiceTest {
 
     @Mock
     CartRepository cartRepository;
+
+    @Mock
+    RedissonClient redissonClient;
+
+    @Mock
+    RLock rLock;
 
     @InjectMocks
     CartService cartService;
@@ -43,9 +53,11 @@ class CartServiceTest {
     Category category;
 
     @BeforeEach
-    public void setUp(){
+    public void setUp() throws InterruptedException {
 
         MockitoAnnotations.initMocks(this);
+        when(redissonClient.getLock(anyString())).thenReturn(rLock);
+        when(rLock.isHeldByCurrentThread()).thenReturn(true);
 
         user1 = new User("f_name", "l_name", "email", Role.USER, "pwd");
         user2 = new User();

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CategoryService {
@@ -16,7 +17,8 @@ public class CategoryService {
     @Autowired
     private Categoryrepository categoryrepository;
 
-    // Approach 3: cache category list (changes rarely, read on every product page)
+    // Approach 3+5: cached read; routes to replica when replica is enabled
+    @Transactional(readOnly = true)
     @Cacheable(value = RedisConfig.CACHE_CATEGORIES, key = "'all'")
     public List<Category> listCategories() {
 
@@ -29,10 +31,12 @@ public class CategoryService {
         categoryrepository.save(category);
     }
 
+    @Transactional(readOnly = true)
     public Category readCategory(String categoryName) {
         return categoryrepository.findByCategoryName(categoryName);
     }
 
+    @Transactional(readOnly = true)
     public Optional<Category> readCategory(Integer categoryId) {
         return categoryrepository.findById(categoryId);
     }

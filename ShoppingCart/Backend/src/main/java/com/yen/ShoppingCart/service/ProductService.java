@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
@@ -42,7 +43,8 @@ public class ProductService {
         return product;
     }
 
-    // Approach 3: cache the full product list (highest-traffic read endpoint)
+    // Approach 3+5: cached read; routes to replica when replica is enabled
+    @Transactional(readOnly = true)
     @Cacheable(value = RedisConfig.CACHE_PRODUCTS, key = "'all'")
     public List<ProductDto> listProducts() {
 
@@ -68,6 +70,7 @@ public class ProductService {
         productRepository.save(product);
     }
 
+    @Transactional(readOnly = true)
     public Product getProductById(Integer productId) throws ProductNotExistException {
 
         Optional<Product> optionalProduct = productRepository.findById(productId);
@@ -77,6 +80,7 @@ public class ProductService {
         return optionalProduct.get();
     }
 
+    @Transactional(readOnly = true)
     public List<Product> searchProducts(String query) {
 
         log.info(">>> (searchProducts) query = {}", query);

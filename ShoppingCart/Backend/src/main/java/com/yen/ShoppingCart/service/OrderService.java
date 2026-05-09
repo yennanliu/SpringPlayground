@@ -17,8 +17,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -36,6 +39,9 @@ public class OrderService {
 
     @Autowired
     OrderItemsRepository orderItemsRepository;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     @Value("${BASE_URL}")
     private String baseURL;
@@ -109,35 +115,37 @@ public class OrderService {
         return Session.create(params);
     }
 
+    // Lock per user: prevents duplicate order submission if the user double-clicks checkout.
     public void placeOrder(User user, String sessionId) {
 
-        // first get user's cart items
-        CartDto cartDto = cartService.listCartItems(user);
-        List<CartItemDto> cartItemDtoList = cartDto.getCartItems();
+        RLock lock = redissonClient.getLock("order:user:" + user.getId());
+        try {
+            lock.lock(30, TimeUnit.SECONDS);
 
-        // TODO : need to wrap with try-catch ?
-        // create order and save
-        Order newOrder = new Order();
-        newOrder.setCreatedDate(new Date());
-        newOrder.setSessionId(sessionId);
-        newOrder.setUser(user);
-        newOrder.setTotalPrice(cartDto.getTotalCost());
-        orderRepository.save(newOrder);
+            CartDto cartDto = cartService.listCartItems(user);
+            List<CartItemDto> cartItemDtoList = cartDto.getCartItems();
 
-        for (CartItemDto cartItemDto : cartItemDtoList) {
-            // create orderItem and save each one
-            OrderItem orderItem = new OrderItem();
-            orderItem.setCreatedDate(new Date());
-            orderItem.setPrice(cartItemDto.getProduct().getPrice());
-            orderItem.setProduct(cartItemDto.getProduct());
-            orderItem.setQuantity(cartItemDto.getQuantity());
-            orderItem.setOrder(newOrder);
-            // add to order item list
-            orderItemsRepository.save(orderItem);
+            Order newOrder = new Order();
+            newOrder.setCreatedDate(new Date());
+            newOrder.setSessionId(sessionId);
+            newOrder.setUser(user);
+            newOrder.setTotalPrice(cartDto.getTotalCost());
+            orderRepository.save(newOrder);
+
+            for (CartItemDto cartItemDto : cartItemDtoList) {
+                OrderItem orderItem = new OrderItem();
+                orderItem.setCreatedDate(new Date());
+                orderItem.setPrice(cartItemDto.getProduct().getPrice());
+                orderItem.setProduct(cartItemDto.getProduct());
+                orderItem.setQuantity(cartItemDto.getQuantity());
+                orderItem.setOrder(newOrder);
+                orderItemsRepository.save(orderItem);
+            }
+
+            cartService.deleteUserCartItems(user);
+        } finally {
+            if (lock.isHeldByCurrentThread()) lock.unlock();
         }
-
-        // delete items in cart, since they are already transformed to orders
-        cartService.deleteUserCartItems(user);
     }
 
     public List<Order> listOrders(User user) {

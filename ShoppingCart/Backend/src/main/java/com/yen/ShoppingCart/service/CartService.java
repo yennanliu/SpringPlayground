@@ -11,7 +11,10 @@ import com.yen.ShoppingCart.repository.CartRepository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import jakarta.transaction.Transactional;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +25,9 @@ public class CartService {
     @Autowired
     private CartRepository cartRepository;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
     public CartService(){
 
     }
@@ -31,10 +37,18 @@ public class CartService {
         this.cartRepository = cartRepository;
     }
 
+    // Lock per user so concurrent add-to-cart for the same user is serialized.
+    // Different users proceed in parallel.
     public void addToCart(AddToCartDto addToCartDto, Product product, User user){
 
-        Cart cart = new Cart(product, addToCartDto.getQuantity(), user);
-        cartRepository.save(cart);
+        RLock lock = redissonClient.getLock("cart:user:" + user.getId());
+        try {
+            lock.lock(10, TimeUnit.SECONDS);
+            Cart cart = new Cart(product, addToCartDto.getQuantity(), user);
+            cartRepository.save(cart);
+        } finally {
+            if (lock.isHeldByCurrentThread()) lock.unlock();
+        }
     }
 
     public CartDto listCartItems(User user) {
