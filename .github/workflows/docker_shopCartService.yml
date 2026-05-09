@@ -71,8 +71,8 @@ jobs:
           context: ShoppingCart/Backend
           file: ShoppingCart/Backend/Dockerfile
           push: false
+          load: true          # load into local Docker daemon so docker inspect works
           tags: shoppingcart-app:ci
-          # Cache layers between runs using GitHub Actions cache
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
@@ -104,6 +104,7 @@ jobs:
           context: ShoppingCart/Backend
           file: ShoppingCart/Backend/Dockerfile
           push: false
+          load: true          # load into local daemon so docker-compose can use it
           tags: shoppingcart-app:ci
           cache-from: type=gha
           cache-to: type=gha,mode=max
