@@ -81,15 +81,15 @@ class OrderServiceTest {
         assertEquals(priceData2.getUnitAmount(), 0);
     }
 
-    // TODO : revise this test
+    // TODO : revise this test — getCurrency() removed in Stripe 24.x
     @Test
     public void testCreateSessionLineItem() throws StripeException {
 
-        SessionCreateParams.LineItem item1  = orderService.createSessionLineItem(checkoutItemDto_1);
-        assertEquals(item1.getCurrency(), null);
+        SessionCreateParams.LineItem item1 = orderService.createSessionLineItem(checkoutItemDto_1);
+        assertNotNull(item1);
 
-        SessionCreateParams.LineItem item2  = orderService.createSessionLineItem(checkoutItemDto_2);
-        assertEquals(item1.getCurrency(), null);
+        SessionCreateParams.LineItem item2 = orderService.createSessionLineItem(checkoutItemDto_2);
+        assertNotNull(item2);
 
 //        // Set the API key
 //        String apiKey = "your_test_api_key_here";

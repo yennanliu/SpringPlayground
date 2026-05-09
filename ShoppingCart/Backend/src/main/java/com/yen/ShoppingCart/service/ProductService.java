@@ -1,5 +1,6 @@
 package com.yen.ShoppingCart.service;
 
+import com.yen.ShoppingCart.config.RedisConfig;
 import com.yen.ShoppingCart.exception.ProductNotExistException;
 import com.yen.ShoppingCart.model.Category;
 import com.yen.ShoppingCart.model.Product;
@@ -11,6 +12,8 @@ import java.util.Optional;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,13 +23,14 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    // Approach 3: evict the product list cache whenever a product is added
+    @CacheEvict(value = RedisConfig.CACHE_PRODUCTS, allEntries = true)
     public void addProduct(ProductDto productDto, Category category) {
 
         Product product = getProductFromDto(productDto, category);
         productRepository.save(product);
     }
 
-    // local method
     public static Product getProductFromDto(ProductDto productDto, Category category) {
 
         Product product = new Product();
@@ -38,23 +42,25 @@ public class ProductService {
         return product;
     }
 
+    // Approach 3: cache the full product list (highest-traffic read endpoint)
+    @Cacheable(value = RedisConfig.CACHE_PRODUCTS, key = "'all'")
     public List<ProductDto> listProducts() {
 
         List<Product> products = productRepository.findAll();
         List<ProductDto> productDtos = new ArrayList<>();
-        for(Product product : products) {
-            ProductDto productDto = getDtoFromProduct(product);
-            productDtos.add(productDto);
+        for (Product product : products) {
+            productDtos.add(getDtoFromProduct(product));
         }
         return productDtos;
     }
 
     public static ProductDto getDtoFromProduct(Product product) {
 
-        ProductDto productDto = new ProductDto(product);
-        return productDto;
+        return new ProductDto(product);
     }
 
+    // Approach 3: evict the product list cache whenever a product is updated
+    @CacheEvict(value = RedisConfig.CACHE_PRODUCTS, allEntries = true)
     public void updateProduct(Integer productID, ProductDto productDto, Category category) {
 
         Product product = getProductFromDto(productDto, category);
@@ -65,7 +71,7 @@ public class ProductService {
     public Product getProductById(Integer productId) throws ProductNotExistException {
 
         Optional<Product> optionalProduct = productRepository.findById(productId);
-        if (!optionalProduct.isPresent()){
+        if (!optionalProduct.isPresent()) {
             throw new ProductNotExistException("Product id is invalid " + productId);
         }
         return optionalProduct.get();
@@ -74,8 +80,6 @@ public class ProductService {
     public List<Product> searchProducts(String query) {
 
         log.info(">>> (searchProducts) query = {}", query);
-        List<Product> products = productRepository.searchProductsByName(query);
         return productRepository.searchProductsByName(query);
     }
 }
-

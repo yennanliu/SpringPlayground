@@ -3,7 +3,7 @@ package com.yen.ShoppingCart.model;
 
 
 import java.util.Date;
-import javax.persistence.*;
+import jakarta.persistence.*;
 //import javax.validation.constraints.NotBlank;
 
 @Entity

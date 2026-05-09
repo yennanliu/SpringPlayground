@@ -1,8 +1,7 @@
 package com.yen.ShoppingCart.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.sun.istack.NotNull;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "products")
@@ -12,10 +11,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private @NotNull String name;
-    private @NotNull String imageURL;
-    private @NotNull double price;
-    private @NotNull String description;
+    private String name;
+    private String imageURL;
+    private double price;
+    private String description;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

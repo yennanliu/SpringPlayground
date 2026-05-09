@@ -18,7 +18,8 @@ import com.yen.ShoppingCart.repository.UserRepository;
 import com.yen.ShoppingCart.util.Helper;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import javax.xml.bind.DatatypeConverter;
+import java.util.HexFormat;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -127,7 +128,7 @@ public class UserService {
         MessageDigest md = MessageDigest.getInstance("MD5");
         md.update(password.getBytes());
         byte[] digest = md.digest();
-        return DatatypeConverter.printHexBinary(digest).toUpperCase();
+        return HexFormat.of().withUpperCase().formatHex(digest);
     }
 
     public ResponseDto createUser(String token, UserCreateDto userCreateDto) throws CustomException, AuthenticationFailException {

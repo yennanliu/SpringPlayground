@@ -4,7 +4,7 @@ package com.yen.ShoppingCart.model;
 
 import java.util.Date;
 import java.util.UUID;
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "tokens")
