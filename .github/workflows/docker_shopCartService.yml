@@ -153,23 +153,23 @@ jobs:
           echo "Health response: $RESP"
           echo "$RESP" | grep -q '"status":"UP"' || (echo "App not UP" && exit 1)
 
-      - name: Smoke test — POST /user/register (creates a test user)
+      - name: Smoke test — POST /user/signup (creates a test user)
         run: |
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST ${{ env.APP_URL }}/user/register \
+            -X POST ${{ env.APP_URL }}/user/signup \
             -H "Content-Type: application/json" \
             -d '{"firstName":"CI","lastName":"Test","email":"ci-test@example.com","password":"password123"}')
-          echo "POST /user/register → HTTP $STATUS"
+          echo "POST /user/signup → HTTP $STATUS"
           # 200 = created, 400 = already exists (re-run), both acceptable
           [[ "$STATUS" = "200" || "$STATUS" = "400" ]] || (echo "Unexpected status $STATUS" && exit 1)
 
-      - name: Smoke test — POST /user/signin (auth flow)
+      - name: Smoke test — POST /user/signIn (auth flow)
         run: |
           STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
-            -X POST ${{ env.APP_URL }}/user/signin \
+            -X POST ${{ env.APP_URL }}/user/signIn \
             -H "Content-Type: application/json" \
             -d '{"email":"ci-test@example.com","password":"password123"}')
-          echo "POST /user/signin → HTTP $STATUS"
+          echo "POST /user/signIn → HTTP $STATUS"
           [ "$STATUS" = "200" ] || (echo "Expected 200, got $STATUS" && exit 1)
 
       - name: Print container logs on failure
