@@ -1,0 +1,184 @@
+name: (ShopCart service) Container CI
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Runs on every push/PR that touches ShoppingCart code or container config.
+# Three jobs run sequentially so failures are caught at the earliest stage:
+#
+#   1. unit-tests   — fast Maven tests (no Docker, no infra needed)
+#   2. docker-build — multi-stage image build; fails if Dockerfile is broken
+#   3. integration  — docker-compose-up → health-check → smoke API test → teardown
+# ──────────────────────────────────────────────────────────────────────────────
+
+on:
+  push:
+    branches: [ "main", "ShoppingCart-dev-*" ]
+    paths:
+      - "ShoppingCart/**"
+      - ".github/workflows/docker_shopCartService.yml"
+  pull_request:
+    branches: [ "main" ]
+    paths:
+      - "ShoppingCart/**"
+      - ".github/workflows/docker_shopCartService.yml"
+
+env:
+  # Used by docker-compose and the smoke test
+  COMPOSE_FILE: ShoppingCart/docker-compose.yml
+  APP_URL: http://localhost:9999
+
+jobs:
+
+  # ── Job 1: Unit tests (fast, no infra) ──────────────────────────────────────
+  unit-tests:
+    name: Unit Tests (JDK 17)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+
+      - name: Run unit tests
+        run: cd ShoppingCart/Backend && mvn test -q
+
+      - name: Upload test report on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: ShoppingCart/Backend/target/surefire-reports/
+
+  # ── Job 2: Docker image build ────────────────────────────────────────────────
+  docker-build:
+    name: Docker Image Build
+    runs-on: ubuntu-latest
+    needs: unit-tests
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build backend image (multi-stage)
+        uses: docker/build-push-action@v5
+        with:
+          context: ShoppingCart/Backend
+          file: ShoppingCart/Backend/Dockerfile
+          push: false
+          tags: shoppingcart-app:ci
+          # Cache layers between runs using GitHub Actions cache
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Verify image exists and inspect
+        run: |
+          docker image inspect shoppingcart-app:ci \
+            --format '{{.Config.User}} | {{.Config.ExposedPorts}} | {{index .Config.Labels "org.opencontainers.image.created"}}'
+          # Must run as non-root
+          USER=$(docker inspect shoppingcart-app:ci --format '{{.Config.User}}')
+          echo "Image user: $USER"
+          [ "$USER" = "spring" ] && echo "✓ non-root user confirmed" || (echo "✗ running as root!" && exit 1)
+
+  # ── Job 3: Integration test (docker-compose up → health → API smoke) ─────────
+  integration:
+    name: Container Integration Test
+    runs-on: ubuntu-latest
+    needs: docker-build
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Re-use the layer cache from the build job so this job doesn't rebuild from scratch
+      - name: Restore Docker layer cache
+        uses: docker/build-push-action@v5
+        with:
+          context: ShoppingCart/Backend
+          file: ShoppingCart/Backend/Dockerfile
+          push: false
+          tags: shoppingcart-app:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Start dev stack (app + mysql + redis)
+        working-directory: ShoppingCart
+        run: |
+          docker compose up -d mysql redis
+          echo "Waiting for MySQL and Redis to be healthy..."
+          timeout 90 bash -c '
+            until [ "$(docker inspect --format="{{.State.Health.Status}}" shoppingcart-mysql-1 2>/dev/null)" = "healthy" ] && \
+                  [ "$(docker inspect --format="{{.State.Health.Status}}" shoppingcart-redis-1 2>/dev/null)" = "healthy" ]; do
+              echo "  mysql: $(docker inspect --format="{{.State.Health.Status}}" shoppingcart-mysql-1 2>/dev/null)"
+              echo "  redis: $(docker inspect --format="{{.State.Health.Status}}" shoppingcart-redis-1 2>/dev/null)"
+              sleep 5
+            done
+          '
+          echo "MySQL and Redis are healthy. Starting app..."
+          docker compose up -d app
+
+      - name: Wait for app to be healthy
+        working-directory: ShoppingCart
+        run: |
+          timeout 120 bash -c '
+            until [ "$(docker inspect --format="{{.State.Health.Status}}" shoppingcart-app-1 2>/dev/null)" = "healthy" ]; do
+              echo "App status: $(docker inspect --format="{{.State.Health.Status}}" shoppingcart-app-1 2>/dev/null)"
+              docker compose logs --tail=15 app
+              sleep 10
+            done
+          '
+          echo "App is healthy."
+
+      - name: Smoke test — GET /product/ (should return 200)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ env.APP_URL }}/product/)
+          echo "GET /product/ → HTTP $STATUS"
+          [ "$STATUS" = "200" ] || (echo "Expected 200, got $STATUS" && exit 1)
+
+      - name: Smoke test — GET /category/ (should return 200)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" ${{ env.APP_URL }}/category/)
+          echo "GET /category/ → HTTP $STATUS"
+          [ "$STATUS" = "200" ] || (echo "Expected 200, got $STATUS" && exit 1)
+
+      - name: Smoke test — GET /actuator/health (should return 200 + UP status)
+        run: |
+          RESP=$(curl -s ${{ env.APP_URL }}/actuator/health)
+          echo "Health response: $RESP"
+          echo "$RESP" | grep -q '"status":"UP"' || (echo "App not UP" && exit 1)
+
+      - name: Smoke test — POST /user/register (creates a test user)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST ${{ env.APP_URL }}/user/register \
+            -H "Content-Type: application/json" \
+            -d '{"firstName":"CI","lastName":"Test","email":"ci-test@example.com","password":"password123"}')
+          echo "POST /user/register → HTTP $STATUS"
+          # 200 = created, 400 = already exists (re-run), both acceptable
+          [[ "$STATUS" = "200" || "$STATUS" = "400" ]] || (echo "Unexpected status $STATUS" && exit 1)
+
+      - name: Smoke test — POST /user/signin (auth flow)
+        run: |
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            -X POST ${{ env.APP_URL }}/user/signin \
+            -H "Content-Type: application/json" \
+            -d '{"email":"ci-test@example.com","password":"password123"}')
+          echo "POST /user/signin → HTTP $STATUS"
+          [ "$STATUS" = "200" ] || (echo "Expected 200, got $STATUS" && exit 1)
+
+      - name: Print container logs on failure
+        if: failure()
+        working-directory: ShoppingCart
+        run: docker compose logs
+
+      - name: Tear down stack
+        if: always()
+        working-directory: ShoppingCart
+        run: docker compose down -v

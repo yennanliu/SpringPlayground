@@ -17,6 +17,9 @@ FROM eclipse-temurin:21-jre-alpine
 
 WORKDIR /app
 
+# wget is used by the docker-compose healthcheck (not available by default in alpine)
+RUN apk add --no-cache wget
+
 # Non-root user for security
 RUN addgroup -S spring && adduser -S spring -G spring
 USER spring
