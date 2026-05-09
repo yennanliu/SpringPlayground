@@ -1,53 +1,52 @@
+version: '3.8'
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Development stack — single app instance, Redis, MySQL.
+# Usage:
+#   docker-compose up --build
+#   docker-compose up          # skip rebuild if image is current
+# ──────────────────────────────────────────────────────────────────────────────
+
 services:
+
+  # ── Spring Boot app ──────────────────────────────────────────────────────
   app:
-    restart: always
-    build: ./Backend
-    working_dir: /app
-    volumes:
-      - ./Backend:/app
+    build: ./Backend                      # multi-stage build → JRE 21 slim image
+    restart: on-failure
     ports:
       - "9999:9999"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/shopping_cart
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
-      - SPRING_JPA_GENERATE_DDL=true
-      - SPRING_DATA_REDIS_HOST=redis
-      - SPRING_DATA_REDIS_PORT=6379
+      SPRING_PROFILES_ACTIVE: docker      # activates application-docker.properties
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      STRIPE_PUBLIC_KEY: ${STRIPE_PUBLIC_KEY:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      BASE_URL: http://localhost:8080/
     depends_on:
       mysql:
         condition: service_healthy
       redis:
         condition: service_healthy
-    command: mvn clean spring-boot:run -DskipTests
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9999/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
 
+  # ── Vue.js frontend ───────────────────────────────────────────────────────
   vue:
-    restart: always
     build: ./Frondend/ecommerce-ui
-    working_dir: /app
+    restart: on-failure
     ports:
       - "8080:8080"
     volumes:
       - ./Frondend/ecommerce-ui:/app
-      - /app/node_modules          # anonymous volume keeps container's node_modules intact
+      - /app/node_modules                 # anonymous volume keeps container node_modules intact
     command: npm run serve
 
-  redis:
-    image: redis:7-alpine
-    restart: always
-    ports:
-      - "6379:6379"
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
+  # ── MySQL ─────────────────────────────────────────────────────────────────
   mysql:
-    image: mysql:8.0        # 8.0 has native ARM64 images; 5.7 does not
+    image: mysql:8.0
     restart: always
     environment:
       MYSQL_DATABASE: shopping_cart
@@ -57,11 +56,32 @@ services:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=200
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root"]
-      interval: 5s
-      timeout: 3s
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
       retries: 10
+      start_period: 30s
+
+  # ── Redis ─────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
 volumes:
   mysql-data:
+  redis-data:

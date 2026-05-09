@@ -1,14 +1,25 @@
 version: '3.8'
 
-# Approach 7 — Horizontal Scaling
-# Runs 2 app replicas behind an Nginx load balancer.
-# Usage:
-#   docker-compose -f docker-compose-ha.yml up --scale app=2
+# ──────────────────────────────────────────────────────────────────────────────
+# High-Availability stack (Approach 4 + 5 + 7):
+#   - Nginx load balancer with least_conn (Approach 7)
+#   - Multiple app replicas (scale with --scale app=N)
+#   - Redis for distributed lock + cache (Approach 3 + 4)
+#   - MySQL primary + replica with GTID replication (Approach 5)
 #
-# Health check: GET http://localhost/actuator/health
-# App instances are NOT exposed directly; all traffic goes through Nginx on port 80.
+# Usage:
+#   docker-compose -f docker-compose-ha.yml up --build --scale app=2
+#
+# Enable read-replica routing in the app:
+#   Set APP_DATASOURCE_REPLICA_ENABLED=true in the app environment below.
+#
+# Verify replication:
+#   docker exec -it shoppingcart-mysql-replica-1 mysql -uroot -e "SHOW SLAVE STATUS\G"
+# ──────────────────────────────────────────────────────────────────────────────
 
 services:
+
+  # ── Nginx load balancer ───────────────────────────────────────────────────
   nginx:
     image: nginx:1.25-alpine
     ports:
@@ -16,47 +27,133 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     depends_on:
-      - app
+      app:
+        condition: service_healthy
     restart: always
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/nginx-health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
+  # ── Spring Boot app (scale with --scale app=N) ────────────────────────────
   app:
     build: ./Backend
-    working_dir: /app
-    volumes:
-      - ./Backend:/app
+    restart: on-failure
+    # No port binding — all traffic enters through Nginx
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/shopping_cart
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_SHOW_SQL=false
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - SPRING_DATA_REDIS_HOST=redis
-      - SPRING_DATA_REDIS_PORT=6379
-    depends_on:
-      - mysql
-      - redis
-    restart: always
-    command: mvn clean spring-boot:run -DskipTests
-    # No ports exposed — only Nginx reaches the app instances
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      STRIPE_PUBLIC_KEY: ${STRIPE_PUBLIC_KEY:-}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY:-}
+      BASE_URL: http://localhost/
 
+      # ── Approach 5: read replica routing ──────────────────────────────────
+      # Set to true to route @Transactional(readOnly=true) methods to the replica.
+      APP_DATASOURCE_REPLICA_ENABLED: ${APP_DATASOURCE_REPLICA_ENABLED:-false}
+      APP_DATASOURCE_PRIMARY_URL: jdbc:mysql://mysql-primary:3306/shopping_cart?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      APP_DATASOURCE_PRIMARY_USERNAME: root
+      APP_DATASOURCE_PRIMARY_PASSWORD: ""
+      APP_DATASOURCE_PRIMARY_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+      APP_DATASOURCE_REPLICA_URL: jdbc:mysql://mysql-replica:3306/shopping_cart?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      APP_DATASOURCE_REPLICA_USERNAME: root
+      APP_DATASOURCE_REPLICA_PASSWORD: ""
+      APP_DATASOURCE_REPLICA_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+
+      # ── Hikari pool: reduce per-instance size when running multiple replicas ──
+      # 3 instances × 20 = 60 connections (under MySQL max_connections=200)
+      SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE: 20
+    depends_on:
+      mysql-primary:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9999/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ── Redis (cache + distributed lock) ─────────────────────────────────────
   redis:
     image: redis:7-alpine
     restart: always
     ports:
       - "6379:6379"
+    command: redis-server --save 60 1 --loglevel warning --maxmemory 256mb --maxmemory-policy allkeys-lru
+    volumes:
+      - redis-data-ha:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
 
-  mysql:
-    image: mysql:5.7
+  # ── MySQL primary ─────────────────────────────────────────────────────────
+  mysql-primary:
+    image: mysql:8.0
     restart: always
     environment:
       MYSQL_DATABASE: shopping_cart
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "3306:3306"
     volumes:
-      - mysql-data-ha:/var/lib/mysql
+      - mysql-primary-data:/var/lib/mysql
+      - ./mysql/primary-init.sql:/docker-entrypoint-initdb.d/01-primary-init.sql:ro
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+      --binlog-format=ROW
+      --gtid-mode=ON
+      --enforce-gtid-consistency=ON
+      --max_connections=200
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── MySQL replica ─────────────────────────────────────────────────────────
+  # Connects to primary using GTID auto-position — no need to know binlog position.
+  # The replica-init.sh script waits for primary health before issuing CHANGE MASTER TO.
+  mysql-replica:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: shopping_cart
+      MYSQL_ROOT_PASSWORD: ""
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-replica-data:/var/lib/mysql
+      - ./mysql/replica-init.sh:/docker-entrypoint-initdb.d/01-replica-init.sh:ro
+    command: >
+      --server-id=2
+      --relay-log=relay-bin
+      --gtid-mode=ON
+      --enforce-gtid-consistency=ON
+      --read-only=ON
+      --max_connections=200
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+    depends_on:
+      mysql-primary:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
 
 volumes:
-  mysql-data-ha:
+  mysql-primary-data:
+  mysql-replica-data:
+  redis-data-ha:
