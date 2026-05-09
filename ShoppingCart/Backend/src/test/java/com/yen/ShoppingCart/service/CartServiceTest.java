@@ -15,6 +15,7 @@ import com.yen.ShoppingCart.repository.CartRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import org.mockito.ArgumentMatchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -58,6 +59,11 @@ class CartServiceTest {
         MockitoAnnotations.initMocks(this);
         when(redissonClient.getLock(anyString())).thenReturn(rLock);
         when(rLock.isHeldByCurrentThread()).thenReturn(true);
+        try {
+            when(rLock.tryLock(anyLong(), anyLong(), ArgumentMatchers.any())).thenReturn(true);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         user1 = new User("f_name", "l_name", "email", Role.USER, "pwd");
         user2 = new User();

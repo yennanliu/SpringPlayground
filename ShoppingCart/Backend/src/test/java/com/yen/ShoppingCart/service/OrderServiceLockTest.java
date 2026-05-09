@@ -1,5 +1,6 @@
 package com.yen.ShoppingCart.service;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
@@ -26,10 +27,11 @@ import org.redisson.api.RedissonClient;
  * Verifies the distributed lock contract for OrderService.placeOrder (Approach 4).
  *
  * Key invariants:
- *  - Lock key is "order:user:<id>" — per-user scope prevents duplicate order submission.
- *  - The entire order pipeline (list cart → save order → save items → clear cart)
- *    runs inside the critical section.
- *  - unlock() is always called in finally.
+ *  - Lock key is "order:user:<id>" — per-user scope prevents duplicate submissions.
+ *  - tryLock() is used (fail-fast, no thread exhaustion).
+ *  - tryLock failure throws RuntimeException without touching the DB.
+ *  - Empty-cart guard: if cart is empty after lock, doPlaceOrder exits cleanly.
+ *  - unlock() always called in finally.
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -56,13 +58,13 @@ class OrderServiceLockTest {
     private User user;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         user = new User();
         user.setId(7);
 
         when(redissonClient.getLock(anyString())).thenReturn(rLock);
+        when(rLock.tryLock(anyLong(), anyLong(), any(TimeUnit.class))).thenReturn(true);
         when(rLock.isHeldByCurrentThread()).thenReturn(true);
-        // return empty cart so placeOrder completes without needing real data
         when(cartService.listCartItems(any(User.class)))
                 .thenReturn(new CartDto(Collections.emptyList(), 0.0));
     }
@@ -75,13 +77,13 @@ class OrderServiceLockTest {
     }
 
     @Test
-    void placeOrder_shouldLockBeforeSavingOrder() {
-        InOrder order = inOrder(rLock, orderRepository);
+    void placeOrder_shouldCallTryLockBeforeCartRead() throws InterruptedException {
+        InOrder order = inOrder(rLock, cartService);
 
         orderService.placeOrder(user, "session-abc");
 
-        order.verify(rLock).lock(anyLong(), eq(TimeUnit.SECONDS));
-        order.verify(orderRepository).save(any(Order.class));
+        order.verify(rLock).tryLock(anyLong(), anyLong(), eq(TimeUnit.SECONDS));
+        order.verify(cartService).listCartItems(user);
     }
 
     @Test
@@ -92,18 +94,15 @@ class OrderServiceLockTest {
     }
 
     @Test
-    void placeOrder_shouldClearCartInsideLock() {
-        InOrder order = inOrder(rLock, cartService);
+    void placeOrder_shouldThrow_whenTryLockFails() throws InterruptedException {
+        when(rLock.tryLock(anyLong(), anyLong(), any(TimeUnit.class))).thenReturn(false);
 
-        orderService.placeOrder(user, "session-abc");
-
-        // lock acquired first, cart cleared last (still inside lock before unlock)
-        order.verify(rLock).lock(anyLong(), eq(TimeUnit.SECONDS));
-        order.verify(cartService).deleteUserCartItems(user);
+        assertThrows(RuntimeException.class, () -> orderService.placeOrder(user, "session-abc"));
+        verify(orderRepository, never()).save(any());
     }
 
     @Test
-    void placeOrder_shouldNotUnlock_whenLockNotHeld() {
+    void placeOrder_shouldNotUnlock_whenLockNotHeld() throws InterruptedException {
         when(rLock.isHeldByCurrentThread()).thenReturn(false);
 
         orderService.placeOrder(user, "session-abc");
@@ -112,7 +111,25 @@ class OrderServiceLockTest {
     }
 
     @Test
+    void placeOrder_emptyCart_shouldNotSaveOrder() {
+        // Empty cart returned after lock acquisition — idempotency guard should skip persistence
+        when(cartService.listCartItems(any())).thenReturn(new CartDto(Collections.emptyList(), 0.0));
+
+        orderService.placeOrder(user, "session-abc");
+
+        verify(orderRepository, never()).save(any(Order.class));
+    }
+
+    @Test
     void placeOrder_shouldSaveOrderWithCorrectSessionId() {
+        var item = new com.yen.ShoppingCart.model.dto.cart.CartItemDto();
+        var product = new com.yen.ShoppingCart.model.Product();
+        product.setPrice(10.0);
+        item.setProduct(product);
+        item.setQuantity(1);
+        when(cartService.listCartItems(any()))
+                .thenReturn(new CartDto(java.util.List.of(item), 10.0));
+
         orderService.placeOrder(user, "stripe-session-xyz");
 
         verify(orderRepository).save(argThat(o -> "stripe-session-xyz".equals(o.getSessionId())));

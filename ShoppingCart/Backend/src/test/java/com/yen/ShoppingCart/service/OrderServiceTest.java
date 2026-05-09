@@ -1,6 +1,10 @@
 package com.yen.ShoppingCart.service;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 //import static spark.Spark.post;
 //import static spark.Spark.port;
 
@@ -27,9 +31,6 @@ import org.mockito.quality.Strictness;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.test.context.TestPropertySource;
-
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -71,6 +72,11 @@ class OrderServiceTest {
         MockitoAnnotations.initMocks(this);
         when(redissonClient.getLock(anyString())).thenReturn(rLock);
         when(rLock.isHeldByCurrentThread()).thenReturn(true);
+        try {
+            when(rLock.tryLock(anyLong(), anyLong(), org.mockito.ArgumentMatchers.any())).thenReturn(true);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
 
         checkoutItemDto_1 = new CheckoutItemDto("prod_1", 1, 100, 1, 1);
         checkoutItemDto_2 = new CheckoutItemDto();

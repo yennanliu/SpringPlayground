@@ -1,8 +1,7 @@
 package com.yen.ShoppingCart.service;
 
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 import com.yen.ShoppingCart.model.Cart;
@@ -17,10 +16,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InOrder;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
-import org.mockito.MockitoAnnotations;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 
@@ -29,9 +28,9 @@ import org.redisson.api.RedissonClient;
  *
  * Key invariants:
  *  - Lock key is scoped per user ("cart:user:<id>"), so different users never contend.
- *  - lock() is called before cartRepository.save() — write happens inside the critical section.
- *  - unlock() is always called in the finally block (verified via InOrder + isHeldByCurrentThread).
- *  - A user with id=null gets key "cart:user:null" — doesn't crash, still acquires a lock.
+ *  - tryLock() is called before cartRepository.save().
+ *  - unlock() is always called in finally (verified via isHeldByCurrentThread guard).
+ *  - tryLock failure throws RuntimeException immediately (fail-fast, no thread exhaustion).
  */
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.LENIENT)
@@ -54,7 +53,7 @@ class CartServiceLockTest {
     private AddToCartDto dto;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws InterruptedException {
         MockitoAnnotations.openMocks(this);
 
         user = new User();
@@ -65,6 +64,7 @@ class CartServiceLockTest {
         dto.setQuantity(2);
 
         when(redissonClient.getLock(anyString())).thenReturn(rLock);
+        when(rLock.tryLock(anyLong(), anyLong(), any(TimeUnit.class))).thenReturn(true);
         when(rLock.isHeldByCurrentThread()).thenReturn(true);
     }
 
@@ -76,12 +76,12 @@ class CartServiceLockTest {
     }
 
     @Test
-    void addToCart_shouldCallLockBeforeSave() {
+    void addToCart_shouldCallTryLockBeforeSave() throws InterruptedException {
         InOrder order = inOrder(rLock, cartRepository);
 
         cartService.addToCart(dto, product, user);
 
-        order.verify(rLock).lock(anyLong(), eq(TimeUnit.SECONDS));
+        order.verify(rLock).tryLock(anyLong(), anyLong(), eq(TimeUnit.SECONDS));
         order.verify(cartRepository).save(any(Cart.class));
     }
 
@@ -93,13 +93,22 @@ class CartServiceLockTest {
     }
 
     @Test
-    void addToCart_differentUsers_shouldAcquireDifferentLocks() {
+    void addToCart_shouldThrow_whenTryLockFails() throws InterruptedException {
+        when(rLock.tryLock(anyLong(), anyLong(), any(TimeUnit.class))).thenReturn(false);
+
+        assertThrows(RuntimeException.class, () -> cartService.addToCart(dto, product, user));
+        verify(cartRepository, never()).save(any());
+    }
+
+    @Test
+    void addToCart_differentUsers_shouldAcquireDifferentLocks() throws InterruptedException {
         User user2 = new User();
         user2.setId(99);
 
         RLock lock2 = mock(RLock.class);
         when(redissonClient.getLock("cart:user:42")).thenReturn(rLock);
         when(redissonClient.getLock("cart:user:99")).thenReturn(lock2);
+        when(lock2.tryLock(anyLong(), anyLong(), any(TimeUnit.class))).thenReturn(true);
         when(lock2.isHeldByCurrentThread()).thenReturn(true);
 
         cartService.addToCart(dto, product, user);
@@ -112,7 +121,7 @@ class CartServiceLockTest {
     }
 
     @Test
-    void addToCart_shouldNotUnlock_whenLockNotHeldByCurrentThread() {
+    void addToCart_shouldNotUnlock_whenLockNotHeldByCurrentThread() throws InterruptedException {
         when(rLock.isHeldByCurrentThread()).thenReturn(false);
 
         cartService.addToCart(dto, product, user);

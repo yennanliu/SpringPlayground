@@ -59,7 +59,7 @@ class DataSourceRoutingTest {
 
         Object key = determineKey.invoke(routingDataSource);
 
-        assertEquals("replica", key, "Read-only transaction must route to replica");
+        assertEquals(DataSourceConfig.KEY_REPLICA, key, "Read-only transaction must route to replica");
     }
 
     @Test
@@ -68,26 +68,25 @@ class DataSourceRoutingTest {
 
         Object key = determineKey.invoke(routingDataSource);
 
-        assertEquals("primary", key, "Write transaction must route to primary");
+        assertEquals(DataSourceConfig.KEY_PRIMARY, key, "Write transaction must route to primary");
     }
 
     @Test
     void defaultTransaction_shouldRouteToPrimary() throws Exception {
-        // no explicit read-only flag set → defaults to false
         Object key = determineKey.invoke(routingDataSource);
 
-        assertEquals("primary", key, "Default (no flag) must route to primary");
+        assertEquals(DataSourceConfig.KEY_PRIMARY, key, "Default (no flag) must route to primary");
     }
 
     @Test
     void toggleBetweenReadAndWrite_shouldSwitchCorrectly() throws Exception {
         TransactionSynchronizationManager.setCurrentTransactionReadOnly(true);
-        assertEquals("replica", determineKey.invoke(routingDataSource));
+        assertEquals(DataSourceConfig.KEY_REPLICA, determineKey.invoke(routingDataSource));
 
         TransactionSynchronizationManager.setCurrentTransactionReadOnly(false);
-        assertEquals("primary", determineKey.invoke(routingDataSource));
+        assertEquals(DataSourceConfig.KEY_PRIMARY, determineKey.invoke(routingDataSource));
 
         TransactionSynchronizationManager.setCurrentTransactionReadOnly(true);
-        assertEquals("replica", determineKey.invoke(routingDataSource));
+        assertEquals(DataSourceConfig.KEY_REPLICA, determineKey.invoke(routingDataSource));
     }
 }

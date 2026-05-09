@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 public class CartService {
@@ -39,13 +41,22 @@ public class CartService {
 
     // Lock per user so concurrent add-to-cart for the same user is serialized.
     // Different users proceed in parallel.
-    public void addToCart(AddToCartDto addToCartDto, Product product, User user){
+    //
+    // tryLock(waitTime=3s, leaseTime=10s): fails fast if another thread holds the lock
+    // for more than 3s — avoids thread-pool exhaustion under Redis latency spikes.
+    public void addToCart(AddToCartDto addToCartDto, Product product, User user) {
 
         RLock lock = redissonClient.getLock("cart:user:" + user.getId());
         try {
-            lock.lock(10, TimeUnit.SECONDS);
+            if (!lock.tryLock(3, 10, TimeUnit.SECONDS)) {
+                throw new RuntimeException("Could not acquire cart lock for user " + user.getId()
+                        + " — another request is already updating this cart");
+            }
             Cart cart = new Cart(product, addToCartDto.getQuantity(), user);
             cartRepository.save(cart);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted while acquiring cart lock for user " + user.getId(), e);
         } finally {
             if (lock.isHeldByCurrentThread()) lock.unlock();
         }
@@ -57,8 +68,7 @@ public class CartService {
         List<CartItemDto> cartItems = new ArrayList<>();
         double totalCost = 0;
 
-        // TODO : change to functional style
-        for (Cart cart:cartList){
+        for (Cart cart : cartList) {
             CartItemDto cartItemDto = getDtoFromCart(cart);
             cartItems.add(cartItemDto);
             totalCost += (cartItemDto.getProduct().getPrice() * cartItemDto.getQuantity());
@@ -66,13 +76,11 @@ public class CartService {
         return new CartDto(cartItems, totalCost);
     }
 
-    // local method
     public static CartItemDto getDtoFromCart(Cart cart) {
-
         return new CartItemDto(cart);
     }
 
-    public void updateCartItem(AddToCartDto cartDto, User user,Product product){
+    public void updateCartItem(AddToCartDto cartDto, User user, Product product) {
 
         Cart cart = cartRepository.getOne(cartDto.getId());
         cart.setQuantity(cartDto.getQuantity());
@@ -80,23 +88,19 @@ public class CartService {
         cartRepository.save(cart);
     }
 
-    public void deleteCartItem(int id,int userId) throws CartItemNotExistException {
+    public void deleteCartItem(int id, int userId) throws CartItemNotExistException {
 
-        if (!cartRepository.existsById(id)){
+        if (!cartRepository.existsById(id)) {
             throw new CartItemNotExistException("Cart id is invalid, id = " + id + ", userId = " + userId);
         }
         cartRepository.deleteById(id);
     }
 
     public void deleteCartItems(int userId) {
-
         cartRepository.deleteAll();
     }
 
-
     public void deleteUserCartItems(User user) {
-
         cartRepository.deleteByUser(user);
     }
-
 }
