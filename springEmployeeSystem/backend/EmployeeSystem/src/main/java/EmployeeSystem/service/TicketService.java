@@ -31,11 +31,21 @@ public class TicketService {
   }
 
   public void updateTicket(TicketDto ticketDto) {
-
-    Ticket ticket = new Ticket();
-    ticketRepository.deleteById(ticketDto.getId());
-    BeanUtils.copyProperties(ticketDto, ticket);
-    ticketRepository.save(ticket);
+    
+    // Find existing ticket to preserve creation time and ID
+    Ticket existingTicket = ticketRepository.findById(ticketDto.getId())
+        .orElseThrow(() -> new RuntimeException("Ticket not found with id: " + ticketDto.getId()));
+    
+    // Update only the fields that should be modified
+    existingTicket.setSubject(ticketDto.getSubject());
+    existingTicket.setDescription(ticketDto.getDescription());
+    existingTicket.setUserId(ticketDto.getUserId());
+    existingTicket.setAssignedTo(ticketDto.getAssignedTo());
+    existingTicket.setStatus(ticketDto.getStatus());
+    existingTicket.setTag(ticketDto.getTag());
+    
+    // Save the updated ticket (updatedAt will be set automatically)
+    ticketRepository.save(existingTicket);
   }
 
   public void addTicket(Ticket ticket) {
