@@ -44,64 +44,157 @@ ARCHITECTURE :
 
 
 
-## Build
+## Quick Start
 
-## Run (docker)
-
-<details>
-<summary>App</summary>
+### With Docker (Recommended)
 
 ```bash
-docker-compose up
+cd SpringDataPlatform
 
-# rebuild (use updated java code) and run
-docker-compose up --build
+# FE + BE only (fast startup)
+docker compose up
 
-# restart
-docker-compose restart
+# FE + BE + Flink
+docker compose --profile flink up
 
-#--------------------------
-# Macbook m1
-#--------------------------
+# Full stack (all services + nginx)
+docker compose -f docker-compose.full.yml up
 
-# run 
-docker-compose -f docker-compose-m1.yml up
+# Rebuild and run
+docker compose up --build
+```
 
-# rebuild (use updated java code) and run
-docker-compose -f docker-compose-m1.yml up --build
+### Without Docker (Manual)
 
-# restart
-docker-compose -f docker-compose-m1.yml restart
+```bash
+# 1. Start MySQL
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS data_platform"
+
+# 2. Start Backend
+cd SpringDataPlatform/backend/DataPlatform/FlinkRestService
+mvn spring-boot:run
+
+# 3. Start Frontend (new terminal)
+cd SpringDataPlatform/frontend/data-platform-ui
+npm install && npm run serve
+
+# 4. (Optional) Start Flink
+cd /path/to/flink
+bin/start-cluster.sh
+```
+
+## Run Options
+
+| Command | Services | Use Case |
+|---------|----------|----------|
+| `docker compose up` | FE + BE + MySQL | Development, testing |
+| `docker compose --profile flink up` | FE + BE + MySQL + Flink | Flink job testing |
+| `docker compose -f docker-compose.full.yml up` | All + Nginx | Full integration |
+
+## Service Ports
+
+| Service | Port | URL |
+|---------|------|-----|
+| Frontend | 8080 | http://localhost:8080 |
+| Backend API | 9999 | http://localhost:9999 |
+| Swagger UI | 9999 | http://localhost:9999/swagger-ui.html |
+| MySQL | 3306 | - |
+| Flink UI | 8081 | http://localhost:8081 |
+| Nginx | 80 | http://localhost (full stack only) |
+
+## Docker Commands
+
+<details>
+<summary>Common Commands</summary>
+
+```bash
+# Start in background
+docker compose up -d
+
+# View logs
+docker compose logs -f
+
+# View specific service logs
+docker compose logs -f backend
+
+# Stop all
+docker compose down
+
+# Stop and remove volumes
+docker compose down -v
+
+# Rebuild specific service
+docker compose build backend
+
+# Restart specific service
+docker compose restart backend
+
+# Shell into container
+docker compose exec backend sh
+docker compose exec mysql mysql -uroot -proot data_platform
 ```
 
 </details>
 
-## Run (manually)
+## Run Manually (Without Docker)
 
 <details>
-<summary>Run</summary>
+<summary>Manual Setup</summary>
+
+### Prerequisites
+- Java 17+
+- Maven 3.9+
+- Node.js 18+
+- MySQL 8.0+
+
+### Backend
 
 ```bash
-#---------------------------
-# Run app (backend)
-#---------------------------
+cd SpringDataPlatform/backend/DataPlatform/FlinkRestService
 
-cd SpringDataPlatform/backend/DataPlatform
+# Set environment variables
+export SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/data_platform
+export SPRING_DATASOURCE_USERNAME=root
+export SPRING_DATASOURCE_PASSWORD=root
 
-# build
-mvn package
+# Build
+mvn clean package -DskipTests
 
-# run
-java -jar <built_jar>
+# Run with Maven
+mvn spring-boot:run
 
-#---------------------------
-# Run app (frontend)
-#---------------------------
+# Or run JAR directly
+java -jar target/*.jar
+```
 
+### Frontend
+
+```bash
 cd SpringDataPlatform/frontend/data-platform-ui
 
-# run
+# Install dependencies
+npm install
+
+# Development server
 npm run serve
+
+# Production build
+npm run build
+```
+
+### Flink (Optional)
+
+```bash
+# Download Flink 1.17
+wget https://archive.apache.org/dist/flink/flink-1.17.2/flink-1.17.2-bin-scala_2.12.tgz
+tar -xzf flink-1.17.2-bin-scala_2.12.tgz
+cd flink-1.17.2
+
+# Start cluster
+bin/start-cluster.sh
+
+# Stop cluster
+bin/stop-cluster.sh
 ```
 
 </details>

@@ -1,6 +1,9 @@
+# Full stack: FE + BE + Flink + all dependencies
+# Usage: docker compose -f docker-compose.full.yml up
+
 services:
   # ============================================
-  # Core Services (FE + BE)
+  # Core Services
   # ============================================
   backend:
     build:
@@ -15,11 +18,12 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       SPRING_JPA_SHOW_SQL: "false"
       SERVER_PORT: 9999
-      # Flink connection (only used when flink profile is active)
       FLINK_JOBMANAGER_HOST: jobmanager
       FLINK_JOBMANAGER_PORT: 8081
     depends_on:
       mysql:
+        condition: service_healthy
+      jobmanager:
         condition: service_healthy
     healthcheck:
       test: ["CMD", "wget", "-q", "--spider", "http://localhost:9999/actuator/health"]
@@ -43,6 +47,9 @@ services:
       - backend
     restart: unless-stopped
 
+  # ============================================
+  # Database
+  # ============================================
   mysql:
     image: mysql:8.0
     environment:
@@ -61,11 +68,10 @@ services:
     restart: unless-stopped
 
   # ============================================
-  # Flink Services (use: docker compose --profile flink up)
+  # Flink Cluster
   # ============================================
   jobmanager:
     image: flink:1.17-scala_2.12-java11
-    profiles: ["flink"]
     ports:
       - "8081:8081"
     command: jobmanager
@@ -83,17 +89,30 @@ services:
 
   taskmanager:
     image: flink:1.17-scala_2.12-java11
-    profiles: ["flink"]
     depends_on:
       - jobmanager
     command: taskmanager
     deploy:
-      replicas: 1
+      replicas: 2
     environment:
       FLINK_PROPERTIES: |
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
         taskmanager.memory.process.size: 1024m
+    restart: unless-stopped
+
+  # ============================================
+  # Reverse Proxy / Load Balancer
+  # ============================================
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - backend
+      - frontend
     restart: unless-stopped
 
 volumes:
