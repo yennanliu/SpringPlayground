@@ -16,6 +16,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
 
@@ -103,7 +104,7 @@ class ConcurrencyE2ETest {
      * Fires {@code count} requests in parallel from a fixed thread pool.
      * Returns (successCount, errorCount).
      */
-    private int[] runConcurrent(int count, Callable<HttpStatus> request) throws InterruptedException {
+    private int[] runConcurrent(int count, Callable<HttpStatusCode> request) throws InterruptedException {
         CountDownLatch startLatch = new CountDownLatch(1);
         CountDownLatch doneLatch  = new CountDownLatch(count);
         AtomicInteger success = new AtomicInteger();
@@ -114,7 +115,7 @@ class ConcurrencyE2ETest {
             executor.submit(() -> {
                 try {
                     startLatch.await();
-                    HttpStatus status = request.call();
+                    HttpStatusCode status = request.call();
                     if (!status.isError()) success.incrementAndGet();
                     else                   errors.incrementAndGet();
                 } catch (Exception e) {

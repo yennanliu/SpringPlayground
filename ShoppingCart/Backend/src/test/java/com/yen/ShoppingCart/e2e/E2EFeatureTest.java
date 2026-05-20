@@ -367,8 +367,9 @@ class E2EFeatureTest {
     void order_getByNonExistentId_returns404() {
         String email = uniqueEmail();
         String token = signUpAndGetToken(email, "pass");
-        ResponseEntity<Object> resp =
-                restTemplate.getForEntity("/order/99999?token=" + token, Object.class);
+        // Controller returns a plain-string body on 404 — use String.class to avoid JSON parse error
+        ResponseEntity<String> resp =
+                restTemplate.getForEntity("/order/99999?token=" + token, String.class);
         assertThat(resp.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 
