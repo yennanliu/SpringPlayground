@@ -83,7 +83,8 @@ api_call() {
     [[ -n "$body" ]] && args+=(-H "Content-Type: application/json" -d "$body")
     raw=$(curl "${args[@]}" "$url" 2>/dev/null) || raw=$'\n000'
     HTTP_CODE=$(echo "$raw" | tail -1)
-    BODY=$(echo "$raw" | head -n -1)
+    # macOS head does not support negative counts; use sed to drop the last line
+    BODY=$(echo "$raw" | sed '$d')
 }
 
 GET()    { api_call GET    "$@"; }
