@@ -1,5 +1,6 @@
 package EmployeeSystem.filter;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
@@ -11,24 +12,27 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.time.Duration;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Slf4j
 public class RateLimitInterceptor implements HandlerInterceptor {
 
-    // 200 requests/minute per IP — generous for an internal HR system
     private static final int CAPACITY = 200;
     private static final Duration REFILL_PERIOD = Duration.ofMinutes(1);
 
-    private final Map<String, Bucket> buckets = new ConcurrentHashMap<>();
+    // Caffeine cache with 2-minute idle expiry prevents unbounded growth for inactive IPs
+    private final com.github.benmanes.caffeine.cache.Cache<String, Bucket> buckets =
+        Caffeine.newBuilder()
+            .expireAfterAccess(2, TimeUnit.MINUTES)
+            .maximumSize(100_000)
+            .build();
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
             throws Exception {
         String ip = resolveClientIp(request);
-        Bucket bucket = buckets.computeIfAbsent(ip, k -> newBucket());
+        Bucket bucket = buckets.get(ip, k -> newBucket());
 
         if (bucket.tryConsume(1)) {
             return true;
@@ -49,7 +53,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
     private String resolveClientIp(HttpServletRequest request) {
         String xff = request.getHeader("X-Forwarded-For");
-        if (xff != null && !xff.isBlank()) {
+        if (xff != null && !xff.trim().isEmpty()) {  // trim().isEmpty() is Java 8 compatible
             return xff.split(",")[0].trim();
         }
         return request.getRemoteAddr();

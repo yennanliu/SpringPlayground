@@ -153,15 +153,11 @@ Add Spring Cache + Caffeine:
 // AuthenticationService.java
 @Cacheable(value = "tokens", key = "#token", unless = "#result == null")
 public User getUser(String token) { ... }
-
-@CacheEvict(value = "tokens", key = "#token")
-public void invalidateToken(String token) { ... }
 ```
 
-```yaml
-# application.properties
-spring.cache.caffeine.spec=maximumSize=10000,expireAfterWrite=30m
-```
+Cache configuration is programmatic via `CacheConfig.java` (using `SimpleCacheManager` +
+individual `CaffeineCache` instances with per-cache TTLs). The `spring.cache.caffeine.spec`
+property is **not** used — all cache settings live in `CacheConfig`.
 
 **Option B — Redis (multi-node, distributed)**
 

@@ -25,6 +25,7 @@ import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -155,6 +156,7 @@ public class UserService {
   }
 
   @Transactional
+  @CacheEvict(value = "tokens", allEntries = true)
   public void updateUser(UserCreateDto userCreateDto) {
 
     Optional<User> optionalUser = userRepository.findById(userCreateDto.getId());
@@ -173,6 +175,7 @@ public class UserService {
   }
 
   @Transactional
+  @CacheEvict(value = "tokens", allEntries = true)
   public void updateUserWithPhoto(UserCreateDto userCreateDto, MultipartFile photo) {
     
     Optional<User> optionalUser = userRepository.findById(userCreateDto.getId());
