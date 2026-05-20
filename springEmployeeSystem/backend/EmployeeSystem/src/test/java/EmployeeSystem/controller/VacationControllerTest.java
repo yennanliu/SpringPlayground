@@ -15,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -36,12 +38,13 @@ public class VacationControllerTest {
     public void testGetVacations() {
         List<Vacation> vacations = new ArrayList<>();
         vacations.add(new Vacation());
-        when(vacationService.getVacations()).thenReturn(vacations);
+        Page<Vacation> page = new PageImpl<>(vacations);
+        when(vacationService.getVacationsPage(0, 20)).thenReturn(page);
 
-        ResponseEntity<List<Vacation>> responseEntity = vacationController.getVacations();
+        ResponseEntity<Page<Vacation>> responseEntity = vacationController.getVacations(0, 20);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(vacations, responseEntity.getBody());
+        assertEquals(page, responseEntity.getBody());
     }
 
     @Test

@@ -9,6 +9,8 @@ import EmployeeSystem.service.CheckinService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -33,12 +35,13 @@ public class CheckinControllerTest {
     public void testGetCheckin() {
         List<Checkin> checkins = new ArrayList<>();
         checkins.add(new Checkin());
-        when(checkinService.getCheckIns()).thenReturn(checkins);
+        Page<Checkin> page = new PageImpl<>(checkins);
+        when(checkinService.getCheckInsPage(0, 20)).thenReturn(page);
 
-        ResponseEntity<List<Checkin>> responseEntity = checkinController.getCheckin();
+        ResponseEntity<Page<Checkin>> responseEntity = checkinController.getCheckin(0, 20);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(checkins, responseEntity.getBody());
+        assertEquals(page, responseEntity.getBody());
     }
 
     @Test

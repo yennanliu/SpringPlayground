@@ -5,7 +5,10 @@ import EmployeeSystem.controller.UserController;
 import EmployeeSystem.exception.CustomException;
 import EmployeeSystem.model.User;
 import EmployeeSystem.model.dto.*;
+import EmployeeSystem.model.dto.UserSummary;
 import EmployeeSystem.service.AuthenticationService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import EmployeeSystem.service.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,14 +48,13 @@ public class UserControllerTest {
 
     @Test
     public void testGetUsers() {
-        List<User> users = new ArrayList<>();
-        users.add(new User());
-        when(userService.getUsers()).thenReturn(users);
+        Page<UserSummary> page = new PageImpl<>(new ArrayList<>());
+        when(userService.getUserSummariesPage(0, 20)).thenReturn(page);
 
-        ResponseEntity<List<User>> responseEntity = userController.getUsers();
+        ResponseEntity<Page<UserSummary>> responseEntity = userController.getUsers(0, 20);
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(users, responseEntity.getBody());
+        assertEquals(page, responseEntity.getBody());
     }
 
     @Test
