@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users", indexes = {
+    @Index(columnList = "manager_id"),
+    @Index(columnList = "departement_id"),
+    @Index(name = "idx_email", columnList = "email", unique = true)
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

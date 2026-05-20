@@ -6,6 +6,7 @@ import EmployeeSystem.model.dto.TicketDto;
 import EmployeeSystem.service.TicketService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,11 @@ public class TicketController {
   @Autowired TicketService ticketService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Ticket>> getTicket() {
+  public ResponseEntity<Page<Ticket>> getTicket(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
 
-    List<Ticket> tickets = ticketService.getTickets();
-    return new ResponseEntity<>(tickets, HttpStatus.OK);
+    return new ResponseEntity<>(ticketService.getTicketsPage(page, size), HttpStatus.OK);
   }
 
   @GetMapping("/{ticketId}")

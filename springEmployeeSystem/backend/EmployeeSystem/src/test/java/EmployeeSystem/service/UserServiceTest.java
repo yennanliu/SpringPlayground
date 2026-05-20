@@ -15,6 +15,7 @@ import EmployeeSystem.model.dto.SignInResponseDto;
 import EmployeeSystem.model.dto.SignupDto;
 import EmployeeSystem.model.dto.UserCreateDto;
 import EmployeeSystem.repository.UserRepository;
+import EmployeeSystem.util.JwtUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -32,6 +33,8 @@ class UserServiceTest {
   @Mock private UserRepository userRepository;
 
   @Mock private AuthenticationService authenticationService;
+
+  @Mock private JwtUtil jwtUtil;
 
   @InjectMocks private UserService userService;
 
@@ -66,19 +69,17 @@ class UserServiceTest {
     user.setEmail("test@example.com");
     user.setPassword(hashedPassword); // Use hashed password
 
-    AuthenticationToken mockToken = new AuthenticationToken(user);
-    
     when(userRepository.findByEmail("test@example.com")).thenReturn(user);
-    when(authenticationService.getToken(user)).thenReturn(mockToken);
+    when(jwtUtil.generateToken(user)).thenReturn("mock-jwt-token");
 
     SignInDto signInDto = new SignInDto();
     signInDto.setEmail("test@example.com");
-    signInDto.setPassword(plainPassword); // Use plain password in request
+    signInDto.setPassword(plainPassword);
 
     SignInResponseDto signInResponseDto = userService.signIn(signInDto);
 
     assertEquals("success", signInResponseDto.getStatus());
-    assertNotNull(signInResponseDto.getToken());
+    assertEquals("mock-jwt-token", signInResponseDto.getToken());
   }
 
   @Test

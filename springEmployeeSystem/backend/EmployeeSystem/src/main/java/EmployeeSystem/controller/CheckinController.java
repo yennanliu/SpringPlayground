@@ -5,6 +5,7 @@ import EmployeeSystem.model.Checkin;
 import EmployeeSystem.service.CheckinService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +17,11 @@ public class CheckinController {
   @Autowired CheckinService checkinService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Checkin>> getCheckin() {
+  public ResponseEntity<Page<Checkin>> getCheckin(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
 
-    List<Checkin> checkinList = checkinService.getCheckIns();
-    return new ResponseEntity<>(checkinList, HttpStatus.OK);
+    return new ResponseEntity<>(checkinService.getCheckInsPage(page, size), HttpStatus.OK);
   }
 
   @GetMapping("/{userId}")

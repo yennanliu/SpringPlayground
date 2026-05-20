@@ -8,7 +8,11 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -21,6 +25,10 @@ public class TicketService {
     return ticketRepository.findAll();
   }
 
+  public Page<Ticket> getTicketsPage(int page, int size) {
+    return ticketRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
+  }
+
   public Ticket getTicketById(Integer ticketId) {
 
     if (ticketRepository.findById(ticketId).isPresent()) {
@@ -30,14 +38,15 @@ public class TicketService {
     return null;
   }
 
+  @Transactional
   public void updateTicket(TicketDto ticketDto) {
-
-    Ticket ticket = new Ticket();
-    ticketRepository.deleteById(ticketDto.getId());
-    BeanUtils.copyProperties(ticketDto, ticket);
+    Ticket ticket = ticketRepository.findById(ticketDto.getId())
+        .orElseThrow(() -> new RuntimeException("Ticket not found: " + ticketDto.getId()));
+    BeanUtils.copyProperties(ticketDto, ticket, "id");
     ticketRepository.save(ticket);
   }
 
+  @Transactional
   public void addTicket(Ticket ticket) {
 
     // create ticket with "PENDING" as default status

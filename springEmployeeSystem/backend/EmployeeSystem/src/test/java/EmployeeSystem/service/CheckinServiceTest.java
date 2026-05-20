@@ -60,41 +60,28 @@ class CheckinServiceTest {
   @Test
   public void testGetCheckinByUserId() {
 
-    List<Checkin> checkins = new ArrayList<>();
     Checkin checkin1 = new Checkin(1, 1, new Date());
-    Checkin checkin2 = new Checkin(2, 2, new Date());
-    checkins.add(checkin1);
-    checkins.add(checkin2);
+    List<Checkin> expected = new ArrayList<>();
+    expected.add(checkin1);
 
-    // mock resp response
-    when(checkinRepository.findAll()).thenReturn(checkins);
+    // service now calls findByUserId, not findAll
+    when(checkinRepository.findByUserId(1)).thenReturn(expected);
 
     List<Checkin> result = checkinService.getCheckinByUserId(1);
-    List<Checkin> expected =
-        checkins.stream().filter(x -> x.getUserId() == 1).collect(Collectors.toList());
 
     assertEquals(expected, result);
-    assertEquals(expected.size(), 1);
+    assertEquals(1, result.size());
   }
 
   @Test
   public void testGetCheckinByUserIdNullResult() {
 
-    List<Checkin> checkins = new ArrayList<>();
-    Checkin checkin1 = new Checkin(1, 1, new Date());
-    Checkin checkin2 = new Checkin(2, 2, new Date());
-    checkins.add(checkin1);
-    checkins.add(checkin2);
-
-    // mock resp response
-    when(checkinRepository.findAll()).thenReturn(checkins);
+    when(checkinRepository.findByUserId(3)).thenReturn(new ArrayList<>());
 
     List<Checkin> result = checkinService.getCheckinByUserId(3);
-    List<Checkin> expected =
-        checkins.stream().filter(x -> x.getUserId() == 3).collect(Collectors.toList());
 
-    assertEquals(expected, result);
-    assertEquals(expected.size(), 0);
+    assertEquals(new ArrayList<>(), result);
+    assertEquals(0, result.size());
   }
 
   //    @Test

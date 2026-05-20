@@ -6,6 +6,7 @@ import EmployeeSystem.model.dto.VacationDto;
 import EmployeeSystem.service.VacationService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,10 +18,11 @@ public class VacationController {
   @Autowired VacationService vacationService;
 
   @GetMapping("/")
-  public ResponseEntity<List<Vacation>> getVacations() {
+  public ResponseEntity<Page<Vacation>> getVacations(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
 
-    List<Vacation> vacations = vacationService.getVacations();
-    return new ResponseEntity<>(vacations, HttpStatus.OK);
+    return new ResponseEntity<>(vacationService.getVacationsPage(page, size), HttpStatus.OK);
   }
 
   @GetMapping("/{userId}")
