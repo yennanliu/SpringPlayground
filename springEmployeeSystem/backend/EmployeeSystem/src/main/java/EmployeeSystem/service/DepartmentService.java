@@ -7,6 +7,8 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,11 +18,13 @@ public class DepartmentService {
 
   @Autowired DepartmentRepository departmentRepository;
 
+  @Cacheable("departments")
   public List<Department> getDepartments() {
 
     return departmentRepository.findAll();
   }
 
+  @Cacheable(value = "department", key = "#departmentId")
   public Department getDepartmentById(Integer departmentId) {
 
     if (departmentRepository.findById(departmentId).isPresent()) {
@@ -31,6 +35,7 @@ public class DepartmentService {
   }
 
   @Transactional
+  @CacheEvict(value = {"departments", "department"}, allEntries = true)
   public void updateDepartment(DepartmentDto departmentDto) {
 
     // get current department
@@ -44,6 +49,7 @@ public class DepartmentService {
   }
 
   @Transactional
+  @CacheEvict(value = {"departments", "department"}, allEntries = true)
   public void addDepartment(DepartmentDto departmentDto) {
 
     Department department = new Department();

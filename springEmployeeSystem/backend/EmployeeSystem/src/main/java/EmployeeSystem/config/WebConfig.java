@@ -1,14 +1,25 @@
 package EmployeeSystem.config;
 
+import EmployeeSystem.filter.RateLimitInterceptor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 // TODO : check if can merge below
 // 1) enable CORS 2) show swagger 2.x UI properly
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
+
+  @Autowired RateLimitInterceptor rateLimitInterceptor;
+
+  @Override
+  public void addInterceptors(InterceptorRegistry registry) {
+    registry.addInterceptor(rateLimitInterceptor);
+  }
+
   @Override
   public void addCorsMappings(CorsRegistry registry) {
     registry

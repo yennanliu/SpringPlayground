@@ -8,6 +8,9 @@ import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,10 @@ public class TicketService {
   public List<Ticket> getTickets() {
 
     return ticketRepository.findAll();
+  }
+
+  public Page<Ticket> getTicketsPage(int page, int size) {
+    return ticketRepository.findAll(PageRequest.of(page, size, Sort.by("id").descending()));
   }
 
   public Ticket getTicketById(Integer ticketId) {

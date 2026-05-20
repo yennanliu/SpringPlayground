@@ -6,6 +6,7 @@ import EmployeeSystem.model.User;
 import EmployeeSystem.model.dto.*;
 import EmployeeSystem.model.dto.UserSummary;
 import EmployeeSystem.service.AuthenticationService;
+import org.springframework.data.domain.Page;
 import EmployeeSystem.service.UserService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +29,11 @@ public class UserController {
   @Autowired AuthenticationService authenticationService;
 
   @GetMapping("/")
-  public ResponseEntity<List<UserSummary>> getUsers() {
+  public ResponseEntity<Page<UserSummary>> getUsers(
+      @RequestParam(defaultValue = "0") int page,
+      @RequestParam(defaultValue = "20") int size) {
 
-    List<UserSummary> users = userService.getUserSummaries();
-    return new ResponseEntity<>(users, HttpStatus.OK);
+    return new ResponseEntity<>(userService.getUserSummariesPage(page, size), HttpStatus.OK);
   }
 
   @GetMapping("/{userId}")

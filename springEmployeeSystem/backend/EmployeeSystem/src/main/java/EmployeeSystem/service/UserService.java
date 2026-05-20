@@ -13,6 +13,7 @@ import EmployeeSystem.model.dto.*;
 import EmployeeSystem.model.dto.UserSummary;
 import EmployeeSystem.repository.UserRepository;
 import EmployeeSystem.util.Helper;
+import EmployeeSystem.util.JwtUtil;
 import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -24,6 +25,9 @@ import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,6 +39,8 @@ public class UserService {
   @Autowired UserRepository userRepository;
 
   @Autowired AuthenticationService authenticationService;
+
+  @Autowired JwtUtil jwtUtil;
 
   @Transactional
   public ResponseDto signUp(SignupDto signupDto) throws CustomException {
@@ -70,14 +76,7 @@ public class UserService {
       user.setManagerId(0); // set manager ID = 0 as default
       createdUser = userRepository.save(user);
 
-      /** generate token for user */
-      final AuthenticationToken authenticationToken = new AuthenticationToken(createdUser);
-
-      // save token to DB
-      authenticationService.saveConfirmationToken(authenticationToken);
-
-      // return success msg
-      // success in creating
+      // token is now JWT-based; no DB storage needed on sign-up
       return new ResponseDto(ResponseStatus.SUCCESS.toString(), USER_CREATED);
 
     } catch (Exception e) {
@@ -112,19 +111,7 @@ public class UserService {
       throw new AuthenticationFailException(MessageStrings.WRONG_PASSWORD + " wrong password");
     }
 
-    log.info(">>> (authenticationService.getToken) user = {}", user);
-    
-    // Try to get existing token first
-    AuthenticationToken token = authenticationService.getToken(user);
-    
-    // If no token exists, create a new one
-    if (!Helper.notNull(token)) {
-      log.info("No existing token found, creating new token for user: {}", user.getEmail());
-      token = new AuthenticationToken(user);
-      authenticationService.saveConfirmationToken(token);
-    }
-
-    return new SignInResponseDto("success", token.getToken());
+    return new SignInResponseDto("success", jwtUtil.generateToken(user));
   }
 
   // local method
@@ -254,5 +241,9 @@ public class UserService {
 
   public List<UserSummary> getUserSummaries() {
     return userRepository.findAllProjectedBy();
+  }
+
+  public Page<UserSummary> getUserSummariesPage(int page, int size) {
+    return userRepository.findAllProjectedBy(PageRequest.of(page, size, Sort.by("id").ascending()));
   }
 }
