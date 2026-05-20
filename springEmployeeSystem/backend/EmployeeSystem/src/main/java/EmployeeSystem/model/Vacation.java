@@ -9,7 +9,10 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "vacation")
+@Table(name = "vacation", indexes = {
+    @Index(columnList = "user_id"),
+    @Index(columnList = "status")
+})
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

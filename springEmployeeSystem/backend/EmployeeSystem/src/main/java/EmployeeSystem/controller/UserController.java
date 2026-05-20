@@ -4,6 +4,7 @@ import EmployeeSystem.common.ApiResponse;
 import EmployeeSystem.exception.CustomException;
 import EmployeeSystem.model.User;
 import EmployeeSystem.model.dto.*;
+import EmployeeSystem.model.dto.UserSummary;
 import EmployeeSystem.service.AuthenticationService;
 import EmployeeSystem.service.UserService;
 import java.util.List;
@@ -27,9 +28,9 @@ public class UserController {
   @Autowired AuthenticationService authenticationService;
 
   @GetMapping("/")
-  public ResponseEntity<List<User>> getUsers() {
+  public ResponseEntity<List<UserSummary>> getUsers() {
 
-    List<User> users = userService.getUsers();
+    List<UserSummary> users = userService.getUserSummaries();
     return new ResponseEntity<>(users, HttpStatus.OK);
   }
 

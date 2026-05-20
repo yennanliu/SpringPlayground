@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CheckinService {
@@ -19,16 +20,10 @@ public class CheckinService {
   }
 
   public List<Checkin> getCheckinByUserId(Integer userId) {
-
-    List<Checkin> checkinList = checkinRepository.findAll();
-    return checkinList.stream()
-        .filter(
-            x -> {
-              return x.getUserId().equals(userId);
-            })
-        .collect(Collectors.toList());
+    return checkinRepository.findByUserId(userId);
   }
 
+  @Transactional
   public void addCheckin(Integer userID) {
 
     Checkin checkin = new Checkin();

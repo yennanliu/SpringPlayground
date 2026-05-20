@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "tokens")
+@Table(name = "tokens", indexes = @Index(columnList = "token", unique = true))
 public class AuthenticationToken {
 
   @Id

@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -29,6 +30,7 @@ public class DepartmentService {
     return null;
   }
 
+  @Transactional
   public void updateDepartment(DepartmentDto departmentDto) {
 
     // get current department
@@ -41,6 +43,7 @@ public class DepartmentService {
     departmentRepository.save(department);
   }
 
+  @Transactional
   public void addDepartment(DepartmentDto departmentDto) {
 
     Department department = new Department();

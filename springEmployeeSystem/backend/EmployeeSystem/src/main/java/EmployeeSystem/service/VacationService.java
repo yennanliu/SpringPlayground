@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
@@ -36,28 +36,18 @@ public class VacationService {
   }
 
   public List<Vacation> getVacationByUserId(Integer userId) {
-
-    List<Vacation> vacations = vacationRepository.findAll();
-    return vacations.stream()
-        .filter(
-            x -> {
-              return x.getUserId().equals(userId);
-            })
-        .collect(Collectors.toList());
+    return vacationRepository.findByUserId(userId);
   }
 
-  @Async
+  @Transactional
   public void addVacation(VacationDto vacationDto) {
 
     Vacation vacation = new Vacation();
     BeanUtils.copyProperties(vacationDto, vacation);
-    // set default status as pending
     vacation.setStatus(VacationStatus.PENDING.getName());
+    vacationRepository.save(vacation);
 
-    // Send vacation notification emails asynchronously using dedicated email thread pool
-    log.info("Sending vacation notification emails for vacation: " + vacation);
-    
-    // Send notification to admin
+    // fire-and-forget: runs on emailTaskExecutor thread pool
     emailService.sendAdminNotificationAsync(
         adminEmail,
         vacation.getUserId(),
@@ -65,10 +55,5 @@ public class VacationService {
         vacation.getStartDate().toString(),
         vacation.getEndDate().toString()
     );
-    
-    // TODO: Send notification to user (need to get user email from userId)
-    // For now, we can add a placeholder for future enhancement
-    log.info("User notification email would be sent here once user email lookup is implemented");
-    vacationRepository.save(vacation);
   }
 }

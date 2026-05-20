@@ -10,6 +10,7 @@ import EmployeeSystem.exception.CustomException;
 import EmployeeSystem.model.AuthenticationToken;
 import EmployeeSystem.model.User;
 import EmployeeSystem.model.dto.*;
+import EmployeeSystem.model.dto.UserSummary;
 import EmployeeSystem.repository.UserRepository;
 import EmployeeSystem.util.Helper;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
@@ -34,6 +36,7 @@ public class UserService {
 
   @Autowired AuthenticationService authenticationService;
 
+  @Transactional
   public ResponseDto signUp(SignupDto signupDto) throws CustomException {
 
     // Check to see if the current email address has already been registered
@@ -83,6 +86,7 @@ public class UserService {
     }
   }
 
+  @Transactional
   public SignInResponseDto signIn(SignInDto signInDto) throws CustomException {
 
     // first find User by email
@@ -149,6 +153,7 @@ public class UserService {
     return null;
   }
 
+  @Transactional
   public void addUser(UserCreateDto userCreateDto) {
 
     userRepository.save(getUserFromUserCreateDto(userCreateDto));
@@ -162,6 +167,7 @@ public class UserService {
     return user;
   }
 
+  @Transactional
   public void updateUser(UserCreateDto userCreateDto) {
 
     Optional<User> optionalUser = userRepository.findById(userCreateDto.getId());
@@ -179,6 +185,7 @@ public class UserService {
     }
   }
 
+  @Transactional
   public void updateUserWithPhoto(UserCreateDto userCreateDto, MultipartFile photo) {
     
     Optional<User> optionalUser = userRepository.findById(userCreateDto.getId());
@@ -238,24 +245,14 @@ public class UserService {
 
   // get subordinates under manager
   public List<User> getSubordinatesById(Integer managerId) {
-
-    // TODO : do select logic in repository
-    // List<User> subordinates = userRepository.getSubordinates();
-
-    List<User> users = userRepository.findAll();
-    List<User> subordinates =
-        users.stream()
-            .filter(
-                x -> {
-                  return x.getManagerId().equals(managerId);
-                })
-            .collect(Collectors.toList());
-
-    if (subordinates != null && subordinates.size() > 0) {
-      return subordinates;
+    List<User> subordinates = userRepository.findByManagerId(managerId);
+    if (subordinates.isEmpty()) {
+      log.warn("No subordinates with managerId = " + managerId);
     }
+    return subordinates;
+  }
 
-    log.warn("No subordinates with managerId = " + managerId);
-    return new ArrayList<>();
+  public List<UserSummary> getUserSummaries() {
+    return userRepository.findAllProjectedBy();
   }
 }
