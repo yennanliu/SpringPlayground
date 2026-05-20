@@ -60,14 +60,12 @@ class OptionSchemaServiceTest {
 
   @Test
   public void testGetAllActiveOptions() {
-    // Mock data
+    // Mock data — only the active option
     OptionSchema option1 = new OptionSchema(1, "col 1", "Option 1", true);
-    OptionSchema option2 = new OptionSchema(2, "col 2", "Option 2", false);
+    List<OptionSchema> activeOptions = Arrays.asList(option1);
 
-    List<OptionSchema> mockOptions = Arrays.asList(option1, option2);
-
-    // Mock repository method
-    when(optionSchemaRepository.findAll()).thenReturn(mockOptions);
+    // service now calls findByActiveTrue, not findAll
+    when(optionSchemaRepository.findByActiveTrue()).thenReturn(activeOptions);
 
     // Call service method
     List<OptionSchema> result = optionSchemaService.getAllActiveOptions();

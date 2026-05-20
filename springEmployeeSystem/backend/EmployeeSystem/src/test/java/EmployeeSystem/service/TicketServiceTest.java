@@ -78,16 +78,15 @@ class TicketServiceTest {
     ticket.setId(1);
     ticket.setStatus(TicketStatus.PENDING.getName());
 
-    // Mocking behavior for deleteById and save methods
-    // TODO : double check
-    doNothing().when(ticketRepository).deleteById(ticketDto.getId());
+    // updateTicket now does findById → modify → save (no deleteById)
+    when(ticketRepository.findById(ticketDto.getId())).thenReturn(Optional.of(ticket));
     when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
 
     // Calling the method
     ticketService.updateTicket(ticketDto);
 
-    // Verifying that deleteById and save were called with the correct arguments
-    verify(ticketRepository, times(1)).deleteById(ticketDto.getId());
+    // Verifying read-modify-write path
+    verify(ticketRepository, times(1)).findById(ticketDto.getId());
     verify(ticketRepository, times(1)).save(any(Ticket.class));
   }
 
