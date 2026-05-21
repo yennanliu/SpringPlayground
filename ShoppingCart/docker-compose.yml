@@ -29,9 +29,10 @@ services:
     build: ./Frondend/ecommerce-ui
     working_dir: /app
     ports:
-      - "8080:8080"  # Map host port 8080 to container port 8080
+      - "8080:8080"
     volumes:
-      - ./Frondend/ecommerce-ui:/app  # Mount the current directory into the container
+      - ./Frondend/ecommerce-ui:/app
+      - /app/node_modules          # anonymous volume keeps container's node_modules intact
     command: npm run serve
 
   redis:
