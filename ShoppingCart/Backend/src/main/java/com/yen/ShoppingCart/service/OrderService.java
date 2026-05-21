@@ -25,6 +25,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Slf4j
 @Service
@@ -41,6 +42,9 @@ public class OrderService {
 
     @Autowired
     private RedissonClient redissonClient;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
 
     @Value("${BASE_URL}")
     private String baseURL;
@@ -124,7 +128,7 @@ public class OrderService {
                 throw new RuntimeException("Could not acquire order lock for user " + user.getId()
                         + " — a concurrent checkout is already in progress");
             }
-            doPlaceOrder(user, sessionId);
+            transactionTemplate.executeWithoutResult(status -> doPlaceOrder(user, sessionId));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
             throw new RuntimeException("Interrupted while acquiring order lock for user " + user.getId(), e);
@@ -134,13 +138,12 @@ public class OrderService {
     }
 
     /**
-     * The actual transactional work — separated from placeOrder so the lock is acquired
-     * outside the transaction boundary. Spring @Transactional wraps this method, meaning
-     * the transaction commits after this method returns and before the lock is released
-     * in the caller's finally block.
+     * The actual transactional work — called inside a TransactionTemplate in placeOrder so
+     * the transaction is committed before the lock is released in the finally block.
+     * TransactionTemplate is used instead of @Transactional to avoid the Spring proxy
+     * self-invocation limitation (internal calls bypass the AOP proxy).
      */
-    @Transactional
-    void doPlaceOrder(User user, String sessionId) {
+    private void doPlaceOrder(User user, String sessionId) {
 
         CartDto cartDto = cartService.listCartItems(user);
         List<CartItemDto> cartItemDtoList = cartDto.getCartItems();

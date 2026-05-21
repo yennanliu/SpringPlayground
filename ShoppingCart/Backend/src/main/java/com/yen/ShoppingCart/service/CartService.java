@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
 @Service
-@Transactional
 public class CartService {
 
     @Autowired
@@ -62,6 +61,7 @@ public class CartService {
         }
     }
 
+    @Transactional(readOnly = true)
     public CartDto listCartItems(User user) {
 
         List<Cart> cartList = cartRepository.findAllByUserOrderByCreatedDateDesc(user);
@@ -80,6 +80,7 @@ public class CartService {
         return new CartItemDto(cart);
     }
 
+    @Transactional
     public void updateCartItem(AddToCartDto cartDto, User user, Product product) {
 
         Cart cart = cartRepository.getOne(cartDto.getId());
@@ -88,6 +89,7 @@ public class CartService {
         cartRepository.save(cart);
     }
 
+    @Transactional
     public void deleteCartItem(int id, int userId) throws CartItemNotExistException {
 
         if (!cartRepository.existsById(id)) {
@@ -96,10 +98,12 @@ public class CartService {
         cartRepository.deleteById(id);
     }
 
+    @Transactional
     public void deleteCartItems(int userId) {
         cartRepository.deleteAll();
     }
 
+    @Transactional
     public void deleteUserCartItems(User user) {
         cartRepository.deleteByUser(user);
     }

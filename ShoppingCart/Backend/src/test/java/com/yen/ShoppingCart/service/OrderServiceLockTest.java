@@ -11,6 +11,7 @@ import com.yen.ShoppingCart.repository.OrderItemsRepository;
 import com.yen.ShoppingCart.repository.OrderRepository;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Consumer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,6 +23,8 @@ import org.mockito.junit.jupiter.MockitoSettings;
 import org.mockito.quality.Strictness;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.TransactionTemplate;
 
 /**
  * Verifies the distributed lock contract for OrderService.placeOrder (Approach 4).
@@ -52,6 +55,9 @@ class OrderServiceLockTest {
     @Mock
     RLock rLock;
 
+    @Mock
+    TransactionTemplate transactionTemplate;
+
     @InjectMocks
     OrderService orderService;
 
@@ -67,6 +73,14 @@ class OrderServiceLockTest {
         when(rLock.isHeldByCurrentThread()).thenReturn(true);
         when(cartService.listCartItems(any(User.class)))
                 .thenReturn(new CartDto(Collections.emptyList(), 0.0));
+
+        // Make TransactionTemplate.executeWithoutResult() actually run the callback so
+        // tests can verify behavior inside doPlaceOrder.
+        doAnswer(invocation -> {
+            Consumer<TransactionStatus> action = invocation.getArgument(0);
+            action.accept(null);
+            return null;
+        }).when(transactionTemplate).executeWithoutResult(any());
     }
 
     @Test
