@@ -129,6 +129,9 @@ class ConcurrencyE2ETest {
         startLatch.countDown();
         assertTrue(doneLatch.await(60, TimeUnit.SECONDS), "Timeout — threads did not finish in 60 s");
         executor.shutdown();
+        if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+            executor.shutdownNow();
+        }
         return new int[]{success.get(), errors.get()};
     }
 
