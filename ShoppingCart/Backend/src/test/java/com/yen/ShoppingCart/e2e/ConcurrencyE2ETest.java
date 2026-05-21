@@ -8,6 +8,9 @@ import com.yen.ShoppingCart.model.dto.user.SignInResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignupDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -45,6 +48,10 @@ class ConcurrencyE2ETest {
     @MockBean
     RedisConnectionFactory redisConnectionFactory;
 
+    /** Prevents RedissonConfig from connecting to Redis; CartService/OrderService use this mock lock. */
+    @MockBean
+    RedissonClient redissonClient;
+
     @Autowired
     TestRestTemplate restTemplate;
 
@@ -54,7 +61,13 @@ class ConcurrencyE2ETest {
     private static final int CONCURRENCY = 50;
 
     @BeforeEach
-    void clearCaches() {
+    void setUp() throws Exception {
+        RLock mockLock = Mockito.mock(RLock.class);
+        Mockito.when(mockLock.tryLock(Mockito.anyLong(), Mockito.anyLong(), Mockito.any(TimeUnit.class)))
+               .thenReturn(true);
+        Mockito.when(mockLock.isHeldByCurrentThread()).thenReturn(true);
+        Mockito.when(redissonClient.getLock(Mockito.anyString())).thenReturn(mockLock);
+
         cacheManager.getCacheNames().forEach(name -> {
             var c = cacheManager.getCache(name);
             if (c != null) c.clear();

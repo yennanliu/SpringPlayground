@@ -17,15 +17,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import jakarta.transaction.Transactional;
+import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 
 @Slf4j
 @Service
-@Transactional
 public class OrderService {
 
     @Autowired
@@ -37,21 +40,26 @@ public class OrderService {
     @Autowired
     OrderItemsRepository orderItemsRepository;
 
+    @Autowired
+    private RedissonClient redissonClient;
+
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
     @Value("${BASE_URL}")
     private String baseURL;
 
     @Value("${STRIPE_SECRET_KEY}")
     private String apiKey;
 
-    private String DEFAULT_CURRENCY = "usd"; // TODO : move to enums
+    private String DEFAULT_CURRENCY = "usd";
 
-    // get total price : package com.stripe.param.checkout;
     SessionCreateParams.LineItem.PriceData createPriceData(CheckoutItemDto checkoutItemDto) {
 
         SessionCreateParams.LineItem.PriceData priceData =
                 SessionCreateParams.LineItem.PriceData.builder()
                         .setCurrency(DEFAULT_CURRENCY)
-                        .setUnitAmount((long)(checkoutItemDto.getPrice() * 100)) // TODO : double check ?
+                        .setUnitAmount((long)(checkoutItemDto.getPrice() * 100))
                         .setProductData(
                                 SessionCreateParams.LineItem.PriceData.ProductData
                                 .builder()
@@ -64,39 +72,28 @@ public class OrderService {
         return priceData;
     }
 
-    // build each product in the stripe checkout page
-    // package com.stripe.param.checkout;
     SessionCreateParams.LineItem createSessionLineItem(CheckoutItemDto checkoutItemDto) {
 
         return SessionCreateParams.LineItem.builder()
-                // set price for each product
                 .setPriceData(createPriceData(checkoutItemDto))
-                // set quantity for each product
                 .setQuantity(Long.parseLong(String.valueOf(checkoutItemDto.getQuantity())))
                 .build();
     }
 
-    // create session from list of checkout items
     public Session createSession(List<CheckoutItemDto> checkoutItemDtoList) throws StripeException {
 
-        // supply success and failure url for stripe
         String successURL = baseURL + "payment/success";
         String failedURL = baseURL + "payment/failed";
         log.info("successURL = " + successURL + ", failedURL = " + failedURL);
 
-        // set the private key
         Stripe.apiKey = apiKey;
         log.info("apiKey = " + apiKey + " Stripe.apiKey = " + Stripe.apiKey);
 
         List<SessionCreateParams.LineItem> sessionItemsList = new ArrayList<>();
-
-        // for each product compute SessionCreateParams.LineItem
         for (CheckoutItemDto checkoutItemDto : checkoutItemDtoList) {
             sessionItemsList.add(createSessionLineItem(checkoutItemDto));
         }
-        //log.info("sessionItemsList = " + sessionItemsList);
-        //sessionItemsList.forEach(x -> {System.out.println(x.toString());});
-        // build the session param
+
         log.info("build Stripe session start");
         SessionCreateParams params = SessionCreateParams.builder()
                 .addPaymentMethodType(SessionCreateParams.PaymentMethodType.CARD)
@@ -109,14 +106,56 @@ public class OrderService {
         return Session.create(params);
     }
 
+    /**
+     * Places an order for the user atomically and idempotently.
+     *
+     * Lock ordering: lock is acquired BEFORE the transaction opens so that the lock
+     * is held across the full transaction commit — preventing another request from
+     * reading a half-committed state.
+     *
+     * tryLock(waitTime=3s, leaseTime=30s): fails fast if a concurrent request is
+     * already placing an order for this user, avoiding thread-pool exhaustion.
+     *
+     * Empty-cart guard: re-checks the cart after lock acquisition. If a concurrent
+     * request already processed the cart, this request exits cleanly instead of
+     * persisting an empty order.
+     */
     public void placeOrder(User user, String sessionId) {
 
-        // first get user's cart items
+        RLock lock = redissonClient.getLock("order:user:" + user.getId());
+        try {
+            if (!lock.tryLock(3, 30, TimeUnit.SECONDS)) {
+                throw new RuntimeException("Could not acquire order lock for user " + user.getId()
+                        + " — a concurrent checkout is already in progress");
+            }
+            transactionTemplate.executeWithoutResult(status -> doPlaceOrder(user, sessionId));
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new RuntimeException("Interrupted while acquiring order lock for user " + user.getId(), e);
+        } finally {
+            if (lock.isHeldByCurrentThread()) lock.unlock();
+        }
+    }
+
+    /**
+     * The actual transactional work — called inside a TransactionTemplate in placeOrder so
+     * the transaction is committed before the lock is released in the finally block.
+     * TransactionTemplate is used instead of @Transactional to avoid the Spring proxy
+     * self-invocation limitation (internal calls bypass the AOP proxy).
+     */
+    private void doPlaceOrder(User user, String sessionId) {
+
         CartDto cartDto = cartService.listCartItems(user);
         List<CartItemDto> cartItemDtoList = cartDto.getCartItems();
 
-        // TODO : need to wrap with try-catch ?
-        // create order and save
+        // Idempotency guard: if a concurrent request already placed the order and
+        // cleared the cart, skip to avoid persisting an empty order.
+        if (cartItemDtoList.isEmpty()) {
+            log.warn("placeOrder called with empty cart for user {} — skipping (possible duplicate request)",
+                    user.getId());
+            return;
+        }
+
         Order newOrder = new Order();
         newOrder.setCreatedDate(new Date());
         newOrder.setSessionId(sessionId);
@@ -125,26 +164,24 @@ public class OrderService {
         orderRepository.save(newOrder);
 
         for (CartItemDto cartItemDto : cartItemDtoList) {
-            // create orderItem and save each one
             OrderItem orderItem = new OrderItem();
             orderItem.setCreatedDate(new Date());
             orderItem.setPrice(cartItemDto.getProduct().getPrice());
             orderItem.setProduct(cartItemDto.getProduct());
             orderItem.setQuantity(cartItemDto.getQuantity());
             orderItem.setOrder(newOrder);
-            // add to order item list
             orderItemsRepository.save(orderItem);
         }
 
-        // delete items in cart, since they are already transformed to orders
         cartService.deleteUserCartItems(user);
     }
 
+    @Transactional(readOnly = true)
     public List<Order> listOrders(User user) {
-
         return orderRepository.findAllByUserOrderByCreatedDateDesc(user);
     }
 
+    @Transactional(readOnly = true)
     public Order getOrder(Integer orderId) throws OrderNotFoundException {
 
         Optional<Order> order = orderRepository.findById(orderId);
@@ -153,5 +190,4 @@ public class OrderService {
         }
         throw new OrderNotFoundException("Order not found");
     }
-
 }

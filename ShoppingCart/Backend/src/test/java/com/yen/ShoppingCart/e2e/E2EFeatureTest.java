@@ -8,6 +8,9 @@ import com.yen.ShoppingCart.model.dto.user.SignInResponseDto;
 import com.yen.ShoppingCart.model.dto.user.SignupDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.TimeUnit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,6 +56,10 @@ class E2EFeatureTest {
     @MockBean
     RedisConnectionFactory redisConnectionFactory;
 
+    /** Prevents RedissonConfig from connecting to Redis; CartService/OrderService use this mock lock. */
+    @MockBean
+    RedissonClient redissonClient;
+
     @Autowired
     TestRestTemplate restTemplate;
 
@@ -59,7 +67,13 @@ class E2EFeatureTest {
     CacheManager cacheManager;
 
     @BeforeEach
-    void clearCaches() {
+    void setUp() throws Exception {
+        RLock mockLock = Mockito.mock(RLock.class);
+        Mockito.when(mockLock.tryLock(Mockito.anyLong(), Mockito.anyLong(), Mockito.any(TimeUnit.class)))
+               .thenReturn(true);
+        Mockito.when(mockLock.isHeldByCurrentThread()).thenReturn(true);
+        Mockito.when(redissonClient.getLock(Mockito.anyString())).thenReturn(mockLock);
+
         cacheManager.getCacheNames().forEach(name -> {
             var c = cacheManager.getCache(name);
             if (c != null) c.clear();
@@ -341,7 +355,13 @@ class E2EFeatureTest {
         String email = uniqueEmail();
         String token = signUpAndGetToken(email, "pass");
 
-        // Place order (empty cart is allowed — creates a $0 order)
+        // Add a product to the cart so placeOrder doesn't skip the empty-cart guard
+        Integer catId = createCategoryAndGetId();
+        Integer prodId = createProductAndGetId(catId);
+        restTemplate.postForEntity("/cart/add?token=" + token,
+                new AddToCartDto(null, prodId, 1), Map.class);
+
+        // Place order
         ResponseEntity<Map> placeResp = restTemplate.exchange(
                 "/order/add?token=" + token + "&sessionId=dummy-session-e2e",
                 HttpMethod.POST, HttpEntity.EMPTY, Map.class);
