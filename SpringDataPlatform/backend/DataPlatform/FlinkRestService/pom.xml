@@ -150,6 +150,12 @@
             <version>0.10.1</version>
         </dependency>
 
+        <!-- BCrypt password hashing (crypto only, no full Security filter chain) -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-crypto</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>
