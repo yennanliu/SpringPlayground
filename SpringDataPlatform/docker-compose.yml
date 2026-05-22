@@ -3,33 +3,35 @@ version: '3.8'
 # ──────────────────────────────────────────────────────────────────────────────
 # DataPlatform dev stack
 #
-# Services:
-#   mysql   — MySQL 8.0 database
-#   app     — Spring Boot REST service (built from multi-stage Dockerfile)
+# Core services (always started):
+#   mysql   — MySQL 8.0
+#   app     — Spring Boot REST service
 #   vue     — Vue.js frontend dev server
-#   nginx   — Reverse proxy: port 8081 → app:9999
+#   nginx   — Reverse proxy (UI + API on one port)
 #
-# Quick start:
+# Optional Flink cluster (add --profile flink to enable):
+#   flink-jobmanager  — Flink REST API + Job coordination  :8081
+#   flink-taskmanager — Flink task execution
+#   flink-sql-gateway — Flink SQL Gateway REST API          :8083
+#
+# Quick start (no Flink):
 #   docker compose up --build
 #
-# Access:
-#   UI (via nginx) : http://localhost:8082          ← main entry point
-#   API (via nginx): http://localhost:8082/cluster  ← same origin as UI
-#   Vue dev server : http://localhost:8079          ← direct (dev only)
-#   API direct     : http://localhost:9997          ← direct (dev only)
-#   Swagger        : http://localhost:8082/swagger-ui.html
+# Quick start (with Flink):
+#   docker compose --profile flink up --build
 #
-# Flink / Zeppelin are external services. The app starts without them and logs
-# warnings when the scheduled job-status poll cannot reach Flink.
-# Override their URLs via env vars:
-#   FLINK_BASE_URL=http://<host>:8081
-#   FLINK_SQL_GATEWAY_URL=http://<host>:8083
-#   ZEPPELIN_BASE_URL=http://<host>:9080
+# Access:
+#   UI (via nginx)   : http://localhost:8082          ← main entry point
+#   Swagger          : http://localhost:8082/swagger-ui.html
+#   Vue dev (direct) : http://localhost:8079
+#   API direct       : http://localhost:9997
+#   Flink UI         : http://localhost:8081           (--profile flink only)
+#   SQL Gateway      : http://localhost:8083           (--profile flink only)
 # ──────────────────────────────────────────────────────────────────────────────
 
 services:
 
-  # ── MySQL 8.0 ────────────────────────────────────────────────────────────────
+  # ── MySQL 8.0 ─────────────────────────────────────────────────────────────────
   mysql:
     image: mysql:8.0
     restart: always
@@ -52,7 +54,7 @@ services:
       retries: 10
       start_period: 30s
 
-  # ── Spring Boot app ───────────────────────────────────────────────────────────
+  # ── Spring Boot app ────────────────────────────────────────────────────────────
   app:
     build: ./backend/DataPlatform/FlinkRestService
     restart: on-failure
@@ -61,12 +63,12 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      # Flink / Zeppelin — override when those services are available
-      FLINK_BASE_URL: ${FLINK_BASE_URL:-http://localhost:8081}
-      FLINK_SQL_GATEWAY_URL: ${FLINK_SQL_GATEWAY_URL:-http://localhost:8083}
-      ZEPPELIN_BASE_URL: ${ZEPPELIN_BASE_URL:-http://localhost:9080}
+      # Flink — uses Docker service names so they work inside the container.
+      # Without --profile flink these will get connection-refused (handled gracefully).
+      FLINK_BASE_URL: ${FLINK_BASE_URL:-http://flink-jobmanager:8081}
+      FLINK_SQL_GATEWAY_URL: ${FLINK_SQL_GATEWAY_URL:-http://flink-sql-gateway:8083}
+      ZEPPELIN_BASE_URL: ${ZEPPELIN_BASE_URL:-http://zeppelin:8080}
     volumes:
-      # Named volume for uploaded JARs — persists across container restarts
       - upload-dir:/app/upload-dir
     depends_on:
       mysql:
@@ -78,7 +80,7 @@ services:
       retries: 5
       start_period: 90s
 
-  # ── Vue.js frontend (dev server) ─────────────────────────────────────────────
+  # ── Vue.js frontend ────────────────────────────────────────────────────────────
   vue:
     build: ./frontend/data-platform-ui
     restart: on-failure
@@ -86,18 +88,11 @@ services:
       - "8079:8080"
     volumes:
       - ./frontend/data-platform-ui:/app
-      # Preserve the node_modules installed during docker build — prevents the
-      # bind mount from shadowing them and causing "vue-cli-service not found".
       - /app/node_modules
     environment:
-      # Tell the Vue app to call the API via the nginx proxy on the host
       VUE_APP_API_BASE_URL: http://localhost:8082
 
-  # ── Nginx reverse proxy ───────────────────────────────────────────────────────
-  # Routes:
-  #   /cluster /jar /job /sql_job /zeppelin /notebook /actuator /v3 /swagger-ui
-  #                                   → Spring Boot app:9999
-  #   / (everything else + WS/HMR)   → Vue dev server vue:8080
+  # ── Nginx reverse proxy ────────────────────────────────────────────────────────
   nginx:
     build: ./nginx
     restart: on-failure
@@ -113,6 +108,68 @@ services:
       interval: 10s
       timeout: 3s
       retries: 3
+
+  # ── Flink JobManager (optional — enable with --profile flink) ─────────────────
+  flink-jobmanager:
+    image: flink:1.17-scala_2.12-java11
+    profiles: ["flink"]
+    hostname: flink-jobmanager
+    command: jobmanager
+    ports:
+      - "8081:8081"
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        rest.address: 0.0.0.0
+        rest.port: 8081
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8081/overview"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  # ── Flink TaskManager (optional — enable with --profile flink) ────────────────
+  flink-taskmanager:
+    image: flink:1.17-scala_2.12-java11
+    profiles: ["flink"]
+    depends_on:
+      flink-jobmanager:
+        condition: service_healthy
+    command: taskmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        taskmanager.numberOfTaskSlots: 2
+
+  # ── Flink SQL Gateway (optional — enable with --profile flink) ────────────────
+  # Starts the SQL Gateway REST endpoint on port 8083.
+  # The app service calls it via http://flink-sql-gateway:8083.
+  # FLINK_PROPERTIES is written to flink-conf.yaml by the image entrypoint —
+  # this is the correct way to pass config in the official Flink Docker image.
+  flink-sql-gateway:
+    image: flink:1.17-scala_2.12-java11
+    profiles: ["flink"]
+    depends_on:
+      flink-jobmanager:
+        condition: service_healthy
+    command: bash -c "sleep 5 && /opt/flink/bin/sql-gateway.sh start-foreground"
+    ports:
+      - "8083:8083"
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: flink-jobmanager
+        sql-gateway.endpoint.rest.address: 0.0.0.0
+        sql-gateway.endpoint.rest.port: 8083
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8083/v1/info"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 40s
 
 volumes:
   mysql-data:

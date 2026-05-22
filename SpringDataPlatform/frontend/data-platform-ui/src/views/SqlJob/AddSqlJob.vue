@@ -40,7 +40,15 @@
           <p class="field-hint">Flink SQL syntax. The statement is sent to the SQL Gateway session API.</p>
         </div>
 
-        <div v-if="errorMsg" class="submit-error">{{ errorMsg }}</div>
+        <div v-if="errorMsg" class="submit-error">
+          <div>{{ errorMsg }}</div>
+          <div style="margin-top:8px;font-size:.78rem;opacity:.8">
+            Start the Flink stack with:
+            <code style="background:rgba(0,0,0,.08);padding:2px 6px;border-radius:4px;font-family:var(--font-mono)">
+              docker compose --profile flink up --build
+            </code>
+          </div>
+        </div>
 
         <button type="submit" class="submit-btn" :disabled="!statement.trim() || loading">
           <template v-if="loading">
