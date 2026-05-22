@@ -1,32 +1,51 @@
-# Multi-stage build for smaller final image
+# Multi-stage build — stage 1 builds the JAR, stage 2 is a minimal JRE-only runtime.
 
-# Stage 1: Build
+# ── Stage 1: Build ──────────────────────────────────────────────────────────
 FROM maven:3.9.6-eclipse-temurin-17 AS build
 
 WORKDIR /app
 
-# Copy pom.xml and download dependencies (cached layer)
+# Download dependencies first (separate layer — cached unless pom.xml changes)
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
 
-# Copy source and build
+# Build
 COPY src ./src
 RUN mvn package -DskipTests -B
 
-# Stage 2: Runtime
-FROM eclipse-temurin:17-jre-alpine
+# ── Stage 2: Runtime ─────────────────────────────────────────────────────────
+# eclipse-temurin:17-jre (Debian-based) supports both linux/amd64 and linux/arm64.
+# The -alpine variant only supports amd64 and will fail on Apple Silicon.
+FROM eclipse-temurin:17-jre
 
 WORKDIR /app
 
-# Copy the built JAR from build stage
-COPY --from=build /app/target/*.jar app.jar
+# wget is required by the HEALTHCHECK below
+RUN apt-get update && apt-get install -y --no-install-recommends wget && rm -rf /var/lib/apt/lists/*
 
-# Expose the port (matches application.properties server.port)
+# Non-root user for security
+RUN groupadd -r spring && useradd -r -g spring spring
+
+# Directories owned by the spring user
+# upload-dir: stores uploaded Flink JARs (JarController)
+# logs:        logback RollingFileAppender writes here
+RUN mkdir -p /app/upload-dir /app/logs && chown -R spring:spring /app/upload-dir /app/logs
+
+COPY --from=build --chown=spring:spring /app/target/*.jar app.jar
+
+USER spring
+
 EXPOSE 9999
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=60s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=5s --start-period=90s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:9999/actuator/health || exit 1
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Container-aware JVM flags:
+#   UseContainerSupport  — reads cgroup memory/CPU limits instead of host values
+#   MaxRAMPercentage     — cap heap at 75 % of the container's memory limit
+#   security.egd         — faster SecureRandom startup on Linux
+ENTRYPOINT ["java", \
+  "-XX:+UseContainerSupport", \
+  "-XX:MaxRAMPercentage=75.0", \
+  "-Djava.security.egd=file:/dev/./urandom", \
+  "-jar", "app.jar"]

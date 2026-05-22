@@ -1,20 +1,19 @@
-# Use the official lightweight Node.js 14 image
-FROM node:14-slim
+FROM node:20-alpine
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
+# Install dependencies into the image layer before copying source.
+# This layer is cached separately so re-builds only re-run npm install
+# when package.json / package-lock.json actually change.
 COPY package*.json ./
+# --legacy-peer-deps: @vue/cli-plugin-unit-jest@5 expects @vue/vue3-jest@^27
+# but the project pins ^29, causing a peer dep conflict on npm 7+.
+RUN npm install --legacy-peer-deps
 
-# Install dependencies
-RUN npm install
-
-# Copy the rest of the application code to the working directory
 COPY . .
 
-# Expose port 8080 to the outside world
 EXPOSE 8080
 
-# Command to run the application
-#CMD ["npm", "run", "serve"]
+# --host 0.0.0.0 is required so the dev server binds to all interfaces
+# inside the container (the default 127.0.0.1 is unreachable from outside).
+CMD ["npm", "run", "serve", "--", "--host", "0.0.0.0"]

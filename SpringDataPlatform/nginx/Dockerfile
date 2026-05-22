@@ -1,4 +1,9 @@
-# FROM nginx:alpine
-#
-# COPY default.conf /etc/nginx/conf.d/
-# COPY index.html /usr/share/nginx/html/
+FROM nginx:1.25-alpine
+
+# wget for healthcheck
+RUN apk add --no-cache wget
+
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY index.html /usr/share/nginx/html/index.html
+
+EXPOSE 80

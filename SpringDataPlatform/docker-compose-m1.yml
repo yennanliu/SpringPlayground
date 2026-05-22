@@ -1,66 +1,88 @@
-version: '3'
-services:
-  app:
-    restart: always
-    build: ./backend/DataPlatform
-    working_dir: /app
-    volumes:
-      - ./backend/DataPlatform:/app
-    ports:
-      - "9999:9999"
-    platform: linux/amd64
-    environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/data_platform
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
-      - SPRING_JPA_SHOW_SQL=true
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=create  # Set the Hibernate ddl-auto property here
-      - SPRING_JPA_GENERATE_DDL=true
-      #- JAVA_HOME=/usr/local/openjdk-11
-    depends_on:
-      - mysql
-    command: mvn clean spring-boot:run -DskipTests
+version: '3.8'
 
-  vue:
-    restart: always
-    build: ./frontend/data-platform-ui
-    working_dir: /app
-    platform: linux/amd64
-    ports:
-      - "8080:8080"  # Map host port 8080 to container port 8080
-    volumes:
-      - ./frontend/data-platform-ui:/app  # Mount the current directory into the container
-    command: npm run serve
+# ──────────────────────────────────────────────────────────────────────────────
+# DataPlatform dev stack — Apple Silicon (M1/M2/M3) variant
+# Adds platform: linux/arm64 where needed.
+#
+# Usage: docker compose -f docker-compose-m1.yml up --build
+# ──────────────────────────────────────────────────────────────────────────────
+
+services:
 
   mysql:
-    image: mysql:5.7
+    image: mysql:8.0
+    platform: linux/arm64
     restart: always
-    platform: linux/amd64
     environment:
-      #https://stackoverflow.com/questions/66831863/mysql-docker-container-keeps-restarting
-      #MYSQL_USER: root # NO NEED to create root user, since it is created automatically
       MYSQL_DATABASE: data_platform
-      MYSQL_ROOT_PASSWORD:
+      MYSQL_ROOT_PASSWORD: ""
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     ports:
       - "3306:3306"
     volumes:
       - mysql-data:/var/lib/mysql
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --max_connections=200
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "--silent"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  app:
+    build: ./backend/DataPlatform/FlinkRestService
+    platform: linux/arm64
+    restart: on-failure
+    ports:
+      - "9999:9999"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      FLINK_BASE_URL: ${FLINK_BASE_URL:-http://localhost:8081}
+      FLINK_SQL_GATEWAY_URL: ${FLINK_SQL_GATEWAY_URL:-http://localhost:8083}
+      ZEPPELIN_BASE_URL: ${ZEPPELIN_BASE_URL:-http://localhost:9080}
+    volumes:
+      - upload-dir:/app/upload-dir
+    depends_on:
+      mysql:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:9999/actuator/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 90s
+
+  vue:
+    build: ./frontend/data-platform-ui
+    platform: linux/arm64
+    restart: on-failure
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./frontend/data-platform-ui:/app
+      - /app/node_modules
+    environment:
+      VUE_APP_API_BASE_URL: http://localhost:8081
 
   nginx:
-    image: nginx
-    restart: always
-    platform: linux/amd64
+    build: ./nginx
+    platform: linux/arm64
+    restart: on-failure
     ports:
-      #- "8080:80"
-      - "8081:8081"
-    volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./nginx/index.html:/app/html:ro
+      - "8081:80"
     depends_on:
-      - app
-      #- app2
+      app:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 3
 
 volumes:
   mysql-data:
+  upload-dir:
