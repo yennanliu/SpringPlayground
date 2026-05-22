@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -81,6 +82,52 @@ public class RestTemplateService {
         } catch (RestClientException e) {
             log.warn("Ping failed to {}: {}", pingUrl, e.getMessage());
             return null;
+        }
+    }
+
+    public ResponseEntity<String> sendPatchRequest(String url, String requestBody, MediaType mediaType) {
+        log.info("Sending PATCH request to url={}", url);
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            if (mediaType != null) {
+                headers.setContentType(mediaType);
+            }
+
+            HttpEntity<String> requestEntity = new HttpEntity<>(requestBody, headers);
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.PATCH, requestEntity, String.class);
+
+            log.info("PATCH request succeeded, status={}", responseEntity.getStatusCode());
+            return responseEntity;
+
+        } catch (ResourceAccessException e) {
+            log.error("PATCH request failed - cannot connect to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Cannot connect to " + url, e);
+        } catch (RestClientException e) {
+            log.error("PATCH request failed to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Request failed: " + e.getMessage(), e);
+        }
+    }
+
+    public ResponseEntity<String> sendMultipartPostRequest(String url, MultiValueMap<String, Object> body) {
+        log.info("Sending multipart POST request to url={}", url);
+
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(body, headers);
+            ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+            log.info("Multipart POST request succeeded, status={}", responseEntity.getStatusCode());
+            return responseEntity;
+
+        } catch (ResourceAccessException e) {
+            log.error("Multipart POST request failed - cannot connect to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Cannot connect to " + url, e);
+        } catch (RestClientException e) {
+            log.error("Multipart POST request failed to url={}: {}", url, e.getMessage());
+            throw new ExternalServiceException("RestTemplate", "Request failed: " + e.getMessage(), e);
         }
     }
 

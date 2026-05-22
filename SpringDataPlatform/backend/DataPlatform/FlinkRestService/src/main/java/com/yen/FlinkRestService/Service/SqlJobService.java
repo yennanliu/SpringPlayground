@@ -3,6 +3,7 @@ package com.yen.FlinkRestService.Service;
 import com.alibaba.fastjson2.JSON;
 
 import com.yen.FlinkRestService.Repository.SqlJobRepository;
+import com.yen.FlinkRestService.exception.ExternalServiceException;
 import com.yen.FlinkRestService.model.dto.job.SqlJobSubmitDto;
 import com.yen.FlinkRestService.model.response.SqlJobSubmitResponse;
 
@@ -39,6 +40,10 @@ public class SqlJobService {
         log.info("Session created, response={}", sessionResponse.getBody());
 
         SqlJobSubmitResponse sessionResult = JSON.parseObject(sessionResponse.getBody(), SqlJobSubmitResponse.class);
+        if (sessionResult == null || sessionResult.getSessionHandle() == null) {
+            throw new ExternalServiceException(
+                    "SqlGateway", "Invalid or empty session creation response");
+        }
         String sessionHandle = sessionResult.getSessionHandle();
         log.info("Session handle={}", sessionHandle);
 
@@ -55,9 +60,14 @@ public class SqlJobService {
 
         ResponseEntity<String> statementResponse = restTemplateService.sendPostRequest(statementUrl, sqlPayload, MediaType.APPLICATION_JSON);
         SqlJobSubmitResponse statementResult = JSON.parseObject(statementResponse.getBody(), SqlJobSubmitResponse.class);
+        if (statementResult == null || statementResult.getOperationHandle() == null) {
+            throw new ExternalServiceException(
+                    "SqlGateway", "Invalid or empty statement submission response");
+        }
 
-        log.info("SQL job submitted, operationHandle={}", statementResult.getOperationHandle());
+        String operationHandle = statementResult.getOperationHandle();
+        log.info("SQL job submitted, sessionHandle={}, operationHandle={}", sessionHandle, operationHandle);
 
-        return statementUrl;
+        return operationHandle;
     }
 }

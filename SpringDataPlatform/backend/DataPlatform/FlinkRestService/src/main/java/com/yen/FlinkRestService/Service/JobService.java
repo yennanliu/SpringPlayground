@@ -78,6 +78,9 @@ public class JobService {
         ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", MediaType.APPLICATION_JSON);
 
         JobSubmitResponse jobSubmitResponse = GSON.fromJson(responseEntity.getBody(), JobSubmitResponse.class);
+        if (jobSubmitResponse == null || jobSubmitResponse.getJobid() == null) {
+            throw new ExternalServiceException("Flink", "Invalid or empty response from job submit endpoint");
+        }
         log.info("Job submitted successfully, flinkJobId={}", jobSubmitResponse.getJobid());
 
         Job job = new Job();
@@ -120,8 +123,13 @@ public class JobService {
             ResponseEntity<String> responseEntity = restTemplateService.sendGetRequest(url);
             JobOverviewResponse jobOverviewResponse = parseJobOverviewResponse(responseEntity.getBody());
 
+            if (jobOverviewResponse == null || jobOverviewResponse.getJobs() == null) {
+                log.warn("Empty or unparseable response from Flink job overview");
+                return;
+            }
+
             List<JobOverview> jobs = jobOverviewResponse.getJobs();
-            if (jobs == null || jobs.isEmpty()) {
+            if (jobs.isEmpty()) {
                 log.info("No jobs to update");
                 return;
             }
@@ -164,13 +172,22 @@ public class JobService {
     public void cancelJob(String jobId) {
         log.info("Cancelling job with flinkJobId={}", jobId);
 
+        // Flink cancel API: PATCH /jobs/{jobId}  body: {"target-state":"canceled"}
+        // POST /jobs/{id}/stop is a savepoint-based graceful stop, not an immediate cancel.
         String url = UriComponentsBuilder.fromHttpUrl(flinkBaseUrl)
-                .pathSegment("jobs", jobId, "stop")
+                .pathSegment("jobs", jobId)
                 .build()
                 .toUriString();
 
-        ResponseEntity<String> responseEntity = restTemplateService.sendPostRequest(url, "", MediaType.APPLICATION_JSON);
+        ResponseEntity<String> responseEntity = restTemplateService.sendPatchRequest(
+                url, "{\"target-state\":\"canceled\"}", MediaType.APPLICATION_JSON);
         log.info("Job cancellation response status={}", responseEntity.getStatusCode());
+
+        jobRepository.findByJobId(jobId).ifPresent(job -> {
+            job.setState("CANCELED");
+            jobRepository.save(job);
+            log.info("Job state updated to CANCELED in DB, flinkJobId={}", jobId);
+        });
     }
 
     public JobOverviewResponse parseJobOverviewResponse(String responseBody) {

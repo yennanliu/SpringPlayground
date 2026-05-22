@@ -50,9 +50,7 @@ public class ZeppelinService {
 
     @Transactional(readOnly = true)
     public Optional<Notebook> getNotebookByZeppelinNoteId(String zeppelinNoteId) {
-        return notebookRepository.findAll().stream()
-                .filter(notebook -> zeppelinNoteId.equals(notebook.getZeppelinNoteId()))
-                .findFirst();
+        return notebookRepository.findByZeppelinNoteId(zeppelinNoteId);
     }
 
     @Transactional
@@ -77,22 +75,28 @@ public class ZeppelinService {
         }
     }
 
-    @Transactional
+    // No @Transactional here — the external Zeppelin call runs before any DB connection is acquired,
+    // keeping the connection pool free during network I/O.
     public void deleteNote(String noteId) {
         validateNotNull(noteId, "noteId");
 
         try {
             zeppelinClient.deleteNote(noteId);
             log.info("Deleted Zeppelin notebook, noteId={}", noteId);
-
-            getNotebookByZeppelinNoteId(noteId).ifPresent(notebook -> {
-                notebookRepository.delete(notebook);
-                log.info("Deleted notebook from database, id={}", notebook.getId());
-            });
         } catch (Exception e) {
             log.error("Failed to delete Zeppelin notebook noteId={}: {}", noteId, e.getMessage(), e);
             throw new ExternalServiceException("Zeppelin", "Failed to delete notebook: " + e.getMessage(), e);
         }
+
+        deleteNoteFromDb(noteId);
+    }
+
+    @Transactional
+    void deleteNoteFromDb(String noteId) {
+        notebookRepository.findByZeppelinNoteId(noteId).ifPresent(notebook -> {
+            notebookRepository.delete(notebook);
+            log.info("Deleted notebook from database, id={}", notebook.getId());
+        });
     }
 
     public NoteResult executeNote(String noteId) throws Exception {

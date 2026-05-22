@@ -25,11 +25,14 @@ class JarServiceTest {
     @Mock
     private JobJarRepository jobJarRepository;
 
+    @Mock
+    private RestTemplateService restTemplateService;
+
     private JarService jarService;
 
     @BeforeEach
     void setUp() {
-        jarService = new JarService(jobJarRepository);
+        jarService = new JarService(jobJarRepository, restTemplateService);
     }
 
     @Test

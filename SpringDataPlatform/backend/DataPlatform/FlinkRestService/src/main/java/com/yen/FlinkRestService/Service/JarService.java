@@ -17,17 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.File;
 import java.util.Date;
@@ -39,7 +33,7 @@ import java.util.List;
 public class JarService {
 
     private final JobJarRepository jobJarRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplateService restTemplateService;
 
     private static final Gson GSON = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_DASHES)
@@ -51,57 +45,49 @@ public class JarService {
     @Value("${flink.base_url}")
     private String flinkBaseUrl;
 
-    @Transactional
+    // Not @Transactional: the HTTP upload runs outside any DB transaction.
+    // The record is persisted as STATUS_FAILED upfront (via JpaRepository's own transaction)
+    // so the failure entry survives even when an exception is thrown afterwards.
     public JobJar addJobJar(UploadJarDto uploadJarDto) {
         log.info("Uploading JAR file: {}", uploadJarDto.getJarFile());
 
-        // Validate file exists
         File jarFile = new File(uploadJarDto.getJarFile());
         if (!jarFile.exists()) {
             throw new IllegalArgumentException("JAR file does not exist: " + uploadJarDto.getJarFile());
         }
 
-        String url = flinkBaseUrl + "/jars/upload";
-        log.info("Uploading JAR to Flink at url={}", url);
-
+        // Persist as FAILED immediately — committed by JpaRepository's own @Transactional.
+        // On success the record is updated to STATUS_UPLOADED below.
         JobJar jobJar = new JobJar();
         jobJar.setFileName(uploadJarDto.getJarFile());
         jobJar.setUploadTime(new Date());
+        jobJar.setStatus(STATUS_FAILED);
+        jobJar = jobJarRepository.save(jobJar);
+
+        String url = flinkBaseUrl + "/jars/upload";
+        log.info("Uploading JAR to Flink at url={}", url);
 
         try {
-            // Prepare multipart request
             MultiValueMap<String, Object> bodyMap = new LinkedMultiValueMap<>();
             bodyMap.add("jarfile", new FileSystemResource(jarFile));
 
-            HttpHeaders headers = new HttpHeaders();
-            HttpEntity<MultiValueMap<String, Object>> requestEntity = new HttpEntity<>(bodyMap, headers);
-
-            // Upload to Flink
-            ResponseEntity<String> responseEntity = restTemplate.exchange(
-                    url, HttpMethod.POST, requestEntity, String.class);
+            ResponseEntity<String> responseEntity = restTemplateService.sendMultipartPostRequest(url, bodyMap);
 
             log.info("JAR upload response: status={}, body={}",
                     responseEntity.getStatusCode(), responseEntity.getBody());
 
-            // Check response status
             if (!responseEntity.getStatusCode().is2xxSuccessful()) {
-                jobJar.setStatus(STATUS_FAILED);
-                jobJarRepository.save(jobJar);
                 throw new ExternalServiceException("Flink",
                         "JAR upload failed with status: " + responseEntity.getStatusCode());
             }
 
-            // Parse response
             JarUploadResponse jarUploadResponse = GSON.fromJson(
                     responseEntity.getBody(), JarUploadResponse.class);
 
             if (jarUploadResponse == null || jarUploadResponse.getFilename() == null) {
-                jobJar.setStatus(STATUS_FAILED);
-                jobJarRepository.save(jobJar);
                 throw new ExternalServiceException("Flink", "Invalid response from Flink JAR upload");
             }
 
-            // Success - save to DB
             jobJar.setStatus(STATUS_UPLOADED);
             jobJar.setSavedJarName(JarUtil.getJarNameFromResponse(jarUploadResponse));
             JobJar savedJar = jobJarRepository.save(jobJar);
@@ -110,17 +96,10 @@ public class JarService {
                     savedJar.getId(), savedJar.getSavedJarName());
             return savedJar;
 
-        } catch (ResourceAccessException e) {
-            log.error("Cannot connect to Flink cluster at {}: {}", url, e.getMessage());
-            jobJar.setStatus(STATUS_FAILED);
-            jobJarRepository.save(jobJar);
-            throw new ExternalServiceException("Flink", "Cannot connect to Flink cluster: " + e.getMessage(), e);
-
-        } catch (RestClientException e) {
-            log.error("JAR upload failed: {}", e.getMessage());
-            jobJar.setStatus(STATUS_FAILED);
-            jobJarRepository.save(jobJar);
-            throw new ExternalServiceException("Flink", "JAR upload failed: " + e.getMessage(), e);
+        } catch (ExternalServiceException e) {
+            // FAILED record already committed — just rethrow
+            log.error("JAR upload to Flink failed: {}", e.getMessage());
+            throw e;
         }
     }
 

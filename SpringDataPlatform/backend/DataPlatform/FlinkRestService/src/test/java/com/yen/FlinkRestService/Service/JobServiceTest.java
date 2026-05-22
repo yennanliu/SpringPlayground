@@ -186,11 +186,12 @@ class JobServiceTest {
     @Test
     void testCancelJob() {
         ResponseEntity<String> responseEntity = new ResponseEntity<>("{}", HttpStatus.OK);
-        when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class))).thenReturn(responseEntity);
+        when(restTemplateService.sendPatchRequest(anyString(), anyString(), any(MediaType.class))).thenReturn(responseEntity);
+        when(jobRepository.findByJobId("flink-job-12345")).thenReturn(java.util.Optional.empty());
 
         assertDoesNotThrow(() -> jobService.cancelJob("flink-job-12345"));
 
-        verify(restTemplateService, times(1)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
+        verify(restTemplateService, times(1)).sendPatchRequest(anyString(), anyString(), any(MediaType.class));
     }
 
     @Test

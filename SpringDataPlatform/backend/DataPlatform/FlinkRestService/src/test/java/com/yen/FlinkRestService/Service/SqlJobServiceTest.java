@@ -59,10 +59,8 @@ class SqlJobServiceTest {
         // Call the method under test
         String result = sqlJobService.submitSQLJob(sqlJobSubmitDto);
 
-        // Verify result contains expected URL pattern
-        assertNotNull(result);
-        assertTrue(result.contains("sessions"));
-        assertTrue(result.contains("statements"));
+        // Method now returns the operationHandle, not the statement URL
+        assertEquals(operationHandle, result);
 
         // Verify that sendPostRequest was called twice
         verify(restTemplateService, times(2)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
@@ -87,7 +85,7 @@ class SqlJobServiceTest {
 
         String result = sqlJobService.submitSQLJob(dto);
 
-        assertNotNull(result);
+        assertEquals(operationHandle, result);
         verify(restTemplateService, times(2)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
     }
 }
