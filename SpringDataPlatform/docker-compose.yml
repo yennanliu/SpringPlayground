@@ -13,10 +13,11 @@ version: '3.8'
 #   docker compose up --build
 #
 # Access:
-#   Frontend : http://localhost:8079
-#   API      : http://localhost:9997   (direct)
-#   API proxy: http://localhost:8082   (via nginx, used by the Vue app)
-#   Swagger  : http://localhost:9999/swagger-ui.html
+#   UI (via nginx) : http://localhost:8082          ← main entry point
+#   API (via nginx): http://localhost:8082/cluster  ← same origin as UI
+#   Vue dev server : http://localhost:8079          ← direct (dev only)
+#   API direct     : http://localhost:9997          ← direct (dev only)
+#   Swagger        : http://localhost:8082/swagger-ui.html
 #
 # Flink / Zeppelin are external services. The app starts without them and logs
 # warnings when the scheduled job-status poll cannot reach Flink.
@@ -93,6 +94,10 @@ services:
       VUE_APP_API_BASE_URL: http://localhost:8082
 
   # ── Nginx reverse proxy ───────────────────────────────────────────────────────
+  # Routes:
+  #   /cluster /jar /job /sql_job /zeppelin /notebook /actuator /v3 /swagger-ui
+  #                                   → Spring Boot app:9999
+  #   / (everything else + WS/HMR)   → Vue dev server vue:8080
   nginx:
     build: ./nginx
     restart: on-failure
@@ -101,6 +106,8 @@ services:
     depends_on:
       app:
         condition: service_healthy
+      vue:
+        condition: service_started
     healthcheck:
       test: ["CMD", "wget", "-qO-", "http://localhost/health"]
       interval: 10s
