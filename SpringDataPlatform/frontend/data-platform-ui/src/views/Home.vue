@@ -1,542 +1,471 @@
 <template>
-  <div id="home">
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-overlay"></div>
-      <div class="container">
-        <div class="hero-content">
-          <h1>Data Platform Service</h1>
-          <p class="hero-description">
-            Streamline your data processing with our powerful platform
-          </p>
-          <div class="hero-cta">
-            <router-link :to="{ name: 'ListCluster' }" class="btn-hero-primary">
-              Get Started
-              <svg class="btn-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
-            </router-link>
-            <router-link :to="{ name: 'AddJar' }" class="btn-hero-secondary">Upload a Jar</router-link>
-          </div>
+  <div class="home">
+
+    <!-- ── Hero ──────────────────────────────────────────────────────────── -->
+    <section class="hero">
+      <div class="hero-bg" />
+      <div class="hero-grid" />
+      <div class="container hero-inner">
+        <div class="hero-badge">
+          <span class="badge-dot-live" />
+          Live data platform
+        </div>
+        <h1 class="hero-title">
+          Unified control plane<br />
+          for <span class="accent">Apache Flink</span>
+        </h1>
+        <p class="hero-sub">
+          Submit jobs, manage clusters, run SQL queries and explore notebooks — all in one place.
+        </p>
+        <div class="hero-cta">
+          <router-link :to="{ name: 'ListCluster' }" class="cta-primary">
+            Open Dashboard
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </router-link>
+          <router-link :to="{ name: 'AddJar' }" class="cta-ghost">Upload JAR</router-link>
         </div>
       </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
+    <!-- ── Stats bar ─────────────────────────────────────────────────────── -->
+    <section class="stats-bar">
       <div class="container">
-        <h2 class="section-title">Platform Features</h2>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-flink">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
-              </svg>
-            </div>
-            <h3>Apache Flink</h3>
-            <p>Powerful stream processing for real-time analytics and event-driven applications</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-zeppelin">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
-              </svg>
-            </div>
-            <h3>Apache Zeppelin</h3>
-            <p>Web-based notebook for interactive data analytics and visualization</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-sql">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <ellipse cx="12" cy="5" rx="9" ry="3"/>
-                <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/>
-                <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/>
-              </svg>
-            </div>
-            <h3>SQL Jobs</h3>
-            <p>Run SQL queries on your data without complex code or setup</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon feature-icon-cluster">
-              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
-                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+        <div class="stats-grid">
+
+          <StatsCard label="Clusters registered" :value="stats.clusters" :loading="statsLoading" accent="blue">
+            <template #icon>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="8" rx="2"/>
+                <rect x="2" y="14" width="20" height="8" rx="2"/>
                 <line x1="6" y1="6" x2="6.01" y2="6"/>
                 <line x1="6" y1="18" x2="6.01" y2="18"/>
               </svg>
-            </div>
-            <h3>Cluster Management</h3>
-            <p>Easy deployment and management of computing resources at scale</p>
-          </div>
+            </template>
+          </StatsCard>
+
+          <StatsCard label="Flink jobs tracked" :value="stats.jobs" :loading="statsLoading" accent="green">
+            <template #icon>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21 5 3"/>
+              </svg>
+            </template>
+          </StatsCard>
+
+          <StatsCard label="JAR files uploaded" :value="stats.jars" :loading="statsLoading" accent="orange">
+            <template #icon>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              </svg>
+            </template>
+          </StatsCard>
+
+          <StatsCard label="Notebooks created" :value="stats.notebooks" :loading="statsLoading" accent="default">
+            <template #icon>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </template>
+          </StatsCard>
+
         </div>
       </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works-section">
+    <!-- ── Features ───────────────────────────────────────────────────────── -->
+    <section class="features">
       <div class="container">
-        <h2 class="section-title">How It Works</h2>
-        <div class="steps-container">
-          <div class="step">
-            <div class="step-number">1</div>
-            <div class="step-connector"></div>
-            <h3>Connect Cluster</h3>
-            <p>Set up your computing cluster for data processing</p>
+        <div class="section-header">
+          <h2>Everything your data team needs</h2>
+          <p>Manage the full Flink lifecycle from a single, modern interface</p>
+        </div>
+        <div class="features-grid">
+
+          <div class="feature" v-for="f in features" :key="f.title">
+            <div class="feature-icon" :style="`background:${f.bg}; color:${f.color}`" v-html="f.icon" />
+            <h3>{{ f.title }}</h3>
+            <p>{{ f.desc }}</p>
+            <router-link :to="{ name: f.route }" class="feature-link">
+              Go to {{ f.title }}
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </router-link>
           </div>
-          <div class="step">
-            <div class="step-number">2</div>
-            <div class="step-connector"></div>
-            <h3>Upload Jobs</h3>
-            <p>Submit your Flink JAR or SQL jobs to the platform</p>
-          </div>
-          <div class="step">
-            <div class="step-number">3</div>
-            <div class="step-connector"></div>
-            <h3>Process Data</h3>
-            <p>Run your data processing jobs with powerful analytics</p>
-          </div>
-          <div class="step">
-            <div class="step-number">4</div>
-            <h3>View Results</h3>
-            <p>Analyze the results with interactive dashboards</p>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ── How it works ───────────────────────────────────────────────────── -->
+    <section class="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2>Up and running in minutes</h2>
+          <p>Four steps to your first Flink job</p>
+        </div>
+        <div class="steps">
+          <div class="step" v-for="(step, i) in steps" :key="i">
+            <div class="step-num">{{ i + 1 }}</div>
+            <div class="step-connector" v-if="i < steps.length - 1" />
+            <h4>{{ step.title }}</h4>
+            <p>{{ step.desc }}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Links Section -->
+    <!-- ── External links ────────────────────────────────────────────────── -->
     <section class="links-section">
       <div class="container">
-        <h2 class="section-title">Quick Links</h2>
+        <div class="section-header">
+          <h2>Quick access</h2>
+          <p>Jump straight to external tools</p>
+        </div>
         <div class="links-grid">
-          <a href="http://localhost:8081/#/overview" target="_blank" class="link-card">
-            <div class="link-card-content">
-              <h3>Flink UI</h3>
-              <p>Access the Apache Flink dashboard</p>
+          <a v-for="link in externalLinks" :key="link.title"
+             :href="link.href" target="_blank" rel="noopener" class="ext-link">
+            <div class="ext-link-body">
+              <h4>{{ link.title }}</h4>
+              <p>{{ link.desc }}</p>
             </div>
-            <div class="link-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </div>
-          </a>
-          <a href="http://localhost:9080/#/" target="_blank" class="link-card">
-            <div class="link-card-content">
-              <h3>Zeppelin UI</h3>
-              <p>Work with interactive notebooks</p>
-            </div>
-            <div class="link-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </div>
-          </a>
-          <a href="http://localhost:9999/swagger-ui.html" target="_blank" class="link-card">
-            <div class="link-card-content">
-              <h3>Swagger UI</h3>
-              <p>Explore and test the REST API</p>
-            </div>
-            <div class="link-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </div>
-          </a>
-          <a href="https://github.com/yennanliu/SpringPlayground/tree/main/SpringDataPlatform" target="_blank" class="link-card">
-            <div class="link-card-content">
-              <h3>GitHub</h3>
-              <p>View the project source code</p>
-            </div>
-            <div class="link-arrow">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M7 17L17 7M17 7H7M17 7v10"/>
-              </svg>
-            </div>
+            <svg class="ext-arrow" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10"/>
+            </svg>
           </a>
         </div>
       </div>
     </section>
+
   </div>
 </template>
 
-<script>
-export default {
-  name: "Home",
-  props: ["baseURL"],
-  data() {
-    return {};
-  },
-  mounted() {},
-};
-</script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import StatsCard from '@/components/common/StatsCard.vue'
+import { clusterService, jarService, jobService } from '@/services'
 
-<style>
-#home {
-  overflow-x: hidden;
+const statsLoading = ref(true)
+const stats = ref({ clusters: 0, jobs: 0, jars: 0, notebooks: 0 })
+
+const loadStats = async () => {
+  try {
+    const [clusters, jobs, jars] = await Promise.allSettled([
+      clusterService.getAll(),
+      jobService.getAll(),
+      jarService.getAll(),
+    ])
+    stats.value.clusters  = clusters.status  === 'fulfilled' ? clusters.value.length  : '—'
+    stats.value.jobs      = jobs.status      === 'fulfilled' ? jobs.value.length      : '—'
+    stats.value.jars      = jars.status      === 'fulfilled' ? jars.value.length      : '—'
+    stats.value.notebooks = '—'
+  } catch {
+    // fail silently — stats are non-critical
+  } finally {
+    statsLoading.value = false
+  }
 }
 
-/* Hero Section */
-.hero-section {
-  background-color: #000000;
-  color: #ffffff;
-  padding: 140px 0;
+onMounted(loadStats)
+
+const features = [
+  {
+    title: 'Cluster Management',
+    desc:  'Register Flink clusters, ping connectivity, and track status in real time.',
+    route: 'ListCluster',
+    icon:  '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2"/><rect x="2" y="14" width="20" height="8" rx="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
+    bg:    'rgba(59,130,246,.10)', color: '#3b82f6',
+  },
+  {
+    title: 'JAR Jobs',
+    desc:  'Upload compiled Flink JARs and submit them directly to your cluster with one click.',
+    route: 'ListJar',
+    icon:  '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>',
+    bg:    'rgba(240,193,75,.12)', color: '#d4a83a',
+  },
+  {
+    title: 'SQL Jobs',
+    desc:  'Write and submit Flink SQL statements via the SQL Gateway without any code compilation.',
+    route: 'AddSqlJob',
+    icon:  '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"/><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"/></svg>',
+    bg:    'rgba(34,197,94,.10)', color: '#22c55e',
+  },
+  {
+    title: 'Zeppelin Notebooks',
+    desc:  'Create and execute interactive Zeppelin paragraphs for exploratory data analysis.',
+    route: 'ListNotebook',
+    icon:  '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+    bg:    'rgba(168,85,247,.10)', color: '#a855f7',
+  },
+]
+
+const steps = [
+  { title: 'Connect a Cluster',   desc: 'Register your Flink JobManager URL and verify connectivity.' },
+  { title: 'Upload a JAR',        desc: 'Upload your compiled Flink application JAR file.' },
+  { title: 'Submit a Job',        desc: 'Select a JAR and launch it on the connected cluster.' },
+  { title: 'Monitor & Analyse',   desc: 'Track job state and dive into results with Zeppelin.' },
+]
+
+const externalLinks = [
+  { title: 'Flink UI',     desc: 'Apache Flink JobManager dashboard',   href: 'http://localhost:8081/#/overview' },
+  { title: 'Zeppelin UI',  desc: 'Interactive analytics notebooks',      href: 'http://localhost:9080/#/' },
+  { title: 'Swagger UI',   desc: 'Explore and test the REST API',        href: 'http://localhost:9997/swagger-ui.html' },
+  { title: 'GitHub',       desc: 'View the project source code',         href: 'https://github.com/yennanliu/SpringPlayground/tree/main/SpringDataPlatform' },
+]
+</script>
+
+<style scoped>
+/* ── Hero ─────────────────────────────────────────────────────────────── */
+.hero {
+  background: var(--color-black);
+  color: var(--color-white);
+  padding: 120px 0 100px;
   position: relative;
   overflow: hidden;
 }
-
-.hero-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: url(../assets/home5.jpeg) center center/cover no-repeat;
-  opacity: 0.35;
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 60% 40%, rgba(240,193,75,.12) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 50% at 0% 100%, rgba(59,130,246,.08) 0%, transparent 60%);
 }
-
-.hero-overlay::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 100%);
+.hero-grid {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
 }
+.hero-inner { position: relative; z-index: 1; max-width: 680px; }
 
-.hero-content {
-  position: relative;
-  max-width: 650px;
-  z-index: 1;
-}
-
-.hero-content h1 {
-  font-size: 56px;
-  font-weight: 700;
-  margin-bottom: 24px;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-}
-
-.hero-description {
-  font-size: 22px;
-  margin-bottom: 40px;
-  line-height: 1.6;
-  opacity: 0.9;
-}
-
-.hero-cta {
-  display: flex;
-  gap: 16px;
-}
-
-.btn-hero-primary {
-  background-color: #ffffff;
-  color: #000000;
-  padding: 16px 32px;
-  font-size: 16px;
-  font-weight: 600;
-  border-radius: 8px;
-  text-decoration: none;
+.hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.btn-hero-primary:hover {
-  background-color: #f0c14b;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(240, 193, 75, 0.3);
-}
-
-.btn-hero-primary .btn-icon {
-  transition: transform 0.25s ease;
-}
-
-.btn-hero-primary:hover .btn-icon {
-  transform: translateX(4px);
-}
-
-.btn-hero-secondary {
-  background-color: transparent;
-  color: #ffffff;
-  padding: 16px 32px;
-  font-size: 16px;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: var(--radius-full);
+  font-size: 0.78rem;
   font-weight: 500;
-  border-radius: 8px;
-  border: 2px solid rgba(255, 255, 255, 0.3);
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.25s ease;
+  color: rgba(255,255,255,.7);
+  margin-bottom: 28px;
+}
+.badge-dot-live {
+  width: 7px; height: 7px;
+  background: var(--color-success);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px rgba(34,197,94,.3);
+  animation: live-pulse 2s ease-in-out infinite;
+}
+@keyframes live-pulse {
+  0%,100% { box-shadow: 0 0 0 2px rgba(34,197,94,.3); }
+  50%      { box-shadow: 0 0 0 6px rgba(34,197,94,.0); }
 }
 
-.btn-hero-secondary:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  border-color: rgba(255, 255, 255, 0.5);
+.hero-title {
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+  color: var(--color-white);
+}
+.accent { color: var(--color-accent); }
+
+.hero-sub {
+  font-size: 1.1rem;
+  line-height: 1.65;
+  color: rgba(255,255,255,.65);
+  margin-bottom: 36px;
+  max-width: 520px;
 }
 
-/* Features Section */
-.features-section {
-  padding: 100px 0;
-  background-color: #ffffff;
-}
+.hero-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
 
-.section-title {
-  font-size: 40px;
-  margin-bottom: 60px;
-  text-align: center;
-  font-weight: 700;
-  color: #000000;
-  letter-spacing: -0.02em;
-}
-
-.features-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 30px;
-}
-
-.feature-card {
-  padding: 36px 30px;
-  border-radius: 16px;
-  background-color: #ffffff;
-  border: 1px solid #f0f0f0;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.feature-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-  border-color: transparent;
-}
-
-.feature-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 14px;
-  display: flex;
+.cta-primary {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-  transition: all 0.3s ease;
+  gap: 8px;
+  padding: 13px 26px;
+  background: var(--color-accent);
+  color: var(--color-black);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all var(--transition);
+}
+.cta-primary:hover {
+  background: var(--color-accent-dark);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-accent);
 }
 
-.feature-icon-flink {
-  background-color: rgba(240, 193, 75, 0.1);
-  color: #d4a83a;
+.cta-ghost {
+  display: inline-flex;
+  align-items: center;
+  padding: 13px 26px;
+  border: 1.5px solid rgba(255,255,255,.18);
+  color: rgba(255,255,255,.8);
+  border-radius: var(--radius-md);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition);
 }
+.cta-ghost:hover { border-color: rgba(255,255,255,.4); color: var(--color-white); }
 
-.feature-icon-zeppelin {
-  background-color: rgba(23, 162, 184, 0.1);
-  color: #17a2b8;
+/* ── Stats bar ────────────────────────────────────────────────────────── */
+.stats-bar {
+  padding: 40px 0;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-200);
 }
-
-.feature-icon-sql {
-  background-color: rgba(40, 167, 69, 0.1);
-  color: #28a745;
-}
-
-.feature-icon-cluster {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #495057;
-}
-
-.feature-card:hover .feature-icon {
-  transform: scale(1.1);
-}
-
-.feature-card h3 {
-  font-size: 22px;
-  margin-bottom: 12px;
-  font-weight: 600;
-  color: #000000;
-}
-
-.feature-card p {
-  color: #6c757d;
-  line-height: 1.7;
-  margin: 0;
-  font-size: 15px;
-}
-
-/* How It Works Section */
-.how-it-works-section {
-  padding: 100px 0;
-  background-color: #fafafa;
-}
-
-.steps-container {
+.stats-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  position: relative;
 }
 
-.step {
+/* ── Section shared ───────────────────────────────────────────────────── */
+.section-header {
   text-align: center;
-  padding: 30px 20px;
-  position: relative;
+  margin-bottom: 52px;
 }
+.section-header h2 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+  letter-spacing: -0.025em;
+}
+.section-header p { color: var(--color-gray-500); font-size: 1rem; margin: 0; }
 
-.step-number {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background-color: #000000;
-  color: #ffffff;
+/* ── Features ─────────────────────────────────────────────────────────── */
+.features { padding: 80px 0; background: var(--color-gray-50); }
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.feature {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
   display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: all var(--transition-slow);
+}
+.feature:hover { transform: translateY(-4px); box-shadow: var(--shadow-lg); border-color: transparent; }
+.feature-icon {
+  width: 52px; height: 52px;
+  border-radius: var(--radius-md);
+  display: flex; align-items: center; justify-content: center;
+}
+.feature h3 { font-size: 1rem; font-weight: 700; margin: 0; }
+.feature p  { font-size: 0.875rem; color: var(--color-gray-500); margin: 0; line-height: 1.6; flex: 1; }
+.feature-link {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
-  margin: 0 auto 24px;
-  font-size: 22px;
-  font-weight: 700;
+  gap: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--color-gray-700);
+  text-decoration: none;
+  margin-top: 4px;
+  transition: color var(--transition);
+}
+.feature-link:hover { color: var(--color-black); }
+.feature-link svg { transition: transform var(--transition); }
+.feature-link:hover svg { transform: translateX(3px); }
+
+/* ── How it works ─────────────────────────────────────────────────────── */
+.how-it-works { padding: 80px 0; background: var(--color-white); }
+.steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
   position: relative;
-  z-index: 1;
-  transition: all 0.3s ease;
 }
-
-.step:hover .step-number {
-  background-color: #f0c14b;
-  color: #000000;
-  transform: scale(1.1);
+.step { text-align: center; padding: 8px 16px; position: relative; }
+.step-num {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: var(--color-black);
+  color: var(--color-white);
+  font-size: 1.1rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+  position: relative; z-index: 1;
+  transition: all var(--transition);
 }
-
+.step:hover .step-num { background: var(--color-accent); color: var(--color-black); transform: scale(1.1); }
 .step-connector {
   position: absolute;
-  top: 58px;
-  left: calc(50% + 35px);
-  width: calc(100% - 56px);
+  top: 32px;
+  left: calc(50% + 30px);
+  width: calc(100% - 44px);
   height: 2px;
-  background: linear-gradient(90deg, #dee2e6, #dee2e6);
+  background: var(--color-gray-200);
 }
+.step h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+.step p  { font-size: 0.82rem; color: var(--color-gray-500); margin: 0; line-height: 1.6; }
 
-.step:last-child .step-connector {
-  display: none;
-}
-
-.step h3 {
-  font-size: 18px;
-  margin-bottom: 12px;
-  font-weight: 600;
-  color: #000000;
-}
-
-.step p {
-  color: #6c757d;
-  font-size: 14px;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* Links Section */
-.links-section {
-  padding: 100px 0;
-  background-color: #ffffff;
-}
-
+/* ── External links ───────────────────────────────────────────────────── */
+.links-section { padding: 80px 0; background: var(--color-gray-50); }
 .links-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
-
-.link-card {
-  background-color: #fafafa;
-  padding: 28px;
-  border-radius: 14px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  text-decoration: none;
-  color: #000000;
+.ext-link {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-200);
+  border-radius: var(--radius-lg);
+  padding: 22px 20px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  border: 1px solid transparent;
+  text-decoration: none;
+  color: var(--color-gray-900);
+  transition: all var(--transition);
 }
-
-.link-card:hover {
-  background-color: #000000;
-  color: #ffffff;
-  transform: translateY(-4px);
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.12);
+.ext-link:hover {
+  background: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
 }
-
-.link-card-content {
-  flex: 1;
-}
-
-.link-card h3 {
-  font-size: 18px;
-  margin: 0 0 8px 0;
-  font-weight: 600;
-}
-
-.link-card p {
-  color: #6c757d;
-  transition: color 0.3s ease;
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-.link-card:hover p {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-.link-arrow {
+.ext-link-body h4 { font-size: 0.95rem; font-weight: 700; margin: 0 0 4px; }
+.ext-link-body p  { font-size: 0.8rem; color: var(--color-gray-500); margin: 0; transition: color var(--transition); }
+.ext-link:hover .ext-link-body p { color: rgba(255,255,255,.6); }
+.ext-arrow {
   opacity: 0;
-  transform: translate(-8px, 8px);
-  transition: all 0.3s ease;
-  color: #f0c14b;
+  transform: translate(-6px, 6px);
+  color: var(--color-accent);
+  transition: all var(--transition);
+  flex-shrink: 0;
 }
+.ext-link:hover .ext-arrow { opacity: 1; transform: translate(0,0); }
 
-.link-card:hover .link-arrow {
-  opacity: 1;
-  transform: translate(0, 0);
+/* ── Responsive ───────────────────────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .stats-grid    { grid-template-columns: repeat(2, 1fr); }
+  .features-grid { grid-template-columns: repeat(2, 1fr); }
+  .links-grid    { grid-template-columns: repeat(2, 1fr); }
+  .steps         { grid-template-columns: repeat(2, 1fr); }
+  .step-connector { display: none; }
 }
-
-/* Responsive Styles */
-@media (max-width: 992px) {
-  .steps-container {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .step-connector {
-    display: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .hero-section {
-    padding: 100px 0;
-  }
-
-  .hero-content h1 {
-    font-size: 40px;
-  }
-
-  .hero-description {
-    font-size: 18px;
-  }
-
-  .hero-cta {
-    flex-direction: column;
-  }
-
-  .section-title {
-    font-size: 32px;
-    margin-bottom: 40px;
-  }
-
-  .features-section,
-  .how-it-works-section,
-  .links-section {
-    padding: 70px 0;
-  }
-
-  .steps-container {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 640px) {
+  .hero { padding: 80px 0 72px; }
+  .stats-grid    { grid-template-columns: 1fr; }
+  .features-grid { grid-template-columns: 1fr; }
+  .links-grid    { grid-template-columns: 1fr; }
+  .steps         { grid-template-columns: 1fr; }
 }
 </style>
