@@ -2,6 +2,7 @@ package com.yen.FlinkRestService.Controller;
 
 import com.yen.FlinkRestService.Common.ApiResponse;
 import com.yen.FlinkRestService.Service.SqlJobService;
+import com.yen.FlinkRestService.model.SqlJob;
 import com.yen.FlinkRestService.model.dto.job.SqlJobSubmitDto;
 
 import lombok.RequiredArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,17 +23,30 @@ public class SqlJobController {
 
     private final SqlJobService sqlJobService;
 
-    @PostMapping
-    public ResponseEntity<ApiResponse> submitSqlJob(@Valid @RequestBody SqlJobSubmitDto sqlJobSubmitDto) {
-        String result = sqlJobService.submitSQLJob(sqlJobSubmitDto);
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(new ApiResponse(true, "SQL job has been submitted: " + result));
+    @GetMapping
+    public ResponseEntity<List<SqlJob>> listSqlJobs() {
+        return ResponseEntity.ok(sqlJobService.getAll());
     }
 
-    // Legacy endpoint for backward compatibility
+    @GetMapping("/{id}")
+    public ResponseEntity<SqlJob> getSqlJobById(@PathVariable Integer id) {
+        return ResponseEntity.ok(sqlJobService.getById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<SqlJob> submitSqlJob(@Valid @RequestBody SqlJobSubmitDto sqlJobSubmitDto) {
+        SqlJob submitted = sqlJobService.submitSQLJob(sqlJobSubmitDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(submitted);
+    }
+
+    // Legacy endpoints for backward compatibility
+    @GetMapping("/")
+    public ResponseEntity<List<SqlJob>> listSqlJobsLegacy() {
+        return listSqlJobs();
+    }
+
     @PostMapping("/add")
-    public ResponseEntity<ApiResponse> addJobLegacy(@Valid @RequestBody SqlJobSubmitDto sqlJobSubmitDto) {
+    public ResponseEntity<SqlJob> addJobLegacy(@Valid @RequestBody SqlJobSubmitDto sqlJobSubmitDto) {
         return submitSqlJob(sqlJobSubmitDto);
     }
 }

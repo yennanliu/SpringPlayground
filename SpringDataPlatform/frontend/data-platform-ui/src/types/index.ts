@@ -57,6 +57,15 @@ export interface JobCreateData {
   allowNonRestoredState?: boolean
 }
 
+export interface SqlJob {
+  id: number
+  statement: string
+  sessionHandle?: string
+  operationHandle?: string
+  status?: string
+  createdAt?: string
+}
+
 export interface SqlJobCreateData {
   statement: string
 }

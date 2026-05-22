@@ -1,5 +1,5 @@
 import api from './api'
-import type { Job, JobCreateData, SqlJobCreateData } from '@/types'
+import type { Job, SqlJob, JobCreateData, SqlJobCreateData } from '@/types'
 
 /**
  * Service for Flink job management operations
@@ -39,11 +39,19 @@ const jobService = {
   },
 
   /**
+   * Get all SQL jobs
+   */
+  async getAllSqlJobs(): Promise<SqlJob[]> {
+    const response = await api.get<SqlJob[]>('/sql_job')
+    return response.data
+  },
+
+  /**
    * Submit a new SQL job
    */
-  async createSqlJob(statement: string): Promise<Job> {
+  async createSqlJob(statement: string): Promise<SqlJob> {
     const data: SqlJobCreateData = { statement }
-    const response = await api.post<Job>('/sql_job/add', data)
+    const response = await api.post<SqlJob>('/sql_job', data)
     return response.data
   },
 

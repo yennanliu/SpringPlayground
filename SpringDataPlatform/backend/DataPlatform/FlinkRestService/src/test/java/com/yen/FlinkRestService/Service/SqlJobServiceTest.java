@@ -1,6 +1,7 @@
 package com.yen.FlinkRestService.Service;
 
 import com.yen.FlinkRestService.Repository.SqlJobRepository;
+import com.yen.FlinkRestService.model.SqlJob;
 import com.yen.FlinkRestService.model.dto.job.SqlJobSubmitDto;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +14,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,57 +40,86 @@ class SqlJobServiceTest {
         ReflectionTestUtils.setField(sqlJobService, "sqlGatewayBaseUrl", "http://localhost:8083");
     }
 
+    private SqlJob savedJob(int id, String status) {
+        SqlJob j = new SqlJob();
+        j.setId(id);
+        j.setStatement("SELECT 1");
+        j.setStatus(status);
+        j.setCreatedAt(LocalDateTime.now());
+        return j;
+    }
+
+    @Test
+    void testGetAll() {
+        List<SqlJob> jobs = Arrays.asList(savedJob(1, "RUNNING"), savedJob(2, "FAILED"));
+        when(sqlJobRepository.findAll()).thenReturn(jobs);
+
+        List<SqlJob> result = sqlJobService.getAll();
+
+        assertEquals(2, result.size());
+        verify(sqlJobRepository).findAll();
+    }
+
+    @Test
+    void testGetById_found() {
+        SqlJob job = savedJob(1, "RUNNING");
+        when(sqlJobRepository.findById(1)).thenReturn(Optional.of(job));
+
+        SqlJob result = sqlJobService.getById(1);
+
+        assertNotNull(result);
+        assertEquals(1, result.getId());
+    }
+
     @Test
     void testSubmitSQLJob() {
-        // Mock the response for the first request to create a session
-        String sessionHandle = "session123";
-        String createSessionResponse = "{\"sessionHandle\":\"" + sessionHandle + "\"}";
-        ResponseEntity<String> createSessionResponseEntity = new ResponseEntity<>(createSessionResponse, HttpStatus.OK);
+        SqlJob initialJob = savedJob(1, "SUBMITTING");
+        SqlJob finalJob   = savedJob(1, "RUNNING");
+        finalJob.setSessionHandle("sess-abc");
+        finalJob.setOperationHandle("op-xyz");
 
-        // Mock the response for the second request to submit the SQL job
-        String operationHandle = "operation456";
-        String submitJobResponse = "{\"operationHandle\":\"" + operationHandle + "\"}";
-        ResponseEntity<String> submitJobResponseEntity = new ResponseEntity<>(submitJobResponse, HttpStatus.OK);
+        // First save (SUBMITTING), second save (RUNNING after submission)
+        when(sqlJobRepository.save(any(SqlJob.class)))
+                .thenReturn(initialJob)
+                .thenReturn(finalJob);
 
-        // Return different responses for sequential calls
+        String sessionResponse   = "{\"sessionHandle\":\"sess-abc\"}";
+        String statementResponse = "{\"operationHandle\":\"op-xyz\"}";
+
         when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class)))
-                .thenReturn(createSessionResponseEntity)
-                .thenReturn(submitJobResponseEntity);
+                .thenReturn(new ResponseEntity<>(sessionResponse,   HttpStatus.OK))
+                .thenReturn(new ResponseEntity<>(statementResponse, HttpStatus.OK));
 
-        // Prepare the SQL job submit DTO
-        SqlJobSubmitDto sqlJobSubmitDto = new SqlJobSubmitDto();
-        sqlJobSubmitDto.setStatement("SELECT 1");
+        SqlJobSubmitDto dto = new SqlJobSubmitDto("SELECT 1");
+        SqlJob result = sqlJobService.submitSQLJob(dto);
 
-        // Call the method under test
-        String result = sqlJobService.submitSQLJob(sqlJobSubmitDto);
-
-        // Method now returns the operationHandle, not the statement URL
-        assertEquals(operationHandle, result);
-
-        // Verify that sendPostRequest was called twice
+        assertNotNull(result);
+        assertEquals("RUNNING", result.getStatus());
+        assertEquals("op-xyz",  result.getOperationHandle());
+        // Saved twice: once as SUBMITTING, once as RUNNING
+        verify(sqlJobRepository, times(2)).save(any(SqlJob.class));
         verify(restTemplateService, times(2)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
     }
 
     @Test
     void testSubmitSQLJob_WithStatement() {
-        String sessionHandle = "session-abc";
-        String createSessionResponse = "{\"sessionHandle\":\"" + sessionHandle + "\"}";
-        ResponseEntity<String> sessionResponse = new ResponseEntity<>(createSessionResponse, HttpStatus.OK);
+        SqlJob initialJob = savedJob(2, "SUBMITTING");
+        SqlJob finalJob   = savedJob(2, "RUNNING");
+        finalJob.setSessionHandle("session-abc");
+        finalJob.setOperationHandle("op-123");
 
-        String operationHandle = "op-123";
-        String submitResponse = "{\"operationHandle\":\"" + operationHandle + "\"}";
-        ResponseEntity<String> opResponse = new ResponseEntity<>(submitResponse, HttpStatus.OK);
+        when(sqlJobRepository.save(any(SqlJob.class)))
+                .thenReturn(initialJob)
+                .thenReturn(finalJob);
 
         when(restTemplateService.sendPostRequest(anyString(), anyString(), any(MediaType.class)))
-                .thenReturn(sessionResponse)
-                .thenReturn(opResponse);
+                .thenReturn(new ResponseEntity<>("{\"sessionHandle\":\"session-abc\"}", HttpStatus.OK))
+                .thenReturn(new ResponseEntity<>("{\"operationHandle\":\"op-123\"}", HttpStatus.OK));
 
-        SqlJobSubmitDto dto = new SqlJobSubmitDto();
-        dto.setStatement("SELECT * FROM users");
+        SqlJobSubmitDto dto = new SqlJobSubmitDto("SELECT * FROM users");
+        SqlJob result = sqlJobService.submitSQLJob(dto);
 
-        String result = sqlJobService.submitSQLJob(dto);
-
-        assertEquals(operationHandle, result);
-        verify(restTemplateService, times(2)).sendPostRequest(anyString(), anyString(), any(MediaType.class));
+        assertNotNull(result);
+        assertEquals("op-123", result.getOperationHandle());
     }
 }
