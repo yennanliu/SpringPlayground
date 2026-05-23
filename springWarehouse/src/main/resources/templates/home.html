@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="layout/default :: html(~{::section})">
+<body>
+    <section th:fragment="content">
+        <!-- Hero Section -->
+        <div class="px-4 py-5 my-5 text-center">
+            <h1 class="display-4 fw-bold">Welcome to Our Application</h1>
+            <div class="col-lg-6 mx-auto">
+                <p class="lead mb-4">Quickly design and customize responsive mobile-first sites with our modern Spring Boot application.</p>
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button type="button" class="btn btn-primary btn-lg px-4 gap-3">Get Started</button>
+                    <button type="button" class="btn btn-outline-secondary btn-lg px-4">Learn More</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Feature Cards -->
+        <div class="container px-4 py-5">
+            <h2 class="pb-2 border-bottom">Features</h2>
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                <div class="col d-flex align-items-start">
+                    <div class="custom-card w-100 p-4">
+                        <h3 class="fw-bold mb-0">Feature One</h3>
+                        <p>Paragraph of text explaining the first feature of your application and why it's valuable to users.</p>
+                        <a href="#" class="btn btn-custom btn-custom-primary">Learn more</a>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div class="custom-card w-100 p-4">
+                        <h3 class="fw-bold mb-0">Feature Two</h3>
+                        <p>Paragraph of text explaining the second feature of your application and why it's valuable to users.</p>
+                        <a href="#" class="btn btn-custom btn-custom-primary">Learn more</a>
+                    </div>
+                </div>
+                <div class="col d-flex align-items-start">
+                    <div class="custom-card w-100 p-4">
+                        <h3 class="fw-bold mb-0">Feature Three</h3>
+                        <p>Paragraph of text explaining the third feature of your application and why it's valuable to users.</p>
+                        <a href="#" class="btn btn-custom btn-custom-primary">Learn more</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modern Form Example -->
+        <div class="container mb-5">
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-body p-4">
+                            <h2 class="text-center mb-4">Contact Us</h2>
+                            <form class="modern-form">
+                                <div class="mb-3">
+                                    <label for="name" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="name" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="email" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="message" class="form-label">Message</label>
+                                    <textarea class="form-control" id="message" rows="4" required></textarea>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-custom btn-custom-primary">Send Message</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html> 
