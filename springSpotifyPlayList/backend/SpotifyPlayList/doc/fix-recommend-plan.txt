@@ -1,0 +1,65 @@
+
+  Problematic Areas:
+  - RecommendationsService:42 - Uses spotify-web-api-java library's
+  GetRecommendationsRequest.execute()
+  - RecommendationsService:94 - Same issue for playlist-based recommendations
+  - Both methods rely on se.michaelthelin.spotify classes that are failing
+
+  Current Flow:
+  1. Frontend sends POST to /recommend/ or GET to /recommend/playlist/{id}
+  2. RecommendationsController calls RecommendationsService
+  3. Service uses Java library to build and execute Spotify API requests
+  4. Returns se.michaelthelin.spotify.model_objects.specification.Recommendations object
+
+  Implementation Plan
+
+  Phase 1: Create Direct HTTP Client Infrastructure
+  1. Add HTTP Dependencies: Include RestTemplate or WebClient configuration in Spring
+  Boot
+  2. Create Response DTOs: Build custom response classes to replace Recommendations
+  object
+  3. Create Request Builder: Utility class to construct proper Spotify API URLs and
+  headers
+
+  Phase 2: Replace Service Methods
+  1. Replace getRecommendation():
+    - Build HTTP GET request to https://api.spotify.com/v1/recommendations
+    - Map GetRecommendationsDto parameters to query string
+    - Handle OAuth token from AuthService
+  2. Replace getRecommendationWithPlayList():
+    - Keep existing playlist analysis logic (calculating averages)
+    - Replace only the final Spotify API call with direct HTTP
+
+  Phase 3: Maintain Existing Interfaces
+  1. Controller Compatibility: Keep same endpoints and request/response structure
+  2. Frontend Compatibility: No changes needed to Vue.js components
+  3. DTO Compatibility: Reuse existing GetRecommendationsDto and
+  GetRecommendationsWithFeatureDto
+
+  Phase 4: Response Mapping
+  1. Custom Response Objects: Create POJOs matching Spotify API JSON response
+  2. Backward Compatibility: Ensure response structure matches what frontend expects
+  3. Error Handling: Map HTTP errors to existing exception handling
+
+  Key Technical Details
+
+  Spotify API Endpoint:
+  - URL: GET https://api.spotify.com/v1/recommendations
+  - Auth: Bearer token from existing AuthService
+  - Query Parameters: Map from existing DTOs
+
+  Required Changes:
+  - RecommendationsService.java: Replace library calls with HTTP clients
+  - Add new response DTOs under model/dto/Response/
+  - Keep all existing controller endpoints unchanged
+  - Maintain integration with AuthService for token management
+
+  Benefits:
+  - Direct control over API calls
+  - No dependency on potentially broken Java library
+  - Easier debugging and customization
+  - Better error handling and logging
+
+  This approach isolates the fix to recommendation functionality only, preserving all
+  other Spotify integrations and maintaining full backward compatibility with the
+  frontend.
