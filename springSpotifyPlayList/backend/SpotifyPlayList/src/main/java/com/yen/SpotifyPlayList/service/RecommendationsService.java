@@ -44,7 +44,8 @@ public class RecommendationsService {
       return recommendations;
     } catch (IOException | SpotifyWebApiException | ParseException e) {
       log.error("Error fetching recommendations: {}", e.getMessage());
-      throw new SpotifyWebApiException("getRecommendation error: " + e.getMessage());
+      e.printStackTrace();
+      throw new SpotifyWebApiException("getRecommendation error: ");
     }
   }
 
