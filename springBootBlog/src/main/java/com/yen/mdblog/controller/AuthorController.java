@@ -4,6 +4,8 @@ import com.yen.mdblog.entity.Po.Author;
 import com.yen.mdblog.service.AuthorService;
 import java.security.Principal;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -20,7 +22,7 @@ public class AuthorController {
   @Autowired AuthorService authorService;
 
   @GetMapping("/all")
-  String getAllAuthor(Model model, Principal principal) {
+  String getAllAuthor(Model model, Principal principal) throws ExecutionException, InterruptedException {
 
     List<Author> authors = authorService.getAllAuthors();
     model.addAttribute("authors", authors);
@@ -29,7 +31,7 @@ public class AuthorController {
   }
 
   @GetMapping("/{id}")
-  public String getAuthorById(@PathVariable Integer id, Model model, Principal principal) {
+  public String getAuthorById(@PathVariable Integer id, Model model, Principal principal) throws ExecutionException, InterruptedException {
 
     Author author = authorService.getById(id);
     model.addAttribute("author", author);
