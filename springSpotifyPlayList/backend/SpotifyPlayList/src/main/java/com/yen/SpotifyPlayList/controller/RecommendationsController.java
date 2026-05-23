@@ -12,33 +12,48 @@ import se.michaelthelin.spotify.model_objects.specification.Recommendations;
 @Slf4j
 @RestController
 @RequestMapping("/recommend")
+@CrossOrigin(origins = "*")
 public class RecommendationsController {
 
     @Autowired
     private RecommendationsService recommendationsService;
 
-    @PostMapping("/")
-    public ResponseEntity getRecommendation(@RequestBody GetRecommendationsDto getRecommendationsDto) {
+    @PostMapping
+    public ResponseEntity<Recommendations> getRecommendation(@RequestBody(required = false) GetRecommendationsDto getRecommendationsDto) {
         try {
-            log.info("(getRecommendation) getRecommendationsDto = " + getRecommendationsDto.toString());
+            log.info("Getting recommendations with DTO: {}", getRecommendationsDto);
+            
+            // If no DTO provided or no seeds set, use default values
+            if (getRecommendationsDto == null || 
+                (getRecommendationsDto.getSeedArtistId() == null && 
+                 getRecommendationsDto.getSeedTrack() == null && 
+                 getRecommendationsDto.getSeedGenres() == null)) {
+                
+                getRecommendationsDto = new GetRecommendationsDto();
+                getRecommendationsDto.setAmount(10);
+                // Using Tame Impala as default seed artist
+                getRecommendationsDto.setSeedArtistId("4NHQUGzhtTLFvgF5SZesLK");
+                // Adding a default genre as well for better recommendations
+                getRecommendationsDto.setSeedGenres("alternative,indie");
+            }
+            
             Recommendations recommendations = recommendationsService.getRecommendation(getRecommendationsDto);
-            return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+            return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
-            log.error("getRecommendation error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            log.error("Error getting recommendations: ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
 
     @GetMapping("/playlist/{playListId}")
-    public ResponseEntity getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
+    public ResponseEntity<Recommendations> getRecommendationWithPlayList(@PathVariable("playListId") String playListId) {
         try {
-            log.info("(getRecommendationWithPlayList) playListId = " + playListId);
+            log.info("Getting recommendations for playlist: {}", playListId);
             Recommendations recommendations = recommendationsService.getRecommendationWithPlayList(playListId);
-            return ResponseEntity.status(HttpStatus.OK).body(recommendations);
+            return ResponseEntity.ok(recommendations);
         } catch (Exception e) {
-            log.error("getRecommendationWithPlayList error : " + e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            log.error("Error getting recommendations for playlist: ", e);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         }
     }
-
 }
